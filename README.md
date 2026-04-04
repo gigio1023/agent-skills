@@ -1,44 +1,144 @@
 # Agent Skills
 
-AI 코딩 어시스턴트용 커스텀 스킬 모음. 디바이스 이동 시 한꺼번에 설치하기 위한 용도.
+A personal collection of agent skills that I use across Claude Code, Codex, Cursor, and other skills-compatible coding agents.
 
-## Custom Skills (이 레포에 포함)
+This repo is different from the standalone skill repos in this workspace:
+
+- it contains **multiple local skills** under `skills/`
+- it also serves as an index for a few **separate standalone skill repos**
+- it is useful when you want one place to browse, install, or symlink several skills at once
+
+## Installation
+
+Installation differs a little depending on how you want to use the repo.
+
+- Use **`npx skills add`** when you want a normal skills-compatible install flow.
+- Use **a local path** when you are developing the skills in this repo.
+- Use **symlinks** only if you intentionally want the agent to read directly from your working copy.
+
+### Install from a local checkout
+
+If you already cloned this repo locally, install a skill from the current folder:
+
+```bash
+npx skills add ./agent-skills --skill unity-dev
+npx skills add ./agent-skills --skill skill-builder
+```
+
+Install several at once:
+
+```bash
+npx skills add ./agent-skills \
+  --skill unity-dev \
+  --skill skill-builder \
+  --skill web-research-audit
+```
+
+### Install from GitHub
+
+```bash
+npx skills add gigio1023/agent-skills --skill unity-dev
+npx skills add gigio1023/agent-skills --skill skill-builder
+npx skills add gigio1023/agent-skills --skill web-research-audit -g
+```
+
+### Manual symlink setup
+
+Use this only when you want your agent to track the live files in this repo.
+
+<details>
+<summary>Claude Code</summary>
+
+```bash
+ln -s "$(pwd)/skills/development/unity-dev" ~/.claude/skills/unity-dev
+ln -s "$(pwd)/skills/development/skill-builder" ~/.claude/skills/skill-builder
+```
+</details>
+
+<details>
+<summary>Codex CLI</summary>
+
+```bash
+ln -s "$(pwd)/skills/development/unity-dev" ~/.codex/skills/unity-dev
+ln -s "$(pwd)/skills/development/skill-builder" ~/.codex/skills/skill-builder
+```
+</details>
+
+<details>
+<summary>Other agents</summary>
+
+```bash
+ln -s "$(pwd)/skills/productivity/x-post" ~/.agents/skills/x-post
+ln -s "$(pwd)/skills/productivity/pdf-page-count" ~/.agents/skills/pdf-page-count
+```
+</details>
+
+### Verify installation
+
+Start a fresh session in your agent and ask for something that should clearly trigger one of these skills.
+
+Examples:
+
+- `review this Unity project architecture`
+- `make a skill for this workflow`
+- `count pages in this PDF`
+- `audit this web research`
+
+If the install worked, the agent should discover the matching skill without you having to explain the whole workflow again.
+
+## Included local skills
+
+These skills live directly in this repo under `skills/`.
 
 | Skill | Category | Description |
-|-------|----------|-------------|
-| [unity-dev](skills/development/unity-dev/) | Dev | Unity 3D 게임 개발 -- C# 스크립팅, 아키텍처 패턴, 렌더링, NPC AI 등 |
-| [skill-builder](skills/development/skill-builder/) | Dev | 에이전트 스킬 설계 및 생성 (SKILL.md + 디렉토리 구조) |
-| [x-post](skills/productivity/x-post/) | Productivity | 블로그 홍보용 X (Twitter) 포스트 초안 작성 |
-| [pdf-page-count](skills/productivity/pdf-page-count/) | Productivity | PDF 페이지 수 확인 및 페이지 제한 검증 |
-| [web-research-audit](skills/productivity/web-research-audit/) | Productivity | 웹 리서치 품질 검증 -- 소스 다양성, 근거 최신성 등 |
+| --- | --- | --- |
+| [unity-dev](skills/development/unity-dev/) | Development | Unity 3D game development patterns, architecture, performance, NPC AI, tooling, and workflows |
+| [skill-builder](skills/development/skill-builder/) | Development | Design and create high-quality agent skills (`SKILL.md`, references, and structure) |
+| [x-post](skills/productivity/x-post/) | Productivity | Draft dry developer-style X posts for blog promotion |
+| [pdf-page-count](skills/productivity/pdf-page-count/) | Productivity | Count PDF pages and enforce page-limit checks |
+| [web-research-audit](skills/productivity/web-research-audit/) | Productivity | Audit web research quality, source coverage, and evidence freshness |
 
-```bash
-# 설치: 심링크 또는 복사
-ln -s "$(pwd)/skills/development/unity-dev" ~/.claude/skills/unity-dev
-```
+## Standalone skill repos I maintain
 
-## External Skills (npx skills로 설치)
-
-```bash
-# Astro
-npx skills add gigio1023/astro-dev-skill@astro-dev
-
-# Obsidian
-npx skills add kepano/obsidian-skills@obsidian-bases
-npx skills add kepano/obsidian-skills@obsidian-cli
-npx skills add kepano/obsidian-skills@obsidian-markdown
-
-# Skill discovery
-npx skills add vercel-labs/skills@find-skills
-```
+These are separate repos in the same workspace, but not packaged inside this repo.
 
 | Skill | Source | Description |
-|-------|--------|-------------|
-| astro-dev | [gigio1023/astro-dev-skill](https://github.com/gigio1023/astro-dev-skill) | Astro 6 개발 패턴 |
-| obsidian-bases | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Obsidian Bases (.base) 편집 |
-| obsidian-cli | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Obsidian vault CLI 관리 |
-| obsidian-markdown | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Obsidian Flavored Markdown |
-| find-skills | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 스킬 검색 및 설치 |
+| --- | --- | --- |
+| [astro-dev](https://github.com/gigio1023/astro-dev-skill) | `gigio1023/astro-dev-skill` | Astro 6 guardrails for coding agents |
+| [humanize-doc](https://github.com/gigio1023/humanize-doc) | `gigio1023/humanize-doc` | Rewrite AI-sounding drafts into readable human documents |
+| [drawio-diagram](https://github.com/gigio1023/drawio-agent-skill) | `gigio1023/drawio-agent-skill` | Create editable draw.io diagrams instead of one-off XML |
+
+Install them with `npx skills add owner/repo@skill-name`, for example:
+
+```bash
+npx skills add gigio1023/astro-dev-skill@astro-dev
+npx skills add gigio1023/humanize-doc@humanize-doc
+npx skills add gigio1023/drawio-agent-skill@drawio-diagram
+```
+
+## Other external skills I use
+
+| Skill | Source | Description |
+| --- | --- | --- |
+| obsidian-bases | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Edit Obsidian Bases (`.base`) files |
+| obsidian-cli | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Work with an Obsidian vault from the CLI |
+| obsidian-markdown | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Obsidian-flavored Markdown editing |
+| find-skills | [vercel-labs/skills](https://github.com/vercel-labs/skills) | Search and install more skills |
+
+## Repo layout
+
+```text
+agent-skills/
+├── README.md
+└── skills/
+    ├── development/
+    │   ├── skill-builder/
+    │   └── unity-dev/
+    └── productivity/
+        ├── pdf-page-count/
+        ├── web-research-audit/
+        └── x-post/
+```
 
 ## License
 
