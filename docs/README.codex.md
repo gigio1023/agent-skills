@@ -5,7 +5,7 @@ Use `npx skills add` for the normal install path.
 Examples:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill unity-dev
+npx skills add gigio1023/agent-skills --skill skill-builder
 npx skills add gigio1023/agent-skills --skill skill-builder
 npx skills add gigio1023/agent-skills --skill web-research-audit -g
 ```

@@ -3,7 +3,7 @@
 Quick install:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill unity-dev --agent gemini-cli
+npx skills add gigio1023/agent-skills --skill skill-builder --agent gemini-cli
 ```
 
 Manual installation is documented in `.gemini/INSTALL.md`.

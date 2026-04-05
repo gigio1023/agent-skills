@@ -3,7 +3,7 @@
 ## Preferred
 
 ```bash
-npx skills add gigio1023/agent-skills --skill unity-dev --agent gemini-cli
+npx skills add gigio1023/agent-skills --skill skill-builder --agent gemini-cli
 ```
 
 ## Manual install
@@ -11,7 +11,7 @@ npx skills add gigio1023/agent-skills --skill unity-dev --agent gemini-cli
 ```bash
 git clone https://github.com/gigio1023/agent-skills.git ~/.gemini/agent-skills
 mkdir -p ~/.gemini/skills
-cp -R ~/.gemini/agent-skills/skills/development/unity-dev ~/.gemini/skills/
+cp -R ~/.gemini/agent-skills/skills/development/skill-builder ~/.gemini/skills/
 ```
 
 Restart Gemini CLI after copying.
