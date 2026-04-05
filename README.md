@@ -2,20 +2,20 @@
 
 A personal multi-skill repo for coding agents.
 
-This repo contains several local skills under `skills/` and also points to a few standalone skill repos I maintain separately.
+This repo contains several local skills under `skills/` and points to standalone skill repos I maintain separately. Unity game development now lives in its own dedicated repo rather than inside this multi-skill pack.
 
 ## Installation
 
 Preferred:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill unity-dev
+npx skills add gigio1023/agent-skills --skill skill-builder
 ```
 
 Local checkout:
 
 ```bash
-npx skills add ./agent-skills --skill unity-dev
+npx skills add ./agent-skills --skill skill-builder
 ```
 
 ### Codex
@@ -64,7 +64,7 @@ These skills live directly in this repo under `skills/`.
 
 | Skill | Description |
 | --- | --- |
-| [unity-dev](skills/development/unity-dev/) | Unity 3D game development patterns, architecture, performance, NPC AI, tooling, and workflows |
+| [skill-builder](skills/development/skill-builder/) | Unity 3D game development patterns, architecture, performance, NPC AI, tooling, and workflows |
 | [skill-builder](skills/development/skill-builder/) | Design and create high-quality agent skills (`SKILL.md`, references, and structure) |
 | [x-post](skills/productivity/x-post/) | Draft dry developer-style X posts for blog promotion |
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce page-limit checks |
@@ -76,6 +76,7 @@ These are separate repos in the same workspace, but not packaged inside this rep
 
 | Skill | Source | Description |
 | --- | --- | --- |
+| [unity-game-dev](https://github.com/gigio1023/unity-game-dev-skill) | `gigio1023/unity-game-dev-skill` | Game-focused Unity development skill with orchestration, MCP scene work, and QA flow |
 | [astro-dev](https://github.com/gigio1023/astro-dev-skill) | `gigio1023/astro-dev-skill` | Astro 6 guardrails for coding agents |
 | [humanize-doc](https://github.com/gigio1023/humanize-doc) | `gigio1023/humanize-doc` | Rewrite AI-sounding drafts into readable human documents |
 | [drawio-diagram](https://github.com/gigio1023/drawio-agent-skill) | `gigio1023/drawio-agent-skill` | Create editable draw.io diagrams instead of one-off XML |

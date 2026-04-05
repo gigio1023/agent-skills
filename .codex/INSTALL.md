@@ -3,10 +3,10 @@
 ## Preferred
 
 ```bash
-npx skills add gigio1023/agent-skills --skill unity-dev
+npx skills add gigio1023/agent-skills --skill skill-builder
 ```
 
-Replace `unity-dev` with the skill you want, or repeat `--skill` for multiple skills.
+Replace `skill-builder` with the skill you want, or repeat `--skill` for multiple skills.
 
 ## Manual install
 
@@ -22,14 +22,14 @@ Example:
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R ~/.codex/agent-skills/skills/development/unity-dev ~/.codex/skills/
+cp -R ~/.codex/agent-skills/skills/development/skill-builder ~/.codex/skills/
 ```
 
 Or symlink it:
 
 ```bash
 mkdir -p ~/.codex/skills
-ln -s ~/.codex/agent-skills/skills/development/unity-dev ~/.codex/skills/unity-dev
+ln -s ~/.codex/agent-skills/skills/development/skill-builder ~/.codex/skills/skill-builder
 ```
 
 3. Restart Codex.
