@@ -6,7 +6,9 @@ description: >
   asks about skill architecture and best practices. Triggers on: "skill 만들어줘",
   "make a skill", "create a skill for X", "agent skill", "SKILL.md 작성",
   or when discussing skill design, progressive disclosure, or skill directory structure.
-  Also use when converting a working conversation workflow into a reusable skill.
+  Also use when converting a working conversation workflow into a reusable skill,
+  or when manually optimizing a skill from traces, failed prompts, user feedback,
+  validation results, or repeated agent mistakes.
 ---
 
 # Skill Builder
@@ -23,6 +25,11 @@ Most skill creation follows this path:
 4. Run the validation checklist
 5. Test with 2-3 real prompts
 
+For improving an existing skill from observed behavior, use the manual
+SkillOpt-style loop instead: read `references/skillopt-manual.md`, then work
+from evidence batches, bounded patch ops, explicit ranking, and a fixed
+validation gate.
+
 Jump to **Detailed Workflow** below for the full process.
 
 ## Reference Files
@@ -31,6 +38,7 @@ Jump to **Detailed Workflow** below for the full process.
 |------|-------------|--------------|
 | `references/skill-tips.md` | Choosing skill type, writing tips, gotchas, distribution, hooks | Anthropic internal lessons: 9 categories, progressive disclosure, composing skills |
 | `references/skill-docs.md` | Field constraints, 3-level loading, platform differences, security | Official Anthropic docs snapshot — **refresh if >30 days old** (see below) |
+| `references/skillopt-manual.md` | Improving an existing skill from traces, failing prompts, feedback, or validation results | Manual SkillOpt-inspired protocol: failure/success analysis, merge, rank, bounded patch ops, validation gate, rejected-edit notes |
 
 ### Refreshing the docs
 
@@ -52,6 +60,12 @@ Ask (or extract from conversation context):
 - What's the expected output?
 - Which category does it fit? (see `references/skill-tips.md`)
 - Where should it live? (`~/.agents/skills/`, `.claude/skills/`, or a plugin)
+- If improving an existing skill: what concrete evidence shows current success,
+  failure, undertriggering, overtriggering, or missing procedure?
+- What validation signal will decide whether the edit helped? Prefer executable
+  tests, fixed prompts, scored examples, or explicit user acceptance criteria.
+- What is the baseline behavior before editing? Keep the target model, harness,
+  prompts, tests, and evaluator fixed while comparing a candidate patch.
 
 If converting a conversation workflow into a skill, extract the sequence of steps,
 tools used, corrections made, and input/output patterns from history.
@@ -160,6 +174,9 @@ Before considering the skill done:
 - [ ] Scripts are executable and tested
 - [ ] Gotchas section exists
 - [ ] No secrets or credentials in any file
+- [ ] If this was an optimization pass: candidate edits were bounded, evidence-backed,
+      and checked against the same validation prompts/tests before acceptance
+      (ties should usually be rejected)
 
 ### 5. Test with Real Prompts
 
@@ -169,14 +186,39 @@ Evaluate:
 - Does Claude follow instructions correctly?
 - Are outputs what the user expects?
 - Does Claude read references at the right time (not too early, not too late)?
+- Are there negative-control prompts where an adjacent skill should trigger instead?
+- For optimization work, keep a small fixed validation set separate from examples
+  used to invent the edit. Do not judge only on the failure that inspired the patch.
 
-### 6. Iterate
+### 6. Manual Skill Optimization
+
+Use this only when the user explicitly asks to improve/optimize a skill or
+provides concrete behavior to learn from. Do not create background jobs,
+scheduled learning, or automatic self-editing unless the user asks for that.
+
+Read `references/skillopt-manual.md`, then run a small manual loop:
+
+1. Freeze the target: skill file, model/harness, core loop, baseline behavior,
+   and validation prompts/checks.
+2. Split evidence into failures and successes. Include trigger and structure
+   evidence when relevant.
+3. Analyze failures and successes separately, then merge. Failure fixes have
+   priority; success patterns protect behavior that already works.
+4. Rank edits by systematic impact, complementarity, generality, and actionability.
+5. Apply at most 1-4 atomic edits (`append`, `insert_after`, `replace`, `delete`).
+   Treat this as the textual learning rate.
+6. Validate against the fixed gate. Accept only clear improvements or verified
+   blocker removals without regression. Keep rejected edits out of SKILL.md.
+
+### 7. Iterate
 
 Best skills start small and grow:
 - Add to Gotchas as Claude makes mistakes
 - Refine description if triggering is too broad/narrow
 - Bundle scripts when Claude keeps generating the same code
 - Split SKILL.md if it grows past 500 lines
+- When doing SkillOpt-style improvement, prefer deliberate user-triggered sessions
+  with evidence and validation over automatic periodic learning.
 
 ## Skill Categories (Quick Reference)
 
@@ -226,6 +268,24 @@ See `references/skill-tips.md` → "On Demand Hooks" for examples.
   you're violating progressive disclosure.
 - **Avoid railroading.** The more rigid the instructions, the more edge cases they break on.
   Explain reasoning so Claude can adapt to situations you didn't anticipate.
+- **Evidence beats intuition when improving a skill.** Use traces, failing prompts,
+  user corrections, and successful counterexamples. Do not rewrite a skill just
+  because a new rule sounds plausible.
+- **Bounded edits beat wholesale rewrites.** A small add/replace/delete patch keeps
+  previous useful behavior intact and makes validation meaningful.
+- **Separate failure fixes from success preservation.** Failure evidence finds
+  missing rules; success evidence prevents edits from erasing behavior that was
+  already working.
+- **Rank edits, don't just list them.** Prefer systematic impact, complementarity,
+  generality, and actionability. A rule that fixes a recurring class of failures
+  beats a clever one-off fix.
+- **Validation is the safety rail for self-improvement.** A reflection can be
+  convincing and still make the skill worse. Keep the target harness/checks fixed
+  and reject edits that do not improve them.
+- **Rejected edits are signal, not deployed knowledge.** Remember why they failed,
+  but do not accumulate every attempted rule inside SKILL.md.
+- **Manual optimization is user-triggered.** This skill should not schedule periodic
+  training or edit skills in the background unless the user explicitly asks.
 - **Overlapping skills? Merge unless both have frequent independent triggers.** When two
   skills seem to overlap, ask: "Will skill B realistically be called on its own, or does it
   almost always follow skill A?" If B is 90%+ called via A, merge B into A as expanded scope
