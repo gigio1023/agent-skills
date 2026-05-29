@@ -1,0 +1,67 @@
+{
+  "session_id": "SESSION-YYYYMMDD-HHMM",
+  "timestamp_utc": "YYYY-MM-DDTHH:MM:SSZ",
+  "objective": "",
+  "status": "partial",
+  "artifacts": {
+    "plan": "plan.md",
+    "progress": "progress.md",
+    "result": "result.md"
+  },
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "",
+      "status": "in_progress",
+      "owner": null,
+      "blocked_by": [],
+      "next_action": ""
+    }
+  ],
+  "risks": [
+    {
+      "id": "R-001",
+      "description": "",
+      "impact": "medium",
+      "mitigation": ""
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D-001",
+      "decision": "",
+      "reason": "",
+      "date_utc": "YYYY-MM-DDTHH:MM:SSZ"
+    }
+  ],
+  "verification": [
+    {
+      "name": "",
+      "result": "unknown",
+      "evidence": ""
+    }
+  ],
+  "next_actions_top3": [
+    "",
+    "",
+    ""
+  ],
+  "swarm_continuation": {
+    "mode": "swarm_required",
+    "recommended_roles": [
+      "lead",
+      "reader",
+      "writer",
+      "verifier"
+    ],
+    "writer_ownership": [
+      "repo/path boundary"
+    ],
+    "parallel_tracks": [
+      "read and verify in parallel"
+    ],
+    "serialization_gates": [
+      "single writer integration gate"
+    ]
+  }
+}
