@@ -46,16 +46,15 @@
     "",
     ""
   ],
-  "swarm_continuation": {
-    "mode": "swarm_required",
+  "continuation": {
+    "continuation_mode": "parallel_recommended",
     "recommended_roles": [
-      "lead",
       "reader",
       "writer",
       "verifier"
     ],
     "writer_ownership": [
-      "repo/path boundary"
+      "src/<module> boundary"
     ],
     "parallel_tracks": [
       "read and verify in parallel"

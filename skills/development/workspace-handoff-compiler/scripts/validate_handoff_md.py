@@ -17,7 +17,7 @@ REQUIRED_HEADINGS = [
     "Decisions/Assumptions",
     "Evidence Index",
     "Next 3 Actions",
-    "Swarm Continuation Plan",
+    "Continuation Plan",
     "Handoff Quality Status",
 ]
 

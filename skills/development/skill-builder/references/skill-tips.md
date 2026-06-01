@@ -3,6 +3,29 @@
 > Author: Thariq (@trq212), Anthropic
 > Source: https://x.com/trq212
 
+## Table of Contents
+
+This file is long. Agents preview it with `head -100`, so this map lists every
+section and the gap it covers. Read only the section you need.
+
+- What are Skills
+- Types of Skills (the 9 categories)
+- Tips for Making Skills (don't state the obvious, Gotchas, progressive disclosure, avoid railroading, setup, description-is-for-the-model, memory, scripts, hooks)
+- Distributing Skills (check-in vs marketplace, composing, measuring)
+- Conclusion
+- Addenda for Skill Builder (long-form detail pulled out of SKILL.md):
+    - A1. Portability for cross-harness packs
+    - A2. Parallelism and subagents are an optimization, not a dependency
+    - A3. Self-test discipline for bundled scripts and templates
+    - A4. Progressive disclosure depth and reference-file TOCs
+    - A5. Naming skills
+    - A6. The description carries the discovery burden
+    - A7. Single-source vocabulary across contract, template, validator, SKILL.md
+    - A8. Mechanism over bare MUST/ALWAYS
+    - A9. Frontmatter strictness across harnesses
+    - A10. Script vs LLM-native decision (full table and worked example)
+
+
 Skills have become one of the most used extension points in Claude Code. They're flexible, easy to make, and simple to distribute. But this flexibility also makes it hard to know what works best. What type of skills are worth making? What's the secret to writing a good skill? When do you share them with others?
 
 We've been using skills in Claude Code extensively at Anthropic with hundreds of them in active use. These are the lessons we've learned about using skills to accelerate our development.
@@ -203,3 +226,231 @@ To understand how a skill is doing, we use a PreToolUse hook that lets us log sk
 Skills are incredibly powerful, flexible tools for agents, but it's still early and we're all figuring out how to use them best.
 
 Think of this more as a grab bag of useful tips that we've seen work than a definitive guide. The best way to understand skills is to get started, experiment, and see what works for you. Most of ours began as a few lines and a single gotcha, and got better because people kept adding to them as Claude hit new edge cases.
+
+---
+
+# Addenda for Skill Builder
+
+The sections above are Anthropic's original write-up. The sections below are the
+long-form detail that SKILL.md points to. SKILL.md keeps a one-line summary of
+each point and links here so the body stays small enough to load on any harness.
+
+A skill is rarely used on one agent only. The same SKILL.md may be loaded by
+Claude Code, Codex, Cursor, Gemini CLI, and other agents that read filesystem
+skills. Everything below keeps a skill portable across those harnesses.
+
+## A1. Portability for cross-harness packs
+
+A portable skill makes no assumption about which agent, OS, shell, or installed
+tooling is present. Concrete rules:
+
+- **Forward-slash relative paths only.** Write `references/skill-tips.md`, never
+  a backslash path and never an absolute machine path like `/Users/you/...` or
+  `C:\...`. Absolute paths break the moment the skill is installed somewhere else.
+- **No time-sensitive instructions in the main flow.** Do not write "as of this
+  month" or "the new API" in the steps an agent follows. If an old approach must
+  be recorded, put it in an `<details>` block so it does not read as current:
+
+  ```markdown
+  <details>
+  <summary>Old patterns (pre-2025 layout, kept for reference)</summary>
+
+  Earlier skills put everything in one file. Prefer progressive disclosure now.
+  </details>
+  ```
+
+- **Never assume a package is installed.** If a step needs a tool, show the
+  install step first (for example `pip install pypdf` or `npm i -g something`),
+  or detect-and-fall-back the way `pdf-page-count`'s script tries `pypdf`, then
+  `PyPDF2`, then the `pdfinfo` CLI. The Claude API surface has no runtime package
+  installation at all, so a skill that silently assumes a package fails there.
+- **Fully-qualified MCP tool names.** When a step uses an MCP tool, write it as
+  `Server:tool` (for example `mcp-atlassian:confluence_get_page`), not a bare
+  `confluence_get_page`. Different harnesses namespace MCP tools differently, and
+  the bare name is ambiguous.
+- **Tool-agnostic prose.** Describe WHAT to do, not which built-in tool to call.
+  Write "read the file" or "search the codebase for X", not "use the Read tool"
+  or "use Grep". Tool names differ per harness (Codex, Cursor, and Gemini do not
+  all expose a `Read` tool), so naming a specific tool either fails or is ignored.
+- **Keep SKILL.md small.** Target under ~8KB and under ~500 lines. Codex and some
+  other harnesses inline the whole body into context, and a large body crowds out
+  the user's actual task. Push detail into `references/` and link to it.
+
+## A2. Parallelism and subagents are an optimization, not a dependency
+
+Some harnesses can split work across parallel agents (Claude Code workflows and
+subagents, Codex threads, and similar). This is powerful but it must never be a
+hard dependency, because a skill that requires it simply fails on a harness that
+lacks it.
+
+Frame parallelism as a universal judgment rule, not a harness-specific MUST:
+
+> When work splits into independent streams that benefit from parallelism, use
+> the harness's parallel-execution capability aggressively. When a single linear
+> session is more effective, do that. Probe for a native capability first; if none
+> exists, run sequentially and say so.
+
+Claude Code workflows/subagents and Codex threads are only illustrative examples
+of a parallel capability, not the rule itself. So in a skill:
+
+- Write the workflow so it completes correctly run sequentially by one agent.
+- Offer parallel/subagent dispatch as an "if your harness supports it" speedup.
+- Have the agent probe for the native capability, and if absent, state that it is
+  falling back to sequential and continue.
+
+## A3. Self-test discipline for bundled scripts and templates
+
+Anything a skill ships that has a documented way to be run must pass that exact
+invocation. A template that fails its own validator is a defect, not a starting
+point the user is expected to fix.
+
+- If a skill bundles a generator plus a validator (for example "init creates a
+  project, validate checks it"), ship a smoke test that runs init and then
+  validate and asserts exit code 0. If init-then-validate does not pass clean, the
+  bundled template is broken.
+- A bundled lint/format/check script must run cleanly on the skill's own example
+  inputs before the skill ships.
+- The smoke test is part of the Validate step, not an optional extra. Run it with
+  the project's own runner and report the exit code; do not claim success without
+  running it.
+
+Example shape of a smoke test (keep comments in Korean per repo convention):
+
+```bash
+#!/usr/bin/env bash
+# 번들된 템플릿이 자기 자신의 validator 를 통과하는지 확인하는 smoke test.
+# init 으로 생성한 산출물을 곧바로 validate 에 넣어 exit 0 인지 본다.
+set -euo pipefail
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+# 1) 템플릿으로 산출물 생성 (init 단계)
+./scripts/init.sh "$tmp/sample"
+
+# 2) 생성한 산출물을 바로 검증 (validate 단계)
+./scripts/validate.sh "$tmp/sample"
+
+echo "smoke test passed: init -> validate exit 0"
+```
+
+## A4. Progressive disclosure depth and reference-file TOCs
+
+- **References stay exactly one level deep, never chained.** SKILL.md may point to
+  `references/foo.md`. That reference file must not, in turn, send the agent to a
+  second reference file to understand foo. Chained references force the agent to
+  walk a tree and burn context. If foo genuinely needs bar, fold bar into foo or
+  point to both from SKILL.md.
+- **Reference files over ~100 lines start with a table of contents.** Agents
+  preview a file with `head -100`. If the file is long and the first 100 lines are
+  prose, the agent cannot tell what is inside or where to jump. A TOC at the top
+  (like the one in this file) lets the agent navigate without reading all of it.
+
+## A5. Naming skills
+
+- **Verb-first, gerund-leaning names.** `processing-pdfs`, `creating-skills`,
+  `reviewing-prs`. A name that describes the action the skill performs reads well
+  in a skill listing and disambiguates from siblings.
+- **Avoid vague names.** `helper`, `utils`, `tools`, `data`, `common`. They tell
+  the agent nothing about when to trigger, and two such skills in one pack are
+  indistinguishable. The name plus the description carry discovery, so a vague
+  name wastes half the signal.
+- Lowercase with hyphens, max 64 characters, no reserved words (`anthropic`,
+  `claude`), no XML tags.
+
+## A6. The description carries the discovery burden
+
+When an agent starts, it builds a listing of every skill's `name` + `description`
+and scans that listing to decide which skill fits the request. The body is not in
+context yet. So the description does the entire job of getting the skill found and
+triggered at the right time, and nothing else can compensate for a weak one.
+
+- **Third person, present tense.** "Creates ...", "Reviews ...", "Use when ...".
+  Not "I will ..." or "You should ...".
+- **Lead with trigger conditions, not a workflow summary.** Prefer "Use when the
+  user wants to create or improve a skill ..." over "This skill walks through six
+  steps ...". The agent is matching intent, not reading a manual.
+- **Test with near-miss NEGATIVE cases.** Write two or three prompts that look
+  close to your skill but should NOT trigger it, and confirm the description does
+  not catch them. This guards both failure directions at once:
+    - under-trigger: a real request fails to match (description too narrow or
+      missing trigger phrases),
+    - over-trigger: an adjacent request wrongly matches (description too broad).
+  Name the adjacent skill the request should go to instead, inside the description
+  ("NOT for X; use the Y skill"), so the listing itself routes the near-miss away.
+
+## A7. Single-source vocabulary across documents
+
+When one value must agree across several places (the list of allowed sections in
+a contract doc, the same list baked into a template, the same list checked by a
+validator, and the same list mentioned in SKILL.md), define it ONCE as a closed
+set in one home location. Every other mention is a thin pointer back to that home,
+not a restatement.
+
+- Restating the set in four files means four copies drift the moment one changes,
+  and the validator starts disagreeing with the template it is supposed to check.
+- The home can be a small section in a reference file, a constant in a script, or
+  a single fenced list. Pick one, name it, and link the rest to it.
+- This applies to enums and fixed lists especially: section names, status values,
+  allowed file types, required frontmatter keys.
+
+## A8. Mechanism over bare MUST/ALWAYS
+
+The original "Avoid Railroading" tip says rigid instructions break on edge cases.
+The stronger rule: never write a bare `MUST` or `ALWAYS` without a mechanism and a
+reason.
+
+- A bare imperative ("ALWAYS validate the output") gives the agent no way to act
+  and no way to generalize to a case you did not foresee. Pair the rule with HOW
+  (the mechanism) and WHY (the reasoning), so the agent can apply the intent to a
+  new situation.
+- Reserve exact, non-negotiable "run this precise command, do not modify it"
+  instructions for genuinely fragile or destructive operations, for example
+  database migrations, force-push, or destructive cleanup. There, deviation is the
+  hazard, so removing the agent's freedom is correct. Everywhere else, explaining
+  the reasoning lets the model adapt and produces better behavior than a wall of
+  capitalized absolutes.
+
+## A9. Frontmatter strictness across harnesses
+
+- **The portable default is two required fields only: `name` and `description`.**
+  Every harness that loads filesystem skills accepts these.
+- **Extra keys are not universally safe.** `version`, `tags`, `author`, custom
+  metadata: some strict runtimes reject frontmatter they do not recognize, which
+  makes the whole skill fail to load. So do not add extra keys by default.
+- If a specific target harness documents support for an extra key and the skill is
+  only ever used there, gate it on that harness. For a cross-harness pack, keep
+  frontmatter to the two required fields. (This skill itself ships with only the
+  two fields; keep it that way.)
+
+## A10. Script vs LLM-native decision
+
+Not every skill needs a `scripts/` directory. The key question:
+
+> "After the script runs, does the LLM still need to make judgment calls to
+> complete the task?"
+
+If yes, and the input is small enough for the LLM to read directly, the script is
+a premature middle layer: it adds maintenance cost without reducing the LLM's
+actual work.
+
+| Factor | Script wins | LLM-native wins |
+|--------|------------|-----------------|
+| Task nature | Purely deterministic (lint, format, count, compile) | Requires contextual judgment (what date? what description?) |
+| Input scale | Large (1000+ files, structured data) | Small (<50 files, <50K tokens) |
+| Output | Exact, reproducible result | Natural language plus edits that adapt to context |
+| Rule completeness | Rules are exhaustive and enumerable | Rules are contextual, hard to encode ("is this task really done?") |
+| Markdown parsing | N/A | Regex for markdown tables/frontmatter is fragile; the LLM reads natively |
+| Maintenance | Stable input format, infrequent changes | Repo structure evolves; LLM adapts, scripts break |
+
+**Worked example, a detect-then-fix sync skill:**
+A skill once shipped a scanner that parsed frontmatter, compared index tables, and
+reported discrepancies. It was deleted because: (1) only ~20 files, trivial for the
+LLM to read; (2) the hard part was judgment ("extend the due date to when?", "how
+should the index description change?"); (3) the regex hit edge cases immediately
+(multiple `data:` lines in one file); (4) a sibling skill already covered the
+structural checks. The LLM-native version was simpler and more capable.
+
+**Heuristic:** if the workflow is a "detection" phase followed by a "fix" phase and
+the fix needs judgment, consider skipping the detection script. The LLM can detect
+and fix in one pass.

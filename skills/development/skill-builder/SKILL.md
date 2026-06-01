@@ -1,295 +1,243 @@
 ---
 name: skill-builder
 description: >
-  Design and create high-quality agent skills (SKILL.md + directory structure).
-  Use when the user wants to create a new skill, improve an existing skill, or
-  asks about skill architecture and best practices. Triggers on: "skill 만들어줘",
-  "make a skill", "create a skill for X", "agent skill", "SKILL.md 작성",
-  or when discussing skill design, progressive disclosure, or skill directory structure.
-  Also use when converting a working conversation workflow into a reusable skill,
-  or when manually optimizing a skill from traces, failed prompts, user feedback,
-  validation results, or repeated agent mistakes.
+  Use when the user wants to create a new agent skill, improve an existing skill,
+  convert a working conversation workflow into a reusable skill, or asks about
+  skill architecture, progressive disclosure, references/scripts/assets layout, or
+  cross-harness portability. Also use when manually optimizing a skill from traces,
+  failed prompts, user feedback, validation results, or repeated agent mistakes.
+  Triggers on "skill 만들어줘", "make a skill", "create a skill for X", "agent skill",
+  "SKILL.md 작성", "improve this skill". Produces SKILL.md plus directory structure
+  for Claude Code, Codex, Cursor, Gemini, and other agents that load filesystem
+  skills. NOT for writing ordinary project docs (use a docs skill) or PR bodies.
 ---
 
 # Skill Builder
 
-Build agent skills following Anthropic's best practices from hundreds of production skills.
+Build portable agent skills following Anthropic's best practices. A skill is a
+folder, not just a markdown file, and the same SKILL.md may be loaded by Claude
+Code, Codex, Cursor, Gemini, and other agents, so everything here stays
+harness-neutral.
 
 ## Quick Start
 
 Most skill creation follows this path:
 
-1. Ask the user what the skill should do and when it should trigger
-2. Pick a category (read `references/skill-tips.md` → "Types of Skills" for the 9 categories)
-3. Create the directory and write SKILL.md with frontmatter + body
-4. Run the validation checklist
-5. Test with 2-3 real prompts
+1. Ask the user what the skill should do and when it should trigger.
+2. Pick a category (`references/skill-tips.md` -> "Types of Skills", 9 categories).
+3. Create the directory and write SKILL.md (frontmatter plus body).
+4. Run the Validate checklist below, including the self-test for any bundled script.
+5. Test with 2-3 real prompts plus near-miss negative prompts.
 
 For improving an existing skill from observed behavior, use the manual
-SkillOpt-style loop instead: read `references/skillopt-manual.md`, then work
-from evidence batches, bounded patch ops, explicit ranking, and a fixed
-validation gate.
-
-Jump to **Detailed Workflow** below for the full process.
+SkillOpt-style loop in **Manual Skill Optimization** below: read
+`references/skillopt-manual.md`, then work from evidence batches, bounded patch
+ops, explicit ranking, and a fixed validation gate.
 
 ## Reference Files
 
+References are exactly one level deep (SKILL.md points here; these files do not
+chain to each other). Read only what you need.
+
 | File | When to read | What's in it |
 |------|-------------|--------------|
-| `references/skill-tips.md` | Choosing skill type, writing tips, gotchas, distribution, hooks | Anthropic internal lessons: 9 categories, progressive disclosure, composing skills |
-| `references/skill-docs.md` | Field constraints, 3-level loading, platform differences, security | Official Anthropic docs snapshot — **refresh if >30 days old** (see below) |
-| `references/skillopt-manual.md` | Improving an existing skill from traces, failing prompts, feedback, or validation results | Manual SkillOpt-inspired protocol: failure/success analysis, merge, rank, bounded patch ops, validation gate, rejected-edit notes |
+| `references/skill-tips.md` | Choosing skill type, writing tips, portability, naming, descriptions, gotchas, distribution, hooks | Anthropic lessons plus skill-builder Addenda (A1-A10). Has a TOC up top |
+| `references/skill-docs.md` | Field constraints, 3-level loading, platform differences, security | Official Anthropic docs snapshot. Refresh if >30 days old (see below) |
+| `references/skillopt-manual.md` | Improving an existing skill from traces, failing prompts, feedback, or validation results | Manual SkillOpt protocol: failure/success analysis, merge, rank, bounded patch ops, validation gate, rejected-edit notes |
 
 ### Refreshing the docs
 
-`references/skill-docs.md` has a snapshot date at the top. If older than 30 days:
-```
-WebFetch https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
-```
-Use the fetched content as authoritative. Fall back to the local snapshot only if fetch fails.
-
-`references/skill-tips.md` is static and does not need refreshing.
+`references/skill-docs.md` has a snapshot date at the top. If older than 30 days,
+fetch the current docs from the Anthropic agent-skills overview page and treat the
+fetched content as authoritative; fall back to the local snapshot only if the
+fetch fails. `references/skill-tips.md` is static and does not need refreshing.
 
 ## Detailed Workflow
 
 ### 1. Understand Intent
 
-Ask (or extract from conversation context):
-- What should this skill enable Claude to do?
-- When should it trigger? (what phrases/contexts)
-- What's the expected output?
-- Which category does it fit? (see `references/skill-tips.md`)
-- Where should it live? (`~/.agents/skills/`, `.claude/skills/`, or a plugin)
+Ask, or extract from conversation context:
+
+- What should this skill enable the agent to do, and when should it trigger?
+- What is the expected output, and which of the 9 categories does it fit?
+- Where should it live (personal skills dir, project `.claude/skills/`, or a plugin)?
 - If improving an existing skill: what concrete evidence shows current success,
-  failure, undertriggering, overtriggering, or missing procedure?
-- What validation signal will decide whether the edit helped? Prefer executable
-  tests, fixed prompts, scored examples, or explicit user acceptance criteria.
-- What is the baseline behavior before editing? Keep the target model, harness,
-  prompts, tests, and evaluator fixed while comparing a candidate patch.
+  failure, undertriggering, overtriggering, or missing procedure? What fixed
+  validation signal will decide whether the edit helped, and what is the baseline
+  before editing? Keep model, harness, prompts, tests, and evaluator fixed while
+  comparing a candidate patch.
 
 If converting a conversation workflow into a skill, extract the sequence of steps,
 tools used, corrections made, and input/output patterns from history.
 
 ### 2. Choose the Right Structure
 
-A skill is a **folder**, not just a markdown file:
-
 ```
 skill-name/
-├── SKILL.md              # Required. Frontmatter + instructions (<500 lines ideal)
-├── references/           # Docs loaded into context as needed
-├── scripts/              # Executable code — runs without loading into context
-├── assets/               # Templates, icons, fonts — copied into output
-└── config.json           # Optional. User-specific setup (stored per-skill)
+├── SKILL.md              # Required. Frontmatter plus instructions
+├── references/           # Docs read into context as needed (one level deep)
+├── scripts/              # Executable code, runs without loading into context
+├── assets/               # Templates, icons, fonts, copied into output
+└── config.json           # Optional. User-specific setup, stored per-skill
 ```
 
-**Progressive disclosure** (from the 3-level loading model):
-- Level 1 (~100 tokens): `name` + `description` — always in context
-- Level 2 (<5K tokens): SKILL.md body — loaded when skill triggers
-- Level 3 (unlimited): Subdirectories — loaded only when referenced
+**Progressive disclosure** (the 3-level loading model): Level 1 is `name` plus
+`description` (~100 tokens, always in context); Level 2 is the SKILL.md body
+(loaded on trigger); Level 3 is subdirectories (loaded only when referenced).
 
-If SKILL.md approaches 500 lines, split into reference files with clear pointers.
-
-#### Script vs LLM-native: When to bundle a script
-
-Not every skill needs a `scripts/` directory. The key question:
-
-> "After the script runs, does the LLM still need to make judgment calls to complete the task?"
-
-If yes, and the input is small enough for the LLM to read directly, the script is a premature middle layer — it adds maintenance cost without reducing the LLM's actual work.
-
-| Factor | Script wins | LLM-native wins |
-|--------|------------|-----------------|
-| Task nature | Purely deterministic (lint, format, count, compile) | Requires contextual judgment (what date? what description?) |
-| Input scale | Large (1000+ files, structured data) | Small (<50 files, <50K tokens) |
-| Output | Exact, reproducible result | Natural language + edits that adapt to context |
-| Rule completeness | Rules are exhaustive and enumerable | Rules are contextual, hard to encode (e.g. "is this task really done?") |
-| Markdown parsing | N/A | Regex for markdown tables/frontmatter is fragile — LLM reads natively |
-| Maintenance | Stable input format, infrequent changes | Repo structure evolves — LLM adapts, scripts break |
-
-**Real example — task-sync skill (brain repo, 2026-03):**
-Initially built a Python scanner (parse frontmatter, compare INDEX tables, report discrepancies).
-Deleted it because: (1) only ~20 task files — trivial for LLM to read, (2) the hard part was judgment calls like "extend due date to when?" and "how should the INDEX description change?", (3) the regex immediately hit edge cases (multiple `data:` lines in dashboard.md), (4) vault-health already covered structural checks. The LLM-native version was simpler and more capable.
-
-**Heuristic:** If the skill's workflow has a "detection" phase followed by a "fix" phase, and the fix requires judgment, consider skipping the detection script entirely. The LLM can detect and fix in one pass.
+Keep SKILL.md small, target under ~8KB and under ~500 lines, so it loads on any
+harness including Codex; split detail into references if it grows past that.
+References stay one level deep and never chain, and a reference over ~100 lines
+starts with a TOC (A4). On whether to bundle a script at all: not every skill
+needs `scripts/`, and a detection script whose output still needs LLM judgment is
+usually a premature middle layer. Full decision table in `skill-tips.md` A10.
 
 ### 3. Write the SKILL.md
 
-#### Frontmatter
+#### Frontmatter (strict, two fields only)
 
 ```yaml
 ---
-name: lowercase-with-hyphens    # max 64 chars, no "anthropic"/"claude"
-description: >                  # max 1024 chars — this is for the MODEL, not humans
-  What this skill does AND when to use it. Be specific about trigger contexts.
-  Include example phrases. Err on "pushy" — Claude undertriggers more than overtriggers.
+name: creating-skills         # lowercase-hyphens, max 64 chars, no anthropic/claude
+description: >                 # max 1024 chars, written for the MODEL, not humans
+  Use when ... (lead with trigger conditions, third person). Include example
+  phrases. Name adjacent skills it should NOT trigger for.
 ---
 ```
 
-**Description tips:**
-- Lead with what it does, then list trigger contexts
-- Include Korean + English trigger phrases if bilingual
-- Name adjacent skills it should NOT trigger for (if ambiguous)
-- Imagine Claude scanning 50 descriptions — yours needs to win
+- **Frontmatter is strict** (A9): two fields only by default. Extra keys like
+  `version`/`tags` may be rejected by strict runtimes and fail the whole load; gate
+  any on a specific target harness that documents it.
+- **Name** (A5): verb-first, gerund-leaning (`processing-pdfs`, `creating-skills`).
+  Avoid vague names (`helper`, `utils`, `tools`, `data`); they carry no signal.
+- **Description** (A6): it carries the entire discovery/trigger burden, since the
+  body is not in context when the agent scans the skill listing. Third person,
+  lead with "Use when ..." (not a workflow summary), keep "NOT for X; use Y"
+  pointers, and test against near-miss NEGATIVE prompts to guard both
+  under-triggering and over-triggering.
 
 #### Body Structure
 
-Organize around what Claude needs to DO:
-
-```markdown
-# Skill Name
-
-## Quick Start
-[80% case — most common usage path]
-
-## Detailed Workflow
-[Step-by-step for the full process]
-
-## Gotchas
-[Common failure points — highest-signal section]
-
-## Reference Files
-[Table: file → when-to-read → content]
-```
+Organize around what the agent needs to DO: a Quick Start for the 80% case, a
+Detailed Workflow, a mandatory Gotchas section (highest-signal content), and a
+Reference Files table.
 
 #### Writing Principles
 
-Read `references/skill-tips.md` → "Tips for Making Skills" for the full set. Key points:
+Each principle below is a one-line pointer; the full reasoning lives in
+`references/skill-tips.md` (read the linked section before applying it). Don't
+restate the linked text here.
 
-- **Don't state the obvious** — focus on what pushes Claude out of its defaults
-- **Explain the why** — reasoning > rigid rules. Avoid ALWAYS/NEVER in all caps
-- **Gotchas section is mandatory** — highest ROI content. Update as Claude hits edge cases
-- **Progressive disclosure** — don't dump everything in SKILL.md. Split and point
-- **Bundle repeated scripts** — if Claude would write the same helper every time, pre-bundle it
-- **Config pattern for setup** — `config.json` for user-specific values
+- **Don't state the obvious.** Focus on what pushes the agent out of its defaults.
+- **Gotchas section is mandatory.** Update it as the agent hits edge cases.
+- **Progressive disclosure.** Don't dump everything in SKILL.md; split and point.
+- **Mechanism over bare MUST/ALWAYS** (A8): pair every rule with HOW and WHY so the
+  model generalizes; reserve exact non-negotiable commands for fragile/destructive
+  ops like migrations or force-push.
+- **Single-source vocabulary** (A7): define a shared section list or status enum
+  ONCE as a closed set; every other mention is a thin pointer, never a restatement.
+- **Portability** (A1): forward-slash relative paths, no absolute machine paths, no
+  time-sensitive instructions in the main flow (use a `<details>` "Old patterns"
+  block), no assumed-installed packages (show the install step), fully-qualified
+  MCP tool names (`Server:tool`), WHAT-to-do prose (not "use the Read tool").
+- **Parallelism is optional, not a dependency** (A2): when work splits into
+  independent streams use the harness's parallel capability aggressively, else run
+  a single linear session. Probe for a native capability first; if none, run
+  sequentially and say so. Claude Code workflows/subagents and Codex threads are
+  only examples of such a capability, never the rule. The skill must complete
+  correctly run sequentially.
+- **Self-test what you ship** (A3): any bundled script or template must pass its
+  own documented invocation.
+- **Config pattern for setup:** use `config.json` for user-specific values.
 
 ### 4. Validate
 
 Before considering the skill done:
 
-- [ ] `name`: lowercase, hyphens only, max 64 chars, no reserved words
-- [ ] `description`: <1024 chars, includes trigger contexts, "pushy" enough
-- [ ] SKILL.md body: <500 lines (split to references/ if over)
-- [ ] Referenced files exist at specified paths
-- [ ] Scripts are executable and tested
-- [ ] Gotchas section exists
-- [ ] No secrets or credentials in any file
-- [ ] If this was an optimization pass: candidate edits were bounded, evidence-backed,
-      and checked against the same validation prompts/tests before acceptance
-      (ties should usually be rejected)
+- [ ] `name`: lowercase, hyphens only, max 64 chars, no reserved words, verb-first.
+- [ ] `description`: <1024 chars, third person, "Use when ..." triggers, NOT-for
+      pointers, tested against near-miss negatives.
+- [ ] Frontmatter has only `name` and `description`.
+- [ ] SKILL.md body under ~8KB and ~500 lines (split to references/ if over).
+- [ ] References exist at forward-slash relative paths, one level deep, no chaining;
+      any reference over ~100 lines has a TOC.
+- [ ] No absolute machine paths, no time-sensitive instructions in the main flow,
+      no assumed-installed packages, MCP tools fully qualified as `Server:tool`.
+- [ ] Any bundled script/template passes its own documented invocation. A
+      generate-then-validate skill ships a smoke test (init then validate, assert
+      exit 0); run it and report the exit code. A template that fails its own
+      validator is a defect (A3).
+- [ ] Gotchas section exists. No secrets or credentials in any file.
+- [ ] Optimization pass only: edits were bounded, evidence-backed, and checked
+      against the same validation prompts/tests before acceptance (ties rejected).
 
 ### 5. Test with Real Prompts
 
-Create 2-3 realistic prompts — what a real user would actually say.
-Evaluate:
-- Does the skill trigger when it should?
-- Does Claude follow instructions correctly?
-- Are outputs what the user expects?
-- Does Claude read references at the right time (not too early, not too late)?
-- Are there negative-control prompts where an adjacent skill should trigger instead?
-- For optimization work, keep a small fixed validation set separate from examples
-  used to invent the edit. Do not judge only on the failure that inspired the patch.
+Create 2-3 realistic positive prompts plus 1-2 near-miss negative prompts, and
+check:
 
-### 6. Manual Skill Optimization
+- Does the skill trigger when it should, and stay quiet on the near-misses (an
+  adjacent skill, or no skill, should win there)?
+- Does the agent follow instructions correctly and read references at the right
+  time (not too early, not too late)?
+- Are outputs what the user expects?
+- For optimization work, keep a small fixed validation set separate from the
+  examples used to invent the edit. Do not judge only on the failure that inspired
+  the patch.
+
+### 6. Iterate
+
+Best skills start small and grow: add to Gotchas as the agent makes mistakes,
+refine the description if triggering is too broad or narrow, bundle a script when
+the agent keeps generating the same code, and split SKILL.md if it grows past the
+size budget. For SkillOpt-style improvement, prefer deliberate user-triggered
+sessions with evidence and validation over automatic periodic learning.
+
+## Manual Skill Optimization
 
 Use this only when the user explicitly asks to improve/optimize a skill or
 provides concrete behavior to learn from. Do not create background jobs,
-scheduled learning, or automatic self-editing unless the user asks for that.
+scheduled learning, or automatic self-editing unless the user asks.
 
-Read `references/skillopt-manual.md`, then run a small manual loop:
+Read `references/skillopt-manual.md` and follow its Manual Session Template. In
+short: freeze the target (skill file, model/harness, core loop, baseline,
+validation gate); split evidence into failures and successes and analyze them
+separately, then merge with failure fixes taking priority; rank edits by
+systematic impact, complementarity, generality, and actionability; apply at most
+1-4 atomic edits (`append`, `insert_after`, `replace`, `delete`); validate against
+the fixed gate and accept only clear improvements without regression, keeping
+rejected edits out of SKILL.md.
 
-1. Freeze the target: skill file, model/harness, core loop, baseline behavior,
-   and validation prompts/checks.
-2. Split evidence into failures and successes. Include trigger and structure
-   evidence when relevant.
-3. Analyze failures and successes separately, then merge. Failure fixes have
-   priority; success patterns protect behavior that already works.
-4. Rank edits by systematic impact, complementarity, generality, and actionability.
-5. Apply at most 1-4 atomic edits (`append`, `insert_after`, `replace`, `delete`).
-   Treat this as the textual learning rate.
-6. Validate against the fixed gate. Accept only clear improvements or verified
-   blocker removals without regression. Keep rejected edits out of SKILL.md.
+## Skill Categories and Hooks
 
-### 7. Iterate
-
-Best skills start small and grow:
-- Add to Gotchas as Claude makes mistakes
-- Refine description if triggering is too broad/narrow
-- Bundle scripts when Claude keeps generating the same code
-- Split SKILL.md if it grows past 500 lines
-- When doing SkillOpt-style improvement, prefer deliberate user-triggered sessions
-  with evidence and validation over automatic periodic learning.
-
-## Skill Categories (Quick Reference)
-
-9 categories from Anthropic's internal experience (details in `references/skill-tips.md`):
-
-| # | Category | What it does |
-|---|----------|-------------|
-| 1 | Library & API Reference | How to use a library/CLI/SDK correctly |
-| 2 | Product Verification | Test/verify code works (playwright, tmux) |
-| 3 | Data Fetching & Analysis | Connect to data/monitoring stacks |
-| 4 | Business Process | Automate repetitive workflows |
-| 5 | Code Scaffolding | Generate framework boilerplate |
-| 6 | Code Quality & Review | Enforce standards, review code |
-| 7 | CI/CD & Deployment | Fetch, push, deploy |
-| 8 | Runbooks | Symptom → investigation → report |
-| 9 | Infrastructure Ops | Maintenance with guardrails |
-
-If a skill straddles categories, it might be trying to do too much — consider splitting.
-
-## On-Demand Hooks
-
-Skills can register hooks activated only when the skill is called:
-
-```yaml
-hooks:
-  - event: PreToolUse
-    matcher: Bash
-    script: ./scripts/guard.sh
-```
-
-See `references/skill-tips.md` → "On Demand Hooks" for examples.
+The 9 skill categories (Library/API Reference, Product Verification, Data
+Fetching, Business Process, Code Scaffolding, Code Quality/Review, CI/CD,
+Runbooks, Infrastructure Ops) are detailed with examples in
+`references/skill-tips.md` -> "Types of Skills". Pick one; a skill that straddles
+categories is usually doing too much. Some harnesses also let a skill register
+on-demand hooks that live only for the session (for example a shell-command
+guard). Treat hooks as a harness-specific, optional enhancement and keep the skill
+working without them (`skill-tips.md` -> "On Demand Hooks").
 
 ## Gotchas
 
-- **Undertriggering > overtriggering.** Make descriptions pushy. The description is the
-  most important line in the entire skill — a great skill that never triggers is useless.
-- **Progressive disclosure is the architecture's superpower.** Don't put everything in
-  SKILL.md. Split to references/ and tell Claude when to read each file.
-- **Scripts > inline instructions for deterministic tasks.** Scripts don't consume context
-  and are more reliable than asking Claude to regenerate the same code.
-  However, if the task requires judgment after detection, and the input is small (<50 files),
-  an LLM-native approach may be simpler and more capable. See "Script vs LLM-native" in Step 2.
-- **`${CLAUDE_PLUGIN_DATA}` for persistent data.** Skill directory may be deleted on
-  upgrade. Use the stable data folder for logs, config, and state.
-- **Don't duplicate between SKILL.md and references.** SKILL.md should point to references,
-  not restate them. If you find yourself copying content from a reference file into SKILL.md,
-  you're violating progressive disclosure.
-- **Avoid railroading.** The more rigid the instructions, the more edge cases they break on.
-  Explain reasoning so Claude can adapt to situations you didn't anticipate.
-- **Evidence beats intuition when improving a skill.** Use traces, failing prompts,
-  user corrections, and successful counterexamples. Do not rewrite a skill just
-  because a new rule sounds plausible.
-- **Bounded edits beat wholesale rewrites.** A small add/replace/delete patch keeps
-  previous useful behavior intact and makes validation meaningful.
-- **Separate failure fixes from success preservation.** Failure evidence finds
-  missing rules; success evidence prevents edits from erasing behavior that was
-  already working.
-- **Rank edits, don't just list them.** Prefer systematic impact, complementarity,
-  generality, and actionability. A rule that fixes a recurring class of failures
-  beats a clever one-off fix.
-- **Validation is the safety rail for self-improvement.** A reflection can be
-  convincing and still make the skill worse. Keep the target harness/checks fixed
-  and reject edits that do not improve them.
-- **Rejected edits are signal, not deployed knowledge.** Remember why they failed,
-  but do not accumulate every attempted rule inside SKILL.md.
-- **Manual optimization is user-triggered.** This skill should not schedule periodic
-  training or edit skills in the background unless the user explicitly asks.
-- **Overlapping skills? Merge unless both have frequent independent triggers.** When two
-  skills seem to overlap, ask: "Will skill B realistically be called on its own, or does it
-  almost always follow skill A?" If B is 90%+ called via A, merge B into A as expanded scope
-  or a reference doc — don't maintain a separate skill. The brain repo's task-sync was created
-  as a separate skill, then merged into conversation-sync's Z10 zone within the same session
-  because it had no real independent use case. New phase or separate skill = more moving parts
-  to maintain. Expand an existing zone or add a reference checklist instead.
+The Writing Principles above are the canonical home for the portability, naming,
+description, parallelism, self-test, single-source, mechanism, and frontmatter
+rules (each links to a `skill-tips.md` section). These gotchas are the
+highest-signal reminders that do not appear there:
+
+- **Undertriggering > overtriggering.** The description is the most important line
+  in the skill; a great skill that never triggers is useless. Guard the other
+  direction with near-miss negative prompts.
+- **Don't duplicate between SKILL.md and references.** SKILL.md points to
+  references, it does not restate them. Restated content drifts.
+- **Persistent data lives outside the skill dir.** The skill directory may be
+  deleted on upgrade; use the harness's stable per-plugin data folder for logs,
+  config, and state.
+- **Improving a skill is evidence-driven and user-triggered.** Use traces, failing
+  prompts, and successful counterexamples; bounded edits beat rewrites; validation
+  is the safety rail (`references/skillopt-manual.md`). Do not schedule background
+  self-editing unless the user asks.
+- **Overlapping skills? Merge unless both have frequent independent triggers.** If
+  skill B is 90%+ reached via skill A, fold B into A as expanded scope or a
+  reference doc rather than maintaining a separate skill.
