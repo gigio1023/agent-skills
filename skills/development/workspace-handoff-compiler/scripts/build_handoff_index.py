@@ -63,16 +63,29 @@ def build_index(base_dir: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Inspect current directory and summarize plan/progress/task/result markdown artifacts."
+        description="Inspect a directory and summarize plan/progress/task/result markdown artifacts."
     )
+    # 디렉터리는 두 가지 형태를 모두 받는다.
+    #   1) 위치 인자: build_handoff_index.py <artifact_dir>  (문서에 표기된 형태)
+    #   2) 옵션 인자: build_handoff_index.py --dir <artifact_dir>
+    # 위치 인자를 생략하면 --dir 값(기본 ".")을 그대로 쓴다. 둘 다 주면 위치 인자가 우선한다.
     parser.add_argument(
         "--dir",
         default=".",
         help="Directory to inspect (default: current directory).",
     )
+    parser.add_argument(
+        "dir_pos",
+        nargs="?",
+        default=None,
+        metavar="artifact_dir",
+        help="Directory to inspect (positional form; defaults to --dir value).",
+    )
     args = parser.parse_args()
 
-    base_dir = Path(args.dir)
+    # 위치 인자가 주어졌으면 그 값을, 아니면 --dir 값을 사용한다.
+    target = args.dir_pos if args.dir_pos is not None else args.dir
+    base_dir = Path(target)
     if not base_dir.exists():
         print(f"error: directory not found: {base_dir}", file=sys.stderr)
         return 2

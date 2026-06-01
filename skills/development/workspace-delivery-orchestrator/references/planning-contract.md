@@ -18,7 +18,9 @@ Allowed examples:
 - Why-now context, assumptions, and expected observable results.
 - Cross-repo impact map and rollback/containment intent.
 
-## Required Sections
+## Required Sections (single source of truth)
+The heading order below is the canonical list. `scripts/validate_plan.py` enforces it, `assets/templates/plan.template.md` emits it, and `SKILL.md` points here instead of restating it. If this list changes, update the validator first, then regenerate the template and re-run `scripts/smoke_test.sh`.
+
 1. Intent (의도)
 - One-line mission and why this delivery is needed now.
 
@@ -35,9 +37,9 @@ Allowed examples:
 - In-scope and out-of-scope boundaries.
 
 6. Constraints
-- Policy, contract, operational, or environmental limits.
+- Time/scope limits, technical constraints, and do-not-touch areas. Stack-neutral; fill with whatever the repository and task impose.
 
-7. Success Criteria
+7. Acceptance Criteria
 - Observable and measurable completion conditions.
 
 8. Workstreams
@@ -46,14 +48,14 @@ Allowed examples:
 9. Dependency Graph
 - `blocked-by` relationships and explicit parallelizable groups.
 
-10. Validation Gates
+10. Validation Plan
 - Required checks before integration and closure.
 
 11. Risks and Mitigations
 - High-impact failure modes and containment strategy.
 
-12. Execution Order / Waves
-- Wave-based sequence, emphasizing parallel starts where safe.
+12. Parallelism Strategy
+- Parallelizable tracks, required sequencing, and single-writer boundaries. Use parallel fan-out only where streams are genuinely independent.
 
 13. Rollback / Containment Intent (for medium-high risk)
 - How to contain blast radius and recover if assumptions fail.
@@ -80,9 +82,11 @@ Allowed examples:
 - Out of scope: ...
 
 ## Constraints
-- ...
+- Time/scope limits: ...
+- Technical constraints: ...
+- Do-not-touch areas: ...
 
-## Success Criteria
+## Acceptance Criteria
 - ...
 
 ## Workstreams
@@ -93,16 +97,17 @@ Allowed examples:
 - WS2 blocked-by WS1
 - WS3 parallel with WS2
 
-## Validation Gates
+## Validation Plan
 - Gate A: ...
 - Gate B: ...
 
 ## Risks and Mitigations
 - Risk: ... / Mitigation: ...
 
-## Execution Waves / Order
-- Wave 1: ...
-- Wave 2: ...
+## Parallelism Strategy
+- Parallelizable tracks: ...
+- Required sequencing: ...
+- Single-writer boundaries: ...
 
 ## Rollback / Containment Intent
 - ...

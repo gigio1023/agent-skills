@@ -16,7 +16,6 @@
 - Trigger for this work:
 - What changed recently:
 - Known unknowns / assumptions:
-- Known constraints (time, tools, ownership, environment):
 
 ## Goals (목표)
 - Goal 1:
@@ -36,6 +35,16 @@
 ### Out of Scope
 - 
 - 
+
+## Constraints
+- Time/scope limits (deadline, budget, hard scope cuts):
+- Technical constraints (runtime, framework, version, contract, compatibility):
+- Do-not-touch areas (files, modules, configs, environments that must stay unchanged):
+
+## Acceptance Criteria
+- [ ] Criterion 1 (observable and testable)
+- [ ] Criterion 2 (observable and testable)
+- [ ] Criterion 3 (observable and testable)
 
 ## Workstreams
 ### Workstream A
@@ -68,22 +77,11 @@
 - Group 2 (can run together):
 - Serialized boundary (single-writer or integration):
 
-## Parallelism Strategy
-- Parallelizable tracks:
-- Required sequencing:
-- Single-writer constraints:
-- Merge/coordination checkpoints:
-
 ## Validation Plan
 - How success will be validated:
 - Evidence to collect:
 - Validation owner:
 - Validation timing:
-
-## Acceptance Criteria
-- [ ] Criterion 1 (observable and testable)
-- [ ] Criterion 2 (observable and testable)
-- [ ] Criterion 3 (observable and testable)
 
 ## Risks and Mitigations
 - Risk:
@@ -91,6 +89,12 @@
   - Likelihood:
   - Mitigation:
   - Fallback:
+
+## Parallelism Strategy
+- Parallelizable tracks:
+- Required sequencing:
+- Single-writer constraints:
+- Merge/coordination checkpoints:
 
 ## Rollback / Containment Intent
 - Trigger condition:

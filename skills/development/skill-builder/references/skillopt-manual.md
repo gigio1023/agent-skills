@@ -3,9 +3,22 @@
 > Source: SkillOpt: Executive Strategy for Self-Evolving Agent Skills,
 > arXiv:2605.23904 / Hugging Face paper page:
 > https://huggingface.co/papers/2605.23904
-> Read through `hf papers info 2605.23904` and `hf papers read 2605.23904`
-> on 2026-05-27. The full markdown was saved locally during review at
-> `/tmp/skillopt-paper/paper.md`.
+> Read through `hf papers info 2605.23904` and `hf papers read 2605.23904`;
+> the full markdown was reviewed locally during that read.
+
+## Table of Contents
+
+- Core Translation (what to borrow from SkillOpt)
+- When To Use
+- Manual Optimization Contract (target, baseline, validation gate, patch budget)
+- Evidence Packet
+- Role-Separated Analysis (failure analyst, success analyst, merges, rank/select)
+- Patch Operations
+- Validation Gate
+- Rejected-Edit Buffer
+- Manual Slow Lessons
+- Manual Session Template
+- Report Format
 
 Use this reference when the user asks to improve, optimize, train, or debug an
 existing skill from observed behavior. This is a manual maintenance protocol,

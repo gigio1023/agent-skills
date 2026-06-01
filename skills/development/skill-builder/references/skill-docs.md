@@ -8,6 +8,17 @@
 
 ---
 
+## Table of Contents
+
+- Why use Skills
+- How Skills work (three levels of loading)
+- Skill structure (frontmatter, required fields, field requirements)
+- Where Skills work (Claude Code, Claude API, Claude.ai, Agent SDK)
+- Security considerations
+- Limitations and constraints
+
+---
+
 ## Why use Skills
 
 Skills are reusable, filesystem-based resources that provide Claude with domain-specific expertise: workflows, context, and best practices that transform general-purpose agents into specialists. Unlike prompts (conversation-level instructions for one-off tasks), Skills load on-demand and eliminate the need to repeatedly provide the same guidance across multiple conversations.

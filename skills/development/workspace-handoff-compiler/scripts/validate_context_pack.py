@@ -20,14 +20,17 @@ TOP_LEVEL_TYPES: dict[str, type] = {
     "decisions": list,
     "verification": list,
     "next_actions_top3": list,
-    "swarm_continuation": dict,
+    "continuation": dict,
 }
 
+# 상태 어휘는 references/context-pack-schema.md 의 Status Vocabulary 가 단일 출처다.
+# per-task 와 overall 두 집합이 분리되어 있고, per-task 는 not_started 로 통일한다(todo 폐기).
 STATUS_ENUM = {"complete", "partial", "blocked"}
-TASK_STATUS_ENUM = {"todo", "in_progress", "blocked", "done"}
+TASK_STATUS_ENUM = {"not_started", "in_progress", "blocked", "done"}
 IMPACT_ENUM = {"low", "medium", "high"}
 VERIFY_ENUM = {"pass", "fail", "unknown"}
-MODE_ENUM = {"swarm_required", "single_agent_allowed"}
+# 연속성 모드는 런타임 비종속 권고다. parallel_recommended / sequential_sufficient 두 값만 허용.
+CONTINUATION_MODE_ENUM = {"parallel_recommended", "sequential_sufficient"}
 
 
 def _expect_type(errors: list[str], value: Any, expected: type, path: str) -> bool:
@@ -47,6 +50,31 @@ def _expect_enum(errors: list[str], value: Any, allowed: set[str], path: str) ->
 
 def _is_str_or_null(value: Any) -> bool:
     return value is None or isinstance(value, str)
+
+
+def _is_multi_track(data: dict[str, Any], continuation: dict[str, Any]) -> bool:
+    """작업이 multi-track 인지 데이터에서 직접 판정한다.
+
+    판정 근거(둘 중 하나라도 참이면 multi-track):
+      1) continuation.parallel_tracks 항목이 2개 이상이다.
+      2) tasks[].owner 중 null 이 아닌 서로 다른 값이 2개 이상이다.
+    swarm 같은 별도 플래그에 의존하지 않고 실제 작업 형태로만 판단한다.
+    """
+    tracks = continuation.get("parallel_tracks")
+    if isinstance(tracks, list) and len([t for t in tracks if isinstance(t, str) and t.strip()]) >= 2:
+        return True
+
+    tasks = data.get("tasks")
+    if isinstance(tasks, list):
+        owners = {
+            task["owner"]
+            for task in tasks
+            if isinstance(task, dict) and isinstance(task.get("owner"), str) and task["owner"].strip()
+        }
+        if len(owners) >= 2:
+            return True
+
+    return False
 
 
 def _validate_object_shape(errors: list[str], data: dict[str, Any]) -> None:
@@ -134,33 +162,39 @@ def _validate_object_shape(errors: list[str], data: dict[str, Any]) -> None:
             if not isinstance(value, str):
                 errors.append(f"next_actions_top3[{i}]: expected string")
 
-    swarm = data.get("swarm_continuation")
-    if isinstance(swarm, dict):
+    continuation = data.get("continuation")
+    if isinstance(continuation, dict):
         for required in (
-            "mode",
+            "continuation_mode",
             "recommended_roles",
             "writer_ownership",
             "parallel_tracks",
             "serialization_gates",
         ):
-            if required not in swarm:
-                errors.append(f"swarm_continuation.{required}: missing")
-        if "mode" in swarm:
-            _expect_enum(errors, swarm["mode"], MODE_ENUM, "swarm_continuation.mode")
+            if required not in continuation:
+                errors.append(f"continuation.{required}: missing")
+        if "continuation_mode" in continuation:
+            _expect_enum(
+                errors,
+                continuation["continuation_mode"],
+                CONTINUATION_MODE_ENUM,
+                "continuation.continuation_mode",
+            )
         for key in ("recommended_roles", "writer_ownership", "parallel_tracks", "serialization_gates"):
-            if key in swarm and _expect_type(errors, swarm[key], list, f"swarm_continuation.{key}"):
-                for i, value in enumerate(swarm[key]):
+            if key in continuation and _expect_type(errors, continuation[key], list, f"continuation.{key}"):
+                for i, value in enumerate(continuation[key]):
                     if not isinstance(value, str):
-                        errors.append(f"swarm_continuation.{key}[{i}]: expected string")
+                        errors.append(f"continuation.{key}[{i}]: expected string")
 
-        mode = swarm.get("mode")
-        if mode == "swarm_required":
-            roles = swarm.get("recommended_roles")
-            owners = swarm.get("writer_ownership")
+        # 역할/소유권 비어있음 검사는 swarm 플래그가 아니라 실제 작업 형태(multi-track)에 건다.
+        # multi-track 판정: parallel_tracks 가 2개 이상이거나, tasks[].owner 의 distinct non-null 이 2개 이상.
+        if _is_multi_track(data, continuation):
+            roles = continuation.get("recommended_roles")
+            owners = continuation.get("writer_ownership")
             if isinstance(roles, list) and len(roles) == 0:
-                errors.append("swarm_continuation.recommended_roles: non-empty for swarm_required mode")
+                errors.append("continuation.recommended_roles: non-empty for multi-track work")
             if isinstance(owners, list) and len(owners) == 0:
-                errors.append("swarm_continuation.writer_ownership: non-empty for swarm_required mode")
+                errors.append("continuation.writer_ownership: non-empty for multi-track work")
 
 
 
