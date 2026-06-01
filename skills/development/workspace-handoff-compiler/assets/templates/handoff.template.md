@@ -8,11 +8,11 @@
 - One-line handoff summary:
 
 ## Objective/Status
-| objective_id | objective | status (done/in_progress/blocked/not_started) | confidence (high/medium/low) | owner |
+| objective_id | objective | status | confidence (high/medium/low) | owner |
 |---|---|---|---|---|
 | O-001 |  |  |  |  |
 
-Overall handoff status uses `complete/partial/blocked`; objective rows use the task-level status vocabulary above.
+Status values come from the single source in `references/context-pack-schema.md` (Status Vocabulary). Objective rows use the per-task set (`not_started/in_progress/blocked/done`); the overall handoff uses the overall set (`complete/partial/blocked`).
 
 ## Completed
 | item | what changed | why it matters | evidence_ref |
@@ -45,19 +45,24 @@ Overall handoff status uses `complete/partial/blocked`; objective rows use the t
 2. [ ] Priority 2:
 3. [ ] Priority 3:
 
-## Swarm Continuation Plan
-- Lead owner:
-- Active workers and scopes:
+## Continuation Plan
+See `references/continuation-mode.md` for the judgment rule and sequential fallback.
+- Continuation mode (`parallel_recommended` or `sequential_sufficient`):
+- If parallel_recommended, probe for a native parallel-execution capability first; if none, run sequentially and note it here:
+- Owners and write scopes (multi-track only):
 - Single-writer locks:
 - Task dependency order:
-- Parallelizable reads:
+- Parallelizable reads/verifications:
 - Coordination checkpoint (time or trigger):
-- Escalation rule if blocked for more than N minutes:
+- Escalation rule if blocked:
 
 ## Handoff Quality Status
+- Overall status: partial
 - Completeness: `pass | partial | fail`
 - Evidence coverage: `pass | partial | fail`
 - Reproducibility: `pass | partial | fail`
 - Risks communicated: `pass | partial | fail`
 - Ready for takeover: `yes | no`
 - Notes for next AI:
+
+Overall status must be one of `complete/partial/blocked` and must equal the `status` in `context-pack.json`. Replace the placeholder above with the real value.
