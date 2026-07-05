@@ -47,7 +47,7 @@ def is_english_heavy(text: str, latin_min: int, hangul_max: int) -> tuple[bool, 
 def main() -> int:
     p = argparse.ArgumentParser(description="Audit issue bodies for escaped-newline and english-heavy content")
     p.add_argument("--repo", action="append", required=True, help="owner/repo (repeatable)")
-    p.add_argument("--author", default="sungho-park-gigio")
+    p.add_argument("--author", help="filter issues by GitHub login")
     p.add_argument("--state", default="open", choices=["open", "closed", "all"])
     p.add_argument("--limit", type=int, default=300)
     p.add_argument("--latin-min", type=int, default=80)
@@ -58,7 +58,7 @@ def main() -> int:
     findings: List[Finding] = []
 
     for repo in args.repo:
-        issues = sh_json([
+        cmd = [
             "gh",
             "issue",
             "list",
@@ -66,13 +66,14 @@ def main() -> int:
             repo,
             "--state",
             args.state,
-            "--author",
-            args.author,
             "--limit",
             str(args.limit),
             "--json",
             "number,title,url",
-        ])
+        ]
+        if args.author:
+            cmd.extend(["--author", args.author])
+        issues = sh_json(cmd)
 
         for it in issues:
             v = sh_json([

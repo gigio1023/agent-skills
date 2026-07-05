@@ -278,14 +278,14 @@ from prometheus_client import Counter, Histogram
 
 # [Metrics] LLM 호출 횟수 추적
 llm_call_counter = Counter(
-    "adagent_llm_calls_total",
+    "app_llm_calls_total",
     "Total number of LLM API calls",
     ["agent", "model", "status"]
 )
 
 # [Metrics] LLM 응답 시간 분포 추적
 llm_latency_histogram = Histogram(
-    "adagent_llm_latency_seconds",
+    "app_llm_latency_seconds",
     "LLM API call latency in seconds",
     ["agent", "model"],
     buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
@@ -326,14 +326,14 @@ langfuse = Langfuse()
 async def process_query(self, query: str) -> str:
     # [Observability] 새 Trace 시작 - 전체 요청 흐름 추적
     trace = langfuse.trace(
-        name="ad_retrieval_flow",
+        name="retrieval_flow",
         user_id=self.user_id,
         metadata={"query_length": len(query)}
     )
 
     # [Observability] LLM Generation Span 생성
     generation = trace.generation(
-        name="generate_ad_query",
+        name="generate_query",
         model=self.model_name,
         input=query
     )
@@ -356,7 +356,7 @@ from langfuse import Langfuse
 langfuse = Langfuse()
 
 # Langfuse에서 프롬프트 템플릿 로드 (Prompt Registry)
-prompt = langfuse.get_prompt("ad_retrieval_system_prompt", version=2)
+prompt = langfuse.get_prompt("retrieval_system_prompt", version=2)
 rendered = prompt.compile(context=user_context)
 ```
 
@@ -366,9 +366,9 @@ rendered = prompt.compile(context=user_context)
 
 ```python
 # [Metrics] --- 메트릭 정의 시작 ---
-request_counter = Counter("adagent_requests_total", "Total requests", ["endpoint"])
-error_counter = Counter("adagent_errors_total", "Total errors", ["endpoint", "error_type"])
-processing_histogram = Histogram("adagent_processing_seconds", "Processing time")
+request_counter = Counter("app_requests_total", "Total requests", ["endpoint"])
+error_counter = Counter("app_errors_total", "Total errors", ["endpoint", "error_type"])
+processing_histogram = Histogram("app_processing_seconds", "Processing time")
 # [Metrics] --- 메트릭 정의 끝 ---
 ```
 

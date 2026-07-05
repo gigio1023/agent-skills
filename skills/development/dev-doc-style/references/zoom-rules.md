@@ -268,8 +268,8 @@ docs/observability.md — Logging / Trace / Metrics
 ### Rule
 
 - **Bad (bare path)**: 본문 산문에 ``` `docs/spec/foo.md` ``` 만 떨어뜨려 두기. 자세한 정보가 거기 있다는 단서가 없다.
-- **Bad (raw URL)**: `https://wiki.navercorp.com/spaces/...` 만 본문에 두기. 이 위키가 무엇인지 독자가 알 수 없다.
-- **Good (descriptive link)**: `[SOAP 인터페이스 스펙 (Wiki)](https://wiki.navercorp.com/...)`, `[ArtifactMetadata 정의 (docs/spec/artifact-metadata.md)](docs/spec/artifact-metadata.md)`. 링크 텍스트가 내용을 알려준다.
+- **Bad (raw URL)**: `https://internal.example.com/spaces/...` 만 본문에 두기. 이 위키가 무엇인지 독자가 알 수 없다.
+- **Good (descriptive link)**: `[SOAP 인터페이스 스펙 (Wiki)](https://internal.example.com/...)`, `[ArtifactMetadata 정의 (docs/spec/artifact-metadata.md)](docs/spec/artifact-metadata.md)`. 링크 텍스트가 내용을 알려준다.
 - **Good (omit)**: 본문 흐름에서 출처가 결정적이지 않으면 그냥 빼고 본문 사실만 둔다. 출처는 문서 인덱스 (`docs/index.md`) 한 곳에 모은다.
 - 한 문장 안에 링크 3 개 이상 = bullet 으로 풀어 쓰기 (Anti-pattern §7 참조).
 
@@ -280,7 +280,7 @@ docs/observability.md — Logging / Trace / Metrics
 본 레포의 의도는 docs/spec/foo.md 에 있습니다.
 
 # Bad — raw URL
-참고: https://wiki.navercorp.com/spaces/AGENTICAD1/pages/5017425852
+참고: https://internal.example.com/docs/example-spec
 
 # Good — descriptive link
 본 레포의 의도는 [SOAP 스펙 정합성 가이드 (docs/spec/foo.md)](docs/spec/foo.md) 에 있습니다.
