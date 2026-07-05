@@ -1,12 +1,12 @@
 ---
 name: 1password-cli
 description: >
-  Use 1Password CLI (`op`) on a user's MacBook for local account setup, 1Password app integration, sign-in checks, vault/item/document lookup, secret references, `op read`, `op run`, `op inject`, item CRUD, service accounts, shell plugins, SSH-key fields, and secrets in .env/config/scripts. Trigger when the user mentions 1Password, 1password, `op`, secret references, vaults, items, OTP, CLI login, env-file secrets, shell plugins, API tokens, SSH keys in 1Password, or reading/using/managing secrets from the terminal. Mac-local skill; batch `op` work into one command or one persistent PTY session to avoid repeated app authorization prompts; do not use OpenClaw gateway or tmux auth flows.
+  Use 1Password CLI (`op`) on local macOS for account setup, 1Password app integration, sign-in checks, vault/item/document lookup, secret references, `op read`, `op run`, `op inject`, item CRUD, service accounts, shell plugins, SSH-key fields, and secrets in .env/config/scripts. Trigger when the user mentions 1Password, 1password, `op`, secret references, vaults, items, OTP, CLI login, env-file secrets, shell plugins, API tokens, SSH keys in 1Password, or reading/using/managing secrets from the terminal. Mac-local skill; batch `op` work into one command or one persistent PTY session to avoid repeated app authorization prompts; do not use OpenClaw gateway or tmux auth flows.
 ---
 
 # 1Password CLI
 
-Use this skill to work with the local 1Password CLI on a MacBook. It is a Library & API Reference skill, not an OpenClaw gateway runbook.
+Use this skill to work with the local 1Password CLI on macOS. It is a Library & API Reference skill, not an OpenClaw gateway runbook.
 
 Verified context when written: macOS arm64, `op` 2.34.1, stable release notes checked 2026-06-27. Before operational work, trust the installed CLI over memory:
 
@@ -21,7 +21,7 @@ If docs and local help disagree, follow local `op <command> --help` first and no
 ## Quick Start
 
 1. Verify the binary and version with `command -v op` and `op --version`.
-2. Prefer 1Password desktop app integration on MacBook. Ask the user to unlock the 1Password app or approve Touch ID/system auth when prompted. Before any real `op` access, decide whether the task can be completed with one `op` call; if not, open one persistent PTY shell and keep all `op` calls inside that session.
+2. Prefer 1Password desktop app integration on macOS. Ask the user to unlock the 1Password app or approve Touch ID/system auth when prompted. Before any real `op` access, decide whether the task can be completed with one `op` call; if not, open one persistent PTY shell and keep all `op` calls inside that session.
 3. Check auth with `op whoami`. If multiple accounts exist, use `--account <account>` or set `OP_ACCOUNT` for the command.
 4. Use the least-revealing command that solves the task, and avoid re-running the same metadata query:
    - Metadata: `op item list`, `op item get`, `op vault list`.
@@ -46,9 +46,9 @@ op update --help
 brew list --versions 1password-cli
 ```
 
-### Authentication on a MacBook
+### Authentication on macOS
 
-The normal MacBook path is desktop app integration:
+The normal macOS path is desktop app integration:
 
 1. The user installs and unlocks the 1Password desktop app.
 2. In 1Password, the user enables Touch ID/system auth and CLI integration.
@@ -61,7 +61,7 @@ Codex execution detail: each separate shell/tool invocation can look like a new 
 
 Do not repeatedly call `op` from fresh shell invocations for exploratory steps. If a task starts generating multiple authorization prompts, stop, explain the session issue, and switch to a one-shot or persistent-PTY plan before continuing.
 
-Do not use tmux for MacBook app integration. If a command cannot connect to the 1Password app, ask the user to confirm the app is running, unlocked, and CLI integration is enabled, then retry direct `op`.
+Do not use tmux for macOS app integration. If a command cannot connect to the 1Password app, ask the user to confirm the app is running, unlocked, and CLI integration is enabled, then retry direct `op`.
 
 Standalone manual sign-in is a fallback, not the default:
 
@@ -166,7 +166,7 @@ Read [references/official-doc-crosswalk.md](references/official-doc-crosswalk.md
 | File | When to read | Content |
 | --- | --- | --- |
 | [references/cli-usage.md](references/cli-usage.md) | Need exact `op` command patterns, flags, examples, or command map | Local 2.34.1 command surface and practical recipes |
-| [references/security-patterns.md](references/security-patterns.md) | Any operation may reveal, write, create, edit, or automate secrets | Secret-handling guardrails and MacBook-specific troubleshooting |
+| [references/security-patterns.md](references/security-patterns.md) | Any operation may reveal, write, create, edit, or automate secrets | Secret-handling guardrails and macOS-specific troubleshooting |
 | [references/official-doc-crosswalk.md](references/official-doc-crosswalk.md) | Official docs and local CLI help disagree, or the task touches Environments, MCP, Connect, SSH Agent, or VS Code | Current official-doc notes and feature-boundary guidance |
 
 ## Source Notes

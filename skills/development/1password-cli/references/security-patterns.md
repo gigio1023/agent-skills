@@ -46,9 +46,9 @@ After using a temporary template or injected config file:
 - Delete it when no longer needed.
 - Do not summarize its secret contents.
 
-## MacBook App Integration
+## macOS App Integration
 
-For a user's MacBook, desktop app integration is usually the best auth mode:
+For local macOS, desktop app integration is usually the best auth mode:
 
 - The 1Password app handles unlock and Touch ID/system auth.
 - `op signin` is idempotent and can be run directly.
@@ -83,7 +83,7 @@ Troubleshooting steps:
 3. Retry `op whoami` directly.
 4. If multiple accounts exist, use `op account list` and select with `--account`.
 
-Do not add tmux instructions. This skill is for local MacBook use, not an OpenClaw persistent gateway session.
+Do not add tmux instructions. This skill is for local macOS use, not an OpenClaw persistent gateway session.
 
 ## Manual Sign-In Fallback
 
@@ -115,7 +115,7 @@ Avoid:
 
 ## Connect and Environments Boundary
 
-1Password CLI can work with Connect Server by setting `OP_CONNECT_HOST` and `OP_CONNECT_TOKEN`, but that is a server/automation architecture. Do not recommend Connect for ordinary MacBook personal use unless the user specifically asks for self-hosted infrastructure or CI/CD.
+1Password CLI can work with Connect Server by setting `OP_CONNECT_HOST` and `OP_CONNECT_TOKEN`, but that is a server/automation architecture. Do not recommend Connect for ordinary local macOS use unless the user specifically asks for self-hosted infrastructure or CI/CD.
 
 Official docs also describe 1Password Environments and the 1Password MCP Server. Treat those as adjacent capabilities:
 

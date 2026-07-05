@@ -2,7 +2,7 @@
 name: python-docstring-enhancer
 version: 1.0.0
 description: |
-  AD-Agent 계열 Python 코드에 상세한 Docstring과 한국어 why 주석을 추가하여 코드의 가독성과 유지보수성을 높인다.
+  Python 코드에 상세한 docstring과 한국어 why 주석을 추가하여 코드의 가독성과 유지보수성을 높인다.
   트리거: "주석 보강", "문서화", "docstring 추가", "주석 달아줘" 등의 요청 시 사용.
   복잡한 메서드도 처음 보는 사람이 이해할 수 있도록 Step 기반 문서화, 의도 설명, 맥락 주석을 적용.
 ---
@@ -28,7 +28,7 @@ description: |
 **핵심 목표**: 복잡하거나 특이하게 구현된 코드라도 **처음 보는 사람이 흐름을 따라가며 이해할 수 있도록** 문서화합니다.
 
 **적용 원칙**:
-- 프로젝트 고유 용어 유지 (Answer Fusion, AD Retrieval 등)
+- 프로젝트 고유 용어 유지 (도메인 워크플로우명, 내부 컴포넌트명 등)
 - 개조식(Bullet) 문체로 간결하게 작성
 - Type Hint 중복 제거 (코드에 이미 있으면 docstring에서 생략)
 
@@ -56,7 +56,7 @@ description: |
 
 ### 1. 용어 준수 (Terminology)
 프로젝트 고유 명사는 번역하지 않고 그대로 사용:
-- Answer Fusion, AD Retrieval, Quality Inspection, CADI, User Persona Synthesis 등
+- 도메인 워크플로우명, 내부 컴포넌트명, 관측 지표명 등
 
 ### 2. 작성 스타일
 - **개조식 문체**: `-`, `*` 활용하여 간결하게

@@ -13,7 +13,7 @@ Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS 
 | Secret references | Official docs recommend copying from the desktop app, VS Code extension, or extracting `reference` from `op item get --format json`. | `op item get --format json --fields ...` is available. | Prefer extracting `.reference` from JSON over hand-composing references when names are uncertain. |
 | `.env` loading | Official docs define dotenv parsing, variable expansion, comments, quotes, and `op run --env-file`. | `op run --env-file` is available. | Use for local dev secrets. Remember environment variables are visible to same-user processes on many systems. |
 | Config files | Official docs show raw secret references in config templates and note resolved files must be deleted when no longer needed. | `op inject` is available and local help also shows `{{ op://... }}` examples. | Use whichever template syntax local `op inject` accepts; keep resolved outputs out of git and delete them. |
-| Service accounts | Official docs recommend least privilege and scoped vault access. | `op service-account create` supports `--vault`, `--expires-in`, `--can-create-vaults`; token is returned once. | Good for automation, not default personal MacBook auth. Save token in 1Password immediately if created. |
+| Service accounts | Official docs recommend least privilege and scoped vault access. | `op service-account create` supports `--vault`, `--expires-in`, `--can-create-vaults`; token is returned once. | Good for automation, not default local macOS auth. Save token in 1Password immediately if created. |
 | Connect Server | Official config-file docs say `op run`, `op inject`, `op read`, and `op item get` can be used with Connect via `OP_CONNECT_HOST` and `OP_CONNECT_TOKEN`. | Supported as environment-variable auth mode, but not needed for normal desktop use. | Mention only for CI/server/self-hosted workflows. |
 | Shell plugins | Official docs list many supported third-party CLIs and require desktop app integration. | `op plugin` commands are present. | Useful for interactive local CLI auth; prefer narrow credential scope during `op plugin init`. |
 | SSH Agent | Official SSH docs recommend the SSH Agent for Git/SSH so clients never read private keys. | CLI can also create/read SSH Key items. | Prefer SSH Agent for Git/SSH. Export private keys only when necessary. |
@@ -39,7 +39,7 @@ Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS 
 
 ## Decision Rules
 
-- If the user asks for stable local MacBook usage, local `op --help` wins over docs examples.
+- If the user asks for stable local macOS usage, local `op --help` wins over docs examples.
 - If the user asks for latest/beta/Environments/MCP, check the official docs and the installed CLI before recommending commands.
 - If the user asks for Git or SSH authentication, prefer 1Password SSH Agent rather than `op read` private-key export.
 - If the user asks for a third-party CLI login and a shell plugin exists, prefer `op plugin init` / `op plugin run` over storing tokens in dotfiles.

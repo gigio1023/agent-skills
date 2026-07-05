@@ -368,7 +368,7 @@ op item create --category 'SSH Key' --title 'Example SSH Key' --ssh-generate-key
 op read 'op://ExampleVault/example ssh/private key?ssh-format=openssh'
 ```
 
-For normal Git and SSH workflows on a MacBook, prefer the 1Password SSH Agent over exporting private keys. The SSH Agent lets Git/SSH clients use keys without reading private key material. Use CLI private-key export only when a tool cannot use an SSH agent and the user accepts the file-handling risk.
+For normal Git and SSH workflows on macOS, prefer the 1Password SSH Agent over exporting private keys. The SSH Agent lets Git/SSH clients use keys without reading private key material. Use CLI private-key export only when a tool cannot use an SSH agent and the user accepts the file-handling risk.
 
 ## Completions
 

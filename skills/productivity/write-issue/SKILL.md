@@ -5,7 +5,7 @@ description: |
   GitHub Issue 작성/정비 스킬.
   트리거: "이슈 만들어줘", "이슈 작성", "issue 생성", "이슈 내용 정리", "이슈 문구 수정" 요청 시.
   깨진 Markdown(escaped newline)과 영문-only 본문을 방지하고, 한국어 중심의 실행 가능한 이슈 본문 및 이슈 코멘트를 작성/수정한다.
-  NOT for: PR 본문 작성/수정(use write-pr), Jira 이슈(use jira-ad-agent-usage).
+  NOT for: PR 본문 작성/수정(use write-pr), Jira 이슈(use a Jira-specific issue skill).
 ---
 
 # write-issue

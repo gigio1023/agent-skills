@@ -10,7 +10,7 @@ LLM 본인 head 속 직관은 bias 가 큼. LLM 이 자주 쓰는 단어를 "자
 
 1. **공식 spec / RFC / textbook 출판물**: 가장 신뢰. LLM 영향 적음
 2. **사람 작성 GitHub issue / Stack Overflow / 학술 논문 (arxiv)**: 사람 의견 다수
-3. **사용자 또는 팀 워크스페이스 글**: 작성자 또는 팀 vocabulary (~/git/<workspace>/ 안 README / AGENTS.md / CLAUDE.md / docs/*.md, 예: /Users/user/git/ad-agent-metrics/)
+3. **사용자 또는 팀 워크스페이스 글**: 작성자 또는 팀 vocabulary (~/git/<workspace>/ 안 README / AGENTS.md / CLAUDE.md / docs/*.md, 예: ~/git/example-workspace/)
 4. **공식 vendor docs 본문 / README**: LLM 작성 가능성 있음. **conceptual term 정의만 신뢰**, 본문 verb / adjective 는 별도 검증
 5. **2023 이후 blog / Medium / dev.to**: LLM 오염 가능성 크므로 가중치 낮춤
 
@@ -135,7 +135,7 @@ WebSearch "<term> site:lwn.net"  # Linux community
 ```bash
 # 워크스페이스 전수 grep
 grep -rniE '<term>' ~/git/<workspace>/
-# 예: grep -rniE 'contract' /Users/user/git/ad-agent-metrics/
+# 예: grep -rniE 'contract' ~/git/example-workspace/
 
 # 더 좁혀서 README / docs 만
 find ~/git/<workspace> -maxdepth 3 -type f \( -name "README.md" -o -name "AGENTS.md" -o -name "CLAUDE.md" \) -exec grep -niE '<term>' {} +
