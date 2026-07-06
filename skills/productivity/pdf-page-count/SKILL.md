@@ -1,6 +1,6 @@
 ---
 name: pdf-page-count
-description: Count pages in a PDF and verify resume page limits. Use when asked to check PDF page count or enforce 1-page resumes.
+description: Count pages in a PDF and verify page limits. Use when asked to check PDF page count or enforce a target page count.
 metadata:
   short-description: Count PDF pages and validate page limits
 ---
@@ -14,7 +14,7 @@ Use this skill when you need to check a PDF’s page count and validate it again
 1) Run the bundled script to count pages:
 
 ```
-python3 /Users/naem1023/.codex/skills/pdf-page-count/scripts/count_pdf_pages.py <path-to-pdf>
+python3 <skill-dir>/scripts/count_pdf_pages.py <path-to-pdf>
 ```
 
 2) If the count exceeds the target, shorten content or reduce spacing, then rebuild the PDF.
@@ -22,4 +22,4 @@ python3 /Users/naem1023/.codex/skills/pdf-page-count/scripts/count_pdf_pages.py 
 ## Notes
 
 - Prefer content cuts over layout tricks unless the user explicitly wants layout adjustments.
-- For this repo, after edits always recompile the resume PDF.
+- If a source document was edited, rebuild the output PDF before counting pages.

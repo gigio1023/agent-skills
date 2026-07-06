@@ -281,10 +281,10 @@ docs/spec.md:
 
 ```markdown
 # Anti
-> 권위 출처: [SOAP 명세서](https://wiki.navercorp.com/...)
+> 권위 출처: [SOAP 명세서](https://internal.example.com/...)
 
 # Pattern
-> [SOAP 명세서](https://wiki.navercorp.com/...)
+> [SOAP 명세서](https://internal.example.com/...)
 ```
 
 핵심:

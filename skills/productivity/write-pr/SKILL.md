@@ -28,7 +28,7 @@ tags:
 ```bash
 # 1) 본문을 임시 파일에 먼저 쓴다 (heredoc + process substitution은 셸/gh 버전에 따라 본문이 누락됨)
 cat > /tmp/pr-body.md <<'EOF'
-Jira: https://jira.navercorp.com/browse/{이슈번호}
+Jira: https://issues.example.com/browse/PROJ-123
 
 ## 배경
 {왜 이 작업이 필요한지 1-2문장, 존댓말}
@@ -42,9 +42,9 @@ Jira: https://jira.navercorp.com/browse/{이슈번호}
 - {Breaking 이 있으면 같은 섹션에 한 줄: "기존 X → 변경 Y. 운영 조치 한 줄"}
 EOF
 
-# 2) PR 생성 (GHE는 GH_HOST env var 필요. --hostname 플래그는 미지원 버전 있음)
-GH_HOST=oss.navercorp.com gh pr create \
-  --draft --base main --title "[ADAGENT-XXX] feat: 짧은 한 줄" \
+# 2) PR 생성 (GitHub Enterprise는 GH_HOST env var 필요. --hostname 플래그는 미지원 버전 있음)
+GH_HOST=github.example.com gh pr create \
+  --draft --base main --title "[PROJ-123] feat: 짧은 한 줄" \
   --body-file /tmp/pr-body.md --assignee @me
 ```
 
@@ -60,7 +60,7 @@ Jira 줄은 Jira 이슈가 명시적으로 제공된 경우만 둔다. 본문은
 | 디테일은 diff에 위임 | 변경 파일 목록, 함수 단위 변경, 라인 단위 설명은 본문에 적지 않음. diff와 커밋 메시지가 진실 |
 | 검증/테스트는 본문에 적지 않음 | "pytest 통과", "lint 통과" 같은 문구 금지. CI 가 진실이고, 사람 리뷰어는 CI 결과를 직접 본다 |
 | Breaking 은 결과에 통합 | 별도 섹션 만들지 않음. 결과 bullet 하나로 "기존 X → 변경 Y. 운영 조치 한 줄" 형태로 표현 |
-| Jira 링크는 조건부 | Jira 이슈가 명시적으로 제공된 경우에만 본문 최상단에 전체 URL을 직접 기입. 이슈 키만 적은 형식(`Jira: ADAGENT-1`) 금지 |
+| Jira 링크는 조건부 | Jira 이슈가 명시적으로 제공된 경우에만 본문 최상단에 전체 URL을 직접 기입. 이슈 키만 적은 형식(`Jira: PROJ-1`) 금지 |
 | 처음 보는 사람 기준 | 이 레포를 처음 보는 동료도 본문만 읽고 "왜 이게 필요했고 머지하면 뭐가 달라지는지" 이해할 수 있어야 함. AI 세션 코드명("Workstream B", "round5", "fixture A"), 로컬 파일명, 작업자만 아는 약어 금지 |
 | nested bullet 구조화 | 한 변경에 sub-aspect(왜/기존 vs 신규/영향 범위)가 2개 이상이면 nested bullet 1단으로 구조화. flat 나열보다 관계가 명확해진다. 단, 2단 이상 중첩은 PR을 쪼개는 신호 |
 | PR 본문은 운영 문서가 아님 | 긴 postmortem, 측정 로그, 링크 모음, 체크박스형 Test Plan 을 본문에 복붙하지 않음. 필요한 상세는 별도 문서나 diff에 둔다 |
@@ -150,18 +150,18 @@ wc -l /tmp/pr-body.md   # 20줄 넘으면 references/anti-patterns.md "분량 �
 
 ```bash
 # 신규
-GH_HOST=oss.navercorp.com gh pr create \
+GH_HOST=github.example.com gh pr create \
   --draft --base main --title "..." --body-file /tmp/pr-body.md --assignee @me
 
 # 갱신
-GH_HOST=oss.navercorp.com gh pr edit {PR번호} --body-file /tmp/pr-body.md
+GH_HOST=github.example.com gh pr edit {PR번호} --body-file /tmp/pr-body.md
 ```
 
-GHE 호스트는 `GH_HOST` 환경변수로 지정한다. 일부 `gh` 버전은 `--hostname` 플래그를 인식하지 못한다.
+GitHub Enterprise 호스트는 `GH_HOST` 환경변수로 지정한다. 일부 `gh` 버전은 `--hostname` 플래그를 인식하지 못한다.
 
 ### Step 4: Jira 링크와 GitHub 이슈 닫기
 
-- Jira 링크: `Jira: https://jira.navercorp.com/browse/{KEY}` 전체 URL 형식. 이슈 키만 적지 않음
+- Jira 링크: `Jira: https://issues.example.com/browse/PROJ-123` 전체 URL 형식. 이슈 키만 적지 않음
 - GitHub 이슈: `Closes #{N}`을 같이 적음. Jira 링크와 둘 다 적을 수 있음 (대체 관계 아님)
 
 ## Gotchas
@@ -170,8 +170,8 @@ GHE 호스트는 `GH_HOST` 환경변수로 지정한다. 일부 `gh` 버전은 `
 - **검증 섹션을 만들고 싶은 충동**: pytest/lint 결과를 적고 싶어지지만 적지 않는다. CI 가 진실이고, 본문에 적힌 "통과" 문구는 시간이 지나면 거짓이 된다. 본문에는 결과 (사용자/시스템 영향) 만 남긴다.
 - **Breaking 을 별도 섹션으로 빼고 싶은 충동**: 결과 섹션에 "기존 X → 변경 Y. 운영 조치 Z" 한 bullet 으로 흡수한다. 별도 섹션을 만들면 본문이 두 배로 길어지고 "결과" 와 "Breaking" 이 같은 사실을 두 번 말하게 된다.
 - **heredoc + process substitution은 깨진다**: `--body-file <(cat <<EOF ...)` 패턴은 zsh/bash, `gh` 버전에 따라 본문 일부가 누락되거나 빈 본문으로 PR이 생성된다. 항상 `/tmp/pr-body.md` 같은 파일에 먼저 쓰고 `--body-file <path>`로 넘긴다.
-- **GHE는 `--hostname` 안 먹을 수 있다**: 일부 `gh` 버전(특히 OSS GHE 호환 버전)에서 `gh --hostname X pr create`가 "unknown flag: --hostname" 에러로 도움말만 출력한다. `GH_HOST=oss.navercorp.com gh pr create ...`로 환경변수 사용.
-- **PR 제목에 Jira 키 미포함이면 development panel 비활성**: OSS DVCS integration의 기본 Link Condition은 PR title이다. `Jira: https://...`만 본문에 적으면 사람은 클릭 가능하지만 Jira 개발 패널에서 PR을 못 찾는다. 제목에 `[ADAGENT-XXX]`를 포함시킨다.
+- **GitHub Enterprise는 `--hostname` 안 먹을 수 있다**: 일부 `gh` 버전(특히 GitHub Enterprise 호환 버전)에서 `gh --hostname X pr create`가 "unknown flag: --hostname" 에러로 도움말만 출력한다. `GH_HOST=github.example.com gh pr create ...`로 환경변수 사용.
+- **PR 제목에 Jira 키 미포함이면 development panel 비활성**: issue-tracker integration의 기본 Link Condition은 PR title이다. `Jira: https://...`만 본문에 적으면 사람은 클릭 가능하지만 Jira 개발 패널에서 PR을 못 찾는다. 제목에 `[PROJ-123]`를 포함시킨다.
 - **20줄을 넘기면 리뷰어가 본문을 안 읽는다**: 디테일을 모두 적고 싶은 충동을 누른다. follow-up은 별도 이슈/코멘트로, 함수 단위 변경은 diff로 위임.
 - **결과 섹션이 비면 PR 의도가 흐려진다**: "이 PR로 사용자/시스템에서 무엇이 달라지는지"가 비어 있으면 왜 머지해야 하는지 리뷰어가 판단할 수 없다. "변경 요약"과 "결과"는 다른 정보이다. 변경 요약은 우리가 한 일, 결과는 리뷰어가 받게 될 것.
 - **현재 PR 본문을 commit message처럼 쓰는 실수**: commit message 는 변경 이력을 남기고, PR 본문은 리뷰어가 머지 판단을 하게 돕는다. commit message 의 bullet 을 그대로 복붙하면 파일/함수/측정 로그가 과다 노출된다.
@@ -216,8 +216,8 @@ PR 생성/갱신 직전에 본문에 대해 다음을 확인:
 - [ ] 검증/테스트 섹션 없음 (pytest/lint 통과 같은 문구 금지)
 - [ ] Breaking 영향이 있다면 결과 섹션의 bullet 으로 흡수되어 있음 (별도 Breaking Changes 섹션 없음)
 - [ ] 파일/라인 단위 디테일이 본문에 없음 (diff에 위임)
-- [ ] Jira 이슈가 제공된 경우 상단에 `Jira: https://jira.navercorp.com/browse/{KEY}` 전체 URL 형식
-- [ ] PR 제목에 `[ADAGENT-XXX]` 또는 `Closes #N`이 포함되어 DVCS 연동이 작동
+- [ ] Jira 이슈가 제공된 경우 상단에 `Jira: https://issues.example.com/browse/PROJ-123` 전체 URL 형식
+- [ ] PR 제목에 `[PROJ-123]` 또는 `Closes #N`이 포함되어 DVCS 연동이 작동
 - [ ] 이모지 미사용
 - [ ] follow-up 줄줄이 나열 없음 (별도 이슈/코멘트로)
 - [ ] 처음 보는 동료가 본문만 읽고 "왜 필요했고 머지하면 뭐가 달라지는지" 이해 가능한지 확인

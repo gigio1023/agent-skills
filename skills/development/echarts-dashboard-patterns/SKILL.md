@@ -7,15 +7,12 @@ description: |
   TRIGGER: ECharts 차트를 생성/수정하거나, "x축 라벨 겹침", "legend 충돌",
   "dual y-axis 여백", "connectNulls", "splitNumber" 같은 차트 가독성 문제를 수정할 때.
 version: 1.0.0
-metadata:
-  echarts: "5.x"
-  source: "adagent-demo realtime dashboard 구현 과정에서 축적"
 ---
 
 # ECharts Dashboard Patterns
 
 ECharts 기반 대시보드 차트를 만들 때 반복적으로 발생하는 문제와 해결 패턴.
-adagent-demo 실시간 대시보드 구현 과정에서 실제로 겪고 수정한 내용을 일반화했다.
+실시간 대시보드 구현 과정에서 반복적으로 검증된 내용을 일반화했다.
 
 ## When to Apply
 
@@ -108,20 +105,20 @@ series: [{
 
 ## 5. Series 이름 매핑
 
-**문제**: Prometheus 결과의 raw label(`business_drop`, `cadi`, `ad_retrieval`)이 차트 legend에 그대로 노출.
+**문제**: Prometheus 결과의 raw label(`cache_hit`, `retrieval`, `ranking`)이 차트 legend에 그대로 노출.
 
 **해결**:
 
 ```typescript
-const AGENT_LABELS: Record<string, string> = {
-  cadi: 'CADI',
-  ad_retrieval: 'AD Retrieval',
-  answer_fusion: 'Answer Fusion',
-  quality_inspection: 'Quality Inspection (QI)'
+const SERIES_LABELS: Record<string, string> = {
+  cache_hit: 'Cache Hit',
+  retrieval: 'Retrieval',
+  ranking: 'Ranking',
+  quality_check: 'Quality Check'
 };
 
 // toNamedSeries에 labelFormatter 전달
-toNamedSeries(result, 'agent', (value) => AGENT_LABELS[value] || value)
+toNamedSeries(result, 'source', (value) => SERIES_LABELS[value] || value)
 ```
 
 **규칙**:

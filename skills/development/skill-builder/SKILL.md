@@ -44,6 +44,7 @@ chain to each other). Read only what you need.
 | `references/skill-tips.md` | Choosing skill type, writing tips, portability, naming, descriptions, gotchas, distribution, hooks | Anthropic lessons plus skill-builder Addenda (A1-A10). Has a TOC up top |
 | `references/skill-docs.md` | Field constraints, 3-level loading, platform differences, security | Official Anthropic docs snapshot. Refresh if >30 days old (see below) |
 | `references/skillopt-manual.md` | Improving an existing skill from traces, failing prompts, feedback, or validation results | Manual SkillOpt protocol: failure/success analysis, merge, rank, bounded patch ops, validation gate, rejected-edit notes |
+| `references/local-skill-layout.md` | Creating or improving local skills in this repo | Canonical repo location, `~/.agents/skills` install links, migration and validation rules |
 
 ### Refreshing the docs
 
@@ -91,6 +92,11 @@ References stay one level deep and never chain, and a reference over ~100 lines
 starts with a TOC (A4). On whether to bundle a script at all: not every skill
 needs `scripts/`, and a detection script whose output still needs LLM judgment is
 usually a premature middle layer. Full decision table in `skill-tips.md` A10.
+
+For local skills in this repository, read `references/local-skill-layout.md`
+before creating or relocating a skill. The default pattern is: edit the
+canonical copy under this repo's `skills/` directory, then expose
+it under `~/.agents/skills/` with a symlink or installer-managed copy.
 
 ### 3. Write the SKILL.md
 

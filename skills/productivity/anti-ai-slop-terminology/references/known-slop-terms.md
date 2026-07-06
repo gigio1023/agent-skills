@@ -166,7 +166,7 @@ grep -nE '본 (PR|레포|sub-agent|시스템|모듈|작업|문서|정책|스킬|
 | X 라운드 | "X 차", "X 번째" |
 | 정합성 검증 사이클 | "비교 작업", "diff 확인" |
 
-### Punctuation (이미 ~/.claude/rules/writing-style.md 에 있음, cross-reference)
+### Punctuation (프로젝트 글쓰기 가이드가 있으면 cross-reference)
 
 - em-dash `—`
 - middle-dot `·`
@@ -206,7 +206,7 @@ LLM 이 한국어 글 안에 informal 영어 형용사 / 명사를 박고 한국
 - 모든 문장이 동일 길이 (LLM 의 rhythm)
 - 한 섹션이 200 자 이상 산문 + 표 + bullet 다 들어간 케이스
 
-이건 단어 검증과 별개로 `~/.claude/rules/doc-conciseness.md` / `im-not-ai` skill 로.
+이건 단어 검증과 별개로 프로젝트 간결성 가이드나 humanization skill 로.
 
 ## 검증 원칙
 

@@ -3,7 +3,7 @@
 ## 좋은 예시 1: 짧고 왜/결과 중심 (Breaking 포함)
 
 ```md
-Jira: https://jira.navercorp.com/browse/ADAGENT-109
+Jira: https://issues.example.com/browse/PROJ-109
 
 ## 배경
 LLM Dependency Error Burst 알림이 baseline 에 묻혀 하루 약 5시간 firing 상태였습니다.

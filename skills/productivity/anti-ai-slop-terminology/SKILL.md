@@ -82,7 +82,7 @@ grep -niE 'surface|contract|canonical|envelope|leverage|robust|delve|...' <file>
 |---|---|---|---|
 | 공식 spec / RFC / textbook | WebFetch on docs.* / *.dev / official spec | 그 분야 표준 문서가 그 단어를 그 의미로 쓰는가 | +1 |
 | 사람 작성 GitHub issue / Stack Overflow / 논문 (arxiv) | WebSearch site:stackoverflow.com / arxiv.org / github.com issue | 실제 practitioner 가 그 단어를 어떻게 쓰는가 | +1 |
-| **사용자 본인 워크스페이스 글** | `grep -rn <term> ~/git/<workspace>/` (예: `grep -rn "contract" /Users/user/git/ad-agent-metrics/`) | 작성자 본인 / 팀 글에 어떻게 쓰는가 (가장 가치 높음) | +2 |
+| **사용자 또는 팀 워크스페이스 글** | `grep -rn <term> ~/git/<workspace>/` (예: `grep -rn "contract" ~/git/example-workspace/`) | 작성자 또는 팀 글에 어떻게 쓰는가 (가장 가치 높음) | +2 |
 | 공식 vendor docs (README, blog 본문) | WebFetch | conceptual term 정의는 신뢰, 본문 verb / adjective 는 별도 검증 | +0.5 |
 | 2023 이후 blog / Medium / dev.to | WebSearch | LLM 오염 가능성 크므로 가중치 낮춤 | +0.3 |
 
@@ -145,16 +145,16 @@ grep -niE 'surface|contract|canonical|envelope|leverage|robust|delve|...' <file>
 - vendor docs 의 **본문 표현 (verb / adjective)** 은 별도 검증
 - vendor docs 가 LLM 으로 쓰였다는 신호: marketing fluff ("rich", "seamless"), 동의어 반복, 글 길이 대비 정보 밀도 낮음
 
-### 사용자 본인 워크스페이스 글이 best reference
+### 사용자 또는 팀 워크스페이스 글이 best reference
 
-사용자 본인 / 본인 팀이 작성한 docs (README, AGENTS.md, CLAUDE.md, 내부 wiki) 가 검증의 5 번째 자료. **공식 docs 보다 가치 높을 수 있음** (작성자 본인의 자연스러운 vocabulary 직접 반영).
+사용자 또는 팀이 작성한 docs (README, AGENTS.md, CLAUDE.md, 내부 wiki) 가 검증의 5 번째 자료. **공식 docs 보다 가치 높을 수 있음** (작성자 본인의 자연스러운 vocabulary 직접 반영).
 
 procedure:
 1. 의심 단어가 사용자 워크스페이스 안 다른 글에 등장하는지 grep
 2. 등장하면 → 사용자 vocabulary 일부, keep
 3. 안 등장하면 → LLM 이 새로 박은 표현, 의심 강화
 
-예: `grep -rn "contract" /Users/user/git/ad-agent-metrics/` 결과로 팀 README 의 "I/O Contract" 발견 → contract 사용 OK
+예: `grep -rn "contract" ~/git/example-workspace/` 결과로 팀 README 의 "I/O Contract" 발견 → contract 사용 OK
 
 ### 다중 도메인 글의 단어 검증
 
@@ -168,7 +168,7 @@ procedure:
 
 1. **공식 spec / RFC / textbook 출판물** (LLM 영향 적음)
 2. **사람 작성 GitHub issue / Stack Overflow** (사람 의견 다수)
-3. **사용자 본인 워크스페이스 글** (작성자 본인 vocabulary)
+3. **사용자 또는 팀 워크스페이스 글** (작성자 또는 팀 vocabulary)
 4. **공식 vendor docs README** (LLM 작성 가능성 있음, conceptual term 만 신뢰)
 5. **2023 이후 blog / Medium** (LLM 오염 가능성 크므로 가중치 낮춤)
 
@@ -213,7 +213,7 @@ LLM 본인 head 속 "그 분야에서 그 단어 쓰는 거 같음" 같은 직�
 
 reverse 도 동일: "이건 분명 AI slop" 직관도 web research 로 confirm. 그 분야의 실제 표준 표현일 수도.
 
-### 사용자 본인 글의 1 인칭 표현 검증 강도 다름
+### 사용자 또는 팀 글의 1 인칭 표현 검증 강도 다름
 
 사용자가 본인 PR / 본인 Jira / 본인 Slack 본문 작성 중인 경우 → 자연스러움 우선 (의도 보존). 강제 교체 X, 후보 제시만.
 
@@ -232,7 +232,7 @@ reverse 도 동일: "이건 분명 AI slop" 직관도 web research 로 confirm. 
 - "...하는 것이 ...의 목표입니다" (격식 술어)
 - "X 사이클" / "정합성 검증" / "동일성을 담보" (추상 한자어 명사화 + 책임 회피 술어)
 
-한국어 검증 시 본 사용자의 `~/.claude/rules/writing-style.md`, `pr-jira-tone.md`, `external-facing-strings.md` 의 어휘 룰 cross-check.
+한국어 검증 시 사용자가 제공한 프로젝트 글쓰기 가이드, PR 톤 가이드, 제품 문구 가이드가 있으면 함께 cross-check.
 
 ### Validation 후 grep 재확인 필수
 
@@ -252,7 +252,7 @@ grep -niE '<slop terms>' <file>
 
 ### LLM 의 "이 단어 자연스러움" 자기 판정의 bias
 
-LLM 은 본인이 자주 쓰는 단어를 "자연스럽다" 고 잘못 판정하는 경향. AI slop 단어가 LLM 한테는 정상으로 보임. 그래서 **web research 가 이 스킬의 핵심**. 직관 검증 단계 우회하면 스킬 의미 0.
+LLM 은 스스로 자주 쓰는 단어를 "자연스럽다" 고 잘못 판정하는 경향. AI slop 단어가 LLM 한테는 정상으로 보임. 그래서 **web research 가 이 스킬의 핵심**. 직관 검증 단계 우회하면 스킬 의미 0.
 
 ## 적용 범위
 
@@ -266,9 +266,9 @@ NOT for: 코드 그 자체 (변수명, 함수명, 클래스명, enum 값 → 코
 
 ## 관련 룰 / 스킬
 
-- `~/.claude/rules/writing-style.md`: 한국어 punctuation / 어휘 / cross-doc reference 룰
-- `~/.claude/rules/pr-jira-tone.md`: PR / Jira / Slack 본문 어투 룰
-- `~/.claude/rules/response-style.md`: 사용자 답변 self-containment 룰
-- `~/.claude/rules/external-facing-strings.md`: UI / 제품 노출 텍스트 룰
+- 프로젝트 글쓰기 가이드: 한국어 punctuation / 어휘 / cross-doc reference 룰
+- PR / issue / Slack 톤 가이드: 협업 본문 어투 룰
+- 응답 스타일 가이드: 사용자 답변 self-containment 룰
+- 제품 문구 가이드: UI / 제품 노출 텍스트 룰
 - skill `im-not-ai`: AI 티 (장황함) 제거. 이 스킬은 그것과 별개로 **단어 선택 정확성** 에 집중
 - skill `dev-doc-style`: 문서 구조 5 줌 레벨. 이 스킬은 그 안의 단어 선택을 추가 검증
