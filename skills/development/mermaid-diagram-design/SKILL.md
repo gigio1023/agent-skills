@@ -2,120 +2,150 @@
 name: mermaid-diagram-design
 version: 2.0.0
 description: |
-  Mermaid 다이어그램을 목적/독자 중심으로 설계한다.
-  트리거: "mermaid", "flowchart", "sequence diagram", "architecture diagram", "다이어그램 만들어줘", "흐름도".
-  타입 선택, frontmatter 기반 설정, 접근성, 파서 안정성, 겹침(overlay) 최소화, Confluence 연계 체크까지 포함한다.
-  NOT for: draw.io native XML authoring(use drawio-diagram).
+  Design Mermaid diagrams around the reader's decision path.
+  Triggers: "mermaid", "flowchart", "sequence diagram", "architecture diagram",
+  "make a diagram", "diagram this", "draw a flow".
+  Covers diagram type selection, frontmatter-based configuration,
+  accessibility, parser stability, overlap reduction, and Confluence checks.
+  NOT for: draw.io native XML authoring (use drawio-diagram).
 ---
 
 # Mermaid Diagram Design
 
-Mermaid를 "보기 좋게" 그리는 수준을 넘어, 읽는 사람이 빠르게 판단할 수 있는 다이어그램을 만든다.
+Use this skill to produce Mermaid diagrams that help the reader understand a
+system, workflow, or decision quickly. The goal is not only to make the diagram
+look polished. The diagram must reduce ambiguity and make the main message easy
+to verify.
 
-## Hard Rules (위반 시 렌더 깨짐)
+All reusable instructions, examples, labels, and outputs in this skill must be
+written in English unless the user explicitly asks for another language. Use
+neutral sample domains and never include private company names, internal product
+names, customer data, incident details, or unreleased project context.
 
-Mermaid 코드를 작성할 때 반드시 지켜야 하는 규칙. 위반하면 렌더링이 의도대로 되지 않는다.
+## Hard Rules
 
-### 1. 줄바꿈: `<br/>` only — `\n` 절대 금지
+These rules apply whenever you create or edit Mermaid code. Violations often
+render incorrectly or create misleading diagrams.
 
-Mermaid는 `\n`을 줄바꿈으로 해석하지 않는다. `\n`을 쓰면 화면에 **백슬래시+n 문자가 그대로 표시**된다.
+### 1. Use `<br/>` For Line Breaks, Never `\n`
 
+Mermaid does not interpret `\n` as a visual line break in labels. It renders the
+backslash and `n` characters literally.
+
+```text
+Bad:   A["Review\nDecision"]      renders as: Review\nDecision
+Good:  A["Review<br/>Decision"]   renders as two lines
 ```
-❌  A["CADI\n광고 판정"]        → 렌더: CADI\n광고 판정
-✅  A["CADI<br/>광고 판정"]     → 렌더: CADI
-                                        광고 판정
-```
 
-적용 범위 — 예외 없음:
-- 노드 라벨: `A["텍스트<br/>텍스트"]`
-- edge 라벨: `-->|"텍스트<br/>텍스트"|`
-- subgraph 제목
-- `flowchart`, `graph`, `sequenceDiagram`, `stateDiagram` 등 모든 타입
+Apply this everywhere:
 
-Mermaid 코드 작성/수정 후 **`\n`이 라벨 안에 남아있지 않은지 반드시 확인**한다. preflight(6단계)에서도 검사하지만, 작성 시점에서부터 `\n`을 쓰지 않는 것이 원칙이다.
+- Node labels: `A["First line<br/>Second line"]`
+- Edge labels: `-->|"First line<br/>Second line"|`
+- Subgraph titles
+- Every diagram type, including `flowchart`, `graph`, `sequenceDiagram`, and
+  `stateDiagram`
 
-### 2. 색상: Professional Palette 사용
+After writing or editing Mermaid code, check that no label still contains a
+literal `\n`. The preflight step also checks this, but the safest habit is to
+avoid `\n` from the start.
 
-`references/mermaid-patterns.md`의 Professional Palette를 기본으로 사용한다. edge는 기본 회색이 아닌 `stroke:#455a64` 이상의 진한 색을 적용한다.
+### 2. Use The Professional Palette
 
----
+Use the Professional Color Palette from `references/mermaid-patterns.md` by
+default. Do not rely on Mermaid's default pale gray edges. Set edges to a dark
+neutral color such as `stroke:#455a64` or darker.
 
 ## Use This Skill When
 
-- "Mermaid 다이어그램 만들어줘"
-- "Mermaid 디자인 개선"
-- "아키텍처/흐름도를 Mermaid로 정리"
-- 기존 Mermaid가 복잡하거나 렌더 안정성이 낮아 리팩터링이 필요할 때
+- The user asks for a Mermaid diagram.
+- The user asks for a flowchart, sequence diagram, state diagram, or architecture
+  diagram.
+- Existing Mermaid code is too dense, unstable, hard to read, or likely to
+  overlap.
+- A document needs a diagram that supports a specific reader decision.
 
 ## Inputs
 
 ### Required
-- 다이어그램 목적(무엇을 설명하는가)
-- 대상 독자(개발자/리더/운영)
+
+- Diagram purpose: what the diagram must explain.
+- Target reader: developer, reviewer, operator, product lead, or another
+  audience.
 
 ### Optional
-- 선호 방향 (`TD`/`LR`)
-- 색상 제약(브랜드/접근성)
-- Confluence 업로드 예정 여부
-- 렌더 호스트(`Confluence`/`GitHub`/`Docs`) 및 가용 폭(좁음/보통/넓음)
-- 선 가시성 정책(기본: 검정 실선, `stroke:#000000`, `stroke-width:1.8px`)
+
+- Preferred direction: `TD`, `TB`, or `LR`.
+- Color constraints, including brand or accessibility needs.
+- Target renderer: `Confluence`, `GitHub`, `Docs`, or another host.
+- Available width: narrow, normal, or wide.
+- Whether the diagram will be copied into Confluence.
+- Edge visibility policy. Default: dark solid edges with
+  `stroke:#000000,stroke-width:1.8px`.
 
 ## Workflow
 
-### 1) 메시지 분해
+### 1. Split By Message
 
-- 다이어그램 단위 원칙: 핵심 메시지 1개.
-- 문서 전체는 여러 다이어그램으로 구성 가능.
-- 복합 주제면 메시지 단위로 분할.
+- Use one primary message per diagram.
+- Split complex topics into multiple diagrams instead of forcing one large graph.
+- If the document needs several diagrams, give each one a distinct purpose.
 
-### 2) 타입 선택
+### 2. Choose The Diagram Type
 
-목적 기준 기본 선택:
+Choose by purpose:
 
-- 순차 처리/분기: `flowchart`
-- 상호작용/요청-응답: `sequenceDiagram`
-- 계층/책임 분리: `flowchart + subgraph`, `architecture`, `block`
-- 상태 전이: `stateDiagram`
+- Sequential process or branching workflow: `flowchart`
+- Request and response timeline: `sequenceDiagram`
+- Layered responsibility or architecture boundary: `flowchart + subgraph`,
+  `architecture`, or `block`
+- State transitions: `stateDiagram`
 
-패턴 템플릿은 `references/mermaid-patterns.md`에서 선택한다.
+Select a reusable pattern from `references/mermaid-patterns.md` when one fits.
 
-### 3) 구조 초안
+### 3. Draft The Structure
 
-- 노드: 6~12개 권장
-- 깊이: 3단계 이내 권장
-- 엣지 라벨: 동사 중심 (`validate`, `emit`, `drop`)
-- 경계: `subgraph`로 역할/레이어를 분리
-- 교차 엣지 최소화: 한 노드의 fan-out 3개 초과 시 분해 검토
-- 긴 문장 라벨은 설명 문단으로 이동하고, 다이어그램 라벨은 축약
-- 줄바꿈은 `<br/>` only (Hard Rules 참조)
+- Prefer 6-12 nodes.
+- Keep depth to three levels or fewer when possible.
+- Use verb-focused edge labels such as `validate`, `emit`, or `drop`.
+- Use `subgraph` only for meaningful boundaries such as ownership, layer, or
+  runtime environment.
+- Reduce crossing edges. If one node fans out to more than three paths, consider
+  splitting the diagram.
+- Move long explanations into prose. Keep diagram labels short.
+- Use `<br/>` for label line breaks.
 
-### 3-1) 겹침 위험 진단 (필수)
+### 3.1. Diagnose Overlap Risk
 
-- 아래 조건 중 하나라도 만족하면 `overlap risk=high`로 본다.
-  - 노드 12+ 또는 엣지 16+
-  - `LR`에서 긴 라벨 노드가 4개 이상
-  - 서로 다른 서브그래프를 가로지르는 엣지가 다수
-- 고위험이면 레이아웃 튜닝 전에 먼저 구조를 단순화한다.
+Treat overlap risk as high when any condition is true:
 
-### 3-2) 겹침 완화 우선순위 (필수)
+- 12 or more nodes, or 16 or more edges.
+- Four or more long labels in an `LR` diagram.
+- Many edges cross between different subgraphs.
 
-1. 라벨 축약: `<b>`, `<i>` 장식 태그를 제거하고 핵심 명사/동사만 남긴다.
-2. 공통 노드 통합: 중복 terminal/drop/error 노드를 공유 노드로 합친다.
-3. 방향 전환: `LR` 과밀이면 `TB/TD`로 바꾼다.
-4. 메시지 분리: 2개 주제가 섞이면 다이어그램을 2개로 분할한다.
-5. spacing 조정: `nodeSpacing`, `rankSpacing`은 마지막 단계에서 조정한다.
+When risk is high, simplify the structure before tuning layout spacing.
 
-### 3-3) 선 가시성 하드닝 (필수)
+### 3.2. Reduce Overlap In This Order
 
-- 색상 노드를 사용하는 `flowchart`/`graph`는 기본 edge 스타일을 명시한다.
-  - 권장: `linkStyle default stroke:#000000,stroke-width:1.8px;`
-- 옅은 배경(녹색/분홍/노랑 fill) 위에서 기본 회색 edge는 가독성이 떨어진다.
-- `classDef`/`style`로 노드 색상을 준 경우, edge 색상은 반드시 별도 지정한다.
-- 점선 edge(`-.->`)를 유지하더라도 색상/두께는 동일하게 고정한다.
+1. Shorten labels. Remove decorative `<b>` or `<i>` tags and keep only the core
+   noun or verb phrase.
+2. Merge duplicate terminal, drop, or error nodes into shared nodes.
+3. Switch direction. If `LR` is crowded, use `TB` or `TD`.
+4. Split mixed messages into two diagrams.
+5. Tune `nodeSpacing` and `rankSpacing` only after the structure is simpler.
 
-### 4) 설정(frontmatter) 고정
+### 3.3. Harden Edge Visibility
 
-신규 작성은 directives 대신 frontmatter를 우선 사용한다.
+- For `flowchart` or `graph` diagrams with colored nodes, set a default edge
+  style explicitly.
+- Recommended: `linkStyle default stroke:#000000,stroke-width:1.8px;`
+- Mermaid's default gray edges can disappear on light green, pink, yellow, or
+  blue fills.
+- If you use `classDef` or `style` for node colors, define edge color separately.
+- Dotted edges such as `-.->` should use the same explicit color and width.
+
+### 4. Prefer Frontmatter Configuration
+
+For new diagrams, prefer Mermaid frontmatter over inline directives.
 
 ```mermaid
 ---
@@ -133,70 +163,79 @@ flowchart TD
   A --> B
 ```
 
-- 복잡한 그래프는 `layout: elk` 검토
-- Confluence처럼 가로폭이 좁은 호스트에서는 dense diagram 기본 방향을 `TD/TB`로 둔다
-- 호스트가 일부 config를 무시하면 결과 보고에 명시
+- Consider `layout: elk` for complex graphs.
+- For narrow renderers such as Confluence, prefer `TD` or `TB` for dense
+  diagrams.
+- If the host ignores part of the Mermaid config, say so in the result.
 
-### 5) 시각/접근성 정리
+### 5. Improve Visual Clarity And Accessibility
 
-- Hard Rules(상단) 준수: `\n` 금지 + Professional Palette 사용
-- 색상만 의존하지 않는다. 라벨/선스타일(실선/점선)도 같이 사용
-- 텍스트 강조 태그(`<b>`, `<i>`) 과다 사용 금지 (박스 폭 증가 + 가독성 저하)
-- 장식용 노드/엣지 제거
-- 접근성 메타데이터 필요 시 `accTitle`, `accDescr`를 포함
+- Follow the hard rules: no label `\n`, and use the Professional Palette.
+- Do not rely on color alone. Pair color with labels or line style.
+- Avoid excessive `<b>` and `<i>` tags because they increase box width and reduce
+  scanability.
+- Remove decorative nodes and edges.
+- Include `accTitle` and `accDescr` when the output document benefits from
+  accessibility metadata.
 
-### 6) 파서/렌더 preflight
+### 6. Parser And Render Preflight
 
-- **`\n` 잔존 검사** (Hard Rules #1 위반 여부): 라벨 안에 `\n`이 남아있으면 `<br/>`로 치환
-- `flowchart`에서 `end` 토큰 오인식 가능성 점검
-- `o-`, `x-` edge head 오인식 점검
-- 코멘트는 줄 시작 `%%` 규칙 준수
-- `subgraph` direction이 외부 연결로 무시되는 구조인지 점검
-- `sequenceDiagram`은 `participant`를 명시해 순서 오해를 줄인다
-- 탭 문자는 공백으로 치환
-- 문서 저장 후 `scripts/assess_mermaid_density.sh <markdown-file>`로 밀도/겹침 위험을 먼저 점검한다
-- 밀도 점검 결과에서 `contrast_risk=high` 또는 `edge_style=absent`가 있으면 수정 후 재점검한다
-- 문서 저장 후 `scripts/validate_mermaid_markdown.sh <markdown-file>`를 반드시 실행한다
-- 검증 실패 시 에러를 수정하고, `MERMAID_VALIDATE_OK`가 나올 때까지 반복한다
+- Check for literal `\n` inside labels and replace it with `<br/>`.
+- Watch for lower-case `end` being parsed as a flowchart terminator.
+- Watch for `o-` or `x-` being parsed as special edge heads.
+- Mermaid comments must start with `%%` at the beginning of a line.
+- Check whether external links make `subgraph` direction ineffective.
+- In `sequenceDiagram`, declare `participant` entries to avoid ordering
+  surprises.
+- Replace tab characters with spaces.
+- After saving a markdown file, run
+  `scripts/assess_mermaid_density.sh <markdown-file>` first.
+- If density output reports `contrast_risk=high` or `edge_style=absent`, fix the
+  diagram and rerun the density check.
+- Then run `scripts/validate_mermaid_markdown.sh <markdown-file>`.
+- Fix errors and repeat until validation prints `MERMAID_VALIDATE_OK`.
 
-### 7) 복잡도 제어
+### 7. Control Complexity
 
-- 노드 15+ 또는 edge 과다 시 다이어그램 분할
-- 하나의 다이어그램에 "구조 + 매핑"이 동시에 있으면 분리한다 (예: `컨테이너 구조`, `endpoint 매핑`)
-- `Funnel`은 stage별 drop/error를 개별 노드로 늘리지 말고 공통 terminal로 합친다
-- 대형 그래프는 `layout: elk` 우선 검토
-- 환경 지원 시 `maxTextSize`, `maxEdges` 가드 사용
+- Split diagrams with 15 or more nodes or excessive edges.
+- Split diagrams that mix structural topology with detailed mapping.
+- For funnel diagrams, share terminal nodes instead of creating separate
+  drop/error nodes for every stage.
+- Consider `layout: elk` for large graphs.
+- Use `maxTextSize` and `maxEdges` guards when the target environment supports
+  them.
 
-### 8) Confluence 연계
+### 8. Confluence Handoff
 
-- Mermaid 원문 설계/검증은 이 스킬이 담당
-- Confluence 매크로 변환/업로드는 `upload-markdown-to-confluence` 스킬이 담당
-- Confluence 대상이면 결과에 "매크로 검증 필요"를 포함
-- Confluence 대상이면 frontmatter가 무시될 수 있으므로, 구조 단순화(분할/축약) 결과를 우선 신뢰한다
+- This skill handles Mermaid source design and validation.
+- A Confluence publishing skill should handle macro conversion and upload.
+- If Confluence is the target, include "macro validation required" in the result.
+- Because Confluence may ignore Mermaid frontmatter, prioritize simpler
+  structure, shorter labels, and diagram splitting over config-only fixes.
 
 ## Output Contract
 
-반드시 아래 4가지를 함께 제공한다.
+Always provide these four items:
 
-1. 개선된 Mermaid 코드 블록
-2. 개선 포인트 3~6개
-3. 선택한 패턴명과 이유 1문장
-4. preflight 결과(밀도 진단 + 렌더 검증: 통과/주의)
+1. The improved Mermaid code block.
+2. Three to six concise improvement notes.
+3. The selected pattern name and one sentence explaining why it fits.
+4. Preflight results: density diagnosis and render validation status.
 
-추가로, markdown 파일 수정 작업이면 아래를 함께 제공한다.
+When editing a markdown file, also provide:
 
-- 실행한 검증 명령
-- 실행한 밀도 점검 명령
-- 최종 검증 결과(`MERMAID_VALIDATE_OK ...`)
+- The validation command you ran.
+- The density check command you ran.
+- The final validation result, such as `MERMAID_VALIDATE_OK ...`.
 
 ## Quick Checklist
 
-- 다이어그램 단위 메시지가 명확한가
-- 목적에 맞는 타입을 선택했는가
-- frontmatter 설정을 적용했는가
-- **Hard Rules 위반 없는가** (`\n` 금지 + Professional Palette)
-- 색상 + 비색상 신호가 함께 있는가
-- 겹침 위험(노드/엣지/긴 라벨)을 먼저 줄였는가
-- edge가 배경색 위에서도 명확하게 보이는가(`linkStyle default` 적용 여부)
-- 파서 브레이커를 점검했는가
-- 읽는 순서가 자연스러운가
+- Is the diagram's single message clear?
+- Did you choose the diagram type by purpose?
+- Did you apply frontmatter configuration where useful?
+- Are the hard rules satisfied: no label `\n`, Professional Palette applied?
+- Does the diagram use non-color signals as well as color?
+- Did you reduce node, edge, and long-label overlap risk before tuning spacing?
+- Are edges visible on colored backgrounds?
+- Did you check parser breakers?
+- Is the reading order natural for the target audience?
