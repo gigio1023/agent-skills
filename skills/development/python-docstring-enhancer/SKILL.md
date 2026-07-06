@@ -2,7 +2,7 @@
 name: python-docstring-enhancer
 version: 1.0.0
 description: |
-  AD-Agent 계열 Python 코드에 상세한 Docstring과 한국어 why 주석을 추가하여 코드의 가독성과 유지보수성을 높인다.
+  Python 코드에 상세한 docstring과 한국어 why 주석을 추가하여 코드의 가독성과 유지보수성을 높인다.
   트리거: "주석 보강", "문서화", "docstring 추가", "주석 달아줘" 등의 요청 시 사용.
   복잡한 메서드도 처음 보는 사람이 이해할 수 있도록 Step 기반 문서화, 의도 설명, 맥락 주석을 적용.
 ---
@@ -28,7 +28,7 @@ description: |
 **핵심 목표**: 복잡하거나 특이하게 구현된 코드라도 **처음 보는 사람이 흐름을 따라가며 이해할 수 있도록** 문서화합니다.
 
 **적용 원칙**:
-- 프로젝트 고유 용어 유지 (Answer Fusion, AD Retrieval 등)
+- 프로젝트 고유 용어 유지 (도메인 워크플로우명, 내부 컴포넌트명 등)
 - 개조식(Bullet) 문체로 간결하게 작성
 - Type Hint 중복 제거 (코드에 이미 있으면 docstring에서 생략)
 
@@ -56,7 +56,7 @@ description: |
 
 ### 1. 용어 준수 (Terminology)
 프로젝트 고유 명사는 번역하지 않고 그대로 사용:
-- Answer Fusion, AD Retrieval, Quality Inspection, CADI, User Persona Synthesis 등
+- 도메인 워크플로우명, 내부 컴포넌트명, 관측 지표명 등
 
 ### 2. 작성 스타일
 - **개조식 문체**: `-`, `*` 활용하여 간결하게
@@ -278,14 +278,14 @@ from prometheus_client import Counter, Histogram
 
 # [Metrics] LLM 호출 횟수 추적
 llm_call_counter = Counter(
-    "adagent_llm_calls_total",
+    "app_llm_calls_total",
     "Total number of LLM API calls",
     ["agent", "model", "status"]
 )
 
 # [Metrics] LLM 응답 시간 분포 추적
 llm_latency_histogram = Histogram(
-    "adagent_llm_latency_seconds",
+    "app_llm_latency_seconds",
     "LLM API call latency in seconds",
     ["agent", "model"],
     buckets=[0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
@@ -326,14 +326,14 @@ langfuse = Langfuse()
 async def process_query(self, query: str) -> str:
     # [Observability] 새 Trace 시작 - 전체 요청 흐름 추적
     trace = langfuse.trace(
-        name="ad_retrieval_flow",
+        name="retrieval_flow",
         user_id=self.user_id,
         metadata={"query_length": len(query)}
     )
 
     # [Observability] LLM Generation Span 생성
     generation = trace.generation(
-        name="generate_ad_query",
+        name="generate_query",
         model=self.model_name,
         input=query
     )
@@ -356,7 +356,7 @@ from langfuse import Langfuse
 langfuse = Langfuse()
 
 # Langfuse에서 프롬프트 템플릿 로드 (Prompt Registry)
-prompt = langfuse.get_prompt("ad_retrieval_system_prompt", version=2)
+prompt = langfuse.get_prompt("retrieval_system_prompt", version=2)
 rendered = prompt.compile(context=user_context)
 ```
 
@@ -366,9 +366,9 @@ rendered = prompt.compile(context=user_context)
 
 ```python
 # [Metrics] --- 메트릭 정의 시작 ---
-request_counter = Counter("adagent_requests_total", "Total requests", ["endpoint"])
-error_counter = Counter("adagent_errors_total", "Total errors", ["endpoint", "error_type"])
-processing_histogram = Histogram("adagent_processing_seconds", "Processing time")
+request_counter = Counter("app_requests_total", "Total requests", ["endpoint"])
+error_counter = Counter("app_errors_total", "Total errors", ["endpoint", "error_type"])
+processing_histogram = Histogram("app_processing_seconds", "Processing time")
 # [Metrics] --- 메트릭 정의 끝 ---
 ```
 
