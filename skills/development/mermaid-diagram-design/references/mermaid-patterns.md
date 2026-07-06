@@ -1,5 +1,14 @@
 # Mermaid Reusable Patterns (v2)
 
+## Table of Contents
+
+- Type Selection Matrix
+- Frontmatter Presets
+- Professional Color Palette
+- Core Patterns
+- Preflight Checklist
+- Aesthetic Rules
+
 ## 1) Type Selection Matrix
 
 - Workflow/funnel/branching: `flowchart`
@@ -87,11 +96,12 @@ sequenceDiagram
   S-->>A: response
 ```
 
-## 3) Professional Color Palette (기본)
+## 3) Professional Color Palette
 
-Material Design 기반의 절제된 팔레트. 모든 다이어그램에서 이 classDef를 기본으로 사용한다.
+Use this restrained Material Design based palette as the default for reusable
+diagrams.
 
-### 3-1) Semantic (상태 표현)
+### 3-1) Semantic States
 
 ```mermaid
 flowchart LR
@@ -109,9 +119,10 @@ flowchart LR
   class WARN warning;
   class ERR error;
   class NEU neutral;
+  linkStyle default stroke:#455a64,stroke-width:1.8px;
 ```
 
-### 3-2) Layer (아키텍처 레이어)
+### 3-2) Architecture Layers
 
 ```mermaid
 flowchart LR
@@ -129,9 +140,10 @@ flowchart LR
   class DOM domain;
   class INF infra;
   class TR transport;
+  linkStyle default stroke:#455a64,stroke-width:1.8px;
 ```
 
-### 3-3) Pipeline (순서/단계 표현)
+### 3-3) Pipeline Steps
 
 ```mermaid
 flowchart LR
@@ -154,7 +166,7 @@ flowchart LR
   linkStyle default stroke:#455a64,stroke-width:1.8px;
 ```
 
-### 3-4) 전체 classDef 복사용
+### 3-4) Copyable Class Definitions
 
 ```
   classDef success fill:#e6f4ea,stroke:#34a853,color:#1e4620;
@@ -166,12 +178,14 @@ flowchart LR
   linkStyle default stroke:#455a64,stroke-width:1.8px;
 ```
 
-### 색상 사용 규칙
+### Color Rules
 
-- 색상만으로 의미를 전달하지 않는다. 라벨/선스타일(실선, 점선)도 같이 사용
-- edge는 기본 회색이 아닌 `stroke:#455a64`(blue-grey 700)을 사용
-- 노드 fill은 옅은 톤, stroke는 진한 톤, color(텍스트)는 가장 진한 톤
-- 한 다이어그램에 4색 이하 권장. 색이 많으면 라벨로 구분
+- Do not communicate meaning with color alone. Pair color with labels or line
+  style.
+- Use `stroke:#455a64` (blue-grey 700) for edges instead of the default gray.
+- Use light fills, darker strokes, and the darkest tone for text.
+- Prefer four or fewer colors in one diagram. When more categories are needed,
+  distinguish them with labels.
 
 ## 4) Core Patterns
 
@@ -292,10 +306,10 @@ stateDiagram-v2
 
 ```mermaid
 flowchart TD
-  S1[CADI enter]
-  S2[AD Retrieval enter]
-  S3[Answer Fusion enter]
-  S4[QI enter]
+  S1[Intake]
+  S2[Retrieve]
+  S3[Select]
+  S4[Review]
   OK[terminal: success]
   DROP[terminal: business_drop]
   ERR[terminal: system_error]
@@ -303,8 +317,8 @@ flowchart TD
   S1 -->|progress| S2 -->|progress| S3 -->|progress| S4 -->|pass| OK
   S1 -.blocking.-> DROP
   S2 -.empty_candidates.-> DROP
-  S3 -.no_selected_ads.-> DROP
-  S4 -.qi_rejected.-> DROP
+  S3 -.no_selection.-> DROP
+  S4 -.rejected.-> DROP
   S1 -.exception.-> ERR
   S2 -.exception.-> ERR
   S3 -.exception.-> ERR
@@ -331,35 +345,44 @@ flowchart LR
 
 ## 5) Preflight Checklist
 
-- **노드/edge/subgraph 라벨에 `\n`이 없는가** (있으면 `<br/>`로 치환. `\n`은 줄바꿈이 아닌 리터럴 텍스트로 렌더됨)
-- lower-case `end`가 라벨로 쓰여 파싱 오류를 유발하지 않는가
-- `o-`/`x-`가 의도치 않은 edge 표현으로 해석되지 않는가
-- 코멘트가 `%%` 규칙을 지키는가
-- 외부 링크 때문에 `subgraph` direction이 무시되는 구조는 아닌가
-- `sequenceDiagram`에서 participant를 명시했는가
-- 탭 문자가 섞여 있지 않은가
-- 노드 15개 이상이면 분할 또는 `elk` 전환을 검토했는가
-- 접근성 메타데이터(`accTitle`, `accDescr`)가 필요한 문서인지 검토했는가
+- **Do node, edge, and subgraph labels avoid literal `\n`?** Replace it with
+  `<br/>` when present. Mermaid renders `\n` as literal text, not a line break.
+- Is lower-case `end` avoided as a label where it could cause a parse error?
+- Are `o-` and `x-` avoided when they could be parsed as special edge heads?
+- Do comments follow the `%%` line-start rule?
+- Could external links cause `subgraph` direction to be ignored?
+- Does each `sequenceDiagram` declare participants explicitly?
+- Are tab characters absent?
+- If the diagram has 15 or more nodes, did you split it or consider `elk`?
+- Does the target document need accessibility metadata such as `accTitle` and
+  `accDescr`?
 
-필수 검증 명령:
+Required validation commands:
 
 ```bash
-~/.agents/skills/mermaid-diagram-design/scripts/assess_mermaid_density.sh <markdown-file>
-~/.agents/skills/mermaid-diagram-design/scripts/validate_mermaid_markdown.sh <markdown-file>
+scripts/assess_mermaid_density.sh <markdown-file>
+scripts/validate_mermaid_markdown.sh <markdown-file>
 ```
 
-성공 기준:
+Success criteria:
 
-- 출력이 `MERMAID_VALIDATE_OK ...`
-- 밀도 점검에서 고위험 블록이 없거나, 고위험 블록에 대해 분할/축약 조치를 완료
-- 실패 시 다이어그램 수정 후 재실행
+- Validation output includes `MERMAID_VALIDATE_OK ...`.
+- Density output has no high-risk blocks, or each high-risk block was split or
+  shortened intentionally.
+- On failure, fix the diagram and rerun the checks.
 
 ## 6) Aesthetic Rules
 
-- 다이어그램 단위 메시지 1개
-- 순차 흐름은 `TD`, 비교는 `LR`를 기본
-- 노드 수 6~12개 권장
-- 긴 라벨은 `<br/>` 사용
-- 장식용 노드/엣지 제거
-- `LR`에서 겹침이 발생하면 먼저 `TD/TB`로 전환
-- 구조 설명과 매핑 설명이 함께 있으면 다이어그램을 분리
+- Use one message per diagram.
+- Choose direction from reader path, label length, renderer width, and density.
+- Use `LR` for comparisons, parallel lanes, ownership boundaries, and handoffs.
+- Use `TD` or `TB` for short sequential paths, funnels, and decision trees.
+- Avoid default `LR` when labels are long, branches are many, or the renderer is
+  narrow.
+- Avoid tall `TD` or `TB` scroll tunnels; split by phase or collapse repeated
+  steps.
+- Prefer 6-12 nodes.
+- Use `<br/>` for long labels.
+- Remove decorative nodes and edges.
+- Simplify, split, or switch direction before tuning spacing.
+- Split the diagram when structure and mapping details are mixed.
