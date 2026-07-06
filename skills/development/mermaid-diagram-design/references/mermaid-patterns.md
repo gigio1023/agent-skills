@@ -1,5 +1,14 @@
 # Mermaid Reusable Patterns (v2)
 
+## Table of Contents
+
+- Type Selection Matrix
+- Frontmatter Presets
+- Professional Color Palette
+- Core Patterns
+- Preflight Checklist
+- Aesthetic Rules
+
 ## 1) Type Selection Matrix
 
 - Workflow/funnel/branching: `flowchart`
@@ -351,8 +360,8 @@ flowchart LR
 Required validation commands:
 
 ```bash
-~/.agents/skills/mermaid-diagram-design/scripts/assess_mermaid_density.sh <markdown-file>
-~/.agents/skills/mermaid-diagram-design/scripts/validate_mermaid_markdown.sh <markdown-file>
+scripts/assess_mermaid_density.sh <markdown-file>
+scripts/validate_mermaid_markdown.sh <markdown-file>
 ```
 
 Success criteria:
@@ -365,9 +374,15 @@ Success criteria:
 ## 6) Aesthetic Rules
 
 - Use one message per diagram.
-- Prefer `TD` for sequential flow and `LR` for comparisons.
+- Choose direction from reader path, label length, renderer width, and density.
+- Use `LR` for comparisons, parallel lanes, ownership boundaries, and handoffs.
+- Use `TD` or `TB` for short sequential paths, funnels, and decision trees.
+- Avoid default `LR` when labels are long, branches are many, or the renderer is
+  narrow.
+- Avoid tall `TD` or `TB` scroll tunnels; split by phase or collapse repeated
+  steps.
 - Prefer 6-12 nodes.
 - Use `<br/>` for long labels.
 - Remove decorative nodes and edges.
-- If `LR` overlaps, switch to `TD` or `TB` before tuning spacing.
+- Simplify, split, or switch direction before tuning spacing.
 - Split the diagram when structure and mapping details are mixed.
