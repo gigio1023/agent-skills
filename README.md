@@ -22,6 +22,7 @@ These skills live directly in this repo under `skills/`.
 | [docs-conflict-deprecation-review](skills/development/docs-conflict-deprecation-review/) | Audit docs against implementation and fix stale, conflicting, deprecated, or broken guidance |
 | [draft-pr](skills/development/draft-pr/) | Create concise draft GitHub PRs with `gh`, body-file updates, no Codex prefixes, and rebase-first conflict handling |
 | [echarts-dashboard-patterns](skills/development/echarts-dashboard-patterns/) | Build readable ECharts dashboards with guardrails for labels, legends, axes, gaps, and shared config |
+| [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
 | [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
 | [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design clear Mermaid diagrams with type selection, layout control, accessibility, and render preflight |
 | [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Add explanatory Python docstrings and intent comments for complex code paths |
@@ -102,6 +103,7 @@ agent-skills/
     │   ├── docs-conflict-deprecation-review/
     │   ├── draft-pr/
     │   ├── echarts-dashboard-patterns/
+    │   ├── toss-portfolio-state/
     │   ├── frontend-design/
     │   ├── mermaid-diagram-design/
     │   ├── python-docstring-enhancer/
