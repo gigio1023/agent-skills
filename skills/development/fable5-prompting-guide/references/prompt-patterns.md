@@ -200,7 +200,7 @@ Migration sequence:
 1. Run the current prompt and tools on representative cases.
 2. Remove old response-length taxonomies, aggressive tool triggers, manual
    thinking budgets, repeated rules, and unnecessary orchestration.
-3. Add only measured Fable-specific controls for scope, progress evidence,
+3. Add only measured Fable 5-specific controls for scope, progress evidence,
    long-run communication, memory, or early stopping.
 4. Set the intended effort and harness controls outside the prompt.
 5. Rerun the same cases and compare outcomes, evidence, scope, latency, tokens,

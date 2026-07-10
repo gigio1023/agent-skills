@@ -30,13 +30,13 @@ These skills live directly in this repo under `skills/`.
 | [docs-conflict-deprecation-review](skills/development/docs-conflict-deprecation-review/) | Audit docs against implementation and fix stale, conflicting, deprecated, or broken guidance |
 | [draft-pr](skills/development/draft-pr/) | Publish or update actual draft GitHub PRs with `gh`, preserving reviewer context and rebasing only when needed |
 | [echarts-dashboard-patterns](skills/development/echarts-dashboard-patterns/) | Build readable ECharts dashboards with guardrails for labels, legends, axes, gaps, and shared config |
-| [fable-prompting-guide](skills/development/fable-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
+| [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
 | [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
 | [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
 | [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Add explanatory Python docstrings and intent comments for complex code paths |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
-| [sol-prompting-guide](skills/development/sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
+| [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
 | [workspace-delivery-orchestrator](skills/development/workspace-delivery-orchestrator/) | Coordinate multi-repo or multi-workstream delivery with planning, progress tracking, and closure artifacts |
 | [workspace-handoff-compiler](skills/development/workspace-handoff-compiler/) | Compile successor handoffs and context packs for work that continues across sessions |
 
@@ -123,13 +123,13 @@ agent-skills/
     │   ├── docs-conflict-deprecation-review/
     │   ├── draft-pr/
     │   ├── echarts-dashboard-patterns/
-    │   ├── fable-prompting-guide/
+    │   ├── fable5-prompting-guide/
     │   ├── toss-portfolio-state/
     │   ├── frontend-design/
     │   ├── mermaid-diagram-design/
     │   ├── python-docstring-enhancer/
     │   ├── skill-builder/
-    │   ├── sol-prompting-guide/
+    │   ├── gpt56-sol-prompting-guide/
     │   ├── workspace-delivery-orchestrator/
     │   └── workspace-handoff-compiler/
     └── productivity/

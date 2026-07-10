@@ -1,15 +1,15 @@
 ---
-name: fable-prompting-guide
+name: fable5-prompting-guide
 description: >
   Use when writing, reviewing, simplifying, debugging, or migrating system
   prompts, agent instructions, tool descriptions, long-run scaffolding, or
   prompt stacks specifically for Claude Fable 5. Applies current guidance for
   effort, strong instruction following, boundaries, progress evidence,
   subagents, memory, context, and refusals. NOT for general Anthropic API setup,
-  model selection, or deciding whether Fable should lead a task.
+  model selection, or deciding whether Fable 5 should lead a task.
 ---
 
-# Fable Prompting Guide
+# Fable 5 Prompting Guide
 
 Build prompts that give Claude Fable 5 a clear reason, outcome, boundary, and
 evidence bar while leaving room for strong long-horizon judgment. Remove legacy
@@ -151,14 +151,14 @@ environment or artifact, not only the transcript.
 For a new prompt, return the final prompt plus the runtime settings and tools it
 assumes. For a review, lead with the most consequential issue and provide a
 minimal revision. For a migration, separate removed legacy scaffolding, added
-Fable-specific clauses, and API or harness changes. State when live Fable 5 evals
+Fable 5-specific clauses, and API or harness changes. State when live Fable 5 evals
 were unavailable.
 
 ## Reference Files
 
 | File | Read when | Content |
 | --- | --- | --- |
-| `references/prompt-patterns.md` | Writing or revising a non-trivial Fable prompt | Prompt clauses, long-run scaffolding, runtime controls, migration, and failure patterns |
+| `references/prompt-patterns.md` | Writing or revising a non-trivial Fable 5 prompt | Prompt clauses, long-run scaffolding, runtime controls, migration, and failure patterns |
 | `references/source-notes.md` | Maintaining model-specific claims | Official Anthropic sources and durable translations |
 | `assets/prompt.template.md` | Starting a new complex prompt | Compact fill-in prompt skeleton |
 
@@ -168,7 +168,7 @@ were unavailable.
 - Do not expose token countdowns unless the harness requires them; they can
   encourage premature wrap-up in very long sessions.
 - Do not ask Fable 5 to reproduce hidden reasoning or summarized thinking.
-- Do not use manual `budget_tokens`; current Fable thinking is adaptive.
+- Do not use manual `budget_tokens`; current Fable 5 thinking is adaptive.
 - Do not treat a text-only promise to act as completed work.
 - Do not overdelegate tightly coupled work or block on each subagent immediately.
 - Do not use memory as a second copy of the repository or conversation.

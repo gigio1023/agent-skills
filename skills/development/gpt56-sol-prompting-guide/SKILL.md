@@ -1,5 +1,5 @@
 ---
-name: sol-prompting-guide
+name: gpt56-sol-prompting-guide
 description: >
   Use when writing, reviewing, simplifying, debugging, or migrating developer
   prompts, system prompts, tool descriptions, agent instructions, or prompt
@@ -9,7 +9,7 @@ description: >
   skill authoring without a GPT-5.6 prompt target.
 ---
 
-# Sol Prompting Guide
+# GPT-5.6 Sol Prompting Guide
 
 Produce the smallest prompt stack that reliably delivers the required outcome
 on GPT-5.6 Sol. Start with subtraction, preserve business and safety invariants,
