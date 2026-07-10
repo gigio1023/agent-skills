@@ -2,6 +2,19 @@
 
 Read this before any action that may reveal, write, create, edit, or automate secrets.
 
+## Table of Contents
+
+- Default Posture
+- Safe Retrieval Patterns
+- Creating or Editing Items
+- macOS App Integration
+- Manual Sign-In Fallback
+- Service Account Tokens
+- Connect and Environments Boundary
+- SSH Key Handling
+- Output Review Checklist
+- Common Failure Modes
+
 ## Default Posture
 
 Treat secret values as toxic output:
@@ -52,7 +65,7 @@ For local macOS, desktop app integration is usually the best auth mode:
 
 - The 1Password app handles unlock and Touch ID/system auth.
 - `op signin` is idempotent and can be run directly.
-- In Codex, repeated fresh shell invocations can still trigger repeated app authorization prompts. Treat the authorization cache as terminal-session-sensitive.
+- In agent harnesses, repeated fresh shell invocations can still trigger repeated app authorization prompts. Treat the authorization cache as terminal-session-sensitive.
 - App integration authorization is per account. A new terminal/tab may prompt again, inactivity can require reauthorization, and locking the 1Password app revokes prior authorization.
 - On macOS, 1Password CLI uses app-mediated IPC and biometric/system authorization; do not try to bypass this with session-token handling.
 
@@ -68,7 +81,7 @@ op item list --format json | jq '...all grouping, filtering, and reporting...'
 
 Avoid the pattern that causes prompt storms: `op whoami` in one shell, `op item list` in another, then another `op item list` for a slightly different `jq` query. Fetch once and reuse the data in the same process or session.
 
-Before starting a multi-step 1Password task in Codex:
+Before starting a multi-step agent-run 1Password task:
 
 - Say that the work will use one authorization window.
 - Plan the needed `op` calls up front.

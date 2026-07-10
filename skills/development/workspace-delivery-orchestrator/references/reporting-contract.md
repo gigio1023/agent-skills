@@ -1,59 +1,31 @@
-# Reporting Contract (`progress.md` / `task.md` alias)
+# Reporting Contract (`progress.md` / `task.md`)
 
-## Intent
-Track active execution state with low-latency updates so parallel streams stay coordinated.
+Track current execution state without turning each tool call into a diary.
 
-## File Alias Policy
-- Preferred file: `progress.md`.
-- If the workspace uses `task.md`, treat `task.md` as an alias for the same artifact.
-- Do not maintain divergent state across both names.
+## File and Status Rules
 
-## Trigger Rules
-Create or update the artifact when any event occurs:
-- Execution starts.
-- Status transition (`todo` -> `in_progress` -> `done`, or `blocked`).
-- New blocker discovered or blocker resolved.
-- Milestone completed.
-- Scope or priority changes.
-- Pre-handoff final status sync.
+`progress.md` is preferred. If the workspace uses `task.md`, treat it as the
+same artifact and keep only one authoritative copy.
 
-## Entry Requirements
-Each update entry must include:
-- Timestamp (UTC)
-- Workstream ID/name
-- Owner
-- Status
-- Brief delta (what changed)
-- Blockers (if any)
-- Next action
+Workstream status is one of:
 
-## Status Vocabulary
-- `todo`: Defined but not started.
-- `in_progress`: Actively being executed.
-- `blocked`: Cannot proceed due to dependency or constraint.
-- `done`: Completed and verified for this stream.
+- `todo`: defined but not started;
+- `in_progress`: active work with a next action;
+- `blocked`: cannot proceed until a named condition changes;
+- `done`: completed with verification evidence.
 
-## Template
-```markdown
-# progress.md
+## Update Triggers
 
-## Current Snapshot
-- Objective: ...
-- Overall status: in_progress
-- Last updated (UTC): 2026-01-01T12:00:00Z
+Update when execution starts, a status or blocker changes, a milestone lands,
+scope/priority changes, or immediately before closure. Do not update only to
+record routine reads or commands that did not change state.
 
-## Workstreams
-| Stream | Owner | Status | Blocked By | Next Action |
-|---|---|---|---|---|
-| WS1 | ... | in_progress | none | ... |
-| WS2 | ... | blocked | WS1 | ... |
+Each update records UTC timestamp, workstream, owner, status, meaningful delta,
+blocker if any, evidence, and next action. Use the compact initialized template.
 
-## Update Log
-- 2026-01-01T12:00:00Z | WS1 | Owner: ... | Status: in_progress | Delta: ... | Blockers: none | Next: ...
-- 2026-01-01T12:15:00Z | WS2 | Owner: ... | Status: blocked | Delta: ... | Blockers: WS1 | Next: ...
-```
+## Consistency Gate
 
-## Consistency Rules
-- Keep one authoritative state per workstream.
-- Reflect dependency changes immediately.
-- Ensure `progress.md`/`task.md` and `result.md` do not conflict at handoff.
+- One current row exists per workstream.
+- `done` rows cite inspectable evidence.
+- Dependency changes are reflected before dependent work starts.
+- The final progress state and `result.md` do not conflict.

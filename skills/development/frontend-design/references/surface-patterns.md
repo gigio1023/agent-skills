@@ -1,5 +1,15 @@
 # Surface Patterns
 
+## Contents
+
+- [Product App](#product-app)
+- [Dashboard Or Analytics](#dashboard-or-analytics)
+- [Static HTML Report](#static-html-report)
+- [Landing Or Brand Page](#landing-or-brand-page)
+- [Portfolio Or Career Page](#portfolio-or-career-page)
+- [Game Or Interactive Demo](#game-or-interactive-demo)
+- [Docs, Guides, Or Knowledge Tools](#docs-guides-or-knowledge-tools)
+
 Pick the surface first. The same colors and components can feel excellent or wrong depending on what the screen is for.
 
 ## Product App
@@ -109,4 +119,3 @@ Design for:
 Avoid:
 - Decorative cards around every paragraph.
 - Fancy typography that weakens scanning.
-

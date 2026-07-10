@@ -1,25 +1,23 @@
 ---
 name: parallel-subagent-orchestrator
 description: >
-  Use when the user explicitly asks for parallel subagents, delegated agents,
-  multi-agent work, agent teams, competing research tracks, parallel review, or
-  sustained orchestration across coding, web/literature research, value judgment,
-  due diligence, planning, and synthesis. Helps decide whether parallelization is
-  worth it, split work into independent subtasks, manage follow-up waves, merge
-  evidence, resolve conflicts, and close agents cleanly across Codex, Claude Code,
-  Cursor, OpenCode, Antigravity, and similar harnesses.
+  Use when the user asks for parallel subagents, delegated agents, agent teams,
+  competing research tracks, or when a large task has independent workstreams
+  where parallel execution would materially improve speed, coverage, or
+  verification. Orchestrates coding, research, judgment, review, planning, and
+  synthesis across Codex, Claude Code, Cursor, OpenCode, Antigravity, and similar
+  harnesses. NOT for small or tightly sequential tasks.
 ---
 
 # Parallel Subagent Orchestrator
 
 ## Purpose
 
-Act as the lead agent for parallel work. Your job is not to maximize the number
-of agents; it is to turn concurrency into better judgment, faster coverage, and
-cleaner execution while keeping the user's objective intact.
+Lead parallel work to improve judgment, coverage, and execution while keeping
+the user's objective intact.
 
-This skill is harness-neutral by design. Use the native delegation, task,
-thread, worktree, or subagent mechanism provided by the current environment.
+Use the native delegation, task, thread, worktree, or subagent mechanism provided
+by the current environment.
 If no such mechanism is available, emulate the same discipline with explicit
 work packets, local notes, and sequential passes rather than pretending
 parallel execution happened.
@@ -34,17 +32,20 @@ parallel execution happened.
 4. Read `references/harness-adapters.md` and use the current harness' native
    delegation mechanism, model policy, and cost-routing options without
    hardcoding commands from another environment.
-5. Spawn the smallest useful first wave. Each subagent must receive a
+5. Spawn the smallest useful first wave. Each subagent receives a
    self-contained packet: objective, scope, exclusions, output contract,
    evidence requirements, and stop condition.
-6. While agents run, do non-overlapping lead-agent work: inspect context,
-   prepare synthesis tables, verify assumptions, or work on a disjoint slice.
-7. Read results, then synthesize. Do not concatenate summaries. Use
+6. Prefer asynchronous updates and reuse a long-lived agent for related follow-up
+   work when retained context is valuable. While agents run, advance a disjoint
+   lead-agent slice instead of blocking on the slowest lane.
+7. Before reporting progress, tie each claim to a worker artifact, tool result,
+   source, or test from the current run.
+8. Read results, then synthesize. Do not concatenate summaries. Use
    `references/synthesis-gate.md` to merge claims, evidence, confidence,
    conflicts, and remaining gaps.
-8. If gaps remain and the user goal still needs it, launch a targeted follow-up
+9. If gaps remain and the user goal still needs it, launch a targeted follow-up
    wave. Otherwise finish with a decision, implementation, or research answer.
-9. Close or retire subagents/threads/worktrees that are no longer needed.
+10. Close or retire subagents/threads/worktrees that are no longer needed.
 
 ## Operating Philosophy
 
@@ -52,7 +53,12 @@ Parallel agents are not a brainstorming trick. They are context isolation,
 coverage expansion, adversarial checking, and throughput. Use them when those
 properties matter.
 
-The lead agent keeps ownership. Subagents may investigate, implement bounded
+Not every multi-call workflow needs an agent. Use a deterministic or
+programmatic tool path for bounded structured reduction that needs no semantic
+judgment between calls; keep sequential work direct when each result determines
+the next move.
+
+The lead keeps ownership. Subagents may investigate, implement bounded
 slices, critique, verify, or argue from a perspective, but the lead agent owns
 task framing, conflict resolution, final judgment, and user communication.
 
@@ -115,6 +121,8 @@ This skill is especially useful for:
   whether it is direct evidence, inference, taste, or speculation.
 - Track state explicitly. Know which agents are running, what each owns, what is
   blocked, and what output is expected next.
+- Ground progress claims in current-run evidence. A worker saying it is done is
+  not proof; inspect its artifact, cited source, diff, or test result.
 - Re-anchor follow-up waves. Every new wave should include what is already known
   and what remains uncertain, not the whole conversation dump.
 - Protect the worktree. For code edits, assign disjoint write scopes and remind
@@ -126,6 +134,8 @@ This skill is especially useful for:
 
 - More agents can make the answer worse. If agents duplicate effort, inherit the
   same bad premise, or produce unranked summaries, parallelism creates noise.
+- Do not use subagents for structured filtering, joining, ranking, or aggregation
+  when a bounded deterministic reduction is clearer and cheaper.
 - Do not outsource the core decision. Subagents provide evidence and arguments;
   the lead agent decides.
 - Do not let star counts or popularity replace quality judgment. Use popularity

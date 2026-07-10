@@ -6,17 +6,17 @@
 - Topic:
 - Audit mode: pre-answer | post-answer
 - Audit date:
-- Verdict: pass | conditional-pass | fail
+- Verdict: pass | conditional pass | fail
 
 ### Claim Ledger
 | Claim | Recency Need | Support URLs | Contradiction URLs | Status | Notes |
 |---|---|---|---|---|---|
-| ... | stable/time-sensitive | ... | ... | verified/uncertain/rejected | ... |
+| ... | stable/time-sensitive | ... | ... | verified/limited/contradicted/unresolved | ... |
 
 ### Source Coverage
-| Domain | Source Family | Full Read | Used As |
-|---|---|---|---|
-| ... | official/independent/community | yes/no | evidence/lead |
+| Source | Source Type | Relevant Section or Context Checked | Access Limits | Used As |
+|---|---|---|---|---|
+| ... | primary/independent/community | ... | none/partial/truncated/paywalled | evidence/lead |
 
 ### Quality Scores (0-3)
 - Evidence depth:

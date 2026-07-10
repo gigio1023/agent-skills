@@ -2,6 +2,14 @@
 
 Use these packet shapes when delegating. Adapt wording to the harness and task.
 
+## Contents
+
+- Research packet
+- Value judgment packet
+- Code exploration packet
+- Code worker packet
+- Review packet
+
 ## Research Packet
 
 ```text
@@ -42,6 +50,9 @@ Output:
 - Failure modes / upside / opportunity cost
 - What would change your view
 - Confidence
+
+Stop when: The assigned lens has a defensible argument, its decisive assumptions
+are explicit, and further work is unlikely to change that argument materially.
 ```
 
 ## Code Exploration Packet
@@ -57,6 +68,9 @@ Output:
 - Existing patterns to follow
 - Risks or hidden contracts
 - Suggested implementation boundary
+
+Stop when: The codebase question is answered with direct file evidence, or a
+specific missing dependency prevents a reliable answer.
 ```
 
 ## Code Worker Packet
@@ -77,6 +91,9 @@ Output:
 - Behavior changed
 - Verification performed
 - Remaining risk
+
+Stop when: The bounded change and required verification are complete, or a
+concrete blocker requires authority or information outside this packet.
 ```
 
 ## Review Packet
@@ -92,4 +109,7 @@ Output:
 - Evidence or file/source references
 - Suggested fix or follow-up
 - Anything you intentionally did not review
+
+Stop when: The assigned risk class has been covered deeply enough to identify
+material findings; do not continue only to manufacture style nits.
 ```

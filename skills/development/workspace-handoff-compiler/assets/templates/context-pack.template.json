@@ -4,9 +4,9 @@
   "objective": "",
   "status": "partial",
   "artifacts": {
-    "plan": "plan.md",
-    "progress": "progress.md",
-    "result": "result.md"
+    "plan": null,
+    "progress": null,
+    "result": null
   },
   "tasks": [
     {
@@ -15,7 +15,8 @@
       "status": "in_progress",
       "owner": null,
       "blocked_by": [],
-      "next_action": ""
+      "next_action": "",
+      "verification_refs": []
     }
   ],
   "risks": [
@@ -36,7 +37,8 @@
   ],
   "verification": [
     {
-      "name": "",
+      "id": "E-001",
+      "name": "Pending verification",
       "result": "unknown",
       "evidence": ""
     }
@@ -47,20 +49,10 @@
     ""
   ],
   "continuation": {
-    "continuation_mode": "parallel_recommended",
-    "recommended_roles": [
-      "reader",
-      "writer",
-      "verifier"
-    ],
-    "writer_ownership": [
-      "src/<module> boundary"
-    ],
-    "parallel_tracks": [
-      "read and verify in parallel"
-    ],
-    "serialization_gates": [
-      "single writer integration gate"
-    ]
+    "continuation_mode": "sequential_sufficient",
+    "recommended_roles": [],
+    "writer_ownership": [],
+    "parallel_tracks": [],
+    "serialization_gates": []
   }
 }

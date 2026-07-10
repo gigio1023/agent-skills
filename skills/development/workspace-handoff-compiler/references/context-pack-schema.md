@@ -2,6 +2,13 @@
 
 Use this schema for `context-pack.json`.
 
+## Contents
+
+- [Status Vocabulary](#status-vocabulary-single-source-of-truth)
+- [Top-Level Shape](#top-level-shape)
+- [Continuation Mode](#continuation-mode-runtime-agnostic)
+- [Constraints](#constraints)
+
 ## Status Vocabulary (single source of truth)
 
 These two closed sets are the ONLY allowed status values across this skill. `handoff.md`, `context-pack.json`, both templates, and the validators all point here. Do not re-list or invent alternates elsewhere.
@@ -34,7 +41,8 @@ Notes:
       "status": "not_started | in_progress | blocked | done",
       "owner": "string-or-null",
       "blocked_by": ["string"],
-      "next_action": "string"
+      "next_action": "string",
+      "verification_refs": ["verification-id"]
     }
   ],
   "risks": [
@@ -55,6 +63,7 @@ Notes:
   ],
   "verification": [
     {
+      "id": "string",
       "name": "string",
       "result": "pass | fail | unknown",
       "evidence": "string"
@@ -82,12 +91,21 @@ Notes:
 - `parallel_recommended`: work splits into independent streams that benefit from parallelism. The successor should probe for the harness's native parallel-execution capability first and use it aggressively if present; if none exists, run the streams sequentially and say so.
 - `sequential_sufficient`: a single linear session is the most effective path. No parallel split is needed.
 
-This is a recommendation, not a hard requirement to spawn anything. See `references/continuation-mode.md` for the full judgment rule and the sequential fallback.
+This is a recommendation, not a hard requirement to spawn anything. The main
+skill routes the agent to the separate continuation decision procedure.
 
 ## Constraints
 
 1. `status` must match the handoff quality status in `handoff.md`. Both use the overall set in [Status Vocabulary](#status-vocabulary-single-source-of-truth).
-2. If a claim is completed in `handoff.md`, there should be a related entry in `verification`.
-3. If essential evidence is missing, do not use `complete`; downgrade to `partial` or `blocked`.
-4. When the work is multi-track, `recommended_roles` and `writer_ownership` must be non-empty so the successor can split safely. Single-track work may leave them empty. This check keys off the actual work shape, not the `continuation_mode` value. Multi-track is detected from the data: two or more entries in `continuation.parallel_tracks`, OR two or more distinct non-null `tasks[].owner` values.
-5. Keep unknowns explicit in `tasks`, `risks`, or `decisions` rather than hiding uncertainty.
+2. Verification IDs are unique. Every `tasks[].verification_refs` value resolves
+   to an entry in `verification`.
+3. A task with `status: "done"` has at least one referenced verification whose
+   result is `pass` and whose `evidence` is non-empty. The matching Completed row
+   in `handoff.md` uses the same task ID and verification IDs.
+4. Every substantive Completed row in `handoff.md` maps to a `done` task and one
+   or more passing verification entries. A generic unrelated pass is not
+   sufficient evidence for another completed claim.
+5. If essential evidence is missing, do not use `complete`; downgrade to
+   `partial` or `blocked`.
+6. When the work is multi-track, `recommended_roles` and `writer_ownership` must be non-empty so the successor can split safely. Single-track work may leave them empty. This check keys off the actual work shape, not the `continuation_mode` value. Multi-track is detected from the data: two or more entries in `continuation.parallel_tracks`, OR two or more distinct non-null `tasks[].owner` values.
+7. Keep unknowns explicit in `tasks`, `risks`, or `decisions` rather than hiding uncertainty.

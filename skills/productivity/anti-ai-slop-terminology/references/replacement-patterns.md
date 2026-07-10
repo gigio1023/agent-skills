@@ -2,6 +2,15 @@
 
 자주 등장하는 AI slop → 표준 표현 매핑. 이 매핑은 1 차 출발점일 뿐이며, 실제 도메인 + 검증 결과로 최종 결정한다.
 
+## Contents
+
+- 영어 SW 엔지니어링 분야
+- 영어 일반 표현
+- 영어와 한국어 혼용
+- 한국어 표현
+- Cross-domain 단어
+- 적용 시 주의
+
 ## 영어 SW 엔지니어링 분야
 
 ### 메트릭 / observability / 인프라
@@ -13,8 +22,8 @@
 | "applied surface" | applied scope, where X applies |
 | "blind spot surface" | blind spots, gaps in coverage |
 | "attack surface" | (그대로 OK, security 정식 표현) |
-| "API contract" (microservice 사이) | API, interface, schema, request/response shape |
-| "data contract" (일반 데이터 형식 의미) | schema, data shape, format |
+| "API contract" | 호환성 약속, versioning, consumer expectation을 뜻하면 유지. 단순 구조만 뜻하면 API, interface, schema, request/response shape |
+| "data contract" | producer/consumer 사이 schema, 품질, versioning 의무를 뜻하면 유지. 단순 파일 형식이면 schema, data shape, format |
 | "Pact contract" / "consumer-driven contract" | (그대로 OK, contract testing 정식 용어) |
 | "smart contract" (blockchain) | (그대로 OK) |
 | "canonical form" (math, DB) | (그대로 OK) |
@@ -203,10 +212,10 @@ grep -nE '본 (PR|레포|sub-agent|시스템|모듈|작업|문서|정책|스킬|
 | 봉투 | (영어 그대로 OR 풀어쓰기) |
 | 사양 (SW) | 스펙 |
 | 본가 | 원본 레포, upstream |
-| 계약 (API 의미) | 스펙, 인터페이스 |
-| 정합성 | 일치, 같음 |
-| 정합성 검증 | 비교, diff 확인 |
-| 정합성 회복 | 다시 같아짐 |
+| 계약 (API/data 의미) | 호환성·schema·producer/consumer 의무가 실제 개념이면 유지. 단순 interface면 스펙, 인터페이스 |
+| 정합성 | DB/복제/캐시/데이터 consistency 속성이면 유지. 단순 결과 비교면 일치, 같음 |
+| 정합성 검증 | consistency 속성을 검증하면 유지. 파일·문서 비교면 비교, diff 확인 |
+| 정합성 회복 | 분산 상태의 consistency 복구면 유지. 단순 동기화 결과면 다시 일치시킴 |
 | 동일성 | 같음 |
 | 동일성을 담보 | 같습니다 / 일치합니다 |
 | 동등성 | 같음 |
@@ -238,7 +247,7 @@ LLM 은 "-화" / "-성" / "-적" 접미사 남발. 대부분 동사형이 자연
 | 단어 | OK 도메인 | NG 도메인 |
 |---|---|---|
 | surface | 3D / GIS / geology / security (attack surface) / Material Design / CSS color | 일반 SW (적용 범위) |
-| contract | blockchain / Pact / 법률 / SLA | 일반 microservice |
+| contract | blockchain / Pact / 법률 / SLA / API·service compatibility / producer-consumer data contract | 구체적 의무 없이 단순 interface를 추상적으로 부를 때 |
 | canonical | math / DB normalization / URL canonical (SEO) | 일반 SW (그 standard 의미) |
 | envelope | SOAP / aerospace / cloud KMS encryption | REST API wrapping |
 | artifact | build / git / Maven / A2A spec | 일반 산출물 |
@@ -248,7 +257,9 @@ LLM 은 "-화" / "-성" / "-적" 접미사 남발. 대부분 동사형이 자연
 | primitive | crypto / PL type | 일반 basic 의미 |
 | concern | aspect / separation of concerns | 일반 issue 의미 |
 
-이 표 단어가 본문에 등장하면 도메인 확인 + verification-procedure.md 따라 5 종 자료 검증.
+이 표 단어가 본문에 등장하면 먼저 문맥과 governing source를 확인한다.
+판정이 중요하거나 불확실한 경우에만 위험도에 맞춰 외부 근거를
+확인한다.
 
 ## 적용 시 주의
 

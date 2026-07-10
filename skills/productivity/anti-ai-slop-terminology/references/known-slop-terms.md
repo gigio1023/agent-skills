@@ -1,6 +1,17 @@
 # Known AI-Slop Terms
 
-알려진 LLM 과용 / 오용 표현 리스트. **black list 아님**. 도메인에 따라 OK 일 수 있으므로 각 단어는 web research 로 1 차 검증한다.
+알려진 LLM 과용 / 오용 표현 리스트. **black list 아님**. 각 항목은
+문맥을 다시 읽기 위한 검색 후보일 뿐이다. 도메인, 의미, 독자, 프로젝트
+용례로 먼저 판정하고, 결정이 중요하거나 불확실할 때만 외부 자료를
+검증한다.
+
+## Contents
+
+- Category 1: 일반 영어 표현
+- Category 2: SW 엔지니어링 용어
+- Category 3/3b: 한국어 표현과 영어 혼용
+- Category 4: 단어 밖의 메타 패턴
+- 검증 원칙
 
 ## Category 1: 영어 일반 LLM slop (분야 무관)
 
@@ -82,7 +93,7 @@ LLM 이 "지적이고 격식 있는 글" 만들려고 본인 직관으로 뿌리
 | 단어 | OK 분야 | NG 분야 (LLM 오용) |
 |---|---|---|
 | `surface` | 3D graphics, GIS, geology, `attack surface` (security), `Material surface` (Material Design), CSS `surface color` | "적용 범위", "메트릭 범위", "검증 범위" 의미로 쓸 때. 그냥 `scope`, `area`, `range` |
-| `contract` | smart contract (blockchain), API contract testing (Pact / consumer-driven), 법률 / SLA | 일반 microservice / function interface 의미. 그냥 `interface`, `schema`, `API`, `spec` |
+| `contract` | smart contract, 법률/SLA, API or service compatibility contract, consumer-driven contract, data contract with producer/consumer obligations | 구체적 호환성·스키마·의무 없이 단순 interface를 거창하게 부를 때. 그 경우 `interface`, `schema`, `API`, `spec` |
 | `canonical` | math (canonical form), DB (canonical form / normalization), URL canonicalization (SEO), Linux distro 회사명 | "the right one", "the standard one" 의미. 그냥 `standard`, `official`, `reference` |
 | `envelope` | SOAP envelope (legacy XML), flight envelope (aerospace), TCP / IP envelope (deprecated usage), 한국어 "envelope encryption" | REST API response wrapping, A2A response 구조. 그냥 `wrapper`, `response shape`, `outer object` |
 | `semantic` | semantic web, semantic versioning, semantic HTML, NLP | "의미 있는" 의 일반적 의미로 형용사 남발. 그냥 `meaningful`, drop |
@@ -113,8 +124,8 @@ LLM 이 "지적이고 격식 있는 글" 만들려고 본인 직관으로 뿌리
 | 봉투 | envelope | SOAP envelope 류 legacy 외 NG. 그냥 영어 단어 사용 (예: "wrapper", "응답 구조") |
 | 사양 | specification / spec | 자동차 / 하드웨어 spec 외 SW 에서는 NG. 그냥 "스펙" |
 | 본가 | upstream | 무협지 톤. "원본 레포", "upstream" |
-| 계약 | contract | API contract 의미라도 한국어 "계약" 회피. 그냥 "스펙", "인터페이스" |
-| 정합성 | consistency / parity | 한자어 추상화. 그냥 "일치", "같음", "diff 없음" |
+| 계약 | contract | API/data contract처럼 호환성·스키마·생산자/소비자 의무가 실제 개념이면 유지. 단순 interface를 추상적으로 부를 때만 "스펙", "인터페이스" 검토 |
+| 정합성 | consistency / parity | DB read consistency, 데이터 integrity, 복제·캐시·스키마 consistency처럼 구분이 실제로 중요하면 유지. 단순 비교 결과면 "일치", "diff 없음"이 더 구체적인지 검토 |
 | 동일성 | identity / sameness | 한자어 추상화. 그냥 "같음" |
 | 추상화 (남발 시) | abstraction | 진짜 추상화 개념 아니면 drop |
 | 단일성 | singleness | 그냥 "하나임" |
@@ -210,6 +221,9 @@ LLM 이 한국어 글 안에 informal 영어 형용사 / 명사를 박고 한국
 
 ## 검증 원칙
 
-- 위 리스트는 **black list 아닌 watch list**. 도메인 + 의미 + practitioner 실사용 3 가지로 판정
-- LLM 의 "그 단어 자연스러움" 직관 자체가 bias. **반드시 web research 로 confirm**
-- 분야가 명확하지 않으면 사용자에게 물어보기. 추측 금지
+- 위 리스트는 **black list 아닌 watch list**. 도메인, 의미, 독자,
+  governing source, 실제 용례를 필요한 만큼 확인한다.
+- 직관만으로 전문 용어를 단정하지 않는다. 정의된 이름, 논쟁적 표현,
+  최신 용례처럼 외부 근거가 결론을 바꿀 때 web research를 사용한다.
+- 분야가 문서와 레포에서 분명하면 그 근거로 진행한다. 불확실성이
+  교체 의미를 바꿀 때만 사용자에게 확인한다.

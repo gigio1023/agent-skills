@@ -34,6 +34,8 @@ Before finalizing, ask:
 - Did all subagents share the same hidden premise?
 - Is there a missing stakeholder, time horizon, or risk lens?
 - Would a second wave likely change the answer enough to justify cost?
+- Is every reported progress or completion claim backed by a source, artifact,
+  diff, command result, or test from the current run?
 
 ## Follow-Up Wave Criteria
 

@@ -7,7 +7,9 @@ Use this gate before publishing `handoff.md` and `context-pack.json`.
 1. Objective clarity  
    - primary objective and success criteria are explicit.
 2. Evidence coverage  
-   - each completed item has evidence references.
+   - each completed row names its `task_id` and one or more verification IDs.
+   - the same task is `done` in `context-pack.json`, and each referenced
+     verification is `pass` with non-empty evidence.
 3. Remaining scope  
    - open tasks are actionable and ordered.
 4. Dependency and blocker visibility  
@@ -35,3 +37,5 @@ Use this gate before publishing `handoff.md` and `context-pack.json`.
 
 - Never output `complete` based on assumption, memory, or inferred success.
 - If proof is missing, downgrade to `partial` or `blocked` and enumerate missing evidence.
+- An unrelated passing check does not prove another task. Keep verification IDs
+  claim-specific in both output files.

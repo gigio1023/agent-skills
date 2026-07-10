@@ -25,6 +25,10 @@ If sources conflict, resolve using this procedure:
 
 Citation rules:
 
-- Every completion claim must include at least one evidence reference.
+- Every completion claim must include at least one verification ID that resolves
+  to a passing entry with non-empty evidence in `context-pack.json`.
 - If no evidence exists, classify claim as `unknown` and do not mark complete.
 - Never silently merge contradictory claims.
+- When both `progress.md` and `task.md` exist, inspect both. Select an
+  authoritative status source with the precedence/tie-break rules above and
+  record any unresolved divergence; filename preference is not evidence.

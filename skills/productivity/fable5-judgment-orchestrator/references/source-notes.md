@@ -1,20 +1,35 @@
 # Source Notes
 
-Last updated: 2026-07-04.
+Last updated: 2026-07-10.
 
-This skill records a model-routing pattern where Fable 5 spends its context on
-hard judgment rather than raw collection. It is intentionally separate from
-`parallel-subagent-orchestrator`:
+Current model-generation sources:
 
-- `parallel-subagent-orchestrator` stays harness-neutral. It defines how to
-  split work, write packets, synthesize evidence, and manage follow-up waves.
-- `fable5-judgment-orchestrator` is model-routing policy. It defines which work
-  Fable 5 should own and which work should be routed to configured support lanes
-  for token efficiency.
+- Anthropic, `Prompting Claude Fable 5`:
+  https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
+- OpenAI, `Using GPT-5.6`:
+  https://developers.openai.com/api/docs/guides/latest-model.md
+- OpenAI, `Prompting guidance for GPT-5.6 Sol`:
+  https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
 
-When this skill is revised, preserve the core separation:
+The durable translation is:
 
-- Fable 5 owns final judgment, issue connection, critique, and missed-fact
-  review.
-- Workers gather compact evidence and run bounded checks.
-- The final answer is Fable 5's synthesis, not a transcript of delegated lanes.
+- Fable 5 can lead difficult, ambiguous, long-horizon work and dependable
+  subagent coordination. Do not preserve the old assumption that it should only
+  see a compact final evidence packet.
+- GPT-5.6 Sol is a flagship tool-using support option, not merely a cheap raw
+  search lane. Assign it bounded repository, implementation, evidence, or
+  independent-review work when its harness is a better fit.
+- Delegate for concurrency, context isolation, verification, specialization, or
+  a measured efficiency win. Stronger default models reduce the need for
+  procedural micromanagement but not the need for evidence and scope boundaries.
+- Long-run status must be grounded in current tool results. Never ask Fable 5 to
+  reproduce private reasoning; that can trigger reasoning-extraction safeguards.
+
+This skill remains separate from `parallel-subagent-orchestrator`:
+
+- `parallel-subagent-orchestrator` is harness-neutral and owns decomposition,
+  packets, coordination, conflict handling, and synthesis mechanics.
+- `fable5-judgment-orchestrator` is model-role policy. It decides when Fable 5
+  should lead directly and when another configured lane has a concrete advantage.
+
+The final answer remains the lead's synthesis, not a transcript of workers.

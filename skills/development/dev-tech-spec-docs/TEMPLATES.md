@@ -1,8 +1,19 @@
 # 문서 타입별 템플릿
 
+## Contents
+
+- README.md
+- CONTRIBUTING.md
+- How-to Guide
+- Architecture Document
+- API Reference
+- Troubleshooting Guide
+- ADR
+- Changelog
+
 ## README.md
 
-```markdown
+````markdown
 # Project Name
 
 [프로젝트를 한 문장으로 설명]
@@ -42,13 +53,13 @@
 ## License
 
 [라이선스 정보]
-```
+````
 
 ---
 
 ## CONTRIBUTING.md
 
-```markdown
+````markdown
 # Contributing
 
 ## 개발 환경 설정
@@ -111,13 +122,13 @@ cp .env.sample .env
 - `docs`: 문서 변경
 - `refactor`: 리팩토링
 - `test`: 테스트 추가/수정
-```
+````
 
 ---
 
 ## How-to Guide
 
-```markdown
+````markdown
 # How to [Task Name]
 
 ## Prerequisites
@@ -169,13 +180,13 @@ cp .env.sample .env
 
 **Solution**:
 [해결 방법]
-```
+````
 
 ---
 
 ## Architecture Document
 
-```markdown
+````markdown
 # [Component Name] Architecture
 
 ## Context
@@ -253,13 +264,13 @@ cp .env.sample .env
 
 **Rollback Strategy**:
 [롤백 방법]
-```
+````
 
 ---
 
 ## API Reference
 
-```markdown
+````markdown
 # API Reference
 
 ## [Endpoint/Function Name]
@@ -323,13 +334,13 @@ curl -X POST "http://localhost:8080/api/v1/resource" \
   "data": {...}
 }
 ```
-```
+````
 
 ---
 
 ## Troubleshooting Guide
 
-```markdown
+````markdown
 # Troubleshooting Guide
 
 ## Category 1: [문제 카테고리]
@@ -364,13 +375,13 @@ curl -X POST "http://localhost:8080/api/v1/resource" \
 ### [Problem Name]
 
 [위와 동일한 구조]
-```
+````
 
 ---
 
 ## ADR (Architecture Decision Record)
 
-```markdown
+````markdown
 # ADR-[번호]: [Decision Title]
 
 **Date**: YYYY-MM-DD
@@ -417,13 +428,13 @@ curl -X POST "http://localhost:8080/api/v1/resource" \
 ## References
 
 - [관련 문서/이슈 링크]
-```
+````
 
 ---
 
 ## Changelog
 
-```markdown
+````markdown
 # Changelog
 
 ## [Unreleased]
@@ -453,4 +464,4 @@ curl -X POST "http://localhost:8080/api/v1/resource" \
 
 ### Changed
 - [변경사항]
-```
+````

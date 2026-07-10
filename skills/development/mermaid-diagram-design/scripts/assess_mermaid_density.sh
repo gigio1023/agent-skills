@@ -53,12 +53,53 @@ END {
     for (j = 1; j <= n; j++) {
       line = lines[j]
 
-      if (line ~ /-->|==>|-.->|===/) {
-        edge_count++
+      is_frontmatter_delimiter = (line ~ /^[[:space:]]*---[[:space:]]*$/)
+      if (!is_frontmatter_delimiter) {
+        edge_line = line
+        while (match(edge_line, /(-[.][^.]*[.]->)|(-[.]->)|(--+>)|(==+>)|(---)|(===)/)) {
+          edge_count++
+          edge_line = substr(edge_line, RSTART + RLENGTH)
+        }
       }
 
-      if (line ~ /^[[:space:]]*[A-Za-z0-9_]+[[:space:]]*\[/) {
-        node_count++
+      node_line = line
+      while (match(node_line, /([A-Za-z_][A-Za-z0-9_-]*[[:space:]]*\[)|([A-Za-z_][A-Za-z0-9_-]*[[:space:]]*\()|([A-Za-z_][A-Za-z0-9_-]*[[:space:]]*\{)/)) {
+        node_token = substr(node_line, RSTART, RLENGTH)
+        sub(/[[:space:]]*\[$/, "", node_token)
+        sub(/[[:space:]]*\($/, "", node_token)
+        sub(/[[:space:]]*\{$/, "", node_token)
+        node_key = i SUBSEP node_token
+        if (!(node_key in seen_node)) {
+          seen_node[node_key] = 1
+          node_count++
+        }
+        node_line = substr(node_line, RSTART + RLENGTH)
+      }
+
+      if (!is_frontmatter_delimiter && line ~ /(-[.][^.]*[.]->)|(-[.]->)|(--+>)|(==+>)|(---)|(===)/) {
+        endpoint_line = line
+        gsub(/\|[^|]*\|/, "", endpoint_line)
+        gsub(/-[.][^.]*[.]->/, " @ ", endpoint_line)
+        gsub(/-[.]->/, " @ ", endpoint_line)
+        gsub(/--[[:space:]]+[^-]*[[:space:]]+-->/, " @ ", endpoint_line)
+        gsub(/--+>|==+>|---|===/, " @ ", endpoint_line)
+        while (gsub(/\[[^][]*\]/, "", endpoint_line) > 0) {}
+        while (gsub(/\([^()]*\)/, "", endpoint_line) > 0) {}
+        while (gsub(/\{[^{}]*\}/, "", endpoint_line) > 0) {}
+
+        endpoint_count = split(endpoint_line, endpoints, "@")
+        for (endpoint_index = 1; endpoint_index <= endpoint_count; endpoint_index++) {
+          endpoint = endpoints[endpoint_index]
+          while (match(endpoint, /[A-Za-z_][A-Za-z0-9_-]*/)) {
+            endpoint_id = substr(endpoint, RSTART, RLENGTH)
+            node_key = i SUBSEP endpoint_id
+            if (!(node_key in seen_node)) {
+              seen_node[node_key] = 1
+              node_count++
+            }
+            endpoint = substr(endpoint, RSTART + RLENGTH)
+          }
+        }
       }
 
       if (line ~ /linkStyle[[:space:]]+default[[:space:]]+stroke:/) {

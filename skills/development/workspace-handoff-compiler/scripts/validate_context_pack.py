@@ -52,6 +52,10 @@ def _is_str_or_null(value: Any) -> bool:
     return value is None or isinstance(value, str)
 
 
+def _non_empty_string(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
 def _is_multi_track(data: dict[str, Any], continuation: dict[str, Any]) -> bool:
     """작업이 multi-track 인지 데이터에서 직접 판정한다.
 
@@ -96,16 +100,30 @@ def _validate_object_shape(errors: list[str], data: dict[str, Any]) -> None:
                 errors.append(f"artifacts.{key}: expected string or null")
 
     tasks = data.get("tasks")
+    task_ids: set[str] = set()
     if isinstance(tasks, list):
         for index, item in enumerate(tasks):
             path = f"tasks[{index}]"
             if not _expect_type(errors, item, dict, path):
                 continue
-            for required in ("id", "title", "status", "blocked_by", "next_action"):
+            for required in (
+                "id",
+                "title",
+                "status",
+                "blocked_by",
+                "next_action",
+                "verification_refs",
+            ):
                 if required not in item:
                     errors.append(f"{path}.{required}: missing")
             if "id" in item:
-                _expect_type(errors, item["id"], str, f"{path}.id")
+                if _expect_type(errors, item["id"], str, f"{path}.id"):
+                    if not item["id"].strip():
+                        errors.append(f"{path}.id: expected non-empty string")
+                    elif item["id"] in task_ids:
+                        errors.append(f"{path}.id: duplicate task id '{item['id']}'")
+                    else:
+                        task_ids.add(item["id"])
             if "title" in item:
                 _expect_type(errors, item["title"], str, f"{path}.title")
             if "status" in item:
@@ -119,6 +137,17 @@ def _validate_object_shape(errors: list[str], data: dict[str, Any]) -> None:
                             errors.append(f"{path}.blocked_by[{j}]: expected string")
             if "next_action" in item:
                 _expect_type(errors, item["next_action"], str, f"{path}.next_action")
+            if "verification_refs" in item:
+                if _expect_type(errors, item["verification_refs"], list, f"{path}.verification_refs"):
+                    seen_refs: set[str] = set()
+                    for j, ref in enumerate(item["verification_refs"]):
+                        ref_path = f"{path}.verification_refs[{j}]"
+                        if not _non_empty_string(ref):
+                            errors.append(f"{ref_path}: expected non-empty string")
+                        elif ref in seen_refs:
+                            errors.append(f"{ref_path}: duplicate verification id '{ref}'")
+                        else:
+                            seen_refs.add(ref)
 
     risks = data.get("risks")
     if isinstance(risks, list):
@@ -143,16 +172,61 @@ def _validate_object_shape(errors: list[str], data: dict[str, Any]) -> None:
                     errors.append(f"{path}.{required}: missing")
 
     verification = data.get("verification")
+    verification_by_id: dict[str, dict[str, Any]] = {}
     if isinstance(verification, list):
         for index, item in enumerate(verification):
             path = f"verification[{index}]"
             if not _expect_type(errors, item, dict, path):
                 continue
-            for required in ("name", "result", "evidence"):
+            for required in ("id", "name", "result", "evidence"):
                 if required not in item:
                     errors.append(f"{path}.{required}: missing")
+            if "id" in item:
+                verification_id = item["id"]
+                if not _non_empty_string(verification_id):
+                    errors.append(f"{path}.id: expected non-empty string")
+                elif verification_id in verification_by_id:
+                    errors.append(f"{path}.id: duplicate verification id '{verification_id}'")
+                else:
+                    verification_by_id[verification_id] = item
+            if "name" in item and not _non_empty_string(item["name"]):
+                errors.append(f"{path}.name: expected non-empty string")
             if "result" in item:
                 _expect_enum(errors, item["result"], VERIFY_ENUM, f"{path}.result")
+            if "evidence" in item:
+                if not isinstance(item["evidence"], str):
+                    errors.append(f"{path}.evidence: expected str")
+                elif item.get("result") == "pass" and not item["evidence"].strip():
+                    errors.append(f"{path}.evidence: passing verification requires non-empty evidence")
+
+    if isinstance(tasks, list):
+        for index, item in enumerate(tasks):
+            if not isinstance(item, dict):
+                continue
+            path = f"tasks[{index}]"
+            refs = item.get("verification_refs")
+            if not isinstance(refs, list):
+                continue
+            resolved_pass = False
+            for ref in refs:
+                if not _non_empty_string(ref):
+                    continue
+                verification_item = verification_by_id.get(ref)
+                if verification_item is None:
+                    errors.append(f"{path}.verification_refs: unknown verification id '{ref}'")
+                    continue
+                if (
+                    verification_item.get("result") == "pass"
+                    and _non_empty_string(verification_item.get("evidence"))
+                ):
+                    resolved_pass = True
+            if item.get("status") == "done":
+                if not refs:
+                    errors.append(f"{path}.verification_refs: done task requires at least one reference")
+                elif not resolved_pass:
+                    errors.append(
+                        f"{path}.verification_refs: done task requires a related passing verification with evidence"
+                    )
 
     next_actions = data.get("next_actions_top3")
     if isinstance(next_actions, list):

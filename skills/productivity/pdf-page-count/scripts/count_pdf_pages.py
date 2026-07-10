@@ -3,18 +3,31 @@ import argparse
 import re
 import subprocess
 import sys
+from pathlib import Path
 
 
 def count_with_pypdf(path: str) -> int | None:
     try:
         from pypdf import PdfReader  # type: ignore
     except Exception:
-        try:
-            from PyPDF2 import PdfReader  # type: ignore
-        except Exception:
-            return None
-    reader = PdfReader(path)
-    return len(reader.pages)
+        return None
+    try:
+        reader = PdfReader(path)
+        return len(reader.pages)
+    except Exception:
+        return None
+
+
+def count_with_pypdf2(path: str) -> int | None:
+    try:
+        from PyPDF2 import PdfReader  # type: ignore
+    except Exception:
+        return None
+    try:
+        reader = PdfReader(path)
+        return len(reader.pages)
+    except Exception:
+        return None
 
 
 def count_with_pdfinfo(path: str) -> int | None:
@@ -48,8 +61,13 @@ def main() -> int:
     parser.add_argument("pdf_path", help="Path to PDF file")
     args = parser.parse_args()
 
-    for counter in (count_with_pypdf, count_with_pdfinfo, count_with_mdls):
-        pages = counter(args.pdf_path)
+    target = Path(args.pdf_path)
+    if not target.is_file():
+        print(f"Error: PDF file not found: {target}", file=sys.stderr)
+        return 2
+
+    for counter in (count_with_pypdf, count_with_pypdf2, count_with_pdfinfo, count_with_mdls):
+        pages = counter(str(target))
         if pages is not None:
             print(pages)
             return 0

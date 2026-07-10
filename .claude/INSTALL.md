@@ -16,4 +16,6 @@ mkdir -p ~/.claude/skills
 cp -R ~/.claude/agent-skills/skills/development/skill-builder ~/.claude/skills/
 ```
 
-Restart Claude Code after copying.
+Claude Code normally detects `SKILL.md` changes live. Restart only if the new
+top-level skills directory was created after the session started or the skill
+does not appear.

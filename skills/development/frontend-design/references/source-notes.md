@@ -6,9 +6,6 @@ This skill is a synthesis, not a verbatim copy. Keep it compact and judgment-ori
 
 ## Sources Considered
 
-- OpenAI Developers, "Designing delightful frontends with GPT-5.4": useful for current OpenAI-facing frontend prompting patterns: clear constraints, strong visual anchors, structured narratives, design systems, and a frontend skill that emphasizes art direction, hierarchy, imagery, and motion.
-  https://developers.openai.com/blog/designing-delightful-frontends-with-gpt-5-4
-
 - OpenAI API prompting docs: relevant meta-rule that prompts/instructions should be treated like application code, versioned, reviewed, tested, and kept close to product behavior.
   https://developers.openai.com/api/docs/guides/prompting
 

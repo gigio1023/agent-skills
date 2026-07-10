@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -26,6 +27,7 @@ def _file_summary(path: Path) -> dict[str, Any]:
         "size_bytes": stat.st_size,
         "line_count": text.count("\n") + (1 if text and not text.endswith("\n") else 0),
         "modified_at": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
+        "content_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
         "first_heading": _first_heading(text),
     }
 
@@ -36,28 +38,45 @@ def build_index(base_dir: Path) -> dict[str, Any]:
     task_path = base_dir / "task.md"
     result_path = base_dir / "result.md"
 
-    progress_selected: Path | None = None
-    if progress_path.is_file():
-        progress_selected = progress_path
-    elif task_path.is_file():
-        progress_selected = task_path
+    progress_candidates = [
+        _file_summary(path)
+        for path in (progress_path, task_path)
+        if path.is_file()
+    ]
+    status_selection_required = len(progress_candidates) > 1
+    status_artifact_conflict = (
+        status_selection_required
+        and len({item["content_sha256"] for item in progress_candidates}) > 1
+    )
+    progress_selected = progress_candidates[0] if len(progress_candidates) == 1 else None
 
     artifacts: dict[str, dict[str, Any] | None] = {
         "plan": _file_summary(plan_path) if plan_path.is_file() else None,
-        "progress": _file_summary(progress_selected) if progress_selected else None,
+        # Never silently prefer progress.md when task.md also exists. The caller
+        # must resolve authority before this slot receives a selected artifact.
+        "progress": progress_selected,
         "result": _file_summary(result_path) if result_path.is_file() else None,
     }
 
-    missing = [name for name, value in artifacts.items() if value is None]
-    present = [name for name, value in artifacts.items() if value is not None]
+    availability = {
+        "plan": artifacts["plan"] is not None,
+        "progress": bool(progress_candidates),
+        "result": artifacts["result"] is not None,
+    }
+    missing = [name for name, available in availability.items() if not available]
+    present = [name for name, available in availability.items() if available]
 
     return {
         "cwd": str(base_dir.resolve()),
         "generated_at": datetime.now(tz=timezone.utc).isoformat(),
         "artifacts": artifacts,
+        "progress_candidates": progress_candidates,
+        "progress_selection": progress_selected["file"] if progress_selected else None,
+        "status_artifact_selection_required": status_selection_required,
+        "status_artifact_conflict": status_artifact_conflict,
         "present": present,
         "missing": missing,
-        "handoff_ready_hint": not missing,
+        "handoff_ready_hint": not missing and not status_selection_required,
     }
 
 

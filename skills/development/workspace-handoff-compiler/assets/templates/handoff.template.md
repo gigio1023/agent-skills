@@ -1,4 +1,4 @@
-# AI Handoff Template
+# Successor Handoff Template
 
 ## Session Summary
 - Session window (UTC):
@@ -12,12 +12,13 @@
 |---|---|---|---|---|
 | O-001 |  |  |  |  |
 
-Status values come from the single source in `references/context-pack-schema.md` (Status Vocabulary). Objective rows use the per-task set (`not_started/in_progress/blocked/done`); the overall handoff uses the overall set (`complete/partial/blocked`).
+Use the compiler's canonical per-task status for objective rows and overall
+status for the handoff.
 
 ## Completed
-| item | what changed | why it matters | evidence_ref |
+| task_id | what changed | why it matters | verification_refs |
 |---|---|---|---|
-| 1 |  |  |  |
+| T-001 |  |  |  |
 
 ## In-Progress
 | item | current state | owner | unblock condition | next step |
@@ -35,7 +36,7 @@ Status values come from the single source in `references/context-pack-schema.md`
 | D-001 | decision |  |  |  |  |
 
 ## Evidence Index
-| ref_id | artifact type | location or command | expected signal | notes |
+| verification_id | artifact type | location or command | expected signal | notes |
 |---|---|---|---|---|
 | E-001 | file | `path/to/file` | content updated |  |
 | E-002 | command | `example command` | exit code 0 |  |
@@ -46,15 +47,13 @@ Status values come from the single source in `references/context-pack-schema.md`
 3. [ ] Priority 3:
 
 ## Continuation Plan
-See `references/continuation-mode.md` for the judgment rule and sequential fallback.
-- Continuation mode (`parallel_recommended` or `sequential_sufficient`):
-- If parallel_recommended, probe for a native parallel-execution capability first; if none, run sequentially and note it here:
+- Continuation mode:
+- First executable action:
+- Independent tracks (multi-track only):
 - Owners and write scopes (multi-track only):
-- Single-writer locks:
-- Task dependency order:
-- Parallelizable reads/verifications:
-- Coordination checkpoint (time or trigger):
-- Escalation rule if blocked:
+- Dependency and serialization gates:
+- Verification/integration gate:
+- Sequential fallback if parallel execution is unavailable:
 
 ## Handoff Quality Status
 - Overall status: partial
@@ -63,6 +62,7 @@ See `references/continuation-mode.md` for the judgment rule and sequential fallb
 - Reproducibility: `pass | partial | fail`
 - Risks communicated: `pass | partial | fail`
 - Ready for takeover: `yes | no`
-- Notes for next AI:
+- Notes for successor:
 
-Overall status must be one of `complete/partial/blocked` and must equal the `status` in `context-pack.json`. Replace the placeholder above with the real value.
+Overall status must use the canonical set and equal `status` in
+`context-pack.json`. Replace the placeholder above with the real value.

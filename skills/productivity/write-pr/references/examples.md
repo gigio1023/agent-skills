@@ -1,5 +1,13 @@
 # Good and Bad PR Body Examples
 
+## Table of Contents
+
+- 좋은 예시 1: 짧고 왜/결과 중심 (Breaking 포함)
+- 좋은 예시 2: 작은 버그 수정
+- 나쁜 예시 1: 디테일 나열 + 반말 + 검증 섹션
+- 나쁜 예시 2: Breaking 을 별도 섹션으로 빼서 결과와 중복
+- 나쁜 예시 3: 배경/결과 누락
+
 ## 좋은 예시 1: 짧고 왜/결과 중심 (Breaking 포함)
 
 ```md
