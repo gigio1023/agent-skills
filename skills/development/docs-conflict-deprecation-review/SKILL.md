@@ -1,131 +1,139 @@
 ---
 name: docs-conflict-deprecation-review
-version: 1.0.0
-description: |
-  구현 기준으로 프로젝트 문서를 전수 점검해 충돌 정보, 오래된 설명, deprecated 내용, 깨진 명령/경로를 찾아 즉시 수정한다.
-  트리거: "문서 정합성 점검", "docs review", "deprecated 문서 업데이트", "구현 대비 문서 싱크" 요청 시.
-  NOT for: 새 문서 작성(use dev-tech-spec-docs) 또는 문서 문체 정리(use dev-doc-style). 이 스킬은 기존 문서를 구현 기준으로 감사한다.
+description: >
+  Use when auditing existing project documentation against the current
+  implementation, configuration, scripts, tests, or normative specification to
+  find stale commands, broken paths, deprecated guidance, terminology drift,
+  and contradictory pages. Trigger for "문서 정합성 점검", "docs review",
+  "deprecated 문서 업데이트", and "구현 대비 문서 싱크". NOT for creating a
+  new document (use dev-tech-spec-docs) or style-only rewriting (use
+  dev-doc-style).
 ---
 
-# Docs Conflict & Deprecation Review
+# Documentation Conflict and Deprecation Review
 
-구현(코드/스크립트/실행 커맨드)을 기준으로 문서를 검토하고, 충돌/폐기/노후 정보를 직접 수정한다.
+Find documentation claims that no longer match their evidence, classify the
+mismatch correctly, and fix only when the user authorized edits.
 
-## Goal
+## Modes
 
-- 문서와 실제 구현의 불일치를 제거한다.
-- deprecated/obsolete 안내를 최신 워크플로우로 교체한다.
-- 문서 간 용어/명령/경로를 일관되게 맞춘다.
+- **Audit**: return evidence-backed findings; do not change files.
+- **Sync**: patch confirmed documentation drift, then validate the affected
+  paths, commands, and links.
 
-## Scope
+Use Audit for requests such as "review", "check", or "report". Use Sync when the
+user asks to fix, update, or synchronize. A request to audit one area does not
+authorize a repository-wide rewrite.
 
-기본 점검 대상 예시:
+## Quick Start
 
-- 루트 문서: `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`
-- 제품 문서: `docs/**`, `packages/**/README.md`, `infra/**/README.md`
-- 운영 문서: `checklist.md`, `agent-skills.md`, `plan.md` (존재 시)
+1. Read repository instructions and define the document scope from the request.
+2. Inventory the in-scope Markdown, MDX, or reStructuredText files with
+   `rg --files`.
+3. Extract decision-relevant claims: commands, paths, names, versions, defaults,
+   environment variables, APIs, architecture, and deprecation or migration
+   guidance.
+4. Trace each suspect claim to evidence and classify the mismatch.
+5. In Sync mode, apply the smallest evidence-supported patch.
+6. Run targeted validation and report confirmed fixes, unresolved conflicts, and
+   checks not run.
 
-## Non-Negotiable Rules
+## Evidence and Classification
 
-- 구현 사실을 우선한다. 문서가 코드와 다르면 문서를 수정한다.
-- 단순 제안으로 끝내지 않고 가능한 항목은 즉시 패치한다.
-- 의미 없는 대규모 리라이트를 피하고, 필요한 문맥만 최소 수정한다.
+Use evidence appropriate to the claim:
 
-## Workflow
+| Claim | Strong evidence |
+| --- | --- |
+| Current command or setup | successful command, task runner, package config, CI |
+| File or module path | repository tree and imports |
+| API, option, or default | implementation, schema, generated API, tests |
+| Runtime behavior | focused test, safe execution, logs supplied by the user |
+| Intended contract | accepted spec, ADR, user requirement, normative project doc |
+| Deprecation or replacement | source annotation, changelog, migration code, upstream official docs |
 
-### 1) 문서 인벤토리 수집
+For current behavior, executable evidence normally outweighs prose. A
+specification or ADR may intentionally describe desired behavior, so a
+code-versus-doc difference is not automatically documentation drift.
+
+Classify each issue as one of:
+
+- **documentation drift**: implementation changed and the document should follow;
+- **implementation drift**: normative documentation describes the intended
+  contract and code appears wrong;
+- **document conflict**: two maintained pages disagree and no owner is clear;
+- **broken reference**: path, link, anchor, command, or name no longer resolves;
+- **ambiguous**: evidence cannot establish which side is authoritative.
+
+Patch documentation drift and broken references in Sync mode. Report
+implementation drift and ambiguous conflicts unless the user also requested
+code changes or supplied the missing decision.
+
+## Search Strategy
+
+Start from claims, not a generic keyword dump:
 
 ```bash
 rg --files -g '*.md' -g '*.mdx' -g '*.rst'
+rg -n 'deprecated|obsolete|legacy|removed|renamed|unfinished|placeholder' <scope>
 ```
 
-필요 시 우선순위 분류:
+Then search exact commands, identifiers, environment variables, and paths in
+the relevant code, configuration, tests, and CI. Use repository-specific terms;
+do not treat example framework names as evidence.
 
-- Tier 1: 온보딩/실행 명령 (`README.md`, `CONTRIBUTING.md`)
-- Tier 2: 아키텍처/운영 규칙 (`AGENTS.md`, `CLAUDE.md`, `docs/`)
-- Tier 3: 도메인 상세 문서 (`packages/**/README.md`)
+When the scope is large, prioritize entry-point and operational documents before
+deep reference pages. Parallelize independent areas only when the harness
+supports it and the result can be merged into one evidence ledger.
 
-### 2) 구현 Truth 수집
+## Patch Rules
 
-문서와 비교할 근거를 코드에서 추출한다.
+- Preserve the document's language, structure, and voice unless structure
+  prevents an accurate repair.
+- Change the smallest passage that resolves the confirmed mismatch.
+- Update repeated copies only after identifying whether one page is the
+  maintained owner.
+- Replace deprecated guidance with a verified migration path when one exists.
+  Otherwise state that the feature is removed or unsupported without inventing
+  a substitute.
+- Preserve unrelated user edits and never copy one guide wholesale over another
+  merely because they usually match.
 
-```bash
-# 실행/검증 커맨드 근거
-rg -n "pytest|ruff|docker compose|python -m" README.md CONTRIBUTING.md AGENTS.md docs scripts
+## Validation
 
-# 구조/용어 근거: 실제 프로젝트 용어로 바꿔 실행한다.
-rg -n "FastAPI|Celery|Prometheus|OpenAPI" app docs
+For every edited claim:
 
-# Deprecated 후보 탐지
-rg -n "deprecated|deprecat|obsolete|legacy|TODO|TBD|WIP" docs README.md CONTRIBUTING.md AGENTS.md
-```
+- confirm local paths and anchors exist;
+- confirm commands against scripts/configuration and run safe focused commands
+  when proportionate;
+- confirm names, signatures, defaults, and deprecation status at their source;
+- search the in-scope documents for stale variants left behind;
+- inspect the diff for unrelated churn and run repository documentation checks
+  when available.
 
-### 3) 충돌/폐기 판정 기준
+Record actual command results. Inspection alone is not a successful runtime
+test.
 
-다음 중 하나면 수정 대상:
+## Output
 
-- 문서 명령이 현재 실행 불가 (파일 없음, 경로 변경, CLI 옵션 변경)
-- 아키텍처/레이어 설명이 실제 디렉터리 구조와 불일치
-- 용어가 공식 명칭과 불일치
-- deprecated 항목이 남아 있고 대체 경로가 누락
-- 두 문서가 동일 주제를 상반되게 설명
+Lead with the result:
 
-### 4) 문서 패치 원칙
+- Audit mode: findings ordered by impact, each with document location, conflicting
+  claim, evidence, classification, and recommended action.
+- Sync mode: changed files and conflicts resolved, followed by validation
+  results and open questions.
 
-- 최신 근거가 확인된 문장만 교체한다.
-- 변경 이유가 불분명하면 보수적으로 유지하고 `Open Question`으로 남긴다.
-- 반복되는 잘못된 용어/명령은 관련 문서 전체에서 일괄 정리한다.
+If no mismatch is found, state the inspected scope and evidence checks so the
+result is auditable.
 
-### 5) 검증
+## Gotchas
 
-문서 수정 후 최소 검증:
-
-```bash
-# 명령/경로 존재성 확인: 수정한 명령과 경로의 핵심 토큰으로 바꿔 실행한다.
-rg -n "pytest|ruff|docker compose|scripts/" README.md CONTRIBUTING.md AGENTS.md docs
-```
-
-### 6) 프로젝트별 추가 검증
-
-프로젝트에 따라 아래와 같은 추가 검증이 필요할 수 있다. 프로젝트의 가이드 문서(`AGENTS.md`, `CLAUDE.md` 등)를 먼저 읽고 해당 프로젝트의 검증 방법을 따른다.
-
-예시 (Python/FastAPI 프로젝트):
-
-```bash
-# 린트/포맷
-uv run ruff check --fix . && uv run ruff format .
-
-# 테스트
-uv run pytest tests/ -v
-```
-
-예시 (Node.js/Svelte 프로젝트):
-
-```bash
-pnpm check && pnpm lint
-```
-
-예시 (가이드 문서 동기화):
-
-```bash
-# AGENTS.md 변경 시 CLAUDE.md 동기화 (프로젝트 규칙인 경우)
-cp AGENTS.md CLAUDE.md
-```
-
-## 결과 보고 포맷
-
-1. **Updated files** — `path`: 무엇을 왜 바꿨는지 1줄
-2. **Conflicts resolved** — 충돌 항목 -> 해결 방식
-3. **Deprecated cleanup** — 제거/교체한 deprecated 안내
-4. **Validation** — 실행한 검증 명령과 결과 (성공/실패)
-5. **Open questions** — 근거 부족으로 보류한 항목
-
-## Fast Checklist
-
-- [ ] 문서 인벤토리 수집
-- [ ] 구현 Truth 확보
-- [ ] 충돌/폐기 항목 식별
-- [ ] 문서 직접 패치
-- [ ] 가이드 동기화 규칙 준수
-- [ ] 관련 검증 실행
-- [ ] 변경 요약 + 잔여 이슈 보고
+- Do not assume implementation is correct when a normative specification says
+  otherwise.
+- A working path does not prove the documented command's flags, prerequisites,
+  or output are correct.
+- Search hits for "legacy" and "deprecated" may describe supported compatibility,
+  not stale guidance.
+- Upstream documentation is time-sensitive; verify current official sources
+  when a local claim depends on an external version.
+- A broad terminology replacement can alter API names, quotations, code blocks,
+  or historical migration notes. Patch occurrences in context.

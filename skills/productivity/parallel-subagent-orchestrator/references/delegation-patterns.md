@@ -3,6 +3,16 @@
 Use these as patterns, not scripts. The lead agent should adapt the number of
 agents, depth, and output contract to the user's budget and the task's stakes.
 
+## Contents
+
+- Breadth research
+- Literature or evidence review
+- Value judgment or strategy
+- Codebase exploration
+- Parallel implementation
+- Adversarial review
+- Long-running or multi-wave work
+
 ## Pattern A: Breadth Research
 
 Use for web research, tool discovery, market scans, ecosystem mapping, and

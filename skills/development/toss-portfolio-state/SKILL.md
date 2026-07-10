@@ -14,19 +14,17 @@ description: >
 # Toss Portfolio State
 
 Use this skill to collect a read-only Toss Invest OpenAPI snapshot and turn it
-into a normalized `toss_portfolio_snapshot`. The output is personal account
-state evidence plus optional market context: holdings, buying power, sellable
-quantity, commissions, open and closed orders, conditional order history, FX,
-market calendars, stock reference data, warnings, prices, and optional deeper
-market data. It is not a trading engine and not an investment-decision system.
+into a normalized `toss_portfolio_snapshot`. The result is temporary personal
+account-state evidence with optional market context, not a trading engine or an
+investment recommendation.
 
 ## Quick Start
 
 1. Read `references/snapshot-contract.md` before mapping fields or changing the
    script.
-2. Confirm the request is read-only. If the user asks for orders, transfers,
-   automatic rebalancing, or live execution, stop this skill and route to the
-   appropriate safety boundary.
+2. Confirm from the requested outcome that the task is read-only. If it includes
+   orders, transfers, automatic rebalancing, or live execution, state the
+   boundary and stop before loading credentials.
 3. Load credentials only from process environment or a user-specified env file.
    Never store secrets, tokens, raw account numbers, or raw broker responses in
    the skill directory.
@@ -36,6 +34,9 @@ market data. It is not a trading engine and not an investment-decision system.
 ```bash
 bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file .env --market-context basic --orders-days 30 --recent-orders-limit 40
 ```
+
+   CLI flags override the explicit env file, which overrides process
+   environment. The default origin is the official HTTPS host.
 
 5. Hand the normalized JSON to the requesting workflow. For
    `investment-decision-support`, treat it as a temporary personal-state input
@@ -69,6 +70,12 @@ Optional settings:
 - `TOSS_INVEST_BASE_URL`
 - `TOSS_INVEST_ACCOUNT_ALIAS`
 
+The explicit env file may contain both required credentials and these optional
+settings. A non-official base URL is rejected unless the command also includes
+`--allow-custom-base-url`. Use that gate only for a user-approved HTTPS endpoint
+or a loopback mock; the selected host receives the API key and secret during
+token creation.
+
 Secret handling:
 
 - Prefer inheriting process environment variables from the user's shell or pass
@@ -79,32 +86,17 @@ Secret handling:
 - Do not use bare `bun` in instructions that touch credentials; Bun auto-loads
   ambient `.env` files by default, so use `bun --no-env-file --no-install ...`
   and let the script read only the explicit `--env-file`.
+- Do not print resolved environment values or include credentials in a base URL.
+  Custom non-loopback hosts must use HTTPS, and HTTP is accepted only for an
+  explicitly gated loopback mock.
 
 ### 3. Normalization
 
-Produce one JSON object with:
-
-- `snapshot_type`
-- `as_of_kst`
-- `retrieved_at_utc`
-- `account`
-- `buying_power`
-- `sellable_quantities`
-- `commissions`
-- `exchange_rate`
-- `market_calendar`
-- `holdings_overview`
-- `holdings`
-- `open_orders`
-- `closed_orders_window`
-- `recent_closed_orders`
-- `conditional_orders`
-- `market_context`
-- `source_provenance`
-- `warnings`
-
-The closed set above lives in `references/snapshot-contract.md`; do not restate
-the schema elsewhere.
+Produce exactly one normalized object using the closed field set and redaction
+rules in `references/snapshot-contract.md`. Preserve timestamps, provenance,
+and warnings even when a downstream consumer asks for a shorter summary. Never
+guess at fields after schema drift; return a blocker where the contract says the
+missing meaning is decisive.
 
 ### 4. Handoff
 
@@ -131,31 +123,28 @@ or summarize only the fields needed for that decision. Keep these boundaries:
 |---|---|---|
 | `scripts/fetch_portfolio_snapshot.ts` | Fetch and normalize a read-only Toss Invest OpenAPI portfolio snapshot. | `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --self-test` |
 
+## Output Contract
+
+On success, return or hand off the normalized JSON and lead any human summary
+with its `as_of_kst`, account alias/masked identity, requested account facts,
+and warnings. State the selected market-context mode. Keep required facts,
+caveats, and downstream actions; omit endpoint-by-endpoint narration.
+
+On failure, return a blocker with the failed capability, whether the failure is
+credentials, account discovery, API availability, or schema drift, and the
+smallest safe next action. Do not return a confident partial snapshot when the
+request depends on the missing field.
+
 ## Validation
 
 Before shipping changes:
 
 - `SKILL.md` frontmatter has only `name` and `description`.
 - The script self-test exits 0.
-- `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` reports no unexpected official endpoint outside the read-only or blocked mutating sets.
+- `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` exits 0 with `coverage_ok: true`, no missing expected endpoints, and no unclassified official endpoints. Fetch, parse, missing-endpoint, and classification failures exit nonzero.
 - The reference path exists and is one level deep.
 - No credential, token, raw account number, or raw broker response is committed.
-- Trigger examples include positive and near-miss negative cases.
-
-## Trigger Tests
-
-Positive prompts:
-
-- "Use Toss API to summarize my current balance and holdings."
-- "Fetch a Toss OpenAPI portfolio snapshot for investment-decision-support."
-- "Read my Toss balance and recent orders without making trades."
-- "Add Toss market context for my holdings, but do not place orders."
-
-Near-miss negative prompts:
-
-- "Should I buy more MU today?" Use `investment-decision-support`.
-- "Connect Toss API and automatically rebalance my account." Reject execution
-  setup; this skill stays read-only.
+- The frontmatter includes positive triggers and explicit near-miss exclusions.
 
 ## Gotchas
 
@@ -168,6 +157,9 @@ Near-miss negative prompts:
   source only, and keep values inside the script process.
 - Do not use `bunx` for the bundled fetcher. `bunx` is for package executables;
   this skill ships a local Bun script.
+- Do not point credentials at a custom base URL merely because one appears in
+  ambient configuration. Require the explicit gate and verify the intended
+  origin without displaying secret values.
 - Do not treat the snapshot as current-market research. A broker snapshot may be
   stale, delayed, session-specific, or incomplete for market-tape purposes.
 - Do not infer tax lots from recent closed orders alone. Treat tax-sensitive

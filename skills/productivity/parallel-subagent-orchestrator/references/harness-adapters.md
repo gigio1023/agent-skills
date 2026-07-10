@@ -4,6 +4,17 @@ This skill should work across Codex, Claude Code, Cursor, OpenCode,
 Antigravity, and similar agent harnesses. Treat this file as policy, not a list
 of fixed commands.
 
+## Contents
+
+- Universal adapter rule
+- Model and cost routing
+- Codex
+- Claude Code
+- Cursor
+- OpenCode
+- Antigravity
+- Fallback mode
+
 ## Universal Adapter Rule
 
 Use the current harness' native mechanism for delegation. Prefer officially
@@ -13,6 +24,15 @@ shelling out to another agent system.
 If the harness exposes a tool registry or discovery mechanism, inspect it before
 inventing commands. If it does not expose delegation, emulate the workflow with
 sequential packets and explicit synthesis notes.
+
+Choose the execution primitive by task shape:
+
+- Direct work when one result determines the next action or coordination would
+  cost more than it saves.
+- A deterministic or programmatic tool path for bounded structured reduction
+  with a compact schema and no judgment between calls.
+- Subagents for independent reasoning, context isolation, specialized tools,
+  disjoint implementation, or fresh-context verification.
 
 ## Model And Cost Routing
 
@@ -32,8 +52,9 @@ General policy:
   and final recommendation.
 - Put long-context or cheaper workers on bounded reading, inventory, extraction,
   and source collection when they can return compact evidence packets.
-- Do not spend high-value lead-agent context on raw search when a support lane
-  can collect the evidence cleanly.
+- Keep collection with the lead when direct reading preserves decisive context
+  or each result changes the next judgment. Delegate it when the lane is truly
+  bounded and a compact evidence packet preserves what the decision needs.
 
 If a named model, plugin, or reasoning level is unavailable in the current
 harness, inspect the available capabilities and use the nearest configured
@@ -52,9 +73,15 @@ Use native subagent tools when available. Typical concepts include:
 - Wait only when the lead agent is blocked on the result.
 - Close completed agents when no longer needed.
 
-Codex-specific caution: do not spawn subagents unless the user explicitly asked
-for subagents, delegation, or parallel agent work. This skill usually triggers
-only after that consent is present.
+Codex-specific caution: delegation does not broaden authorization. Bounded
+read-only exploration, in-scope implementation, and verification may be normal
+execution steps when the current harness policy allows them; external writes,
+destructive actions, and material scope expansion still require the same user
+authority they would require in the lead thread.
+
+Current Codex surfaces may delegate when the user asks or when an applicable
+skill or repository instruction requests it. Treat that as availability, not a
+reason to spawn workers before the independence and cost test passes.
 
 ## Claude Code
 
@@ -63,6 +90,10 @@ Prefer filesystem-backed instructions, explicit agent roles, and fresh-context
 workers for isolated tasks. For team-style workflows, keep handoff artifacts
 small and reviewable: spec, task, evidence, review result.
 
+Prefer asynchronous communication for independent lanes. Reuse a long-lived
+agent for related follow-up tasks when its retained context is still correct;
+use a fresh verifier when independence from the implementation context matters.
+
 If the user supplies a companion routing skill, use it to choose exact models,
 plugins, and token-saving lanes. Keep cross-harness packets small: objective,
 scope, exclusions, evidence contract, and stop condition. Do not dump the whole
@@ -70,7 +101,11 @@ conversation unless the worker truly needs it.
 
 Claude-specific caution: skills and subagents are separate concepts. A skill
 can tell the lead agent how to orchestrate; it should not assume every named
-agent exists.
+agent exists. A normal subagent starts with fresh context, does not inherit a
+skill already invoked by the parent unless it is preloaded or invoked again, and
+cannot spawn another subagent. Keep the packet self-contained and let the main
+thread own further waves; use agent teams only when the visible harness supports
+them and peer communication is actually needed.
 
 ## Cursor
 

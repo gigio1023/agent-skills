@@ -17,7 +17,8 @@
 This reference defines the normalized handoff object for read-only Toss Invest
 OpenAPI account-state collection. Use it when a workflow needs current personal
 portfolio state before investment analysis, cash planning, risk-budget checks, or
-behavior-risk review. API surface classification lives in `api-coverage.md`.
+behavior-risk review. API surface classification is maintained separately in
+the skill's API coverage reference.
 
 The snapshot answers: "What does the broker account currently show?" It does not
 answer: "What should the user do?"
@@ -101,7 +102,7 @@ The bundled script uses this default read-only surface:
 Full market context additionally calls orderbook, trades, candles, rankings,
 market-indicator candles, and KOSPI/KOSDAQ investor trading. Mutating order and
 conditional-order endpoints are deliberately blocked. If the API documentation
-changes, update this table, `api-coverage.md`, and the script together.
+changes, update this table, the API coverage reference, and the script together.
 
 ## Snapshot Schema
 

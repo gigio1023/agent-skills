@@ -58,10 +58,13 @@ Run this before finishing UI work. Fix issues you can fix within scope.
 
 ## Verification
 
-When tooling is available:
-- Use browser screenshots for visually significant work.
-- Inspect both desktop and mobile.
+For visually significant runnable work:
+- Render and inspect the primary surface rather than inferring quality from code.
+- Check the viewports and states named by the brief; include desktop and mobile
+  when the surface is responsive.
+- Exercise the primary interaction and inspect loading, empty, error, long-content,
+  and disabled states that are in scope.
 - For canvas/3D/game work, verify nonblank pixels and basic interaction.
 - Run available lint/build/tests if the project has them.
-- Report what was not verified.
-
+- If the environment cannot render the result, report the exact gap and do not
+  claim visual completion.

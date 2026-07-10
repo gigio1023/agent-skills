@@ -1,5 +1,12 @@
 # 문서 작성 패턴
 
+## Contents
+
+- Anti-patterns
+- Best Practices
+- 정보 계층 예시
+- 문서 유형별 예시
+
 ## Anti-patterns (피해야 할 것)
 
 ### 1. 장황한 역사 서술
@@ -12,7 +19,7 @@
 > - Python 3.11
 > - FastAPI 0.100
 > 
-> 변경 이력: [CHANGELOG.md](CHANGELOG.md)
+> 변경 이력: 프로젝트의 `CHANGELOG.md` 참조
 
 ---
 
@@ -177,7 +184,7 @@ $ docker-compose up
 **Good**:
 - 필요할 때만 제한적으로 사용
 - 같은 기호는 같은 의미로 사용
-- 한국어 문서: 개조식/표/리스트 우선
+- 한국어 문서도 독자 작업에 맞춰 prose, 목록, 표를 선택
 
 ---
 
@@ -213,7 +220,7 @@ $ docker-compose up
 ### 2. 계층적 정보 제공
 
 **Tier 1 (README.md)**:
-```markdown
+````markdown
 ## Quick Start
 ```bash
 uv sync
@@ -221,10 +228,10 @@ uv run uvicorn app.main:app
 ```
 
 상세: [Getting Started](docs/getting-started.md)
-```
+````
 
 **Tier 2 (docs/getting-started.md)**:
-```markdown
+````markdown
 ## Quick Start
 
 1. 의존성 설치
@@ -242,7 +249,7 @@ cp .env.sample .env
 ```bash
 uv run uvicorn app.main:app --reload
 ```
-```
+````
 
 ---
 
@@ -265,7 +272,7 @@ curl -X POST "http://localhost:8080/api/users" \
 
 **복잡한 구조는 다이어그램으로**:
 
-```markdown
+````markdown
 # Bad (텍스트로만 설명)
 오케스트레이터가 AD Retrieval, Answer Fusion, Quality Inspection을
 순차적으로 호출합니다. 각 에이전트는 LLM Client를 통해 OpenAI와
@@ -284,15 +291,15 @@ Orchestrator
 **설명**:
 - Orchestrator: 에이전트 순차 실행
 - LLM Client: OpenAI API 호출 및 Langfuse 기록
-```
+````
 
 ---
 
 ### 5. 검증 가능한 예시
 
-**모든 코드 예시는 실행 가능해야 함**:
+**실행 가능하다고 제시하는 코드 예시는 검증 가능해야 함**:
 
-```markdown
+````markdown
 # Bad
 ```python
 result = process_data(data)
@@ -309,7 +316,7 @@ with open("data.json") as f:
 result = process_data(data)
 print(result)  # Expected: {"status": "success", ...}
 ```
-```
+````
 
 ---
 
@@ -331,7 +338,7 @@ print(result)  # Expected: {"status": "success", ...}
 
 ### 7. 단계별 검증
 
-```markdown
+````markdown
 ## Steps
 
 ### 1. 환경 변수 설정
@@ -355,7 +362,7 @@ alembic upgrade head
 alembic current
 # Expected: [current version hash]
 ```
-```
+````
 
 ---
 
@@ -380,7 +387,7 @@ alembic current
 
 ---
 
-### 9. 개조식 작성 (한국어)
+### 9. 절차를 스캔 가능하게 만들기 (한국어)
 
 **Bad**:
 > 이 기능을 사용하려면 먼저 환경 변수를 설정해야 합니다.

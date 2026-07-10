@@ -1,134 +1,160 @@
-# Agent Skills — Official Anthropic Documentation
+# Agent Skills — Official Anthropic Documentation Snapshot
 
-> **Source**: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
-> **Snapshot date**: 2026-03-23
-> **Freshness policy**: This is a local snapshot. Before relying on specific API details,
-> field constraints, or feature availability, fetch the latest version from the URL above
-> using WebFetch. The SKILL.md instructs when to refresh.
-
----
+> **Sources**:
+> https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
+> and
+> https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+> **Snapshot date**: 2026-07-10
+> **Freshness policy**: Refresh the official pages before relying on field,
+> runtime, API, or availability details when this snapshot is older than 30 days.
 
 ## Table of Contents
 
-- Why use Skills
-- How Skills work (three levels of loading)
-- Skill structure (frontmatter, required fields, field requirements)
-- Where Skills work (Claude Code, Claude API, Claude.ai, Agent SDK)
-- Security considerations
-- Limitations and constraints
+- Why Skills
+- Loading model
+- Authoring principles
+- Skill structure and frontmatter
+- Progressive disclosure
+- Evaluation and iteration
+- Where Skills work
+- Runtime constraints
+- Security and retention
+- Checklist
 
----
+## Why Skills
 
-## Why use Skills
+Skills are reusable filesystem packages containing instructions, metadata, and
+optional resources. They load on demand, so they are best for domain knowledge,
+workflows, and repeatable procedures that should not occupy every conversation.
 
-Skills are reusable, filesystem-based resources that provide Claude with domain-specific expertise: workflows, context, and best practices that transform general-purpose agents into specialists. Unlike prompts (conversation-level instructions for one-off tasks), Skills load on-demand and eliminate the need to repeatedly provide the same guidance across multiple conversations.
+## Loading Model
 
-**Key benefits**:
-- **Specialize Claude**: Tailor capabilities for domain-specific tasks
-- **Reduce repetition**: Create once, use automatically
-- **Compose capabilities**: Combine Skills to build complex workflows
+Skills use three levels of disclosure:
 
-## How Skills work
+| Level | Loaded when | Content |
+|-------|-------------|---------|
+| Metadata | Startup | `name` and `description` |
+| Instructions | Skill trigger | `SKILL.md` body |
+| Resources | As needed | References, scripts, templates, and data |
 
-Skills leverage Claude's VM environment to provide capabilities beyond what's possible with prompts alone. Claude operates in a virtual machine with filesystem access, allowing Skills to exist as directories containing instructions, executable code, and reference materials, organized like an onboarding guide you'd create for a new team member.
+Only metadata for every installed skill is loaded at startup. The description
+therefore carries discovery; the body and resources should focus on execution.
 
-This filesystem-based architecture enables **progressive disclosure**: Claude loads information in stages as needed, rather than consuming context upfront.
+## Authoring Principles
 
-### Three levels of loading
+- Assume the model is already capable. Include only information that earns its
+  context cost.
+- Match degrees of freedom to risk. Use text heuristics for open-ended work,
+  parameterized patterns for preferred approaches, and exact scripts for fragile
+  operations.
+- Test with every model family the skill is intended to support. A powerful
+  model may be harmed by over-explanation while a smaller model may need more.
+- Build evaluations before extensive documentation. Establish a no-skill
+  baseline, add the minimum instructions, and iterate from real usage.
+- Use feedback loops for quality-critical work: run or inspect, fix, and verify
+  again.
+- Avoid time-sensitive instructions in the main path and keep terminology
+  consistent.
 
-#### Level 1: Metadata (always loaded)
-The Skill's YAML frontmatter provides discovery information (~100 tokens per Skill):
+## Skill Structure And Frontmatter
 
-```yaml
----
-name: pdf-processing
-description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
----
-```
-
-#### Level 2: Instructions (loaded when triggered)
-The main body of SKILL.md contains procedural knowledge — under 5k tokens.
-
-#### Level 3: Resources (loaded as needed)
-Additional files: scripts, references, templates. Effectively unlimited since scripts execute without loading into context.
-
-| Level | When Loaded | Token Cost | Content |
-|-------|------------|------------|---------|
-| **Level 1: Metadata** | Always (at startup) | ~100 tokens per Skill | `name` and `description` from YAML frontmatter |
-| **Level 2: Instructions** | When Skill is triggered | Under 5k tokens | SKILL.md body with instructions and guidance |
-| **Level 3+: Resources** | As needed | Effectively unlimited | Bundled files executed via bash without loading contents into context |
-
-## Skill structure
-
-Every Skill requires a `SKILL.md` file with YAML frontmatter:
+Every package requires `SKILL.md`:
 
 ```yaml
 ---
-name: your-skill-name
-description: Brief description of what this Skill does and when to use it
+name: processing-pdfs
+description: >
+  Extracts text and tables, fills forms, and merges PDFs. Use when the user asks
+  to work with PDF files or document forms.
 ---
-
-# Your Skill Name
-
-## Instructions
-[Clear, step-by-step guidance for Claude to follow]
-
-## Examples
-[Concrete examples of using this Skill]
 ```
 
-**Required fields**: `name` and `description`
+Required fields:
 
-**Field requirements**:
+- `name`: at most 64 characters; lowercase letters, numbers, and hyphens; no XML
+  tags; no reserved `anthropic` or `claude` terms.
+- `description`: non-empty, at most 1024 characters, no XML tags, and specific
+  about both what the skill does and when to use it. Write in third person.
 
-`name`:
-- Maximum 64 characters
-- Must contain only lowercase letters, numbers, and hyphens
-- Cannot contain XML tags
-- Cannot contain reserved words: "anthropic", "claude"
+The portable default is these two fields only.
+Keep `name` on one line. Write `description` as one quoted scalar or an indented
+`>`/`|` block; quote a single-line value that contains `: ` so strict YAML
+runtimes do not reinterpret it as a mapping. For maximum portability, avoid
+inline comments and inner quote/escape syntax in metadata; use a block scalar
+when the text needs either.
 
-`description`:
-- Must be non-empty
-- Maximum 1024 characters
-- Cannot contain XML tags
+## Progressive Disclosure
 
-The `description` should include both what the Skill does and when Claude should use it.
+- Keep the `SKILL.md` body under 500 lines; split before it becomes a context
+  burden.
+- Link references directly from `SKILL.md`. Avoid nested reference chains because
+  the model may preview only part of a referenced file.
+- Give references over 100 lines a contents map near the top.
+- Use descriptive filenames and forward-slash relative paths.
+- State whether a bundled script should be executed or read as reference.
+- Prefer deterministic scripts for repeatable validation or transformation, and
+  give errors enough detail to support repair.
+- Make complex or high-stakes changes verifiable through a plan-validate-execute-
+  verify loop.
 
-## Where Skills work
+## Evaluation And Iteration
 
-### Claude Code
-Custom Skills only. Create Skills as directories with SKILL.md files. Claude discovers and uses them automatically. Filesystem-based, no API uploads required.
+The official process is evaluation-driven:
 
-Locations:
-- Personal: `~/.claude/skills/`
-- Project: `.claude/skills/`
-- Plugins: shared via Claude Code Plugins
+1. Run representative tasks without the skill and record specific gaps.
+2. Create at least three scenarios that test those gaps.
+3. Write the minimum instructions needed to address them.
+4. Test with a fresh agent using the skill on real work.
+5. Observe trigger choice, file navigation, ignored or overused content, and
+   output quality.
+6. Refine from observations and repeat.
 
-### Claude API
-Both pre-built and custom Skills. Specify `skill_id` in the `container` parameter.
+There is no built-in universal evaluation runner. Use project-specific scripts,
+rubrics, artifact checks, and representative prompts.
 
-### Claude.ai
-Both pre-built and custom Skills. Upload as zip files through Settings > Features.
+## Where Skills Work
 
-### Claude Agent SDK
-Custom Skills through `.claude/skills/` directories. Enable with `"Skill"` in `allowed_tools`.
+- Claude Code: filesystem Custom Skills, personal or project-scoped, and plugin
+  distribution.
+- Claude API: pre-built and uploaded Custom Skills through the code-execution
+  container and Skills API. Current use requires the documented Skills and Files
+  beta headers.
+- claude.ai: pre-built and individually uploaded Custom Skills for eligible
+  plans with code execution.
+- Claude Platform on AWS and Microsoft Foundry: documented Skills API support;
+  product-specific deployment requirements apply.
 
-## Security considerations
+Custom Skills do not automatically sync across these surfaces. API uploads are
+workspace-wide, claude.ai uploads are individual, and Claude Code skills are
+filesystem installations.
 
-Only use Skills from trusted sources. Skills provide Claude with new capabilities through instructions and code — malicious Skills could direct Claude to invoke tools or execute code in harmful ways.
+## Runtime Constraints
 
-Key considerations:
-- **Audit thoroughly**: Review all files (SKILL.md, scripts, images, resources)
-- **External sources are risky**: Skills that fetch from external URLs pose particular risk
-- **Tool misuse**: Malicious Skills can invoke tools in harmful ways
-- **Data exposure**: Skills with access to sensitive data could leak information
-- **Treat like installing software**: Only use from trusted sources
+- Claude API skill containers have no network access or runtime package
+  installation; use pre-installed dependencies only.
+- Claude Code has the user's local network and execution environment; avoid
+  global package installation and respect project policy.
+- claude.ai network and installation behavior can vary with product and admin
+  settings.
+- Fully qualify MCP tools as `ServerName:tool_name` and do not assume a package
+  or tool exists without a check or documented prerequisite.
 
-## Limitations and constraints
+## Security And Retention
 
-- Custom Skills do not sync across surfaces (Claude.ai, API, Claude Code are separate)
-- Claude.ai: Individual user only; each team member uploads separately
-- Claude API: Workspace-wide sharing
-- Claude Code: Personal (`~/.claude/skills/`) or project (`.claude/skills/`)
-- API: No network access, no runtime package installation
-- Claude Code: Full network access, avoid global package installation
+Treat a skill like software. Audit every bundled instruction, script, image, and
+external fetch for unexpected network access, file access, tool misuse, or data
+exposure. External content can change and may contain malicious instructions.
+
+Agent Skills is not eligible for Zero Data Retention under the current official
+documentation. Check the live retention page for deployment decisions.
+
+## Checklist
+
+- Description is specific about what and when.
+- Body is under 500 lines and contains only behavior-changing guidance.
+- References are one level deep; long references have a contents map.
+- Terminology and paths are consistent and portable.
+- Scripts solve deterministic work, handle errors, and are documented.
+- Critical operations have validation and feedback loops.
+- At least three evaluations cover real usage and trigger behavior.
+- Every intended model family has been tested or the gap is disclosed.
