@@ -6,7 +6,7 @@ description: >
   "commit", "push", "git push", "커밋", "분할 커밋", "push 해줘",
   "stage and commit", and "direct commit". Keeps unrelated worktree changes
   untouched and limits the default result to commits plus branch push. NOT for
-  opening or rewriting a PR (use draft-pr/write-pr), full CI certification, or
+  opening or rewriting a PR (use draft-pr), full CI certification, or
   issue/PR comments and edits unless the user explicitly includes them.
 ---
 

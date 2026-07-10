@@ -5,11 +5,9 @@ description: >
   with the `gh` CLI, including "PR을 GitHub에 올려줘", "draft PR을 열어줘",
   "open/create a PR", "submit this for review", conflict cleanup, or an
   existing PR update. Requires explicit create, open, publish, or update intent;
-  copy-only title or body drafting routes to write-pr. Creates drafts by
-  default, preserves existing reviewer context, uses
-  body-file based commands, and handles remote divergence safely. NOT for only
-  drafting a Korean/Jira-formatted title or body without GitHub mutation (use
-  write-pr), or for issue creation (use write-issue).
+  creates drafts by default, preserves existing reviewer context, uses body-file
+  based commands, and handles remote divergence safely. NOT for copy-only title
+  or body drafting, issue workflows, or review comments.
 ---
 
 # Draft PR
@@ -50,7 +48,7 @@ and reviewer actions; trim filler.
 - New PRs are draft by default. Make a PR ready for review only when the user
   asks for that state.
 - A request to write PR copy does not authorize branch, push, or GitHub
-  mutations. Compose with `write-pr` only after publication intent is explicit.
+  mutations. Enter this workflow only when publication intent is explicit.
 - Prefer repository conventions over invented ones. If the repo has a PR
   template, read it and satisfy required sections without copying placeholders.
 - Keep title and body concise. Reviewers should understand the change in under
