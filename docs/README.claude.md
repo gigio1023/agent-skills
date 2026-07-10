@@ -3,8 +3,9 @@
 Quick install:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill skill-builder --agent claude-code
-npx skills add gigio1023/agent-skills --skill cross-harness-skill-authoring --agent claude-code
+npx --yes skills add 'gigio1023/agent-skills#main' --skill skill-builder --agent claude-code --global --yes
+npx --yes skills add 'gigio1023/agent-skills#main' --skill cross-harness-skills --agent claude-code --global --yes
 ```
 
-Manual installation is documented in `.claude/INSTALL.md`.
+The source stays pinned to the published `main` branch; do not substitute a
+checkout or PR ref.

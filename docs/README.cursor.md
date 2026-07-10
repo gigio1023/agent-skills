@@ -3,7 +3,8 @@
 Quick install:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill skill-builder --agent cursor
+npx --yes skills add 'gigio1023/agent-skills#main' --skill skill-builder --agent cursor --global --yes
 ```
 
-Manual installation is documented in `.cursor/INSTALL.md`.
+The source stays pinned to the published `main` branch; do not substitute a
+checkout or PR ref.

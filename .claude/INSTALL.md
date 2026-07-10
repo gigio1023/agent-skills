@@ -1,21 +1,10 @@
 # Install Agent Skills for Claude Code
 
-## Preferred
+Install only the published `main` version at global scope:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill skill-builder --agent claude-code
+npx --yes skills add 'gigio1023/agent-skills#main' --skill skill-builder --agent claude-code --global --yes
 ```
 
 Replace `skill-builder` with the skill you want.
-
-## Manual install
-
-```bash
-git clone https://github.com/gigio1023/agent-skills.git ~/.claude/agent-skills
-mkdir -p ~/.claude/skills
-cp -R ~/.claude/agent-skills/skills/development/skill-builder ~/.claude/skills/
-```
-
-Claude Code normally detects `SKILL.md` changes live. Restart only if the new
-top-level skills directory was created after the session started or the skill
-does not appear.
+Do not install from a checkout, PR branch, or commit SHA.
