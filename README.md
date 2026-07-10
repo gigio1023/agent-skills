@@ -10,9 +10,9 @@ research audits, subagent orchestration, and skill creation.
 The pack was re-audited for GPT-5.6 Sol and Claude Fable 5 in July 2026.
 Portable domain skills keep task-specific knowledge, authority boundaries, and
 verification while avoiding model-specific micromanagement. Exact model routing
-lives only in the dedicated Fable/orchestration guidance. Claude Code and Codex
-installation, invocation, metadata, and permission differences remain in their
-adapter documentation rather than the shared skill core.
+and prompting guidance live only in the dedicated model skills. Claude Code and
+Codex installation, invocation, metadata, and permission differences remain in
+their adapter documentation rather than the shared skill core.
 
 ## Included skills
 
@@ -30,11 +30,13 @@ These skills live directly in this repo under `skills/`.
 | [docs-conflict-deprecation-review](skills/development/docs-conflict-deprecation-review/) | Audit docs against implementation and fix stale, conflicting, deprecated, or broken guidance |
 | [draft-pr](skills/development/draft-pr/) | Publish or update actual draft GitHub PRs with `gh`, preserving reviewer context and rebasing only when needed |
 | [echarts-dashboard-patterns](skills/development/echarts-dashboard-patterns/) | Build readable ECharts dashboards with guardrails for labels, legends, axes, gaps, and shared config |
+| [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
 | [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
 | [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
 | [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Add explanatory Python docstrings and intent comments for complex code paths |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
+| [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
 | [workspace-delivery-orchestrator](skills/development/workspace-delivery-orchestrator/) | Coordinate multi-repo or multi-workstream delivery with planning, progress tracking, and closure artifacts |
 | [workspace-handoff-compiler](skills/development/workspace-handoff-compiler/) | Compile successor handoffs and context packs for work that continues across sessions |
 
@@ -43,7 +45,9 @@ These skills live directly in this repo under `skills/`.
 | Skill | Description |
 | --- | --- |
 | [anti-ai-slop-terminology](skills/productivity/anti-ai-slop-terminology/) | Review unnatural or domain-inaccurate terminology without treating a watch-list hit as proof of AI authorship |
+| [conducting-deep-interviews](skills/productivity/conducting-deep-interviews/) | Lead an Ouroboros-centered, context-first Socratic interview one question at a time and close with a user-approved brief |
 | [fable5-judgment-orchestrator](skills/productivity/fable5-judgment-orchestrator/) | Let Fable 5 lead difficult judgment and end-to-end work, delegating only when another lane has a concrete advantage |
+| [handoff-prompt-writer](skills/productivity/handoff-prompt-writer/) | Compile current intent, decisions, artifacts, evidence, and remaining work into one executable successor prompt file |
 | [parallel-subagent-orchestrator](skills/productivity/parallel-subagent-orchestrator/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce page-limit checks |
 | [web-research-audit](skills/productivity/web-research-audit/) | Audit web research quality, source coverage, and evidence freshness |
@@ -120,16 +124,20 @@ agent-skills/
     │   ├── docs-conflict-deprecation-review/
     │   ├── draft-pr/
     │   ├── echarts-dashboard-patterns/
+    │   ├── fable5-prompting-guide/
     │   ├── toss-portfolio-state/
     │   ├── frontend-design/
     │   ├── mermaid-diagram-design/
     │   ├── python-docstring-enhancer/
     │   ├── skill-builder/
+    │   ├── gpt56-sol-prompting-guide/
     │   ├── workspace-delivery-orchestrator/
     │   └── workspace-handoff-compiler/
     └── productivity/
         ├── anti-ai-slop-terminology/
+        ├── conducting-deep-interviews/
         ├── fable5-judgment-orchestrator/
+        ├── handoff-prompt-writer/
         ├── parallel-subagent-orchestrator/
         ├── pdf-page-count/
         ├── web-research-audit/
