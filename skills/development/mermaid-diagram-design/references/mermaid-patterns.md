@@ -4,7 +4,7 @@
 
 - Type Selection Matrix
 - Frontmatter Presets
-- Professional Color Palette
+- Accessible Fallback Palette
 - Core Patterns
 - Preflight Checklist
 - Aesthetic Rules
@@ -27,10 +27,10 @@ config:
   layout: dagre
   flowchart:
     useMaxWidth: true
-accTitle: Example diagram
-accDescr: Example process flow from A to B
 ---
 flowchart TD
+  accTitle: Example diagram
+  accDescr: Example process flow from A to B
   A --> B
 ```
 
@@ -96,10 +96,11 @@ sequenceDiagram
   S-->>A: response
 ```
 
-## 3) Professional Color Palette
+## 3) Accessible Fallback Palette
 
-Use this restrained Material Design based palette as the default for reusable
-diagrams.
+Use this restrained Material Design based palette when color carries meaning and
+the destination has no established visual system. An unstyled diagram is often
+more portable; do not add every semantic color merely because definitions exist.
 
 ### 3-1) Semantic States
 
@@ -357,18 +358,20 @@ flowchart LR
 - Does the target document need accessibility metadata such as `accTitle` and
   `accDescr`?
 
-Required validation commands:
+For repository markdown files, resolve `MERMAID_SKILL_DIR` to the directory that
+contains this skill's `SKILL.md`, then run with an absolute target path:
 
 ```bash
-scripts/assess_mermaid_density.sh <markdown-file>
-scripts/validate_mermaid_markdown.sh <markdown-file>
+MERMAID_SKILL_DIR="<absolute path to the installed mermaid-diagram-design skill>"
+"$MERMAID_SKILL_DIR/scripts/assess_mermaid_density.sh" "<absolute markdown path>"
+"$MERMAID_SKILL_DIR/scripts/validate_mermaid_markdown.sh" "<absolute markdown path>"
 ```
 
 Success criteria:
 
 - Validation output includes `MERMAID_VALIDATE_OK ...`.
-- Density output has no high-risk blocks, or each high-risk block was split or
-  shortened intentionally.
+- Density warnings were visually reviewed; required content was not removed just
+  to satisfy a heuristic threshold.
 - On failure, fix the diagram and rerun the checks.
 
 ## 6) Aesthetic Rules

@@ -25,6 +25,13 @@ script against the current official endpoint list:
 bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage
 ```
 
+Success requires `coverage_ok: true`, a nonzero `official_endpoint_count`, an
+empty `missing_expected_endpoints`, and an empty
+`unclassified_official_endpoints`. The command exits nonzero when the document
+cannot be fetched or parsed, when an expected endpoint disappears, or when a new
+official endpoint has not been classified. The reported `source` is the origin
+actually queried.
+
 ## Coverage Modes
 
 - `--market-context none`: account-state only. Use for quick balance/holdings

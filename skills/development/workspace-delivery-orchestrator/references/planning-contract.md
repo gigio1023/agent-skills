@@ -1,123 +1,43 @@
 # Planning Contract (`plan.md`)
 
-## Intent
-`plan.md` defines delivery intent and execution shape. It is not an implementation script.
+`plan.md` records delivery intent and execution shape. It is not a coding script.
 
-## Mandatory Rule
-`plan.md` must be **goal/intent-centric** and must **not** include code-level implementation detail.
+## Content Boundary
 
-Disallowed examples:
-- Exact file edits, function names, line-level changes, patch snippets.
-- API payload literals intended as implementation instructions.
-- Step-by-step coding directions.
+Keep goals, scope, ownership, dependencies, validation, risk, and observable
+outcomes. Exclude patch snippets, line-level edits, payload literals, and
+step-by-step coding directions. Mention a concrete path or interface only when
+it defines ownership or a contract boundary.
 
-Allowed examples:
-- Business/technical objective and scope boundaries.
-- Workstream intent, ownership, dependencies, and sequencing.
-- Validation gates, risks, and success criteria.
-- Why-now context, assumptions, and expected observable results.
-- Cross-repo impact map and rollback/containment intent.
+## Required Sections
 
-## Required Sections (single source of truth)
-The heading order below is the canonical list. `scripts/validate_plan.py` enforces it, `assets/templates/plan.template.md` emits it, and `SKILL.md` points here instead of restating it. If this list changes, update the validator first, then regenerate the template and re-run `scripts/smoke_test.sh`.
+The heading order below is canonical. The bundled validator enforces it and the
+initializer supplies the compact template.
 
-1. Intent (의도)
-- One-line mission and why this delivery is needed now.
+1. `Intent (의도)` - mission and why now.
+2. `Background (배경)` - relevant current state and uncertainty.
+3. `Goals (목표)` - concrete outcome targets.
+4. `Expected Results (결과)` - observable end state.
+5. `Scope` - in and out boundaries.
+6. `Constraints` - limits and do-not-touch areas.
+7. `Acceptance Criteria` - measurable done signals.
+8. `Workstreams` - only real work packages, each with owner, output, and done signal.
+9. `Dependency Graph` - blocked-by edges and independent groups.
+10. `Validation Plan` - checks and evidence needed for closure.
+11. `Risks and Mitigations` - material failure modes and containment.
+12. `Parallelism Strategy` - sequential/parallel decision and writer boundaries.
+13. `Rollback / Containment Intent` - recovery for medium/high-risk work; state
+    `Not needed` with a reason for low-risk work.
 
-2. Background (배경)
-- Current state, recent change drivers, known uncertainty.
+## Quality Gate
 
-3. Goals (목표)
-- 2~6 concrete goals stated as outcome targets.
+- Every goal maps to an observable result or acceptance criterion.
+- Every workstream has a scoped outcome, owner, output, and done signal.
+- Dependencies and single-writer boundaries are explicit.
+- Parallel tracks pass the independence test; otherwise the plan says
+  sequential.
+- Validation names the evidence to collect, not just "test it".
+- Risks and rollback depth match actual impact; low-risk work stays brief.
 
-4. Expected Results (결과)
-- Observable end-state after delivery (what will be visibly different).
-
-5. Scope
-- In-scope and out-of-scope boundaries.
-
-6. Constraints
-- Time/scope limits, technical constraints, and do-not-touch areas. Stack-neutral; fill with whatever the repository and task impose.
-
-7. Acceptance Criteria
-- Observable and measurable completion conditions.
-
-8. Workstreams
-- Intent-level work packages with owner, output artifact, and done signal.
-
-9. Dependency Graph
-- `blocked-by` relationships and explicit parallelizable groups.
-
-10. Validation Plan
-- Required checks before integration and closure.
-
-11. Risks and Mitigations
-- High-impact failure modes and containment strategy.
-
-12. Parallelism Strategy
-- Parallelizable tracks, required sequencing, and single-writer boundaries. Use parallel fan-out only where streams are genuinely independent.
-
-13. Rollback / Containment Intent (for medium-high risk)
-- How to contain blast radius and recover if assumptions fail.
-
-## Template
-```markdown
-# plan.md
-
-## Intent (의도)
-- ...
-
-## Background (배경)
-- ...
-
-## Goals (목표)
-- Goal 1: ...
-- Goal 2: ...
-
-## Expected Results (결과)
-- ...
-
-## Scope
-- In scope: ...
-- Out of scope: ...
-
-## Constraints
-- Time/scope limits: ...
-- Technical constraints: ...
-- Do-not-touch areas: ...
-
-## Acceptance Criteria
-- ...
-
-## Workstreams
-- WS1: <intent>, Owner: <role>, Output: <artifact>
-- WS2: <intent>, Owner: <role>, Output: <artifact>
-
-## Dependency Graph
-- WS2 blocked-by WS1
-- WS3 parallel with WS2
-
-## Validation Plan
-- Gate A: ...
-- Gate B: ...
-
-## Risks and Mitigations
-- Risk: ... / Mitigation: ...
-
-## Parallelism Strategy
-- Parallelizable tracks: ...
-- Required sequencing: ...
-- Single-writer boundaries: ...
-
-## Rollback / Containment Intent
-- ...
-```
-
-## Quality Checklist
-- No code-level directions present.
-- Intent/background/goals/expected-results are all present and non-empty.
-- Expected results are observable (not abstract).
-- Workstreams include owner + output + done signal.
-- Dependencies are explicit.
-- Parallelism opportunities are explicit.
-- Success criteria are measurable.
+When required headings change, update the validator and template together, then
+run the bundled smoke test.

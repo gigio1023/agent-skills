@@ -14,16 +14,17 @@ Use this skill to create Mermaid diagrams that help the reader understand a
 system, workflow, or decision quickly. The diagram must reduce ambiguity and make
 the main message easy to verify.
 
-All reusable instructions, examples, labels, and outputs in this skill must be
-English unless the user explicitly asks for another language. Use neutral sample
-domains and never include private company names, internal product names, customer
-data, incident details, or unreleased project context.
+Keep bundled reusable examples and templates in English and use neutral sample
+domains. For an actual user artifact, follow the requested language or the source
+document's language and preserve authorized names and context needed for accuracy.
+Do not introduce private company names, customer data, incident details, or
+unreleased context that the user or source did not provide.
 
 ## Reference Files
 
 | File | When to read | What's in it |
 | --- | --- | --- |
-| `references/mermaid-patterns.md` | Before choosing a pattern, palette, or renderer preset | Type matrix, frontmatter presets, reusable patterns, palette, validation checklist, aesthetic rules |
+| `references/mermaid-patterns.md` | When a reusable pattern, fallback palette, or renderer preset would help | Type matrix, presets, patterns, accessible fallback palette, and validation checklist |
 
 ## Quick Start
 
@@ -32,22 +33,23 @@ data, incident details, or unreleased project context.
    architecture, or state transition.
 3. Choose layout direction from the reader path, label length, renderer width,
    and density. Do not default to `LR`, `TD`, or `TB`.
-4. Draft 6-12 nodes when possible. Split dense, mixed-message, or scroll-heavy
-   diagrams before tuning spacing.
-5. Apply parser-safe labels, accessible metadata when useful, and visible edge
-   styling.
-6. Run density and render validation for markdown files that contain Mermaid
-   blocks.
+4. Draft the smallest structure that preserves the requested facts and
+   relationships. Treat 6-12 nodes as a useful range, not a quota.
+5. Apply parser-safe labels, host-compatible syntax, and accessibility metadata
+   when the destination supports it.
+6. For repository files, run density and render validation, then inspect the
+   rendered result at the target host width.
 
-## Hard Rules
+## Syntax And Style Baseline
 
 - Use `<br/>` for visual line breaks in labels. Do not use literal `\n`; Mermaid
   renders it as text.
 - Apply line-break safety to node labels, edge labels, subgraph titles, and all
   Mermaid diagram types.
-- Use the Professional Color Palette from `references/mermaid-patterns.md` by
-  default.
-- When nodes have color, set edge visibility explicitly, such as
+- Inherit the document or product's existing visual language. Use the fallback
+  palette in `references/mermaid-patterns.md` only when color adds meaning and no
+  local palette exists.
+- When colored nodes reduce edge contrast, set edge visibility explicitly, such as
   `linkStyle default stroke:#455a64,stroke-width:1.8px;`.
 
 ## Workflow
@@ -99,7 +101,8 @@ more edges, four or more long labels in `LR`, many cross-subgraph edges, or a
 
 ### 5. Configure And Style
 
-- Prefer Mermaid frontmatter over inline directives for new diagrams.
+- Prefer Mermaid frontmatter over inline directives when the destination
+  renderer supports it; otherwise use the simplest portable syntax.
 - Consider `layout: elk` for complex graphs.
 - For narrow renderers such as Confluence, prefer simpler structure and split
   diagrams before relying on config-only fixes.
@@ -110,30 +113,35 @@ more edges, four or more long labels in `LR`, many cross-subgraph edges, or a
 
 ### 6. Preflight And Validate
 
-For markdown files that contain Mermaid blocks:
+For markdown files in the repository that contain Mermaid blocks, resolve
+`MERMAID_SKILL_DIR` to the directory containing this `SKILL.md` and pass an
+absolute target path so the commands work from any project working directory:
 
 ```bash
-scripts/assess_mermaid_density.sh <markdown-file>
-scripts/validate_mermaid_markdown.sh <markdown-file>
+MERMAID_SKILL_DIR="<absolute path to the installed mermaid-diagram-design skill>"
+"$MERMAID_SKILL_DIR/scripts/assess_mermaid_density.sh" "<absolute markdown path>"
+"$MERMAID_SKILL_DIR/scripts/validate_mermaid_markdown.sh" "<absolute markdown path>"
 ```
 
-Fix and rerun when density reports `contrast_risk=high`,
-`edge_style=absent` on colored diagrams, or render validation fails. Also check
-common parser breakers: lower-case `end` labels, `o-`/`x-` edge-head surprises,
-comments that do not start with `%%`, ignored `subgraph` direction, missing
-`sequenceDiagram` participants, and tab characters.
+Render failure is blocking. Density output is a diagnostic: inspect the result
+and simplify when it exposes a real scanning or contrast problem; do not rewrite
+a clear diagram only to satisfy a heuristic threshold. Also check common parser
+breakers: lower-case `end` labels, `o-`/`x-` edge-head surprises, comments that
+do not start with `%%`, ignored `subgraph` direction, missing `sequenceDiagram`
+participants, and tab characters.
+
+After validation, inspect the actual SVG/PNG or host preview for clipping,
+unreadable edge labels, excessive scrolling, and ordering that differs from the
+intended reader path. If the renderer is unavailable, report syntax validation
+separately from visual verification.
 
 ## Output Contract
 
-Always provide:
-
-1. The improved Mermaid code block.
-2. Three to six concise improvement notes.
-3. The selected pattern name and one sentence explaining why it fits.
-4. Preflight results: density diagnosis and render validation status.
-
-When editing a markdown file, also provide the density command, validation
-command, and final validation result, such as `MERMAID_VALIDATE_OK ...`.
+Provide the requested artifact first: update the file when asked to edit, or
+return a Mermaid code block when the user asks for code. Add brief design notes
+only when they help the user review a non-obvious choice. Report density, render,
+and visual-inspection results only when they were actually run; never imply that
+syntax validation included visual inspection.
 
 ## Gotchas
 
@@ -146,3 +154,5 @@ command, and final validation result, such as `MERMAID_VALIDATE_OK ...`.
   and detailed mapping, split it instead of adding more labels and edges.
 - **Renderer support differs.** If a host ignores Mermaid frontmatter, trust
   simpler structure and smaller diagrams over renderer-specific configuration.
+- **Density checks are heuristics.** A warning starts visual review; it is not a
+  reason to delete required nodes or relationships.

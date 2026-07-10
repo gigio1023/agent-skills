@@ -1,6 +1,13 @@
 ---
 name: frontend-design
-description: Use when building, reshaping, or reviewing UI across React/Vue/Svelte, static HTML reports, dashboards, landing pages, prototypes, games, or visual tools. Helps choose context-aware art direction, typography, layout, motion, copy, assets, accessibility, and visual QA. Trigger for "make this UI beautiful", "frontend design", "design skill", "HTML report design", "polish the interface", "avoid AI slop", "make it distinctive", and UI-heavy implementation tasks.
+description: >
+  Use when building, reshaping, or reviewing UI whose success depends on visual
+  hierarchy, interaction feel, presentation quality, or a deliberate art
+  direction. Applies across web frameworks, static HTML reports, dashboards,
+  landing pages, prototypes, games, and visual tools. Trigger for "make this UI
+  beautiful", "polish the interface", "make it distinctive", and UI-heavy
+  implementation. NOT for logic-only frontend changes or pixel-preserving
+  maintenance where the existing design must remain unchanged.
 ---
 
 # Frontend Design
@@ -23,19 +30,26 @@ Create framework-specific child skills only after repeated evidence shows a fram
 
 ## Core Loop
 
-1. Identify the surface: landing page, product app, data dashboard, HTML report, generated document, game, interactive demo, or component.
-2. Name the real subject, audience, and one job of the screen. If the brief is vague, choose a concrete subject and state the assumption briefly.
-3. Read `references/surface-patterns.md` and select the relevant surface guidance.
-4. Form a compact design plan before coding:
-   - Visual thesis: mood, material, energy.
-   - Palette: 4-6 named colors with roles, not decorative color soup.
-   - Type: display/body/utility roles; use existing fonts if the project already commits to them.
-   - Layout: one dominant visual anchor and the information order.
-   - Signature: one memorable element that belongs to this subject.
-   - Restraint: what you will deliberately avoid.
-5. Build using the existing framework, component library, and local conventions. If there is a design system, use its components and tokens first.
-6. Critique the result against the brief and `references/quality-gate.md`. Use screenshots or browser verification when available.
-7. Revise before final response if the design reads as generic, cluttered, inaccessible, or visually broken.
+1. Classify the request before acting:
+   - **Review/report:** inspect and report findings. Do not edit files or broaden
+     the review into a redesign unless the user asks.
+   - **Build/change:** implement the requested UI change within its stated scope.
+2. Identify the surface: landing page, product app, data dashboard, HTML report,
+   generated document, game, interactive demo, or component.
+3. Name the real subject, audience, and one job of the screen. If the brief is
+   vague, choose a concrete subject and state the assumption briefly.
+4. Read `references/surface-patterns.md` and select the relevant surface guidance.
+5. Record only the decisions needed for the current mode: reading order and
+   dominant anchor, existing design-system constraints, required states and
+   viewports, and at most one subject-specific signature.
+6. In build/change mode, use the existing framework, component library, and local
+   conventions. If there is a design system, use its components and tokens first.
+7. Inspect the relevant desktop/mobile viewports and interaction states against
+   `references/quality-gate.md`. Run available build, lint, and accessibility
+   checks when relevant. In review mode these checks produce findings, not edits.
+8. In build/change mode, revise if the rendered result is generic, cluttered,
+   inaccessible, broken, or inconsistent with the brief. If rendering is not
+   possible, say what remains unverified instead of inferring success from code.
 
 ## Design Judgment
 
@@ -45,16 +59,16 @@ Spend boldness in one place. A strong interface usually has one signature move, 
 
 Use assets when the surface needs them. Product, venue, object, travel, portfolio, landing, and game work should have real imagery, generated imagery, video, canvas, SVG, or domain-native visual material. Static HTML reports can use charts, callouts, maps, tables, or diagrams as their visual substance.
 
-## Anti-Slop Filters
+## Defaultness Check
 
-Reject default AI design moves unless the brief specifically calls for them:
+Do not turn familiar motifs into a blacklist. A gradient, glass surface, card, or
+large metric is valid when the subject and product system call for it. Reject the
+result when the choices are interchangeable with an unrelated product:
 
-- Purple-blue gradient hero, floating glass cards, generic SaaS dashboard cards, soft orb backgrounds, and meaningless "01 / 02 / 03" markers.
-- One-note palettes where every color is a tint of the same hue.
-- Big-number hero plus small label plus random stat grid when the subject has richer material.
-- Decorative motion scattered everywhere.
-- Copy that describes the feature instead of helping the user act.
-- Landing-page composition applied to tools, dashboards, reports, or internal ops screens.
+- Does the composition match this surface's job rather than a generic landing page?
+- Does the visual anchor come from the subject, data, product, or user task?
+- Do color, type, motion, and copy carry meaning instead of filling space?
+- Would removing decorative effects leave a clear hierarchy and usable controls?
 
 ## Implementation Rules
 
@@ -66,4 +80,17 @@ For games and interactive demos, use domain-appropriate engines or proven librar
 
 ## Output Behavior
 
-Keep planning mostly internal unless the user asks to see it. In the final response, summarize the design direction and verification briefly. Mention any remaining visual risk, missing asset, or unverified viewport.
+Keep planning internal unless the user asks for it. For a review, lead with the
+most consequential findings and say that no files were changed. For a build or
+change, lead with the implemented outcome. Then name only the viewports, states,
+and checks actually verified. Mention any remaining visual risk, missing asset,
+or unverified viewport; do not substitute a design rationale for render evidence.
+
+## Gotchas
+
+- Stronger art direction does not authorize extra product features, new design
+  systems, or decorative UI outside the request.
+- A passing build is not visual proof. Inspect the rendered states and viewports
+  that could change the user's experience.
+- Do not replace an established product language with a portfolio-style redesign
+  merely to make the result look more distinctive.

@@ -70,8 +70,9 @@ const FULL_MARKET_ENDPOINTS = [
 ];
 
 interface Options {
-  accountAlias: string;
+  accountAlias?: string;
   accountType: string;
+  allowCustomBaseUrl: boolean;
   baseUrl?: string;
   candleCount: number;
   envFile?: string;
@@ -89,6 +90,8 @@ interface Options {
   symbols: string[];
   tradeCount: number;
 }
+
+type ResolvedOptions = Omit<Options, "accountAlias"> & { accountAlias: string };
 
 interface ApiClient {
   baseUrl: string;
@@ -108,16 +111,20 @@ async function main() {
     return;
   }
 
-  const baseUrl = options.baseUrl || process.env.TOSS_INVEST_BASE_URL || DEFAULT_BASE_URL;
-  const openApiDocument = await fetchOpenApiDocument(baseUrl).catch((error) => ({
-    error: errorMessage(error),
-  }));
+  const configuredEnv = readConfiguredEnv(options.envFile);
+  const { baseUrl, resolvedOptions } = resolveRuntimeSettings(options, configuredEnv);
   if (options.printApiCoverage) {
-    console.log(JSON.stringify(buildApiCoverage(openApiDocument), null, 2));
+    const openApiDocument = await fetchOpenApiDocument(baseUrl);
+    const coverage = buildApiCoverage(openApiDocument, baseUrl);
+    console.log(JSON.stringify(coverage, null, 2));
+    assertApiCoverageComplete(coverage);
     return;
   }
 
-  const env = readCredentialEnv(options.envFile);
+  const openApiDocument = await fetchOpenApiDocument(baseUrl).catch((error) => ({
+    error: errorMessage(error),
+  }));
+  const env = readCredentials(configuredEnv);
   const retrievedAt = new Date();
   const token = await fetchToken(baseUrl, env);
   const client: ApiClient = {
@@ -228,7 +235,7 @@ async function main() {
     retrievedAt,
     baseUrl,
     openApiDocument,
-    options,
+    options: resolvedOptions,
     accounts,
     selectedAccount,
     holdings,
@@ -257,8 +264,9 @@ async function main() {
 
 function parseArgs(args: string[]): Options {
   const options: Options = {
-    accountAlias: process.env.TOSS_INVEST_ACCOUNT_ALIAS || "toss-basic",
+    accountAlias: undefined,
     accountType: "BROKERAGE",
+    allowCustomBaseUrl: false,
     baseUrl: undefined,
     candleCount: DEFAULT_CANDLE_COUNT,
     envFile: undefined,
@@ -289,6 +297,8 @@ function parseArgs(args: string[]): Options {
       options.envFile = requiredNext(args, (index += 1), arg);
     } else if (arg === "--base-url") {
       options.baseUrl = requiredNext(args, (index += 1), arg);
+    } else if (arg === "--allow-custom-base-url") {
+      options.allowCustomBaseUrl = true;
     } else if (arg === "--account-alias") {
       options.accountAlias = requiredNext(args, (index += 1), arg);
     } else if (arg === "--account-type") {
@@ -334,8 +344,9 @@ Recommended:
   bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file .env --market-context basic
 
 Options:
-  --env-file <path>              Read Toss credentials from an env file.
-  --base-url <url>               Override Toss Invest OpenAPI base URL.
+  --env-file <path>              Read Toss credentials and optional settings from one file.
+  --base-url <url>               Override the official Toss Invest base URL.
+  --allow-custom-base-url        Permit an explicit custom HTTPS or loopback mock URL.
   --account-alias <alias>        Label the selected account in output.
   --account-type <type>          Preferred account type, default BROKERAGE.
   --orders-days <n>              Closed-order lookback window, default 30.
@@ -356,7 +367,69 @@ Options:
 Required env:
   TOSS_INVEST_API_KEY
   TOSS_INVEST_SECRET_KEY
+
+Optional env (CLI flags take precedence):
+  TOSS_INVEST_BASE_URL
+  TOSS_INVEST_ACCOUNT_ALIAS
 `);
+}
+
+function readConfiguredEnv(envFile?: string) {
+  const values = new Map<string, string>();
+  for (const [key, value] of Object.entries(process.env)) {
+    if (typeof value === "string") {
+      values.set(key, value);
+    }
+  }
+  if (envFile) {
+    for (const [key, value] of parseEnvFile(readFileSync(envFile, "utf8"))) {
+      values.set(key, value);
+    }
+  }
+  return values;
+}
+
+function resolveRuntimeSettings(options: Options, values: Map<string, string>) {
+  const accountAlias =
+    options.accountAlias?.trim() || values.get("TOSS_INVEST_ACCOUNT_ALIAS")?.trim() || "toss-basic";
+  const requestedBaseUrl =
+    options.baseUrl?.trim() || values.get("TOSS_INVEST_BASE_URL")?.trim() || DEFAULT_BASE_URL;
+  const baseUrl = validateBaseUrl(requestedBaseUrl, options.allowCustomBaseUrl);
+  const resolvedOptions: ResolvedOptions = { ...options, accountAlias };
+  return { baseUrl, resolvedOptions };
+}
+
+function validateBaseUrl(raw: string, allowCustomBaseUrl: boolean) {
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    throw new Error("Toss base URL must be a valid absolute URL");
+  }
+
+  if (url.username || url.password) {
+    throw new Error("Toss base URL must not contain credentials");
+  }
+  if (url.pathname !== "/" || url.search || url.hash) {
+    throw new Error("Toss base URL must be an origin without a path, query, or fragment");
+  }
+
+  const official = new URL(DEFAULT_BASE_URL);
+  if (url.hostname === official.hostname && url.protocol !== "https:") {
+    throw new Error("The official Toss API host requires HTTPS");
+  }
+
+  const isOfficial = url.origin === official.origin;
+  if (!isOfficial && !allowCustomBaseUrl) {
+    throw new Error("A custom Toss base URL requires --allow-custom-base-url");
+  }
+
+  const isLoopback = ["localhost", "127.0.0.1", "::1", "[::1]"].includes(url.hostname);
+  if (!isOfficial && url.protocol !== "https:" && !isLoopback) {
+    throw new Error("A custom Toss base URL must use HTTPS unless it is a loopback mock");
+  }
+
+  return url.origin;
 }
 
 async function fetchOpenApiDocument(baseUrl: string): Promise<JsonRecord> {
@@ -364,13 +437,13 @@ async function fetchOpenApiDocument(baseUrl: string): Promise<JsonRecord> {
   return asRecord(await parseOkJson(response), "OpenAPI document");
 }
 
-function buildApiCoverage(openApiDocument: unknown) {
+function buildApiCoverage(openApiDocument: unknown, baseUrl = DEFAULT_BASE_URL) {
   const spec = optionalRecord(openApiDocument);
   const paths = optionalRecord(spec?.paths) || {};
   const official = Object.entries(paths)
     .flatMap(([path, item]) =>
       Object.entries(optionalRecord(item) || {})
-        .filter(([method]) => ["get", "post", "delete"].includes(method))
+        .filter(([method]) => ["get", "post", "put", "patch", "delete"].includes(method))
         .map(([method, operation]) => ({
           endpoint: `${method.toUpperCase()} ${path}`,
           operation_id: stringOrNull(optionalRecord(operation)?.operationId) || null,
@@ -382,17 +455,44 @@ function buildApiCoverage(openApiDocument: unknown) {
   const defaultRead = new Set([...DEFAULT_READ_ENDPOINTS, ...BASIC_MARKET_ENDPOINTS]);
   const fullRead = new Set([...DEFAULT_READ_ENDPOINTS, ...FULL_MARKET_ENDPOINTS]);
   const blocked = new Set(MUTATING_ENDPOINTS_BLOCKED);
+  const officialEndpoints = new Set(official.map((item) => item.endpoint));
+  const missingExpectedEndpoints = [...new Set([...fullRead, ...blocked])]
+    .filter((endpoint) => !officialEndpoints.has(endpoint))
+    .sort();
+  const unclassifiedOfficialEndpoints = official.filter(
+    (item) => !fullRead.has(item.endpoint) && !blocked.has(item.endpoint),
+  );
 
   return {
-    source: `${DEFAULT_BASE_URL}${OPENAPI_JSON_PATH}`,
+    source: `${baseUrl}${OPENAPI_JSON_PATH}`,
     openapi_version: stringOrNull(spec?.info && optionalRecord(spec.info)?.version) || "unknown",
+    official_endpoint_count: official.length,
     default_read_only_endpoints: official.filter((item) => defaultRead.has(item.endpoint)),
     full_read_only_endpoints: official.filter((item) => fullRead.has(item.endpoint)),
     blocked_mutating_endpoints: official.filter((item) => blocked.has(item.endpoint)),
-    unclassified_official_endpoints: official.filter(
-      (item) => !fullRead.has(item.endpoint) && !blocked.has(item.endpoint),
-    ),
+    missing_expected_endpoints: missingExpectedEndpoints,
+    unclassified_official_endpoints: unclassifiedOfficialEndpoints,
+    coverage_ok:
+      official.length > 0 &&
+      missingExpectedEndpoints.length === 0 &&
+      unclassifiedOfficialEndpoints.length === 0,
   };
+}
+
+function assertApiCoverageComplete(coverage: ReturnType<typeof buildApiCoverage>) {
+  if (coverage.official_endpoint_count === 0) {
+    throw new Error("API coverage check failed: the OpenAPI document contained no endpoints");
+  }
+  if (coverage.missing_expected_endpoints.length > 0) {
+    throw new Error(
+      `API coverage check failed: ${coverage.missing_expected_endpoints.length} expected endpoints are missing`,
+    );
+  }
+  if (coverage.unclassified_official_endpoints.length > 0) {
+    throw new Error(
+      `API coverage check failed: ${coverage.unclassified_official_endpoints.length} official endpoints are unclassified`,
+    );
+  }
 }
 
 async function fetchToken(baseUrl: string, env: { clientId: string; clientSecret: string }) {
@@ -847,7 +947,7 @@ function buildSnapshot(input: {
   retrievedAt: Date;
   baseUrl: string;
   openApiDocument: unknown;
-  options: Options;
+  options: ResolvedOptions;
   accounts: unknown[];
   selectedAccount: JsonRecord;
   holdings: JsonRecord;
@@ -1056,14 +1156,7 @@ function buildWarnings(input: {
   return unique(warnings);
 }
 
-function readCredentialEnv(envFile?: string) {
-  const values = new Map(Object.entries(process.env));
-  if (envFile) {
-    for (const [key, value] of parseEnvFile(readFileSync(envFile, "utf8"))) {
-      values.set(key, value);
-    }
-  }
-
+function readCredentials(values: Map<string, string>) {
   const clientId = values.get("TOSS_INVEST_API_KEY");
   const clientSecret = values.get("TOSS_INVEST_SECRET_KEY");
   if (!clientId || !clientSecret) {
@@ -1286,6 +1379,19 @@ function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error);
 }
 
+function buildOpenApiFixture(endpoints: string[]) {
+  const paths: JsonRecord = {};
+  for (const endpoint of endpoints) {
+    const separator = endpoint.indexOf(" ");
+    const method = endpoint.slice(0, separator).toLowerCase();
+    const path = endpoint.slice(separator + 1);
+    const pathItem = optionalRecord(paths[path]) || {};
+    pathItem[method] = { operationId: `fixture_${method}`, tags: ["Fixture"] };
+    paths[path] = pathItem;
+  }
+  return { info: { version: "self-test" }, paths };
+}
+
 function runSelfTest() {
   const retrievedAt = new Date("2026-01-02T03:04:05.000Z");
   const account = {
@@ -1293,30 +1399,32 @@ function runSelfTest() {
     accountSeq: 1,
     accountType: "BROKERAGE",
   };
+  const fixtureOptions: ResolvedOptions = {
+    accountAlias: "test-account",
+    accountType: "BROKERAGE",
+    allowCustomBaseUrl: false,
+    baseUrl: DEFAULT_BASE_URL,
+    candleCount: DEFAULT_CANDLE_COUNT,
+    envFile: undefined,
+    help: false,
+    marketContext: "basic",
+    marketIndicatorSymbols: DEFAULT_MARKET_INDICATORS,
+    marketSymbolLimit: DEFAULT_MARKET_SYMBOL_LIMIT,
+    maxPages: DEFAULT_MAX_PAGES,
+    ordersDays: DEFAULT_ORDERS_DAYS,
+    printApiCoverage: false,
+    rankingCount: DEFAULT_RANKING_COUNT,
+    recentOrdersLimit: 1,
+    requestDelayMs: 0,
+    selfTest: true,
+    symbols: [],
+    tradeCount: DEFAULT_TRADE_COUNT,
+  };
   const snapshot = buildSnapshot({
     retrievedAt,
     baseUrl: DEFAULT_BASE_URL,
     openApiDocument: { info: { version: "self-test" }, paths: {} },
-    options: {
-      accountAlias: "test-account",
-      accountType: "BROKERAGE",
-      baseUrl: DEFAULT_BASE_URL,
-      candleCount: DEFAULT_CANDLE_COUNT,
-      envFile: undefined,
-      help: false,
-      marketContext: "basic",
-      marketIndicatorSymbols: DEFAULT_MARKET_INDICATORS,
-      marketSymbolLimit: DEFAULT_MARKET_SYMBOL_LIMIT,
-      maxPages: DEFAULT_MAX_PAGES,
-      ordersDays: DEFAULT_ORDERS_DAYS,
-      printApiCoverage: false,
-      rankingCount: DEFAULT_RANKING_COUNT,
-      recentOrdersLimit: 1,
-      requestDelayMs: 0,
-      selfTest: true,
-      symbols: [],
-      tradeCount: DEFAULT_TRADE_COUNT,
-    },
+    options: fixtureOptions,
     accounts: [account],
     selectedAccount: account,
     holdings: {
@@ -1540,6 +1648,68 @@ function runSelfTest() {
   assert(!JSON.stringify(snapshot).includes("CONDITIONIDFORSELFTEST"), "raw conditional order id omitted");
   assert(!JSON.stringify(snapshot).includes("TRIGGEREDORDERFORSELFTEST"), "raw triggered order id omitted");
 
+  const expectedCoverageEndpoints = unique([
+    ...DEFAULT_READ_ENDPOINTS,
+    ...FULL_MARKET_ENDPOINTS,
+    ...MUTATING_ENDPOINTS_BLOCKED,
+  ]);
+  const completeCoverage = buildApiCoverage(
+    buildOpenApiFixture(expectedCoverageEndpoints),
+    DEFAULT_BASE_URL,
+  );
+  assert(completeCoverage.coverage_ok, "complete API coverage accepted");
+  assertApiCoverageComplete(completeCoverage);
+
+  const removedEndpoint = expectedCoverageEndpoints[0];
+  const incompleteCoverage = buildApiCoverage(
+    buildOpenApiFixture(expectedCoverageEndpoints.filter((endpoint) => endpoint !== removedEndpoint)),
+    DEFAULT_BASE_URL,
+  );
+  assert(!incompleteCoverage.coverage_ok, "missing API coverage rejected");
+  assert(
+    incompleteCoverage.missing_expected_endpoints.includes(removedEndpoint),
+    "missing API endpoint reported",
+  );
+  assertThrows(() => assertApiCoverageComplete(incompleteCoverage), "missing API endpoint gate");
+
+  const unclassifiedCoverage = buildApiCoverage(
+    buildOpenApiFixture([...expectedCoverageEndpoints, "PATCH /api/v1/unclassified"]),
+    DEFAULT_BASE_URL,
+  );
+  assert(!unclassifiedCoverage.coverage_ok, "unclassified API coverage rejected");
+  assertThrows(() => assertApiCoverageComplete(unclassifiedCoverage), "unclassified API endpoint gate");
+
+  assert(validateBaseUrl(DEFAULT_BASE_URL, false) === DEFAULT_BASE_URL, "official base URL accepted");
+  assert(
+    validateBaseUrl("http://127.0.0.1:7777", true) === "http://127.0.0.1:7777",
+    "explicit loopback mock accepted",
+  );
+  assertThrows(
+    () => validateBaseUrl("https://mock.example", false),
+    "custom base URL requires explicit gate",
+  );
+  assertThrows(
+    () => validateBaseUrl("http://mock.example", true),
+    "non-loopback custom base URL requires HTTPS",
+  );
+
+  const envSettings = resolveRuntimeSettings(
+    { ...fixtureOptions, accountAlias: undefined, baseUrl: undefined, allowCustomBaseUrl: true },
+    parseEnvFile(
+      "TOSS_INVEST_ACCOUNT_ALIAS=env-account\nTOSS_INVEST_BASE_URL=http://127.0.0.1:8888\n",
+    ),
+  );
+  assert(envSettings.resolvedOptions.accountAlias === "env-account", "env-file account alias resolved");
+  assert(envSettings.baseUrl === "http://127.0.0.1:8888", "env-file base URL resolved");
+  const cliSettings = resolveRuntimeSettings(
+    { ...fixtureOptions, accountAlias: "cli-account", baseUrl: DEFAULT_BASE_URL },
+    parseEnvFile(
+      "TOSS_INVEST_ACCOUNT_ALIAS=env-account\nTOSS_INVEST_BASE_URL=http://127.0.0.1:8888\n",
+    ),
+  );
+  assert(cliSettings.resolvedOptions.accountAlias === "cli-account", "CLI account alias precedence");
+  assert(cliSettings.baseUrl === DEFAULT_BASE_URL, "CLI base URL precedence");
+
   console.log(
     JSON.stringify(
       {
@@ -1550,6 +1720,9 @@ function runSelfTest() {
         recent_closed_orders: arrayValue(snapshot.recent_closed_orders, "recent_closed_orders").length,
         has_open_orders: Boolean(optionalRecord(snapshot.open_orders)),
         has_conditional_orders: Boolean(optionalRecord(snapshot.conditional_orders)),
+        coverage_gate: true,
+        custom_base_url_gate: true,
+        env_setting_precedence: true,
       },
       null,
       2,
@@ -1561,6 +1734,15 @@ function assert(condition: unknown, label: string) {
   if (!condition) {
     throw new Error(`Self-test failed: ${label}`);
   }
+}
+
+function assertThrows(fn: () => void, label: string) {
+  try {
+    fn();
+  } catch {
+    return;
+  }
+  throw new Error(`Self-test failed: ${label}`);
 }
 
 main().catch((error) => {

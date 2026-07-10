@@ -12,11 +12,22 @@ Use this before finalizing a Fable 5-led answer.
 
 ## Evidence Check
 
-- Did token-heavy collection happen outside Fable 5 when possible?
+- Was each delegated lane justified by independence, context isolation, fresh
+  verification, tool fit, or a measured cost/latency advantage?
 - Did workers inspect primary or source-of-truth material for decisive claims?
 - Are current facts dated and sourced?
 - Are local code/file claims tied to paths and line references?
 - Are weak sources, stale facts, and conflicts labeled instead of smoothed over?
+
+## Execution Check
+
+- Is every progress or completion claim backed by a tool result, inspected
+  source, test, or named artifact from this run?
+- Did a consequential long run receive an independent specification check when
+  anchoring or drift was a material risk?
+- Did the lead avoid unnecessary delegation and idle waiting?
+- Were evidence and concise rationale requested instead of private reasoning or
+  a chain-of-thought transcript?
 
 ## Synthesis Check
 

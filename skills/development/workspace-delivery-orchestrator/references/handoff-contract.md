@@ -1,65 +1,23 @@
-# Handoff Contract (`result.md`)
+# Result Contract (`result.md`)
 
-## Intent
-`result.md` is the closure and transfer artifact for completed or paused delivery sessions.
-
-## When Required
-- Session completion.
-- Ownership transfer to another worker/team.
-- Planned pause with remaining actionable work.
+`result.md` closes or pauses delivery with evidence-backed state. Use the
+compact initialized template.
 
 ## Required Sections
-1. Summary
-- One-paragraph outcome statement against the objective.
 
-2. Completed Outcomes
-- What is fully delivered and accepted.
+1. `Summary` - outcome against the objective.
+2. `Completed Outcomes` - only fully delivered results.
+3. `Evidence` - commands, checks, files, or links supporting those claims.
+4. `Pending Items` - unfinished work with owner/priority or unblock condition.
+5. `Risks and Decisions` - residual risk, accepted tradeoffs, and key decisions.
+6. `Next Minimal Actions` - smallest executable steps.
+7. `Handoff Status` - `complete`, `partial`, or `blocked`, with reason.
 
-3. Evidence
-- Commands, checks, or artifacts that support completion claims.
+## Quality Gate
 
-4. Pending Items
-- Unfinished work with explicit owner and priority.
-
-5. Risks and Decisions
-- Active risks, accepted tradeoffs, and decisions made.
-
-6. Next Minimal Actions
-- Smallest actionable next steps for the next operator.
-
-7. Handoff Status
-- `complete`, `partial`, or `blocked` with reason.
-
-## Template
-```markdown
-# result.md
-
-## Summary
-- ...
-
-## Completed Outcomes
-- ...
-
-## Evidence
-- ...
-
-## Pending Items
-- Item: ... | Owner: ... | Priority: ...
-
-## Risks and Decisions
-- Risk: ...
-- Decision: ...
-
-## Next Minimal Actions
-1. ...
-2. ...
-
-## Handoff Status
-- partial (reason: ...)
-```
-
-## Quality Checklist
-- Claims are backed by evidence.
-- Pending work has explicit ownership.
-- Next actions are minimal and executable.
-- Status label matches actual completion level.
+- Completion claims map to evidence.
+- Pending work has ownership or an explicit unblock condition.
+- Next actions are executable and ordered.
+- Status matches the actual objective, not merely validator success.
+- Required facts, caveats, and actions remain; session narration and duplicate
+  summaries are removed.

@@ -32,6 +32,11 @@ Score each dimension from `0` to `3`.
 
 ## Release Rule
 
-Confident finalization is allowed only when relevant dimensions are all `>= 2`.
+Apply the threshold to decision-critical claims, not every incidental fact.
+Confident finalization normally requires each relevant dimension to be `>= 2`.
+A direct primary artifact may justify a narrower evidence mix when it alone
+establishes the claim; record that rationale.
 
-If any key dimension is below `2`, continue investigation or output a limited-confidence answer.
+If a key dimension is below `2`, continue only when another check could change
+the verdict. Otherwise output a limited-confidence answer with the unresolved
+gap.

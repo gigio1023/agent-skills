@@ -68,6 +68,9 @@ Before editing, establish:
 - `target_harness`: direct chat, Codex, Claude Code, local CLI, browser, tests, or
   another execution environment.
 - `baseline`: current behavior on the validation prompts/checks before editing.
+  For a model-generation refresh, record both the target model without the skill
+  and the target model with the current skill; the first reveals scaffolding the
+  stronger model no longer needs.
 - `evidence`: failures, successes, trigger examples, and structure issues.
 - `validation_gate`: fixed prompts, executable tests, scorer, checklist, or user
   acceptance criteria.
@@ -224,11 +227,17 @@ Good gates:
 - Executable checks for scripts, generated files, templates, paths, or examples.
 - Re-reading SKILL.md with referenced files to verify packaging consistency.
 - A user-scored before/after comparison for subjective skills.
+- For a frontier-model refresh, the same prompts in three conditions: no skill,
+  current skill, and candidate skill, with model, harness, tool surface, and
+  reasoning or effort settings held fixed.
 
 Acceptance rule:
 
 - Accept only if the candidate clearly improves target behavior or removes a
   verified blocker without regression.
+- For model refreshes, the candidate should beat the current skill without
+  suppressing strengths visible in the no-skill baseline. Prefer deletion when
+  the current skill makes the target model worse.
 - Treat ties conservatively. If behavior is unchanged, reject the behavioral edit.
 - Non-behavioral fixes such as broken paths, invalid frontmatter, missing files,
   or executable-bit repairs can be accepted when directly verified.
@@ -274,7 +283,8 @@ Use this sequence when the user says "optimize this skill" or provides failures:
 
 1. Read the target SKILL.md and directly referenced files.
 2. State the core loop and current trigger contract.
-3. Record the baseline validation prompts/checks.
+3. Record the baseline validation prompts/checks. For model-era work, include
+   no-skill and current-skill runs on the target model.
 4. Build the evidence packet.
 5. Run failure analysis and success analysis separately.
 6. Merge failure edits, merge success edits, then perform a final merge.

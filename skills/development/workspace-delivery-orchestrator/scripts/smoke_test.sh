@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# 스모크 테스트: init_docs.sh 로 임시 디렉터리에 산출물을 만들고,
-# 세 validator (plan/progress/result) 를 그 산출물에 돌려 모두 exit 0 인지 확인한다.
-# init -> validate 회귀(예: 템플릿에 누락된 heading) 를 커밋 단계에서 잡기 위한 것.
+# 스모크 테스트: init_docs.sh 산출물의 positive path 와 plan heading 순서/중복
+# negative path 를 함께 검증한다. 템플릿-검증기 계약과 validator fail-open 회귀를
+# 커밋 단계에서 잡기 위한 것.
 set -euo pipefail
 
 # 이 스크립트가 있는 위치 기준으로 skill 디렉터리를 잡는다 (호출 위치에 의존하지 않음).
@@ -36,6 +36,47 @@ run_validator() {
 run_validator "plan.md" "validate_plan.py"
 run_validator "progress.md" "validate_progress.py"
 run_validator "result.md" "validate_result.py"
+
+expect_plan_reject() {
+  local label="$1"
+  local path="$2"
+  echo "== validate_plan.py rejects $label =="
+  if python3 "$script_dir/validate_plan.py" "$path" >/dev/null 2>&1; then
+    echo "  unexpected exit=0 (FAIL)"
+    fail=1
+  else
+    echo "  rejected as expected"
+  fi
+}
+
+# Canonical headings are present but Goals and Background are reversed.
+out_of_order="$tmp_dir/plan.out-of-order.md"
+cat > "$out_of_order" <<'EOF'
+# plan.md
+## Intent (의도)
+## Goals (목표)
+## Background (배경)
+## Expected Results (결과)
+## Scope
+## Constraints
+## Acceptance Criteria
+## Workstreams
+## Dependency Graph
+## Validation Plan
+## Risks and Mitigations
+## Parallelism Strategy
+## Rollback / Containment Intent
+EOF
+expect_plan_reject "out-of-order headings" "$out_of_order"
+
+# A second alias for the same required section must not be accepted silently.
+duplicate="$tmp_dir/plan.duplicate.md"
+cp "$tmp_dir/plan.md" "$duplicate"
+cat >> "$duplicate" <<'EOF'
+
+## Goals
+EOF
+expect_plan_reject "duplicate required heading" "$duplicate"
 
 if [ "$fail" -ne 0 ]; then
   echo "SMOKE TEST FAILED" >&2

@@ -1,188 +1,180 @@
 ---
 name: echarts-dashboard-patterns
-description: |
-  ECharts 대시보드 차트 구성 시 반복되는 실수를 방지하는 패턴 가이드.
-  x축 라벨 겹침, legend-chart 영역 충돌, dual y-axis 여백, 시계열 갭 처리,
-  series 이름 매핑, 공통 config 추출 등 실전에서 검증된 규칙 모음.
-  TRIGGER: ECharts 차트를 생성/수정하거나, "x축 라벨 겹침", "legend 충돌",
-  "dual y-axis 여백", "connectNulls", "splitNumber" 같은 차트 가독성 문제를 수정할 때.
-version: 1.0.0
+description: >
+  Use when creating, modifying, or reviewing Apache ECharts dashboard charts,
+  especially time-series density, overlapping axis labels, legend/grid
+  collisions, multiple y-axes, missing-data gaps, series naming, responsive
+  resizing, or shared option builders. Trigger for "x축 라벨 겹침", "legend
+  충돌", "dual y-axis", "connectNulls", and "splitNumber". NOT for general
+  dashboard art direction without an ECharts implementation.
 ---
 
 # ECharts Dashboard Patterns
 
-ECharts 기반 대시보드 차트를 만들 때 반복적으로 발생하는 문제와 해결 패턴.
-실시간 대시보드 구현 과정에서 반복적으로 검증된 내용을 일반화했다.
+ECharts 옵션을 고정 숫자 모음으로 만들지 않는다. 실제 컨테이너 크기,
+데이터 밀도, 라벨 길이, 범례 위치와 누락 데이터의 의미에 맞추고 렌더 결과로
+확인한다.
 
-## When to Apply
+먼저 요청 모드를 구분한다. 리뷰·진단 요청이면 차트와 렌더 결과를 읽고 근거가
+있는 발견사항만 보고하며, 파일 수정이나 주변 차트 리팩터링은 하지 않는다.
+생성·수정 요청일 때만 아래 패턴을 실제 구현에 적용한다.
 
-- ECharts `option` 객체를 생성하거나 수정할 때
-- 차트 가독성 이슈(라벨 겹침, legend 충돌, 여백 부족)를 수정할 때
-- 시계열 차트에서 의도적 갭(NaN)을 다룰 때
-- 여러 차트가 공통 구조를 공유할 때
+## Quick Start
 
----
+1. 설치된 ECharts 버전과 기존 옵션 빌더, 테마, 렌더러를 확인한다.
+2. 차트가 답해야 할 질문과 반드시 보여야 하는 series를 한 문장으로 정한다.
+3. 대표 데이터뿐 아니라 긴 라벨, 최대 series 수, 누락 구간을 준비한다.
+4. 아래 패턴 중 현재 문제에 필요한 것만 선택한다. 리뷰 모드에서는 진단 기준으로
+   사용하고, 생성·수정 모드에서만 코드에 적용한다.
+5. 목표 너비와 가장 좁은 지원 너비에서 실제 차트를 렌더한다. 생성·수정 모드라면
+   확인된 문제를 범위 안에서 수정한다.
+6. 변경이 있었다면 범위에 맞는 테스트·빌드와 resize 동작을 확인한다.
 
-## 1. x축 라벨 겹침 방지
+## Core Patterns
 
-**문제**: 시간 범위가 길어지면(6h, 12h, 24h) x축 틱이 촘촘해져 `14:00`, `15:00` 등이 겹쳐 읽을 수 없다.
+### Time-axis density
 
-**해결**:
+`splitNumber`는 정확한 tick 개수가 아니라 힌트다. 차트 너비와 시간 범위에
+맞춰 3-8 정도의 읽을 수 있는 목표값을 정하고 `hideOverlap`을 안전망으로 쓴다.
 
-```typescript
+```ts
 xAxis: {
   type: 'time',
-  splitNumber: 5,                          // 틱 수를 5~6개로 제한
-  axisLabel: { formatter: '{HH}:{mm}', hideOverlap: true }  // 겹치면 자동 숨김
+  splitNumber: targetTickCount,
+  axisLabel: {
+    hideOverlap: true,
+    formatter: rangeIncludesMultipleDays ? '{MM}/{dd}\n{HH}:{mm}' : '{HH}:{mm}',
+  },
 }
 ```
 
-**규칙**:
-- `splitNumber`는 차트 너비 기준 5~7이 적정. 노트북(~700px)에서는 5.
-- `hideOverlap: true`는 ECharts 5.x 기본 내장. 반드시 켜둔다.
-- 24시간 이상 범위에서는 `{MM}/{dd}\n{HH}:{mm}` 포맷으로 날짜를 함께 표시.
+라벨을 모두 노출하려고 글자를 지나치게 줄이지 않는다. 실제 시간 범위와
+타임존이 맞는지 먼저 확인하고, 좁은 화면에서는 tick 수를 줄이거나 포맷을
+단순화한다.
 
----
+### Legend and grid ownership
 
-## 2. Legend와 차트 영역 겹침 방지
+축 라벨에는 `grid.containLabel: true`를 사용한다. 범례는 grid 밖의 별도 영역이므로
+항목 수가 아니라 실제 폭과 줄바꿈 여부를 보고 공간을 확보한다.
 
-**문제**: `legend: { bottom: 0 }` + `grid: { bottom: 40 }` 조합에서 legend 항목이 많으면 차트 하단과 겹친다. 특히 노트북 화면에서 심하다.
-
-**해결**:
-
-```typescript
-legend: { data: names, bottom: 0, type: 'scroll' },  // 많으면 스크롤
-grid: { top: 24, right: 16, bottom: 56, left: 56 },  // bottom 여백 충분히 확보
+```ts
+legend: { type: legendMayOverflow ? 'scroll' : 'plain', bottom: 0 },
+grid: {
+  containLabel: true,
+  top: 24,
+  right: 16,
+  bottom: legendHeight + 16,
+  left: 16,
+},
 ```
 
-**규칙**:
-- `grid.bottom`은 legend 높이를 고려해 최소 56px.
-- legend 항목이 4개 이상이면 `type: 'scroll'`을 기본으로 적용.
-- legend `bottom`과 grid `bottom` 사이 최소 16px 간격 유지.
+`56px`, `4개 이상` 같은 값은 시작점일 뿐 계약이 아니다. 번역된 라벨,
+글꼴, 아이콘, 컨테이너 폭이 바뀌면 다시 렌더해 결정한다.
 
----
+### Multiple y-axes
 
-## 3. Dual y-axis 차트 여백
+각 축이 다른 단위와 series를 명확히 소유하게 한다. 오른쪽 축의 여백은 가장 긴
+포맷 라벨로 검증하고, 같은 쪽에 축이 둘 이상이면 `offset`을 사용한다. 격자선은
+주축 하나에만 두는 편이 읽기 쉽다.
 
-**문제**: 오른쪽 y축 라벨(`/s`, `req/s`)이 차트 영역 밖으로 잘린다.
-
-**해결**:
-
-```typescript
-grid: { top: 24, right: 56, bottom: 56, left: 56 },  // right도 56
+```ts
 yAxis: [
-  { type: 'value', position: 'left', axisLabel: { formatter: '{value}s' } },
-  { type: 'value', position: 'right', axisLabel: { formatter: '{value}/s' }, splitLine: { show: false } }
-],
+  { type: 'value', name: latencyUnit },
+  {
+    type: 'value',
+    name: trafficUnit,
+    position: 'right',
+    splitLine: { show: false },
+  },
+]
 ```
 
-**규칙**:
-- dual y-axis 시 `grid.right`를 56px로 확보.
-- 오른쪽 축은 `splitLine: { show: false }`로 격자 중복 방지.
-- 배경 bar + 전경 line 조합 시 bar를 먼저 렌더(`series` 배열에서 bar를 앞에).
+서로 다른 스케일을 같은 축에 억지로 넣거나, 시각적으로 강한 bar가 핵심 line을
+가리지 않게 series 순서, 투명도, `z`를 실제 렌더에서 확인한다.
 
----
+### Intentional gaps
 
-## 4. 시계열 갭(NaN) 처리
+의미 없는 값을 0으로 채우거나 앞 값으로 이어 붙이지 않는다. API 결과의 `NaN`,
+빈 문자열 같은 값을 ECharts가 누락 데이터로 문서화한 `'-'` sentinel로
+정규화하고 연결 여부를 명시한다.
 
-**문제**: 저트래픽 구간에서 histogram_quantile이 의미 없는 값을 반환. PromQL에서 NaN으로 만들었는데 차트가 이전 값으로 이어 그린다.
+```ts
+const toMetricValue = (value: unknown) => {
+  if (value === null || value === undefined || value === '') return '-'
+  const numeric = Number(value)
+  return Number.isFinite(numeric) ? numeric : '-'
+}
 
-**해결**:
-
-```typescript
 series: [{
-  connectNulls: false,  // NaN 구간을 자연스러운 갭으로 렌더
-  // ...
+  type: 'line',
+  connectNulls: false,
+  data: points.map(([time, value]) => [time, toMetricValue(value)]),
 }]
 ```
 
-**규칙**:
-- 의도적 NaN(min-sample guard 등)이 있는 시계열은 반드시 `connectNulls: false`.
-- 갭이 발생하는 이유를 UI에 안내 텍스트로 표시 (hover tooltip만으로는 부족).
-- 갭과 트래픽의 상관관계를 보여주려면 배경 bar(request count)를 dual y-axis로 추가.
+누락이 샘플 부족이나 수집 중단을 뜻한다면 범례·보조 문구·tooltip 중 적절한
+위치에서 설명한다. 원인이 다른 gap을 하나의 시각 규칙으로 숨기지 않는다.
 
----
+### Human-readable series names
 
-## 5. Series 이름 매핑
+raw metric label은 표시 직전에 안정된 display name으로 매핑한다. 기존 BFF나
+서버 표현 계층이 있으면 그 경계를 따르되, 이 문제만 해결하려고 새 서버 계층을
+만들지는 않는다. 알 수 없는 값은 원문을 유지해 series가 사라지지 않게 한다.
 
-**문제**: Prometheus 결과의 raw label(`cache_hit`, `retrieval`, `ranking`)이 차트 legend에 그대로 노출.
-
-**해결**:
-
-```typescript
+```ts
 const SERIES_LABELS: Record<string, string> = {
   cache_hit: 'Cache Hit',
   retrieval: 'Retrieval',
   ranking: 'Ranking',
-  quality_check: 'Quality Check'
-};
-
-// toNamedSeries에 labelFormatter 전달
-toNamedSeries(result, 'source', (value) => SERIES_LABELS[value] || value)
-```
-
-**규칙**:
-- raw metric label을 UI에 직접 노출하지 않는다.
-- 프로젝트별 서버 계층이 있으면 label -> display name 매핑은 BFF/server endpoint에서 수행. 클라이언트에 raw label이 도달하면 안 된다.
-- `labelFormatter`가 `labelKey` 유무와 관계없이 항상 적용되도록 구현 (fallback `'value'` 버그 방지).
-
----
-
-## 6. 공통 차트 config 추출
-
-**문제**: 여러 차트가 tooltip, legend, grid, xAxis를 각각 중복 정의.
-
-**해결**:
-
-```typescript
-function baseChartConfig(names: string[]) {
-  return {
-    tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-    legend: { data: names, bottom: 0, type: 'scroll' },
-    grid: { top: 24, right: 16, bottom: 56, left: 56 },
-    xAxis: { type: 'time', splitNumber: 5, axisLabel: { formatter: '{HH}:{mm}', hideOverlap: true } }
-  };
 }
 
-// 일반 차트
-function buildChartOption(series, unit) {
-  return { ...baseChartConfig(series.map(s => s.name)), yAxis: { ... }, series: [...] };
-}
-
-// dual y-axis 차트는 grid.right만 override
-function buildLatencyChartOption(latency, traffic) {
-  return { ...baseChartConfig(allNames), grid: { ...base.grid, right: 56 }, yAxis: [...], series: [...] };
-}
+const displayName = SERIES_LABELS[rawName] ?? rawName
 ```
 
-**규칙**:
-- base config를 추출하고 차트별로 `yAxis`와 `series`만 다르게 구성.
-- spread (`...`) 후 개별 속성 override로 차이점만 명시.
-- `toEchartsData()` 같은 data 변환 헬퍼도 공유.
+### Shared option builders
 
----
+두 차트 이상에서 같은 tooltip, grid, axis 정책이 실제로 반복될 때만 공통 빌더를
+추출한다. 새 추상화를 만들기 전에 기존 헬퍼를 확장할 수 있는지 확인한다.
 
-## 7. 반응형 고려사항
+얕은 spread는 `grid`, `axisLabel`, `tooltip` 같은 중첩 객체 전체를 덮어쓸 수 있다.
+공통 빌더가 새 객체를 반환하게 하고 차트별 차이는 명시적으로 합친다. 한 차트만
+바꾸는 요청에서 주변 차트까지 리팩터링하지 않는다.
 
-**문제**: 데스크톱에서는 괜찮지만 노트북(1366px 이하)에서 차트가 찌그러진다.
+## Responsive Behavior
 
-**체크리스트**:
-- `splitNumber`를 고정값이 아닌 차트 너비 비례로 설정하는 것도 고려 (단, 대부분 5~6 고정으로 충분).
-- legend `type: 'scroll'`은 노트북에서 4+ 항목이 한 줄에 안 들어갈 때 필수.
-- `grid.bottom` 56px 이상 확보 — 노트북에서 legend가 x축 라벨과 겹치는 주요 원인.
-- 차트 높이는 `280px` 이상 유지. 그 이하로 줄이면 y축 라벨이 겹친다.
+- 컨테이너의 CSS 크기가 명확해야 하며 높이 0 상태에서 초기화하지 않는다.
+- 레이아웃 변화에는 window resize만 가정하지 말고 기존 프로젝트 패턴에 맞춰
+  `ResizeObserver` 또는 동등한 수단으로 `chart.resize()`를 호출한다.
+- 숨겨진 탭에서 처음 렌더한 차트는 표시된 뒤 resize가 필요할 수 있다.
+- 작은 화면에서 정보를 무조건 삭제하지 않는다. tick, legend, grid, tooltip의
+  우선순위를 정하고 핵심 series가 남는지 확인한다.
 
----
+## Verification Loop
 
-## Quick Checklist (차트 생성 시)
+최소한 다음 상태를 실제 렌더로 확인한다.
 
-```
-[ ] splitNumber: 5~6, hideOverlap: true
-[ ] grid.bottom >= 56px (legend 공간)
-[ ] dual y-axis 시 grid.right >= 56px
-[ ] legend type: 'scroll' (항목 4개 이상)
-[ ] connectNulls: false (의도적 갭이 있는 시계열)
-[ ] raw metric label → human-readable name 매핑
-[ ] 공통 config는 baseChartConfig()로 추출
-[ ] 차트 높이 280px 이상
-```
+- 목표 너비와 가장 좁은 지원 너비
+- 가장 긴 축·범례 라벨과 최대 series 수
+- 정상값, 빈 결과, missing-data gap, 극단값
+- legend scroll, tooltip, hover/emphasis, 컨테이너 resize
+- 축 단위 잘림, legend-grid 충돌, 수평 overflow, 0 높이 canvas 부재
+
+가능하면 기존 Storybook, 대시보드 route, visual test를 사용한다. 렌더 환경이
+없으면 옵션 검사만으로 완료를 주장하지 말고 확인하지 못한 viewport와 상태를
+명시한다.
+
+## Output Contract
+
+리뷰라면 중요한 발견사항부터 말하고 파일을 바꾸지 않았음을 명시한다. 생성·수정
+요청이라면 변경 결과를 먼저 말한다. 이어서 실제로 렌더한 viewport·데이터 상태와
+실행한 테스트만 짧게 적는다. 시각 확인을 못 했다면 그 사실과 남은 위험을
+명시한다.
+
+## Gotchas
+
+- `splitNumber`는 보장값이 아니며 `hideOverlap`만으로 좋은 축이 되지는 않는다.
+- `containLabel`은 축 라벨을 돕지만 외부 legend 공간까지 계산하지 않는다.
+- `connectNulls: false`는 입력이 실제 missing 값으로 정규화되어야 의미가 있다.
+- dual-axis는 상관관계를 암시하기 쉽다. 단위와 series 소유권을 분명히 한다.
+- 테스트 fixture가 짧은 영문 라벨뿐이면 실제 충돌을 놓친다.
+- 요청받지 않은 BFF, 디자인 시스템, 차트 라이브러리 교체로 범위를 넓히지 않는다.

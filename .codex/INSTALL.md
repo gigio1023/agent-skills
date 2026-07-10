@@ -3,7 +3,7 @@
 ## Preferred
 
 ```bash
-npx skills add gigio1023/agent-skills --skill skill-builder
+npx skills add gigio1023/agent-skills --skill skill-builder --agent codex
 ```
 
 Replace `skill-builder` with the skill you want, or repeat `--skill` for multiple skills.
@@ -13,23 +13,24 @@ Replace `skill-builder` with the skill you want, or repeat `--skill` for multipl
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/gigio1023/agent-skills.git ~/.codex/agent-skills
+mkdir -p ~/.local/share
+git clone https://github.com/gigio1023/agent-skills.git ~/.local/share/agent-skills
 ```
 
-2. Copy or symlink the specific skill you want into `~/.codex/skills/`.
+2. Copy or symlink the specific skill you want into `~/.agents/skills/`.
 
 Example:
 
 ```bash
-mkdir -p ~/.codex/skills
-cp -R ~/.codex/agent-skills/skills/development/skill-builder ~/.codex/skills/
+mkdir -p ~/.agents/skills
+cp -R ~/.local/share/agent-skills/skills/development/skill-builder ~/.agents/skills/
 ```
 
 Or symlink it:
 
 ```bash
-mkdir -p ~/.codex/skills
-ln -s ~/.codex/agent-skills/skills/development/skill-builder ~/.codex/skills/skill-builder
+mkdir -p ~/.agents/skills
+ln -s ~/.local/share/agent-skills/skills/development/skill-builder ~/.agents/skills/skill-builder
 ```
 
 3. Restart Codex.

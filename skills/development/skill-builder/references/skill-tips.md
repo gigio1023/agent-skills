@@ -3,6 +3,11 @@
 > Author: Thariq (@trq212), Anthropic
 > Source: https://x.com/trq212
 
+The original sections through Conclusion describe Claude Code practices and may
+name Claude-only tools or metadata. For a skill shared with Codex, treat those
+as source examples rather than portable commands; the Addenda and the
+`cross-harness-skill-authoring` skill own the common contract.
+
 ## Table of Contents
 
 This file is long. Agents preview it with `head -100`, so this map lists every
@@ -165,7 +170,9 @@ Some skills may need to be set up with context from the user. For example, if yo
 
 A good pattern to do this is to store this setup information in a config.json file in the skill directory. If the config is not set up, the agent can then ask the user for information.
 
-If you want the agent to present structured, multiple choice questions you can instruct Claude to use the AskUserQuestion tool.
+Claude Code can present structured choices with its question tool. A portable
+skill should request the interaction outcome rather than naming that built-in
+tool, because other harnesses expose different interfaces.
 
 ### The Description Field Is For the Model
 

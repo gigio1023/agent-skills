@@ -1,82 +1,124 @@
 ---
 name: workspace-handoff-compiler
 description: >-
-  Use when a work session is ending and a successor AI must continue it, or when
-  someone asks for a handoff, context pack, session handoff, or to "continue across
-  sessions" / "인계" / "이어서 작업" / "다음 AI에게 넘겨줘". Compiles prior plan/work/result
-  artifacts into a `handoff.md` and a `context-pack.json` with source-priority conflict
-  resolution and evidence-based status. NOT for producing plan.md/progress.md/result.md
-  during active delivery (use workspace-delivery-orchestrator).
+  Use when a work session is ending and a successor agent must continue it, or
+  when the user asks for a handoff, context pack, session handoff, "continue
+  across sessions", "인계", "이어서 작업", or "다음 AI에게 넘겨줘". Compiles
+  prior artifacts and live repository evidence into `handoff.md` plus
+  `context-pack.json`, resolving conflicts by source priority and refusing
+  unsupported completion claims. NOT for producing plan/progress/result
+  artifacts during active delivery (use workspace-delivery-orchestrator).
 ---
 
 # Workspace Handoff Compiler
 
-Compile whatever a prior session produced into two successor-facing artifacts: a human-readable `handoff.md` and a machine-readable `context-pack.json`. Status is evidence-based: never claim more than the proof supports.
+Produce a successor-ready `handoff.md` and `context-pack.json` that agree on
+status, distinguish evidence from inference, and identify the first executable
+next actions. Do not turn the handoff into a session transcript.
 
-## Workflow
+## Quick Start
 
-1. Gather available artifacts for plan, execution, validation, and outcomes. Optionally index them with `scripts/build_handoff_index.py` (see Tooling).
-2. Apply source precedence and conflict handling from `references/handoff-source-priority.md`.
-3. Evaluate completion confidence with `references/handoff-quality-gate.md`.
-4. Decide continuation mode with `references/continuation-mode.md`.
-5. Generate outputs:
-   - `handoff.md` for human continuation, starting from `assets/templates/handoff.template.md`.
-   - `context-pack.json` following `references/context-pack-schema.md`, starting from `assets/templates/context-pack.template.json`.
-6. Keep facts, inferences, and unknowns separate in both outputs.
-7. Do not claim `complete` without required evidence. If evidence is missing or conflicting, degrade to `partial` or `blocked` and list the missing proof.
-8. Validate before publishing (see Tooling). Both files must pass single-file checks AND the cross-file parity check.
+1. Gather `plan.md`, `progress.md` or `task.md`, `result.md`, relevant logs, and
+   current repository state. Use `scripts/build_handoff_index.py <artifact_dir>`
+   when the artifact set is not obvious. If both status aliases exist, the index
+   surfaces both with hashes and timestamps and leaves progress unselected until
+   you resolve authority; never treat its readiness hint as true in that state.
+2. Resolve discrepancies with `references/handoff-source-priority.md`. Record a
+   conflict only when the precedence and tie-break rules cannot resolve it.
+3. Apply `references/handoff-quality-gate.md`. A completion claim needs a file,
+   command, test, or other inspectable evidence reference.
+4. Choose continuation shape with `references/continuation-mode.md`. Default to
+   one sequential path unless multiple remaining tracks are genuinely
+   independent and parallel work would save more than it costs.
+5. Fill both templates:
+   - `assets/templates/handoff.template.md`
+   - `assets/templates/context-pack.template.json`
+6. Run all three validators. Fix the artifacts until every command exits 0:
 
-## Status Vocabulary
+   ```bash
+   python3 scripts/validate_handoff_md.py <handoff.md>
+   python3 scripts/validate_context_pack.py <context-pack.json>
+   python3 scripts/validate_handoff_parity.py <handoff.md> <context-pack.json>
+   ```
 
-There is one closed status set, defined in `references/context-pack-schema.md` (Status Vocabulary). Do not re-list or invent values here:
+7. Deliver both paths, overall status, evidence gaps, and the first next action.
 
-- Per-task / objective rows: `not_started | in_progress | blocked | done`.
-- Overall handoff: `complete | partial | blocked`.
+## Evidence and Status Contract
 
-Both `handoff.md` and `context-pack.json` MUST use the same overall status value.
+The only status vocabularies and the JSON shape live in
+`references/context-pack-schema.md`. Do not invent synonyms or duplicate the
+sets elsewhere. The overall status in both outputs must match.
 
-## Output Requirements
+- Facts cite their source.
+- Inferences are labeled and include the evidence that supports them.
+- Unknowns state what proof is missing and whether it blocks continuation.
+- A completed task and its handoff Completed row share the same task ID and
+  verification IDs; at least one referenced verification passes with non-empty
+  evidence.
+- Missing or conflicting decisive evidence lowers the overall status; prose
+  confidence cannot substitute for proof.
 
-- `handoff.md` includes:
-  - objective, completed work, remaining work, blockers, risks, and first next actions.
-  - an evidence reference for every completion claim.
-  - a continuation plan with the `continuation_mode` value (see below).
-- `context-pack.json` includes:
-  - normalized machine-readable state and dependency graph.
-  - ownership, constraints, and verification status.
-  - the same overall status as `handoff.md`.
+When no delivery artifacts exist, compile from live repository evidence such
+as `git status`, `git diff`, commit history, and changed files. Conversation
+memory may fill context only when labeled unverified. A cold handoff cannot be
+`complete` until evidence supports it.
 
-## Continuation Mode
+## Continuation Contract
 
-`continuation_mode` is a runtime-agnostic recommendation about the SHAPE of remaining work, not a hard requirement to spawn anything. Values: `parallel_recommended` and `sequential_sufficient`. Full judgment rule and the sequential fallback live in `references/continuation-mode.md`.
+`continuation_mode` describes the remaining work, not a required agent or
+runtime mechanism. For multi-track work, include independent tracks,
+dependencies, writer ownership, serialization gates, and recommended roles.
+For single-track work, keep those fields minimal or empty.
 
-Parallelism is a universal judgment call, not a harness-specific MUST: when work splits into independent streams that benefit from parallelism, use the harness's parallel-execution capability aggressively; when a single linear session is more effective, do that. Always probe for a native parallel-execution capability first (illustrative examples: Claude Code workflows or subagents, Codex threads). If none exists, run sequentially and say so in the handoff.
+If the recommended execution capability is unavailable, preserve the same
+dependency and ownership map and execute the tracks sequentially. Do not add
+model-specific routing advice to this skill.
 
-When the work is multi-track (more than one independent stream, owner, or repository), record the role map and write-ownership boundaries so the successor can split safely. Single-track work may leave those empty.
+## Output Contract
 
-## Gotchas
+`handoff.md` must make the objective, completed and remaining work, blockers,
+risks, evidence, and next actions understandable without the prior conversation.
+`context-pack.json` must encode the same state, ownership, dependencies,
+verification, and continuation shape using the schema reference.
 
-Behavioral pitfalls to avoid when compiling. These are stack-neutral.
-
-- Claiming `complete` without evidence. A status is only as strong as its proof. If there is no command output, test log, or repository diff backing a completion, downgrade to `partial` or `blocked` and enumerate the missing proof. The parity check fails a completed claim that has no passing verification entry.
-- Copying conflicting source artifacts verbatim. When `plan.md`, `progress.md`, and `result.md` disagree, do not paste all versions and let the successor sort it out. Resolve with `references/handoff-source-priority.md` (higher-priority source wins; ties break by newer timestamp, then explicit path/command/line), and record the resolution as a decision or conflict entry.
-- Inventing status not backed by proof. Do not infer `done` from a hopeful narrative or from memory. Unverified items are `not_started`, `in_progress`, or `blocked`, never `done`.
-- The cold-handoff case (zero artifacts). When no plan/progress/result files exist, do not emit an empty or fabricated handoff. Compile from the live repository state (`git status`, `git diff`, commit log, changed files) plus any conversation memory, label every memory-only claim as unverified, and set overall status to `partial` at most until proof is gathered.
+Keep required facts, caveats, ownership, and actions; trim exhaustive history,
+generic encouragement, and duplicate summaries. A successor should be able to
+start the first action without re-investigating the entire session.
 
 ## Tooling
 
-All scripts are plain Python 3 (standard library only). Run with the project's Python interpreter; no install step is required. Paths below are relative to this skill directory; use forward slashes.
+All scripts use Python 3 standard library only and paths are relative to this
+skill directory:
 
-- `scripts/build_handoff_index.py <artifact_dir>` builds an evidence index from delivery artifacts. The directory is optional and may be given either positionally (`build_handoff_index.py <artifact_dir>`) or as an option (`build_handoff_index.py --dir <artifact_dir>`); both default to the current directory.
-- `scripts/validate_handoff_md.py <handoff.md>` checks required handoff sections (single file).
-- `scripts/validate_context_pack.py <context-pack.json>` checks required keys, types, and enum values (single file).
-- `scripts/validate_handoff_parity.py <handoff.md> <context-pack.json>` checks cross-file parity: the overall status in both files matches, and every completed claim has a passing verification entry. Run this after the two single-file validators pass.
+- `scripts/build_handoff_index.py <artifact_dir>` summarizes available delivery
+  artifacts; `--dir <artifact_dir>` is also accepted. It reports both status
+  candidates and a conflict/selection flag instead of silently preferring one.
+- `scripts/validate_handoff_md.py <handoff.md>` checks required sections.
+- `scripts/validate_context_pack.py <context-pack.json>` checks keys, types, and
+  enums.
+- `scripts/validate_handoff_parity.py <handoff.md> <context-pack.json>` checks
+  status parity and task-specific evidence for completed claims.
+- `scripts/smoke_test.sh` exercises valid output plus unsupported-claim and
+  divergent-status negative fixtures.
 
-## References
+## Reference Files
 
-One level deep, read on demand:
+| File | Read when | Content |
+| --- | --- | --- |
+| `references/handoff-source-priority.md` | Gathering or reconciling sources | Evidence precedence and conflict resolution |
+| `references/handoff-quality-gate.md` | Assigning overall status | Required checks and anti-fabrication rule |
+| `references/context-pack-schema.md` | Creating or validating either output | Canonical statuses, JSON shape, and constraints |
+| `references/continuation-mode.md` | Describing remaining execution shape | Independence test, ownership fields, and sequential fallback |
 
-- `references/handoff-source-priority.md`: source precedence and conflict resolution.
-- `references/handoff-quality-gate.md`: required checks and status rules before publishing.
-- `references/context-pack-schema.md`: `context-pack.json` schema and the single-source Status Vocabulary.
-- `references/continuation-mode.md`: continuation-mode judgment rule and sequential fallback.
+## Gotchas
+
+- Do not paste contradictory documents side by side. Resolve them or surface
+  the specific unresolved conflict and its consequence.
+- Do not mark work done from a hopeful plan, memory, or the presence of changed
+  files. Cite outcome evidence.
+- A validator passing proves structure, not factual truth. Recheck decisive
+  claims against source evidence.
+- Do not default the template to parallel work. Use `parallel_recommended` only
+  after the remaining tracks pass the independence test.
+- Never let `progress.md` and `task.md` silently represent different states;
+  select the authoritative source and record the conflict if needed.
