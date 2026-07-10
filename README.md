@@ -34,6 +34,7 @@ These skills live directly in this repo under `skills/`.
 | [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Document and audit Python API contracts with lifecycle-aware patterns and a doc-only diff guard |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
+| [installing-skills-from-main](skills/development/installing-skills-from-main/) | Install the published `main` skill pack globally with an explicit branch-qualified `npx skills` source |
 
 ### Productivity
 
@@ -131,7 +132,8 @@ agent-skills/
     │   ├── mermaid-diagram-design/
     │   ├── python-docstring-enhancer/
     │   ├── skill-builder/
-    │   └── gpt56-sol-prompting-guide/
+    │   ├── gpt56-sol-prompting-guide/
+    │   └── installing-skills-from-main/
     └── productivity/
         ├── anti-ai-slop-terminology/
         ├── conducting-deep-interviews/
