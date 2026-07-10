@@ -32,7 +32,7 @@ These skills live directly in this repo under `skills/`.
 | [echarts-dashboard-patterns](skills/development/echarts-dashboard-patterns/) | Build readable ECharts dashboards with guardrails for labels, legends, axes, gaps, and shared config |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
 | [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
-| [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design clear Mermaid diagrams with type selection, layout control, accessibility, and render preflight |
+| [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
 | [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Add explanatory Python docstrings and intent comments for complex code paths |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
 | [workspace-delivery-orchestrator](skills/development/workspace-delivery-orchestrator/) | Coordinate multi-repo or multi-workstream delivery with planning, progress tracking, and closure artifacts |
