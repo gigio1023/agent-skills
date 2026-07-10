@@ -42,6 +42,9 @@ After enabling the policy, send a substantive English task request and confirm:
 
 1. the primary task starts without a language-review clarification;
 2. the final response contains one whole-prompt rewrite, not token-level edits;
-3. technical names and constraints remain unchanged;
-4. no terminology note appears unless it adds a meaningful distinction; and
-5. disabling the policy removes the coaching block without changing task work.
+3. the rewrite, key expressions, and contrast examples remain in English;
+4. Korean guidance explains meaning boundaries without translating the complete
+   rewrite;
+5. material ambiguity produces English choices instead of a guessed meaning;
+6. technical names and constraints remain unchanged; and
+7. disabling the policy removes the coaching block without changing task work.

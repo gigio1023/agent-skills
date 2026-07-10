@@ -4,9 +4,10 @@ description: >
   Use when a user wants an English task prompt reviewed or quietly coached while
   the requested work continues, especially for software engineering, AI
   research, and game-development work. Rewrites the complete request in clear,
-  natural technical English and recommends precise domain terms when useful.
-  NOT for translating non-English text, proofreading prose word by word, or
-  changing the user's task requirements.
+  natural technical English, explains nuance and ambiguity in precise Korean,
+  and keeps key expressions and contrasts in English. NOT for translating
+  non-English text, proofreading prose word by word, or changing the user's
+  task requirements.
 ---
 
 # Reviewing English Prompts
@@ -25,9 +26,12 @@ the coaching lane is a review, not a reinterpretation or a new requirement.
    scope, uncertainty, and level of urgency. Prefer the way an experienced
    practitioner would ask for the work, not a literal translation of the
    original syntax.
-4. Add up to three terminology or wording notes only when they make the request
-   more precise, more idiomatic, or easier to act on in its technical domain.
-5. Return the coaching result after the task result. If the request is already
+4. Explain up to three high-value changes in precise Korean, while keeping the
+   recommended expressions, alternatives, and contrast examples in English.
+5. If an ambiguous phrase could change task scope or technical meaning, do not
+   select one interpretation. Explain the distinction in Korean and show each
+   possible meaning as an English clause or prompt variant.
+6. Return the coaching result after the task result. If the request is already
    concise and natural, say so briefly instead of inventing edits.
 
 ## Coaching Contract
@@ -39,9 +43,9 @@ and authority unchanged. In particular, do not turn a request to inspect into a
 request to edit, soften a firm constraint, add a deadline, or substitute a
 different technical approach.
 
-When the wording is ambiguous, write a faithful paraphrase that retains the
-ambiguity, then note the one decision that would make it actionable. Do not
-silently guess.
+When wording is materially ambiguous, do not hide the uncertainty inside a
+fluent rewrite. Separate the shared meaning from the unresolved choice and give
+English variants for each plausible interpretation. Do not silently guess.
 
 ### Rewrite the Prompt, Not Every Token
 
@@ -58,6 +62,19 @@ Prefer a plain, idiomatic request over either of these extremes:
 Do not produce a line-by-line grammar lesson, a redline, a score, or a list of
 every small article and preposition change unless the user explicitly asks for
 that level of correction.
+
+### Split the Languages Deliberately
+
+Keep the rewritten prompt, recommended expressions, contrast phrases, and reuse
+examples in English. Use Korean only to explain why a change matters, where an
+English expression's meaning begins and ends, or how an ambiguity would change
+the task.
+
+Never place a full Korean translation directly under the rewrite. A Korean gloss
+alone can create recognition without command of the English expression. Tie each
+Korean explanation to the exact English phrase and, when a distinction is
+subtle, add an English contrast or example such as `locate the failure` versus
+`identify the root cause`.
 
 ### Use Domain Language Carefully
 
@@ -96,17 +113,23 @@ enabled for the request or harness:
 
 **Natural rewrite**
 
-> <one complete, ready-to-send prompt>
+> <one complete prompt, or labeled complete English variants when the intended meaning is unresolved>
 
-**Precision note** *(only when useful)*
+**한국어 가이드** *(도움이 될 때만)*
 
-- `<original wording>` → `<preferred wording>` — <short reason>
+- `<preferred English expression>`: <의미 경계와 사용 이유를 설명하는 짧은 한국어>. `<English contrast or reuse example>`
+
+**뜻 확인 필요** *(해석에 따라 작업이 달라질 때만)*
+
+- `<ambiguous English phrase>`: <무엇이 확정되지 않았는지 한국어로 설명>
+  - <의미 A>: `<English clause or prompt variant>`
+  - <의미 B>: `<English clause or prompt variant>`
 ```
 
 For a prompt that needs no material rewrite, use `Natural and clear as written.`
-Do not praise mechanically, restate the task result, or make the user compare
-multiple near-identical versions. Offer one best rewrite; offer alternatives only
-when they reflect a meaningful difference in technical intent or register.
+Do not praise mechanically, restate the task result, translate the full rewrite
+into Korean, or make the user compare near-identical versions. Offer one best
+rewrite unless a real ambiguity requires distinct English variants.
 
 ## Authority and Privacy
 
@@ -125,6 +148,10 @@ Before returning a rewrite, compare it with the original request:
 - verbs and nouns are natural for the inferred domain;
 - the prompt has one clear main request rather than a word-for-word gloss;
 - identifiers, commands, API names, and quoted content are unchanged;
+- key expressions and all alternatives remain in English;
+- Korean guidance explains semantic boundaries without translating the complete
+  prompt or substituting for the English wording;
+- a material ambiguity is exposed as English alternatives rather than guessed;
 - any terminology note improves a real distinction rather than adding jargon.
 
 Use [evaluation-cases.md](references/evaluation-cases.md) to test changes to
@@ -138,5 +165,7 @@ this skill or to calibrate a harness integration.
   rewrite would genuinely help the user learn a more useful expression.
 - Do not turn a domain term into a prescribed implementation. For example,
   `root cause` describes a diagnosis goal; it does not authorize code changes.
+- Do not let a fluent Korean explanation stand alone as proof of understanding;
+  anchor it to an English expression, contrast, or reuse example.
 - Keep the coaching block small. Its purpose is to build intuition while the
   user gets their work done, not to become a second task.

@@ -4,6 +4,22 @@ Use this as a judgment guide, not a replacement table. A term earns a
 recommendation only when it captures the user's intended technical distinction
 more clearly than the original wording.
 
+## How to Teach a Term
+
+Keep the term, alternatives, and examples in English. Use Korean for the narrow
+semantic explanation, then return immediately to an English contrast or reuse
+example. Do not finish with a Korean-only definition.
+
+```text
+`identify the root cause`: 실패 지점을 찾는 데서 끝나지 않고 원인을 특정한다는
+뜻이다. `locate the failure` describes where; `identify the root cause`
+explains why.
+```
+
+If two terms imply different work, present both English choices and explain the
+decision boundary in Korean. Do not recommend the more technical-sounding term
+until the prompt provides enough evidence to support it.
+
 ## Software Engineering
 
 | Intent | Natural technical wording | Use when |
