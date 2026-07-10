@@ -23,15 +23,15 @@ These skills live directly in this repo under `skills/`.
 | Skill | Description |
 | --- | --- |
 | [1password-cli](skills/development/1password-cli/) | Use the local 1Password CLI safely for vaults, items, secret references, env injection, and Mac app integration |
-| [commit-push-sync](skills/development/commit-push-sync/) | Split local changes into logical commits, push safely, and keep issue or PR sync explicit |
-| [cross-harness-skill-authoring](skills/development/cross-harness-skill-authoring/) | Author and audit one portable skill for Claude Code/Fable and Codex/GPT-5.6 while isolating harness adapters |
-| [writing-engineering-docs](skills/development/writing-engineering-docs/) | Write, update, restructure, and review evidence-backed engineering documentation |
+| [commit-and-push](skills/development/commit-and-push/) | Split local changes into logical commits, push safely, and keep issue or PR sync explicit |
+| [cross-harness-skills](skills/development/cross-harness-skills/) | Author and audit one portable skill for Claude Code/Fable and Codex/GPT-5.6 while isolating harness adapters |
+| [engineering-docs](skills/development/engineering-docs/) | Write, update, restructure, and review evidence-backed engineering documentation |
 | [draft-pr](skills/development/draft-pr/) | Publish or update actual draft GitHub PRs with `gh`, preserving reviewer context and rebasing only when needed |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
 | [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
-| [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
-| [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Document and audit Python API contracts with lifecycle-aware patterns and a doc-only diff guard |
+| [mermaid-diagrams](skills/development/mermaid-diagrams/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
+| [python-docstrings](skills/development/python-docstrings/) | Document and audit Python API contracts with lifecycle-aware patterns and a doc-only diff guard |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
 | [install-skill-pack](skills/development/install-skill-pack/) | Install the published `main` skill pack globally with an explicit branch-qualified `npx skills` source |
@@ -40,13 +40,13 @@ These skills live directly in this repo under `skills/`.
 
 | Skill | Description |
 | --- | --- |
-| [anti-ai-slop-terminology](skills/productivity/anti-ai-slop-terminology/) | Review unnatural or domain-inaccurate terminology without treating a watch-list hit as proof of AI authorship |
-| [conducting-deep-interviews](skills/productivity/conducting-deep-interviews/) | Lead an Ouroboros-centered, context-first Socratic interview one question at a time and close with a user-approved brief |
-| [fable5-judgment-orchestrator](skills/productivity/fable5-judgment-orchestrator/) | Let Fable 5 lead difficult judgment and end-to-end work, delegating only when another lane has a concrete advantage |
-| [handoff-prompt-writer](skills/productivity/handoff-prompt-writer/) | Compile current intent, decisions, artifacts, evidence, and remaining work into one executable successor prompt file |
-| [parallel-subagent-orchestrator](skills/productivity/parallel-subagent-orchestrator/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
+| [terminology-review](skills/productivity/terminology-review/) | Review unnatural or domain-inaccurate terminology without treating a watch-list hit as proof of AI authorship |
+| [deep-interview](skills/productivity/deep-interview/) | Lead an Ouroboros-centered, context-first Socratic interview one question at a time and close with a user-approved brief |
+| [fable5-judgment](skills/productivity/fable5-judgment/) | Let Fable 5 lead difficult judgment and end-to-end work, delegating only when another lane has a concrete advantage |
+| [handoff-prompt](skills/productivity/handoff-prompt/) | Compile current intent, decisions, artifacts, evidence, and remaining work into one executable successor prompt file |
+| [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce page-limit checks |
-| [reviewing-english-prompts](skills/productivity/reviewing-english-prompts/) | Rewrite English technical prompts naturally, explain nuance in Korean, and keep key terms and contrasts in English |
+| [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally, explain nuance in Korean, and keep key terms and contrasts in English |
 
 ## Related standalone skills
 
@@ -73,8 +73,8 @@ These skills live in separate repos and are not packaged in this skill pack.
 Install one skill globally for Codex:
 
 ```bash
-npx skills add gigio1023/agent-skills \
-  --skill reviewing-english-prompts \
+npx --yes skills add 'gigio1023/agent-skills#main' \
+  --skill english-prompt-review \
   --agent codex \
   --global \
   --yes
@@ -83,8 +83,8 @@ npx skills add gigio1023/agent-skills \
 Install the same skill globally for Codex, Claude Code, and Cursor:
 
 ```bash
-npx skills add gigio1023/agent-skills \
-  --skill reviewing-english-prompts \
+npx --yes skills add 'gigio1023/agent-skills#main' \
+  --skill english-prompt-review \
   --agent codex claude-code cursor \
   --global \
   --yes
@@ -93,12 +93,10 @@ npx skills add gigio1023/agent-skills \
 CLI options must start with two ASCII hyphens, such as `--skill`. Unicode
 dashes such as `—skill` are not valid options.
 
-For local development, replace the GitHub source with the checkout path:
+For local development, inspect the checkout without installing it:
 
 ```bash
-npx skills add ./agent-skills \
-  --skill skill-builder \
-  --agent codex
+npx --yes skills add . --list --full-depth
 ```
 
 Agent-specific setup notes live in `docs/` and the `.codex/`, `.claude/`,
@@ -122,24 +120,24 @@ agent-skills/
 └── skills/
     ├── development/
     │   ├── 1password-cli/
-    │   ├── commit-push-sync/
-    │   ├── cross-harness-skill-authoring/
-    │   ├── writing-engineering-docs/
+    │   ├── commit-and-push/
+    │   ├── cross-harness-skills/
+    │   ├── engineering-docs/
     │   ├── draft-pr/
     │   ├── fable5-prompting-guide/
     │   ├── toss-portfolio-state/
     │   ├── frontend-design/
-    │   ├── mermaid-diagram-design/
-    │   ├── python-docstring-enhancer/
+    │   ├── mermaid-diagrams/
+    │   ├── python-docstrings/
     │   ├── skill-builder/
     │   ├── gpt56-sol-prompting-guide/
     │   └── install-skill-pack/
     └── productivity/
-        ├── anti-ai-slop-terminology/
-        ├── conducting-deep-interviews/
-        ├── fable5-judgment-orchestrator/
-        ├── handoff-prompt-writer/
-        ├── parallel-subagent-orchestrator/
+        ├── terminology-review/
+        ├── deep-interview/
+        ├── fable5-judgment/
+        ├── handoff-prompt/
+        ├── parallel-subagents/
         ├── pdf-page-count/
-        └── reviewing-english-prompts/
+        └── english-prompt-review/
 ```

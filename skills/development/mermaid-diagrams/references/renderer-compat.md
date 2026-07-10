@@ -50,7 +50,7 @@ For markdown files in a repository, run the bundled scripts from the
 installed skill directory (any working directory; pass absolute paths):
 
 ```bash
-SKILL_DIR="<absolute path to mermaid-diagram-design skill>"
+SKILL_DIR="<absolute path to mermaid-diagrams skill>"
 "$SKILL_DIR/scripts/assess_mermaid_density.sh" "<absolute markdown path>"
 "$SKILL_DIR/scripts/validate_mermaid_markdown.sh" "<absolute markdown path>"
 ```

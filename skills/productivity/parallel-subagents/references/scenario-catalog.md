@@ -1,6 +1,6 @@
 # Scenario Catalog
 
-Use this catalog to decide whether `parallel-subagent-orchestrator` is the right
+Use this catalog to decide whether `parallel-subagents` is the right
 skill, to explain expected use cases to a user, or to design validation prompts
 for the skill. Treat the examples as patterns, not a requirement to spawn many
 agents.

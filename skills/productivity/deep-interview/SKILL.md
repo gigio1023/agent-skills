@@ -1,5 +1,5 @@
 ---
-name: conducting-deep-interviews
+name: deep-interview
 description: >
   Use when the user explicitly wants to be interviewed deeply, grilled on a
   vague idea, led through requirements discovery, or questioned until a plan,
@@ -10,7 +10,7 @@ description: >
   requests to summarize existing material without further questions.
 ---
 
-# Conducting Deep Interviews
+# Deep Interview
 
 Turn incomplete intent into a user-approved Interview Brief. Interview first;
 do not implement the resulting work in the same invocation unless the user

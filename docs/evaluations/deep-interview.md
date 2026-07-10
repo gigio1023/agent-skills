@@ -1,4 +1,4 @@
-# Conducting Deep Interviews Evaluation
+# Deep Interview Evaluation
 
 - Date: 2026-07-10
 - Model: GPT-5.6 Sol
@@ -31,8 +31,8 @@ The candidate classified both near-miss requests correctly:
 
 - portable frontmatter and referenced-path validation: pass;
 - package discovery with `npx skills add . --list --full-depth`: pass;
-- discovered skill count: 26;
-- `conducting-deep-interviews` appears as an installable skill.
+- discovered skill count: 20;
+- `deep-interview` appears as an installable skill.
 
 The brownfield and early-stop cases remain in the reusable evaluation suite for
 future multi-turn or repository-fixture regression runs.

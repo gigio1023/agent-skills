@@ -1,5 +1,5 @@
 ---
-name: commit-push-sync
+name: commit-and-push
 description: >
   Use when the user explicitly asks to commit, split commits, stage and commit,
   push, sync a branch, or commit directly to the default branch. Triggers on
@@ -10,7 +10,7 @@ description: >
   issue/PR comments and edits unless the user explicitly includes them.
 ---
 
-# Commit, Push, and Sync
+# Commit and Push
 
 Produce logically scoped commits and push the requested branch without
 absorbing unrelated user changes. Report the commits, pushed ref, verification

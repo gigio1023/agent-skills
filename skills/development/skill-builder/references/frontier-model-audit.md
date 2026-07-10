@@ -119,7 +119,7 @@ skills state capabilities and decision rules, not a permanently current model
 catalog.
 
 When the same package targets Claude Code and Codex, apply
-`cross-harness-skill-authoring` as well. A model comparison alone does not catch
+`cross-harness-skills` as well. A model comparison alone does not catch
 differences in discovery text, invocation, optional metadata, tool names,
 permissions, or resource-path behavior.
 

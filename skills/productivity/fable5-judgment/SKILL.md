@@ -1,5 +1,5 @@
 ---
-name: fable5-judgment-orchestrator
+name: fable5-judgment
 description: >
   Use when the user wants Fable 5 to lead difficult judgment, long-horizon work,
   issue review, decision synthesis, overlooked-fact checks, strategic
@@ -9,7 +9,7 @@ description: >
   for a routine bounded task that one agent can finish directly.
 ---
 
-# Fable 5 Judgment Orchestrator
+# Fable 5 Judgment
 
 ## Purpose
 
@@ -19,7 +19,7 @@ perform difficult end-to-end work; do not delegate merely to keep its context
 empty. Delegate when concurrency, context isolation, fresh verification, tool
 specialization, or a measured cost/latency advantage improves the result.
 
-This skill assigns model roles. `parallel-subagent-orchestrator` owns work
+This skill assigns model roles. `parallel-subagents` owns work
 decomposition, packets, asynchronous coordination, and synthesis mechanics.
 
 ## Quick Start
@@ -99,5 +99,5 @@ or limitations affect trust.
 - Do not request hidden reasoning or a chain-of-thought transcript.
 - Do not hide a material model or tool substitution; state it when it changes
   confidence, cost, latency, or reproducibility.
-- Do not duplicate `parallel-subagent-orchestrator`; this skill owns model-role
+- Do not duplicate `parallel-subagents`; this skill owns model-role
   judgment, while the parallel skill owns orchestration mechanics.

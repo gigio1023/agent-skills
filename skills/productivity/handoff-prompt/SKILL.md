@@ -1,5 +1,5 @@
 ---
-name: handoff-prompt-writer
+name: handoff-prompt
 description: >
   Use when the user wants a successor-ready handoff prompt, continuation prompt,
   next-agent prompt, session transfer file, or asks to package current work so
@@ -8,7 +8,7 @@ description: >
   evidence, and remaining work.
 ---
 
-# Handoff Prompt Writer
+# Handoff Prompt
 
 Create one self-contained prompt file that a successor agent can execute. The
 default output is `handoff-prompt.md` in the active project root. Write the

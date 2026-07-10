@@ -1,5 +1,5 @@
 ---
-name: reviewing-english-prompts
+name: english-prompt-review
 description: >
   Use when a user wants an English task prompt reviewed or quietly coached while
   the requested work continues, especially for software engineering, AI
@@ -10,7 +10,7 @@ description: >
   task requirements.
 ---
 
-# Reviewing English Prompts
+# English Prompt Review
 
 Help a user develop the habit of expressing technical work naturally in English
 without making the task harder to execute. Preserve the user's actual request;

@@ -6,7 +6,7 @@
 The original sections through Conclusion describe Claude Code practices and may
 name Claude-only tools or metadata. For a skill shared with Codex, treat those
 as source examples rather than portable commands; the Addenda and the
-`cross-harness-skill-authoring` skill own the common contract.
+`cross-harness-skills` skill own the common contract.
 
 ## Table of Contents
 

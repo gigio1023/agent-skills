@@ -25,11 +25,11 @@ The durable translation is:
 - Long-run status must be grounded in current tool results. Never ask Fable 5 to
   reproduce private reasoning; that can trigger reasoning-extraction safeguards.
 
-This skill remains separate from `parallel-subagent-orchestrator`:
+This skill remains separate from `parallel-subagents`:
 
-- `parallel-subagent-orchestrator` is harness-neutral and owns decomposition,
+- `parallel-subagents` is harness-neutral and owns decomposition,
   packets, coordination, conflict handling, and synthesis mechanics.
-- `fable5-judgment-orchestrator` is model-role policy. It decides when Fable 5
+- `fable5-judgment` is model-role policy. It decides when Fable 5
   should lead directly and when another configured lane has a concrete advantage.
 
 The final answer remains the lead's synthesis, not a transcript of workers.

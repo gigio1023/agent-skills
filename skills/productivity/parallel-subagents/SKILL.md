@@ -1,5 +1,5 @@
 ---
-name: parallel-subagent-orchestrator
+name: parallel-subagents
 description: >
   Use when the user asks for parallel subagents, delegated agents, agent teams,
   competing research tracks, or when a large task has independent workstreams
@@ -9,7 +9,7 @@ description: >
   harnesses. NOT for small or tightly sequential tasks.
 ---
 
-# Parallel Subagent Orchestrator
+# Parallel Subagents
 
 ## Purpose
 

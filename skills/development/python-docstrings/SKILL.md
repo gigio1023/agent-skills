@@ -1,5 +1,5 @@
 ---
-name: python-docstring-enhancer
+name: python-docstrings
 description: >
   Use when adding, correcting, auditing, or reviewing Python docstrings and
   explanatory comments, especially for public APIs, async and generator
@@ -11,7 +11,7 @@ description: >
   merely narrate statements.
 ---
 
-# Python Docstring Enhancer
+# Python Docstrings
 
 Document caller-visible contracts and maintenance-critical rationale that names,
 annotations, and code structure do not reveal. Preserve runtime and tooling

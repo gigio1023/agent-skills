@@ -96,7 +96,7 @@ facts, caveats, actions, and artifacts from generic brevity. Request evidence an
 concise rationale, never unreported internal deliberation.
 
 For shared Claude Code/Codex skills, also apply
-`cross-harness-skill-authoring`: keep the domain contract portable, isolate
+`cross-harness-skills`: keep the domain contract portable, isolate
 native adapters, and test Fable/Claude Code and GPT-5.6/Codex independently.
 
 ## Progressive Disclosure

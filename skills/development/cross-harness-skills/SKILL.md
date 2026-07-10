@@ -1,5 +1,5 @@
 ---
-name: cross-harness-skill-authoring
+name: cross-harness-skills
 description: >
   Use when creating, reviewing, or modernizing one agent skill that must work in
   both Claude Code and Codex, especially when reconciling current GPT-5.6-series
@@ -9,7 +9,7 @@ description: >
   requirement; use skill-builder alone.
 ---
 
-# Cross-Harness Skill Authoring
+# Cross-Harness Skills
 
 Build one portable skill core for Claude Code and Codex without flattening their
 different model and runtime behavior into vague advice. The common `SKILL.md`

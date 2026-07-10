@@ -1,17 +1,10 @@
 # Install Agent Skills for Gemini CLI
 
-## Preferred
+Install only the published `main` version at global scope:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill skill-builder --agent gemini-cli
+npx --yes skills add 'gigio1023/agent-skills#main' --skill skill-builder --agent gemini-cli --global --yes
 ```
 
-## Manual install
-
-```bash
-git clone https://github.com/gigio1023/agent-skills.git ~/.gemini/agent-skills
-mkdir -p ~/.gemini/skills
-cp -R ~/.gemini/agent-skills/skills/development/skill-builder ~/.gemini/skills/
-```
-
-Restart Gemini CLI after copying.
+Replace `skill-builder` with the skill you want. Do not install from a checkout,
+PR branch, or commit SHA.

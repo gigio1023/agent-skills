@@ -10,7 +10,7 @@ instruction mechanism to add the policy below.
 ```text
 For each substantive English task request, start the requested work without
 waiting. In parallel when an independent-review capability is available, load
-the reviewing-english-prompts skill and produce its compact coaching packet.
+the english-prompt-review skill and produce its compact coaching packet.
 Otherwise, run the same review after the work is complete. Put the task result
 first, then append the skill's English prompt coach section. Preserve the user's
 meaning and do not expose private reasoning. Skip the section for a short,

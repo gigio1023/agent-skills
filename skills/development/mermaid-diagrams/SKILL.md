@@ -1,5 +1,5 @@
 ---
-name: mermaid-diagram-design
+name: mermaid-diagrams
 description: |
   Use when the user asks for Mermaid diagrams, flowcharts, sequence diagrams,
   architecture diagrams, diagram refactors, or diagram readability fixes.
@@ -8,7 +8,7 @@ description: |
   validation. NOT for draw.io native XML authoring; use drawio-diagram.
 ---
 
-# Mermaid Diagram Design
+# Mermaid Diagrams
 
 Produce a Mermaid diagram that a human reads correctly on the first pass and
 that actually renders on the destination host. Readability outranks

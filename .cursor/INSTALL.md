@@ -1,17 +1,10 @@
 # Install Agent Skills for Cursor
 
-## Preferred
+Install only the published `main` version at global scope:
 
 ```bash
-npx skills add gigio1023/agent-skills --skill skill-builder --agent cursor
+npx --yes skills add 'gigio1023/agent-skills#main' --skill skill-builder --agent cursor --global --yes
 ```
 
-## Manual install
-
-```bash
-git clone https://github.com/gigio1023/agent-skills.git ~/.cursor/agent-skills
-mkdir -p ~/.cursor/skills
-cp -R ~/.cursor/agent-skills/skills/development/skill-builder ~/.cursor/skills/
-```
-
-Restart Cursor after copying.
+Replace `skill-builder` with the skill you want. Do not install from a checkout,
+PR branch, or commit SHA.

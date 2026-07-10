@@ -1,5 +1,5 @@
 ---
-name: anti-ai-slop-terminology
+name: terminology-review
 description: >
   Use when the user asks to review or replace unnatural, inflated, translated,
   or domain-inaccurate terminology in technical and workplace writing,
@@ -10,7 +10,7 @@ description: >
   without explicit scope.
 ---
 
-# Anti AI-Slop Terminology
+# Terminology Review
 
 Find terms that are wrong or unnatural in their actual domain and replace them
 with language the intended readers use. A watch-list hit is a review lead, not
