@@ -5,8 +5,7 @@ description: >
   next-agent prompt, session transfer file, or asks to package current work so
   another agent can continue without rereading the whole conversation. Creates
   one executable prompt file from intent, decisions, artifacts, live state,
-  evidence, and remaining work. NOT for the paired handoff.md and
-  context-pack.json contract produced by workspace-handoff-compiler.
+  evidence, and remaining work.
 ---
 
 # Handoff Prompt Writer
@@ -107,5 +106,5 @@ successor's ability to proceed. The file itself is the deliverable.
 - Do not copy secrets from environment files, logs, authentication output, or
   tool results into the prompt.
 - Do not silently combine unrelated repositories or tasks into one handoff.
-- Do not use this skill when the user needs the stricter `handoff.md` plus
-  `context-pack.json` parity contract.
+- Keep one prompt as the source of truth. Do not create mirrored handoff files
+  unless the user explicitly requests additional output formats.

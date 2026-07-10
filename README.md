@@ -38,7 +38,6 @@ These skills live directly in this repo under `skills/`.
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
 | [workspace-delivery-orchestrator](skills/development/workspace-delivery-orchestrator/) | Coordinate multi-repo or multi-workstream delivery with planning, progress tracking, and closure artifacts |
-| [workspace-handoff-compiler](skills/development/workspace-handoff-compiler/) | Compile successor handoffs and context packs for work that continues across sessions |
 
 ### Productivity
 
@@ -143,8 +142,7 @@ agent-skills/
     │   ├── python-docstring-enhancer/
     │   ├── skill-builder/
     │   ├── gpt56-sol-prompting-guide/
-    │   ├── workspace-delivery-orchestrator/
-    │   └── workspace-handoff-compiler/
+    │   └── workspace-delivery-orchestrator/
     └── productivity/
         ├── anti-ai-slop-terminology/
         ├── conducting-deep-interviews/

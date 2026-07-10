@@ -8,7 +8,7 @@ description: >
   multiple workstreams, orchestration, "여러 레포 작업", "병렬 실행", and
   explicit progress/result tracking. NOT for a simple single-scope change, an
   ordinary conversational plan with no artifact requirement, or compiling a
-  successor handoff (use workspace-handoff-compiler).
+  successor handoff (use handoff-prompt-writer).
 ---
 
 # Workspace Delivery Orchestrator
