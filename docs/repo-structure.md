@@ -20,8 +20,8 @@ flowchart LR
   subgraph repo ["agent-skills repository"]
     IDX["README.md<br/>skill index"]
     subgraph pack ["skills/ local pack"]
-      DEV["development · 15 skills<br/>draft-pr, skill-builder,<br/>mermaid-diagram-design, ..."]
-      PROD["productivity · 7 skills<br/>write-pr, web-research-audit, ..."]
+      DEV["development · 17 skills<br/>draft-pr, skill-builder,<br/>sol-prompting-guide, ..."]
+      PROD["productivity · 8 skills<br/>handoff-prompt-writer,<br/>write-pr, ..."]
     end
     ADP["Install adapters<br/>.claude · .codex · .cursor · .gemini"]
   end
