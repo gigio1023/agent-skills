@@ -68,8 +68,10 @@ The five failures that dominate real-world broken diagrams:
    palettes (fill + stroke + text always set together so dark mode cannot
    break contrast), pair color with labels or line style, keep to ≤4 colors,
    and set edge visibility (`linkStyle default stroke:#64748b`) when fills
-   would wash edges out. Add `accTitle`/`accDescr` when the destination
-   benefits from accessibility metadata.
+   would wash edges out. When edges carry text, set `edgeLabelBackground`
+   and `textColor` together so the label remains readable over lines and on
+   both host themes. Add `accTitle`/`accDescr` when the destination benefits
+   from accessibility metadata.
 6. **Validate** (`renderer-compat.md`): for repository markdown, run the
    bundled density and render scripts (absolute paths, from any cwd):
 
@@ -113,5 +115,8 @@ used; never imply visual inspection happened when only parsing was checked.
   subset.
 - **`linkStyle` indexes shift** when edges are added or reordered — re-check
   indexed styles after any edge edit.
+- **Edge labels need their own contrast pair.** Styling nodes and lines does
+  not protect text on an edge; set both `edgeLabelBackground` and `textColor`
+  in `themeVariables`, then inspect the light and dark render.
 - **Density thresholds are heuristics.** They trigger a look at the render;
   required nodes and relationships stay.

@@ -91,6 +91,8 @@ config:
     primaryColor: "#dbeafe"
     primaryTextColor: "#1e3a8a"
     primaryBorderColor: "#2563eb"
+    textColor: "#1f2937"
+    edgeLabelBackground: "#f8fafc"
     lineColor: "#64748b"
     clusterBkg: "#f8fafc"
     fontSize: "15px"
@@ -106,6 +108,14 @@ fit: `neutral` for print/monochrome docs, `dark` for dark-only sites,
 `forest`/`default` otherwise. `look: handDrawn` signals "draft/proposal" in
 RFCs; keep `classic` for reference docs.
 
+Flowchart edge labels need a separate contrast pair. `edgeLabelBackground`
+sets the box behind labels such as `-->|install|`; `textColor` controls text
+drawn over the diagram background, including those labels. Set both whenever
+the diagram hardcodes node or line colors, then render once on a light canvas
+and once on a dark canvas. Setting only the background can inherit unreadable
+host-theme text, while setting only the text leaves lines visible through the
+label.
+
 ## Dark-Mode Survival
 
 GitHub (and similar hosts) auto-switch Mermaid's theme with the viewer's
@@ -119,7 +129,10 @@ strategies:
 
 Never set a fill without also setting `color`: a hardcoded light fill plus
 the dark theme's near-white default text is the classic unreadable-node bug.
-Mid-gray edges (`#64748b`/`#808080`) stay visible on both backgrounds.
+Mid-gray edges (`#64748b`/`#808080`) stay visible on both backgrounds. For
+labeled edges, use a fixed light `edgeLabelBackground` with dark `textColor`
+or an equivalently verified pair; a transparent label background lets the
+edge compete with the text.
 
 ## Visual Hierarchy Without Color
 
