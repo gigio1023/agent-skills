@@ -45,6 +45,7 @@ These skills live directly in this repo under `skills/`.
 | Skill | Description |
 | --- | --- |
 | [anti-ai-slop-terminology](skills/productivity/anti-ai-slop-terminology/) | Review unnatural or domain-inaccurate terminology without treating a watch-list hit as proof of AI authorship |
+| [conducting-deep-interviews](skills/productivity/conducting-deep-interviews/) | Lead an Ouroboros-centered, context-first Socratic interview one question at a time and close with a user-approved brief |
 | [fable5-judgment-orchestrator](skills/productivity/fable5-judgment-orchestrator/) | Let Fable 5 lead difficult judgment and end-to-end work, delegating only when another lane has a concrete advantage |
 | [handoff-prompt-writer](skills/productivity/handoff-prompt-writer/) | Compile current intent, decisions, artifacts, evidence, and remaining work into one executable successor prompt file |
 | [parallel-subagent-orchestrator](skills/productivity/parallel-subagent-orchestrator/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
@@ -134,6 +135,7 @@ agent-skills/
     │   └── workspace-handoff-compiler/
     └── productivity/
         ├── anti-ai-slop-terminology/
+        ├── conducting-deep-interviews/
         ├── fable5-judgment-orchestrator/
         ├── handoff-prompt-writer/
         ├── parallel-subagent-orchestrator/
