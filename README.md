@@ -50,6 +50,7 @@ These skills live directly in this repo under `skills/`.
 | [handoff-prompt-writer](skills/productivity/handoff-prompt-writer/) | Compile current intent, decisions, artifacts, evidence, and remaining work into one executable successor prompt file |
 | [parallel-subagent-orchestrator](skills/productivity/parallel-subagent-orchestrator/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce page-limit checks |
+| [reviewing-english-prompts](skills/productivity/reviewing-english-prompts/) | Coach English technical task prompts through natural whole-prompt rewrites and selective domain terminology guidance |
 | [web-research-audit](skills/productivity/web-research-audit/) | Audit web research quality, source coverage, and evidence freshness |
 | [write-issue](skills/productivity/write-issue/) | Draft, create, edit, comment on, or audit actionable Korean GitHub issues without changing assignees implicitly |
 | [write-pr](skills/productivity/write-pr/) | Write Korean, Jira-aware PR titles and bodies sized to reviewer context; remote publication remains explicit |
@@ -140,6 +141,7 @@ agent-skills/
         ├── handoff-prompt-writer/
         ├── parallel-subagent-orchestrator/
         ├── pdf-page-count/
+        ├── reviewing-english-prompts/
         ├── web-research-audit/
         ├── write-issue/
         └── write-pr/
