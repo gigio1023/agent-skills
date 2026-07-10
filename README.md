@@ -77,24 +77,35 @@ These skills live in separate repos and are not packaged in this skill pack.
 
 ## Installation
 
-Install one skill from the pack:
-
-```bash
-npx skills add gigio1023/agent-skills --skill skill-builder
-```
-
-Local checkout:
-
-```bash
-npx skills add ./agent-skills --skill skill-builder
-```
-
-Install the cross-harness authoring skill for both primary runtimes:
+Install one skill globally for Codex:
 
 ```bash
 npx skills add gigio1023/agent-skills \
-  --skill cross-harness-skill-authoring \
-  --agent codex --agent claude-code -g
+  --skill reviewing-english-prompts \
+  --agent codex \
+  --global \
+  --yes
+```
+
+Install the same skill globally for Codex, Claude Code, and Cursor:
+
+```bash
+npx skills add gigio1023/agent-skills \
+  --skill reviewing-english-prompts \
+  --agent codex claude-code cursor \
+  --global \
+  --yes
+```
+
+CLI options must start with two ASCII hyphens, such as `--skill`. Unicode
+dashes such as `—skill` are not valid options.
+
+For local development, replace the GitHub source with the checkout path:
+
+```bash
+npx skills add ./agent-skills \
+  --skill skill-builder \
+  --agent codex
 ```
 
 Agent-specific setup notes live in `docs/` and the `.codex/`, `.claude/`,
