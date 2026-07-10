@@ -3,156 +3,115 @@ name: mermaid-diagram-design
 description: |
   Use when the user asks for Mermaid diagrams, flowcharts, sequence diagrams,
   architecture diagrams, diagram refactors, or diagram readability fixes.
-  Guides type selection, reader-first layout direction, anti-pattern avoidance,
-  parser-safe syntax, accessibility, color/edge visibility, density checks, and
-  render validation. NOT for draw.io native XML authoring; use drawio-diagram.
+  Guides type selection, reader-first layout, parser-safe syntax, palettes and
+  dark-mode-safe styling, renderer compatibility, density control, and render
+  validation. NOT for draw.io native XML authoring; use drawio-diagram.
 ---
 
 # Mermaid Diagram Design
 
-Use this skill to create Mermaid diagrams that help the reader understand a
-system, workflow, or decision quickly. The diagram must reduce ambiguity and make
-the main message easy to verify.
+Produce a Mermaid diagram that a human reads correctly on the first pass and
+that actually renders on the destination host. Readability outranks
+completeness: a diagram that needs study has failed even if every fact is in
+it.
 
-Keep bundled reusable examples and templates in English and use neutral sample
-domains. For an actual user artifact, follow the requested language or the source
-document's language and preserve authorized names and context needed for accuracy.
-Do not introduce private company names, customer data, incident details, or
-unreleased context that the user or source did not provide.
+Baseline: Mermaid v11.16 syntax, written down to the version-safe subset when
+the destination host is older or unknown. Keep reusable examples in English
+with neutral sample domains; for user artifacts, follow the requested or
+source language and never introduce names, incident details, or unreleased
+context the user did not provide.
 
 ## Reference Files
 
-| File | When to read | What's in it |
-| --- | --- | --- |
-| `references/mermaid-patterns.md` | When a reusable pattern, fallback palette, or renderer preset would help | Type matrix, presets, patterns, accessible fallback palette, and validation checklist |
+| File | Read when |
+| --- | --- |
+| `references/syntax-pitfalls.md` | Before writing any non-trivial diagram, or when a diagram fails to parse — line-break trap, parser breakers, escaping, frontmatter config |
+| `references/diagram-catalog.md` | Choosing a type, choosing detail level, or wanting a starting pattern — includes v11 types and compact-vs-detailed forms |
+| `references/color-and-style.md` | When color/emphasis would add meaning — ready palettes, themeVariables, dark-mode survival, hierarchy without color |
+| `references/renderer-compat.md` | When the destination host matters or before shipping — host matrix, version gates, validation workflow |
 
-## Quick Start
+## Non-Negotiable Syntax Rules
 
-1. Identify the diagram's single message and target reader.
-2. Choose the diagram type by purpose: workflow, interaction timeline, layered
-   architecture, or state transition.
-3. Choose layout direction from the reader path, label length, renderer width,
-   and density. Do not default to `LR`, `TD`, or `TB`.
-4. Draft the smallest structure that preserves the requested facts and
-   relationships. Treat 6-12 nodes as a useful range, not a quota.
-5. Apply parser-safe labels, host-compatible syntax, and accessibility metadata
-   when the destination supports it.
-6. For repository files, run density and render validation, then inspect the
-   rendered result at the target host width.
+The five failures that dominate real-world broken diagrams:
 
-## Syntax And Style Baseline
-
-- Use `<br/>` for visual line breaks in labels. Do not use literal `\n`; Mermaid
-  renders it as text.
-- Apply line-break safety to node labels, edge labels, subgraph titles, and all
-  Mermaid diagram types.
-- Inherit the document or product's existing visual language. Use the fallback
-  palette in `references/mermaid-patterns.md` only when color adds meaning and no
-  local palette exists.
-- When colored nodes reduce edge contrast, set edge visibility explicitly, such as
-  `linkStyle default stroke:#455a64,stroke-width:1.8px;`.
+1. **Line breaks are `<br/>`, never `\n`.** Literal `\n` renders as visible
+   `\n` text in sequence messages, notes, and state labels (render-verified),
+   and on older hosts everywhere else.
+2. **Quote any label with punctuation**: `A["validate (strict)"]`. Unquoted
+   `()[]{}|;#&` breaks the parser.
+3. **Never use lowercase `end`** as a node/label word in flowcharts and
+   sequence diagrams; write `End` or quote it.
+4. **Flowchart arrows are `-->`**, not `->`.
+5. **Balance every block**: `subgraph`/`end`, `alt`/`end`, `activate +`/`-`.
 
 ## Workflow
 
-### 1. Split By Message
+1. **One message.** State what the reader must be able to verify in one
+   sentence. Split topics that need two sentences into two diagrams.
+2. **Type by reader task** (`diagram-catalog.md`): process → `flowchart`,
+   call order → `sequenceDiagram`, boundaries → subgraphs or
+   `architecture-beta`, lifecycle → `stateDiagram-v2`, data model →
+   `erDiagram`.
+3. **Direction from the reading path, not habit.** `LR` for comparisons,
+   lanes, and handoffs; `TD`/`TB` for short sequential paths and decision
+   trees. Long labels, many branches, or a narrow host argue against `LR`;
+   a scroll-tunnel argues against `TD`. Restructure or split before touching
+   `nodeSpacing`/`rankSpacing`, and treat 12+ nodes, 16+ edges, or many
+   cross-subgraph edges as a signal to simplify.
+4. **Draft at the right detail level** (`diagram-catalog.md`): compact form
+   for overviews (chained edges, `&` fan-out, shared terminal nodes, labeled
+   edges instead of trivial diamonds); detailed form for design docs
+   (subgraphs for real boundaries, markdown-string labels, `autonumber`,
+   `alt`/`par` blocks). Labels stay short — sentences belong in prose.
+5. **Style only with purpose** (`color-and-style.md`): unstyled is the most
+   portable and often best. When color encodes meaning, use the bundled
+   palettes (fill + stroke + text always set together so dark mode cannot
+   break contrast), pair color with labels or line style, keep to ≤4 colors,
+   and set edge visibility (`linkStyle default stroke:#64748b`) when fills
+   would wash edges out. Add `accTitle`/`accDescr` when the destination
+   benefits from accessibility metadata.
+6. **Validate** (`renderer-compat.md`): for repository markdown, run the
+   bundled density and render scripts (absolute paths, from any cwd):
 
-- Use one primary message per diagram.
-- Split complex topics into multiple diagrams instead of forcing one large graph.
-- If the document needs several diagrams, give each one a distinct purpose.
+   ```bash
+   SKILL_DIR="<absolute path to this skill>"
+   "$SKILL_DIR/scripts/assess_mermaid_density.sh" "<absolute markdown path>"
+   "$SKILL_DIR/scripts/validate_mermaid_markdown.sh" "<absolute markdown path>"
+   ```
 
-### 2. Choose The Diagram Type
+   Render failure blocks; fix and rerun. Density warnings start a visual
+   look, not automatic deletion. Then inspect the rendered output (or host
+   preview) for clipping, literal `\n`, unreadable crossings, and reading
+   order. If rendering is unavailable, report syntax review and visual
+   verification as separate, honest claims.
 
-- Sequential process, funnel, or branching workflow: `flowchart`
-- Request/response timeline: `sequenceDiagram`
-- Layered responsibility or architecture boundary: `flowchart + subgraph`,
-  `architecture`, or `block`
-- State transitions: `stateDiagram`
+## Authority
 
-Select a reusable pattern from `references/mermaid-patterns.md` when one fits.
-
-### 3. Choose Layout Direction
-
-Direction is a reader decision, not a default.
-
-- Use `LR` when the reader must compare parallel lanes, ownership boundaries,
-  before/after states, or handoffs across systems.
-- Use `TD` or `TB` when the reader must follow a short sequential path, funnel,
-  or decision tree.
-- Avoid defaulting to `LR` just because the diagram feels architectural. Long
-  labels, many branches, and narrow renderers usually make `LR` harder to scan.
-- Avoid defaulting to `TD` or `TB` just because the process is sequential. A tall
-  scroll tunnel is also hard to read; split by phase or collapse repeated steps.
-- Do not rescue the wrong direction with spacing first. Simplify, split, or
-  change direction before tuning `nodeSpacing` and `rankSpacing`.
-
-Treat layout risk as high when any condition is true: 12 or more nodes, 16 or
-more edges, four or more long labels in `LR`, many cross-subgraph edges, or a
-`TD`/`TB` diagram that needs scrolling to connect cause and effect.
-
-### 4. Draft The Structure
-
-- Prefer 6-12 nodes and three levels of depth or fewer.
-- Use verb-focused edge labels such as `validate`, `emit`, or `drop`.
-- Use `subgraph` only for meaningful boundaries such as ownership, layer, or
-  runtime environment.
-- Move long explanations into prose. Keep diagram labels short.
-- Merge duplicate terminal, drop, or error nodes into shared nodes.
-- Split diagrams that mix structure, runtime flow, and detailed mapping.
-
-### 5. Configure And Style
-
-- Prefer Mermaid frontmatter over inline directives when the destination
-  renderer supports it; otherwise use the simplest portable syntax.
-- Consider `layout: elk` for complex graphs.
-- For narrow renderers such as Confluence, prefer simpler structure and split
-  diagrams before relying on config-only fixes.
-- Pair color with labels or line style; do not rely on color alone.
-- Avoid excessive `<b>` and `<i>` tags because they increase box width.
-- Include `accTitle` and `accDescr` when the output document benefits from
-  accessibility metadata.
-
-### 6. Preflight And Validate
-
-For markdown files in the repository that contain Mermaid blocks, resolve
-`MERMAID_SKILL_DIR` to the directory containing this `SKILL.md` and pass an
-absolute target path so the commands work from any project working directory:
-
-```bash
-MERMAID_SKILL_DIR="<absolute path to the installed mermaid-diagram-design skill>"
-"$MERMAID_SKILL_DIR/scripts/assess_mermaid_density.sh" "<absolute markdown path>"
-"$MERMAID_SKILL_DIR/scripts/validate_mermaid_markdown.sh" "<absolute markdown path>"
-```
-
-Render failure is blocking. Density output is a diagnostic: inspect the result
-and simplify when it exposes a real scanning or contrast problem; do not rewrite
-a clear diagram only to satisfy a heuristic threshold. Also check common parser
-breakers: lower-case `end` labels, `o-`/`x-` edge-head surprises, comments that
-do not start with `%%`, ignored `subgraph` direction, missing `sequenceDiagram`
-participants, and tab characters.
-
-After validation, inspect the actual SVG/PNG or host preview for clipping,
-unreadable edge labels, excessive scrolling, and ordering that differs from the
-intended reader path. If the renderer is unavailable, report syntax validation
-separately from visual verification.
+Return what was asked: a code block for "give me a diagram", a file edit for
+"add/fix the diagram in this doc". Do not restructure surrounding documents,
+re-theme existing diagrams, or convert diagram types beyond the request; if a
+different type would serve the reader clearly better, deliver the requested
+artifact and note the alternative in one sentence.
 
 ## Output Contract
 
-Provide the requested artifact first: update the file when asked to edit, or
-return a Mermaid code block when the user asks for code. Add brief design notes
-only when they help the user review a non-obvious choice. Report density, render,
-and visual-inspection results only when they were actually run; never imply that
-syntax validation included visual inspection.
+Artifact first. Add design notes only for non-obvious choices the user should
+review (direction choice, what was omitted in a compact form, host caveats).
+Report validation results only for checks actually run, naming the renderer
+used; never imply visual inspection happened when only parsing was checked.
 
 ## Gotchas
 
-- **Direction defaults hide layout bugs.** `LR` can make dense architecture look
-  impressive but unreadable; `TD` can turn a simple process into a scroll tunnel.
-  Pick direction from the reader path, then verify it against density.
-- **Spacing is the last fix.** If a diagram needs extreme spacing values to avoid
-  overlap, the structure or direction is wrong.
-- **One diagram is not a document outline.** When a graph explains both topology
-  and detailed mapping, split it instead of adding more labels and edges.
-- **Renderer support differs.** If a host ignores Mermaid frontmatter, trust
-  simpler structure and smaller diagrams over renderer-specific configuration.
-- **Density checks are heuristics.** A warning starts visual review; it is not a
-  reason to delete required nodes or relationships.
+- **Direction defaults hide layout bugs.** Dense `LR` architecture renders
+  impressive and unreadable; sequential `TD` becomes a scroll tunnel. Pick
+  from the reader path, then check the render.
+- **A compact diagram that silently dropped a required fact is wrong**, not
+  elegant — say what was compressed out, or split instead.
+- **Host version is part of correctness.** Markdown strings, `@{ shape: }`,
+  ELK, and beta diagram types fail or degrade on pinned hosts (GitLab 11.4,
+  mkdocs-material 10.x, Confluence plugins). Unknown host → version-safe
+  subset.
+- **`linkStyle` indexes shift** when edges are added or reordered — re-check
+  indexed styles after any edge edit.
+- **Density thresholds are heuristics.** They trigger a look at the render;
+  required nodes and relationships stay.
