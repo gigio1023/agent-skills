@@ -1,15 +1,15 @@
 ---
-name: installing-skills-from-main
+name: install-skill-pack
 description: >
-  Use when installing or refreshing the `gigio1023/agent-skills` pack globally
-  after changes have landed on `main`. Always uses the quoted
+  Use when installing or refreshing the published `gigio1023/agent-skills` pack
+  globally after changes have landed on `main`. Always uses the quoted
   `gigio1023/agent-skills#main` source with `npx skills`, installs into the
   user-level `~/.agents/skills` location, and verifies discovery. NOT for local
   checkouts, PR or feature branches, commit SHAs, project-local installs,
   pre-merge testing, or silently pruning unrelated global skills.
 ---
 
-# Installing Skills from Main
+# Install Skill Pack
 
 Install only the published `main` branch of `gigio1023/agent-skills` into the
 global agent skill location. Never substitute a newer local checkout or PR ref.

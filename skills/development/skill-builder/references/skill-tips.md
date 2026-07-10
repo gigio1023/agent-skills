@@ -355,15 +355,19 @@ echo "smoke test passed: init -> validate exit 0"
 
 ## A5. Naming skills
 
-- **Verb-first, gerund-leaning names.** `processing-pdfs`, `creating-skills`,
-  `reviewing-prs`. A name that describes the action the skill performs reads well
-  in a skill listing and disambiguates from siblings.
-- **Avoid vague names.** `helper`, `utils`, `tools`, `data`, `common`. They tell
-  the agent nothing about when to trigger, and two such skills in one pack are
-  indistinguishable. The name plus the description carry discovery, so a vague
-  name wastes half the signal.
+- Treat the name as a short, stable label. The description carries the detailed
+  trigger and exclusion boundary.
+- Do not force a gerund. Domain labels (`pdf`), noun phrases
+  (`frontend-design`), action-object names (`find-skills`), and activity names
+  (`systematic-debugging`) can all be right.
+- Prefer the phrase users would naturally say or recognize. Add a product,
+  platform, or team prefix only when it prevents a real collision.
+- Avoid vague names such as `helper`, `utils`, `tools`, `data`, and `common`.
 - Lowercase with hyphens, max 64 characters, no reserved words (`anthropic`,
-  `claude`), no XML tags.
+  `claude`), and no XML tags.
+
+Read `references/skill-naming.md`, linked directly from `SKILL.md`, for the
+evidence sample, candidate scoring, and rename gate.
 
 ## A6. The description carries the discovery burden
 
