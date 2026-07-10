@@ -1,11 +1,11 @@
 # Agent Skills
 
-Reusable agent workflow skills for coding, research, review, and publishing.
+Reusable agent workflow skills for coding, documentation, review, and publishing.
 
 This is a curated pack of installable skills for Codex, Claude Code, Cursor,
 Gemini CLI, and similar coding agents. These skills capture practical workflows
 agents should run reliably: clean PRs, safe tool use, frontend judgment,
-research audits, subagent orchestration, and skill creation.
+technical writing, subagent orchestration, and skill creation.
 
 The pack was re-audited for GPT-5.6 Sol and Claude Fable 5 in July 2026.
 Portable domain skills keep task-specific knowledge, authority boundaries, and
@@ -25,19 +25,15 @@ These skills live directly in this repo under `skills/`.
 | [1password-cli](skills/development/1password-cli/) | Use the local 1Password CLI safely for vaults, items, secret references, env injection, and Mac app integration |
 | [commit-push-sync](skills/development/commit-push-sync/) | Split local changes into logical commits, push safely, and keep issue or PR sync explicit |
 | [cross-harness-skill-authoring](skills/development/cross-harness-skill-authoring/) | Author and audit one portable skill for Claude Code/Fable and Codex/GPT-5.6 while isolating harness adapters |
-| [dev-doc-style](skills/development/dev-doc-style/) | Tighten engineering docs by improving hierarchy, zoom level, and markdown readability |
-| [dev-tech-spec-docs](skills/development/dev-tech-spec-docs/) | Create concise development, architecture, API, README, and technical specification docs |
-| [docs-conflict-deprecation-review](skills/development/docs-conflict-deprecation-review/) | Audit docs against implementation and fix stale, conflicting, deprecated, or broken guidance |
+| [dev-tech-spec-docs](skills/development/dev-tech-spec-docs/) | Create, update, restructure, and review evidence-backed engineering documentation |
 | [draft-pr](skills/development/draft-pr/) | Publish or update actual draft GitHub PRs with `gh`, preserving reviewer context and rebasing only when needed |
-| [echarts-dashboard-patterns](skills/development/echarts-dashboard-patterns/) | Build readable ECharts dashboards with guardrails for labels, legends, axes, gaps, and shared config |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
 | [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
 | [mermaid-diagram-design](skills/development/mermaid-diagram-design/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
-| [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Add explanatory Python docstrings and intent comments for complex code paths |
+| [python-docstring-enhancer](skills/development/python-docstring-enhancer/) | Document and audit Python API contracts with lifecycle-aware patterns and a doc-only diff guard |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
-| [workspace-delivery-orchestrator](skills/development/workspace-delivery-orchestrator/) | Coordinate multi-repo or multi-workstream delivery with planning, progress tracking, and closure artifacts |
 
 ### Productivity
 
@@ -50,7 +46,6 @@ These skills live directly in this repo under `skills/`.
 | [parallel-subagent-orchestrator](skills/productivity/parallel-subagent-orchestrator/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce page-limit checks |
 | [reviewing-english-prompts](skills/productivity/reviewing-english-prompts/) | Rewrite English technical prompts naturally, explain nuance in Korean, and keep key terms and contrasts in English |
-| [web-research-audit](skills/productivity/web-research-audit/) | Audit web research quality, source coverage, and evidence freshness |
 
 ## Related standalone skills
 
@@ -128,19 +123,15 @@ agent-skills/
     │   ├── 1password-cli/
     │   ├── commit-push-sync/
     │   ├── cross-harness-skill-authoring/
-    │   ├── dev-doc-style/
     │   ├── dev-tech-spec-docs/
-    │   ├── docs-conflict-deprecation-review/
     │   ├── draft-pr/
-    │   ├── echarts-dashboard-patterns/
     │   ├── fable5-prompting-guide/
     │   ├── toss-portfolio-state/
     │   ├── frontend-design/
     │   ├── mermaid-diagram-design/
     │   ├── python-docstring-enhancer/
     │   ├── skill-builder/
-    │   ├── gpt56-sol-prompting-guide/
-    │   └── workspace-delivery-orchestrator/
+    │   └── gpt56-sol-prompting-guide/
     └── productivity/
         ├── anti-ai-slop-terminology/
         ├── conducting-deep-interviews/
@@ -148,6 +139,5 @@ agent-skills/
         ├── handoff-prompt-writer/
         ├── parallel-subagent-orchestrator/
         ├── pdf-page-count/
-        ├── reviewing-english-prompts/
-        └── web-research-audit/
+        └── reviewing-english-prompts/
 ```

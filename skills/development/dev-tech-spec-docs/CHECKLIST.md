@@ -1,27 +1,38 @@
-# 문서 전달 체크리스트
+# Engineering Documentation Delivery Checklist
 
-## 독자와 범위
+Apply this checklist to the changed scope, not mechanically to every page.
 
-- [ ] 대상 독자와 문서의 주된 작업이 분명하다.
-- [ ] 그 작업에 필요한 사실, 조건, 예외, 다음 행동이 빠지지 않았다.
-- [ ] 요청 범위 밖의 문서나 표현을 불필요하게 다시 쓰지 않았다.
+## Reader and Meaning
 
-## 근거와 정확성
+- [ ] The intended reader and primary job are clear.
+- [ ] Required facts, actions, conditions, exceptions, uncertainty, and safety
+      constraints remain intact.
+- [ ] A style edit did not silently resolve a factual conflict.
+- [ ] The page shape matches its job: task, reference, explanation, decision,
+      onboarding, or contribution.
 
-- [ ] 경로, 링크, 명령, 이름, 기본값, 버전 제약을 저장소 근거로 확인했다.
-- [ ] 실행하지 않은 예제나 명령을 검증한 것처럼 쓰지 않았다.
-- [ ] 모순되거나 확인할 수 없는 사실을 추측하지 않고 명시했다.
-- [ ] 비밀값과 실제 자격 증명이 예제나 결과에 포함되지 않았다.
+## Evidence and Accuracy
 
-## 구조와 표현
+- [ ] Changed paths, links, anchors, commands, identifiers, defaults, units,
+      environment variables, and version constraints match repository evidence.
+- [ ] Examples use fake values and are labeled when they were not executed.
+- [ ] Troubleshooting and failure behavior come from inspectable evidence.
+- [ ] Contradictory or unavailable facts are surfaced rather than guessed.
 
-- [ ] 저장소의 언어, 용어, 헤딩, 렌더러 관례를 따랐다.
-- [ ] prose, 목록, 표, 코드, 다이어그램을 독자 작업에 맞게 선택했다.
-- [ ] 반복되는 변동 정보에 관리 주체가 있거나 중복 유지 이유가 분명하다.
-- [ ] 문서 유형에 맞지 않는 템플릿 섹션을 억지로 채우지 않았다.
+## Structure and Navigation
 
-## 전달
+- [ ] Sentences expose their main assertion without losing qualifiers.
+- [ ] Bullets are parallel and nesting represents real hierarchy.
+- [ ] Section openings lead with the action, lookup target, or decision.
+- [ ] The page serves one primary job; supporting context still helps that job.
+- [ ] Volatile duplicated facts have a maintained owner or a reason to remain.
+- [ ] Inbound references were checked before headings or anchors changed.
+- [ ] New Markdown or MDX syntax is supported by the target renderer.
 
-- [ ] 변경 파일과 비자명한 사실의 근거를 기록했다.
-- [ ] 실제 실행한 검사와 건너뛴 검사를 구분했다.
-- [ ] 남은 불확실성과 다음 최소 행동을 필요한 경우 명시했다.
+## Scope and Delivery
+
+- [ ] The diff contains no unrelated wording churn or implementation change.
+- [ ] Repository documentation checks were run when available and proportionate.
+- [ ] Executed, inspected-only, skipped, and unavailable checks are distinguished.
+- [ ] Remaining uncertainty and the next minimal action are reported when they
+      affect the reader's ability to rely on the document.
