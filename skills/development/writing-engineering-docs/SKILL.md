@@ -1,5 +1,5 @@
 ---
-name: dev-tech-spec-docs
+name: writing-engineering-docs
 description: >
   Use when creating, materially updating, restructuring, or reviewing Markdown
   or MDX engineering documentation in a development repository, including

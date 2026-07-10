@@ -25,7 +25,7 @@ These skills live directly in this repo under `skills/`.
 | [1password-cli](skills/development/1password-cli/) | Use the local 1Password CLI safely for vaults, items, secret references, env injection, and Mac app integration |
 | [commit-push-sync](skills/development/commit-push-sync/) | Split local changes into logical commits, push safely, and keep issue or PR sync explicit |
 | [cross-harness-skill-authoring](skills/development/cross-harness-skill-authoring/) | Author and audit one portable skill for Claude Code/Fable and Codex/GPT-5.6 while isolating harness adapters |
-| [dev-tech-spec-docs](skills/development/dev-tech-spec-docs/) | Create, update, restructure, and review evidence-backed engineering documentation |
+| [writing-engineering-docs](skills/development/writing-engineering-docs/) | Write, update, restructure, and review evidence-backed engineering documentation |
 | [draft-pr](skills/development/draft-pr/) | Publish or update actual draft GitHub PRs with `gh`, preserving reviewer context and rebasing only when needed |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
@@ -123,7 +123,7 @@ agent-skills/
     │   ├── 1password-cli/
     │   ├── commit-push-sync/
     │   ├── cross-harness-skill-authoring/
-    │   ├── dev-tech-spec-docs/
+    │   ├── writing-engineering-docs/
     │   ├── draft-pr/
     │   ├── fable5-prompting-guide/
     │   ├── toss-portfolio-state/
