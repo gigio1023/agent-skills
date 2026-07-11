@@ -1,143 +1,210 @@
 # Agent Skills
 
-Reusable agent workflow skills for coding, documentation, review, and publishing.
+[![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-This is a curated pack of installable skills for Codex, Claude Code, Cursor,
-Gemini CLI, and similar coding agents. These skills capture practical workflows
-agents should run reliably: clean PRs, safe tool use, frontend judgment,
-technical writing, subagent orchestration, and skill creation.
+A curated pack of 20 reusable Agent Skills for shipping software, operating
+agent harnesses, writing clearly, making difficult decisions, and handling a
+few everyday workflows.
 
-The pack was re-audited for GPT-5.6 Sol and Claude Fable 5 in July 2026.
-Portable domain skills keep task-specific knowledge, authority boundaries, and
-verification while avoiding model-specific micromanagement. Exact model routing
-and prompting guidance live only in the dedicated model skills. Claude Code and
-Codex installation, invocation, metadata, and permission differences remain in
-their adapter documentation rather than the shared skill core.
+Each skill follows the [Agent Skills format](https://agentskills.io/) with a
+`SKILL.md` file and any supporting references, scripts, or assets kept beside
+it. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills),
+then pull later revisions from the same tracked source.
 
-## Included skills
+[Browse the catalog](#skill-catalog) · [Install](#install-with-npx-skills) ·
+[Update](#keep-skills-up-to-date) · [Standalone skills](#related-standalone-skills) ·
+[Local development](#local-development)
 
-These skills live directly in this repo under `skills/`.
+## Install with `npx skills`
 
-### Development
+Prerequisite: Node.js 18 or newer.
 
-| Skill | Description |
-| --- | --- |
-| [1password-cli](skills/development/1password-cli/) | Use the local 1Password CLI safely for vaults, items, secret references, env injection, and Mac app integration |
-| [commit-and-push](skills/development/commit-and-push/) | Split local changes into logical commits, push safely, and keep issue or PR sync explicit |
-| [cross-harness-skills](skills/development/cross-harness-skills/) | Author and audit one portable skill for Claude Code/Fable and Codex/GPT-5.6 while isolating harness adapters |
-| [engineering-docs](skills/development/engineering-docs/) | Write, update, restructure, and review evidence-backed engineering documentation |
-| [draft-pr](skills/development/draft-pr/) | Publish or update actual draft GitHub PRs with `gh`, preserving reviewer context and rebasing only when needed |
-| [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write, review, and migrate prompt stacks for Claude Fable 5, including long-run, effort, tool, memory, and refusal behavior |
-| [toss-portfolio-state](skills/development/toss-portfolio-state/) | Fetch read-only Toss Invest OpenAPI balances, holdings, order/conditional-order history, trading capacity, fees, FX, calendars, and optional market context into a normalized portfolio snapshot |
-| [frontend-design](skills/development/frontend-design/) | Design judgment layer for UI, reports, apps, dashboards, games, and visual QA |
-| [mermaid-diagrams](skills/development/mermaid-diagrams/) | Design readable Mermaid diagrams with type selection, parser-safe syntax, accessible palettes, renderer compatibility, and render validation |
-| [python-docstrings](skills/development/python-docstrings/) | Document and audit Python API contracts with lifecycle-aware patterns and a doc-only diff guard |
-| [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize agent skills with compact `SKILL.md` files and progressive disclosure |
-| [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write, review, and migrate prompt stacks for GPT-5.6 Sol with compact contracts, tool routing, grounding, runtime controls, and evals |
-| [install-skill-pack](skills/development/install-skill-pack/) | Install the published `main` skill pack globally with an explicit branch-qualified `npx skills` source |
+Browse the published pack before installing anything:
 
-### Productivity
+```bash
+npx --yes skills add 'gigio1023/agent-skills#main' --list
+```
 
-| Skill | Description |
-| --- | --- |
-| [terminology-review](skills/productivity/terminology-review/) | Review unnatural or domain-inaccurate terminology without treating a watch-list hit as proof of AI authorship |
-| [deep-interview](skills/productivity/deep-interview/) | Lead an Ouroboros-centered, context-first Socratic interview one question at a time and close with a user-approved brief |
-| [fable5-judgment](skills/productivity/fable5-judgment/) | Let Fable 5 lead difficult judgment and end-to-end work, delegating only when another lane has a concrete advantage |
-| [handoff-prompt](skills/productivity/handoff-prompt/) | Compile current intent, decisions, artifacts, evidence, and remaining work into one executable successor prompt file |
-| [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent subagent workstreams when parallelism materially improves speed, coverage, or verification |
-| [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce page-limit checks |
-| [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally, explain nuance in Korean, and keep key terms and contrasts in English |
-
-## Related standalone skills
-
-These skills live in separate repos and are not packaged in this skill pack.
-
-| Skill | Source | Description |
-| --- | --- | --- |
-| [unity-game-dev](https://github.com/gigio1023/unity-game-dev-skill) | `gigio1023/unity-game-dev-skill` | Game-focused Unity development skill with orchestration, MCP scene work, and QA flow |
-| [astro-dev](https://github.com/gigio1023/astro-dev-skill) | `gigio1023/astro-dev-skill` | Astro 7 patterns, compatibility gates, and focused verification for coding agents |
-| [humanize-doc](https://github.com/gigio1023/humanize-doc) | `gigio1023/humanize-doc` | Rewrite AI-sounding drafts into readable human documents |
-| [drawio-diagram](https://github.com/gigio1023/drawio-agent-skill) | `gigio1023/drawio-agent-skill` | Create editable draw.io diagrams instead of one-off XML |
-
-## Useful external skills
-
-| Skill | Source | Description |
-| --- | --- | --- |
-| obsidian-bases | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Edit Obsidian Bases (`.base`) files |
-| obsidian-cli | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Work with an Obsidian vault from the CLI |
-| obsidian-markdown | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | Obsidian-flavored Markdown editing |
-| find-skills | [vercel-labs/skills](https://github.com/vercel-labs/skills) | Search and install more skills |
-
-## Installation
-
-Install one skill globally for Codex:
+Install selected skills globally for the agents you use:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
-  --skill english-prompt-review \
-  --agent codex \
+  --skill engineering-docs draft-pr \
+  --agent codex claude-code \
   --global \
   --yes
 ```
 
-Install the same skill globally for Codex, Claude Code, and Cursor:
+Replace the skill names and agent IDs as needed. Omit `--global` for a
+project-local install.
+
+To install all 20 skills for a deliberate set of agents, quote the wildcard so
+the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
-  --skill english-prompt-review \
+  --skill '*' \
   --agent codex claude-code cursor \
   --global \
   --yes
 ```
 
-CLI options must start with two ASCII hyphens, such as `--skill`. Unicode
-dashes such as `—skill` are not valid options.
+Prefer an explicit `--agent` list. The CLI's `--all` option targets every skill
+and every supported agent, which is usually broader than intended.
 
-For local development, inspect the checkout without installing it:
+Verify a global install with:
 
 ```bash
-npx --yes skills add . --list --full-depth
+npx --yes skills list --global
 ```
 
-Agent-specific setup notes live in `docs/` and the `.codex/`, `.claude/`,
-`.gemini/`, and `.cursor/` install files.
+The quoted source keeps the repository and `main` ref together as one literal
+argument. Installing from the remote source, rather than a local checkout,
+also gives the CLI the metadata it needs for later updates.
 
-## Repo layout
+The CLI manages each agent's install destination. This repository therefore
+does not maintain separate `.claude/`, `.codex/`, `.cursor/`, or `.gemini/`
+installation adapters.
 
-```text
-agent-skills/
-├── .claude/INSTALL.md
-├── .codex/INSTALL.md
-├── .cursor/INSTALL.md
-├── .gemini/INSTALL.md
-├── .snyk
-├── README.md
-├── docs/
-│   ├── README.claude.md
-│   ├── README.codex.md
-│   ├── README.cursor.md
-│   └── README.gemini.md
-└── skills/
-    ├── development/
-    │   ├── 1password-cli/
-    │   ├── commit-and-push/
-    │   ├── cross-harness-skills/
-    │   ├── engineering-docs/
-    │   ├── draft-pr/
-    │   ├── fable5-prompting-guide/
-    │   ├── toss-portfolio-state/
-    │   ├── frontend-design/
-    │   ├── mermaid-diagrams/
-    │   ├── python-docstrings/
-    │   ├── skill-builder/
-    │   ├── gpt56-sol-prompting-guide/
-    │   └── install-skill-pack/
-    └── productivity/
-        ├── terminology-review/
-        ├── deep-interview/
-        ├── fable5-judgment/
-        ├── handoff-prompt/
-        ├── parallel-subagents/
-        ├── pdf-page-count/
-        └── english-prompt-review/
+## Keep skills up to date
+
+Remote installs are tracked by source, branch, skill path, and content version.
+Update every tracked global skill with:
+
+```bash
+npx --yes skills update --global
 ```
+
+Or update only named skills:
+
+```bash
+npx --yes skills update skill-builder handoff-prompt --global
+```
+
+Add a trailing `--yes` when the Skills CLI itself must run non-interactively:
+
+```bash
+npx --yes skills update --global --yes
+```
+
+Updates are pull-based, not automatic background subscriptions. `update`
+refreshes skills already recorded in the lock metadata; it does not install new
+skills added to this pack later. Rerun the relevant `add` command to pick up new
+skills or to refresh only this repository without updating skills from other
+sources. If an older install is reported as untracked, reinstall it once from
+the quoted remote source above.
+
+Use `update` directly; the current CLI does not document a separate read-only
+`check` step.
+
+## Skill catalog
+
+The catalog is organized by the job a person wants to get done, rather than by
+the agent that happens to run it. The on-disk source paths remain stable so
+existing `npx skills` lock entries can continue to update in place.
+
+- [Software Development and Delivery](#software-development-and-delivery) (4)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (6)
+- [Design and Visualization](#design-and-visualization) (2)
+- [Judgment and Collaboration](#judgment-and-collaboration) (3)
+- [Writing and Language](#writing-and-language) (2)
+- [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
+
+### Software Development and Delivery
+
+| Skill | What it helps with |
+| --- | --- |
+| [commit-and-push](skills/development/commit-and-push/) | Build logical commits and push safely without absorbing unrelated worktree changes |
+| [draft-pr](skills/development/draft-pr/) | Publish or update draft GitHub PRs with `gh` while preserving reviewer context |
+| [engineering-docs](skills/development/engineering-docs/) | Create and reshape evidence-backed engineering documentation |
+| [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
+
+### Agent and Harness Engineering
+
+| Skill | What it helps with |
+| --- | --- |
+| [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
+| [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
+| [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
+| [handoff-prompt](skills/productivity/handoff-prompt/) | Package live work into one successor-ready continuation prompt |
+| [install-skill-pack](skills/development/install-skill-pack/) | Install or refresh the published pack globally from its tracked `main` source |
+| [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize reusable agent skills |
+
+### Design and Visualization
+
+| Skill | What it helps with |
+| --- | --- |
+| [frontend-design](skills/development/frontend-design/) | Apply visual hierarchy, art direction, interaction judgment, and UI quality checks |
+| [mermaid-diagrams](skills/development/mermaid-diagrams/) | Design readable, parser-safe Mermaid diagrams and validate their rendering |
+
+### Judgment and Collaboration
+
+| Skill | What it helps with |
+| --- | --- |
+| [deep-interview](skills/productivity/deep-interview/) | Turn a vague idea into a user-approved brief through a focused Socratic interview |
+| [fable5-judgment](skills/productivity/fable5-judgment/) | Put Fable 5 in charge of difficult judgment, strategy, and long-horizon synthesis |
+| [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent agent workstreams when parallelism materially improves the result |
+
+### Writing and Language
+
+| Skill | What it helps with |
+| --- | --- |
+| [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
+| [terminology-review](skills/productivity/terminology-review/) | Replace unnatural or domain-inaccurate terminology without flattening the author's meaning |
+
+### Personal and Everyday Tools
+
+| Skill | What it helps with |
+| --- | --- |
+| [1password-cli](skills/development/1password-cli/) | Use the local macOS 1Password CLI for vault, secret, OTP, and environment workflows |
+| [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce exact, minimum, or maximum page limits |
+| [toss-portfolio-state](skills/development/toss-portfolio-state/) | Export a read-only Toss Invest portfolio and market-context snapshot |
+
+## Related standalone skills
+
+These skills live in separate repositories and are not included when this pack
+is installed.
+
+| Skill | Source | Description |
+| --- | --- | --- |
+| [astro-dev](https://github.com/gigio1023/astro-dev-skill) | `gigio1023/astro-dev-skill` | Current Astro patterns, compatibility gates, and focused verification |
+| [drawio-diagram](https://github.com/gigio1023/drawio-agent-skill) | `gigio1023/drawio-agent-skill` | Create editable draw.io diagrams with structural and rendered checks |
+| [humanize-doc](https://github.com/gigio1023/humanize-doc) | `gigio1023/humanize-doc` | Rewrite AI-sounding drafts into readable human documents |
+| [unity-game-dev](https://github.com/gigio1023/unity-game-dev-skill) | `gigio1023/unity-game-dev-skill` | Cross-harness Unity game development with Editor adapters and QA flows |
+
+## Useful external skills
+
+These are maintained elsewhere and are not part of this pack.
+
+| Repository or skill | Includes | Useful for |
+| --- | --- | --- |
+| [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`, and more | Working with Obsidian vaults and file formats |
+| [find-skills](https://github.com/vercel-labs/skills/tree/main/skills/find-skills) | `find-skills` | Discovering and installing additional skills |
+
+You can also browse [skills.sh](https://skills.sh/) or search from the CLI:
+
+```bash
+npx --yes skills find
+```
+
+## Local development
+
+This repository is a multi-skill pack. The canonical source for each bundled
+skill is `skills/<source-category>/<skill-name>/`.
+
+Inspect a checkout without creating an update-tracked install:
+
+```bash
+npx --yes skills add . --list
+```
+
+Before publishing a change, verify that each `SKILL.md` name matches its folder,
+every referenced path exists, the README entry still points to the correct
+skill, and the local listing discovers the expected 20 unique names. See
+[Repository Structure](docs/repo-structure.md) for the catalog, storage, and
+installation boundaries.
+
+The pack was re-audited for GPT-5.6 Sol and Claude Fable 5 in July 2026.
+Portable domain skills keep task-specific knowledge, authority boundaries, and
+verification in shared files; exact model prompting stays in the dedicated
+model guides.
