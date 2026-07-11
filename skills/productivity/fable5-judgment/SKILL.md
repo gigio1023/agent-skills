@@ -19,6 +19,13 @@ perform difficult end-to-end work; do not delegate merely to keep its context
 empty. Delegate when concurrency, context isolation, fresh verification, tool
 specialization, or a measured cost/latency advantage improves the result.
 
+Spend scarce Fable 5 capacity at the **judgment frontier**: the early framing,
+adaptive investigation, and interpretation needed to make later work genuinely
+bounded. Once the decision rule, research questions, coverage bar, and action
+specification are stable, route large follow-on research, implementation, and
+verification to the strongest suitable execution lane. If new evidence breaks
+an assumption or reopens an ambiguous choice, return that choice to Fable 5.
+
 This skill assigns model roles. `parallel-subagents` owns work
 decomposition, packets, asynchronous coordination, and synthesis mechanics.
 
@@ -26,12 +33,14 @@ decomposition, packets, asynchronous coordination, and synthesis mechanics.
 
 1. State the user-visible decision or outcome and its completion bar.
 2. Identify the judgment core Fable 5 must own: the trade-off, risk, hypothesis,
-   conflict, or ambiguous implementation choice.
-3. Read `references/lane-routing.md`. Choose direct Fable 5 execution unless a
-   separate lane has a concrete advantage.
-4. When delegating, give each lane a bounded question, evidence contract, and
-   stop condition. Let independent lanes run asynchronously while the lead does
-   non-overlapping work.
+   conflict, ambiguous implementation choice, and any investigation whose next
+   move depends on interpreting what was just found.
+3. Have Fable 5 investigate until it can write a stable decision or execution
+   specification. Read `references/lane-routing.md`; delegate only work whose
+   success can be judged from that packet without inventing a missing premise.
+4. Give each lane a bounded question or action, evidence contract, stop
+   condition, and escalation trigger. Large straightforward collection or web
+   search may start earlier when Fable 5 has defined the coverage and source bar.
 5. Use fresh-context verification for consequential long runs or when the lead
    may be anchored to its own approach. Routine work does not need a committee.
 6. Ground every progress and completion claim in tool output, inspected sources,
@@ -43,7 +52,10 @@ decomposition, packets, asynchronous coordination, and synthesis mechanics.
 
 - The decision rule: what evidence would change the answer.
 - Issue framing, hidden assumptions, stakeholder and time-horizon checks.
-- High-ambiguity analysis where intermediate results change the next move.
+- Judgment-dependent discovery: source selection, interpretation, and
+  high-ambiguity analysis where intermediate results change the next move.
+- The specification that makes follow-on research or execution bounded,
+  including escalation conditions for evidence that reopens the judgment.
 - Cross-source conflict resolution and confidence calibration.
 - The final recommendation, caveat, and condition that would reverse it.
 
@@ -59,6 +71,9 @@ blanket rule that collection is beneath the lead model.
   tools for a bounded task.
 - Large structured results can be reduced without fresh semantic judgment at
   every step.
+- Follow-on research, implementation, or action has a stable specification and
+  does not require the worker to invent a decision rule or resolve a new value
+  conflict.
 - A lower-cost lane passes the same evidence and quality bar for routine work.
 
 Every worker returns compact evidence: answer, sources or files inspected,
@@ -96,6 +111,7 @@ or limitations affect trust.
 - Do not use model prestige as a substitute for sources, tests, or direct
   inspection.
 - Do not outsource the decision or average worker opinions.
+- Do not delegate unresolved ambiguity disguised as a broad research request.
 - Do not request hidden reasoning or a chain-of-thought transcript.
 - Do not hide a material model or tool substitution; state it when it changes
   confidence, cost, latency, or reproducibility.
