@@ -1,8 +1,7 @@
 # Git Worktree Setup Upstream Adaptation
 
-This skill is adapted from `using-git-worktrees` in
-[`obra/superpowers`](https://github.com/obra/superpowers/tree/v6.1.1/skills/using-git-worktrees),
-version `v6.1.1`, retrieved 2026-07-11.
+Adapted from the upstream `using-git-worktrees` skill, version `v6.1.1`,
+retrieved 2026-07-11.
 
 The adaptation retains the upstream isolation detection, submodule guard,
 native-capability preference, ignore check, setup baseline, and failure
