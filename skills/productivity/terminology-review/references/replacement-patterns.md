@@ -17,15 +17,26 @@
 
 | Slop | 권장 |
 |---|---|
-| "metric surface" / "instrumentation surface" | metric scope, area, set of metrics |
-| "the surface of X" (적용 범위 의미) | the scope of X, the area covered |
+| "metric surface" / "instrumentation surface" | 공개된 metric names, labels, query/API entry points의 구체적 집합을 정의했다면 유지 가능. OpenTelemetry의 telemetry source grouping이면 `instrumentation scope`; 방출·검토 대상이면 metrics, metric set, coverage |
+| "the surface of X" | 외부에서 관찰·호출·설정할 수 있는 요소의 집합이면 유지. 단순 적용 범위면 the scope of X, the area covered |
 | "applied surface" | applied scope, where X applies |
-| "blind spot surface" | blind spots, gaps in coverage |
+| "blind spot surface" | 기하·모델링 의미가 없다면 blind spots, gaps in coverage |
 | "attack surface" | (그대로 OK, security 정식 표현) |
+| "API surface" / "public API surface area" | (공개된 operations, types, flags, configuration, observable behavior의 집합이나 상대적 범위를 뜻하면 그대로 OK) |
+| "configuration surface" / "public surface" | 실제 options나 touchpoints를 가리키면 유지. 막연한 범위면 configuration options, public API, user-facing features |
 | "API contract" | 호환성 약속, versioning, consumer expectation을 뜻하면 유지. 단순 구조만 뜻하면 API, interface, schema, request/response shape |
 | "data contract" | producer/consumer 사이 schema, 품질, versioning 의무를 뜻하면 유지. 단순 파일 형식이면 schema, data shape, format |
 | "Pact contract" / "consumer-driven contract" | (그대로 OK, contract testing 정식 용어) |
 | "smart contract" (blockchain) | (그대로 OK) |
+| "implementation brief is the contract" | 실제 승인·의무·호환성 기준이면 유지. 아니면 requirements, specification, agreed plan |
+| "quality gate" / "release gate" | 명시된 조건 실패가 다음 단계나 배포를 차단하면 유지. 아니면 check, review criterion, prerequisite |
+| "knowledge gate" / "context gate" | 보통 prerequisite, required context, decision point; 실제 pass/fail 차단 규칙이 있으면 예외 |
+| "vertical slice" | 게임의 주요 시스템·아트가 반영된 작은 playable section 또는 여러 계층을 관통하는 end-to-end 구현이면 유지 |
+| "documentation slice" / "review slice" | section, subset, sample, review scope |
+| "JWT claim" / "OIDC claim" | (governing specification의 정의된 name/value 의미이므로 유지) |
+| "research claim" / "argument claim" | 근거로 지지하거나 반박할 수 있는 명제이면 유지 |
+| "readiness claim" / "done claim" | 완료·준비 상태를 누군가 주장하고 검증하는 문맥이면 유지. 확인된 상태면 readiness status, completion status 또는 직접 서술 |
+| 모든 발언·요구사항·관찰을 `claim`으로 부름 | statement, requirement, observation, finding, report 중 실제 역할을 쓰거나 직접 서술 |
 | "canonical form" (math, DB) | (그대로 OK) |
 | "canonical implementation" (the right one 의미) | reference implementation, standard implementation |
 | "canonical version" | standard version, official version |
@@ -246,8 +257,11 @@ LLM 은 "-화" / "-성" / "-적" 접미사 남발. 대부분 동사형이 자연
 
 | 단어 | OK 도메인 | NG 도메인 |
 |---|---|---|
-| surface | 3D / GIS / geology / security (attack surface) / Material Design / CSS color | 일반 SW (적용 범위) |
+| surface | physical/math/modeling / rendering and UI / security / concrete API, public, or configuration touchpoints | 포함 집합·상대·결과가 없는 즉석 `scope`, `set`, `aspect` 대용어 |
 | contract | blockchain / Pact / 법률 / SLA / API·service compatibility / producer-consumer data contract | 구체적 의무 없이 단순 interface를 추상적으로 부를 때 |
+| gate | digital logic / CI quality gate / release or governance gate with blocking criteria | 차단 효과 없는 질문, 문서, 검토 |
+| slice | array/string operations / game vertical slice / end-to-end software slice / scheduler time slice | 단순 문서 부분, 주제, 작업 범위 |
+| claim | JWT/OIDC / patent / insurance / academic argument / disputed assertion | 확인된 사실, 관찰, 상태, 요구사항을 일괄 재분류할 때 |
 | canonical | math / DB normalization / URL canonical (SEO) | 일반 SW (그 standard 의미) |
 | envelope | SOAP / aerospace / cloud KMS encryption | REST API wrapping |
 | artifact | build / git / Maven / A2A spec | 일반 산출물 |

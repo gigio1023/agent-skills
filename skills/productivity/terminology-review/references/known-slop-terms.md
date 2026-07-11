@@ -9,6 +9,7 @@
 
 - Category 1: 일반 영어 표현
 - Category 2: SW 엔지니어링 용어
+- Contextual technical-term checks
 - Category 3/3b: 한국어 표현과 영어 혼용
 - Category 4: 단어 밖의 메타 패턴
 - 검증 원칙
@@ -92,8 +93,11 @@ LLM 이 "지적이고 격식 있는 글" 만들려고 본인 직관으로 뿌리
 
 | 단어 | OK 분야 | NG 분야 (LLM 오용) |
 |---|---|---|
-| `surface` | 3D graphics, GIS, geology, `attack surface` (security), `Material surface` (Material Design), CSS `surface color` | "적용 범위", "메트릭 범위", "검증 범위" 의미로 쓸 때. 그냥 `scope`, `area`, `range` |
+| `surface` | physical or mathematical surface, response surface (statistics), rendering/display/UI surface, attack surface, API or public API surface, configuration surface when it denotes concrete observable or controllable touchpoints | 포함 요소나 상대가 불분명한 채 `scope`, `area`, `set`, `aspect`를 즉석에서 바꿔 부를 때. 실제 역할에 따라 `scope`, `coverage`, `options`, `API`, `metrics` 검토 |
 | `contract` | smart contract, 법률/SLA, API or service compatibility contract, consumer-driven contract, data contract with producer/consumer obligations | 구체적 호환성·스키마·의무 없이 단순 interface를 거창하게 부를 때. 그 경우 `interface`, `schema`, `API`, `spec` |
+| `gate` | logic gate, quality/release gate with pass-fail criteria that blocks promotion, stage-gate governance | 실패해도 아무것도 차단하지 않는 질문·문서·검토를 비유적으로 부를 때. `check`, `criterion`, `prerequisite`, `decision point` 검토 |
+| `slice` | array/string slice, game vertical slice, end-to-end vertical slice, time slice | 단순한 문서 부분·작업 범위·샘플을 축이나 계층 의미 없이 부를 때. `section`, `subset`, `sample`, `scope` 검토 |
+| `claim` | JWT/OIDC claim, patent or insurance claim, academic/argumentative claim that can be supported or contested | 사실·상태·요구사항·사용자 발언을 검증 가능한 주장이라는 구분 없이 일괄적으로 부를 때. `statement`, `finding`, `requirement`, `report`, 또는 직접 서술 검토 |
 | `canonical` | math (canonical form), DB (canonical form / normalization), URL canonicalization (SEO), Linux distro 회사명 | "the right one", "the standard one" 의미. 그냥 `standard`, `official`, `reference` |
 | `envelope` | SOAP envelope (legacy XML), flight envelope (aerospace), TCP / IP envelope (deprecated usage), 한국어 "envelope encryption" | REST API response wrapping, A2A response 구조. 그냥 `wrapper`, `response shape`, `outer object` |
 | `semantic` | semantic web, semantic versioning, semantic HTML, NLP | "의미 있는" 의 일반적 의미로 형용사 남발. 그냥 `meaningful`, drop |
@@ -112,6 +116,43 @@ LLM 이 "지적이고 격식 있는 글" 만들려고 본인 직관으로 뿌리
 | `under the hood` | 내부 구현 설명 시 | 일반적 OK. 남발 시만 |
 | `single source of truth` (SSOT) | 데이터 정합성 맥락 | 약어 SSOT 는 OK. 풀어쓴 영문 본문에 자주 남발 |
 | `single pane of glass` | observability 마케팅 buzzword | NG. 그냥 `unified dashboard` |
+
+### Contextual technical-term checks
+
+전문 용어가 등장했다는 사실보다 그 용어의 **성립 조건**이 문맥에 있는지
+확인한다. 주변 문단이나 프로젝트에서 이미 조건을 분명히 했다면 매 문장에
+되풀이할 필요는 없다.
+
+| 용어 | 성립 조건을 확인하는 질문 | 장식적 사용 신호 |
+|---|---|---|
+| `contract` | 당사자는 누구이며 어떤 기대·호환성·의무를 검증하거나 집행하는가? | 단순 문서, 타입, 계획을 권위 있어 보이게 부름 |
+| `gate` | 명시된 통과 조건은 무엇이며 실패하면 어떤 진행·병합·배포가 멈추는가? | 차단 효과 없는 체크리스트나 질문에 붙임 |
+| `slice` | 무엇을 어떤 축으로 자르며, vertical이면 어떤 계층을 end-to-end로 관통하는가? | 단순 부분, 주제, 검토 범위에 붙임 |
+| `claim` | 누가 무엇을 주장하며 무엇이 이를 지지·반박·검증할 수 있는가? 또는 governing spec의 정의된 필드인가? | 확인된 사실, 관찰, 요구사항까지 모두 `claim`으로 재분류함 |
+| `surface` | 누가 또는 무엇이 이 면을 관찰·호출·설정하는가? 어떤 요소가 포함되며, 넓어질 때 호환성·보안·유지보수·사용자 경험 중 무엇이 달라지는가? | 포함 집합, 경계, 상대, 결과 없이 새로운 `X surface` 합성어를 만듦 |
+| `boundary` | 경계 양쪽에서 책임, 신뢰, 정책, 소유권 중 무엇이 달라지는가? | `scope`의 시작과 끝을 추상적으로 다시 이름 붙임 |
+| `artifact` | 어떤 도구나 절차가 무엇을 생성하며 저장·전달·추적하는가? | 모든 메모와 문서를 산출 과정과 무관하게 부름 |
+
+`surface`는 false positive 위험이 특히 높다. 다음을 자동 오용으로 잡지 않는다.
+
+- `API surface`, `public API surface area`, `attack surface`, `response surface`처럼
+  업계나 학계에서 굳어진 합성어
+- 외부에서 관찰하거나 조작할 수 있는 구체적인 entry point, option,
+  behavior의 집합을 뜻하는 프로젝트 로컬 용어
+- `surface area`가 요소 수를 정확히 세는 메트릭은 아니더라도 공개 범위와
+  호환성 부담의 상대적 크기를 뜻하는 관습적 표현
+- `surface errors`, `surface findings`처럼 “드러내다”라는 일반 동사 용법
+
+반대로 `validation surface`, `evidence surface`, `metric surface`처럼 새로 만든
+합성어는 이름만 보고 판정하지 않는다. 포함 요소와 상대를 열거할 수 있고
+확장·축소의 실제 결과가 있으면 유지할 수 있다. 그렇지 않고 단순히 “관련된
+것들”을 뜻하면 `validation scope`, `evidence`, `metrics`, `coverage`처럼 실제
+역할을 쓰는 편이 낫다.
+
+빠른 대체 테스트: `requirement`, `check`, `section`, `statement`, `result`처럼
+평범하고 구체적인 단어로 바꿔도 기술적 구분이 하나도 사라지지 않는다면
+원래 용어는 장식일 가능성이 높다. 이 테스트만으로 자동 교체하지 말고,
+governing source와 실제 문맥으로 최종 판정한다.
 
 ## Category 3: 한국어 LLM slop
 
