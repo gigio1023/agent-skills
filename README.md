@@ -106,7 +106,7 @@ existing `npx skills` lock entries can continue to update in place.
 - [Software Development and Delivery](#software-development-and-delivery) (5)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (6)
 - [Design and Visualization](#design-and-visualization) (2)
-- [Judgment and Collaboration](#judgment-and-collaboration) (3)
+- [Judgment and Collaboration](#judgment-and-collaboration) (4)
 - [Writing and Language](#writing-and-language) (2)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
 
@@ -145,6 +145,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [deep-interview](skills/productivity/deep-interview/) | Turn a vague idea into a user-approved brief through a focused Socratic interview |
 | [fable5-judgment](skills/productivity/fable5-judgment/) | Put Fable 5 in charge of difficult judgment, strategy, and long-horizon synthesis |
 | [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent agent workstreams when parallelism materially improves the result |
+| [unknowns-pass](skills/productivity/unknowns-pass/) | Surface the unknowns in unfamiliar work with the cheapest technique, then compress them into a launch brief |
 
 ### Writing and Language
 
