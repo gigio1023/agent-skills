@@ -104,7 +104,7 @@ the agent that happens to run it. The on-disk source paths remain stable so
 existing `npx skills` lock entries can continue to update in place.
 
 - [Software Development and Delivery](#software-development-and-delivery) (5)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (6)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (7)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Judgment and Collaboration](#judgment-and-collaboration) (4)
 - [Writing and Language](#writing-and-language) (2)
@@ -127,6 +127,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
+| [lower-capability-executor-prompt](skills/development/lower-capability-executor-prompt/) | Hand off finished plans as bounded change, command, or inspection prompts for lower-capability executors |
 | [handoff-prompt](skills/productivity/handoff-prompt/) | Package live work into one successor-ready continuation prompt |
 | [install-skill-pack](skills/development/install-skill-pack/) | Install or refresh the published pack globally from its tracked `main` source |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
