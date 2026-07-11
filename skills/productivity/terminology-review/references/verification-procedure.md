@@ -60,9 +60,24 @@ source defines. Do not stop at “an official page contains this word.” Exampl
   as a file or collection of files produced during a workflow run and retained
   or passed between jobs.
 - OpenAPI 3.2 explicitly uses
-  [API surface](https://spec.openapis.org/oas/v3.2.0.html#openapi-description-structure)
-  for what an OpenAPI Description exposes. This is a counterexample to treating
-  every abstract use of `surface` as misuse.
+  [API surface](https://spec.openapis.org/oas/v3.2.0.html#openapi-description-structure).
+  Kubernetes API Governance describes flags, configuration files, runtime
+  interactions, and persistence as API
+  [surfaces](https://kubernetes.io/blog/2026/02/12/sig-architecture-api-spotlight/),
+  while Microsoft uses
+  [public API surface area](https://learn.microsoft.com/en-us/openapi/kiota/support)
+  when discussing compatibility and breaking changes. Together these show that
+  `surface` can name a concrete set of observable or controllable touchpoints,
+  not only a formal method list.
+- OpenTelemetry instead defines
+  [instrumentation scope](https://opentelemetry.io/docs/specs/otel/common/instrumentation-scope/)
+  as the logical software unit associated with emitted telemetry. When that is
+  the intended concept, an invented `instrumentation surface` is less precise
+  even if `surface` is legitimate elsewhere.
+- NIST's engineering statistics handbook defines a
+  [response surface model](https://www.itl.nist.gov/div898/handbook/glossary.htm)
+  as a polynomial model over several factors. This established mathematical
+  sense is unrelated to interface exposure and must be kept in its domain.
 
 These anchors illustrate the method; they are not an allowlist. Check the
 governing source for the actual domain under review.
