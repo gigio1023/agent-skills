@@ -58,9 +58,11 @@ and reviewer actions; trim filler.
 - Keep only context that changes how a reviewer understands, verifies, or acts
   on the PR. Omit process narration, obvious restatements of the diff, generic
   background, and sections with no useful content.
-- Write the body as natural prose. Use headings and bullets only when they make
-  the content easier to scan, and do not insert manual line breaks merely to
-  satisfy a line-length convention.
+- Write the body as natural prose under a small number of descriptive headings.
+  A headerless body is usually too unstructured, while many narrowly scoped
+  sections make a short PR feel mechanical. Use two sections by default and a
+  third only when it gives reviewers distinct, useful context. Do not insert
+  manual line breaks merely to satisfy a line-length convention.
 - Preserve meaningful existing PR body content such as screenshots, links,
   issue references, release notes, or reviewer context. Do not overwrite an
   existing PR title unless the user asked to rewrite it or it is clearly a
@@ -166,10 +168,10 @@ Always write the body to a temporary file first:
 ```bash
 tmp_pr_body="$(mktemp -t draft-pr-body.XXXXXX.md)"
 cat > "$tmp_pr_body" <<'EOF'
-## Why
+## Summary
 ...
 
-## What Changed
+## Validation
 ...
 EOF
 ```
@@ -191,25 +193,41 @@ rm -f "$tmp_pr_body"
 
 ### 6. Body Shape
 
-When no repository template exists, explain why the change matters and what
-changed in one or two short, natural paragraphs. Add a heading, list, or review
-note only when it carries information that would otherwise be easy to miss.
+When no repository template exists, use two sections by default:
+
+- `## Summary`: explain the problem or motivation, the approach taken, and the
+  resulting behavior or reviewer-visible impact in one to three natural
+  paragraphs. Give enough context to understand the change without reading the
+  diff, but leave out implementation details the diff already communicates.
+- `## Validation`: report the tests or manual checks that provide meaningful
+  evidence. If nothing was run, state `Not run` and give the short, relevant
+  reason.
+
+Add one optional section such as `## Review Notes`, `## Screenshots`, or
+`## Migration` only when that subject materially helps review. Prefer two
+well-developed sections over several one-line sections. More than three
+sections should come from a repository template or the genuine complexity of
+the change, not a desire to make the body look comprehensive.
 
 For example:
 
 ```markdown
-This updates the draft PR workflow so titles and descriptions are written in clear English and contain only information that helps reviewers understand the change.
+## Summary
 
-The fallback body guidance now favors natural paragraphs over fixed sections and explicitly ignores line-length wrapping. Existing repository templates still take precedence.
+The draft PR guidance currently allows bodies with no headings, which can make even useful context difficult to scan. This change establishes a balanced default: a substantive summary and focused validation evidence, with one additional section only when reviewers need separate context such as migration notes or screenshots.
+
+The existing English-only, relevance, and natural-writing rules remain in place. The body should be structured without turning each detail into its own section, and paragraphs should flow naturally without manual line wrapping.
+
+## Validation
+
+- Ran the skill validator successfully.
+- Confirmed the fallback example uses two sections and keeps optional context conditional.
 ```
 
-Do not add a generic verification section. Include verification only when it
-provides useful evidence, such as a targeted test, a reproduced bug, a
-before-and-after manual scenario, or a meaningful failure that remains. If a
-template requires a test or verification section, fill it with specific
-evidence or `Not run` plus a short reason. Do not add empty review notes,
-implementation summaries that merely repeat the diff, or meta-commentary about
-how the PR was prepared.
+Do not add empty review notes, split closely related ideas across multiple
+headings, repeat the diff as an implementation inventory, or include
+meta-commentary about how the PR was prepared. Structure should make meaningful
+content easier to scan; it should not manufacture content to fill a template.
 
 ## Title Style
 
