@@ -3,6 +3,17 @@
 Use this procedure only when context and local conventions do not settle a
 consequential terminology decision.
 
+## Contents
+
+- Define the question
+- Check governing sources and defining mechanisms
+- Check real usage
+- Handle search pollution
+- Scale corroboration and decide
+- Record evidence
+- Korean terminology
+- Stop rule
+
 ## 1. Define the Question
 
 Record:
@@ -29,6 +40,48 @@ the same concept, not merely somewhere on the page.
 One authoritative source can settle an exact defined name. It does not always
 settle which wording sounds natural in surrounding prose.
 
+For a term borrowed across domains, extract the relation or mechanism that the
+source defines. Do not stop at “an official page contains this word.” Examples:
+
+- Pact's [consumer-provider model](https://docs.pact.io/getting_started/how_pact_works)
+  gives `contract` interacting parties, expected requests/responses, and a
+  verification consequence.
+- Sonar's [quality gate](https://docs.sonarsource.com/sonarqube-server/quality-standards-administration/managing-quality-gates/introduction-to-quality-gates)
+  evaluates explicit metric conditions; the result can control whether code is
+  promoted.
+- Unity defines a game [vertical slice](https://learn.unity.com/course/practical-game-accessibility/unit/welcome-to-the-course/tutorial/explore-out-of-circulation)
+  as a small playable portion demonstrating the major systems, features, and
+  art of the larger game.
+- RFC 7519 defines JWT [claims](https://www.rfc-editor.org/rfc/rfc7519.html#section-4)
+  as named values in a JWT Claims Set. Purdue Writing Lab separately uses
+  `claim` for an [arguable thesis backed by reasons and evidence](https://owl.purdue.edu/owl/resources/teaching_resources/documents/new-organizing-your-argument_-09042025.pdf).
+- GitHub Actions defines a workflow
+  [artifact](https://docs.github.com/en/actions/concepts/workflows-and-actions/workflow-artifacts)
+  as a file or collection of files produced during a workflow run and retained
+  or passed between jobs.
+- OpenAPI 3.2 explicitly uses
+  [API surface](https://spec.openapis.org/oas/v3.2.0.html#openapi-description-structure).
+  Kubernetes API Governance describes flags, configuration files, runtime
+  interactions, and persistence as API
+  [surfaces](https://kubernetes.io/blog/2026/02/12/sig-architecture-api-spotlight/),
+  while Microsoft uses
+  [public API surface area](https://learn.microsoft.com/en-us/openapi/kiota/support)
+  when discussing compatibility and breaking changes. Together these show that
+  `surface` can name a concrete set of observable or controllable touchpoints,
+  not only a formal method list.
+- OpenTelemetry instead defines
+  [instrumentation scope](https://opentelemetry.io/docs/specs/otel/common/instrumentation-scope/)
+  as the logical software unit associated with emitted telemetry. When that is
+  the intended concept, an invented `instrumentation surface` is less precise
+  even if `surface` is legitimate elsewhere.
+- NIST's engineering statistics handbook defines a
+  [response surface model](https://www.itl.nist.gov/div898/handbook/glossary.htm)
+  as a polynomial model over several factors. This established mathematical
+  sense is unrelated to interface exposure and must be kept in its domain.
+
+These anchors illustrate the method; they are not an allowlist. Check the
+governing source for the actual domain under review.
+
 ## 3. Check Real Usage When Needed
 
 Use representative practitioner, editorial, or academic examples when:
@@ -44,6 +97,30 @@ specification.
 
 Search the target repository for deliberate vocabulary as well. Treat it as
 local preference evidence, not an automatic correctness score.
+
+## Handle Search Pollution
+
+Current web results may repeat generated prose, SEO pages, copied glossaries,
+or text that borrowed the same term loosely. Raw hit counts and a long result
+list are therefore weak evidence of industry convention.
+
+1. Use model knowledge only to generate candidate senses, domains, and exact
+   collocations to investigate.
+2. Search the full phrase with the intended mechanism, then restrict to the
+   relevant standards body, official project, professional organization,
+   university, or primary publication.
+3. Open the source and verify that the same actors, relation, mechanism, and
+   consequence are present. A navigation hit or unrelated occurrence does not
+   count.
+4. When natural prose rather than a defined term is at issue, sample independent
+   practitioner or academic writing with identifiable authorship. Discount
+   mirrors, aggregators, vendor content farms, and unattributed summaries.
+5. Treat absence cautiously. Failure to find an official use supports a plain
+   replacement only when the specialized meaning is also missing from context;
+   it does not prove that no community uses the term.
+
+Model familiarity and search frequency may prioritize investigation, but
+neither should be reported as proof.
 
 ## 4. Scale Corroboration
 
