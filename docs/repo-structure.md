@@ -1,9 +1,15 @@
 # Repository Structure
 
-How this skill pack is organized and how skills reach a coding agent: local
-skills in two categories are indexed by the README, exposed through
-per-harness install adapters, and installed into coding agents. External
-skill repos are referenced from the index but not packaged here.
+The README presents the 20 bundled skills in six task-oriented categories.
+Their existing source paths stay under `skills/development/` and
+`skills/productivity/` because the Skills CLI records each installed skill's
+exact path for future updates. The catalog taxonomy can improve without
+breaking that compatibility surface.
+
+Installation has one owner: [`npx skills`](https://github.com/vercel-labs/skills).
+The CLI discovers the pack, records remote-source metadata, and manages the
+destinations for explicitly selected agents. This repository does not carry
+per-harness installation adapters.
 
 ```mermaid
 ---
@@ -14,46 +20,51 @@ config:
     edgeLabelBackground: "#f8fafc"
 ---
 flowchart LR
-  accTitle: agent-skills repository structure
-  accDescr: Local skills in two categories are indexed by the README, exposed through per-harness install adapters, and installed into coding agents. External skill repos are referenced but not packaged.
+  accTitle: agent-skills catalog, source, and installation boundaries
+  accDescr: The README groups skills by task. Stable source paths flow through the Skills CLI into selected agents, while standalone repositories are referenced only.
 
   subgraph repo ["agent-skills repository"]
-    IDX["README.md<br/>skill index"]
-    subgraph pack ["skills/ local pack"]
-      DEV["development · 13 skills<br/>draft-pr, skill-builder,<br/>gpt56-sol-prompting-guide, ..."]
-      PROD["productivity · 7 skills<br/>deep-interview,<br/>handoff-prompt, ..."]
-    end
-    ADP["Install adapters<br/>.claude · .codex · .cursor · .gemini"]
+    IDX["README catalog<br/>6 task categories"]
+    SRC["Stable skill sources<br/>development · productivity"]
   end
 
-  EXT["External skill repos<br/>unity-game-dev, astro-dev"]
+  CLI["npx skills<br/>add · list · update"]
 
-  subgraph agents ["Coding agents"]
-    CC["Claude Code"]
+  subgraph agents ["Selected agents"]
     CX["Codex"]
-    OT["Cursor · Gemini CLI"]
+    CC["Claude Code"]
+    OT["Cursor · Gemini CLI · others"]
   end
 
-  IDX --> DEV & PROD
-  IDX -.->|references only| EXT
-  DEV & PROD --> ADP
-  ADP -->|install| CC & CX & OT
+  EXT["Standalone skill repositories<br/>referenced, not bundled"]
 
-  classDef packNode fill:#BBCCEE,stroke:#336699,color:#1f2937;
-  classDef adapter fill:#CCDDAA,stroke:#228833,color:#1f2937;
+  IDX -->|indexes| SRC
+  SRC -->|remote install| CLI
+  CLI --> CX & CC & OT
+  IDX -.->|links only| EXT
+
+  classDef source fill:#BBCCEE,stroke:#336699,color:#1f2937;
+  classDef installer fill:#CCDDAA,stroke:#228833,color:#1f2937;
   classDef outside fill:#DDDDDD,stroke:#555555,color:#1f2937;
-  classDef boundary fill:#f8fafc,stroke:#94a3b8,color:#1f2937;
   classDef index fill:#ffffff,stroke:#64748b,color:#1f2937;
-  class DEV,PROD packNode;
-  class ADP adapter;
-  class CC,CX,OT,EXT outside;
-  class repo,pack,agents boundary;
   class IDX index;
+  class SRC source;
+  class CLI installer;
+  class CX,CC,OT,EXT outside;
   linkStyle default stroke:#64748b,stroke-width:1.6px;
 ```
 
-Color key: blue = skills packaged in this repo, green = install adapters,
-gray = things outside the pack (agents that consume it, external repos that
-are only referenced). Edge labels use a fixed light background and dark text
-so their text remains legible over lines in both light and dark viewers. Skill
-counts are as of 2026-07; the README tables are the source of truth.
+Color key: blue is the packaged source, green is the installation and update
+path, gray is outside the pack, and white is the reader-facing index. The
+README tables are the source of truth for catalog membership.
+
+## Boundaries
+
+- `README.md` owns discovery, task categories, installation, and update
+  guidance.
+- `skills/<source-category>/<skill-name>/` owns each bundled skill and its
+  colocated references, scripts, and assets.
+- `npx skills` owns agent selection, installation destinations, lock metadata,
+  and on-demand updates.
+- Related standalone and external repositories are linked for discovery but
+  are not copied into this pack.

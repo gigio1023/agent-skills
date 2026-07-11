@@ -30,7 +30,7 @@ The candidate classified both near-miss requests correctly:
 ## Structural Checks
 
 - portable frontmatter and referenced-path validation: pass;
-- package discovery with `npx skills add . --list --full-depth`: pass;
+- package discovery with `npx skills add . --list`: pass;
 - discovered skill count: 20;
 - `deep-interview` appears as an installable skill.
 
