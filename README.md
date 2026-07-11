@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 20 reusable Agent Skills for shipping software, operating
+A curated pack of 21 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, making difficult decisions, and handling a
 few everyday workflows.
 
@@ -38,7 +38,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-To install all 20 skills for a deliberate set of agents, quote the wildcard so
+To install all 21 skills for a deliberate set of agents, quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -103,7 +103,7 @@ The catalog is organized by the job a person wants to get done, rather than by
 the agent that happens to run it. The on-disk source paths remain stable so
 existing `npx skills` lock entries can continue to update in place.
 
-- [Software Development and Delivery](#software-development-and-delivery) (4)
+- [Software Development and Delivery](#software-development-and-delivery) (5)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (6)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Judgment and Collaboration](#judgment-and-collaboration) (3)
@@ -118,6 +118,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [draft-pr](skills/development/draft-pr/) | Publish or update draft GitHub PRs with `gh` while preserving reviewer context |
 | [engineering-docs](skills/development/engineering-docs/) | Create and reshape evidence-backed engineering documentation |
 | [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
+| [using-git-worktrees](skills/development/using-git-worktrees/) | Start implementation in an isolated workspace without taking over harness-managed worktrees |
 
 ### Agent and Harness Engineering
 
@@ -200,7 +201,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 20 unique names. See
+skill, and the local listing discovers the expected 21 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
