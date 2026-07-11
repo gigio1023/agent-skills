@@ -47,12 +47,20 @@ and reviewer actions; trim filler.
   names, commits, PR titles, or PR bodies unless the user explicitly requests it.
 - New PRs are draft by default. Make a PR ready for review only when the user
   asks for that state.
+- Write every new or rewritten PR title and body in natural English, regardless
+  of the language used in the request or surrounding discussion. Preserve
+  non-English text only when it is meaningful existing content, a required
+  quotation, or a repository-specific identifier.
 - A request to write PR copy does not authorize branch, push, or GitHub
   mutations. Enter this workflow only when publication intent is explicit.
 - Prefer repository conventions over invented ones. If the repo has a PR
   template, read it and satisfy required sections without copying placeholders.
-- Keep title and body concise. Reviewers should understand the change in under
-  30 seconds, then use the diff for implementation detail.
+- Keep only context that changes how a reviewer understands, verifies, or acts
+  on the PR. Omit process narration, obvious restatements of the diff, generic
+  background, and sections with no useful content.
+- Write the body as natural prose. Use headings and bullets only when they make
+  the content easier to scan, and do not insert manual line breaks merely to
+  satisfy a line-length convention.
 - Preserve meaningful existing PR body content such as screenshots, links,
   issue references, release notes, or reviewer context. Do not overwrite an
   existing PR title unless the user asked to rewrite it or it is clearly a
@@ -183,32 +191,30 @@ rm -f "$tmp_pr_body"
 
 ### 6. Body Shape
 
-When no repository template exists, use this compact fallback:
+When no repository template exists, explain why the change matters and what
+changed in one or two short, natural paragraphs. Add a heading, list, or review
+note only when it carries information that would otherwise be easy to miss.
+
+For example:
 
 ```markdown
-## Why
-Explain the motivation, bug, or workflow problem. Include cause and impact when
-that matters for review.
+This updates the draft PR workflow so titles and descriptions are written in clear English and contain only information that helps reviewers understand the change.
 
-## What Changed
-Summarize the net change in concise prose. Mention files only when the path is
-important reviewer context.
-
-## Review Notes
-Call out risk, migration concerns, screenshots, follow-up work, or anything the
-reviewer should focus on. Omit this section when there is nothing useful to say.
+The fallback body guidance now favors natural paragraphs over fixed sections and explicitly ignores line-length wrapping. Existing repository templates still take precedence.
 ```
 
-Do not include a generic verification section. Add verification only when it
-contains useful evidence, such as a targeted test, reproduced bug, before/after
-manual scenario, or a meaningful failure that remains. If a template requires a
-test/verification section, fill it with specific evidence or `Not run` plus a
-short reason.
+Do not add a generic verification section. Include verification only when it
+provides useful evidence, such as a targeted test, a reproduced bug, a
+before-and-after manual scenario, or a meaningful failure that remains. If a
+template requires a test or verification section, fill it with specific
+evidence or `Not run` plus a short reason. Do not add empty review notes,
+implementation summaries that merely repeat the diff, or meta-commentary about
+how the PR was prepared.
 
 ## Title Style
 
 Use the repository's title convention when obvious. Otherwise use a concise
-present-tense title:
+present-tense English title:
 
 - `fix: preserve PR body formatting`
 - `docs: add draft PR skill`
