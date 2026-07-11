@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 20 reusable Agent Skills for shipping software, operating
+A curated pack of 21 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, making difficult decisions, and handling a
 few everyday workflows.
 
@@ -38,7 +38,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-To install all 20 skills for a deliberate set of agents, quote the wildcard so
+To install all 21 skills for a deliberate set of agents, quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -106,7 +106,7 @@ existing `npx skills` lock entries can continue to update in place.
 - [Software Development and Delivery](#software-development-and-delivery) (4)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (6)
 - [Design and Visualization](#design-and-visualization) (2)
-- [Judgment and Collaboration](#judgment-and-collaboration) (3)
+- [Judgment and Collaboration](#judgment-and-collaboration) (4)
 - [Writing and Language](#writing-and-language) (2)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
 
@@ -144,6 +144,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [deep-interview](skills/productivity/deep-interview/) | Turn a vague idea into a user-approved brief through a focused Socratic interview |
 | [fable5-judgment](skills/productivity/fable5-judgment/) | Put Fable 5 in charge of difficult judgment, strategy, and long-horizon synthesis |
 | [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent agent workstreams when parallelism materially improves the result |
+| [unknowns-pass](skills/productivity/unknowns-pass/) | Surface the unknowns in unfamiliar work with the cheapest technique, then compress them into a launch brief |
 
 ### Writing and Language
 
@@ -200,7 +201,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 20 unique names. See
+skill, and the local listing discovers the expected 21 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
