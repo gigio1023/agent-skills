@@ -3,10 +3,10 @@
 > Author: Thariq (@trq212), Anthropic
 > Source: https://x.com/trq212
 
-The original sections through Conclusion describe Claude Code practices and may
-name Claude-only tools or metadata. For a skill shared with Codex, treat those
-as source examples rather than portable commands; the Addenda and the
-`cross-harness-skills` skill own the common contract.
+The selected original sections through Conclusion describe Claude Code
+practices and may name Claude-only tools or metadata. For a skill shared with
+Codex, treat those as source examples rather than portable commands; the Addenda
+and the `cross-harness-skills` skill own the common contract.
 
 ## Table of Contents
 
@@ -224,10 +224,6 @@ A note of warning, it can be quite easy to create bad or redundant skills, so ma
 
 You may want to have skills that depend on each other. For example, you may have a file upload skill that uploads a file, and a CSV generation skill that makes a CSV and uploads it. This sort of dependency management is not natively built into marketplaces or skills yet, but you can just reference other skills by name, and the model will invoke them if they are installed.
 
-### Measuring Skills
-
-To understand how a skill is doing, we use a PreToolUse hook that lets us log skill usage within the company. This means we can find skills that are popular or are undertriggering compared to our expectations.
-
 ## Conclusion
 
 Skills are incredibly powerful, flexible tools for agents, but it's still early and we're all figuring out how to use them best.
@@ -381,14 +377,10 @@ triggered at the right time, and nothing else can compensate for a weak one.
 - **Lead with trigger conditions, not a workflow summary.** Prefer "Use when the
   user wants to create or improve a skill ..." over "This skill walks through six
   steps ...". The agent is matching intent, not reading a manual.
-- **Test with near-miss NEGATIVE cases.** Write two or three prompts that look
-  close to your skill but should NOT trigger it, and confirm the description does
-  not catch them. This guards both failure directions at once:
-    - under-trigger: a real request fails to match (description too narrow or
-      missing trigger phrases),
-    - over-trigger: an adjacent request wrongly matches (description too broad).
-  Name the adjacent skill the request should go to instead, inside the description
-  ("NOT for X; use the Y skill"), so the listing itself routes the near-miss away.
+- **Name the adjacent boundary directly.** Include a concise `NOT for ...`
+  boundary when a neighboring skill or common request could be confused with
+  this one. Put that routing information in the description so discovery does
+  not depend on the body being loaded.
 
 ## A7. Single-source vocabulary across documents
 

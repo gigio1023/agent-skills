@@ -128,7 +128,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
 | [handoff-prompt](skills/productivity/handoff-prompt/) | Package live work into one successor-ready continuation prompt |
 | [install-skill-pack](skills/development/install-skill-pack/) | Install or refresh the published pack globally from its tracked `main` source |
-| [skill-builder](skills/development/skill-builder/) | Create, audit, evaluate, and modernize reusable agent skills |
+| [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
 
 ### Design and Visualization
 
