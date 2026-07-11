@@ -1,4 +1,4 @@
-# Agent Skills — Official Anthropic Documentation Snapshot
+# Agent Skills — Selected Official Anthropic Documentation Snapshot
 
 > **Sources**:
 > https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
@@ -15,7 +15,6 @@
 - Authoring principles
 - Skill structure and frontmatter
 - Progressive disclosure
-- Evaluation and iteration
 - Where Skills work
 - Runtime constraints
 - Security and retention
@@ -47,10 +46,10 @@ therefore carries discovery; the body and resources should focus on execution.
 - Match degrees of freedom to risk. Use text heuristics for open-ended work,
   parameterized patterns for preferred approaches, and exact scripts for fragile
   operations.
-- Test with every model family the skill is intended to support. A powerful
-  model may be harmed by over-explanation while a smaller model may need more.
-- Build evaluations before extensive documentation. Establish a no-skill
-  baseline, add the minimum instructions, and iterate from real usage.
+- Keep instructions model-capability-aware without duplicating model-specific
+  prompting policy in every domain skill.
+- Start small and refine from real user requests or observed failures rather
+  than speculative process scaffolding.
 - Use feedback loops for quality-critical work: run or inspect, fix, and verify
   again.
 - Avoid time-sensitive instructions in the main path and keep terminology
@@ -97,21 +96,6 @@ when the text needs either.
 - Make complex or high-stakes changes verifiable through a plan-validate-execute-
   verify loop.
 
-## Evaluation And Iteration
-
-The official process is evaluation-driven:
-
-1. Run representative tasks without the skill and record specific gaps.
-2. Create at least three scenarios that test those gaps.
-3. Write the minimum instructions needed to address them.
-4. Test with a fresh agent using the skill on real work.
-5. Observe trigger choice, file navigation, ignored or overused content, and
-   output quality.
-6. Refine from observations and repeat.
-
-There is no built-in universal evaluation runner. Use project-specific scripts,
-rubrics, artifact checks, and representative prompts.
-
 ## Where Skills Work
 
 - Claude Code: filesystem Custom Skills, personal or project-scoped, and plugin
@@ -156,5 +140,3 @@ documentation. Check the live retention page for deployment decisions.
 - Terminology and paths are consistent and portable.
 - Scripts solve deterministic work, handle errors, and are documented.
 - Critical operations have validation and feedback loops.
-- At least three evaluations cover real usage and trigger behavior.
-- Every intended model family has been tested or the gap is disclosed.

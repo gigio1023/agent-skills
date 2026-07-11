@@ -7,12 +7,11 @@ frontier model.
 ## Contents
 
 - Current evidence
-- Three-way baseline
 - Instruction classification
 - Subtractive audit
 - Autonomy, tools, and multi-agent routing
-- Validation matrix
-- Acceptance rules
+- Direct verification
+- Finish and report
 
 ## Current Evidence
 
@@ -46,21 +45,6 @@ Durable findings:
   grounded in current tool results, and it should not be asked to reproduce
   private reasoning.
 
-## Three-Way Baseline
-
-Keep the target model, harness, tool surface, reasoning or effort setting,
-prompts, and evaluator fixed. Run:
-
-| Condition | Purpose |
-|-----------|---------|
-| Target model, no skill | Measures the frontier default and reveals unnecessary instructions |
-| Target model, current skill | Measures benefit or regression from legacy scaffolding |
-| Target model, candidate skill | Measures whether the edit adds verified leverage |
-
-Use representative tasks, not only examples copied from the skill. Include
-near-miss prompts to test discovery. When both GPT-5.6 Sol and Fable 5 are target
-runtimes, test both if available; a pass on one is not proof for the other.
-
 ## Instruction Classification
 
 Tag each meaningful block before editing:
@@ -77,12 +61,14 @@ Tag each meaningful block before editing:
 - `harness policy`: global autonomy, tone, or permission guidance that belongs in
   system/project instructions rather than this task skill.
 
-Keep the first six when they improve evaluations. Delete or relocate the last
-three unless a target-model failure proves they are still needed.
+Keep the first six when they are specific to the task contract. Delete or
+relocate the last three unless real usage or an observed failure shows they are
+still needed.
 
 ## Subtractive Audit
 
-1. Freeze the evaluation set and record the three-way baseline.
+1. Read the current skill, its direct references, and any user-provided failure
+   or correction before editing.
 2. Remove duplicate rules, generic knowledge, and process narration first.
 3. Replace exhaustive keyword maps or rigid step lists with outcome and decision
    rules when context should determine the path.
@@ -91,8 +77,9 @@ three unless a target-model failure proves they are still needed.
 5. Consolidate repeated output templates into one canonical contract.
 6. Move long rationale, examples, and current-version notes into one-level
    references.
-7. Add a rule only for a measured failure after subtraction.
-8. Re-run the same evaluations after each bounded edit group.
+7. Add a rule only for the requested contract or an observed recurring failure.
+8. Run direct structural checks and the documented invocation of anything that
+   changed.
 
 Do not rewrite merely to mention the new model. A successful refresh often
 removes text while leaving domain assets and deterministic scripts unchanged.
@@ -119,37 +106,34 @@ skills state capabilities and decision rules, not a permanently current model
 catalog.
 
 When the same package targets Claude Code and Codex, apply
-`cross-harness-skills` as well. A model comparison alone does not catch
-differences in discovery text, invocation, optional metadata, tool names,
-permissions, or resource-path behavior.
+`cross-harness-skills` for discovery text, invocation, optional metadata, tool
+names, permissions, and resource-path boundaries. Keep the portable core usable
+when either harness-specific adapter is absent.
 
-## Validation Matrix
+## Direct Verification
 
-Measure what the skill claims to improve:
+Verify only the artifact surfaces changed by the request:
 
-- Trigger precision on positive and near-miss prompts.
-- Task success and preservation of required behavior.
-- Artifact completeness, schema validity, citations, or render quality.
-- Tool choice, arguments, retry behavior, and side-effect boundaries.
-- Test/build/lint/smoke results and progress-claim accuracy.
-- Total context, turns, latency, and cost when efficiency is part of the goal.
-- Unrequested work, overplanning, repeated validation, or early stopping.
+- Frontmatter and discovery text remain valid and specific.
+- Every directly linked reference and documented asset exists.
+- Changed scripts and templates pass their exact documented invocation.
+- Installation or package listing still discovers the skill when packaging
+  changed.
+- The skill remains within its authority, portability, and output boundaries on
+  a direct read-through.
 
-Do not score hidden reasoning or request a chain-of-thought transcript. Score the
-decision, evidence, artifact, and observable actions.
+Do not create prompt suites, model comparisons, scoring rubrics, or benchmark
+reports unless the user requested that separate work.
 
-## Acceptance Rules
+## Finish And Report
 
-Accept a candidate when it clearly beats the current skill without losing the
-no-skill model's strengths. Prefer the smaller candidate on a tie. Reject edits
-that only change style, add model praise, or shift work without improving the
-user-visible outcome.
+Prefer the smallest change that satisfies the requested contract. Reject edits
+that only add model praise, repeat global policy, or move text without improving
+the skill's usability.
 
 Report:
 
-- What the no-skill baseline already did well.
-- Which legacy instructions regressed or no longer helped.
-- Which domain constraints and gotchas remained necessary.
-- Accepted and rejected edits.
-- Models, harnesses, prompts, tools, and checks actually tested.
-- Untested surfaces and the condition that would justify another pass.
+- What changed and why.
+- Which domain constraints and gotchas were preserved.
+- Files and direct checks used.
+- Any prerequisite or harness surface that remained unavailable.
