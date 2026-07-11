@@ -64,16 +64,21 @@ output: capture each accept or reject as a scope statement in their words.
 
 **Throwaway variants.** Two or three wildly different concrete versions —
 mockups, strawman documents, sample plans — with no wiring, no persistence, no
-polish, labeled as throwaway. After the user reacts, verbalize what each
-reaction reveals as one sentence and fold those sentences into the spec. If
-the user cannot judge which variant is better, stop: they don't know what
-"good" looks like yet, so switch to a blindspot brief.
+polish, labeled as throwaway. Build them to be reacted to: all variants side
+by side in the single allowed artifact, filled with representative fake data,
+so that reacting costs the user nothing beyond looking. After the user
+reacts, verbalize what each reaction reveals as one sentence and fold those
+sentences into the spec. If the user cannot judge which variant is better,
+stop: they don't know what "good" looks like yet, so switch to a blindspot
+brief.
 
 **Mini-interview.** At most 7 questions, each with concrete options and a
 recommended default. Prioritize answers that would change the direction or are
 costly to reverse. Never ask for a fact you can discover by inspection or
 search. "I don't know" is an answer: record it as an open item with a
-decide-later rule, never as consent.
+decide-later rule, never as consent. If the cap is hit while material
+user-only questions remain open, do not stretch the pass — say the territory
+needs a dedicated deep interview and let the user invoke it.
 
 **Reference request.** Ask for one reference. For code, source beats prose
 beats screenshots — point at the folder and say what to look for. For other
