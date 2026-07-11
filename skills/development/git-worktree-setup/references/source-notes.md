@@ -1,4 +1,4 @@
-# Upstream Adaptation
+# Git Worktree Setup Upstream Adaptation
 
 This skill is adapted from `using-git-worktrees` in
 [`obra/superpowers`](https://github.com/obra/superpowers/tree/v6.1.1/skills/using-git-worktrees),

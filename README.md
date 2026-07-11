@@ -118,7 +118,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [draft-pr](skills/development/draft-pr/) | Publish or update draft GitHub PRs with `gh` while preserving reviewer context |
 | [engineering-docs](skills/development/engineering-docs/) | Create and reshape evidence-backed engineering documentation |
 | [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
-| [using-git-worktrees](skills/development/using-git-worktrees/) | Start implementation in an isolated workspace without taking over harness-managed worktrees |
+| [git-worktree-setup](skills/development/git-worktree-setup/) | Start implementation in an isolated workspace without taking over harness-managed worktrees |
 
 ### Agent and Harness Engineering
 

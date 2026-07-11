@@ -1,5 +1,5 @@
 ---
-name: using-git-worktrees
+name: git-worktree-setup
 description: >
   Use when implementation should be isolated from the current checkout, a plan
   calls for a separate branch workspace, or worktree state must be detected
@@ -8,7 +8,7 @@ description: >
   a finished branch.
 ---
 
-# Using Git Worktrees
+# Git Worktree Setup
 
 Start implementation in an isolated workspace without taking ownership of a
 worktree that the user or harness already manages.

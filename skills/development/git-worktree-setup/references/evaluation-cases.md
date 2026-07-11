@@ -1,4 +1,4 @@
-# Evaluation Cases
+# Git Worktree Setup Evaluation Cases
 
 Use the same repository fixtures and success rubric when evaluating this skill
 in Codex and Claude Code. Record unavailable runtime combinations instead of
