@@ -144,7 +144,7 @@ existing `npx skills` lock entries can continue to update in place.
 | Skill | What it helps with |
 | --- | --- |
 | [deep-interview](skills/productivity/deep-interview/) | Turn a vague idea into a user-approved brief through a focused Socratic interview |
-| [fable5-judgment](skills/productivity/fable5-judgment/) | Put Fable 5 in charge of difficult judgment, strategy, and long-horizon synthesis |
+| [fable5-judgment](skills/productivity/fable5-judgment/) | Let Claude Code or Cursor selectively route genuinely judgment-heavy work to Fable 5 after a fit check; not for Codex |
 | [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent agent workstreams when parallelism materially improves the result |
 | [unknowns-pass](skills/productivity/unknowns-pass/) | Surface the unknowns in unfamiliar work with the cheapest technique, then compress them into a launch brief |
 

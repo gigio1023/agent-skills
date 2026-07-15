@@ -1,23 +1,48 @@
 ---
 name: fable5-judgment
 description: >
-  Use when the user wants Fable 5 to lead difficult judgment, long-horizon work,
-  issue review, decision synthesis, overlooked-fact checks, strategic
-  recommendations, or multi-agent critique, optionally with GPT-5.6 Sol or
-  other support lanes. Trigger for "Fable 5로 판단", "쟁점 리뷰", "중요한 가치
-  판단", "놓친 사실 체크", "decision review", or "strategic synthesis". NOT
-  for a routine bounded task that one agent can finish directly.
+  Claude Code and Cursor only. Consider when the user wants Fable 5 to lead
+  difficult judgment, long-horizon work, issue review, decision synthesis,
+  overlooked-fact checks, strategic recommendations, or critique. First inspect
+  the actual problem and independently confirm that it has a consequential,
+  unresolved judgment core for which Fable 5 has a concrete advantage. Trigger
+  phrases are signals, not sufficient evidence. Do not use in Codex, when Fable
+  5 is unavailable, or for routine bounded work the current agent can finish.
 ---
 
 # Fable 5 Judgment
 
+## Entry Gate
+
+Before applying this skill:
+
+1. Identify the executing harness. In Codex, do not apply this skill or use it
+   as routing policy; continue with Codex's native capabilities. Explicit
+   invocation does not override this exclusion.
+2. In Claude Code or Cursor, inspect the user's actual goal, available context,
+   relevant artifacts, stakes, ambiguity, and missing evidence before deciding
+   whether the skill fits. Resolve discoverable facts rather than inferring a
+   judgment problem from trigger words alone.
+3. Apply the skill only when Fable 5 is available and the remaining problem has
+   a consequential judgment core—such as a material trade-off, hidden premise,
+   conflicting evidence, or defensible recommendation—for which Fable 5 has a
+   concrete advantage over direct completion by the current agent.
+4. A long task, a matching phrase, or an opportunity to use multiple agents is
+   not enough by itself. If the remaining work is routine, already bounded, or
+   the advantage is unclear, proceed without this skill.
+
+This gate controls the harness that leads the workflow. It does not prevent an
+eligible Claude Code or Cursor run from assigning bounded support work to a
+configured Codex or GPT-5.6 Sol lane after the judgment boundary is stable.
+
 ## Purpose
 
-Use Fable 5 as the lead for work whose value comes from judgment, ambiguity
-resolution, sustained context, or a defensible recommendation. Fable 5 can also
-perform difficult end-to-end work; do not delegate merely to keep its context
-empty. Delegate when concurrency, context isolation, fresh verification, tool
-specialization, or a measured cost/latency advantage improves the result.
+After the entry gate passes, use Fable 5 as the lead for work whose value comes
+from judgment, ambiguity resolution, sustained context, or a defensible
+recommendation. Fable 5 can also perform difficult end-to-end work; do not
+delegate merely to keep its context empty. Delegate when concurrency, context
+isolation, fresh verification, tool specialization, or a measured cost/latency
+advantage improves the result.
 
 Spend scarce Fable 5 capacity at the **judgment frontier**: the early framing,
 adaptive investigation, and interpretation needed to make later work genuinely
@@ -31,7 +56,8 @@ decomposition, packets, asynchronous coordination, and synthesis mechanics.
 
 ## Quick Start
 
-1. State the user-visible decision or outcome and its completion bar.
+1. Pass the entry gate, then state the user-visible decision or outcome and its
+   completion bar.
 2. Identify the judgment core Fable 5 must own: the trade-off, risk, hypothesis,
    conflict, ambiguous implementation choice, and any investigation whose next
    move depends on interpreting what was just found.
