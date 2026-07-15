@@ -1,13 +1,14 @@
 ---
 name: lower-capability-executor-prompt
 description: >
-  Use only when the user explicitly names lower-capability-executor-prompt and
-  asks to turn an already researched and approved plan into a bounded prompt for
+  Use only when the user explicitly invokes lower-capability-executor-prompt to
+  turn an already researched and approved plan into a bounded prompt for
   an executor less capable than the planner. Covers scoped changes, test, build,
   and check runs, reproductions, and read-only evidence collection. Requires
   exact scope, actions, authority, capability assumptions, evidence, and stop
-  rules. NOT for automatic invocation, peer or high-capability executors,
-  discovery, planning, open-ended work, or general session handoffs.
+  rules. NOT for automatic invocation, model/cost/executor recommendations,
+  peer or high-capability executors, discovery, planning, open-ended work, or
+  general session handoffs.
 ---
 
 # Lower-Capability Executor Prompt
@@ -18,10 +19,12 @@ control. Reduce its judgment surface; keep unresolved decisions with the planner
 
 ## Invocation Policy
 
-Use this skill only when the user explicitly names it. Do not auto-apply it to an
-ordinary task, a mere mention of a lower-capability model, or a general handoff.
-Do not use it for a peer or high-capability executor that can safely inherit open
-judgment. Use `handoff-prompt` for successor-ready session transfers.
+Use this skill only when the user explicitly invokes it to build the bounded
+prompt. Model names, cost preferences, executor recommendations, and discussion
+or edits to this skill do not invoke it. Do not auto-apply it to a handoff. Do
+not use it for a peer or high-capability executor that can safely
+inherit open judgment. Use `handoff-prompt` for successor-ready session
+transfers.
 
 ## Quick Path
 
