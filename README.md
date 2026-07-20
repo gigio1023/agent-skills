@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 21 reusable Agent Skills for shipping software, operating
+A curated pack of 23 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, making difficult decisions, and handling a
 few everyday workflows.
 
@@ -12,7 +12,7 @@ it. Install only what you need with [`npx skills`](https://github.com/vercel-lab
 then pull later revisions from the same tracked source.
 
 [Browse the catalog](#skill-catalog) · [Install](#install-with-npx-skills) ·
-[Update](#keep-skills-up-to-date) · [Standalone skills](#related-standalone-skills) ·
+[Update](#keep-skills-up-to-date) · [Related repositories](#related-skill-repositories) ·
 [Local development](#local-development)
 
 ## Install with `npx skills`
@@ -38,7 +38,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-To install all 21 skills for a deliberate set of agents, quote the wildcard so
+To install all 23 skills for a deliberate set of agents, quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -163,17 +163,20 @@ existing `npx skills` lock entries can continue to update in place.
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce exact, minimum, or maximum page limits |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Export a read-only Toss Invest portfolio and market-context snapshot |
 
-## Related standalone skills
+## Related skill repositories
 
-These skills live in separate repositories and are not included when this pack
-is installed.
+These independently versioned repositories are not included when this pack is
+installed. Use each repository's README for its current install command,
+supported harnesses, and update workflow.
 
-| Skill | Source | Description |
+| Repository | Included skills | What it adds |
 | --- | --- | --- |
-| [astro-dev](https://github.com/gigio1023/astro-dev-skill) | `gigio1023/astro-dev-skill` | Current Astro patterns, compatibility gates, and focused verification |
-| [drawio-diagram](https://github.com/gigio1023/drawio-agent-skill) | `gigio1023/drawio-agent-skill` | Create editable draw.io diagrams with structural and rendered checks |
-| [humanize-doc](https://github.com/gigio1023/humanize-doc) | `gigio1023/humanize-doc` | Rewrite AI-sounding drafts into readable human documents |
-| [unity-game-dev](https://github.com/gigio1023/unity-game-dev-skill) | `gigio1023/unity-game-dev-skill` | Cross-harness Unity game development with Editor adapters and QA flows |
+| [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
+| [draw.io Agent Skill](https://github.com/gigio1023/drawio-agent-skill) | `drawio-diagram` | Native, editable draw.io authoring with structural, layout, export, and visual checks |
+| [Game Studio](https://github.com/gigio1023/game-studio) | `game-direction`, `game-production`, `game-review` | Creator-owned direction, proof-based production, and evidence-first review across the game lifecycle |
+| [Godot Best Practice](https://github.com/gigio1023/godot-best-practice) | `godot-best-practice` | Godot-native implementation and review grounded in the project's engine version, serialized resources, and engine-level evidence |
+| [humanize-doc](https://github.com/gigio1023/humanize-doc) | `humanize-doc` | Humanize and compose readable documents while preserving facts, uncertainty, and intended tone |
+| [Unity Game Development](https://github.com/gigio1023/unity-game-dev-skill) | `unity-game-dev` | Version-aware Unity gameplay implementation and review across repository-only and live Editor workflows |
 
 ## Useful external skills
 
@@ -203,7 +206,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 21 unique names. See
+skill, and the local listing discovers the expected 23 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
