@@ -3,103 +3,134 @@ name: install-skill-pack
 description: >
   Use when installing or refreshing the published `gigio1023/agent-skills` pack
   globally for explicitly selected agents after changes reach `main`, or when
-  updating already tracked global skills on request. Uses the quoted remote
-  source with `npx skills` and verifies global discovery. NOT for local
-  checkouts, PR or feature branches, commit SHAs, project-local installs,
-  pre-merge testing, unscoped all-agent installs, or silently changing
-  unrelated global skills.
+  updating already tracked global skills on request. Resolves the latest Skills
+  CLI once per run, reviews partner security audits before global installation,
+  and verifies discovery. NOT for local checkouts, PR branches, commit SHAs,
+  project-local installs, pre-merge testing, unscoped all-agent installs, or
+  silently changing unrelated global skills.
 ---
 
 # Install Skill Pack
 
-Install only the published `main` branch of `gigio1023/agent-skills` at global
-scope. Let the Skills CLI manage destinations for the agents named by the user.
-Never substitute a newer local checkout or PR ref.
+Install only the published `main` branch of `gigio1023/agent-skills`. Let the
+Skills CLI manage destinations for the agents named by the user. Never
+substitute a newer local checkout or PR ref.
 
 ## Quick Path
 
-1. Confirm the published `main` contents without installing:
+1. Resolve an explicit list of target agent IDs from the user's request or the
+   current harness. Do not widen it to every CLI-supported agent.
+
+2. Execute the bundled installer from this skill directory, passing each target
+   agent explicitly:
 
    ```bash
-   npx --yes skills add 'gigio1023/agent-skills#main' --list
+   bash scripts/install_latest_pack.sh \
+     --agent <target-agent-id> \
+     --agent <another-target-agent-id>
    ```
 
-   If a requested skill is absent, stop. It has not reached `main`; do not fall
-   back to a local path, feature branch, or commit.
+   The script resolves npm's current `skills@latest` version once, verifies the
+   reported CLI version, and reuses that exact version for both phases. It first
+   performs a disposable project-scope install with a temporary npm cache so
+   agent auto-detection cannot mutate the real global install before review.
 
-2. Resolve an explicit list of target agent IDs from the user's request or the
-   current harness. Do not widen that list to every CLI-supported agent.
+3. Review the complete `Security Risk Assessments` table from the disposable
+   preflight before answering the script's confirmation:
 
-3. Install the complete pack globally for those agents, replacing the target
-   placeholder with the resolved IDs:
+   - The wrapper blocks a Gen high/critical result, any Socket alert, a missing
+     provider, or any `--` provider result before confirmation is possible.
+   - Inspect every Snyk medium/high/critical detail page. Continue only when the
+     finding is inherent to the requested capability, the source and trust
+     boundary are understood, and the risk is proportionate to the request.
+   - Enter the literal `INSTALL` only after the gate passes. Any other response
+     cancels without modifying the real global destinations.
 
-   ```bash
-   npx --yes skills add 'gigio1023/agent-skills#main' \
-     --global \
-     --agent <target-agent-ids...> \
-     --skill '*' \
-     --yes
-   ```
-
-4. Verify the global result:
-
-   ```bash
-   npx --yes skills list --global --json
-   ```
-
-   Confirm the expected names are present for the selected agents and report
-   any missing entry instead of claiming a complete install.
+4. Let the script perform the global install with the already-reviewed CLI
+   version, then inspect its `skills list --global --json` output. Confirm the
+   expected names are present for the selected agents and report missing entries
+   instead of claiming a complete install.
 
 ## Selected Skills
 
-When the user explicitly requests a subset, keep the same source and scope:
+Pass one `--skill` per requested name. The same disposable preflight, audit gate,
+and exact-version reuse apply:
 
 ```bash
-npx --yes skills add 'gigio1023/agent-skills#main' \
-  --global \
-  --agent <target-agent-ids...> \
+bash scripts/install_latest_pack.sh \
+  --agent <target-agent-id> \
   --skill <skill-name> \
-  --yes
+  --skill <another-skill-name>
 ```
 
-Pass additional names after `--skill` when needed. Keep the same explicit agent
-list used for the full-pack path.
+If no `--skill` is supplied, the script installs the complete published pack.
+If a requested skill is absent from `main`, the preflight fails; do not fall
+back to a local path, feature branch, or commit.
 
 ## Ongoing Updates
 
+To refresh only this pack or pick up newly published skills, repeat the audited
+installer path above. This keeps the latest-at-start CLI version and audit
+evidence coupled to the operation.
+
 If the user explicitly wants every tracked global skill updated, including
-skills installed from other sources, run:
+skills installed from other sources, run the current npm `latest` CLI:
 
 ```bash
-npx --yes skills update --global --yes
+npx --yes skills@latest update --global --yes
 ```
 
-For named skills, put their names before `--global`. To refresh only this pack,
-or to pick up skills added after the original install, repeat the applicable
-remote `add` command from above with the same explicit agent list. Updates are
-on demand; they do not run in the background.
+That broad update path does not provide the same disposable partner-audit gate.
+Use it only after stating the limitation and receiving explicit acceptance. For
+named skills, put their names before `--global`. Updates run on demand, not in
+the background.
 
 ## Gotchas
 
-- Keep `#main` explicit and quote the complete source so the repository and ref
-  remain visibly atomic as one argument.
-- Do not use `@main`; this CLI uses `@` for a skill filter, not a Git branch.
-- Do not replace the source with `.`, an absolute checkout path, a PR branch, or
-  a commit SHA, even when it is newer than remote `main`.
-- Use `--global` for user scope. The current CLI discovers this repository's
-  category layout without `--full-depth`.
-- Do not use `--all`: it expands to every discovered skill and every supported
-  agent. Use `--skill '*'` with an explicit `--agent` list instead.
-- Use `update` directly. The current CLI does not document a separate read-only
-  `check` step.
-- `update` refreshes tracked skills but does not add newly published skill names;
-  repeat the remote `add` command when the pack grows.
-- `add` installs or refreshes skills present on `main`. It does not authorize
-  deletion of unrelated or stale global skills; remove those only when the user
-  explicitly names them.
+- `latest` means the npm `latest` dist-tag at operation start. The wrapper
+  snapshots that version so a release cannot change between preflight and real
+  installation.
+- Running `skills@latest` still trusts the npm publisher and executes remote CLI
+  code. A disposable workspace and npm cache contain expected writes but are not
+  an OS sandbox or a substitute for package provenance.
+- The preflight intentionally uses `--yes` only inside its disposable project.
+  The real install uses `--yes` only after the separate `INSTALL` gate passes.
+- Stop if the resolved version is empty, malformed, or differs from the CLI's
+  own `--version` output.
+- Stop if the latest CLI changes its output so the wrapper can no longer verify
+  the audit table. Do not silently fall back to an older version or skip review.
+- A Snyk medium/high/critical result remains a human review decision because
+  scanners can flag capabilities that necessarily fetch external data or run a
+  package manager. The wrapper still blocks missing Snyk evidence.
+- Keep `#main` explicit and quote the complete source. Do not use `@main`; the
+  CLI interprets `@` as a skill filter rather than a Git branch.
+- Do not use `--all`: it expands to every supported agent. Use the wrapper's
+  repeated `--agent` arguments and its default full-pack skill selection.
+- Global installation does not authorize deletion of unrelated or stale skills.
+  Remove those only when the user explicitly names them.
+
+## Validation
+
+Before publishing wrapper changes, run its syntax and deterministic audit-table
+checks:
+
+```bash
+bash -n scripts/install_latest_pack.sh
+bash scripts/install_latest_pack.sh --self-test
+```
+
+Exercise the current CLI's disposable cancellation path without changing global
+destinations:
+
+```bash
+printf 'CANCEL\n' | bash scripts/install_latest_pack.sh \
+  --agent codex \
+  --skill install-skill-pack
+```
 
 ## Output
 
-Report that the source was `gigio1023/agent-skills#main`, the selected agents,
-whether the full pack or a subset was installed or updated, the verification
-result, and any missing skill. Do not claim that unmerged work was installed.
+Report the resolved Skills CLI version, source, selected agents and skills,
+audit evidence reviewed, confirmation or cancellation, and verification result.
+Do not claim that unmerged work was installed. On cancellation, identify the
+finding and whether it is an inherent capability risk or unexplained blocker.

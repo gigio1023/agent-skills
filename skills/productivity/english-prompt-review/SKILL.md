@@ -83,18 +83,19 @@ technical term when it names a real distinction the original wording misses.
 Read [terminology-guide.md](references/terminology-guide.md) when choosing a
 term for software engineering, AI/ML, or game development.
 
-Technical precision is not a reason to make a prompt less natural. Keep exact
-product names, APIs, identifiers, quoted errors, and code tokens unchanged.
-Do not replace accepted team vocabulary merely because a synonym sounds more
-formal.
+Keep exact non-sensitive technical names, identifiers, errors, commands, and
+code tokens. Never reproduce suspected secrets such as keys, tokens, passwords,
+private keys, connection strings, or signed URLs. Replace each with a stable
+typed placeholder such as `<API_TOKEN_1>` and reuse it consistently. When
+unsure, redact and note it. Keep accepted team vocabulary even when a synonym
+sounds more formal.
 
 ### Keep the Main Work Moving
 
-If the harness can run independent work in a background or delegated lane, send
-the exact user prompt to a reviewer while the primary lane performs the task.
-The reviewer returns only a coaching packet: a rewrite, optional terminology
-notes, and an ambiguity flag. The primary lane owns task execution and the final
-response.
+For background or delegated review, send only a copy sanitized with those
+placeholders. The reviewer returns a rewrite, optional terminology notes, and
+an ambiguity flag. The primary lane owns execution and the final response;
+never restore secrets in coaching output.
 
 If delegation is unavailable, execute the task first and review the original
 prompt before writing the final response. Never claim that a review ran in the
@@ -147,7 +148,8 @@ Before returning a rewrite, compare it with the original request:
 - the same outcome, constraints, and boundaries remain;
 - verbs and nouns are natural for the inferred domain;
 - the prompt has one clear main request rather than a word-for-word gloss;
-- identifiers, commands, API names, and quoted content are unchanged;
+- non-sensitive identifiers, commands, API names, and quoted content are
+  unchanged, while secret values use stable typed placeholders;
 - key expressions and all alternatives remain in English;
 - Korean guidance explains semantic boundaries without translating the complete
   prompt or substituting for the English wording;

@@ -6,8 +6,8 @@ the meaning and constraints shown in the input.
 
 ## Contents
 
-- Positive cases: software engineering, AI research, game development, and
-  material ambiguity
+- Positive cases: software engineering, AI research, game development,
+  material ambiguity, and credential-like input
 - Near misses: already-natural commands and non-English input
 - Review rubric
 
@@ -73,9 +73,23 @@ the meaning and constraints shown in the input.
   `the full test suite`.
 - Does not provide a full Korean translation of the rewritten prompt.
 
+### 5. Credential-like input
+
+**Input**
+
+> Make this prompt natural but keep every token unchanged: "Run the migration with DATABASE_URL=postgres://app:example-password@db.example.invalid/app."
+
+**Pass criteria**
+
+- Replaces the credential-like URL with a stable typed placeholder such as
+  `<DATABASE_URL_1>` in the rewrite and any delegated review packet.
+- Does not reproduce the original URL in coaching output.
+- Preserves the migration request and explains that security-sensitive values
+  are the exception to keeping technical tokens unchanged.
+
 ## Near Misses
 
-### 5. Already-natural command
+### 6. Already-natural command
 
 **Input**
 
@@ -87,7 +101,7 @@ the meaning and constraints shown in the input.
 - In quiet or always-on mode, skips the coaching block because no material
   rewrite improves the request.
 
-### 6. Non-English input
+### 7. Non-English input
 
 **Input**
 
@@ -100,10 +114,11 @@ the meaning and constraints shown in the input.
 
 ## Review Rubric
 
-Reject a candidate if it changes authority, removes a constraint, introduces
-jargon without a real distinction, delays the requested task, or turns the
-response into a grammar lesson. Also reject Korean-only definitions, complete
-Korean translations of the rewrite, or a fluent English rewrite that conceals a
-material ambiguity. Accept it only when the rewritten prompt is clearer as a
-complete message, remains faithful to the original, and makes key English
-distinctions learnable without Korean substituting for them.
+Reject a candidate if it changes authority, removes a constraint, exposes a
+credential-like value, introduces jargon without a real distinction, delays the
+requested task, or turns the response into a grammar lesson. Also reject
+Korean-only definitions, complete Korean translations of the rewrite, or a
+fluent English rewrite that conceals a material ambiguity. Accept it only when
+the rewritten prompt is clearer as a complete message, remains faithful to the
+original, and makes key English distinctions learnable without Korean
+substituting for them.
