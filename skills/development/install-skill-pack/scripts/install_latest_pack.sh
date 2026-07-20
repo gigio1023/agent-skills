@@ -5,10 +5,12 @@ set -euo pipefail
 source_ref="gigio1023/agent-skills#main"
 agents=()
 skills=()
+self_test=false
 
 usage() {
   cat <<'EOF'
 Usage: install_latest_pack.sh --agent <id> [--agent <id> ...] [--skill <name> ...]
+       install_latest_pack.sh --self-test
 
 Resolves skills@latest once, performs a disposable audited preflight, and asks
 for the literal confirmation INSTALL before modifying global skill directories.
@@ -18,6 +20,81 @@ EOF
 fail() {
   printf 'ERROR: %s\n' "$*" >&2
   exit 1
+}
+
+security_table_from_log() {
+  awk '
+    /Security Risk Assessments/ { capture = 1 }
+    capture { print }
+    capture && /Details:/ { exit }
+  ' "$1"
+}
+
+validate_security_table() {
+  local table="$1"
+
+  [[ "$table" == *"Security Risk Assessments"* ]] || {
+    printf 'latest CLI did not emit a security assessment table'
+    return 1
+  }
+  for provider in Gen Socket Snyk; do
+    [[ "$table" == *"$provider"* ]] || {
+      printf 'security assessment is missing the %s column' "$provider"
+      return 1
+    }
+  done
+  if grep -Fq -- "--" <<<"$table"; then
+    printf 'security assessment contains an unverified -- result'
+    return 1
+  fi
+  if grep -Eq '(^|[^0-9])[1-9][0-9]* alerts?([^[:alpha:]]|$)' <<<"$table"; then
+    printf 'Socket reported one or more alerts; global installation is blocked'
+    return 1
+  fi
+  if grep -Eq '(High|Critical)[[:space:]]+Risk[[:space:]]+[0-9]+[[:space:]]+alerts?' <<<"$table"; then
+    printf 'Gen reported high or critical risk; global installation is blocked'
+    return 1
+  fi
+}
+
+expect_valid_table() {
+  local name="$1"
+  local table="$2"
+  local message=""
+
+  if ! message="$(validate_security_table "$table")"; then
+    fail "self-test $name unexpectedly failed: $message"
+  fi
+}
+
+expect_invalid_table() {
+  local name="$1"
+  local expected="$2"
+  local table="$3"
+  local message=""
+
+  if message="$(validate_security_table "$table")"; then
+    fail "self-test $name unexpectedly passed"
+  fi
+  [[ "$message" == *"$expected"* ]] ||
+    fail "self-test $name returned an unexpected error: $message"
+}
+
+run_self_test() {
+  local valid_table=$'Security Risk Assessments\n  Gen  Socket  Snyk\n  sample  Safe  0 alerts  Med Risk\n  Details: https://skills.sh/example/repo'
+  local snyk_high_table=$'Security Risk Assessments\n  Gen  Socket  Snyk\n  sample  Safe  0 alerts  High Risk\n  Details: https://skills.sh/example/repo'
+  local socket_alert_table=$'Security Risk Assessments\n  Gen  Socket  Snyk\n  sample  Safe  1 alert  Low Risk\n  Details: https://skills.sh/example/repo'
+  local missing_result_table=$'Security Risk Assessments\n  Gen  Socket  Snyk\n  sample  Safe  --  Low Risk\n  Details: https://skills.sh/example/repo'
+  local gen_high_table=$'Security Risk Assessments\n  Gen  Socket  Snyk\n  sample  High Risk  0 alerts  Low Risk\n  Details: https://skills.sh/example/repo'
+  local missing_provider_table=$'Security Risk Assessments\n  Gen  Socket\n  sample  Safe  0 alerts\n  Details: https://skills.sh/example/repo'
+
+  expect_valid_table "valid table" "$valid_table"
+  expect_valid_table "reviewable Snyk high result" "$snyk_high_table"
+  expect_invalid_table "singular Socket alert" "Socket reported" "$socket_alert_table"
+  expect_invalid_table "missing provider result" "unverified" "$missing_result_table"
+  expect_invalid_table "Gen high risk" "Gen reported" "$gen_high_table"
+  expect_invalid_table "missing provider column" "missing the Snyk" "$missing_provider_table"
+  printf 'OK: install_latest_pack security-table self-test passed\n'
 }
 
 while (($# > 0)); do
@@ -36,11 +113,22 @@ while (($# > 0)); do
       usage
       exit 0
       ;;
+    --self-test)
+      self_test=true
+      shift
+      ;;
     *)
       fail "unknown argument: $1"
       ;;
   esac
 done
+
+if [[ "$self_test" == true ]]; then
+  ((${#agents[@]} == 0 && ${#skills[@]} == 0)) ||
+    fail "--self-test does not accept --agent or --skill"
+  run_self_test
+  exit 0
+fi
 
 ((${#agents[@]} > 0)) || fail "at least one --agent is required"
 ((${#skills[@]} > 0)) || skills=("*")
@@ -79,14 +167,10 @@ printf '\nRunning disposable security preflight...\n'
     --yes </dev/null
 ) 2>&1 | tee "$preflight_log"
 
-grep -Fq "Security Risk Assessments" "$preflight_log" ||
-  fail "latest CLI did not emit a security assessment table"
-for provider in Gen Socket Snyk; do
-  grep -Fq "$provider" "$preflight_log" ||
-    fail "security assessment is missing the $provider column"
-done
-if grep -Eq '[1-9][0-9]* alerts' "$preflight_log"; then
-  fail "Socket reported one or more alerts; global installation is blocked"
+audit_table="$(security_table_from_log "$preflight_log")"
+audit_error=""
+if ! audit_error="$(validate_security_table "$audit_table")"; then
+  fail "$audit_error"
 fi
 
 printf '\nReview the security table and any medium/high/critical detail pages.\n'

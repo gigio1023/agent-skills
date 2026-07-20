@@ -38,13 +38,11 @@ substitute a newer local checkout or PR ref.
 3. Review the complete `Security Risk Assessments` table from the disposable
    preflight before answering the script's confirmation:
 
-   - Cancel on any Gen high/critical result or any Socket alert.
+   - The wrapper blocks a Gen high/critical result, any Socket alert, a missing
+     provider, or any `--` provider result before confirmation is possible.
    - Inspect every Snyk medium/high/critical detail page. Continue only when the
      finding is inherent to the requested capability, the source and trust
      boundary are understood, and the risk is proportionate to the request.
-   - Treat a missing table, missing provider column, or `--` result as
-     unverified and stop unless the user explicitly accepts proceeding without
-     that evidence.
    - Enter the literal `INSTALL` only after the gate passes. Any other response
      cancels without modifying the real global destinations.
 
@@ -101,12 +99,34 @@ the background.
   own `--version` output.
 - Stop if the latest CLI changes its output so the wrapper can no longer verify
   the audit table. Do not silently fall back to an older version or skip review.
+- A Snyk medium/high/critical result remains a human review decision because
+  scanners can flag capabilities that necessarily fetch external data or run a
+  package manager. The wrapper still blocks missing Snyk evidence.
 - Keep `#main` explicit and quote the complete source. Do not use `@main`; the
   CLI interprets `@` as a skill filter rather than a Git branch.
 - Do not use `--all`: it expands to every supported agent. Use the wrapper's
   repeated `--agent` arguments and its default full-pack skill selection.
 - Global installation does not authorize deletion of unrelated or stale skills.
   Remove those only when the user explicitly names them.
+
+## Validation
+
+Before publishing wrapper changes, run its syntax and deterministic audit-table
+checks:
+
+```bash
+bash -n scripts/install_latest_pack.sh
+bash scripts/install_latest_pack.sh --self-test
+```
+
+Exercise the current CLI's disposable cancellation path without changing global
+destinations:
+
+```bash
+printf 'CANCEL\n' | bash scripts/install_latest_pack.sh \
+  --agent codex \
+  --skill install-skill-pack
+```
 
 ## Output
 
