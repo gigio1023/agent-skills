@@ -92,11 +92,11 @@ Secret handling:
 
 ### 3. Normalization
 
-Produce exactly one normalized object using the closed field set and redaction
-rules in `references/snapshot-contract.md`. Preserve timestamps, provenance,
-and warnings even when a downstream consumer asks for a shorter summary. Never
-guess at fields after schema drift; return a blocker where the contract says the
-missing meaning is decisive.
+Produce one normalized object using the closed field set, redaction rules, and
+external-data trust boundary in `references/snapshot-contract.md`. Preserve
+timestamps, provenance, and warnings even when a downstream consumer asks for a
+shorter summary. Never guess after schema drift; return a blocker when missing
+meaning is decisive.
 
 ### 4. Handoff
 
