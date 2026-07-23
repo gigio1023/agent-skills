@@ -3,11 +3,11 @@ name: cli-agent-delegation
 description: >
   Use when the user wants the current Codex, Claude Code, or similar lead
   harness to delegate a substantial, already-bounded execution mission through
-  the local Cursor Agent CLI, especially to Cursor Grok 4.5 High Fast. Covers
-  closed mission packets, non-interactive launch, worktree isolation, optional
-  Cursor subagents and MCP use, evidence capture, and lead-side acceptance.
-  NOT for unresolved planning, automatic model substitution, ordinary shell
-  commands, or replacing native subagents unless the user selected this route.
+  the local Cursor Agent CLI. Covers closed mission packets, exact requested
+  model selection, non-interactive launch, worktree isolation, optional Cursor
+  subagents and MCP use, evidence capture, and lead-side acceptance. NOT for
+  unresolved planning, automatic model substitution, ordinary shell commands,
+  or replacing native subagents unless the user selected this route.
 ---
 
 # CLI Agent Delegation
@@ -24,21 +24,22 @@ authority to redesign the mission.
    - fixed product and architecture decisions;
    - a named repository and revision or worktree;
    - explicit write, command, MCP, credential, and external-effect authority;
-   - preservation rules, acceptance evidence, and stop conditions.
+   - a deadline, preservation rules, acceptance evidence, and stop conditions.
 2. Keep planning, conflict resolution, scope changes, destructive decisions,
    integration, and final acceptance in the lead harness.
 3. Read `references/cursor-agent-cli.md` and probe the installed CLI. Resolve
    the requested model from `agent models`; never infer an ID from its display
    name or silently substitute another model.
-4. Choose one isolation owner. Reuse an existing isolated worktree, create one
-   in the lead harness, or let Cursor create one. Never stack these mechanisms.
+4. Choose one isolation owner. Reuse existing isolation, or create one only
+   when the user or packet authorizes a new branch/worktree. Never stack
+   isolation mechanisms.
 5. Write one self-contained mission packet. Include only the context needed to
    execute it; point to repository sources instead of pasting the whole session.
 6. Launch non-interactively with structured output. Grant unattended writes or
    MCP approval only when the mission explicitly authorizes them.
 7. Let the Cursor parent use its own subagents when the mission contains
-   independent lanes and the packet permits them. Every child receives the same
-   authority and stop boundaries.
+   independent lanes and the packet permits them. Each child receives a
+   lane-specific subset of authority plus the shared preservation and stop rules.
 8. Inspect the returned result, structured events, repository diff, generated
    artifacts, and verification output. Exit zero or an executor claim is not
    acceptance.
@@ -95,6 +96,9 @@ Execution rules
 Verification
 - Required checks, observable acceptance, and returned evidence.
 
+Deadline
+- Wall-clock limit and what the lead terminates and inspects after a stall.
+
 Stop conditions
 - Mismatch, unavailable model/tool/auth, user-change overlap, out-of-scope need,
   missing decision, or acceptance that cannot be demonstrated.
@@ -129,12 +133,14 @@ consequence.
 
 For writes, prefer lead-owned isolation when the lead will inspect or integrate
 in place. Use Cursor worktrees only when no outer worktree exists. Parallel
-writers need distinct worktrees or mechanically disjoint ownership.
+writers need distinct worktrees or mechanically disjoint ownership. Creating a
+branch or worktree requires explicit user or mission-packet authority.
 
 Cursor may create internal subagents for independent exploration,
 implementation, or verification. Restate the outcome, scope, authority,
-evidence, and stop conditions to every child. Do not assume a child used the
-parent's model without direct evidence.
+evidence, and stop conditions to every child, narrowing authority to that
+child's lane. Do not assume a child used the parent's model without direct
+evidence.
 
 ## MCP and Permission Boundary
 
@@ -149,7 +155,8 @@ environment or credential mechanisms without printing their values.
 
 The lead accepts the mission only after checking:
 
-- requested-model evidence from the structured initialization event;
+- CLI version, exact requested model ID and mapping, launch arguments, and the
+  service-reported initialization label;
 - process status, terminal result, and session identity when supplied;
 - changed files and external effects stayed inside authority;
 - the diff is the smallest correct root-cause implementation;
@@ -161,16 +168,10 @@ A missing terminal event, nonzero process status, malformed structured output,
 unexpected diff, or unverifiable acceptance claim is a failed or incomplete
 mission. Preserve its evidence and return the decision to the lead.
 
-## Relationship to Adjacent Skills
-
-`parallel-subagents` owns lane design and synthesis; this skill owns Cursor CLI
-launch and evidence. Use `lower-capability-executor-prompt` only when explicitly
-invoked, `handoff-prompt` for successor transfer, and `git-worktree-setup` for
-lead-owned isolation.
-
 ## Gotchas
 
 - Do not silently substitute a model, mode, worktree, or MCP permission.
+- Do not treat `--force` as local-write permission; it is a broad trust grant.
 - Do not run concurrent writers in one checkout.
 - Do not ask the executor that made a diff to provide final acceptance.
 - Do not turn a failed check into permission for adjacent fixes.
@@ -178,6 +179,5 @@ lead-owned isolation.
 
 ## Reference
 
-Read `references/cursor-agent-cli.md` immediately before launch. It contains the
-dated local CLI contract, exact command shapes, model discovery, output parsing,
-MCP and subagent evidence boundaries, failure handling, and official sources.
+Read `references/cursor-agent-cli.md` immediately before launch for the dated
+commands, model mapping, permissions, evidence, failure handling, and sources.

@@ -1,7 +1,8 @@
 # Cursor Agent CLI Contract
 
-Verified against the local Cursor Agent CLI on 2026-07-23. The installed
-executable is the source of truth because flags and model IDs can change.
+Verified against the local Cursor Agent CLI on 2026-07-23. Installed help and
+model listing are the source of truth for accepted syntax and availability;
+official documentation and changelogs also govern permission semantics.
 
 ## Contents
 
@@ -57,10 +58,10 @@ such as “High Fast” is not a CLI contract. If the requested ID is absent, st
 and report the available relevant entries. Never silently fall back to `auto`
 or a different model.
 
-The selected top-level model should appear in the `stream-json` initialization
-event. The display label may differ from `agent models`; match the requested ID
-before launch, then retain the emitted label as run evidence. If no model event
-appears, report model identity as unverified.
+The initialization event reports a display label, not the requested model ID.
+Retain the CLI version, launch argument, launch-time ID mapping, and emitted
+label together: “requested ID X; service reported label Y.” The label
+corroborates the profile but does not independently prove its exact ID.
 
 ## Non-Interactive Launch
 
@@ -79,7 +80,7 @@ agent \
   "$packet"
 ```
 
-Authorized change mission:
+Change mission with explicit broad unattended-command authority:
 
 ```bash
 packet_path=/absolute/path/to/mission.md
@@ -99,9 +100,14 @@ agent \
 that it retains write and shell tools; read-only behavior therefore comes from
 the selected read-only mode and packet, not from `--print` itself.
 
-`--force` auto-allows commands unless explicitly denied. Use it only for an
-already-authorized closed change mission. `--trust` suppresses the workspace
-trust prompt; use it only after the lead verifies the exact workspace.
+`--force` is broader than its short help text: Cursor has documented it as
+enabling auto-run, trusting the workspace, skipping MCP confirmations, and
+activating web tools. Ordinary file-write authority is not enough. Use this
+recipe only when the packet separately authorizes that full unattended surface
+and every configured MCP and web/network effect is trusted. Otherwise omit
+`--force`; an approval stop makes the headless mission incomplete rather than
+granting broader authority. Do not add `--trust` unless workspace trust itself
+is authorized.
 
 The sandbox is a useful default for local implementation but may block a task
 whose explicit requirements cross its boundary. Do not disable it merely to
@@ -137,17 +143,25 @@ Use one isolation owner:
 
 - If the lead or harness already created a worktree, pass its absolute path with
   `--workspace` and omit Cursor worktree flags.
-- Otherwise Cursor may create one with `--worktree <name>` and an explicit
-  `--worktree-base <ref>`.
+- Otherwise Cursor may create one only when the user or mission packet
+  explicitly authorizes a new branch/worktree. Use `--worktree <name>` and an
+  explicit `--worktree-base <ref>`.
 - Never create a Cursor worktree inside a lead-owned worktree.
 
 Record the canonical workspace path, base revision, and pre-run status. After
-the run, compare the same workspace and inspect its diff.
+the run, compare the same workspace and inspect its diff. Without creation
+authority, reuse existing isolation or stop.
+
+Before Cursor creates a worktree, inspect `.cursor/worktrees.json`. Its setup
+commands are part of the mission's command, network, credential, and external
+effect authority. If they are not all authorized, add
+`--skip-worktree-setup`; if skipping leaves prerequisites unmet, stop. Capture
+setup effects and treat an unexpected setup mutation or failure as mission
+failure.
 
 ## Permissions and MCP
 
-The verified CLI separates command auto-approval, sandbox mode, workspace trust,
-and MCP approval:
+The verified CLI exposes separate flags:
 
 ```text
 --force
@@ -156,7 +170,9 @@ and MCP approval:
 --approve-mcps
 ```
 
-Do not collapse them into one “unattended” switch. For an MCP mission:
+Do not infer independent safety boundaries after adding `--force`, whose
+documented behavior can imply workspace trust, MCP confirmation bypass, and web
+tools. For an MCP mission without that broad grant:
 
 1. Inspect repository and user Cursor MCP configuration.
 2. Confirm every automatically approved server is trusted and in scope.
@@ -165,8 +181,8 @@ Do not collapse them into one “unattended” switch. For an MCP mission:
 4. State tool-specific authority in the mission packet.
 
 The CLI can discover repository rules and MCP configuration, but discovery does
-not grant new authority. A configured server may still perform external writes,
-open windows, or control another process.
+not grant authority. A server may perform external writes, open windows, or
+control another process.
 
 ## Structured Evidence
 
@@ -189,7 +205,8 @@ workspace afterward.
 Require all of:
 
 - process exit status;
-- initialization event and selected model when emitted;
+- CLI version, exact launch arguments, model ID mapping, and initialization
+  display label when emitted;
 - terminal result event;
 - session ID when emitted;
 - executor response;
@@ -235,7 +252,7 @@ Do not ask the same executor to self-approve its first result.
 
 The verified top-level help has no general `--parallel` flag for launching
 independent local missions. The outer harness owns process concurrency,
-worktrees, timeouts, cancellation, and synthesis.
+worktrees, deadlines, cancellation, and synthesis.
 
 Cursor officially supports subagents in the CLI, including parallel specialized
 contexts. Current Cursor releases also describe asynchronous and nested
@@ -246,7 +263,8 @@ The mission may tell the Cursor parent to use subagents when:
 
 - lanes are independent;
 - write ownership is disjoint;
-- each child receives a complete bounded packet;
+- each child receives a complete bounded packet and only its lane-specific
+  subset of parent authority;
 - the parent integrates and reports their evidence.
 
 The top-level `--model` proves only the parent selection. Do not claim that every
@@ -257,6 +275,7 @@ subagent configuration proves it.
 
 Return control to the lead when:
 
+- the lead's wall-clock deadline expires or progress stalls;
 - the requested model is unavailable;
 - authentication or required MCP routing is unavailable;
 - the process exits nonzero or emits no terminal result;
@@ -267,6 +286,13 @@ Return control to the lead when:
 - required acceptance cannot be demonstrated;
 - another product or architecture decision is needed.
 
+When supported, launch Cursor in a dedicated process group or session and record
+its handle. On timeout, terminate only that recorded group; otherwise use the
+calling harness's scoped process-tree cancellation. Never signal the caller's
+ambient process group. Confirm spawned work has stopped, capture stdout and
+stderr separately, then inspect the workspace and external effects. Classify
+the mission as incomplete and do not auto-resume before lead review.
+
 Preserve structured output and the resulting diff. One bounded retry is
 reasonable only when the packet already defines the recovery, such as a
 transient transport retry or a corrected exact command. Otherwise the lead
@@ -276,11 +302,12 @@ decides the next step.
 
 Primary sources:
 
-- [Cursor CLI overview](https://docs.cursor.com/en/cli/overview)
-- [Headless CLI](https://docs.cursor.com/en/cli/headless)
-- [CLI parameters](https://docs.cursor.com/en/cli/reference/parameters)
-- [CLI output format](https://docs.cursor.com/en/cli/reference/output-format)
-- [Using the CLI, including rules and MCP](https://docs.cursor.com/en/cli/using)
+- [Cursor CLI overview](https://cursor.com/docs/cli/overview)
+- [Headless CLI](https://cursor.com/docs/cli/headless)
+- [CLI parameters](https://cursor.com/docs/cli/reference/parameters)
+- [CLI output format](https://cursor.com/docs/cli/reference/output-format)
+- [Using the CLI, including rules and MCP](https://cursor.com/docs/cli/using)
+- [CLI permission semantics for `--force`](https://cursor.com/changelog/page/9)
 - [Cursor 2.4: CLI subagents and skills](https://cursor.com/changelog/2-4)
 - [Cursor 2.5: asynchronous and nested subagents](https://cursor.com/changelog/2-5)
 
