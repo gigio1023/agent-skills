@@ -62,61 +62,25 @@ Finish open research or decisions in the lead first. For parallel lanes,
 `parallel-subagents` owns decomposition and synthesis; this skill owns each
 explicitly selected Cursor CLI lane.
 
-## Authority Split
-
-| Lead harness owns | Cursor executor owns inside the packet |
-| --- | --- |
-| Objective, decisions, scope, non-goals | Trace the named flow and callers |
-| Model and fallback policy | Choose the smallest correct tactic |
-| Worktree and concurrency topology | Make authorized edits and tool calls |
-| Destructive, credential, MCP, external-write authority | Bounded diagnosis inside the fixed decision |
-| Conflict resolution, acceptance, integration, user report | Evidence and an honest completion or blocker report |
-
 Delegation never expands user authorization. Review-only missions stay
 read-only. A change mission permits only the local edits and non-destructive
 checks described in the packet.
 
 ## Mission Packet
 
-Write the packet in this order:
+Write one packet containing:
 
-```text
-Outcome
-- One observable result.
-
-Fixed decisions
-- Choices that must not be reopened.
-
-Repository state
-- Workspace, revision, branch/worktree owner, instructions, sources of truth.
-
-Scope
-- Authorized files, systems, commands, non-goals, and preserved behavior.
-
-Authority
-- Writes, commands, artifacts, network, MCPs, credentials, external effects,
-  retries, subagent use, and the exact model ID every child must use.
-
-Execution rules
-- Trace the affected flow and callers before editing.
-- Reuse existing/native facilities; make the smallest root-cause diff.
-- Add no speculative abstraction, dependency, document, or tooling.
-- Preserve safety boundaries and every explicit requirement.
-
-Verification
-- Required checks, observable acceptance, and returned evidence.
-
-Deadline
-- Wall-clock limit and what the lead terminates and inspects after a stall.
-
-Stop conditions
-- Mismatch, unavailable model/tool/auth, user-change overlap, out-of-scope need,
-  missing decision, or acceptance that cannot be demonstrated.
-
-Final report
-- Model/session evidence, changed files, diff summary, commands and observed
-  results, deviations, unverified claims, and the smallest blocker.
-```
+- one observable outcome and the fixed decisions;
+- workspace, revision, isolation owner, instructions, and sources of truth;
+- authorized files, commands, MCPs, credentials, network or external effects,
+  retries, artifacts, subagents, and the exact model each child must use;
+- preserved behavior and explicit non-goals;
+- required checks, observable acceptance, and returned evidence;
+- a wall-clock deadline and scoped cancellation owner;
+- stop conditions for state mismatch, missing model/tool/auth, user-change
+  overlap, out-of-scope work, missing decisions, or unprovable acceptance; and
+- a final report covering session/model evidence, changed files, diff, commands,
+  results, deviations, unknowns, and the smallest blocker.
 
 The packet is closed but not blind. The executor must read enough surrounding
 code to find the real flow and root cause. It may make ordinary tactical choices
@@ -125,19 +89,12 @@ recovery, or authority decision.
 
 ## Minimal-Implementation Rule
 
-Within the locked decisions, use this order:
-
-1. Skip work that the requested outcome does not need.
-2. Reuse an existing code path or repository pattern.
-3. Use the standard library or native platform.
-4. Reuse an already-installed dependency.
-5. Make the shortest correct root-cause change.
-
-Minimize only after understanding the flow. Do not patch the named symptom if a
-shared routing point is the actual fix. Preserve validation, security,
-accessibility, data-loss protection, calibration, and explicit requirements.
-Non-trivial logic leaves the narrowest runnable check that protects the visible
-consequence.
+Understand the affected flow, then skip unnecessary work, reuse repository or
+native facilities, and make the shortest correct root-cause change. Add no
+speculative abstraction, dependency, document, or tooling. Preserve validation,
+security, accessibility, data-loss protection, calibration, and explicit
+requirements. Non-trivial logic leaves the narrowest runnable check protecting
+the visible consequence.
 
 ## Isolation and Parallelism
 
@@ -149,12 +106,9 @@ branch or worktree requires explicit user or mission-packet authority.
 Cursor may create internal subagents for independent exploration,
 implementation, or verification. Restate the outcome, scope, authority,
 evidence, and stop conditions to every child, narrowing authority to that
-child's lane. Pass the exact selected model in each child task. The default for
-this skill is `cursor-grok-4.5-high-fast` for parent and children; an explicit
-user model guide overrides that default for the whole packet. Do not use a
-different convenience or fallback model. Require direct transcript or tool-call
-evidence of every child model; unavailable evidence means the child result is
-unverified and cannot support acceptance.
+child's lane. Pass the selected exact model in every child task; do not use a
+convenience or fallback model. Require transcript or tool-call evidence of each
+child model. Missing evidence makes that child's result unverified.
 
 ## MCP and Permission Boundary
 

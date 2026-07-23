@@ -198,11 +198,6 @@ includes an initialization event with fields such as workspace/model/permission
 mode and a terminal result event. Current documented terminal JSON includes
 result state, error state, duration, response text, and session ID.
 
-On the verified version, `--mode ask` still emitted
-`"permissionMode":"default"` in the initialization event. Do not use that field
-alone to prove read-only mode; retain the exact launch arguments and inspect the
-workspace afterward.
-
 Require all of:
 
 - process exit status;
