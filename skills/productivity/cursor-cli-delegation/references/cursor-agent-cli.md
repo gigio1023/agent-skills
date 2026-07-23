@@ -65,14 +65,13 @@ corroborates the profile but does not independently prove its exact ID.
 
 ## Non-Interactive Launch
 
-Read-only inspection:
+Execution lane without broad unattended authority:
 
 ```bash
 packet_path=/absolute/path/to/mission.md
 packet="$(<"$packet_path")"
 agent \
   --print \
-  --mode plan \
   --model cursor-grok-4.5-high-fast \
   --workspace /absolute/path/to/workspace \
   --output-format stream-json \
@@ -96,9 +95,11 @@ agent \
   "$packet"
 ```
 
-`--print` is the scripting and non-interactive surface. The verified help states
-that it retains write and shell tools; read-only behavior therefore comes from
-the selected read-only mode and packet, not from `--print` itself.
+`--print` is the scripting and non-interactive surface. Do not add `--mode
+plan` or `--mode ask` in this skill: planning stays in the caller, while Cursor
+must be able to execute the packet's commands and MCP operations. For a
+read-only mission, constrain authority in the packet, omit unnecessary broad
+grants, and verify afterward that no mutation occurred.
 
 `--force` is broader than its short help text: Cursor has documented it as
 enabling auto-run, trusting the workspace, skipping MCP confirmations, and
@@ -265,11 +266,18 @@ The mission may tell the Cursor parent to use subagents when:
 - write ownership is disjoint;
 - each child receives a complete bounded packet and only its lane-specific
   subset of parent authority;
+- each child task explicitly selects the same exact model as the parent unless
+  the user supplied a different model guide;
 - the parent integrates and reports their evidence.
 
-The top-level `--model` proves only the parent selection. Do not claim that every
-child used the same model unless direct run evidence or an explicit custom
-subagent configuration proves it.
+For this skill, prefer subagents when independent lanes materially improve
+execution or verification. The default parent and child ID is
+`cursor-grok-4.5-high-fast`; a user's explicit model guide overrides it. Never
+let a Task inherit or choose an unspecified convenience model. The top-level
+`--model` proves only the parent. Inspect Cursor's transcript or structured Task
+tool calls for every child's explicit `model` field. A missing field, a
+different model, or unverifiable child selection invalidates that child's
+evidence and therefore any claim that depends on it.
 
 ## Failure Handling
 
