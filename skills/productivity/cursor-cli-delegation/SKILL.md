@@ -1,5 +1,5 @@
 ---
-name: cli-agent-delegation
+name: cursor-cli-delegation
 description: >
   Use when the user wants the current Codex, Claude Code, or similar lead
   harness to delegate a substantial, already-bounded execution mission through
