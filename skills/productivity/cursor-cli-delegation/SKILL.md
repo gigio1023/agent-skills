@@ -1,13 +1,12 @@
 ---
 name: cursor-cli-delegation
 description: >
-  Use when the user wants the current Codex, Claude Code, or similar lead
-  harness to delegate a substantial, already-bounded execution mission through
-  the local Cursor Agent CLI. Covers closed mission packets, exact requested
-  model selection, non-interactive launch, worktree isolation, optional Cursor
-  subagents and MCP use, evidence capture, and lead-side acceptance. NOT for
-  unresolved planning, automatic model substitution, ordinary shell commands,
-  or replacing native subagents unless the user selected this route.
+  Use only when the user explicitly invokes or names cursor-cli-delegation to
+  delegate a substantial, already-bounded mission through Cursor Agent CLI.
+  Covers closed packets, exact model selection, non-interactive launch,
+  isolation, optional Cursor subagents and MCP use, evidence capture, and
+  lead-side acceptance. NOT for automatic routing from Cursor, Grok, CLI, MCP,
+  or model mentions; unresolved planning; model substitution; or shell commands.
 ---
 
 # CLI Agent Delegation
@@ -16,6 +15,14 @@ Use the Cursor Agent CLI as an external execution lane while the calling
 harness retains judgment and acceptance. The executor may do substantial
 implementation and tool work inside a closed mission; it does not inherit
 authority to redesign the mission.
+
+## Invocation Policy
+
+Use this skill only when the user explicitly invokes or names
+`cursor-cli-delegation`. Mentioning Cursor, Grok, a model, the CLI, MCP, external
+execution, or `parallel-subagents` does not invoke it. Never auto-route work to
+Cursor. After explicit invocation, continue only when the mission is settled,
+the external lane adds value, and the lead can inspect the result.
 
 ## Quick Path
 
@@ -43,14 +50,10 @@ authority to redesign the mission.
 8. Inspect the returned result, structured events, repository diff, generated
    artifacts, and verification output. Exit zero or an executor claim is not
    acceptance.
-9. If evidence fails, either issue one narrower follow-up packet from the lead
-   or stop. Do not let the executor broaden its own recovery scope.
 
-Use this route only after the user selects it, the mission is settled, another
-agent context or Cursor-only capability adds value, and the lead can inspect the
-result. Finish open research or decisions in the lead harness first. For
-parallel lanes, `parallel-subagents` owns decomposition and synthesis while this
-skill owns each selected Cursor CLI lane.
+Finish open research or decisions in the lead first. For parallel lanes,
+`parallel-subagents` owns decomposition and synthesis; this skill owns each
+explicitly selected Cursor CLI lane.
 
 ## Authority Split
 
