@@ -21,6 +21,10 @@ Use the current harness' native mechanism for delegation. Prefer officially
 exposed tools, thread/fork primitives, worktree tasks, or subagent APIs over
 shelling out to another agent system.
 
+When the user explicitly selects an external CLI execution skill, that skill may
+own launch, session, and evidence-capture mechanics for a lane. This skill still
+owns decomposition and synthesis; never shell out automatically.
+
 If the harness exposes a tool registry or discovery mechanism, inspect it before
 inventing commands. If it does not expose delegation, emulate the workflow with
 sequential packets and explicit synthesis notes.

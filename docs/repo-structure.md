@@ -1,6 +1,6 @@
 # Repository Structure
 
-The README presents the 21 bundled skills in six task-oriented categories.
+The README presents the 24 bundled skills in six task-oriented categories.
 Their existing source paths stay under `skills/development/` and
 `skills/productivity/` because the Skills CLI records each installed skill's
 exact path for future updates. The catalog taxonomy can improve without
