@@ -3,18 +3,19 @@ name: cursor-cli-delegation
 description: >
   Use only when the user explicitly invokes or names cursor-cli-delegation to
   delegate a substantial, already-bounded mission through Cursor Agent CLI.
-  Covers closed packets, exact model selection, non-interactive launch,
-  isolation, optional Cursor subagents and MCP use, evidence capture, and
-  lead-side acceptance. NOT for automatic routing from Cursor, Grok, CLI, MCP,
-  or model mentions; unresolved planning; model substitution; or shell commands.
+  Keeps planning and acceptance in the caller while Cursor executes commands,
+  implementation, MCP work, testing, manipulation, and verification. Covers
+  exact parent/child model selection, subagents, isolation, and evidence. NOT
+  for automatic routing from Cursor, Grok, CLI, MCP, or model mentions;
+  unresolved planning; plan mode; or model substitution.
 ---
 
 # CLI Agent Delegation
 
 Use the Cursor Agent CLI as an external execution lane while the calling
 harness retains judgment and acceptance. The executor may do substantial
-implementation and tool work inside a closed mission; it does not inherit
-authority to redesign the mission.
+implementation, command, MCP, test, manipulation, and verification work inside
+a closed mission; it does not inherit authority to redesign the mission.
 
 ## Invocation Policy
 
@@ -34,36 +35,32 @@ the external lane adds value, and the lead can inspect the result.
    - a deadline, preservation rules, acceptance evidence, and stop conditions.
 2. Keep planning, conflict resolution, scope changes, destructive decisions,
    integration, and final acceptance in the lead harness.
-3. Read `references/cursor-agent-cli.md` and probe the installed CLI. Resolve
-   the requested model from `agent models`; never infer an ID from its display
-   name or silently substitute another model.
+3. Read `references/cursor-agent-cli.md` and probe the installed CLI. Unless the
+   user supplies another exact model policy, resolve and use
+   `cursor-grok-4.5-high-fast` for the parent and every Cursor subagent. Never
+   infer an ID from its display name or silently substitute another model.
 4. Choose one isolation owner. Reuse existing isolation, or create one only
    when the user or packet authorizes a new branch/worktree. Never stack
    isolation mechanisms.
 5. Write one self-contained mission packet. Include only the context needed to
    execute it; point to repository sources instead of pasting the whole session.
-6. Launch non-interactively with structured output. Grant unattended writes or
-   MCP approval only when the mission explicitly authorizes them.
-7. Let the Cursor parent use its own subagents when the mission contains
-   independent lanes and the packet permits them. Each child receives a
-   lane-specific subset of authority plus the shared preservation and stop rules.
+6. Launch non-interactively in Cursor's normal execution mode with structured
+   output. Do not pass `--mode plan` or `--mode ask`; this skill delegates
+   execution, including read-only command and MCP work, rather than planning.
+   Grant unattended writes or MCP approval only when the mission authorizes it.
+7. Encourage the Cursor parent to use subagents for independent execution
+   lanes. Every child must receive the selected exact model ID plus a
+   lane-specific subset of authority, preservation, evidence, and stop rules.
+   If Cursor cannot select and later expose the child's model, keep that lane in
+   the parent instead.
 8. Inspect the returned result, structured events, repository diff, generated
-   artifacts, and verification output. Exit zero or an executor claim is not
-   acceptance.
+   artifacts, verification output, and Cursor transcript. Reject the lane if
+   any child used a model outside the user-selected policy. Exit zero or an
+   executor claim is not acceptance.
 
 Finish open research or decisions in the lead first. For parallel lanes,
 `parallel-subagents` owns decomposition and synthesis; this skill owns each
 explicitly selected Cursor CLI lane.
-
-## Authority Split
-
-| Lead harness owns | Cursor executor owns inside the packet |
-| --- | --- |
-| Objective, decisions, scope, non-goals | Trace the named flow and callers |
-| Model and fallback policy | Choose the smallest correct tactic |
-| Worktree and concurrency topology | Make authorized edits and tool calls |
-| Destructive, credential, MCP, external-write authority | Bounded diagnosis inside the fixed decision |
-| Conflict resolution, acceptance, integration, user report | Evidence and an honest completion or blocker report |
 
 Delegation never expands user authorization. Review-only missions stay
 read-only. A change mission permits only the local edits and non-destructive
@@ -71,45 +68,19 @@ checks described in the packet.
 
 ## Mission Packet
 
-Write the packet in this order:
+Write one packet containing:
 
-```text
-Outcome
-- One observable result.
-
-Fixed decisions
-- Choices that must not be reopened.
-
-Repository state
-- Workspace, revision, branch/worktree owner, instructions, sources of truth.
-
-Scope
-- Authorized files, systems, commands, non-goals, and preserved behavior.
-
-Authority
-- Writes, commands, artifacts, network, MCPs, credentials, external effects,
-  retries, and subagent use.
-
-Execution rules
-- Trace the affected flow and callers before editing.
-- Reuse existing/native facilities; make the smallest root-cause diff.
-- Add no speculative abstraction, dependency, document, or tooling.
-- Preserve safety boundaries and every explicit requirement.
-
-Verification
-- Required checks, observable acceptance, and returned evidence.
-
-Deadline
-- Wall-clock limit and what the lead terminates and inspects after a stall.
-
-Stop conditions
-- Mismatch, unavailable model/tool/auth, user-change overlap, out-of-scope need,
-  missing decision, or acceptance that cannot be demonstrated.
-
-Final report
-- Model/session evidence, changed files, diff summary, commands and observed
-  results, deviations, unverified claims, and the smallest blocker.
-```
+- one observable outcome and the fixed decisions;
+- workspace, revision, isolation owner, instructions, and sources of truth;
+- authorized files, commands, MCPs, credentials, network or external effects,
+  retries, artifacts, subagents, and the exact model each child must use;
+- preserved behavior and explicit non-goals;
+- required checks, observable acceptance, and returned evidence;
+- a wall-clock deadline and scoped cancellation owner;
+- stop conditions for state mismatch, missing model/tool/auth, user-change
+  overlap, out-of-scope work, missing decisions, or unprovable acceptance; and
+- a final report covering session/model evidence, changed files, diff, commands,
+  results, deviations, unknowns, and the smallest blocker.
 
 The packet is closed but not blind. The executor must read enough surrounding
 code to find the real flow and root cause. It may make ordinary tactical choices
@@ -118,19 +89,12 @@ recovery, or authority decision.
 
 ## Minimal-Implementation Rule
 
-Within the locked decisions, use this order:
-
-1. Skip work that the requested outcome does not need.
-2. Reuse an existing code path or repository pattern.
-3. Use the standard library or native platform.
-4. Reuse an already-installed dependency.
-5. Make the shortest correct root-cause change.
-
-Minimize only after understanding the flow. Do not patch the named symptom if a
-shared routing point is the actual fix. Preserve validation, security,
-accessibility, data-loss protection, calibration, and explicit requirements.
-Non-trivial logic leaves the narrowest runnable check that protects the visible
-consequence.
+Understand the affected flow, then skip unnecessary work, reuse repository or
+native facilities, and make the shortest correct root-cause change. Add no
+speculative abstraction, dependency, document, or tooling. Preserve validation,
+security, accessibility, data-loss protection, calibration, and explicit
+requirements. Non-trivial logic leaves the narrowest runnable check protecting
+the visible consequence.
 
 ## Isolation and Parallelism
 
@@ -142,14 +106,17 @@ branch or worktree requires explicit user or mission-packet authority.
 Cursor may create internal subagents for independent exploration,
 implementation, or verification. Restate the outcome, scope, authority,
 evidence, and stop conditions to every child, narrowing authority to that
-child's lane. Do not assume a child used the parent's model without direct
-evidence.
+child's lane. Pass the selected exact model in every child task; do not use a
+convenience or fallback model. Require transcript or tool-call evidence of each
+child model. Missing evidence makes that child's result unverified.
 
 ## MCP and Permission Boundary
 
 Inspect configured MCP servers first. Approve all only when every server is
 required and trusted. Unattended writes are a broad grant; use them only for a
-closed mission in isolation. Read-only missions use a read-only Cursor mode.
+closed mission in isolation. A read-only mission still uses Cursor's normal
+execution mode; enforce no-mutation authority in the packet, avoid unnecessary
+broad grants, and audit the workspace and external state afterward.
 
 Never place secrets in the mission packet or captured output. Refer to existing
 environment or credential mechanisms without printing their values.
@@ -160,6 +127,7 @@ The lead accepts the mission only after checking:
 
 - CLI version, exact requested model ID and mapping, launch arguments, and the
   service-reported initialization label;
+- every Cursor child task's explicit model argument and transcript evidence;
 - process status, terminal result, and session identity when supplied;
 - changed files and external effects stayed inside authority;
 - the diff is the smallest correct root-cause implementation;
@@ -174,11 +142,15 @@ mission. Preserve its evidence and return the decision to the lead.
 ## Gotchas
 
 - Do not silently substitute a model, mode, worktree, or MCP permission.
+- Do not use `--mode plan` or `--mode ask`; return unfinished planning to the
+  lead and execute settled work in normal mode.
+- Do not let an internal Task choose its own default model.
 - Do not treat `--force` as local-write permission; it is a broad trust grant.
 - Do not run concurrent writers in one checkout.
 - Do not ask the executor that made a diff to provide final acceptance.
 - Do not turn a failed check into permission for adjacent fixes.
-- Do not confuse the top-level model event with proof of every child model.
+- Do not confuse the top-level model event with proof of every child model;
+  inspect Task/subagent records and reject mixed-model execution.
 
 ## Reference
 
