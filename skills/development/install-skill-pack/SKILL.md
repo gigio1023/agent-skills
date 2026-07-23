@@ -45,11 +45,12 @@ and do not treat a missing scanner result as either a pass or a blocker.
    reviewed_sha="$(git -C "$review_root/repo" rev-parse HEAD)"
    ```
 
-4. Locate every requested skill by its frontmatter name. Before installing
-   anything, read its complete `SKILL.md` and every file in its package,
-   including references, scripts, assets, templates, configuration, symlinks,
-   and otherwise non-obvious files. For a full-pack install, review every skill
-   that will be installed; do not sample.
+4. Locate every requested skill by its frontmatter name and require exactly one
+   matching package per name. Before installing anything, read its complete
+   `SKILL.md` and every file in its package, including references, scripts,
+   assets, templates, configuration, symlinks, and otherwise non-obvious files.
+   For a full-pack install, review every skill that will be installed; do not
+   sample.
 
 5. Read and apply [`references/source-review.md`](references/source-review.md).
    Record concise observable evidence for each selected skill: files inspected,
@@ -64,7 +65,7 @@ and do not treat a missing scanner result as either a pass or a blocker.
      git ls-remote https://github.com/gigio1023/agent-skills.git \
        refs/heads/main | awk '{print $1}'
    )"
-   test "$current_sha" = "$reviewed_sha"
+   test -n "$current_sha" && test "$current_sha" = "$reviewed_sha"
    ```
 
    If it changed, discard the review checkout, clone the new snapshot, and
@@ -84,11 +85,12 @@ and do not treat a missing scanner result as either a pass or a blocker.
    ```
 
 8. Inspect `skills list --global --json`, confirm each requested agent discovers
-   every requested name, and compare each installed package with the reviewed
-   package. Ignore installer bookkeeping that is outside the skill directory,
-   but require all installed skill files to match. A mismatch means the install
-   is unverified: do not use the skill, preserve the review checkout, and report
-   the differing files.
+   every requested name, and take the installed directory from that output's
+   `path` field. Recursively compare it with the corresponding reviewed package,
+   for example with `diff -qr`. Ignore installer bookkeeping outside the skill
+   directory, but require every installed skill file to match. A mismatch means
+   the install is unverified: do not use the skill, preserve the review
+   checkout, and report the differing files.
 
 9. Remove the disposable checkout only after content and discovery verification
    pass.
@@ -107,10 +109,10 @@ npx --yes "skills@$cli_version" add \
   --yes
 ```
 
-If no `--skill` is supplied, the CLI installs the complete published pack. That
-broad scope requires reading every installable package first. Prefer named
-skills when the user requested named skills. If a requested name is absent from
-the reviewed snapshot, stop; do not fall back to a PR branch or unpublished
+Use `--skill '*'` only when the user explicitly requests the complete published
+pack. That broad scope requires reading every installable package first. Prefer
+named skills when the user requested named skills. If a requested name is absent
+from the reviewed snapshot, stop; do not fall back to a PR branch or unpublished
 checkout.
 
 ## Ongoing Updates
