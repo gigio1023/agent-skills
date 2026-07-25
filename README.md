@@ -11,9 +11,40 @@ Each skill follows the [Agent Skills format](https://agentskills.io/) with a
 it. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills),
 then pull later revisions from the same tracked source.
 
+[Migration notice](#development-skills-moved-to-the-datum-pack) ·
 [Browse the catalog](#skill-catalog) · [Install](#install-with-npx-skills) ·
 [Update](#keep-skills-up-to-date) · [Standalone skills](#related-standalone-skills) ·
 [Local development](#local-development)
+
+## Development skills moved to the datum pack
+
+The 20 development-workflow skills that used to live in this repository have
+moved to a self-contained pack at `~/git/agent-skills-orch/datum` (workspace-local;
+name is provisional and the pack has no public remote yet). Their directories
+still exist here pending an explicit removal request — do not treat the
+`npx skills` commands below as the current install path for them; install
+those 20 from the datum pack instead, following its own `install-skill-pack`
+skill.
+
+Four skills were renamed during the move:
+
+| Old name (this repo) | New name (datum pack) |
+| --- | --- |
+| `unknowns-pass` | `find-unknowns` |
+| `handoff-prompt` | `session-handover` |
+| `lower-capability-executor-prompt` | `worker-brief` |
+| `fable5-judgment` | `fable5-model-routing` |
+
+The other 16 kept their names: `commit-and-push`, `cross-harness-skills`,
+`deep-interview`, `draft-pr`, `engineering-docs`, `english-prompt-review`,
+`fable5-prompting-guide`, `frontend-design`, `git-worktree-setup`,
+`gpt56-sol-prompting-guide`, `install-skill-pack`, `mermaid-diagrams`,
+`parallel-subagents`, `python-docstrings`, `skill-builder`, `terminology-review`.
+
+Three skills did not move and remain this repository's active catalog:
+[1password-cli](skills/development/1password-cli/),
+[pdf-page-count](skills/productivity/pdf-page-count/), and
+[toss-portfolio-state](skills/development/toss-portfolio-state/).
 
 ## Install with `npx skills`
 
