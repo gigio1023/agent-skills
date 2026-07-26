@@ -73,41 +73,70 @@ same sandbox, same run directory, same host doing the verifying.
 
 ## Dispatch patterns
 
-Two ways to run the canonical launch template from a host session.
+Two ways to run the canonical launch template from a host session. Choose on
+the completion contract first and token economy second.
 
-### A. Courier subagent — the default
+### The completion contract
 
-A dedicated subagent, in its own context, owns the codex run. Token economy is
-the point: the courier's work is light, so it runs on the host's light tier
-(in Claude Code, Sonnet) while the main session keeps its context for intent
-and verification. Its usual shape:
+Whoever launches the run owes the answer to "is it finished?". A delegation is
+long enough that the host will do other things meanwhile, so the launch itself
+has to be what wakes the host when the run exits. Otherwise the host reports
+back while codex is still working, and the user is left asking whether it ever
+finished.
 
-1. create the run directory and the `result.txt` provenance line;
-2. write the packet it was handed to `$RUN/prompt.md`;
-3. launch the canonical template;
-4. watch progress through the renderer;
-5. return pointers — run directory, thread ID, the `result.txt` line, and the
-   `$RUN/report.md` path — plus a line or two of status.
+A background shell satisfies this: it keeps running across turns and re-invokes
+the launching session when the command exits (in Claude Code, Bash with
+`run_in_background`). A subagent does not. A background child started inside a
+courier outlives the courier's turn, and the courier's completion notification
+fires when the *courier* stops — not when codex exits.
 
-The default posture is courier, not editor: hand back the file rather than a
-retelling of it, and leave mission-level decisions — rewriting the packet,
-widening authority, judging the result — with the main session. Inside that
-posture, use judgment: fixing an obvious mechanical slip in the launch
-command, flagging a run that died instantly, or retrying a clean transport
-failure are all fine when reported plainly. The reason to stay light is
-practical, not ceremonial — a courier that fully re-reads and re-tells the
-report has spent the context the pattern exists to save.
+Measured on codex-cli 0.145.0: a courier launched an 8m14s research run, ended
+its turn 74 seconds in, and was never re-invoked. The host got a "completed"
+notification with seven minutes of the run still to go, and the user had to ask
+by hand whether it had finished.
 
-### B. Background shell
+### A. Background shell in the launching session — the default
 
-The main session launches the template in a background shell (in Claude Code,
-Bash with `run_in_background`) and checks the renderer between other work. Do
-not build a polling or waiting wrapper around it — that is true of both
-patterns.
+The session that owns the mission launches the canonical template in a
+background shell and keeps working; the run's exit re-invokes it. Context cost
+is small by construction — the template already sends stdout to `events.jsonl`
+and stderr to `stderr.log`, so almost nothing reaches the transcript. Render
+for progress when you want it, and verify when the exit wakes you.
+
+### B. Courier subagent — delegation of the whole errand, and it must block
+
+A dedicated subagent, in its own context, owns the run: it creates the run
+directory and the `result.txt` provenance line, writes the packet it was handed
+to `$RUN/prompt.md`, launches the canonical template, watches through the
+renderer, and returns pointers — run directory, thread ID, the `result.txt`
+line, and the `$RUN/report.md` path — plus a line or two of status.
+
+Because its return is the host's only completion signal, **a courier must not
+return while the run is live**: launch in the foreground and let the call
+block. In Claude Code that caps a courier-dispatched run at the Bash timeout
+ceiling of 10 minutes, so a longer mission belongs in pattern A.
+
+Its posture is courier, not editor: hand back the file rather than a retelling
+of it, and leave mission-level decisions — rewriting the packet, widening
+authority, judging the result — with the main session. Inside that posture, use
+judgment: fixing an obvious mechanical slip in the launch command, flagging a
+run that died instantly, or retrying a clean transport failure are all fine
+when reported plainly. A courier that fully re-reads and re-tells the report
+has spent the context the pattern exists to save.
+
+Set the courier's model explicitly to the host's light tier (in Claude Code,
+Sonnet). A subagent inherits the parent session's model unless told otherwise,
+so an unset model quietly runs the errand on the most expensive tier available
+— the opposite of the pattern's purpose.
 
 ### Choosing
 
-Default to A. Drop to B when the mission is trivial or short enough that its
-noise will not crowd the main context, or when the harness offers no subagent
-facility. Both launch the same command and produce the same run directory:
-the choice is about where the run's noise lands, not about what Codex may do.
+Default to A. It is what the wake-up semantics reward, and B saves less than it
+looks: the packet is mission content, so the main session authors it either
+way, and the run's noise already lands in files rather than in anyone's
+context.
+
+Reach for B when the host genuinely must not be interrupted, when several runs
+are being shepherded at once, or when the courier has real work of its own
+beyond launching — and only when the run fits inside the blocking ceiling.
+Never build a polling or waiting wrapper around either.

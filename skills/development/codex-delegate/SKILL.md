@@ -61,13 +61,12 @@ live run.
 Non-negotiable rules:
 
 - `--sandbox` is always explicit; one `$SANDBOX` feeds the flag and
-  `result.txt`. Pick it from what the mission must produce: context back in
-  the reply → `read-only`; a report file, the usual case → `workspace-write`
-  with the report at `$RUN/report.md`; shell network (mass-clone, then
-  analyze) → add the network override below and clone inside the workspace;
-  `danger-full-access` only when the mission needs the whole machine and the
-  user said so — never to mass-clone unknown repos, peak prompt-injection
-  surface. Full mapping: [references/run-recipes.md](references/run-recipes.md).
+  `result.txt`. Pick it from what the mission must produce: context back in the
+  reply → `read-only`; a report file, the usual case → `workspace-write` with
+  the report at `$RUN/report.md`; shell network → the override below, cloning
+  inside the workspace; `danger-full-access` only when the mission needs the
+  whole machine and the user said so. Full mapping:
+  [references/run-recipes.md](references/run-recipes.md).
 - Never pass `--dangerously-bypass-approvals-and-sandbox`, and never use `-c`
   to change `sandbox_mode` or the approval policy. Exactly two overrides are
   sanctioned: `sandbox_workspace_write.network_access=true` for shell network
@@ -80,15 +79,15 @@ Non-negotiable rules:
 
 - Default `gpt-5.6-sol` at `high` effort; pass `-m gpt-5.6-sol` when the
   environment default is unknown. `codex exec` has no effort flag — effort
-  rides the second sanctioned `-c`: `-c model_reasoning_effort="high"`.
-- Effort by mission: mechanical edits `medium`, implementation or
-  investigation `high`, adversarial review or hard debugging `xhigh`. A fast
-  variant or lower effort only when the user asks.
+  rides the second sanctioned `-c`: `-c model_reasoning_effort="…"`, `medium`
+  for mechanical edits, `high` for implementation or investigation, `xhigh` for
+  adversarial review or hard debugging. A fast variant only when the user asks.
 - Sol-family packets: shape with the sibling `gpt56-sol-prompting-guide`, and
   grant Codex internal subagents when subtasks are parallel.
-- Dispatch: a courier subagent on the host's light tier by default, background
-  shell for trivial runs, never a polling wrapper. Both:
-  [references/model-and-dispatch.md](references/model-and-dispatch.md).
+- Dispatch so the run's own exit wakes the host: background shell by default; a
+  courier subagent must block until the run is terminal (its return is the only
+  completion signal) and needs its model pinned to the light tier. Never a
+  polling wrapper. [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
 ## 3. Observe
 
@@ -134,21 +133,16 @@ Flag placement matters: `-C` and `--sandbox` belong to `exec` and precede
 codex-cli 0.145.0 — the wrong order exits 2). Never `resume --last`: it can
 pick the wrong session during parallel work. Re-pass `-m`, the effort `-c`,
 and `--ignore-user-config` when the original used them; `-p` cannot carry over
-(resume has no `--profile`) — re-express it through `-m` and config.
+(resume has no `--profile`).
 
 ## 6. Cancel
 
 Same session: kill the background shell through the harness — that may not
 deliver SIGINT, so confirm with `pgrep -f "codex exec.*<run-id>"`. Across
-sessions: send **SIGINT** to the codex PID first — codex aborts the turn and
-cleans up its command children (verified on 0.145.0). SIGTERM and group kills
-orphan them: codex spawns commands in their own process groups. Escalation,
-concurrency, troubleshooting: [references/run-recipes.md](references/run-recipes.md).
-
-## Keep runs out of version control
-
-`.agent-runs/` goes in the repo's local `git info/exclude`, never its
-`.gitignore` — recipe in [references/run-recipes.md](references/run-recipes.md).
+sessions: send **SIGINT** to the codex PID first — it aborts the turn and
+cleans up its command children, while SIGTERM and group kills orphan them
+(verified on 0.145.0). Escalation, concurrency, troubleshooting:
+[references/run-recipes.md](references/run-recipes.md).
 
 ## Scope guard
 
@@ -167,3 +161,9 @@ instead of growing the tooling.
   the explicit `--sandbox`, and `-m` when the default is unknown.
 - Concurrent runs must not write to one workspace; `read-only` runs may share
   it, writers belong in separate worktrees.
+- A non-git workspace refuses the launch until `--skip-git-repo-check` is
+  added; a config `trust_level` entry does not substitute. Prefer aiming `-C`
+  at the real repository.
+- `.agent-runs/` belongs in the repo's local `git info/exclude`, never its
+  `.gitignore`, and repo tooling that walks the tree may need to skip it too —
+  both in [references/run-recipes.md](references/run-recipes.md).
