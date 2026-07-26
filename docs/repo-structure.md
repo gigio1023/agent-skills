@@ -1,6 +1,6 @@
 # Repository Structure
 
-The README presents the 24 bundled skills in six task-oriented categories.
+The README presents the 14 bundled skills in five task-oriented categories.
 Their existing source paths stay under `skills/development/` and
 `skills/productivity/` because the Skills CLI records each installed skill's
 exact path for future updates. The catalog taxonomy can improve without
@@ -24,7 +24,7 @@ flowchart LR
   accDescr: The README groups skills by task. Stable source paths flow through the Skills CLI into selected agents, while standalone repositories are referenced only.
 
   subgraph repo ["agent-skills repository"]
-    IDX["README catalog<br/>6 task categories"]
+    IDX["README catalog<br/>5 task categories"]
     SRC["Stable skill sources<br/>development · productivity"]
   end
 
