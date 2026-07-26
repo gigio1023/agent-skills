@@ -14,7 +14,7 @@ description: >
 
 Use this skill when the task's success depends on visual judgment, interaction feel, hierarchy, or presentation quality, not just whether the code compiles.
 
-This is the design judgment layer. Do not split by framework by default. React, Vue, Svelte, Tailwind, CSS Modules, plain HTML, SVG, Canvas, and static reports all need the same upstream decisions: subject, audience, surface, hierarchy, typography, palette, motion, assets, and verification. Let the repo's existing stack determine implementation details.
+This is the design judgment layer. Do not split by framework by default. React, Vue, Svelte, Tailwind, CSS Modules, plain HTML, SVG, Canvas, and static reports all need the same upstream decisions: subject, audience, surface, hierarchy, typography, palette, motion, assets, and verification.
 
 ## Architecture
 
@@ -90,7 +90,5 @@ or unverified viewport; do not substitute a design rationale for render evidence
 
 - Stronger art direction does not authorize extra product features, new design
   systems, or decorative UI outside the request.
-- A passing build is not visual proof. Inspect the rendered states and viewports
-  that could change the user's experience.
 - Do not replace an established product language with a portfolio-style redesign
   merely to make the result look more distinctive.

@@ -84,8 +84,7 @@ The five failures that dominate real-world broken diagrams:
    Render failure blocks; fix and rerun. Density warnings start a visual
    look, not automatic deletion. Then inspect the rendered output (or host
    preview) for clipping, literal `\n`, unreadable crossings, and reading
-   order. If rendering is unavailable, report syntax review and visual
-   verification as separate, honest claims.
+   order.
 
 ## Authority
 
