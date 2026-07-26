@@ -18,8 +18,7 @@ Build portable skills that add verified leverage beyond model defaults.
    harnesses, and user authority from context. Ask only when a missing choice
    would materially change the skill.
 2. Inspect the existing package and linked resources before changing
-   it. Use real user feedback or observed failures when they exist; do not invent
-   an evaluation program as a prerequisite.
+   it. Use real user feedback or observed failures when they exist.
 3. For naming, read `references/skill-naming.md`. For a model-era refresh, read
    `references/frontier-model-audit.md`.
 4. Keep only what changes behavior: domain knowledge, fragile procedure,
@@ -115,15 +114,14 @@ unless the user explicitly requests them.
 
 ## Scope Discipline
 
-- Do not create evaluation suites, prompt cases, benchmarks, baselines,
-  candidate comparisons, scoring rubrics, scorecards, or persistent results
-  files unless the user explicitly asks for them.
+- Do not create any evaluation scaffolding — from test cases to scorecards to
+  persistent results files — unless the user explicitly asks for it.
 - Do not launch extra model sessions solely to compare skill variants. Real
   usage feedback may inform a change without becoming a permanent evaluation
   artifact.
-- Validate the artifact directly: frontmatter, referenced paths, package
-  discovery, and the exact invocation of scripts or templates changed in the
-  request. Documentation-only changes need no synthetic behavior trial.
+- Validate the artifact directly (the Validation section below is the
+  checklist) rather than through synthetic behavior trials; documentation-only
+  changes need none at all.
 
 ## Improving An Existing Skill
 
@@ -140,8 +138,7 @@ the deployed skill.
 - Run every changed script/template's documented invocation.
 - Re-read the normal path and confirm references, examples, and installation
   instructions still agree with the changed contract.
-- Use existing repository checks when they are already part of the project; do
-  not add an evaluation framework to validate an ordinary skill edit.
+- Use existing repository checks when they are already part of the project.
 
 Refresh `references/skill-docs.md` from its official sources after 30 days.
 

@@ -109,8 +109,10 @@ enforcement or user experience.
 
 ## Evaluation Contract
 
-Use the same representative repository state, artifacts, prompts, and rubric in
-both primary targets. For an existing skill compare:
+Run this evaluation only when the user explicitly requests one — it is not a
+prerequisite for ordinary skill work (skill-builder's scope rule governs).
+When requested, use the same representative repository state, artifacts,
+prompts, and rubric in both primary targets. For an existing skill compare:
 
 1. target model and harness without the skill;
 2. target model and harness with the current skill;

@@ -2,46 +2,55 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 21 reusable Agent Skills for shipping software, operating
-agent harnesses, writing clearly, making difficult decisions, and handling a
-few everyday workflows.
+A curated pack of 14 reusable Agent Skills for shipping software, operating
+agent harnesses, writing clearly, and handling a few everyday workflows.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/) with a
 `SKILL.md` file and any supporting references, scripts, or assets kept beside
 it. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills),
 then pull later revisions from the same tracked source.
 
-[Migration notice](#development-skills-moved-to-the-datum-pack) ·
+[Migration notice](#development-skills-moved-to-the-gigio-pack) ·
 [Browse the catalog](#skill-catalog) · [Install](#install-with-npx-skills) ·
 [Update](#keep-skills-up-to-date) · [Standalone skills](#related-standalone-skills) ·
 [Local development](#local-development)
 
-## Development skills moved to the datum pack
+## Development skills moved to the gigio-pack
 
-The 20 development-workflow skills that used to live in this repository have
-moved to a self-contained pack at `~/git/agent-skills-orch/datum` (workspace-local;
-name is provisional and the pack has no public remote yet). Their directories
-still exist here pending an explicit removal request — do not treat the
-`npx skills` commands below as the current install path for them; install
-those 20 from the datum pack instead, following its own `install-skill-pack`
-skill.
+Nine work-loop skills that used to live in this repository have moved to
+[gigio-pack](https://github.com/gigio1023/gigio-pack) (private repo; local
+checkout at `~/git/agent-skills-orch/gigio-pack`). Their directories were
+removed from this repository on 2026-07-26; install those nine from the
+gigio-pack instead.
 
-Four skills were renamed during the move:
+Five of the nine were renamed during the move (the last two renames landed
+2026-07-26 with the pack's final naming):
 
-| Old name (this repo) | New name (datum pack) |
+| Old name (this repo) | New name (gigio-pack) |
 | --- | --- |
 | `unknowns-pass` | `find-unknowns` |
-| `handoff-prompt` | `session-handover` |
-| `lower-capability-executor-prompt` | `worker-brief` |
+| `handoff-prompt` | `session-handoff` |
+| `lower-capability-executor-prompt` | `small-model-handoff` |
 | `fable5-judgment` | `fable5-model-routing` |
+| `parallel-subagents` | `orchestrate-subagents` |
 
-The other 16 kept their names: `commit-and-push`, `cross-harness-skills`,
-`deep-interview`, `draft-pr`, `engineering-docs`, `english-prompt-review`,
-`fable5-prompting-guide`, `frontend-design`, `git-worktree-setup`,
-`gpt56-sol-prompting-guide`, `install-skill-pack`, `mermaid-diagrams`,
-`parallel-subagents`, `python-docstrings`, `skill-builder`, `terminology-review`.
+The other four kept their names: `commit-and-push`, `deep-interview`,
+`draft-pr`, `git-worktree-setup`.
 
-Three skills did not move and remain this repository's active catalog:
+**2026-07-26 — eleven skills came back.** This notice originally covered 20
+migrated skills. Six craft skills (`frontend-design`, `mermaid-diagrams`,
+`python-docstrings`, `engineering-docs`, `terminology-review`,
+`english-prompt-review`) and five meta skills (`skill-builder`,
+`cross-harness-skills`, `fable5-prompting-guide`, `gpt56-sol-prompting-guide`,
+`install-skill-pack`) returned to this repository as their canonical home.
+Install all eleven from here, the normal way. Seven of the eleven
+(`frontend-design`, `mermaid-diagrams`, `terminology-review`, `skill-builder`,
+`cross-harness-skills`, `fable5-prompting-guide`, `gpt56-sol-prompting-guide`)
+carry `SKILL.md` improvements ported back from the pack copies; the other four
+are unchanged.
+
+Everything except those nine remains this repository's active catalog: the
+eleven returned skills, plus the three that never moved —
 [1password-cli](skills/development/1password-cli/),
 [pdf-page-count](skills/productivity/pdf-page-count/), and
 [toss-portfolio-state](skills/development/toss-portfolio-state/).
@@ -60,7 +69,7 @@ Install selected skills globally for the agents you use:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
-  --skill engineering-docs draft-pr \
+  --skill engineering-docs skill-builder \
   --agent codex claude-code \
   --global \
   --yes
@@ -69,7 +78,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-To install all 21 skills for a deliberate set of agents, quote the wildcard so
+To install all 14 skills for a deliberate set of agents, quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -109,7 +118,7 @@ npx --yes skills update --global
 Or update only named skills:
 
 ```bash
-npx --yes skills update skill-builder handoff-prompt --global
+npx --yes skills update skill-builder engineering-docs --global
 ```
 
 Add a trailing `--yes` when the Skills CLI itself must run non-interactively:
@@ -134,10 +143,9 @@ The catalog is organized by the job a person wants to get done, rather than by
 the agent that happens to run it. The on-disk source paths remain stable so
 existing `npx skills` lock entries can continue to update in place.
 
-- [Software Development and Delivery](#software-development-and-delivery) (5)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (7)
+- [Software Development and Delivery](#software-development-and-delivery) (2)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (5)
 - [Design and Visualization](#design-and-visualization) (2)
-- [Judgment and Collaboration](#judgment-and-collaboration) (4)
 - [Writing and Language](#writing-and-language) (2)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
 
@@ -145,11 +153,8 @@ existing `npx skills` lock entries can continue to update in place.
 
 | Skill | What it helps with |
 | --- | --- |
-| [commit-and-push](skills/development/commit-and-push/) | Build logical commits and push safely without absorbing unrelated worktree changes |
-| [draft-pr](skills/development/draft-pr/) | Publish or update draft GitHub PRs with `gh` while preserving reviewer context |
 | [engineering-docs](skills/development/engineering-docs/) | Create and reshape evidence-backed engineering documentation |
 | [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
-| [git-worktree-setup](skills/development/git-worktree-setup/) | Start implementation in an isolated workspace without taking over harness-managed worktrees |
 
 ### Agent and Harness Engineering
 
@@ -158,8 +163,6 @@ existing `npx skills` lock entries can continue to update in place.
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
-| [lower-capability-executor-prompt](skills/development/lower-capability-executor-prompt/) | Hand off finished plans as bounded change, command, or inspection prompts for lower-capability executors |
-| [handoff-prompt](skills/productivity/handoff-prompt/) | Package live work into one successor-ready continuation prompt |
 | [install-skill-pack](skills/development/install-skill-pack/) | Install or refresh the published pack globally from its tracked `main` source |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
 
@@ -169,15 +172,6 @@ existing `npx skills` lock entries can continue to update in place.
 | --- | --- |
 | [frontend-design](skills/development/frontend-design/) | Apply visual hierarchy, art direction, interaction judgment, and UI quality checks |
 | [mermaid-diagrams](skills/development/mermaid-diagrams/) | Design readable, parser-safe Mermaid diagrams and validate their rendering |
-
-### Judgment and Collaboration
-
-| Skill | What it helps with |
-| --- | --- |
-| [deep-interview](skills/productivity/deep-interview/) | Turn a vague idea into a user-approved brief through a focused Socratic interview |
-| [fable5-judgment](skills/productivity/fable5-judgment/) | Let Claude Code or Cursor selectively route genuinely judgment-heavy work to Fable 5 after a fit check; not for Codex |
-| [parallel-subagents](skills/productivity/parallel-subagents/) | Orchestrate independent agent workstreams when parallelism materially improves the result |
-| [unknowns-pass](skills/productivity/unknowns-pass/) | Surface the unknowns in unfamiliar work with the cheapest technique, then compress them into a launch brief |
 
 ### Writing and Language
 
@@ -234,7 +228,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 21 unique names. See
+skill, and the local listing discovers the expected 14 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 

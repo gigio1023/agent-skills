@@ -70,6 +70,12 @@ exploration or unnecessary pauses.
 Keep true invariants explicit. Replace blanket absolutes for judgment calls with
 decision rules. Resolve contradictions instead of compensating with more text.
 
+Contract steps, not cognition steps. Keep numbered steps only where order or
+completeness is part of the task's correctness — prerequisite retrieval,
+approval boundaries, required artifact stages, validation, an externally
+auditable pipeline. Removing process instructions that fail this test
+improves both quality and token cost.
+
 ### Preserve Required Substance
 
 Do not use generic “be concise” or “use minimal text” instructions. GPT-5.6 is
