@@ -6,8 +6,10 @@ description: >
   workplace writing, including docs, comments, PR bodies, tickets, wiki pages,
   and messages. Trigger for "AI slop 없는지", "이상한 용어 안 썼는지", "억지
   전문 용어", "term check", "naturalize terminology", and "industry-standard
-  표현으로 바꿔줘". NOT for grammar-only correction, general tone humanization,
-  or renaming code symbols without explicit scope.
+  표현으로 바꿔줘". Also covers naming a new concept by anchoring it to the
+  vocabulary running systems already use instead of coining a term. NOT for
+  grammar-only correction, general tone humanization, or renaming code symbols
+  without explicit scope.
 ---
 
 # Terminology Review
@@ -69,6 +71,26 @@ Classify the result:
 Do not turn this into a blacklist pass. For example, `contract`, `gate`,
 `slice`, `claim`, `surface`, `artifact`, `canonical`, and `envelope` are exact
 in some technical or academic contexts and ornamental in others.
+
+## Anchor New Names To Real Systems
+
+The same review applies to names that do not exist yet. Before accepting or
+coining a name for a new concept, find what practitioners already call the same
+thing in a running system — CI/CD pipelines, build systems, Kubernetes, code
+review — and adopt that name; check the tool's own documentation or config
+schema rather than prose about it. When no running system names the concept,
+say it in plain words instead of inventing a term.
+
+- "wave" for tasks that run together becomes `stage`, which carries exactly the
+  borrowed meaning in CI vocabulary: jobs in the same stage run in parallel,
+  and stages run in order.
+- `depends_on` for a job prerequisite becomes `needs`, the field name GitHub
+  Actions workflows already use.
+- "evidence" for what a step produced becomes `output`, `results`, or `log`.
+
+The watch list in [known-slop-terms.md](references/known-slop-terms.md) works
+the other direction, on terms already written. It supports this method rather
+than replacing it.
 
 ## Evidence Proportional to the Decision
 

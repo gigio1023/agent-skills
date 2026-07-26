@@ -66,6 +66,14 @@ When enough information exists, instruct the model to act. Ask for a
 recommendation when judgment is needed, not an exhaustive survey of options that
 will not be pursued.
 
+Contract steps, not cognition steps. Use numbered steps only when order or
+completeness is part of the task's correctness: prerequisite retrieval,
+approval boundaries, required artifact stages, validation, or an externally
+auditable pipeline. Otherwise state the outcome, invariants, and stopping
+condition and let the model choose the path. Fable 5 follows short
+instructions strongly — a misdesigned procedure is followed just as
+faithfully, so every step must earn its place.
+
 ### Bound Scope at High Effort
 
 Fable 5 can explore and improve beyond the request, especially at higher effort.
