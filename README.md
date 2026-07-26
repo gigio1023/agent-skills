@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 15 reusable Agent Skills for shipping software, operating
+A curated pack of 13 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, and handling a few everyday workflows.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/) with a
@@ -49,9 +49,16 @@ Install all eleven from here, the normal way. Seven of the eleven
 carry `SKILL.md` improvements ported back from the pack copies; the other four
 are unchanged.
 
-Everything except those nine remains this repository's active catalog: the
-eleven returned skills, plus the three that never moved —
-[1password-cli](skills/development/1password-cli/),
+**2026-07-26 — two writing skills merged into `clear-writing`.**
+`engineering-docs` and `terminology-review` were absorbed into the unified
+[clear-writing](https://github.com/gigio1023/clear-writing) skill — one
+router covering repository-grounded authoring, humanizing revision,
+terminology review, and Korean polish. Their directories were removed from
+this repository; install `clear-writing` from its own repository instead.
+
+Everything else remains this repository's active catalog — 13 skills listed
+in the [Skill catalog](#skill-catalog) below, including the three that never
+moved: [1password-cli](skills/development/1password-cli/),
 [pdf-page-count](skills/productivity/pdf-page-count/), and
 [toss-portfolio-state](skills/development/toss-portfolio-state/).
 
@@ -69,7 +76,7 @@ Install selected skills globally for the agents you use:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
-  --skill engineering-docs skill-builder \
+  --skill mermaid-diagrams skill-builder \
   --agent codex claude-code \
   --global \
   --yes
@@ -118,7 +125,7 @@ npx --yes skills update --global
 Or update only named skills:
 
 ```bash
-npx --yes skills update skill-builder engineering-docs --global
+npx --yes skills update skill-builder mermaid-diagrams --global
 ```
 
 Add a trailing `--yes` when the Skills CLI itself must run non-interactively:
@@ -143,17 +150,16 @@ The catalog is organized by the job a person wants to get done, rather than by
 the agent that happens to run it. The on-disk source paths remain stable so
 existing `npx skills` lock entries can continue to update in place.
 
-- [Software Development and Delivery](#software-development-and-delivery) (2)
+- [Software Development and Delivery](#software-development-and-delivery) (1)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (6)
 - [Design and Visualization](#design-and-visualization) (2)
-- [Writing and Language](#writing-and-language) (2)
+- [Writing and Language](#writing-and-language) (1)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
 
 ### Software Development and Delivery
 
 | Skill | What it helps with |
 | --- | --- |
-| [engineering-docs](skills/development/engineering-docs/) | Create and reshape evidence-backed engineering documentation |
 | [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
 
 ### Agent and Harness Engineering
@@ -179,7 +185,6 @@ existing `npx skills` lock entries can continue to update in place.
 | Skill | What it helps with |
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
-| [terminology-review](skills/productivity/terminology-review/) | Replace unnatural or domain-inaccurate terminology without flattening the author's meaning |
 
 ### Personal and Everyday Tools
 
@@ -198,10 +203,10 @@ supported harnesses, and update workflow.
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
+| [clear-writing](https://github.com/gigio1023/clear-writing) | `clear-writing` | Repository-grounded authoring, humanizing revision, terminology checks, and surgical Korean polish in one prose skill |
 | [draw.io Agent Skill](https://github.com/gigio1023/drawio-agent-skill) | `drawio-diagram` | Native, editable draw.io authoring with structural, layout, export, and visual checks |
 | [Game Studio](https://github.com/gigio1023/game-studio) | `game-direction`, `game-production`, `game-review` | Creator-owned direction, proof-based production, and evidence-first review across the game lifecycle |
 | [Godot Best Practice](https://github.com/gigio1023/godot-best-practice) | `godot-best-practice` | Godot-native implementation and review grounded in the project's engine version, serialized resources, and engine-level evidence |
-| [humanize-doc](https://github.com/gigio1023/humanize-doc) | `humanize-doc` | Humanize and compose readable documents while preserving facts, uncertainty, and intended tone |
 | [Unity Game Development](https://github.com/gigio1023/unity-game-dev-skill) | `unity-game-dev` | Version-aware Unity gameplay implementation and review across repository-only and live Editor workflows |
 
 ## Useful external skills
@@ -232,7 +237,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 15 unique names. See
+skill, and the local listing discovers the expected 13 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
