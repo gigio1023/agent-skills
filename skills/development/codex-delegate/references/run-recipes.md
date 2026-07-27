@@ -232,10 +232,23 @@ grep -qxF '.agent-runs/' "$EXCLUDE" || printf '%s\n' '.agent-runs/' >> "$EXCLUDE
 file git never reads. The rule stays local: do not add it to the repo's
 `.gitignore` unless that repo's owners asked for it.
 
+Excluding it from git does not hide it from the repo's own tooling. A linter,
+structure checker, or docs validator that walks the filesystem will descend
+into `.agent-runs/` and fail on a delegate's artifacts — observed on a repo
+whose checker had to add `.agent-runs` to its skip list mid-task. When a run
+lands inside a repository that validates its own tree, expect to teach that
+checker to skip the directory, or set `RUN` outside the repository.
+
 ## Troubleshooting
 
 - **`codex` exits immediately, `stderr.log` mentions auth**: run
   `codex login status` in a terminal; delegation needs an authenticated CLI.
+- **`Not inside a trusted directory and --skip-git-repo-check was not
+  specified.`**: `-C` points somewhere that is not a git repository. A
+  `trust_level = "trusted"` entry for that path in `~/.codex/config.toml` does
+  not clear the check (verified on 0.145.0) — the run needs a git repo or the
+  explicit flag. A multi-repo workspace root is the usual way to hit this:
+  aim `-C` at the child repository the mission is really about.
 - **Empty `final.md` with exit 0**: the model may have produced no final
   message (rare) — the last `agent_message` item in `events.jsonl` has the
   text.
