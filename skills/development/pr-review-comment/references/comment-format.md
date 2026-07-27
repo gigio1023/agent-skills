@@ -1,0 +1,70 @@
+# PR Review Comment Format Reference
+
+This file covers structural anti-patterns and comment shape. For voice,
+register, and the "sound like a human reviewer" rules (which apply on the
+first draft, not after the user complains), read `voice-and-tone.md` in
+this same folder.
+
+## Anti-patterns
+
+- Severity prefixes: `**HIGH**:`, `**CRITICAL**:`, `### HIGH`, etc.
+- Internal tracking IDs: `C1`, `C2`, `H1`, `NEW-1`
+- Structured review headers: `## Code Review`, `**Verdict**:`, `**Review Scope**:`
+- AI signature footers: `<sub>Reviewed by Claude Code</sub>`
+- Methodology descriptions: review tool names, cross-validation process
+- Cross-references between body and inline comments
+- Severity summary tables in the review body
+- Greetings, compliments, requests, softening phrases
+
+## Tone
+
+Write only the review item itself. Nothing else.
+
+State what the issue is, why it matters, and how to fix it.
+No greetings. No compliments. No hedging. No apologies. No filler.
+
+Bad examples:
+- "확인 부탁드려도 될까요?" (unnecessary request phrasing)
+- "좋은 접근입니다. 한 가지 우려 사항이..." (unnecessary compliment)
+- "혹시 의도된 동작이실까요?" (unnecessary hedging)
+- "이 부분이 영향 받을 수 있을 것 같습니다. 확인 부탁드립니다" (unnecessary request)
+
+## Inline Comment Format
+
+```markdown
+{what is wrong and why. Name the concrete fix or alternative in prose.}
+
+```suggestion
+{code, optional}
+```
+```
+
+Do not add a title line. Do not use arrows or bold labels. Inline comments
+should usually be 1-3 sentences, plus a suggestion block only when the fix is a
+small line-level replacement.
+
+## Review Body
+
+Use only for one of these PR-level jobs:
+
+1. Triage which inline findings block merge and which may be deferred.
+2. A material cross-cutting or unchanged-code finding that cannot be inline.
+3. A direct PR-scope question or refusal.
+
+Otherwise use an empty string. Do not summarize inline comments or the review
+methodology.
+
+```markdown
+{one short triage, cross-cutting finding, or direct question}
+```
+
+No bold section labels, no review summary, no methodology.
+
+## Code Links
+
+```
+https://{host}/{owner}/{repo}/blob/{full_sha_40chars}/{file_path}#L{start}-L{end}
+```
+
+- Full 40-character SHA required
+- 1-indexed line numbers
