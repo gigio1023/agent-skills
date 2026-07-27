@@ -24,10 +24,10 @@ State what the issue is, why it matters, and how to fix it.
 No greetings. No compliments. No hedging. No apologies. No filler.
 
 Bad examples:
-- "확인 부탁드려도 될까요?" (unnecessary request phrasing)
-- "좋은 접근입니다. 한 가지 우려 사항이..." (unnecessary compliment)
-- "혹시 의도된 동작이실까요?" (unnecessary hedging)
-- "이 부분이 영향 받을 수 있을 것 같습니다. 확인 부탁드립니다" (unnecessary request)
+- "Could you take a look when you get a chance?" (unnecessary request phrasing)
+- "Great approach overall. One small concern..." (unnecessary compliment)
+- "Maybe this is intended behavior?" (hedging instead of a claim)
+- "This part might be affected. Please check." (vague ask instead of the fact)
 
 ## Inline Comment Format
 

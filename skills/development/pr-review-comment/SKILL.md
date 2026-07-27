@@ -9,7 +9,6 @@ description: >
   approval. Works with github.com and GitHub Enterprise through the gh CLI. NOT
   for review-only feedback with no posting; use a code-review skill. NOT for
   validating or editing comments already posted on a PR.
-  PR 리뷰 코멘트 게시 요청 시에도 사용한다.
 ---
 
 # PR Review Comment
