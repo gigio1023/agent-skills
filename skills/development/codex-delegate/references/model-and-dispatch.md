@@ -84,16 +84,25 @@ has to be what wakes the host when the run exits. Otherwise the host reports
 back while codex is still working, and the user is left asking whether it ever
 finished.
 
-A background shell satisfies this: it keeps running across turns and re-invokes
-the launching session when the command exits (in Claude Code, Bash with
-`run_in_background`). A subagent does not. A background child started inside a
-courier outlives the courier's turn, and the courier's completion notification
-fires when the *courier* stops — not when codex exits.
+A background shell in the launching session satisfies this: the harness
+re-invokes that session when the command exits, and the completion wakes it
+even from idle (verified live with a 75-second background probe — the idle
+host resumed on its own at exit).
 
-Measured on codex-cli 0.145.0: a courier launched an 8m14s research run, ended
-its turn 74 seconds in, and was never re-invoked. The host got a "completed"
-notification with seven minutes of the run still to go, and the user had to ask
-by hand whether it had finished.
+What fails is not the subagent but the wait. Measured live: a courier
+launched an 8m14s run with the harness's background facility, correctly, then
+ended its turn to "wait for the notification". Background children do not
+count as keeping a subagent alive, so the courier was marked complete 74
+seconds in; when codex exited, its completion notification fired on time but
+its owner no longer existed. The orphaned notification fell into the host
+session's queue — which an idle host does not consume — and sat unread for 22
+minutes until the next user message forced a turn. The host learned of
+completion from the user, not from the run.
+
+A subagent's own completion does wake an idle host (observed in the same
+incident). That asymmetry is the whole design rule: the courier's return is a
+wake signal, an orphaned background task's notification is not — so a courier
+must still be alive when the run ends, i.e. it must block on it.
 
 ### A. Background shell in the launching session — the default
 
