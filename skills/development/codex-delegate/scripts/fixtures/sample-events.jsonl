@@ -7,6 +7,8 @@
 {"type":"item.completed","item":{"id":"item_2","type":"file_change","status":"completed","changes":[{"path":"src/app.ts","kind":"edit"},{"path":"src/app.test.ts","kind":"add"}]}}
 {"type":"item.completed","item":{"id":"item_3","type":"mcp_tool_call","server":"godot-ai","tool":"editor_state","status":"completed"}}
 {"type":"item.completed","item":{"id":"item_4","type":"web_search","query":"codex exec --json event schema"}}
+{"type":"item.started","item":{"id":"item_4b","type":"web_search","query":"","action":{"type":"other"}}}
+{"type":"item.completed","item":{"id":"item_4b","type":"web_search","query":"","action":{"type":"search","queries":["site:openai.com codex exec","site:developers.openai.com sandbox","codex resume thread id"]}}}
 {"type":"item.updated","item":{"id":"item_5","type":"reasoning","text":"Inspected the repository layout first."}}
 {"type":"item.completed","item":{"id":"item_5","type":"reasoning","text":"Inspected the repository layout first.\nThen chose the smallest change."}}
 {"type":"item.updated","item":{"id":"item_6","type":"agent_message","text":"Done. hello.txt contains"}}

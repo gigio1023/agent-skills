@@ -66,8 +66,14 @@ function describeItem(item, lifecycle) {
     }
     case "mcp_tool_call":
       return `${mark} mcp ${shorten(item.server ?? "?")}/${shorten(item.tool ?? "?")} ${shorten(item.status ?? "")}`;
-    case "web_search":
-      return `${mark} search ${shorten(item.query)}`;
+    case "web_search": {
+      // `query` is empty on `started`, and stays empty on `completed` for a
+      // multi-query search — the terms live in `action.queries` instead.
+      const action = isObject(item.action) ? item.action : {};
+      const queries = Array.isArray(action.queries) ? action.queries : [];
+      const count = queries.length > 1 ? ` ×${queries.length}` : "";
+      return `${mark} search${count} ${shorten(item.query || queries[0] || "")}`;
+    }
     case "error":
       return `⚠ ${shorten(item.message)}`;
     default:

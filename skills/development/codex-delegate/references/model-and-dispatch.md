@@ -1,7 +1,7 @@
 # Model and Dispatch
 
-Which model and reasoning effort a delegated run gets, and which of the two
-host-side patterns launches it.
+Which model and reasoning effort a delegated run gets, and how the managing
+subagent that launches it stays alive until it ends.
 
 ## Contents
 
@@ -9,7 +9,7 @@ host-side patterns launches it.
 - [Fast mode](#fast-mode)
 - [Sol packets](#sol-packets)
 - [Internal parallelism](#internal-parallelism)
-- [Dispatch patterns](#dispatch-patterns)
+- [Dispatch — a managing subagent](#dispatch--a-managing-subagent)
 
 ## Model and effort
 
@@ -71,43 +71,95 @@ one whose whole value is a single careful pass, leave it out or write
 `Internal subagents: not needed`. Either way nothing outside Codex changes —
 same sandbox, same run directory, same host doing the verifying.
 
-## Dispatch patterns
+## Dispatch — a managing subagent
 
-Two ways to run the canonical launch template from a host session.
+The main session authors the packet and hands it to a dedicated subagent; the
+subagent manages the run and returns pointers. Two failure modes drive the
+whole shape — guard these, not rules for their own sake: a weak model quietly
+making a judgment call the main session never gets to inspect, and a
+delegation that fails to separate contexts, so the run's noise burns
+main-session tokens. Hence three seats:
 
-### A. Courier subagent — the default
+- **Main session** — authors the packet, grants authority (including how much
+  judgment or opinion the mission carries), judges the result. Mission-level
+  work never drops below the main session's tier.
+- **Managing subagent** — the host's light tier, read from the current
+  harness at dispatch time (in Claude Code today that is Sonnet; other hosts
+  have their own lineup), and an explicit user model choice always wins. Pin
+  it — an unset model silently inherits the parent's tier. It launches,
+  watches, waits, returns; it never judges.
+- **Codex** — frontier model, `gpt-5.6-sol` at `high` by default: does the
+  mission. What it does and how deeply it reasons there is the main session's
+  call, written in the packet — not this skill's ruling.
 
-A dedicated subagent, in its own context, owns the codex run. Token economy is
-the point: the courier's work is light, so it runs on the host's light tier
-(in Claude Code, Sonnet) while the main session keeps its context for intent
-and verification. Its usual shape:
+### The completion contract
 
-1. create the run directory and the `result.txt` provenance line;
-2. write the packet it was handed to `$RUN/prompt.md`;
-3. launch the canonical template;
-4. watch progress through the renderer;
-5. return pointers — run directory, thread ID, the `result.txt` line, and the
-   `$RUN/report.md` path — plus a line or two of status.
+Whoever launches the run owes the answer to "is it finished?". A delegation is
+long enough that the host will do other things meanwhile, so the launch itself
+has to be what wakes the host when the run exits. Otherwise the host reports
+back while codex is still working, and the user is left asking whether it ever
+finished.
 
-The default posture is courier, not editor: hand back the file rather than a
-retelling of it, and leave mission-level decisions — rewriting the packet,
-widening authority, judging the result — with the main session. Inside that
-posture, use judgment: fixing an obvious mechanical slip in the launch
-command, flagging a run that died instantly, or retrying a clean transport
-failure are all fine when reported plainly. The reason to stay light is
-practical, not ceremonial — a courier that fully re-reads and re-tells the
-report has spent the context the pattern exists to save.
+A background shell in the launching session satisfies this: the harness
+re-invokes that session when the command exits, and the completion wakes it
+even from idle (verified live with a 75-second background probe — the idle
+host resumed on its own at exit).
 
-### B. Background shell
+What fails is not the subagent but the wait. Measured live: a subagent
+launched an 8m14s run with the harness's background facility, correctly, then
+ended its turn to "wait for the notification". Background children do not
+count as keeping a subagent alive, so it was marked complete 74 seconds in;
+when codex exited, its completion notification fired on time but its owner no
+longer existed. The orphaned notification fell into the host session's queue —
+which an idle host does not consume — and sat unread for 22 minutes until the
+next user message forced a turn. The host learned of completion from the user,
+not from the run.
 
-The main session launches the template in a background shell (in Claude Code,
-Bash with `run_in_background`) and checks the renderer between other work. Do
-not build a polling or waiting wrapper around it — that is true of both
-patterns.
+A subagent's own completion does wake an idle host (observed in the same
+incident). That asymmetry is the whole design rule: a subagent's return is a
+wake signal, an orphaned background task's notification is not — so a subagent
+must still be alive when its runs end, i.e. it waits by blocking, never by
+ending its turn.
 
-### Choosing
+### The subagent's job
 
-Default to A. Drop to B when the mission is trivial or short enough that its
-noise will not crowd the main context, or when the harness offers no subagent
-facility. Both launch the same command and produce the same run directory:
-the choice is about where the run's noise lands, not about what Codex may do.
+It owns the delegation end to end: creates the run directories and
+`result.txt` provenance lines, writes the packets it was handed, launches one
+or several runs (concurrent writers in separate worktrees, per the concurrency
+rules), watches through the renderer, runs the packets' mechanical
+verification commands — exit codes, files existing, checks passing — and
+returns a digest of pointers: run directory, thread ID, `result.txt` line, and
+report path per run, with a line or two of status each. The main session sees
+one call out and one digest back instead of per-run launch mechanics.
+
+The one hard requirement: **stay alive until every run is terminal**, because
+the subagent's own completion is the only wake-capable signal it can produce.
+Launch codex in the background — a foreground launch is killed at the
+harness's per-command ceiling — then hold the turn open with a bounded
+foreground wait on the provenance file:
+
+```bash
+until grep -q '^exit=' "$RUN/result.txt"; do sleep 10; done
+```
+
+Verified live: a foreground until-loop with a real condition is permitted
+where a bare `sleep N` is refused. One call is bounded by the per-command
+ceiling, so a long run takes several waits in sequence — re-issue the same
+loop until every `result.txt` is terminal. Ending the turn to "wait for the
+notification" is the orphan trap in the incident above.
+
+Posture: hand back the files rather than a retelling of them, and leave
+mission-level decisions — rewriting packets, widening authority, judging
+results — with the main session. Inside that posture, use judgment: fixing an
+obvious mechanical slip in the launch command, flagging a run that died
+instantly, or retrying a clean transport failure are all fine when reported
+plainly. A subagent that fully re-reads and re-tells the reports has spent the
+context the pattern exists to save.
+
+### Edge case
+
+A seconds-long probe — a capability check, a smoke — may skip the subagent
+and run inline or as a background shell in the main session, whose own
+background completions do wake it (verified). Never build a polling wrapper
+that returns between checks — the until-loop above is the wait itself, held
+inside one live turn.
