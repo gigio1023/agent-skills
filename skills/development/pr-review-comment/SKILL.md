@@ -121,7 +121,8 @@ Each inline draft uses this closed schema:
   materially affects the PR; otherwise discard or file separately.
 - Read `references/comment-format.md` and `references/voice-and-tone.md` before
   drafting. Keep evidence and fix direction, and remove review-process
-  narration.
+  narration. Mirror the repo's own review conventions (label prefixes such as
+  `Nit:`, formality register) as seen in the threads collected in phase 2.
 
 ### 6. Preview And Approve
 

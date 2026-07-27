@@ -7,7 +7,9 @@ this same folder.
 
 ## Anti-patterns
 
-- Severity prefixes: `**HIGH**:`, `**CRITICAL**:`, `### HIGH`, etc.
+- Bold severity scaffolds: `**HIGH**:`, `**CRITICAL**:`, `### HIGH`, etc.
+- Label prefixes the repo's own review threads do not use. Repo conventions
+  like `Nit:` or `Optional:` are fine where adopted; see `voice-and-tone.md`.
 - Internal tracking IDs: `C1`, `C2`, `H1`, `NEW-1`
 - Structured review headers: `## Code Review`, `**Verdict**:`, `**Review Scope**:`
 - AI signature footers: `<sub>Reviewed by Claude Code</sub>`
@@ -18,10 +20,12 @@ this same folder.
 
 ## Tone
 
-Write only the review item itself. Nothing else.
+Write only the review item itself. Nothing else. Comment on the code, never
+the developer.
 
 State what the issue is, why it matters, and how to fix it.
-No greetings. No compliments. No hedging. No apologies. No filler.
+No greetings. No filler compliments. No evidence-free hedging. No apologies.
+No filler.
 
 Bad examples:
 - "Could you take a look when you get a chance?" (unnecessary request phrasing)
