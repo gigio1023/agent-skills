@@ -1,7 +1,7 @@
 # Model and Dispatch
 
-Which model and reasoning effort a delegated run gets, and which of the two
-host-side patterns launches it.
+Which model and reasoning effort a delegated run gets, and how the managing
+subagent that launches it stays alive until it ends.
 
 ## Contents
 
@@ -9,7 +9,7 @@ host-side patterns launches it.
 - [Fast mode](#fast-mode)
 - [Sol packets](#sol-packets)
 - [Internal parallelism](#internal-parallelism)
-- [Dispatch patterns](#dispatch-patterns)
+- [Dispatch — a managing subagent](#dispatch--a-managing-subagent)
 
 ## Model and effort
 
@@ -71,10 +71,19 @@ one whose whole value is a single careful pass, leave it out or write
 `Internal subagents: not needed`. Either way nothing outside Codex changes —
 same sandbox, same run directory, same host doing the verifying.
 
-## Dispatch patterns
+## Dispatch — a managing subagent
 
-Two ways to run the canonical launch template from a host session. Choose on
-the completion contract first and token economy second.
+The main session authors the packet and hands it to a dedicated subagent on
+the host's light tier; the subagent manages the run and returns pointers. It
+relays and manages — it never judges. Three seats, fixed:
+
+- **Main session** — authors the packet, grants authority, judges the result.
+  Mission-level work never drops below the main session's tier.
+- **Managing subagent** — light tier (in Claude Code, Sonnet), model pinned:
+  launches, watches, waits, returns. Cheap on purpose; its work is mechanical.
+- **Codex** — frontier model, `gpt-5.6-sol` at `high` by default: does the
+  mission. How deeply it may reason or opine there is the packet's grant, not
+  this skill's ruling.
 
 ### The completion contract
 
@@ -105,27 +114,16 @@ wake signal, an orphaned background task's notification is not — so a subagent
 must still be alive when its runs end, i.e. it waits by blocking, never by
 ending its turn.
 
-### A. Background shell in the launching session — for a single run
+### The subagent's job
 
-The session that owns the mission launches the canonical template in a
-background shell and keeps working; the run's exit re-invokes it, even from
-idle. Context cost is small by construction — the template already sends
-stdout to `events.jsonl` and stderr to `stderr.log`, so almost nothing reaches
-the transcript. Render for progress when you want it, and verify when the exit
-wakes you. For one bounded run this is the cheapest correct dispatch: the
-packet is mission content the main session authors either way, and a subagent
-would add spin-up without removing work.
-
-### B. Managing subagent — the pattern for scale
-
-Delegating in bulk is where a dedicated subagent earns its place. It owns the
-delegation end to end: creates the run directories and `result.txt` provenance
-lines, writes the packets it was handed, launches one or several runs
-(concurrent writers in separate worktrees, per the concurrency rules), watches
-through the renderer, runs the packets' mechanical verification commands, and
-returns one digest of pointers — run directory, thread ID, `result.txt` line,
-and report path per run — with a line or two of status each. The main session
-sees one call out and one digest back instead of per-run launch mechanics.
+It owns the delegation end to end: creates the run directories and
+`result.txt` provenance lines, writes the packets it was handed, launches one
+or several runs (concurrent writers in separate worktrees, per the concurrency
+rules), watches through the renderer, runs the packets' mechanical
+verification commands — exit codes, files existing, checks passing — and
+returns a digest of pointers: run directory, thread ID, `result.txt` line, and
+report path per run, with a line or two of status each. The main session sees
+one call out and one digest back instead of per-run launch mechanics.
 
 The one hard requirement: **stay alive until every run is terminal**, because
 the subagent's own completion is the only wake-capable signal it can produce.
@@ -158,11 +156,10 @@ unset model quietly runs the errand on the most expensive tier available.
 The tier floor runs the other way for the mission itself: packet authoring,
 result judgment, and anything mission-level stay at the main session's tier.
 
-### Choosing
+### Edge case
 
-One bounded run → A: the wake path is proven and nothing is saved by
-indirection. Several runs, a campaign, or a main session that must stay clean
-for other work → B, with the blocking wait above. Both launch the same
-template and produce the same run directories. Never build a polling wrapper
-that returns between checks — B's until-loop is the wait itself, held inside
-one live turn.
+A seconds-long probe — a capability check, a smoke — may skip the subagent
+and run inline or as a background shell in the main session, whose own
+background completions do wake it (verified). Never build a polling wrapper
+that returns between checks — the until-loop above is the wait itself, held
+inside one live turn.

@@ -36,8 +36,11 @@ smallest complete set of:
 
 Normally the deliverable is a file: have Codex write its report to
 `$RUN/report.md` (expand the path in the packet); the final message is a short
-summary plus that path, which you read and deliver. Template and worked
-example: [references/prompt-packet.md](references/prompt-packet.md).
+summary plus that path, which you read and deliver. Default mission shape is
+collection — aggregation, investigation, fact-finding through deep analysis;
+Codex may also judge and opine, but that latitude is granted explicitly in the
+packet, never assumed. Template and worked example:
+[references/prompt-packet.md](references/prompt-packet.md).
 
 ## 2. Launch — canonical run template
 
@@ -84,10 +87,10 @@ Non-negotiable rules:
   adversarial review or hard debugging. A fast variant only when the user asks.
 - Sol-family packets: shape with the sibling `gpt56-sol-prompting-guide`, and
   grant Codex internal subagents when subtasks are parallel.
-- Dispatch so the run's own exit wakes the host. One run → background shell in
-  the launching session. Several runs or a campaign → a managing subagent
-  (light-tier model, pinned) that stays alive by blocking until every run is
-  terminal — never by ending its turn to wait.
+- Dispatch: hand the packet to a managing subagent on the host's light tier
+  (model pinned). It launches, watches, and blocks until every run is terminal
+  — never ending its turn to wait — then returns pointers. It relays and
+  manages; judgment stays with the main session.
   [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
 ## 3. Observe
