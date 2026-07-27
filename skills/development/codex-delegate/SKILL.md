@@ -84,10 +84,11 @@ Non-negotiable rules:
   adversarial review or hard debugging. A fast variant only when the user asks.
 - Sol-family packets: shape with the sibling `gpt56-sol-prompting-guide`, and
   grant Codex internal subagents when subtasks are parallel.
-- Dispatch so the run's own exit wakes the host: background shell by default; a
-  courier subagent must block until the run is terminal (its return is the only
-  completion signal) and needs its model pinned to the light tier. Never a
-  polling wrapper. [references/model-and-dispatch.md](references/model-and-dispatch.md).
+- Dispatch so the run's own exit wakes the host. One run → background shell in
+  the launching session. Several runs or a campaign → a managing subagent
+  (light-tier model, pinned) that stays alive by blocking until every run is
+  terminal — never by ending its turn to wait.
+  [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
 ## 3. Observe
 
