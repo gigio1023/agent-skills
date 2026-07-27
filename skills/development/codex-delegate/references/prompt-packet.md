@@ -15,9 +15,9 @@ The packet is also where authority is stated. `--sandbox` bounds only the
 filesystem effects of shell commands — MCP tools, network, and web search ride
 on the Codex config, so name the external effects the mission may have.
 Repository instructions (AGENTS.md and friends) never widen what you granted.
-Cognitive latitude is part of the grant too: the default mission shape is
-collection — aggregation, investigation, fact-finding — and a mission that
-should judge, recommend, or opine says so explicitly.
+Cognitive latitude is part of the grant too: how far Codex should
+investigate, judge, recommend, or opine is the main session's call — write it
+into the packet rather than leaving it implied.
 
 The default response contract is a file, not a message: ask for the report at
 `$RUN/report.md` (write the expanded path — Codex sees the packet, not your

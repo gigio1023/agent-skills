@@ -73,17 +73,24 @@ same sandbox, same run directory, same host doing the verifying.
 
 ## Dispatch — a managing subagent
 
-The main session authors the packet and hands it to a dedicated subagent on
-the host's light tier; the subagent manages the run and returns pointers. It
-relays and manages — it never judges. Three seats, fixed:
+The main session authors the packet and hands it to a dedicated subagent; the
+subagent manages the run and returns pointers. Two failure modes drive the
+whole shape — guard these, not rules for their own sake: a weak model quietly
+making a judgment call the main session never gets to inspect, and a
+delegation that fails to separate contexts, so the run's noise burns
+main-session tokens. Hence three seats:
 
-- **Main session** — authors the packet, grants authority, judges the result.
-  Mission-level work never drops below the main session's tier.
-- **Managing subagent** — light tier (in Claude Code, Sonnet), model pinned:
-  launches, watches, waits, returns. Cheap on purpose; its work is mechanical.
+- **Main session** — authors the packet, grants authority (including how much
+  judgment or opinion the mission carries), judges the result. Mission-level
+  work never drops below the main session's tier.
+- **Managing subagent** — the host's light tier, read from the current
+  harness at dispatch time (in Claude Code today that is Sonnet; other hosts
+  have their own lineup), and an explicit user model choice always wins. Pin
+  it — an unset model silently inherits the parent's tier. It launches,
+  watches, waits, returns; it never judges.
 - **Codex** — frontier model, `gpt-5.6-sol` at `high` by default: does the
-  mission. How deeply it may reason or opine there is the packet's grant, not
-  this skill's ruling.
+  mission. What it does and how deeply it reasons there is the main session's
+  call, written in the packet — not this skill's ruling.
 
 ### The completion contract
 
@@ -148,13 +155,6 @@ obvious mechanical slip in the launch command, flagging a run that died
 instantly, or retrying a clean transport failure are all fine when reported
 plainly. A subagent that fully re-reads and re-tells the reports has spent the
 context the pattern exists to save.
-
-Set the subagent's model explicitly to the host's light tier (in Claude Code,
-Sonnet) — launching, waiting, and mechanical verification are light work. A
-subagent inherits the parent session's model unless told otherwise, so an
-unset model quietly runs the errand on the most expensive tier available.
-The tier floor runs the other way for the mission itself: packet authoring,
-result judgment, and anything mission-level stay at the main session's tier.
 
 ### Edge case
 

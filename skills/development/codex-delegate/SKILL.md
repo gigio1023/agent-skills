@@ -1,14 +1,16 @@
 ---
 name: codex-delegate
 description: >
-  Use when a Claude Code or Cursor main session should delegate a packaged,
-  bounded task to the Codex CLI — implementation, investigation, or review —
-  through codex exec, or when a delegated run must be resumed, followed, or
-  cancelled. Provides a prompt-packet checklist, model and effort routing,
-  dispatch patterns, a canonical run template with explicit sandbox, thread-ID
-  resume and cancellation recipes, and a read-only event renderer. NOT for the
-  official Codex plugin commands, general multi-agent orchestration, or
-  delegating to Cursor (cursor-cli-delegation).
+  Use only when the user explicitly invokes or names codex-delegate to
+  delegate a packaged, bounded task from a Claude Code or Cursor main session
+  to the Codex CLI through codex exec, or to resume, follow, or cancel such a
+  run. Provides a prompt-packet checklist, model and effort routing, a
+  managing-subagent dispatch pattern, a canonical run template with explicit
+  sandbox, thread-ID resume and cancellation recipes, and a read-only event
+  renderer. NOT for automatic routing from mere mentions of Codex or GPT, not
+  for use from inside the Codex harness itself, and not for the official
+  Codex plugin commands, general multi-agent orchestration, or delegating to
+  Cursor (cursor-cli-delegation).
 ---
 
 # Codex Delegate
@@ -36,11 +38,10 @@ smallest complete set of:
 
 Normally the deliverable is a file: have Codex write its report to
 `$RUN/report.md` (expand the path in the packet); the final message is a short
-summary plus that path, which you read and deliver. Default mission shape is
-collection — aggregation, investigation, fact-finding through deep analysis;
-Codex may also judge and opine, but that latitude is granted explicitly in the
-packet, never assumed. Template and worked example:
-[references/prompt-packet.md](references/prompt-packet.md).
+summary plus that path, which you read and deliver. What the mission covers —
+and how much judgment or opinion it carries — is the main session's call,
+written into the packet; this skill does not restrict it. Template and worked
+example: [references/prompt-packet.md](references/prompt-packet.md).
 
 ## 2. Launch — canonical run template
 
@@ -87,10 +88,11 @@ Non-negotiable rules:
   adversarial review or hard debugging. A fast variant only when the user asks.
 - Sol-family packets: shape with the sibling `gpt56-sol-prompting-guide`, and
   grant Codex internal subagents when subtasks are parallel.
-- Dispatch: hand the packet to a managing subagent on the host's light tier
-  (model pinned). It launches, watches, and blocks until every run is terminal
-  — never ending its turn to wait — then returns pointers. It relays and
-  manages; judgment stays with the main session.
+- Dispatch: hand the packet to a managing subagent on the host's light tier —
+  read the tier from the current harness, an explicit user choice wins, and
+  pin it. It launches, watches, and blocks until every run is terminal — never
+  ending its turn to wait — then returns pointers. It relays and manages;
+  judgment stays with the main session.
   [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
 ## 3. Observe
