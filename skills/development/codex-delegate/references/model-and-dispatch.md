@@ -8,6 +8,7 @@ owns the run once it is launched.
 - [Model and effort](#model-and-effort)
 - [Speed — the Fast tier](#speed--the-fast-tier)
 - [Sol packets](#sol-packets)
+- [Judgment ownership](#judgment-ownership)
 - [Internal parallelism](#internal-parallelism)
 - [Dispatch — durable runs, disposable watchers](#dispatch--durable-runs-disposable-watchers)
 
@@ -52,8 +53,8 @@ recorded like the others.
 **Keep it on.** Speed and reasoning are independent dials. Fast buys
 wall-clock at the price of quota and changes nothing about how hard the model
 thinks, so it never trades against `model_reasoning_effort` — a `xhigh`
-adversarial review can and should also be Fast. Turn it off when a run is long
-and unhurried and the remaining quota matters more than the wait.
+adversarial review can and should also be Fast. Turn it off only when the user
+explicitly asks.
 
 A machine's global config may already set the tier, which is precisely why the
 template passes it explicitly.
@@ -74,20 +75,41 @@ scope, authority, verification, response contract; that skill owns how the
 prompt is worded for the model. On wording, the prompting guide wins; on
 authority, this skill does.
 
+## Judgment ownership
+
+The host decides how much judgment Codex owns by writing the mission packet.
+The grant may be narrow execution under fixed decisions, bounded judgment
+under named criteria, or end-to-end ownership of investigation, judgment, and
+decisions. No level is the universal default for every mission.
+
+Keep the grant broad enough to benefit from two capable AIs working together.
+The packet names consequential decisions reserved to the host and material
+pause conditions; it does not try to pre-authorize every minor choice. Inside
+the granted scope, Codex makes ordinary reversible decisions without asking.
+When the packet grants end-to-end ownership, Codex should reach and support
+the decision instead of returning options merely for ceremonial approval.
+
+Internal subagents inherit the same grant. Spawning one never widens scope,
+sandbox, credentials, external effects, or authority.
+
 ## Internal parallelism
 
-Codex can spawn its own subagents. When the mission has genuinely independent
-parts — several modules to survey, several repositories to read, a test matrix
-— grant that explicitly in the packet's Authority block instead of leaving it
-implicit:
+Codex can spawn its own subagents, and delegated runs should make aggressive
+use of that capability when work has independent branches. Grant it explicitly
+in the packet's Authority block:
 
-> You may spawn internal subagents to parallelize independent subtasks; the
-> report stays single-authored.
+> Internal subagents are encouraged. You may freely decide whether to spawn
+> them, how many to use, and how to coordinate them. Prefer parallel subagents
+> for independent investigation, implementation, or verification branches;
+> keep dependent steps and conflicting writes sequential. Synthesize their
+> evidence into one result. Do not ask the host to approve each dispatch.
 
-The grant is per mission, not standing: for a tightly sequential mission, or
-one whose whole value is a single careful pass, leave it out or write
-`Internal subagents: not needed`. Either way nothing outside Codex changes —
-same sandbox, same run directory, same host doing the verifying.
+This is a strong recommendation, not a quota or a requirement to manufacture
+parallel work. Codex owns the number and topology. A small sequential task may
+use none; a survey, cross-module implementation, competing investigation, or
+fresh-context verification may use several. Nothing outside Codex changes:
+the same sandbox, run directory, mission authority, and host verification
+still apply.
 
 ## Dispatch — durable runs, disposable watchers
 
@@ -104,21 +126,30 @@ terminal line, and the state becomes indistinguishable from "still working".
 That is the failure this skill hit twice in real use, once losing a run that
 had already written a 25 KB report and six patches.
 
-The detached launch in `SKILL.md` removes the coupling. `perl` forks, the
-child calls `setsid`, and the run lands under pid 1 in its own session
-(verified: PPID 1, PGID equal to its own pid). A real 53-second run survived
-its launcher being SIGTERMed at 15 seconds and appended its own `exit=0`.
+The detached launch in `SKILL.md` removes the coupling. On systems with the
+util-linux command, `setsid -f` forks and starts the run in a new session. The
+fallback does the same through Perl's POSIX module, which covers macOS where
+the `setsid` command is absent. The Perl branch was verified with PPID 1 and
+PGID equal to its own pid; a real 53-second run survived its launcher being
+SIGTERMed at 15 seconds and appended its own `exit=0`.
 
 With the run durable, waiting becomes trivial. Arm a background shell in the
 session that wants the notification, holding one condition loop:
 
 ```bash
-until grep -q '^exit=' "$RUN/result.txt"; do sleep 10; done
+while :; do
+  grep -q '^exit=' "$RUN/result.txt" 2>/dev/null && break
+  PG=$(sed -n '1s/.*pgid=\([0-9]*\).*/\1/p' "$RUN/result.txt" 2>/dev/null)
+  [ -n "$PG" ] && ! kill -0 -"$PG" 2>/dev/null && break
+  sleep 10
+done
 ```
 
 Its exit is the completion signal: the harness re-invokes the session that
 owns it, and that wakes an idle host (verified with a 75-second probe). If the
 watcher is killed first, nothing is lost — re-arm it, or just read `--status`.
+If the run dies before writing `exit=`, the process-group check ends the
+watcher instead of leaving it asleep forever; `--status` then reports `DIED`.
 
 Ownership is the one subtlety. Arm the watcher from the session that wants the
 notification, because an orphaned background task's notification cannot wake
@@ -137,23 +168,28 @@ today; other hosts have their own lineup), with an explicit user choice always
 winning. Pin it, because an unset model silently inherits the parent's tier.
 It creates the run directories, writes the packets it was handed, launches
 each run, and returns pointers: run directory, thread ID, provenance line, and
-report path per run. It relays and manages; judgment stays with the main
-session.
+report path per run. It relays and manages; judgment ownership remains whatever
+each packet grants.
 
 Because the runs are durable, that subagent no longer has to stay alive to
 protect them. It returns as soon as the launches are recorded, and the main
 session arms one watcher over the set:
 
 ```bash
-for r in $RUNS; do until grep -q '^exit=' "$r/result.txt"; do sleep 10; done; done
+for r in $RUNS; do
+  while :; do
+    grep -q '^exit=' "$r/result.txt" 2>/dev/null && break
+    PG=$(sed -n '1s/.*pgid=\([0-9]*\).*/\1/p' "$r/result.txt" 2>/dev/null)
+    [ -n "$PG" ] && ! kill -0 -"$PG" 2>/dev/null && break
+    sleep 10
+  done
+done
 ```
 
 Sequential in form, concurrent in fact: the runs overlap, so this finishes
-with the slowest one. Do not glob the whole `.agent-runs/` directory — a
-`DIED` run from an earlier session has no terminal line and would block the
-loop forever.
+with the slowest one. Do not glob the whole `.agent-runs/` directory: an
+unrelated old run would trigger a misleading notification.
 
-Two failure modes justify any of this, and nothing else does: a weak model
-quietly making a judgment call the main session never inspects, and a
-delegation whose noise burns main-session tokens. Guard those; do not add
-ceremony beyond them.
+Two failure modes justify any of this, and nothing else does: Codex crossing a
+judgment boundary the packet reserved to the host, and delegation noise burning
+main-session tokens. Guard those; do not add ceremony beyond them.

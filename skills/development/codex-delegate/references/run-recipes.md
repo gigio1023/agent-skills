@@ -9,6 +9,7 @@ troubleshooting for `codex exec` delegation runs.
 - [Sandbox by mission](#sandbox-by-mission)
 - [Event vocabulary](#event-vocabulary)
 - [Renderer](#renderer)
+- [Contract smoke test](#contract-smoke-test)
 - [Run states](#run-states)
 - [Concurrency](#concurrency)
 - [Resume](#resume)
@@ -26,10 +27,13 @@ hex (e.g. `20260726T054537Z-bd8431f2`).
 | `prompt.md` | The packet as submitted (write it here, don't copy a tracked file over it) |
 | `events.jsonl` | The raw JSONL stream from `--json`, as received by the host |
 | `stderr.log` | Full stderr |
-| `final.md` | Final response written by `-o/--output-last-message` |
-| `report.md` | The deliverable itself, when the packet asked for a report file |
+| `report.md` | The only handoff: the final response captured by `-o/--output-last-message` |
 | `run.sh` | The detached launcher, written per run: exact provenance of what ran |
 | `result.txt` | Provenance line, then the terminal state |
+
+`report.md` is the only consumer-facing handoff. The JSON protocol repeats the
+last agent message inside `events.jsonl`; keep that raw file for diagnostics,
+but the host reads and verifies `report.md`.
 
 `result.txt` line 1 records provenance —
 `sandbox=… workspace=… started=… pgid=…`, plus every flag and `-c` the run
@@ -38,14 +42,16 @@ run's liveness decidable later; it is the detached session leader, so
 `kill -0 -"$PGID"` answers "still alive?" and `kill -INT -"$PGID"` cancels.
 The terminal state is appended after codex returns:
 
-- `exit=N finished=…` — codex exited on its own (N is its exit code). A
-  cancellation lands here too, as `exit=1`, because the wrapper outlives the
-  signal.
+- `exit=N handoff=ready|incomplete finished=…` — codex exited on its own.
+  `ready` requires exit 0 and a non-empty `report.md`; all other outcomes are
+  `incomplete`. A cancellation lands here as `exit=1 handoff=incomplete`,
+  because the wrapper outlives the signal.
 - `cancelled=…` / `cancel_failed=…` — only written by the legacy pre-`pgid`
   cancel path below, which had to confirm death from outside.
 
-`exit=0` means codex exited cleanly, not that the task succeeded — read
-`final.md` and verify the workspace yourself.
+`exit=0 handoff=ready` means Codex exited cleanly and produced a non-empty
+handoff. It does not mean the task succeeded: read `report.md` and verify the
+workspace yourself.
 
 These artifacts are evidence, not tamper-proof records. A `workspace-write`
 delegate can rewrite anything under `.agent-runs/` inside its own workspace,
@@ -62,21 +68,20 @@ worth considering — an option to weigh, not a rule.
 
 ## Sandbox by mission
 
-Pick the sandbox from what the mission has to produce, not from a standing
-rule:
+Pick the sandbox from the workspace effects the mission needs. The CLI writes
+`report.md` through `-o`, outside the model's shell sandbox:
 
-- **Context back in the reply** — a question answered, nothing written:
-  `read-only`. The built-in `web_search` tool and MCP tools are not shell
-  commands, so the filesystem sandbox does not gate them; whether they are
-  available at all comes from the Codex config.
-- **A report file** — research or analysis delivered as a document, and the
-  usual shape of a delegation: `workspace-write`, with the packet naming
-  `$RUN/report.md` as the deliverable. The host reads that file and delivers
-  it; the final message only has to summarise and point at the path.
+- **Investigation or review** — no workspace edits: `read-only`. The complete
+  final response still lands in `report.md`. Built-in web search and MCP tools
+  are not shell commands, so the filesystem sandbox does not gate them;
+  availability comes from the Codex config.
+- **Implementation or generated files** — intended workspace edits:
+  `workspace-write`. The report remains a CLI capture, not a model-written
+  artifact.
 - **Clone, then analyze, then report** — many repositories at once:
   `workspace-write` plus `-c sandbox_workspace_write.network_access=true`,
-  cloning into `$RUN/clones/` so both the inputs and `$RUN/report.md` stay
-  inside the run directory.
+  cloning into `$RUN/clones/`; the final response still lands in
+  `$RUN/report.md`.
 - **`danger-full-access`** — only when the mission genuinely needs the whole
   machine and the user said so. Mass-cloning unknown repositories is not that
   case: reading unfamiliar code is peak prompt-injection surface, and it
@@ -110,11 +115,15 @@ majors — tolerate unknown types, never hard-code an exhaustive list):
   - `command_execution`: `command`, `exit_code`, `status`, and
     `aggregated_output` (the full command output — this payload is why raw
     logs get big).
-  - `agent_message`: `text` (the same text ends up in `final.md` for the
+  - `agent_message`: `text` (the last one ends up in `report.md` for the
     last message).
   - `reasoning`: summary text.
   - `file_change`, `mcp_tool_call`, `web_search`: change lists and tool/query
     metadata.
+  - `collab_tool_call`: a root-visible internal-subagent action. It may carry
+    receiver thread IDs and their last states, but not the children's own
+    reasoning, commands, intermediate messages, or complete descendant tree.
+    Treat it as a partial, version-dependent snapshot.
   - `error`: non-fatal warnings also arrive this way (e.g. a skills context
     budget notice) — an `error` item does not mean the run failed.
 
@@ -143,9 +152,10 @@ bun scripts/render-events.mjs scripts/fixtures/sample-events.jsonl
 
 Expected: one line per action — `▶`/`✓` commands with exit codes, `✉` agent
 message once rather than per streamed update, `file_change` paths as
-basenames, `⚠` warnings — then unknown types as bare type names, and the
-degrade markers the fixture exercises: `? malformed event` for a JSON line
-that is not an object (a non-object `item` degrades the same way), `×?` for a `file_change`
+basenames, `⚠` warnings, and `collab` actions with any root-observed agent
+state counts — then unknown types as bare type names, and the degrade markers
+the fixture exercises: `? malformed event` for a JSON line that is not an
+object (a non-object `item` degrades the same way), `×?` for a `file_change`
 whose `changes` is not an array, `? unparseable line` for the garbage line.
 `item.updated` renders nothing, whatever the item type: `▶` and `✓` carry the
 signal, and a ✓ on an item still in progress would read as finished. The
@@ -161,6 +171,22 @@ grep '"type":"turn.failed"' "$RUN/events.jsonl"
 grep '"exit_code":' "$RUN/events.jsonl" | grep -v '"exit_code":0'
 ```
 
+## Contract smoke test
+
+From the skill root:
+
+```bash
+bash scripts/test-run-contract.sh
+```
+
+This uses a fake `codex` executable, makes no model or network call, and checks
+the complete shell contract: stdin prompt capture; file-only stdout, stderr,
+event, and report channels; non-empty handoff gating; non-zero exit; process
+group death; graceful group cancellation; missing provenance; concurrent
+read-only runs; complex paths; the native Perl fallback; and `setsid` branch
+selection through a local semantics-compatible shim. It does not claim to test
+GNU util-linux itself.
+
 ## Run states
 
 ```bash
@@ -173,23 +199,32 @@ and probes the second with signal 0, which sends nothing.
 
 | Terminal line | Group | State | What it means |
 | --- | --- | --- | --- |
-| `exit=0` | — | `DONE` | codex finished. Verify the workspace yourself. |
-| `exit=N` | — | `EXITED` | codex failed, or was cancelled (`exit=1`). Read `stderr.log`. |
-| none | alive | `RUNNING` | working. `last write` and `in flight` say how it is going. |
-| none | gone | `DIED` | **killed, not finished.** Artifacts are partial; resume the thread. |
-| none | no `pgid` | `UNKNOWN` | pre-`pgid` run, or a truncated `result.txt`. Fall back to `pgrep`. |
+| `exit=0 handoff=ready` | — | `DONE` | Codex finished and `report.md` is non-empty. Verify the result yourself. |
+| `exit=0 handoff=incomplete` | — | `INCOMPLETE` | Codex exited cleanly but produced no handoff. Inspect the event log, then resume. |
+| `exit=N` | — | `EXITED` | Codex failed, or was cancelled (`exit=1`). Read `stderr.log`. |
+| none | alive | `RUNNING` | Working. `last write` and `in flight` say how it is going. |
+| none | gone | `DIED` | **Killed, not finished.** Artifacts are partial; resume the thread. |
+| none | no `pgid` | `UNKNOWN` | Pre-`pgid` run, or a truncated `result.txt`. Fall back to `pgrep`. |
+
+When `collab_tool_call` records expose receiver IDs or states, `--status` adds
+an `agents` line with the last states visible to the root exec stream. An empty
+receiver/state map still renders the collab action but cannot produce an agent
+summary. This is not a current census: children do not stream their own
+activity through `codex exec`, and some multi-agent versions emit no usable
+state map.
 
 `DIED` is the row that did not exist before the durable template, and the
 reason the state used to be unreadable: a killed run and a working run looked
 identical from outside. It is also cheap to recover from, because the thread
 survives — see [Resume](#resume).
 
-**Silence is not a hang.** The event stream carries no timestamps, and a
-reasoning turn emits no events at all, so a `RUNNING` run with a stale
-`last write` is usually thinking. There is no outside signal that separates
-deep reasoning from a wedged process. Escalate on a long gap with nothing
-`in flight`, never on quiet alone; and because cancelling is now recoverable,
-a wrong guess costs one resume rather than the run.
+**Silence is not a hang.** The event stream carries no timestamps, and model
+work may emit no root-visible events, so a `RUNNING` run with a stale `last
+write` is usually thinking or waiting on an internal child. There is no
+outside signal that separates deep reasoning from a wedged process. Escalate
+on a long gap with nothing `in flight`, never on quiet alone; and because
+cancelling is now recoverable, a wrong guess costs one resume rather than the
+run.
 
 ## Concurrency
 
@@ -217,16 +252,35 @@ SANDBOX=read-only
 NEW="$DIR/.agent-runs/codex/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
 mkdir -p "${NEW%/*}" && mkdir "$NEW"
 # then write your follow-up packet to "$NEW/prompt.md"
-cat > "$NEW/run.sh" <<EOF
+RESUMED_FROM="${RUN##*/}"
+export DIR RUN THREAD SANDBOX NEW RESUMED_FROM
+cat > "$NEW/run.sh" <<'EOF'
 #!/bin/bash
-echo "sandbox=$SANDBOX workspace=$DIR started=\$(date -u +%FT%TZ) pgid=\$\$ thread=$THREAD resumed_from=${RUN##*/}" > "$NEW/result.txt"
-codex exec -C "$DIR" --sandbox "$SANDBOX" resume "$THREAD" --json -m gpt-5.6-sol \\
-  -c model_reasoning_effort="high" -c service_tier="priority" \\
-  -o "$NEW/final.md" - < "$NEW/prompt.md" > "$NEW/events.jsonl" 2> "$NEW/stderr.log"
-echo "exit=\$? finished=\$(date -u +%FT%TZ)" >> "$NEW/result.txt"
+printf 'sandbox=%s workspace=%s started=%s pgid=%s thread=%s resumed_from=%s model=%s effort=%s tier=%s\n' \
+  "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" "$THREAD" "$RESUMED_FROM" \
+  gpt-5.6-sol high priority > "$NEW/result.txt"
+trap ':' INT
+codex exec -C "$DIR" --sandbox "$SANDBOX" resume "$THREAD" --json -m gpt-5.6-sol \
+  -c model_reasoning_effort="high" -c service_tier="priority" \
+  -o "$NEW/report.md" - < "$NEW/prompt.md" \
+  > "$NEW/events.jsonl" 2> "$NEW/stderr.log"
+CODEX_EXIT=$?
+trap - INT
+if [ "$CODEX_EXIT" -eq 0 ] && [ -s "$NEW/report.md" ]; then
+  HANDOFF=ready
+else
+  HANDOFF=incomplete
+fi
+printf 'exit=%s handoff=%s finished=%s\n' \
+  "$CODEX_EXIT" "$HANDOFF" "$(date -u +%FT%TZ)" >> "$NEW/result.txt"
+exit "$CODEX_EXIT"
 EOF
-perl -e 'exit 0 if fork; use POSIX (); POSIX::setsid() or die; exec @ARGV or die' \
-  /bin/bash "$NEW/run.sh"
+if command -v setsid >/dev/null 2>&1; then
+  setsid -f /bin/bash "$NEW/run.sh"
+else
+  perl -e 'exit 0 if fork; use POSIX (); POSIX::setsid() or die; exec @ARGV or die' \
+    /bin/bash "$NEW/run.sh"
+fi
 ```
 
 Flag placement matters: `-C` and `--sandbox` belong to `exec` and precede
@@ -255,9 +309,12 @@ PG=$(sed -n '1s/.*pgid=\([0-9]*\).*/\1/p' "$RUN/result.txt")
 Verified on 0.145.0 against a live `sleep 90` turn: codex aborts the turn, its
 command children are reaped with no orphans, and the wrapper still appends
 `exit=1` — so a cancelled run reads as `EXITED` rather than `DIED`. Wait for
-that line instead of assuming. If it never appears, escalate on the same
-group with `kill -TERM -"$PG"` and then `kill -KILL -"$PG"`, and correct
-`result.txt` by hand.
+that line instead of assuming. The wrapper's temporary `trap ':' INT` keeps
+the group signal from killing the recorder while the Codex child receives its
+normal SIGINT disposition; the trap is restored immediately after Codex
+returns. If the terminal line never appears, escalate on the same group with
+`kill -TERM -"$PG"` and then `kill -KILL -"$PG"`, and correct `result.txt` by
+hand.
 
 Signal choice still matters. SIGTERM to the codex process alone leaves its
 command children running, because codex spawns them in their own process
@@ -267,7 +324,7 @@ which the detached launcher makes possible, reaches both.
 ### Pre-`pgid` runs
 
 A run launched before the durable template has to be matched by argv instead.
-The run-id reaches codex's command line through `-o "$RUN/final.md"`, so it
+The run-id reaches codex's command line through `-o "$RUN/report.md"`, so it
 selects exactly one process where `codex exec` alone would match every
 concurrent run:
 
@@ -310,9 +367,9 @@ checker to skip the directory, or set `RUN` outside the repository.
   not clear the check (verified on 0.145.0) — the run needs a git repo or the
   explicit flag. A multi-repo workspace root is the usual way to hit this:
   aim `-C` at the child repository the mission is really about.
-- **Empty `final.md` with exit 0**: the model may have produced no final
-  message (rare) — the last `agent_message` item in `events.jsonl` has the
-  text.
+- **`INCOMPLETE exit=0`**: Codex returned no non-empty final response. Inspect
+  the last `agent_message` in `events.jsonl`; if it contains the result, resume
+  and ask Codex to return that complete result as its final response.
 - **Run seems hung**: `--status` first — it separates `RUNNING` from `DIED`,
   which no amount of `--tail` reading can. If it is `RUNNING`, read
   [Run states](#run-states) before cancelling: quiet usually means reasoning.

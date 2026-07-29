@@ -81,6 +81,28 @@ function groupAlive(pgid) {
   }
 }
 
+function collabSnapshot(item) {
+  const receivers = Array.isArray(item.receiver_thread_ids)
+    ? item.receiver_thread_ids.map(String)
+    : [];
+  const states = isObject(item.agents_states) ? item.agents_states : {};
+  const counts = new Map();
+  for (const state of Object.values(states)) {
+    const status = isObject(state) ? state.status : state;
+    const key = shorten(status ?? "unknown") || "unknown";
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return {
+    receivers,
+    states,
+    total: Math.max(receivers.length, Object.keys(states).length),
+    summary: [...counts.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([name, count]) => `${name} ${count}`)
+      .join(", "),
+  };
+}
+
 // `item.updated` renders nothing, for every item type: `started` (▶) and
 // `completed` (✓) already carry the signal, updates only add deltas and
 // partial text, and a ✓ on an in-progress item would read as finished.
@@ -111,6 +133,14 @@ function describeItem(item, lifecycle) {
     }
     case "mcp_tool_call":
       return `${mark} mcp ${shorten(item.server ?? "?")}/${shorten(item.tool ?? "?")} ${shorten(item.status ?? "")}`;
+    case "collab_tool_call": {
+      const snapshot = collabSnapshot(item);
+      const agents = snapshot.total
+        ? ` · ${snapshot.total} agent${snapshot.total === 1 ? "" : "s"}`
+        : "";
+      const states = snapshot.summary ? `: ${snapshot.summary}` : "";
+      return `${mark} collab ${shorten(item.tool ?? "?")}${agents}${states}`;
+    }
     case "web_search": {
       // `query` is empty on `started`, and stays empty on `completed` for a
       // multi-query search — the terms live in `action.queries` instead.
@@ -172,6 +202,7 @@ let commands = 0;
 let fileChanges = 0;
 let unparseable = 0;
 let streamError = null;
+const observedAgents = new Map(); // receiver thread id -> last root-visible status
 
 function emit(line) {
   kept.push(shorten(line));
@@ -207,6 +238,16 @@ try {
     if (event.type === "thread.started" && event.thread_id) threadId = event.thread_id;
     if (event.type === "item.completed" && item?.type === "command_execution") commands += 1;
     if (event.type === "item.completed" && item?.type === "file_change") fileChanges += 1;
+    if (item?.type === "collab_tool_call") {
+      const snapshot = collabSnapshot(item);
+      for (const id of snapshot.receivers) {
+        if (!observedAgents.has(id)) observedAgents.set(id, "unknown");
+      }
+      for (const [id, state] of Object.entries(snapshot.states)) {
+        const value = isObject(state) ? state.status : state;
+        observedAgents.set(id, shorten(value ?? "unknown") || "unknown");
+      }
+    }
     const rendered = describeEvent(event);
     if (item && item.id != null) {
       if (event.type === "item.started") inFlight.set(item.id, rendered);
@@ -235,6 +276,7 @@ if (status) {
   })();
   const provenance = result[0] ?? "";
   const terminal = result.find((l) => /^(exit|cancelled|cancel_failed)=/.test(l)) ?? null;
+  const handoff = (terminal?.match(/\bhandoff=(ready|incomplete)\b/) ?? [])[1] ?? null;
   const pgid = Number((provenance.match(/\bpgid=(\d+)/) ?? [])[1]);
   const startedAt = Date.parse((provenance.match(/\bstarted=(\S+)/) ?? [])[1] ?? "");
   const age = Number.isFinite(startedAt) ? Date.now() - startedAt : null;
@@ -244,10 +286,19 @@ if (status) {
   let state;
   let hint = null;
   if (terminal && terminal.startsWith("exit=")) {
-    state = `${terminal.startsWith("exit=0") ? "DONE" : "EXITED"} ${terminal.split(/\s+/)[0]}`;
-    hint = terminal.startsWith("exit=0")
-      ? "codex exited cleanly. Verify the workspace yourself before trusting the report."
-      : "codex exited non-zero. Read stderr.log, then resume the thread or relaunch.";
+    const exit = terminal.split(/\s+/)[0];
+    if (terminal.startsWith("exit=0") && handoff === "incomplete") {
+      state = `INCOMPLETE ${exit} handoff=incomplete`;
+      hint = "codex exited cleanly but report.md is empty or missing. Inspect the last agent message, then resume for a file handoff.";
+    } else if (terminal.startsWith("exit=0")) {
+      state = `DONE ${exit}${handoff ? ` handoff=${handoff}` : ""}`;
+      hint = handoff === "ready"
+        ? "file handoff is ready. Verify the workspace yourself before trusting the report."
+        : "legacy terminal line has no handoff marker. Check report.md before trusting it.";
+    } else {
+      state = `EXITED ${exit}${handoff ? ` handoff=${handoff}` : ""}`;
+      hint = "codex exited non-zero. Read stderr.log, then resume the thread or relaunch.";
+    }
   } else if (terminal) {
     state = terminal.split("=")[0].toUpperCase();
   } else if (alive === true) {
@@ -274,8 +325,19 @@ if (status) {
   console.log(line2.join(" · "));
   console.log(`stream   ${stream.join(" · ")}`);
   console.log(
-    `files    report.md ${size(`${runDir}/report.md`)} · final.md ${size(`${runDir}/final.md`)} · stderr.log ${size(`${runDir}/stderr.log`)}`,
+    `files    report.md ${size(`${runDir}/report.md`)} · stderr.log ${size(`${runDir}/stderr.log`)}`,
   );
+  if (observedAgents.size) {
+    const counts = new Map();
+    for (const value of observedAgents.values()) {
+      counts.set(value, (counts.get(value) ?? 0) + 1);
+    }
+    const summary = [...counts.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([name, count]) => `${name} ${count}`)
+      .join(", ");
+    console.log(`agents   partial root snapshot · ${observedAgents.size} observed · ${summary}`);
+  }
   if (threadId) console.log(`thread   ${shorten(threadId)}`);
   if (hint) console.log(`next     ${hint}`);
 } else {
