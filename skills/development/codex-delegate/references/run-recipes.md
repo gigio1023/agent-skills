@@ -9,8 +9,11 @@ troubleshooting for `codex exec` delegation runs.
 - [Sandbox by mission](#sandbox-by-mission)
 - [Event vocabulary](#event-vocabulary)
 - [Renderer](#renderer)
+- [Contract smoke test](#contract-smoke-test)
+- [Run states](#run-states)
 - [Concurrency](#concurrency)
-- [Cancel across sessions](#cancel-across-sessions)
+- [Resume](#resume)
+- [Cancel](#cancel)
 - [Keeping runs out of version control](#keeping-runs-out-of-version-control)
 - [Troubleshooting](#troubleshooting)
 
@@ -24,21 +27,31 @@ hex (e.g. `20260726T054537Z-bd8431f2`).
 | `prompt.md` | The packet as submitted (write it here, don't copy a tracked file over it) |
 | `events.jsonl` | The raw JSONL stream from `--json`, as received by the host |
 | `stderr.log` | Full stderr |
-| `final.md` | Final response written by `-o/--output-last-message` |
-| `report.md` | The deliverable itself, when the packet asked for a report file |
+| `report.md` | The only handoff: the final response captured by `-o/--output-last-message` |
+| `run.sh` | The detached launcher, written per run: exact provenance of what ran |
 | `result.txt` | Provenance line, then the terminal state |
 
+`report.md` is the only consumer-facing handoff. The JSON protocol repeats the
+last agent message inside `events.jsonl`; keep that raw file for diagnostics,
+but the host reads and verifies `report.md`.
+
 `result.txt` line 1 records provenance —
-`sandbox=… workspace=… started=…`, plus `-m`/`-p` when the run used them, and
-`thread=… resumed_from=…` for a resume. The terminal state is appended after
-codex returns:
+`sandbox=… workspace=… started=… pgid=…`, plus every flag and `-c` the run
+used, and `thread=… resumed_from=…` for a resume. `pgid` is what makes the
+run's liveness decidable later; it is the detached session leader, so
+`kill -0 -"$PGID"` answers "still alive?" and `kill -INT -"$PGID"` cancels.
+The terminal state is appended after codex returns:
 
-- `exit=N finished=…` — codex exited on its own (N is its exit code).
-- `cancelled=…` — a cancellation was confirmed dead (see below).
-- `cancel_failed=…` — the cancellation could not be confirmed; inspect.
+- `exit=N handoff=ready|incomplete finished=…` — codex exited on its own.
+  `ready` requires exit 0 and a non-empty `report.md`; all other outcomes are
+  `incomplete`. A cancellation lands here as `exit=1 handoff=incomplete`,
+  because the wrapper outlives the signal.
+- `cancelled=…` / `cancel_failed=…` — only written by the legacy pre-`pgid`
+  cancel path below, which had to confirm death from outside.
 
-`exit=0` means codex exited cleanly, not that the task succeeded — read
-`final.md` and verify the workspace yourself.
+`exit=0 handoff=ready` means Codex exited cleanly and produced a non-empty
+handoff. It does not mean the task succeeded: read `report.md` and verify the
+workspace yourself.
 
 These artifacts are evidence, not tamper-proof records. A `workspace-write`
 delegate can rewrite anything under `.agent-runs/` inside its own workspace,
@@ -55,21 +68,20 @@ worth considering — an option to weigh, not a rule.
 
 ## Sandbox by mission
 
-Pick the sandbox from what the mission has to produce, not from a standing
-rule:
+Pick the sandbox from the workspace effects the mission needs. The CLI writes
+`report.md` through `-o`, outside the model's shell sandbox:
 
-- **Context back in the reply** — a question answered, nothing written:
-  `read-only`. The built-in `web_search` tool and MCP tools are not shell
-  commands, so the filesystem sandbox does not gate them; whether they are
-  available at all comes from the Codex config.
-- **A report file** — research or analysis delivered as a document, and the
-  usual shape of a delegation: `workspace-write`, with the packet naming
-  `$RUN/report.md` as the deliverable. The host reads that file and delivers
-  it; the final message only has to summarise and point at the path.
+- **Investigation or review** — no workspace edits: `read-only`. The complete
+  final response still lands in `report.md`. Built-in web search and MCP tools
+  are not shell commands, so the filesystem sandbox does not gate them;
+  availability comes from the Codex config.
+- **Implementation or generated files** — intended workspace edits:
+  `workspace-write`. The report remains a CLI capture, not a model-written
+  artifact.
 - **Clone, then analyze, then report** — many repositories at once:
   `workspace-write` plus `-c sandbox_workspace_write.network_access=true`,
-  cloning into `$RUN/clones/` so both the inputs and `$RUN/report.md` stay
-  inside the run directory.
+  cloning into `$RUN/clones/`; the final response still lands in
+  `$RUN/report.md`.
 - **`danger-full-access`** — only when the mission genuinely needs the whole
   machine and the user said so. Mass-cloning unknown repositories is not that
   case: reading unfamiliar code is peak prompt-injection surface, and it
@@ -83,9 +95,10 @@ DNS included. The same command with
 `-c sandbox_workspace_write.network_access=true` returns `HTTP/2 200`. That
 narrow override is the sanctioned way to give a workspace-write run shell
 network: declare it in your reply and append it to the `result.txt`
-provenance line. Exactly two `-c` keys are sanctioned — this one and
-`model_reasoning_effort` for reasoning effort — declared and recorded the same
-way; `-c` still must never touch `sandbox_mode` or the approval policy.
+provenance line. Exactly three `-c` keys are sanctioned — this one,
+`model_reasoning_effort` for reasoning effort, and `service_tier` for the Fast
+tier — declared and recorded the same way; `-c` still must never touch
+`sandbox_mode` or the approval policy.
 
 ## Event vocabulary
 
@@ -102,11 +115,15 @@ majors — tolerate unknown types, never hard-code an exhaustive list):
   - `command_execution`: `command`, `exit_code`, `status`, and
     `aggregated_output` (the full command output — this payload is why raw
     logs get big).
-  - `agent_message`: `text` (the same text ends up in `final.md` for the
+  - `agent_message`: `text` (the last one ends up in `report.md` for the
     last message).
   - `reasoning`: summary text.
   - `file_change`, `mcp_tool_call`, `web_search`: change lists and tool/query
     metadata.
+  - `collab_tool_call`: a root-visible internal-subagent action. It may carry
+    receiver thread IDs and their last states, but not the children's own
+    reasoning, commands, intermediate messages, or complete descendant tree.
+    Treat it as a partial, version-dependent snapshot.
   - `error`: non-fatal warnings also arrive this way (e.g. a skills context
     budget notice) — an `error` item does not mean the run failed.
 
@@ -135,9 +152,10 @@ bun scripts/render-events.mjs scripts/fixtures/sample-events.jsonl
 
 Expected: one line per action — `▶`/`✓` commands with exit codes, `✉` agent
 message once rather than per streamed update, `file_change` paths as
-basenames, `⚠` warnings — then unknown types as bare type names, and the
-degrade markers the fixture exercises: `? malformed event` for a JSON line
-that is not an object (a non-object `item` degrades the same way), `×?` for a `file_change`
+basenames, `⚠` warnings, and `collab` actions with any root-observed agent
+state counts — then unknown types as bare type names, and the degrade markers
+the fixture exercises: `? malformed event` for a JSON line that is not an
+object (a non-object `item` degrades the same way), `×?` for a `file_change`
 whose `changes` is not an array, `? unparseable line` for the garbage line.
 `item.updated` renders nothing, whatever the item type: `▶` and `✓` carry the
 signal, and a ✓ on an item still in progress would read as finished. The
@@ -153,6 +171,61 @@ grep '"type":"turn.failed"' "$RUN/events.jsonl"
 grep '"exit_code":' "$RUN/events.jsonl" | grep -v '"exit_code":0'
 ```
 
+## Contract smoke test
+
+From the skill root:
+
+```bash
+bash scripts/test-run-contract.sh
+```
+
+This uses a fake `codex` executable, makes no model or network call, and checks
+the complete shell contract: stdin prompt capture; file-only stdout, stderr,
+event, and report channels; non-empty handoff gating; non-zero exit; process
+group death; graceful group cancellation; missing provenance; concurrent
+read-only runs; complex paths; the native Perl fallback; and `setsid` branch
+selection through a local semantics-compatible shim. It does not claim to test
+GNU util-linux itself.
+
+## Run states
+
+```bash
+bun scripts/render-events.mjs "$RUN/events.jsonl" --status
+```
+
+Two facts decide the state: whether `result.txt` has a terminal line, and
+whether the recorded process group still exists. `--status` reads the first
+and probes the second with signal 0, which sends nothing.
+
+| Terminal line | Group | State | What it means |
+| --- | --- | --- | --- |
+| `exit=0 handoff=ready` | — | `DONE` | Codex finished and `report.md` is non-empty. Verify the result yourself. |
+| `exit=0 handoff=incomplete` | — | `INCOMPLETE` | Codex exited cleanly but produced no handoff. Inspect the event log, then resume. |
+| `exit=N` | — | `EXITED` | Codex failed, or was cancelled (`exit=1`). Read `stderr.log`. |
+| none | alive | `RUNNING` | Working. `last write` and `in flight` say how it is going. |
+| none | gone | `DIED` | **Killed, not finished.** Artifacts are partial; resume the thread. |
+| none | no `pgid` | `UNKNOWN` | Pre-`pgid` run, or a truncated `result.txt`. Fall back to `pgrep`. |
+
+When `collab_tool_call` records expose receiver IDs or states, `--status` adds
+an `agents` line with the last states visible to the root exec stream. An empty
+receiver/state map still renders the collab action but cannot produce an agent
+summary. This is not a current census: children do not stream their own
+activity through `codex exec`, and some multi-agent versions emit no usable
+state map.
+
+`DIED` is the row that did not exist before the durable template, and the
+reason the state used to be unreadable: a killed run and a working run looked
+identical from outside. It is also cheap to recover from, because the thread
+survives — see [Resume](#resume).
+
+**Silence is not a hang.** The event stream carries no timestamps, and model
+work may emit no root-visible events, so a `RUNNING` run with a stale `last
+write` is usually thinking or waiting on an internal child. There is no
+outside signal that separates deep reasoning from a wedged process. Escalate
+on a long gap with nothing `in flight`, never on quiet alone; and because
+cancelling is now recoverable, a wrong guess costs one resume rather than the
+run.
+
 ## Concurrency
 
 - Run IDs are collision-safe; each run owns its directory and PID. Any number
@@ -166,59 +239,104 @@ grep '"exit_code":' "$RUN/events.jsonl" | grep -v '"exit_code":0'
 - Resume takes the thread ID from a specific run directory, so parallel runs
   cannot cross-resume — that is why `resume --last` is banned.
 
-## Cancel across sessions
+## Resume
 
-Within the launching session, kill the harness's background shell — then
-confirm, because a harness kill does not necessarily deliver SIGINT. From a
-different session, signal the codex PID with the right signal. Verified on
-codex-cli 0.145.0 with a live `sleep 120` turn:
-
-- **SIGINT**: codex aborts the turn, kills its running command children,
-  exits. No orphans. This is the graceful path.
-- **SIGTERM**: codex exits (143) but its running command children survive.
-- **Group kill (`kill -- -PGID`)**: never reaches the commands either —
-  codex spawns them in their own process groups.
-
-Match the run, not the binary: the run-id is on codex's argv (via
-`-o "$RUN/final.md"`), so it selects exactly one process where `codex exec`
-alone would match every concurrent run.
+A resume reuses the thread in a fresh run directory. It inherits the thread,
+not the authority: take the original's sandbox from its `result.txt` and widen
+only on new authority.
 
 ```bash
-RUN="$PWD/.agent-runs/codex/20260726T054537Z-bd8431f2"   # the run to cancel
-ID="${RUN##*/}"
-PIDS=$(pgrep -f "codex exec.*$ID")
-if [ "$(echo $PIDS | wc -w)" -ne 1 ]; then
-  echo "expected exactly one match — inspect before signalling:"; pgrep -lf "$ID"
+DIR="$(pwd)"; RUN="$DIR/.agent-runs/codex/ORIG_RUN_ID"   # the run being resumed
+THREAD=$(sed -n '1s/.*"thread_id":"\([^"]*\)".*/\1/p' "$RUN/events.jsonl")
+SANDBOX=read-only
+NEW="$DIR/.agent-runs/codex/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
+mkdir -p "${NEW%/*}" && mkdir "$NEW"
+# then write your follow-up packet to "$NEW/prompt.md"
+RESUMED_FROM="${RUN##*/}"
+export DIR RUN THREAD SANDBOX NEW RESUMED_FROM
+cat > "$NEW/run.sh" <<'EOF'
+#!/bin/bash
+printf 'sandbox=%s workspace=%s started=%s pgid=%s thread=%s resumed_from=%s model=%s effort=%s tier=%s\n' \
+  "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" "$THREAD" "$RESUMED_FROM" \
+  gpt-5.6-sol high priority > "$NEW/result.txt"
+trap ':' INT
+codex exec -C "$DIR" --sandbox "$SANDBOX" resume "$THREAD" --json -m gpt-5.6-sol \
+  -c model_reasoning_effort="high" -c service_tier="priority" \
+  -o "$NEW/report.md" - < "$NEW/prompt.md" \
+  > "$NEW/events.jsonl" 2> "$NEW/stderr.log"
+CODEX_EXIT=$?
+trap - INT
+if [ "$CODEX_EXIT" -eq 0 ] && [ -s "$NEW/report.md" ]; then
+  HANDOFF=ready
 else
-  PID=$PIDS; CHILDREN=$(pgrep -P "$PID")  # snapshot children before signalling
-  kill -INT "$PID"; sleep 5               # graceful: codex reaps its commands
-  kill -0 "$PID" 2>/dev/null && { kill -TERM "$PID"; sleep 5; }
-  kill -0 "$PID" 2>/dev/null && { kill -KILL "$PID"; sleep 2; }
-  MYPG="$(ps -o pgid= -p $$ | tr -d ' ')" # never group-kill our own shell
-  printf '%s\n' "$CHILDREN" |             # sweep anything TERM/KILL orphaned
-  while read -r c; do                     # (zsh does not word-split $CHILDREN)
-    [ -n "$c" ] || continue
-    g="$(ps -o pgid= -p "$c" | tr -d ' ')"
-    [ -n "$g" ] && [ "$g" != "$MYPG" ] || continue
-    kill -TERM -- -"$g" 2>/dev/null; sleep 2
-    kill -0 "$c" 2>/dev/null && kill -KILL -- -"$g" 2>/dev/null
-  done
-  if ! kill -0 "$PID" 2>/dev/null && [ -z "$(pgrep -f "$ID")" ]; then
-    echo "cancelled=$(date -u +%FT%TZ)" >> "$RUN/result.txt"
-  else
-    echo "cancel_failed=$(date -u +%FT%TZ)" >> "$RUN/result.txt"; pgrep -lf "$ID"
-  fi
+  HANDOFF=incomplete
+fi
+printf 'exit=%s handoff=%s finished=%s\n' \
+  "$CODEX_EXIT" "$HANDOFF" "$(date -u +%FT%TZ)" >> "$NEW/result.txt"
+exit "$CODEX_EXIT"
+EOF
+if command -v setsid >/dev/null 2>&1; then
+  setsid -f /bin/bash "$NEW/run.sh"
+else
+  perl -e 'exit 0 if fork; use POSIX (); POSIX::setsid() or die; exec @ARGV or die' \
+    /bin/bash "$NEW/run.sh"
 fi
 ```
 
-Honest limitations: this matches argv, not stored state, and PIDs can be
-reused between the snapshot and the sweep — re-reading each child's live pgid
-narrows that window but does not close it. With the canonical template one PID comes back,
-because the run-id reaches only codex's own command line — the launching
-shell's argv still holds the unexpanded `$(date …)-$(openssl …)`. If you
-hardcoded the run directory at launch instead, that shell matches too: the
-count check stops, `pgrep -lf "$ID"` shows both, and you signal the
-`codex exec` PID by hand. Prefer cancelling from the launching session.
+Flag placement matters: `-C` and `--sandbox` belong to `exec` and precede
+`resume`; `--json`, `-o`, and `-m` are accepted after it (verified on
+codex-cli 0.145.0 — the wrong order exits 2). Never `resume --last`: it can
+pick the wrong session during parallel work. Re-pass `-m`, the effort and tier
+overrides, and `--ignore-user-config` when the original used them; `-p` cannot
+carry over, because `codex exec resume` has no `--profile` — re-express it
+through `-m` and config.
+
+Resume is also the recovery path for a killed run. Verified on 0.145.0: a run
+interrupted with SIGINT during a shell command resumed with its context
+intact, correctly answering a question that depended on what it had been told
+before the interrupt. A `DIED` run is a resume, not a restart.
+
+## Cancel
+
+With `pgid` on the provenance line, cancelling is one signal, from any
+session:
+
+```bash
+PG=$(sed -n '1s/.*pgid=\([0-9]*\).*/\1/p' "$RUN/result.txt")
+[ -n "$PG" ] && kill -INT -"$PG"
+```
+
+Verified on 0.145.0 against a live `sleep 90` turn: codex aborts the turn, its
+command children are reaped with no orphans, and the wrapper still appends
+`exit=1` — so a cancelled run reads as `EXITED` rather than `DIED`. Wait for
+that line instead of assuming. The wrapper's temporary `trap ':' INT` keeps
+the group signal from killing the recorder while the Codex child receives its
+normal SIGINT disposition; the trap is restored immediately after Codex
+returns. If the terminal line never appears, escalate on the same group with
+`kill -TERM -"$PG"` and then `kill -KILL -"$PG"`, and correct `result.txt` by
+hand.
+
+Signal choice still matters. SIGTERM to the codex process alone leaves its
+command children running, because codex spawns them in their own process
+groups; SIGINT is the graceful path, and signalling the whole session group,
+which the detached launcher makes possible, reaches both.
+
+### Pre-`pgid` runs
+
+A run launched before the durable template has to be matched by argv instead.
+The run-id reaches codex's command line through `-o "$RUN/report.md"`, so it
+selects exactly one process where `codex exec` alone would match every
+concurrent run:
+
+```bash
+ID="${RUN##*/}"; PIDS=$(pgrep -f "codex exec.*$ID")
+[ "$(echo $PIDS | wc -w)" -eq 1 ] && kill -INT "$PIDS" || pgrep -lf "$ID"
+```
+
+Confirm with `pgrep -lf "$ID"`, then write `cancelled=` or `cancel_failed=`
+into `result.txt` by hand. This matches argv rather than stored state, and
+PIDs can be reused between the check and the signal — which is the whole
+reason the template now records `pgid`.
 
 ## Keeping runs out of version control
 
@@ -249,12 +367,15 @@ checker to skip the directory, or set `RUN` outside the repository.
   not clear the check (verified on 0.145.0) — the run needs a git repo or the
   explicit flag. A multi-repo workspace root is the usual way to hit this:
   aim `-C` at the child repository the mission is really about.
-- **Empty `final.md` with exit 0**: the model may have produced no final
-  message (rare) — the last `agent_message` item in `events.jsonl` has the
-  text.
-- **Run seems hung**: render with `--tail`; a long-running command shows as
-  the last `▶` line. Check `stderr.log`. Cancel with the recipe above if it
-  is genuinely stuck.
+- **`INCOMPLETE exit=0`**: Codex returned no non-empty final response. Inspect
+  the last `agent_message` in `events.jsonl`; if it contains the result, resume
+  and ask Codex to return that complete result as its final response.
+- **Run seems hung**: `--status` first — it separates `RUNNING` from `DIED`,
+  which no amount of `--tail` reading can. If it is `RUNNING`, read
+  [Run states](#run-states) before cancelling: quiet usually means reasoning.
+- **`--status` says `DIED`**: the run was killed, not finished. Its edits and
+  `report.md` are whatever it had flushed; recover with a resume rather than a
+  fresh run, and check whether the launch used the detached template.
 - **Resume needs the original model**: read the original run's `result.txt`
   provenance line and re-pass what it recorded. `-m` and
   `--ignore-user-config` carry over; `-p` does not, because `codex exec
