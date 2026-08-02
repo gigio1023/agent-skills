@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 14 reusable Agent Skills for shipping software, operating
+A curated pack of 15 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, and handling a few everyday workflows.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/) with a
@@ -56,7 +56,7 @@ router covering repository-grounded authoring, humanizing revision,
 terminology review, and Korean polish. Their directories were removed from
 this repository; install `clear-writing` from its own repository instead.
 
-Everything else remains this repository's active catalog — 13 skills listed
+Everything else remains this repository's active catalog — 15 skills listed
 in the [Skill catalog](#skill-catalog) below, including the three that never
 moved: [1password-cli](skills/development/1password-cli/),
 [pdf-page-count](skills/productivity/pdf-page-count/), and
@@ -85,7 +85,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-To install all 14 skills for a deliberate set of agents, quote the wildcard so
+To install all 15 skills for a deliberate set of agents, quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -151,7 +151,7 @@ the agent that happens to run it. The on-disk source paths remain stable so
 existing `npx skills` lock entries can continue to update in place.
 
 - [Software Development and Delivery](#software-development-and-delivery) (1)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (7)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (8)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Writing and Language](#writing-and-language) (1)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
@@ -170,6 +170,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [codex-delegate](skills/development/codex-delegate/) | Delegate packaged, bounded tasks from a non-Codex host to the flagship Codex model in Fast mode, with durable runs, file-only handoff, and packet-defined judgment |
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
+| [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and activate verifiable goal prompts for Codex and Claude Code |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and install the published pack globally from its tracked `main` source |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
@@ -238,7 +239,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 14 unique names. See
+skill, and the local listing discovers the expected 15 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
