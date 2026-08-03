@@ -10,6 +10,11 @@ starts a turn immediately. After each turn, a separate small evaluator model
 reads the condition and conversation. A negative decision starts another turn;
 a positive decision clears the goal as achieved.
 
+The command requires Claude Code v2.1.139 or later. It is user-entered session
+input rather than an agent-callable goal-state API. When another agent authors a
+Claude Code goal, it should return a ready-to-submit `/goal` command and must not
+claim that the target session changed.
+
 The evaluator does not run commands or read files. It can judge only evidence
 that Claude has surfaced in the conversation. Write completion conditions so
 the transcript can demonstrate them.
