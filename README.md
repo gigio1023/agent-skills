@@ -171,7 +171,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [codex-delegate](skills/development/codex-delegate/) | Delegate packaged, bounded tasks from a non-Codex host to the flagship Codex model in Fast mode, with durable runs, file-only handoff, and packet-defined judgment |
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
-| [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and activate verifiable goal prompts for Codex and Claude Code |
+| [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts, with direct activation when the current session exposes goal-state tools |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |

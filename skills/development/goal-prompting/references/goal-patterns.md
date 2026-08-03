@@ -29,6 +29,10 @@ Keep the direct goal concise. When necessary detail would exceed the target's
 limit or the task benefits from a reviewable spec, place details in a user-owned
 plan or goal file and make the direct payload point to it.
 
+Write or modify that file only when the user explicitly requested a file
+artifact or authorized local changes. Otherwise return proposed contents for
+the user to place in a file, or reference an existing file without changing it.
+
 The direct payload must still state the terminal outcome, decisive evidence,
 and critical boundaries. A referenced file supplies execution context; it does
 not prove completion. Require the worker to surface the final checks and results

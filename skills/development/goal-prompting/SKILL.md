@@ -1,11 +1,10 @@
 ---
 name: goal-prompting
 description: >
-  Use when the user wants help explaining, drafting, reviewing, translating, or
-  setting a Codex or Claude Code /goal prompt, persistent objective, completion
-  condition, or long-running execution contract. Covers target-aware handoffs
-  between both harnesses. NOT for ordinary task prompts, implementation plans,
-  or starting autonomous work without explicit goal intent.
+  Use when the user explicitly wants a Codex Goal mode or Claude Code /goal
+  prompt explained, drafted, reviewed, translated, set, or handed to the other
+  harness. NOT for ordinary objectives, acceptance criteria, task prompts,
+  implementation plans, or autonomous work without explicit Goal mode intent.
 ---
 
 # Goal Prompting
@@ -36,8 +35,8 @@ explicit activation without forcing one workflow on every request.
 6. Audit the draft for false completion, unverified assumptions, impossible
    checks, hidden side effects, and target-specific evaluator blind spots.
 7. Return the requested artifact. Activate it only when the user explicitly
-   asked to set or start the goal and the current harness exposes that
-   capability.
+   asked to set or start the goal and the current session exposes an
+   agent-callable goal-state capability.
 
 For the dated official sources and reviewed community patterns behind these
 rules, read [references/source-notes.md](references/source-notes.md).
@@ -118,8 +117,12 @@ verbs, metadata, or assumptions that the target does not share.
 
 ### Activate
 
-Activation changes goal state and may immediately start work. Do it only on an
-explicit set, start, create, or run request.
+Activation changes the current session's goal state and may immediately start
+work. Do it only on an explicit set, start, create, or run request and only
+through an agent-callable goal-state capability in that same session. Claude
+Code's `/goal` is user-entered session input, so return a ready-to-submit command
+and say that the user must submit it. Do not start another CLI process or remote
+session to simulate activation.
 
 1. Inspect the current goal state when the harness supports it.
 2. Continue a matching active goal instead of creating a duplicate.
@@ -130,8 +133,8 @@ explicit set, start, create, or run request.
 5. Follow the runtime's own rules for completion, blocking, pause, resume, and
    clearing. Never claim completion without the evidence named in the goal.
 
-If the current harness cannot activate a goal for another harness, return the
-copy-paste payload and a minimal handoff instruction.
+If the current session cannot expose an agent-callable goal capability, return
+the copy-paste payload and a minimal handoff instruction.
 
 ## Output Contract
 
@@ -142,8 +145,10 @@ Match the response to the request:
 - draft: one copy-paste payload, then material assumptions or caveats;
 - review: findings first, followed by the corrected payload;
 - translation: target payload plus the semantic changes that mattered;
-- activation: the goal state changed, the objective used, and any immediate
-  caveat or next action.
+- direct activation: the goal state changed, the objective used, and any
+  immediate caveat or next action;
+- activation handoff: the ready-to-submit command and the fact that the user
+  must submit it in the target session.
 
 When returning direct command text, count characters if it is near the target's
 limit. Do not say a goal was activated when only text was produced.
