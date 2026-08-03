@@ -34,9 +34,10 @@ Last reviewed: 2026-08-03.
 ## Official Anthropic Sources
 
 - [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal)
-  documents the separate evaluator loop, transcript-only evidence, one active
-  goal per session, optional run bounds, the 4,000-character condition limit,
-  resume behavior, and hook or trust prerequisites.
+  documents the v2.1.139 minimum, separate evaluator loop, transcript-only
+  evidence, one active goal per session, optional run bounds, the
+  4,000-character condition limit, resume behavior, and hook or trust
+  prerequisites.
 - [Claude Code best practices](https://code.claude.com/docs/en/best-practices)
   recommends checks Claude can run, evidence over assertions, exploration and
   planning before risky implementation, specific context, and concise
@@ -85,8 +86,9 @@ an explicit distinction between prompt authoring and execution.
 - Direct goal payloads remain below 4,000 characters for both current targets.
 - Long detail may live in a file, but completion evidence must still be surfaced
   in the conversation. A file is context, not evaluator-visible proof.
-- Activation requires explicit user intent. Advice, review, and copy generation
-  remain non-mutating.
+- Activation requires explicit user intent and an agent-callable goal capability
+  in the current session. Claude Code `/goal` handoffs return command text for
+  the user to submit. Advice, review, and copy generation remain non-mutating.
 - The package is instruction-only. Drafting and translation require contextual
   judgment; a generator script would not remove the hard work. Character count
   can use ordinary runtime tools only when a draft approaches the limit.
