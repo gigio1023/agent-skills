@@ -49,12 +49,13 @@ Install all eleven from here, the normal way. Seven of the eleven
 carry `SKILL.md` improvements ported back from the pack copies; the other four
 are unchanged.
 
-**2026-07-26 — two writing skills merged into `clear-writing`.**
-`engineering-docs` and `terminology-review` were absorbed into the unified
-[clear-writing](https://github.com/gigio1023/clear-writing) skill — one
-router covering repository-grounded authoring, humanizing revision,
-terminology review, and Korean polish. Their directories were removed from
-this repository; install `clear-writing` from its own repository instead.
+**2026-08-03 — `clear-writing` became `slop-aware-writing`.**
+`engineering-docs` and `terminology-review` remain part of the standalone
+[slop-aware-writing](https://github.com/gigio1023/slop-aware-writing) skill.
+It prevents and removes AI slop while preserving evidence, reader context,
+meaning, and voice across English, Korean, Italian, and Chinese. Their
+directories remain outside this repository; install `slop-aware-writing` from
+its own repository instead.
 
 Everything else remains this repository's active catalog — 15 skills listed
 in the [Skill catalog](#skill-catalog) below, including the three that never
@@ -205,7 +206,7 @@ supported harnesses, and update workflow.
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
-| [clear-writing](https://github.com/gigio1023/clear-writing) | `clear-writing` | Repository-grounded authoring, humanizing revision, terminology checks, and surgical Korean polish in one prose skill |
+| [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing` | Evidence-bounded authoring and revision that prevents or removes AI slop while preserving reader context, meaning, and voice across English, Korean, Italian, and Chinese |
 | [draw.io Agent Skill](https://github.com/gigio1023/drawio-agent-skill) | `drawio-diagram` | Native, editable draw.io authoring with structural, layout, export, and visual checks |
 | [Game Studio](https://github.com/gigio1023/game-studio) | `game-direction`, `game-production`, `game-review` | Creator-owned direction, proof-based production, and evidence-first review across the game lifecycle |
 | [Godot Best Practice](https://github.com/gigio1023/godot-best-practice) | `godot-best-practice` | Godot-native implementation and review grounded in the project's engine version, serialized resources, and engine-level evidence |
