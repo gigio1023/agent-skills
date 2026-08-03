@@ -6,8 +6,9 @@ request.
 
 ## Identity And Completeness
 
-- Confirm the selected directory, frontmatter name, repository remote, branch,
-  and reviewed commit.
+- Confirm the selected directory, frontmatter name, repository remote, revision
+  mode, and reviewed commit. Distinguish a default-branch HEAD, named branch,
+  and exact commit rather than assuming a branch name.
 - Inventory every file, including hidden files, references, scripts, assets,
   templates, configuration, and executable bits.
 - Reject path escapes, unexpected submodules, and symlinks that resolve outside
