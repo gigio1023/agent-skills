@@ -171,7 +171,7 @@ existing `npx skills` lock entries can continue to update in place.
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
-| [install-skill-pack](skills/development/install-skill-pack/) | Review and install the published pack globally from its tracked `main` source |
+| [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
 
 ### Design and Visualization
