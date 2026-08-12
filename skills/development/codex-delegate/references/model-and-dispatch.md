@@ -5,18 +5,32 @@ owns the run once it is launched.
 
 ## Contents
 
+- [Selection order](#selection-order)
 - [Model and effort](#model-and-effort)
 - [Speed — the Fast tier](#speed--the-fast-tier)
-- [Sol packets](#sol-packets)
+- [GPT-5.6 packets](#gpt-56-packets)
 - [Judgment ownership](#judgment-ownership)
 - [Internal parallelism](#internal-parallelism)
 - [Dispatch — durable runs, disposable watchers](#dispatch--durable-runs-disposable-watchers)
 
+## Selection order
+
+1. An explicit user choice of model, effort, or Fast mode wins.
+2. Otherwise start a new run with `gpt-5.6-sol` at `xhigh` and
+   `service_tier="default"`.
+3. Route to Terra, another supported model, or another effort only when task
+   shape or availability supplies a concrete reason.
+4. A resume starts from the original model and effort. Reconsider them when the
+   resumed turn has materially different work or the original route is no
+   longer available.
+
+Record the resolved model, effort, and service tier in `result.txt`. Name the
+reason for any non-default route in the host's reply.
+
 ## Model and effort
 
-Default: `gpt-5.6-sol` at `high` reasoning effort. A machine's global Codex
-config may already set both, but a delegation should not silently depend on an
-environment you have not read — pass `-m gpt-5.6-sol` explicitly and record it
+Default: `gpt-5.6-sol` at `xhigh` reasoning effort. A delegation must not
+silently inherit a machine default: pass both values explicitly and record them
 on the `result.txt` provenance line.
 
 `codex exec` has no reasoning-effort flag. Effort moves only through config,
@@ -25,15 +39,16 @@ rest of the `-c` rule is unchanged: it must never touch `sandbox_mode` or the
 approval policy, and any override you use is declared visibly in your reply
 and appended to the provenance line.
 
-Effort follows the mission, not the model:
+Use `gpt-5.6-terra` at `xhigh` only when a bounded implementation, inventory,
+extraction, or evidence-collection mission does not need Sol's stronger
+judgment. Keep Sol when uncertain. Difficult debugging, adversarial review,
+high-stakes judgment, and work where a missed consideration is the expensive
+failure stay on Sol.
 
-- **Bounded mechanical edits** — a rename, a mechanical migration, a fix whose
-  shape is already known: `-c model_reasoning_effort="medium"`.
-- **Standard implementation or investigation** — the default case:
-  `-c model_reasoning_effort="high"`.
-- **Adversarial review, hard debugging, judgment-heavy synthesis** — where the
-  expensive failure is a missed consideration, not a slow run:
-  `-c model_reasoning_effort="xhigh"`.
+Model and effort remain contextual dials. Lower effort only for well-specified
+mechanical work that is cheap to verify or retry. Use another supported model
+or effort when availability or task fit gives a concrete benefit; do not make a
+quota-saving or latency-saving downgrade silently.
 
 The key name and its accepted values belong to the CLI, not to this skill. If
 a run rejects the override, trust `codex exec --help` and the current codex
@@ -41,34 +56,22 @@ config documentation over this list, and note the drift.
 
 ## Speed — the Fast tier
 
-Codex exposes a service tier its UI calls Fast. In the CLI's own model
-registry it is `{"id": "priority", "name": "Fast", "description": "1.5x speed,
-increased usage"}`. The GPT-5.6 family (sol, terra, luna) carries it, as do
-5.5 and 5.4; 5.4-mini and 5.2 do not, and no model enables it by default
-(`default_service_tier` is null).
+Codex calls the `priority` service tier Fast. The canonical template derives
+`service_tier` from `FAST_REQUESTED`: `no` maps to `default`, and `yes` maps to
+`priority`. Set `FAST_REQUESTED=yes` only when the user explicitly requests
+Fast. Do not infer that request from urgency, task size, or an effort choice.
 
-It rides the third sanctioned `-c`: `-c service_tier="priority"`, declared and
-recorded like the others.
+Fast and reasoning effort are independent. Keep the selected effort unchanged
+when enabling Fast unless the user or task separately justifies an effort
+change. Record both the host's explicit-request assertion and the derived tier
+in provenance. A resume may preserve `yes` for the same mission; a legacy run
+without that assertion resumes non-Fast unless the user asks. If the CLI rejects
+a tier, trust its current help and config documentation and report the drift.
 
-**Keep it on.** Speed and reasoning are independent dials. Fast buys
-wall-clock at the price of quota and changes nothing about how hard the model
-thinks, so it never trades against `model_reasoning_effort` — a `xhigh`
-adversarial review can and should also be Fast. Turn it off only when the user
-explicitly asks.
-
-A machine's global config may already set the tier, which is precisely why the
-template passes it explicitly.
-
-Verifying it applied, without guessing: an unsupported value produces an
-`error` item — `Configured service tier … is not advertised as supported for
-model … and will be omitted from requests` — and the run continues anyway. The
-absence of that item is therefore positive evidence that the tier reached the
-request (verified on codex-cli 0.145.0, both branches).
-
-## Sol packets
+## GPT-5.6 packets
 
 Model-specific prompting is not restated here. When the packet targets a
-Sol-family model, load the sibling skill `gpt56-sol-prompting-guide` (same
+GPT-5.6-family model, load the sibling skill `gpt56-sol-prompting-guide` (same
 pack, `skills/development/gpt56-sol-prompting-guide/`) and shape the packet
 with it before dispatch. This skill owns the mission contract — objective,
 scope, authority, verification, response contract; that skill owns how the
@@ -94,22 +97,17 @@ sandbox, credentials, external effects, or authority.
 
 ## Internal parallelism
 
-Codex can spawn its own subagents, and delegated runs should make aggressive
-use of that capability when work has independent branches. Grant it explicitly
-in the packet's Authority block:
+Codex can spawn its own subagents. Grant that capability in the packet's
+Authority block only when the work has genuinely independent branches:
 
-> Internal subagents are encouraged. You may freely decide whether to spawn
-> them, how many to use, and how to coordinate them. Prefer parallel subagents
-> for independent investigation, implementation, or verification branches;
-> keep dependent steps and conflicting writes sequential. Synthesize their
-> evidence into one result. Do not ask the host to approve each dispatch.
+> Internal subagents are allowed when independent investigation,
+> implementation, or verification branches justify them. Choose their number
+> and topology; keep dependent steps and conflicting writes sequential.
+> Synthesize their evidence into one result.
 
-This is a strong recommendation, not a quota or a requirement to manufacture
-parallel work. Codex owns the number and topology. A small sequential task may
-use none; a survey, cross-module implementation, competing investigation, or
-fresh-context verification may use several. Nothing outside Codex changes:
-the same sandbox, run directory, mission authority, and host verification
-still apply.
+This is task-shaped permission, not a standing recommendation. A small
+sequential task uses none. Nothing outside Codex changes: the same sandbox, run
+directory, mission authority, and host verification still apply.
 
 ## Dispatch — durable runs, disposable watchers
 
@@ -156,24 +154,36 @@ notification, because an orphaned background task's notification cannot wake
 anything: it queues unread until the next user message forces a turn, measured
 at 22 minutes in one incident.
 
-### When a subagent earns its place
+### Host-side launcher subagent contract
 
-A single run does not need one. The main session writes the packet, launches,
-arms the watcher, and later reads the report. There is no event noise to
-quarantine, because nobody polls.
+`Host-side launcher subagent` names the role of a native subagent in Claude
+Code, Cursor, or another host harness. It is distinct from the per-run `run.sh`
+wrapper and from subagents created inside Codex. Use it as the default execution
+path for a single run or a batch whenever the host exposes native subagents.
+The main session still writes every packet and resolves model, effort, sandbox,
+Fast, network, worktree, and authority before dispatch.
 
-Several runs at once do. Hand them to a subagent pinned to the host's light
-tier — read from the current harness at dispatch time (Sonnet in Claude Code
-today; other hosts have their own lineup), with an explicit user choice always
-winning. Pin it, because an unset model silently inherits the parent's tier.
-It creates the run directories, writes the packets it was handed, launches
-each run, and returns pointers: run directory, thread ID, provenance line, and
-report path per run. It relays and manages; judgment ownership remains whatever
-each packet grants.
+Give the launcher subagent immutable packet paths and fixed scalar inputs. When
+the harness supports per-subagent model selection, use its reliable lightweight
+model for this mechanical role. A Sonnet-class model is the intended Claude
+Code route. Escalate only when the light model is unavailable or fails the
+manifest contract. Retained local history proves the role with Opus, so the
+lightweight route remains a deliberate policy to validate in use rather than an
+observed success.
 
-Because the runs are durable, that subagent no longer has to stay alive to
-protect them. It returns as soon as the launches are recorded, and the main
-session arms one watcher over the set:
+The launcher subagent calls `scripts/launch-run.sh`, verifies each manifest and
+initial provenance line, and returns the manifest unchanged. It does not decide
+to retry, resume, cancel, interpret a report, or change authority. When the main
+session authorizes a resumed turn, it sends the new immutable packet path and
+exact source run directory; the launcher uses the same script with
+`--resume-from`. The decision and authority remain with the main session.
+
+Because the runs are durable, the launcher subagent does not stay alive to
+protect or monitor them. It returns as soon as the launch manifest is recorded,
+and the main session arms one watcher over the set. Actual host history showed
+the runs completing safely after launcher-subagent transcripts ended, but no
+reliable completion handoff returned to those subagents; the file artifacts and
+main-session watcher are the source of truth:
 
 ```bash
 for r in $RUNS; do
@@ -190,6 +200,17 @@ Sequential in form, concurrent in fact: the runs overlap, so this finishes
 with the slowest one. Do not glob the whole `.agent-runs/` directory: an
 unrelated old run would trigger a misleading notification.
 
+If the host has no native subagent, launch fails, or the returned manifest is
+missing a required field, the main session invokes the same deterministic
+script directly. This fallback preserves one launch contract and avoids making
+subagent availability a correctness dependency.
+
+The host must also budget total fan-out. When it already launches five or more
+Codex roots, internal subagents default off unless a packet names a branch that
+still needs isolated evidence or review and gives it a bounded child count.
+This prevents host-level parallelism from multiplying unnoticed inside every
+root.
+
 Two failure modes justify any of this, and nothing else does: Codex crossing a
-judgment boundary the packet reserved to the host, and delegation noise burning
-main-session tokens. Guard those; do not add ceremony beyond them.
+judgment boundary the packet reserved to the host, and launch mechanics
+displacing high-context work. Guard those; do not add ceremony beyond them.

@@ -168,7 +168,7 @@ existing `npx skills` lock entries can continue to update in place.
 | Skill | What it helps with |
 | --- | --- |
 | [cursor-cli-delegation](skills/productivity/cursor-cli-delegation/) | Delegate a closed execution mission through Cursor Agent CLI while the calling harness retains judgment and acceptance |
-| [codex-delegate](skills/development/codex-delegate/) | Delegate packaged, bounded tasks from a non-Codex host to the flagship Codex model in Fast mode, with durable runs, file-only handoff, and packet-defined judgment |
+| [codex-delegate](skills/development/codex-delegate/) | Delegate bounded tasks from a non-Codex host with Sol/xhigh/non-Fast defaults, explicit-request-only Fast, durable runs, and a host-side launcher subagent as the default execution path |
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
 | [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts, with direct activation when the current session exposes goal-state tools |
