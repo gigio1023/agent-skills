@@ -1,94 +1,144 @@
 ---
 name: frontend-design
 description: >
-  Use when building, reshaping, or reviewing UI whose success depends on visual
-  hierarchy, interaction feel, presentation quality, or a deliberate art
-  direction. Applies across web frameworks, static HTML reports, dashboards,
-  landing pages, prototypes, games, and visual tools. Trigger for "make this UI
-  beautiful", "polish the interface", "make it distinctive", and UI-heavy
-  implementation. NOT for logic-only frontend changes or pixel-preserving
-  maintenance where the existing design must remain unchanged.
+  Use for frontend work that can change what users perceive or operate:
+  components, pages, layout, styling, responsive behavior, forms, data views,
+  interface states, motion, accessibility, visual assets, and UI review.
+  Includes user-visible frontend bug fixes. NOT for backend-only work or
+  frontend configuration and data changes with no interface effect.
 ---
 
 # Frontend Design
 
-Use this skill when the task's success depends on visual judgment, interaction feel, hierarchy, or presentation quality, not just whether the code compiles.
+Route user-visible frontend work through the smallest design path that protects
+the product, then verify the affected interface honestly.
 
-This is the design judgment layer. Do not split by framework by default. React, Vue, Svelte, Tailwind, CSS Modules, plain HTML, SVG, Canvas, and static reports all need the same upstream decisions: subject, audience, surface, hierarchy, typography, palette, motion, assets, and verification.
+## Route Before Loading References
 
-## Architecture
+1. Set the authority boundary:
+   - **Review:** inspect and report findings. Do not edit files or turn the
+     review into a redesign unless the user asks.
+   - **Change:** implement the requested local change and non-destructive checks.
+2. For a change, choose its design intensity:
+   - **Preserve:** a bug fix, state change, refactor, or maintenance task whose
+     rendered language should remain stable.
+   - **Adapt:** a component, form, content region, or bounded layout change that
+     should extend the existing product language.
+   - **Direct:** a new surface, new product, or substantial redesign that needs
+     an explicit direction.
 
-Use one general skill plus focused references:
+When the boundary is unclear, choose the lowest intensity that fully covers the
+authorized change. Escalate only when the request or inspected product evidence
+requires a new visual language, a substantial hierarchy change, or a redesign.
+Review depth follows the reviewed scope; it is not a fourth intensity level.
 
-| File | Read when |
-|---|---|
-| `references/surface-patterns.md` | Before creating or substantially redesigning UI. Pick the relevant surface: app, dashboard, landing, report, game, doc, tool. |
-| `references/quality-gate.md` | Before finalizing any UI work or review. Use it for screenshots, accessibility, responsive behavior, and anti-slop checks. |
-| `references/source-notes.md` | Only when maintaining this skill or explaining why it is structured this way. |
+### Preserve Fast Path
 
-Create framework-specific child skills only after repeated evidence shows a framework-specific failure that cannot be handled by normal codebase conventions, such as a company design system API, a motion library's footguns, or a platform-specific visual QA script.
+Do not load references for Preserve work.
 
-## Core Loop
+- Keep the existing components, tokens, density, hierarchy, and copy style.
+- Change only the requested behavior and the states that reveal it.
+- Render the affected state and its nearest regression viewport when a runnable
+  path exists.
+- If rendering is unavailable, name that gap instead of claiming visual success.
+- End the design branch here and continue the original frontend task.
 
-1. Classify the request before acting:
-   - **Review/report:** inspect and report findings. Do not edit files or broaden
-     the review into a redesign unless the user asks.
-   - **Build/change:** implement the requested UI change within its stated scope.
-2. Identify the surface: landing page, product app, data dashboard, HTML report,
-   generated document, game, interactive demo, or component.
-3. Name the real subject, audience, and one job of the screen. If the brief is
-   vague, choose a concrete subject and state the assumption briefly.
-4. Read `references/surface-patterns.md` and select the relevant surface guidance.
-5. Record only the decisions needed for the current mode: reading order and
-   dominant anchor, existing design-system constraints, required states and
-   viewports, and at most one subject-specific signature.
-6. In build/change mode, use the existing framework, component library, and local
-   conventions. If there is a design system, use its components and tokens first.
-7. Inspect the relevant desktop/mobile viewports and interaction states against
-   `references/quality-gate.md`. Run available build, lint, and accessibility
-   checks when relevant. In review mode these checks produce findings, not edits.
-8. In build/change mode, revise if the rendered result is generic, cluttered,
-   inaccessible, broken, or inconsistent with the brief. If rendering is not
-   possible, say what remains unverified instead of inferring success from code.
+## Load Only What the Route Needs
 
-## Design Judgment
+| Route | Guidance |
+| --- | --- |
+| Preserve | Use the inline fast path only. |
+| Adapt | Read [quality-gate.md](references/quality-gate.md). Read [surface-patterns.md](references/surface-patterns.md) only when local patterns do not answer the change. |
+| Direct | Read [surface-patterns.md](references/surface-patterns.md), [reference-research.md](references/reference-research.md), and [quality-gate.md](references/quality-gate.md). |
+| Review | Read [quality-gate.md](references/quality-gate.md). Add the surface and research references only when the review covers a new or substantially changed direction. |
+| Skill maintenance | Read [source-notes.md](references/source-notes.md). |
 
-The goal is not "always flashy." The goal is appropriate and memorable. A sober finance dashboard, a Korean real-estate comparison report, a playful game, and a research memo in static HTML should not share the same visual language.
+## Establish Design Context
 
-Spend boldness in one place. A strong interface usually has one signature move, not ten decorations. Examples: a precise data table with editorial typography, a hero that behaves like the product, a report whose section rhythm mirrors the argument, or a game UI whose controls feel native to the play world.
+Use evidence in this order:
 
-Use assets when the surface needs them. Product, venue, object, travel, portfolio, landing, and game work should have real imagery, generated imagery, video, canvas, SVG, or domain-native visual material. Static HTML reports can use charts, callouts, maps, tables, or diagrams as their visual substance.
+1. The user's request, the screen's real job, and any reference named as a target.
+2. The rendered product and the implementation already serving that job.
+3. Project contracts such as components, tokens, themes, Storybook, `DESIGN.md`,
+   and brand or content guidance.
+4. User material supplied as inspiration rather than a target.
+5. Shipped products that support the same workflow.
+6. Standards and production design systems.
+7. Galleries, awards, and third-party brand analyses.
 
-## Defaultness Check
+A target reference such as “match this” is part of the requirement. An
+inspiration link supplies evidence but does not silently override the product's
+workflow, accessibility, platform, or existing design contract.
 
-Do not turn familiar motifs into a blacklist. A gradient, glass surface, card, or
-large metric is valid when the subject and product system call for it. Reject the
-result when the choices are interchangeable with an unrelated product:
+When code and a design contract disagree, Preserve and Adapt work follow the
+current product and report the divergence. Align both only when the request
+authorizes that broader change. Support a present `DESIGN.md`; do not create one
+or depend on a particular schema by default.
 
-- Does the composition match this surface's job rather than a generic landing page?
-- Does the visual anchor come from the subject, data, product, or user task?
-- Do color, type, motion, and copy carry meaning instead of filling space?
-- Would removing decorative effects leave a clear hierarchy and usable controls?
+## Work the Route
 
-## Implementation Rules
+### Review
 
-For existing apps, match the local stack and design system before inventing new primitives. Use semantic HTML and accessible components. Prefer CSS variables or existing tokens for new palettes. Keep responsive behavior explicit.
+Lead with the most consequential evidence-backed findings. Separate observed
+defects from optional direction. Do not mutate files, inflate a local issue into
+a rebrand, or claim a viewport or interaction was checked when it was not.
 
-For plain HTML reports, treat the page like a designed document: readable measure, print-friendly sections if relevant, strong tables, captions, hierarchy, and restrained color. Avoid turning reports into marketing landing pages.
+### Adapt
 
-For games and interactive demos, use domain-appropriate engines or proven libraries for core rules/physics/parsing where available. Verify that the primary canvas or scene actually renders and responds.
+Use the existing framework, components, tokens, primitives, density, and content
+patterns first. Add the smallest new primitive that the requested behavior
+needs. Preserve the product's established hierarchy unless changing it is part
+of the request.
 
-## Output Behavior
+### Direct
 
-Keep planning internal unless the user asks for it. For a review, lead with the
-most consequential findings and say that no files were changed. For a build or
-change, lead with the implemented outcome. Then name only the viewports, states,
-and checks actually verified. Mention any remaining visual risk, missing asset,
-or unverified viewport; do not substitute a design rationale for render evidence.
+Name the subject, audience, surface, and primary user job. Research references
+with [reference-research.md](references/reference-research.md), then record only
+the decisions needed to build: reading order, dominant anchor, density, key
+states, viewports, and existing constraints.
+
+Derive the primary visual anchor from the subject, data, product, or user task.
+An anchor may be a composition, a piece of real visual material, a data view, or
+an interaction. It does not need to be decorative or loud.
+
+Implement in the project's stack and reuse its reliable primitives. New art
+direction does not authorize unrelated features, a replacement design system,
+or decorative work outside the requested surface.
+
+## Interchangeability Gate
+
+Do not blacklist gradients, cards, glass, large type, or other motifs. Reject a
+result when its choices could move to an unrelated product with little loss:
+
+- Renaming the product and copy leaves the composition equally plausible.
+- Every region uses the same card, radius, border, shadow, and visual weight.
+- Hierarchy disappears when decorative color and effects are removed.
+- Fake metrics, testimonials, or marketing copy substitute for required data.
+- Loading, empty, error, long-content, disabled, or completion states are absent.
+- Only the desktop happy path appears resolved.
+- A reference skin displaces the product's workflow, density, or platform norms.
+- Fonts, images, icons, or brand assets are assumed without an available and
+  permitted source.
+
+## Verification And Output
+
+For Adapt, Direct, and Review work, apply the risk-relevant sections of
+[quality-gate.md](references/quality-gate.md). Inspect an actual render when the
+surface is runnable. Exercise the changed interaction and the states named by
+the brief. Run existing build, lint, test, and accessibility checks when they
+cover the change.
+
+For a change, lead with the implemented outcome, then list only the viewports,
+states, and commands actually verified. For a review, lead with findings and say
+that no files were changed. Always name missing assets, unavailable render paths,
+or unverified states that materially limit confidence.
 
 ## Gotchas
 
-- Stronger art direction does not authorize extra product features, new design
-  systems, or decorative UI outside the request.
-- Do not replace an established product language with a portfolio-style redesign
-  merely to make the result look more distinctive.
+- A broad trigger does not justify loading Direct guidance for routine work.
+- Treat an explicitly requested specialist workflow or an established project
+  design system as operative context. Do not duplicate or silently replace it.
+- Reference access does not grant permission to copy protected assets, brand
+  identifiers, or an unrelated product's composition.
+- Optional catalogs, MCP services, and design-memory formats may improve
+  evidence, but the skill must still work without them.
