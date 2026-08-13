@@ -4,11 +4,14 @@ description: >
   Use only from Claude Code, Cursor, or another non-Codex host harness when the
   user explicitly invokes or names codex-delegate to delegate a packaged,
   bounded task to the Codex CLI, or to resume, follow, or cancel such a run.
-  Runs the designated highest-capability Codex model in Fast mode by default,
-  lets Codex freely coordinate internal parallel subagents, and lets the host
-  set Codex's judgment authority in the packet. Provides a durable detached run,
-  file-only handoff, explicit sandbox, status, resume, cancellation, and a
-  read-only renderer.
+  Defaults to gpt-5.6-sol at xhigh effort on the standard non-Fast tier, with
+  task-shaped routing to Terra or another model and effort when justified. Fast
+  mode requires an explicit user request. Lets the host set Codex's judgment and
+  internal-subagent authority in the packet. Uses a host-side launcher subagent
+  as the default execution path when the harness supports one while the main
+  host retains lifecycle ownership. Provides a durable detached run, file-only
+  handoff, explicit sandbox, status, resume, cancellation, and a read-only
+  renderer.
   NOT for automatic routing from mere mentions of Codex or GPT, use from inside
   Codex itself, official Codex plugin commands, general multi-agent
   orchestration, or delegating to Cursor (cursor-cli-delegation).
@@ -43,8 +46,8 @@ smallest complete set of:
   Codex owns;
 - authority boundaries and pause conditions, including intended external
   effects (network, MCP tools, credentials);
-- freedom to coordinate internal subagents: encouraged by default, with Codex
-  choosing their number, split, and sequencing;
+- whether internal subagents are useful: allow Codex to choose their number and
+  topology when the mission has genuinely independent branches;
 - verification commands and the final response contract.
 
 The handoff is always a file. Ask Codex to return the complete report as its
@@ -60,48 +63,56 @@ decisions inside the granted scope and pauses only when a choice crosses a
 stated boundary or materially changes the mission. Template and worked example:
 [references/prompt-packet.md](references/prompt-packet.md).
 
-## 2. Launch — durable run template
+## 2. Launch through a host-side launcher subagent
 
-Copy as-is; adjust `$DIR`, `$SANDBOX`, and the flags inside `run.sh`:
+The main host writes the final immutable packet to a file and resolves the
+workspace, sandbox, model, effort, Fast assertion, network grant, and an absent
+absolute run path. It also records its own route and model plus one
+whitespace-free routing reason. When the host harness exposes native
+subagents, give those fixed inputs to a host-side launcher subagent. It invokes
+the bundled deterministic launcher and returns its stdout unchanged as the
+launch manifest. When model pinning is available, use the harness's reliable
+lightweight model for this mechanical role; in Claude Code the intended route
+is Sonnet-class. Escalate only after unavailability or a manifest-contract
+failure. `SKILL_DIR` below means the directory containing this active
+`SKILL.md`:
 
 ```bash
-DIR="$(pwd)"              # target workspace
-SANDBOX=workspace-write   # see the mission mapping below
-RUN="$DIR/.agent-runs/codex/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
-mkdir -p "${RUN%/*}" && mkdir "$RUN"
-# then write your mission packet to "$RUN/prompt.md"
-export DIR SANDBOX RUN
-cat > "$RUN/run.sh" <<'EOF'
-#!/bin/bash
-printf 'sandbox=%s workspace=%s started=%s pgid=%s model=%s effort=%s tier=%s\n' \
-  "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" gpt-5.6-sol high priority \
-  > "$RUN/result.txt"
-trap ':' INT
-codex exec --json -C "$DIR" --sandbox "$SANDBOX" -m gpt-5.6-sol \
-  -c model_reasoning_effort="high" -c service_tier="priority" \
-  -o "$RUN/report.md" - < "$RUN/prompt.md" \
-  > "$RUN/events.jsonl" 2> "$RUN/stderr.log"
-CODEX_EXIT=$?
-trap - INT
-if [ "$CODEX_EXIT" -eq 0 ] && [ -s "$RUN/report.md" ]; then
-  HANDOFF=ready
-else
-  HANDOFF=incomplete
-fi
-printf 'exit=%s handoff=%s finished=%s\n' \
-  "$CODEX_EXIT" "$HANDOFF" "$(date -u +%FT%TZ)" >> "$RUN/result.txt"
-exit "$CODEX_EXIT"
-EOF
-if command -v setsid >/dev/null 2>&1; then
-  setsid -f /bin/bash "$RUN/run.sh"
-else
-  perl -e 'exit 0 if fork; use POSIX (); POSIX::setsid() or die; exec @ARGV or die' \
-    /bin/bash "$RUN/run.sh"
-fi
+RUN_PARENT="$DIR/.agent-runs/codex"
+mkdir -p "$RUN_PARENT"
+RUN="$RUN_PARENT/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
+[ ! -e "$RUN" ] || exit 64
+
+bash "$SKILL_DIR/scripts/launch-run.sh" \
+  --workspace "$DIR" \
+  --sandbox "$SANDBOX" \
+  --packet "$PACKET" \
+  --run-dir "$RUN" \
+  --model gpt-5.6-sol \
+  --effort xhigh \
+  --fast-requested no \
+  --network-access no \
+  --ignore-user-config no \
+  --skip-git-repo-check no \
+  --host-route launcher-subagent \
+  --host-model "$HOST_MODEL" \
+  --routing-reason default
 ```
 
-Then arm one disposable watcher, as a background shell in the launching
-session, so its exit is the completion signal:
+`--fast-requested=yes` is valid only after an explicit user Fast request. The
+script derives `service_tier=priority`; every other run records and passes
+`service_tier=default`. `--host-model` is the exact host model ID when the
+harness exposes it, otherwise `unavailable`. Use a concrete routing reason such
+as `default`, `user-explicit`, `bounded-evidence`, or `availability`.
+
+The manifest contains `run`, `result`, `events`, `report`, `thread`, and the
+exact provenance line. `thread=pending` is valid when Codex has not emitted its
+first event within the launch script's bounded wait. The launcher subagent checks
+the manifest and provenance, returns them to the main host, and stops. It never
+waits for task completion or reads `report.md`.
+
+The main host owns the watcher. Arm it after receiving the manifest so its exit
+can wake the session that will verify the result:
 
 ```bash
 while :; do
@@ -112,10 +123,25 @@ while :; do
 done
 ```
 
-Detachment is the whole point: the harness kills a command's process group, so
-`&` and `nohup` both die with the launcher (measured), while either detached
-launch branch creates a new session. The watcher exits on a terminal line or a
-vanished process group; in the latter case `--status` reports `DIED`.
+If the launcher does not return a complete manifest, the main host checks the
+preselected path before any fallback. When the path exists, recover its
+manifest through the same script and immutable packet:
+
+```bash
+bash "$SKILL_DIR/scripts/launch-run.sh" \
+  --recover-manifest --run-dir "$RUN" --packet "$PACKET"
+```
+
+Recovery succeeds only when `prompt.md`, `run.sh`, and `result.txt` exist, the
+packet matches, and provenance contains the same packet hash plus valid host
+metadata. Adopt that existing run and arm the watcher. If the path exists but
+recovery fails, report a contract failure and do not launch again. If the path
+does not exist, the main host calls the normal command once with the same
+`--run-dir`, `--host-route direct-main`, and a reason that explains the
+fallback. Do not reconstruct the launch shell from memory. Detachment remains
+inside the script, so the durable run survives the short-lived launcher
+subagent or main-host command. The watcher exits on a terminal line or vanished
+process group; in the latter case `--status` reports `DIED`.
 
 Non-negotiable rules:
 
@@ -125,37 +151,41 @@ Non-negotiable rules:
   only when the user said so. The CLI writes `report.md` in every mode.
   Mapping and the network override:
   [references/run-recipes.md](references/run-recipes.md).
-- Never pass `--dangerously-bypass-approvals-and-sandbox`, and never use `-c`
-  to change `sandbox_mode` or the approval policy. Exactly three overrides are
-  sanctioned: `model_reasoning_effort="…"`, `service_tier="priority"`, and
-  `sandbox_workspace_write.network_access=true` — declare each visibly.
-- The prompt travels as `prompt.md` through stdin. The result travels as
-  `report.md` through `-o`; stdout and stderr are redirected before launch, so
-  no Codex result channel reaches the caller or host conversation.
-- Fine to add: `-m`, `-p`, `--output-schema`. Every flag and override belongs
-  on the `result.txt` line so a resume can match them.
+- Never pass `--dangerously-bypass-approvals-and-sandbox`, and never change
+  `sandbox_mode` or approval policy through config. The launcher exposes only
+  model effort, the derived service tier, and the narrow workspace-write network
+  override. It records all three in provenance.
+- The launcher copies the immutable packet to `prompt.md`. The Codex result
+  travels as `report.md` through `-o`; events and stderr stay in their files.
+  Only the bounded launch manifest reaches the launcher subagent or main host.
+- `$RUN/report.md` is reserved for the CLI's final-response capture. Never ask
+  Codex to write a task deliverable there. Put actual deliverables at named
+  workspace paths and let the final response describe them.
 
 ## Model and dispatch
 
-- Default `gpt-5.6-sol` at `high` effort with `service_tier="priority"`, the
-  tier Codex calls Fast (1.5× speed, heavier quota). `codex exec` has a flag
-  for neither; both ride sanctioned `-c` overrides.
-- Two separate dials. Effort follows the mission — `medium` mechanical,
-  `high` implementation or investigation, `xhigh` adversarial review. Speed
-  does not: leave Fast on unless the user explicitly asks otherwise. Never
-  silently downgrade the model or omit Fast; report unavailability or drift.
-- Sol-family packets: shape with the sibling `gpt56-sol-prompting-guide`, and
-  strongly encourage internal subagents. Codex decides whether to spawn them,
-  how many to use, and how to coordinate them; independent branches should run
-  in parallel, while dependent work and conflicting writes stay sequential.
+- Start every new run from `gpt-5.6-sol` at `xhigh` effort with
+  `service_tier="default"`. An explicit user choice wins. Otherwise use Terra
+  at `xhigh`, another supported model, or another effort only when task shape or
+  availability gives a concrete reason. Record the resolved values and the
+  reason for any deviation from the default.
+- Fast is a separate dial. Set `service_tier="priority"` only when the user
+  explicitly asks for Fast; urgency inferred from the task is not enough.
+- Shape GPT-5.6-family packets with the sibling `gpt56-sol-prompting-guide`.
+  Allow internal subagents when independent branches justify them; keep small,
+  dependent, or conflicting work sequential.
 - Judgment ownership comes from the packet. Codex may execute fixed decisions,
   decide within named bounds, or own the mission's investigation, judgment,
   and decisions end to end. Do not force decisions back to the host when the
   packet already granted them.
-- Dispatch: one run is the template above, owned by the main session. Give
-  several runs to a subagent on the host's light tier to keep the launch
-  mechanics out of the main context; it relays and manages, while each
-  packet's judgment grant remains intact.
+- Dispatch: the host main session owns the packet, routing decisions, watcher,
+  result verification, resume decision, and cancellation. A host-side launcher
+  subagent is the default execution path for one or many fixed packets. This
+  role is distinct from the per-run `run.sh` wrapper and Codex's internal
+  subagents. It starts each run through `launch-run.sh`, verifies initial
+  provenance, returns a manifest, and stops. The main host preselects every run
+  path, recovers an existing run when only manifest delivery failed, and uses
+  direct launch through the same script only when that path is absent.
   [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
 ## 3. Observe
@@ -187,11 +217,13 @@ handoff and as input, not proof; never forward it unverified.
 
 ## 5. Resume — explicit thread ID only
 
-The thread ID is on line 1 of `events.jsonl`. A resume reruns the durable
-template in a fresh run directory with the original's sandbox, inheriting the
-thread but not the authority, and it recovers a run killed mid-turn (verified:
-context survived a SIGINT during a command). Never `resume --last`. Recipe and
-flag ordering: [references/run-recipes.md](references/run-recipes.md).
+The main host authorizes and writes the follow-up packet, then sends its path
+and the exact source run directory through the same launcher-subagent path. The
+launcher calls `launch-run.sh --resume-from "$RUN"`; the script refuses an
+active source run and inherits its recorded thread and launch settings into a
+fresh run directory. A resume recovers a run killed mid-turn (verified: context
+survived a SIGINT during a command). Never `resume --last`. Recipe and contract:
+[references/run-recipes.md](references/run-recipes.md).
 
 ## 6. Cancel
 
@@ -210,18 +242,19 @@ distinguishable from a killed one. Escalation:
 
 ## Scope guard
 
-An instruction-driven guide plus one read-only renderer. No harness detection,
-daemons, brokers, background managers, automatic retries, activity heuristics,
-or wrapper CLI; the per-run `run.sh` is provenance, written once and gone with
-the run directory. Keep model, collaboration, and judgment boundaries in the
-description, packet, and canonical command. If the contract fails in real use,
-report the failure instead of growing the tooling.
+An instruction-driven guide plus one deterministic launch script and one
+read-only renderer. No harness detection, daemons, brokers, background managers,
+automatic retries, or activity heuristics. The script creates one durable run
+or reconstructs one verified manifest, then exits; the per-run `run.sh` remains
+exact provenance. Keep routing, collaboration, and judgment boundaries in the
+description and packet. Report a contract failure instead of silently growing
+the launcher's authority.
 
 ## Gotchas
 
 - An `error` item is not a failed run — non-fatal warnings arrive the same way,
-  an unsupported `service_tier` among them, so its absence is how you know Fast
-  applied. `turn.failed` or a non-zero exit is the failure signal.
+  including an unsupported `service_tier`. Such a warning means the requested
+  tier was not applied; `turn.failed` or a non-zero exit is the failure signal.
 - `exit=0 handoff=ready` means Codex exited cleanly and produced a non-empty
   report. It does not prove the task succeeded: judge the report plus your own
   workspace checks.
@@ -230,7 +263,9 @@ report the failure instead of growing the tooling.
   and `-m`.
 - Concurrent runs must not write to one workspace; `read-only` runs may share
   it, writers belong in separate worktrees.
-- A non-git workspace refuses the launch until `--skip-git-repo-check` is
+- Missing launcher output is not proof that launch failed. Recover the manifest
+  from the exact preselected path before considering direct launch.
+- A non-git workspace refuses the launch until `--skip-git-repo-check yes` is
   added; a config `trust_level` entry does not substitute.
 - `.agent-runs/` belongs in the repo's local `git info/exclude`, never its
   `.gitignore`, and tree-walking repo tooling may need to skip it too —

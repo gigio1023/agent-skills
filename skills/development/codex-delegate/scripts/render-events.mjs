@@ -297,7 +297,7 @@ if (status) {
         : "legacy terminal line has no handoff marker. Check report.md before trusting it.";
     } else {
       state = `EXITED ${exit}${handoff ? ` handoff=${handoff}` : ""}`;
-      hint = "codex exited non-zero. Read stderr.log, then resume the thread or relaunch.";
+      hint = "codex exited non-zero. Read stderr.log and classify the failure before resuming the exact thread; do not retry automatically.";
     }
   } else if (terminal) {
     state = terminal.split("=")[0].toUpperCase();

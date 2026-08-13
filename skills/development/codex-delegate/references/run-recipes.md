@@ -6,6 +6,7 @@ troubleshooting for `codex exec` delegation runs.
 ## Contents
 
 - [Run directory](#run-directory)
+- [Launch manifest](#launch-manifest)
 - [Sandbox by mission](#sandbox-by-mission)
 - [Event vocabulary](#event-vocabulary)
 - [Renderer](#renderer)
@@ -24,21 +25,31 @@ hex (e.g. `20260726T054537Z-bd8431f2`).
 
 | File | Content |
 | --- | --- |
-| `prompt.md` | The packet as submitted (write it here, don't copy a tracked file over it) |
+| `prompt.md` | The immutable packet copied by `scripts/launch-run.sh` |
 | `events.jsonl` | The raw JSONL stream from `--json`, as received by the host |
 | `stderr.log` | Full stderr |
 | `report.md` | The only handoff: the final response captured by `-o/--output-last-message` |
-| `run.sh` | The detached launcher, written per run: exact provenance of what ran |
+| `run.sh` | The detached per-run wrapper: exact executable provenance |
 | `result.txt` | Provenance line, then the terminal state |
 
 `report.md` is the only consumer-facing handoff. The JSON protocol repeats the
 last agent message inside `events.jsonl`; keep that raw file for diagnostics,
 but the host reads and verifies `report.md`.
+The run directory's `report.md` is reserved for `-o/--output-last-message`.
+Never use it as a task deliverable path. Put generated artifacts in a named
+workspace location and identify them in the final response.
 
 `result.txt` line 1 records provenance —
-`sandbox=… workspace=… started=… pgid=…`, plus every flag and `-c` the run
-used, and `thread=… resumed_from=…` for a resume. `pgid` is what makes the
-run's liveness decidable later; it is the detached session leader, so
+`sandbox=… workspace=… started=… pgid=… model=… effort=… fast_requested=…
+tier=… network=… ignore_user_config=… skip_git_repo_check=… host_route=…
+host_model=… routing_reason=… packet_sha256=…`, plus `thread=…
+resumed_from=…`
+for a resume. `fast_requested` is `no` unless the user explicitly requested
+Fast; the launch script derives `tier=default|priority` from it. `host_route`
+is `launcher-subagent|direct-main`. `host_model` is the exact host model ID or
+`unavailable`. `routing_reason` records the selected model or fallback reason.
+`packet_sha256` binds provenance to the copied immutable packet. `pgid` is what
+makes the run's liveness decidable later; it is the detached session leader, so
 `kill -0 -"$PGID"` answers "still alive?" and `kill -INT -"$PGID"` cancels.
 The terminal state is appended after codex returns:
 
@@ -63,8 +74,74 @@ Both are judgement calls per mission, not standing requirements.
 Sandbox is not the whole capability boundary either: `--sandbox` governs the
 filesystem effects of shell commands, while MCP servers, network access, and
 web search come from the Codex config the CLI loads. In an untrusted or
-unfamiliar workspace, `--ignore-user-config` or a reviewed `-p <profile>` is
-worth considering — an option to weigh, not a rule.
+unfamiliar workspace, `--ignore-user-config yes` is worth considering. It
+keeps authentication but excludes the user's Codex configuration.
+
+## Launch manifest
+
+`scripts/launch-run.sh` is the only normal initial-run and resume entry point.
+The main host first chooses an absolute run path that does not exist. The
+script validates the fixed launch inputs, creates that path, copies the packet,
+writes the per-run wrapper, detaches the Codex process, waits only for initial
+provenance and a bounded thread-ID probe, then prints exactly six `key=value`
+lines:
+
+```text
+run=/absolute/run/directory
+result=/absolute/run/directory/result.txt
+events=/absolute/run/directory/events.jsonl
+report=/absolute/run/directory/report.md
+thread=<thread-id|pending>
+provenance=<exact first result.txt line>
+```
+
+This manifest is safe to return through the launcher subagent because it has no
+prompt, event, stderr, or report content. `thread=pending` means startup exceeded
+the bounded probe; it does not mean the run failed. The main host uses `run` to
+arm the watcher and reads the thread ID from the first event when needed.
+
+The script's documented invocation is from the skill root:
+
+```bash
+bash scripts/launch-run.sh \
+  --workspace /absolute/workspace \
+  --sandbox read-only \
+  --packet /absolute/packet.md \
+  --run-dir /absolute/workspace/.agent-runs/codex/20260813T010203Z-a1b2c3d4 \
+  --model gpt-5.6-sol \
+  --effort xhigh \
+  --fast-requested no \
+  --network-access no \
+  --ignore-user-config no \
+  --skip-git-repo-check no \
+  --host-route launcher-subagent \
+  --host-model claude-sonnet-5 \
+  --routing-reason default
+```
+
+`--network-access=yes` requires `workspace-write`.
+`--ignore-user-config=yes` keeps CLI authentication while excluding the user's
+Codex config. `--skip-git-repo-check=yes` is required for a non-git workspace.
+`--run-dir` is required and may place artifacts outside the workspace. Its
+target directory must not already exist. Input or validation failures return
+nonzero before a Codex process starts.
+
+If launcher output is lost, do not assume the launch failed. Check the exact
+preselected path. When it exists, recover the same six-field manifest without
+starting Codex:
+
+```bash
+bash scripts/launch-run.sh \
+  --recover-manifest \
+  --run-dir /absolute/preselected/run \
+  --packet /absolute/packet.md
+```
+
+Recovery compares the supplied packet with `prompt.md`, recomputes its SHA-256,
+and requires matching packet and host provenance. Use the recovered run when
+it passes. An existing path that fails recovery is a contract failure. Only an
+absent path permits one direct-main launch through the normal command with the
+same `--run-dir`. Never retry merely because a manifest did not arrive.
 
 ## Sandbox by mission
 
@@ -96,8 +173,9 @@ DNS included. The same command with
 narrow override is the sanctioned way to give a workspace-write run shell
 network: declare it in your reply and append it to the `result.txt`
 provenance line. Exactly three `-c` keys are sanctioned — this one,
-`model_reasoning_effort` for reasoning effort, and `service_tier` for the Fast
-tier — declared and recorded the same way; `-c` still must never touch
+`model_reasoning_effort` for reasoning effort, and `service_tier` (`default`
+normally, `priority` only on an explicit Fast request) — declared and recorded
+the same way; `-c` still must never touch
 `sandbox_mode` or the approval policy.
 
 ## Event vocabulary
@@ -180,12 +258,18 @@ bash scripts/test-run-contract.sh
 ```
 
 This uses a fake `codex` executable, makes no model or network call, and checks
-the complete shell contract: stdin prompt capture; file-only stdout, stderr,
-event, and report channels; non-empty handoff gating; non-zero exit; process
-group death; graceful group cancellation; missing provenance; concurrent
-read-only runs; complex paths; the native Perl fallback; and `setsid` branch
-selection through a local semantics-compatible shim. It does not claim to test
-GNU util-linux itself.
+the complete shell contract: manifest-only launcher output; packet copying;
+file-only Codex stdout, stderr, event, and report channels; non-empty handoff
+gating; non-zero exit; process-group death; graceful group cancellation;
+missing provenance; concurrent read-only runs; complex paths; the native Perl
+fallback; and `setsid` branch selection through a local semantics-compatible
+shim. It also checks Sol/xhigh/non-Fast defaults, contextual Terra routing,
+explicit Fast provenance, optional config and git-check flags, resume
+inheritance, and rejection of an invalid Fast assertion. It also verifies
+packet-bound host provenance, manifest recovery without a second Codex launch,
+rejection of an invalid existing run, a recorded direct-main fallback, and the
+required preselected run path. Sixteen scenarios currently pass. It does not
+claim to test GNU util-linux itself.
 
 ## Run states
 
@@ -241,55 +325,36 @@ run.
 
 ## Resume
 
-A resume reuses the thread in a fresh run directory. It inherits the thread,
-not the authority: take the original's sandbox from its `result.txt` and widen
-only on new authority.
+A resume reuses the thread in a fresh run directory. It inherits the recorded
+sandbox, model, effort, Fast assertion, and network grant from the original
+run. It does not inherit new authority: widen any capability only after the
+user grants it.
 
 ```bash
-DIR="$(pwd)"; RUN="$DIR/.agent-runs/codex/ORIG_RUN_ID"   # the run being resumed
-THREAD=$(sed -n '1s/.*"thread_id":"\([^"]*\)".*/\1/p' "$RUN/events.jsonl")
-SANDBOX=read-only
-NEW="$DIR/.agent-runs/codex/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
-mkdir -p "${NEW%/*}" && mkdir "$NEW"
-# then write your follow-up packet to "$NEW/prompt.md"
-RESUMED_FROM="${RUN##*/}"
-export DIR RUN THREAD SANDBOX NEW RESUMED_FROM
-cat > "$NEW/run.sh" <<'EOF'
-#!/bin/bash
-printf 'sandbox=%s workspace=%s started=%s pgid=%s thread=%s resumed_from=%s model=%s effort=%s tier=%s\n' \
-  "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" "$THREAD" "$RESUMED_FROM" \
-  gpt-5.6-sol high priority > "$NEW/result.txt"
-trap ':' INT
-codex exec -C "$DIR" --sandbox "$SANDBOX" resume "$THREAD" --json -m gpt-5.6-sol \
-  -c model_reasoning_effort="high" -c service_tier="priority" \
-  -o "$NEW/report.md" - < "$NEW/prompt.md" \
-  > "$NEW/events.jsonl" 2> "$NEW/stderr.log"
-CODEX_EXIT=$?
-trap - INT
-if [ "$CODEX_EXIT" -eq 0 ] && [ -s "$NEW/report.md" ]; then
-  HANDOFF=ready
-else
-  HANDOFF=incomplete
-fi
-printf 'exit=%s handoff=%s finished=%s\n' \
-  "$CODEX_EXIT" "$HANDOFF" "$(date -u +%FT%TZ)" >> "$NEW/result.txt"
-exit "$CODEX_EXIT"
-EOF
-if command -v setsid >/dev/null 2>&1; then
-  setsid -f /bin/bash "$NEW/run.sh"
-else
-  perl -e 'exit 0 if fork; use POSIX (); POSIX::setsid() or die; exec @ARGV or die' \
-    /bin/bash "$NEW/run.sh"
-fi
+bash scripts/launch-run.sh \
+  --workspace "$DIR" \
+  --packet "$FOLLOWUP_PACKET" \
+  --resume-from "$RUN" \
+  --run-dir "$NEW_RUN" \
+  --host-route launcher-subagent \
+  --host-model "$HOST_MODEL" \
+  --routing-reason resume-inherited
 ```
 
-Flag placement matters: `-C` and `--sandbox` belong to `exec` and precede
-`resume`; `--json`, `-o`, and `-m` are accepted after it (verified on
-codex-cli 0.145.0 — the wrong order exits 2). Never `resume --last`: it can
-pick the wrong session during parallel work. Re-pass `-m`, the effort and tier
-overrides, and `--ignore-user-config` when the original used them; `-p` cannot
-carry over, because `codex exec resume` has no `--profile` — re-express it
-through `-m` and config.
+`RUN` names one exact source run directory and `FOLLOWUP_PACKET` is the new
+immutable packet. The script refuses to resume while that source run's process
+group is alive. It extracts the explicit thread ID and provenance, creates a
+fresh run directory, and returns the same six-field launch manifest as a new
+thread. The main host must select `NEW_RUN` before dispatch so a lost resume
+manifest can be recovered by exact path. Never `resume --last`: parallel work
+can make it select the wrong thread.
+
+Model or effort may change when the resumed work or current availability gives
+a concrete reason. Update the packet and record the reason when overriding the
+inherited route. A legacy run without `fast_requested` resumes with `no`; Fast
+may remain `yes` only when the original explicit request still covers the same
+mission or the user asks again. The launch script owns the verified CLI flag
+ordering and provenance so the host does not reconstruct them from memory.
 
 Resume is also the recovery path for a killed run. Verified on 0.145.0: a run
 interrupted with SIGINT during a shell command resumed with its context
@@ -370,17 +435,22 @@ checker to skip the directory, or set `RUN` outside the repository.
 - **`INCOMPLETE exit=0`**: Codex returned no non-empty final response. Inspect
   the last `agent_message` in `events.jsonl`; if it contains the result, resume
   and ask Codex to return that complete result as its final response.
+- **Launcher returned no manifest**: inspect the exact preselected run path.
+  Recover the manifest when it exists and matches the packet. Launch directly
+  only when the path is absent. An existing invalid path is a contract failure,
+  not permission to overwrite or retry.
+- **The task wrote a deliverable to `$RUN/report.md`**: the CLI final capture
+  may have replaced it. Inspect the workspace and event log before resuming.
+  Keep future deliverables outside the run directory.
 - **Run seems hung**: `--status` first — it separates `RUNNING` from `DIED`,
   which no amount of `--tail` reading can. If it is `RUNNING`, read
   [Run states](#run-states) before cancelling: quiet usually means reasoning.
 - **`--status` says `DIED`**: the run was killed, not finished. Its edits and
   `report.md` are whatever it had flushed; recover with a resume rather than a
   fresh run, and check whether the launch used the detached template.
-- **Resume needs the original model**: read the original run's `result.txt`
-  provenance line and re-pass what it recorded. `-m` and
-  `--ignore-user-config` carry over; `-p` does not, because `codex exec
-  resume` has no `--profile` — re-express the profile's restrictions through
-  `-m` and config.
+- **Resume needs the original launch settings**: `launch-run.sh --resume-from`
+  reads them from `result.txt` and records them in the new run. Legacy records
+  without the optional config and git-check fields inherit `no`.
 - **`result.txt` ends in `cancel_failed=`**: something survived. Re-run
   `pgrep -lf "$ID"`, deal with what is left, and correct the file by hand.
 - **Flag errors after a CLI update**: trust `codex exec --help` over this

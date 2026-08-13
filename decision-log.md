@@ -216,3 +216,107 @@ PID equaled its PGID and which appended its terminal record.
 - The stale global copy remains untouched. Before normal Claude Code use, sync
   or replace `~/.agents/skills/codex-delegate` with the accepted canonical
   package; do not assume a same-name project symlink wins discovery.
+
+## 2026-08-12: Model and dispatch policy refresh
+
+### Decision
+
+- New runs default to `gpt-5.6-sol`, `xhigh`, and explicit
+  `service_tier="default"`.
+- Use `gpt-5.6-terra` at `xhigh` for bounded implementation or evidence
+  collection when task fit justifies it. Other model or effort changes need a
+  concrete task reason and belong in run provenance.
+- `service_tier="priority"` is allowed only after an explicit Fast request.
+- Resumes start from the original sandbox, model, and effort. Model and effort
+  may change for a concrete task or availability reason. Fast persists only
+  when provenance records an explicit request; legacy runs without that marker
+  resume non-Fast.
+- A host-side launcher subagent is the default execution path for one or many
+  immutable packets when the harness supports native subagents. It calls the
+  deterministic launcher, verifies provenance, returns the manifest, and stops.
+- When the harness can pin a subagent model, use its reliable lightweight model
+  for this mechanical role. In Claude Code the intended route is Sonnet-class;
+  escalate only after unavailability or a manifest-contract failure.
+- The main session owns packet creation, routing, watching, report verification,
+  resume and cancel decisions, and acceptance. Direct use of the same launcher
+  script remains the fallback when a launcher subagent is unavailable or fails.
+- When five or more Codex roots already run in parallel, internal subagents
+  default off unless a packet names a remaining independent need and a bounded
+  child count.
+
+### Evidence
+
+The local Codex 0.147.0 model registry lists `priority` as Fast for both Sol
+and Terra and lists `xhigh` for both models. This Mac's
+`~/.codex/config.toml` sets `service_tier = "default"`, so the launcher passes
+`default` explicitly to prevent a global Fast preference from leaking into a
+delegation.
+
+The Terra usage audit deduplicated 460 retained native Codex sessions and found
+108 with `originator=codex_exec` between 2026-07-10 and 2026-08-12. Of those,
+62 sessions issued 210 actual internal `spawn_agent` calls. Only 13 native
+threads could be joined unambiguously to retained Claude launch output: six
+from main-host traces and seven from host-subagent traces, so that split is
+evidence of both patterns rather than a population ratio.
+
+The retained Maccheroni run artifacts provide a narrower complete sample: 29
+`result.txt` files and all 29 end in `exit=0 handoff=ready`. They record 26 Sol
+and three Terra runs; 20 xhigh, eight high, and one max effort; and five legacy
+priority/Fast runs versus 24 default/non-Fast runs. The strongest main-host
+trace successfully managed groups of three and four plus an explicit resume.
+The strongest host-side launcher trace started three five-run campaigns whose
+15 roots all completed, but the launcher-subagent transcripts ended before the
+roots and did not receive a reliable completion handoff. A broader directory
+pass found one Sonnet launcher that started a production-like Sol run and one
+Sonnet synthetic end-to-end success. In the production-like case, Codex
+finished ready but the launcher transcript ended while waiting. The main host
+recovered the run later.
+
+### Follow-up
+
+The packet now requires a root-visible child-state sweep before the final
+handoff and bounds internal fan-out when the host already runs five or more
+roots. Existing file-backed run artifacts remain the lifecycle source of truth;
+the bundled launch script makes that contract deterministic without adding a
+broker, ledger, or persistent manager. Sonnet launch capability and synthetic
+end-to-end behavior are verified. The production launch-and-manifest-only role
+remains unverified.
+
+## 2026-08-13: Lost-manifest takeover and route provenance
+
+### What changed
+
+The earlier policy allowed a launcher subagent to choose or create a run path.
+If the launcher started Codex but failed to return its manifest, the main host
+could interpret silence as launch failure and start the same packet again. The
+production-like Sonnet trace demonstrated the first half of this failure: the
+run completed but its host-side completion handoff disappeared.
+
+The conservative contract now makes the main host select an absent absolute
+run path before dispatch. Every launch and resume receives that path through
+`--run-dir`. If launcher output is lost, the same script can recover a manifest
+from that exact path after verifying `prompt.md`, `result.txt`, `run.sh`, the
+packet hash, and host metadata. An absent path permits one direct-main launch.
+An existing invalid path is a contract failure and never triggers overwrite or
+automatic retry.
+
+Provenance now adds `host_route`, `host_model`, `routing_reason`, and
+`packet_sha256`. The first three distinguish launcher-subagent use, direct
+fallback, host model, and task-shaped routing without reconstructing Claude or
+Cursor transcripts. The hash binds the recovered run to the immutable packet.
+`$RUN/report.md` is reserved for CLI final capture so task deliverables cannot
+be silently replaced by `-o`.
+
+### Verification and revisit rule
+
+The deterministic smoke suite now passes 16 scenarios. New cases prove that a
+lost manifest is recovered without another Codex invocation, invalid existing
+provenance blocks adoption, direct fallback records its route, and launches
+without a main-selected run path fail before process creation.
+
+Launcher-first remains an operational default. Direct-main batches also worked
+well in retained history, so no comparative success claim is warranted. After
+ten production launch-and-manifest-only runs, compare manifest return, watcher
+arming, fallback, duplicate-run, and acceptance outcomes. Keep launcher-first
+when that path is stable; otherwise route small batches directly while keeping
+the same script and artifact contract.
