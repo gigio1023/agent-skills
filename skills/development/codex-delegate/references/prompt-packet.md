@@ -11,6 +11,10 @@ anything that lives only there — intent, constraints, decisions, taste — mus
 be written down or it is lost. Keep the packet as short as completeness
 allows; point at files instead of pasting them.
 
+The main host finalizes this packet before dispatch. A host-side launcher
+subagent receives its path plus fixed launch values and must not rewrite,
+summarize, or reinterpret it.
+
 The packet is also where authority is stated. `--sandbox` bounds only the
 filesystem effects of shell commands — MCP tools, network, and web search ride
 on the Codex config, so name the external effects the mission may have.
@@ -26,18 +30,22 @@ choices reserved to the host; ordinary reversible choices inside scope may
 stay implicit. If the packet grants a decision, Codex should make it rather
 than returning it for ceremonial approval.
 
-Internal parallelism is a standing recommendation inside a delegated run.
-Codex may freely decide whether to spawn subagents, how many to use, and how
-to coordinate them without asking the host for each dispatch. Prefer parallel
-subagents for independent investigation, implementation, or verification
-branches; keep dependencies and conflicting writes sequential. This freedom
-does not widen the packet's scope, sandbox, or external authority.
+Internal parallelism is task-shaped permission inside a delegated run. Allow it
+when independent investigation, implementation, or verification branches would
+benefit from isolated contexts. Keep small or dependent work sequential. Codex
+may choose the number and topology without asking the host for each internal
+dispatch. This freedom does not widen the packet's scope, sandbox, or external
+authority.
 
 The response contract is always file-backed. Ask Codex to put the complete
 report in its final response. The launcher captures that response directly as
 `report.md` with `-o`; the packet does not need to know the run path, and the
 model does not need write access merely to hand findings back. No finding,
 decision, caveat, or verification result may exist only in a progress event.
+The run directory's `report.md` is reserved for this CLI capture. Never tell
+Codex to write a task deliverable there. Give generated documents, patches, or
+other deliverables their own explicit workspace paths and ask the final
+response to identify them.
 
 ## Template
 
@@ -70,10 +78,15 @@ inside scope belong to Codex unless stated otherwise.
 What it may run or edit, and which external effects are intended — network
 calls, MCP tools, credentials. When it must stop and report instead of
 proceeding (destructive actions, contract changes, missing information).
-Internal subagents: encouraged. Choose freely whether to use them, how many,
-and how to coordinate them. Parallelize independent branches; keep dependent
-steps and conflicting writes sequential. Do not ask the host to approve each
-internal dispatch.
+Internal subagents: allowed when genuinely independent branches justify them.
+Choose their number and topology. Keep dependent steps and conflicting writes
+sequential; a sequential solution remains valid. Before the final handoff,
+inspect the root-visible child states, wait for active children or intentionally
+interrupt them, and state the child sweep result in the report.
+
+If the host is already running five or more Codex roots, replace the preceding
+grant with either `Internal subagents: disabled for this externally parallel
+lane` or one named independent purpose and a maximum child count.
 
 ## Verification
 Exact commands to run, and what output counts as passing.
@@ -82,7 +95,8 @@ Exact commands to run, and what output counts as passing.
 Return the complete report as your final response, covering: ... (findings,
 changed files, commands run with results, deviations from this packet,
 anything left unverified). The launcher captures it as report.md, so do not
-write a separate handoff file or leave material results only in progress.
+write a separate handoff file, write a task deliverable to the run directory's
+report.md, or leave material results only in progress.
 ```
 
 ## Worked example
