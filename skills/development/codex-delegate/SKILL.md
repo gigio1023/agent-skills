@@ -66,32 +66,44 @@ stated boundary or materially changes the mission. Template and worked example:
 ## 2. Launch through a host-side launcher subagent
 
 The main host writes the final immutable packet to a file and resolves the
-workspace, sandbox, model, effort, Fast assertion, and network grant. When the
-host harness exposes native subagents, give those fixed inputs to a host-side
-launcher subagent. It invokes the bundled deterministic launcher and returns
-its stdout unchanged as the launch manifest. When model pinning is available,
-use the harness's reliable lightweight model for this mechanical role; in
-Claude Code the intended route is Sonnet-class. Escalate only after
-unavailability or a manifest-contract failure. `SKILL_DIR` below means the
-directory containing this active `SKILL.md`:
+workspace, sandbox, model, effort, Fast assertion, network grant, and an absent
+absolute run path. It also records its own route and model plus one
+whitespace-free routing reason. When the host harness exposes native
+subagents, give those fixed inputs to a host-side launcher subagent. It invokes
+the bundled deterministic launcher and returns its stdout unchanged as the
+launch manifest. When model pinning is available, use the harness's reliable
+lightweight model for this mechanical role; in Claude Code the intended route
+is Sonnet-class. Escalate only after unavailability or a manifest-contract
+failure. `SKILL_DIR` below means the directory containing this active
+`SKILL.md`:
 
 ```bash
+RUN_PARENT="$DIR/.agent-runs/codex"
+mkdir -p "$RUN_PARENT"
+RUN="$RUN_PARENT/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
+[ ! -e "$RUN" ] || exit 64
+
 bash "$SKILL_DIR/scripts/launch-run.sh" \
   --workspace "$DIR" \
   --sandbox "$SANDBOX" \
   --packet "$PACKET" \
+  --run-dir "$RUN" \
   --model gpt-5.6-sol \
   --effort xhigh \
   --fast-requested no \
   --network-access no \
   --ignore-user-config no \
-  --skip-git-repo-check no
+  --skip-git-repo-check no \
+  --host-route launcher-subagent \
+  --host-model "$HOST_MODEL" \
+  --routing-reason default
 ```
 
 `--fast-requested=yes` is valid only after an explicit user Fast request. The
 script derives `service_tier=priority`; every other run records and passes
-`service_tier=default`. Use `--run-dir` only when the main host deliberately
-chooses an external evidence location or stable run ID.
+`service_tier=default`. `--host-model` is the exact host model ID when the
+harness exposes it, otherwise `unavailable`. Use a concrete routing reason such
+as `default`, `user-explicit`, `bounded-evidence`, or `availability`.
 
 The manifest contains `run`, `result`, `events`, `report`, `thread`, and the
 exact provenance line. `thread=pending` is valid when Codex has not emitted its
@@ -111,12 +123,25 @@ while :; do
 done
 ```
 
-If native subagents are unavailable, the launcher subagent fails, or its
-manifest is incomplete, the main host calls the same script directly. Do not
-reconstruct the launch shell from memory. Detachment remains inside the script:
-the durable run survives the short-lived launcher subagent or main-host command.
-The watcher exits on a terminal line or vanished process group; in the latter
-case `--status` reports `DIED`.
+If the launcher does not return a complete manifest, the main host checks the
+preselected path before any fallback. When the path exists, recover its
+manifest through the same script and immutable packet:
+
+```bash
+bash "$SKILL_DIR/scripts/launch-run.sh" \
+  --recover-manifest --run-dir "$RUN" --packet "$PACKET"
+```
+
+Recovery succeeds only when `prompt.md`, `run.sh`, and `result.txt` exist, the
+packet matches, and provenance contains the same packet hash plus valid host
+metadata. Adopt that existing run and arm the watcher. If the path exists but
+recovery fails, report a contract failure and do not launch again. If the path
+does not exist, the main host calls the normal command once with the same
+`--run-dir`, `--host-route direct-main`, and a reason that explains the
+fallback. Do not reconstruct the launch shell from memory. Detachment remains
+inside the script, so the durable run survives the short-lived launcher
+subagent or main-host command. The watcher exits on a terminal line or vanished
+process group; in the latter case `--status` reports `DIED`.
 
 Non-negotiable rules:
 
@@ -133,6 +158,9 @@ Non-negotiable rules:
 - The launcher copies the immutable packet to `prompt.md`. The Codex result
   travels as `report.md` through `-o`; events and stderr stay in their files.
   Only the bounded launch manifest reaches the launcher subagent or main host.
+- `$RUN/report.md` is reserved for the CLI's final-response capture. Never ask
+  Codex to write a task deliverable there. Put actual deliverables at named
+  workspace paths and let the final response describe them.
 
 ## Model and dispatch
 
@@ -155,8 +183,9 @@ Non-negotiable rules:
   subagent is the default execution path for one or many fixed packets. This
   role is distinct from the per-run `run.sh` wrapper and Codex's internal
   subagents. It starts each run through `launch-run.sh`, verifies initial
-  provenance, returns a manifest, and stops. Main-host launch through the same
-  script remains the failure fallback.
+  provenance, returns a manifest, and stops. The main host preselects every run
+  path, recovers an existing run when only manifest delivery failed, and uses
+  direct launch through the same script only when that path is absent.
   [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
 ## 3. Observe
@@ -215,11 +244,11 @@ distinguishable from a killed one. Escalation:
 
 An instruction-driven guide plus one deterministic launch script and one
 read-only renderer. No harness detection, daemons, brokers, background managers,
-automatic retries, or activity heuristics. The script creates one durable run,
-emits one manifest, and exits; the per-run `run.sh` remains exact provenance.
-Keep routing, collaboration, and judgment boundaries in the description and
-packet. Report a contract failure instead of silently growing the launcher's
-authority.
+automatic retries, or activity heuristics. The script creates one durable run
+or reconstructs one verified manifest, then exits; the per-run `run.sh` remains
+exact provenance. Keep routing, collaboration, and judgment boundaries in the
+description and packet. Report a contract failure instead of silently growing
+the launcher's authority.
 
 ## Gotchas
 
@@ -234,6 +263,8 @@ authority.
   and `-m`.
 - Concurrent runs must not write to one workspace; `read-only` runs may share
   it, writers belong in separate worktrees.
+- Missing launcher output is not proof that launch failed. Recover the manifest
+  from the exact preselected path before considering direct launch.
 - A non-git workspace refuses the launch until `--skip-git-repo-check yes` is
   added; a config `trust_level` entry does not substitute.
 - `.agent-runs/` belongs in the repo's local `git info/exclude`, never its

@@ -266,9 +266,11 @@ priority/Fast runs versus 24 default/non-Fast runs. The strongest main-host
 trace successfully managed groups of three and four plus an explicit resume.
 The strongest host-side launcher trace started three five-run campaigns whose
 15 roots all completed, but the launcher-subagent transcripts ended before the
-roots and did not receive a reliable completion handoff. All identifiable
-launcher subagents used Opus; there is no retained proof yet for a light host
-model such as Sonnet in this role.
+roots and did not receive a reliable completion handoff. A broader directory
+pass found one Sonnet launcher that started a production-like Sol run and one
+Sonnet synthetic end-to-end success. In the production-like case, Codex
+finished ready but the launcher transcript ended while waiting. The main host
+recovered the run later.
 
 ### Follow-up
 
@@ -276,5 +278,45 @@ The packet now requires a root-visible child-state sweep before the final
 handoff and bounds internal fan-out when the host already runs five or more
 roots. Existing file-backed run artifacts remain the lifecycle source of truth;
 the bundled launch script makes that contract deterministic without adding a
-broker, ledger, or persistent manager. A Sonnet-class launcher remains
-behaviorally unverified even though its role is now bounded enough to test.
+broker, ledger, or persistent manager. Sonnet launch capability and synthetic
+end-to-end behavior are verified. The production launch-and-manifest-only role
+remains unverified.
+
+## 2026-08-13: Lost-manifest takeover and route provenance
+
+### What changed
+
+The earlier policy allowed a launcher subagent to choose or create a run path.
+If the launcher started Codex but failed to return its manifest, the main host
+could interpret silence as launch failure and start the same packet again. The
+production-like Sonnet trace demonstrated the first half of this failure: the
+run completed but its host-side completion handoff disappeared.
+
+The conservative contract now makes the main host select an absent absolute
+run path before dispatch. Every launch and resume receives that path through
+`--run-dir`. If launcher output is lost, the same script can recover a manifest
+from that exact path after verifying `prompt.md`, `result.txt`, `run.sh`, the
+packet hash, and host metadata. An absent path permits one direct-main launch.
+An existing invalid path is a contract failure and never triggers overwrite or
+automatic retry.
+
+Provenance now adds `host_route`, `host_model`, `routing_reason`, and
+`packet_sha256`. The first three distinguish launcher-subagent use, direct
+fallback, host model, and task-shaped routing without reconstructing Claude or
+Cursor transcripts. The hash binds the recovered run to the immutable packet.
+`$RUN/report.md` is reserved for CLI final capture so task deliverables cannot
+be silently replaced by `-o`.
+
+### Verification and revisit rule
+
+The deterministic smoke suite now passes 16 scenarios. New cases prove that a
+lost manifest is recovered without another Codex invocation, invalid existing
+provenance blocks adoption, direct fallback records its route, and launches
+without a main-selected run path fail before process creation.
+
+Launcher-first remains an operational default. Direct-main batches also worked
+well in retained history, so no comparative success claim is warranted. After
+ten production launch-and-manifest-only runs, compare manifest return, watcher
+arming, fallback, duplicate-run, and acceptance outcomes. Keep launcher-first
+when that path is stable; otherwise route small batches directly while keeping
+the same script and artifact contract.

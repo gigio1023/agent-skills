@@ -25,7 +25,9 @@ owns the run once it is launched.
    longer available.
 
 Record the resolved model, effort, and service tier in `result.txt`. Name the
-reason for any non-default route in the host's reply.
+reason for any non-default route in the host's reply. The launcher also records
+`host_route`, `host_model`, `routing_reason`, and `packet_sha256` so later audits
+do not have to infer the host path from retained transcripts.
 
 ## Model and effort
 
@@ -163,13 +165,15 @@ path for a single run or a batch whenever the host exposes native subagents.
 The main session still writes every packet and resolves model, effort, sandbox,
 Fast, network, worktree, and authority before dispatch.
 
-Give the launcher subagent immutable packet paths and fixed scalar inputs. When
-the harness supports per-subagent model selection, use its reliable lightweight
-model for this mechanical role. A Sonnet-class model is the intended Claude
-Code route. Escalate only when the light model is unavailable or fails the
-manifest contract. Retained local history proves the role with Opus, so the
-lightweight route remains a deliberate policy to validate in use rather than an
-observed success.
+Give the launcher subagent immutable packet paths, a main-selected absent run
+path, and fixed scalar inputs. When the harness supports per-subagent model
+selection, use its reliable lightweight model for this mechanical role. A
+Sonnet-class model is the intended Claude Code route. Escalate only when the
+light model is unavailable or fails the manifest contract. Retained history
+shows a Sonnet launcher starting a production-like Codex run and another
+Sonnet launcher completing a synthetic end-to-end check. One production
+completion handoff was lost after launch. The new launch-and-manifest-only
+route therefore remains unverified in production.
 
 The launcher subagent calls `scripts/launch-run.sh`, verifies each manifest and
 initial provenance line, and returns the manifest unchanged. It does not decide
@@ -200,10 +204,40 @@ Sequential in form, concurrent in fact: the runs overlap, so this finishes
 with the slowest one. Do not glob the whole `.agent-runs/` directory: an
 unrelated old run would trigger a misleading notification.
 
-If the host has no native subagent, launch fails, or the returned manifest is
-missing a required field, the main session invokes the same deterministic
-script directly. This fallback preserves one launch contract and avoids making
-subagent availability a correctness dependency.
+Launcher-first is an operational default, not a claim that it has a higher
+success rate than direct main-host launch. Retained main-host traces also show
+stable batches of writers, reviewers, and a resume. Keep the direct path as a
+recovery mechanism.
+
+The main session selects every run path before dispatch and passes it through
+`--run-dir`. If launcher output is missing or incomplete, inspect that exact
+path before deciding what failed:
+
+1. When the path exists, call `launch-run.sh --recover-manifest` with the same
+   immutable packet. Matching packet hash and host provenance means launch
+   succeeded, so adopt the run and arm the watcher.
+2. When the path exists but recovery fails, stop with a contract failure. Do
+   not overwrite the directory or start another run.
+3. When the path is absent, invoke the normal launcher command directly with
+   the same path and record `host_route=direct-main` plus the fallback reason.
+
+This fallback preserves one launch contract and avoids making subagent
+availability or manifest delivery a correctness dependency. It also prevents
+the lost-output case from creating a duplicate Codex run.
+
+Do not turn recovery into automatic retry. The main session classifies the
+evidence first:
+
+- a manifest-delivery failure uses the verified existing run;
+- `DIED` or a transport failure resumes the exact thread when possible;
+- `handoff=incomplete` inspects events, then resumes only to repair the final
+  handoff;
+- a reserved `report.md` collision, workspace drift, or deleted deliverable
+  requires workspace inspection before any resume;
+- missing or mismatched provenance is a contract failure.
+
+Replaying the same packet without this classification can duplicate edits or
+repeat an external effect.
 
 The host must also budget total fan-out. When it already launches five or more
 Codex roots, internal subagents default off unless a packet names a branch that

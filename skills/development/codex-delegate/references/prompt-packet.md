@@ -42,6 +42,10 @@ report in its final response. The launcher captures that response directly as
 `report.md` with `-o`; the packet does not need to know the run path, and the
 model does not need write access merely to hand findings back. No finding,
 decision, caveat, or verification result may exist only in a progress event.
+The run directory's `report.md` is reserved for this CLI capture. Never tell
+Codex to write a task deliverable there. Give generated documents, patches, or
+other deliverables their own explicit workspace paths and ask the final
+response to identify them.
 
 ## Template
 
@@ -91,7 +95,8 @@ Exact commands to run, and what output counts as passing.
 Return the complete report as your final response, covering: ... (findings,
 changed files, commands run with results, deviations from this packet,
 anything left unverified). The launcher captures it as report.md, so do not
-write a separate handoff file or leave material results only in progress.
+write a separate handoff file, write a task deliverable to the run directory's
+report.md, or leave material results only in progress.
 ```
 
 ## Worked example

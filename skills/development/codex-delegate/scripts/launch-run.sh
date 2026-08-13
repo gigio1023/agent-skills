@@ -3,7 +3,8 @@ set -u
 
 usage() {
   cat >&2 <<'EOF'
-usage: launch-run.sh --workspace DIR --packet FILE (--sandbox MODE | --resume-from RUN) [options]
+usage: launch-run.sh --workspace DIR --packet FILE --run-dir DIR (--sandbox MODE | --resume-from RUN) [options]
+       launch-run.sh --recover-manifest --run-dir DIR --packet FILE
 
 Options:
   --model MODEL              new-thread default: gpt-5.6-sol
@@ -14,14 +15,43 @@ Options:
                               new-thread default: no
   --skip-git-repo-check yes|no
                               new-thread default: no
+  --host-route ROUTE         launcher-subagent or direct-main
+  --host-model MODEL         exact host model ID, or unavailable
+  --routing-reason REASON    one whitespace-free route reason
   --resume-from RUN          inherit a prior run's thread and launch settings
-  --run-dir DIR              default: WORKSPACE/.agent-runs/codex/<generated-id>
+  --run-dir DIR              required absent path selected by the main host
+  --recover-manifest         verify and print an existing run's manifest only
 EOF
 }
 
 fail() {
   printf 'launch-run: %s\n' "$*" >&2
   exit 64
+}
+
+packet_sha256() {
+  local hash
+  hash=$(openssl dgst -sha256 -r "$1" 2>/dev/null | awk '{print $1}') || return 1
+  [ "${#hash}" -eq 64 ] || return 1
+  printf '%s\n' "$hash"
+}
+
+emit_manifest() {
+  local provenance thread
+  provenance=$(sed -n '1p' "$RUN/result.txt")
+  thread=$(printf '%s\n' "$provenance" |
+    sed -n 's/.* thread=\([^ ]*\).*/\1/p')
+  if [ -z "$thread" ] && [ -s "$RUN/events.jsonl" ]; then
+    thread=$(sed -n '1s/.*"thread_id":"\([^"]*\)".*/\1/p' "$RUN/events.jsonl")
+  fi
+  thread=${thread:-pending}
+
+  printf 'run=%s\n' "$RUN"
+  printf 'result=%s\n' "$RUN/result.txt"
+  printf 'events=%s\n' "$RUN/events.jsonl"
+  printf 'report=%s\n' "$RUN/report.md"
+  printf 'thread=%s\n' "$thread"
+  printf 'provenance=%s\n' "$provenance"
 }
 
 WORKSPACE=
@@ -44,10 +74,14 @@ RESUME_FROM=
 RESUME_THREAD=
 RESUMED_FROM=
 RUN=
+HOST_ROUTE=
+HOST_MODEL=
+ROUTING_REASON=
+RECOVER_MANIFEST=no
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    --workspace|--sandbox|--packet|--model|--effort|--fast-requested|--network-access|--ignore-user-config|--skip-git-repo-check|--resume-from|--run-dir)
+    --workspace|--sandbox|--packet|--model|--effort|--fast-requested|--network-access|--ignore-user-config|--skip-git-repo-check|--host-route|--host-model|--routing-reason|--resume-from|--run-dir)
       [ "$#" -ge 2 ] || fail "$1 requires a value"
       case "$1" in
         --workspace) WORKSPACE=$2 ;;
@@ -59,10 +93,17 @@ while [ "$#" -gt 0 ]; do
         --network-access) NETWORK_ACCESS=$2; NETWORK_ACCESS_SET=yes ;;
         --ignore-user-config) IGNORE_USER_CONFIG=$2; IGNORE_USER_CONFIG_SET=yes ;;
         --skip-git-repo-check) SKIP_GIT_REPO_CHECK=$2; SKIP_GIT_REPO_CHECK_SET=yes ;;
+        --host-route) HOST_ROUTE=$2 ;;
+        --host-model) HOST_MODEL=$2 ;;
+        --routing-reason) ROUTING_REASON=$2 ;;
         --resume-from) RESUME_FROM=$2 ;;
         --run-dir) RUN=$2 ;;
       esac
       shift 2
+      ;;
+    --recover-manifest)
+      RECOVER_MANIFEST=yes
+      shift
       ;;
     -h|--help)
       usage
@@ -72,9 +113,58 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+[ -s "$PACKET" ] || fail "packet is missing or empty: $PACKET"
+[ -n "$RUN" ] || fail "--run-dir is required"
+
+if [ "$RECOVER_MANIFEST" = yes ]; then
+  [ -d "$RUN" ] || fail "recovery run directory does not exist: $RUN"
+  RUN=$(cd "$RUN" && pwd -P) || exit 64
+  [ -s "$RUN/result.txt" ] || fail "recovery run has no provenance: $RUN"
+  [ -f "$RUN/prompt.md" ] || fail "recovery run has no prompt.md: $RUN"
+  [ -f "$RUN/run.sh" ] || fail "recovery run has no run.sh: $RUN"
+  cmp -s "$PACKET" "$RUN/prompt.md" ||
+    fail "recovery packet does not match prompt.md: $RUN"
+  PACKET_SHA256=$(packet_sha256 "$RUN/prompt.md") ||
+    fail "could not hash recovery packet: $RUN"
+  RECOVERY_PROVENANCE=$(sed -n '1p' "$RUN/result.txt")
+  RECOVERY_PACKET_SHA=$(printf '%s\n' "$RECOVERY_PROVENANCE" |
+    sed -n 's/.* packet_sha256=\([^ ]*\).*/\1/p')
+  [ "$RECOVERY_PACKET_SHA" = "$PACKET_SHA256" ] ||
+    fail "recovery provenance does not match packet hash: $RUN"
+  RECOVERY_HOST_ROUTE=$(printf '%s\n' "$RECOVERY_PROVENANCE" |
+    sed -n 's/.* host_route=\([^ ]*\).*/\1/p')
+  case "$RECOVERY_HOST_ROUTE" in
+    launcher-subagent|direct-main) ;;
+    *) fail "recovery provenance has no valid host route: $RUN" ;;
+  esac
+  RECOVERY_HOST_MODEL=$(printf '%s\n' "$RECOVERY_PROVENANCE" |
+    sed -n 's/.* host_model=\([^ ]*\).*/\1/p')
+  RECOVERY_ROUTING_REASON=$(printf '%s\n' "$RECOVERY_PROVENANCE" |
+    sed -n 's/.* routing_reason=\([^ ]*\).*/\1/p')
+  [ -n "$RECOVERY_HOST_MODEL" ] && [ -n "$RECOVERY_ROUTING_REASON" ] ||
+    fail "recovery provenance is missing host metadata: $RUN"
+  emit_manifest
+  exit 0
+fi
+
 [ -n "$WORKSPACE" ] || fail "--workspace is required"
 [ -d "$WORKSPACE" ] || fail "workspace does not exist: $WORKSPACE"
-[ -s "$PACKET" ] || fail "packet is missing or empty: $PACKET"
+[ -n "$HOST_ROUTE" ] || fail "--host-route is required"
+[ -n "$HOST_MODEL" ] || fail "--host-model is required"
+[ -n "$ROUTING_REASON" ] || fail "--routing-reason is required"
+
+case "$HOST_ROUTE" in
+  launcher-subagent|direct-main) ;;
+  *) fail "--host-route must be launcher-subagent or direct-main" ;;
+esac
+
+case "$HOST_MODEL" in
+  *[[:space:]]*) fail "--host-model must not contain whitespace" ;;
+esac
+
+case "$ROUTING_REASON" in
+  *[[:space:]]*) fail "--routing-reason must not contain whitespace" ;;
+esac
 
 if [ -n "$RESUME_FROM" ]; then
   [ -f "$RESUME_FROM/result.txt" ] || fail "resume source has no result.txt: $RESUME_FROM"
@@ -164,35 +254,34 @@ case "$SKIP_GIT_REPO_CHECK" in
 esac
 
 DIR=$(cd "$WORKSPACE" && pwd -P) || exit 64
-if [ -z "$RUN" ]; then
-  RUN_PARENT="$DIR/.agent-runs/codex"
-  mkdir -p "$RUN_PARENT" || exit 1
-  RUN="$RUN_PARENT/$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 4)"
-else
-  RUN_PARENT=$(dirname "$RUN")
-  mkdir -p "$RUN_PARENT" || exit 1
-  RUN_PARENT=$(cd "$RUN_PARENT" && pwd -P) || exit 1
-  RUN="$RUN_PARENT/$(basename "$RUN")"
-fi
+RUN_PARENT=$(dirname "$RUN")
+mkdir -p "$RUN_PARENT" || exit 1
+RUN_PARENT=$(cd "$RUN_PARENT" && pwd -P) || exit 1
+RUN="$RUN_PARENT/$(basename "$RUN")"
 
 mkdir "$RUN" || fail "run directory already exists or cannot be created: $RUN"
 cp "$PACKET" "$RUN/prompt.md" || exit 1
+PACKET_SHA256=$(packet_sha256 "$RUN/prompt.md") ||
+  fail "could not hash copied packet: $RUN/prompt.md"
 
 export DIR SANDBOX MODEL EFFORT FAST_REQUESTED SERVICE_TIER NETWORK_ACCESS RUN
 export IGNORE_USER_CONFIG SKIP_GIT_REPO_CHECK RESUME_THREAD RESUMED_FROM
+export HOST_ROUTE HOST_MODEL ROUTING_REASON PACKET_SHA256
 cat > "$RUN/run.sh" <<'EOF'
 #!/bin/bash
 if [ -n "$RESUME_THREAD" ]; then
-  printf 'sandbox=%s workspace=%s started=%s pgid=%s thread=%s resumed_from=%s model=%s effort=%s fast_requested=%s tier=%s network=%s ignore_user_config=%s skip_git_repo_check=%s\n' \
+  printf 'sandbox=%s workspace=%s started=%s pgid=%s thread=%s resumed_from=%s model=%s effort=%s fast_requested=%s tier=%s network=%s ignore_user_config=%s skip_git_repo_check=%s host_route=%s host_model=%s routing_reason=%s packet_sha256=%s\n' \
     "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" "$RESUME_THREAD" \
     "$RESUMED_FROM" "$MODEL" "$EFFORT" "$FAST_REQUESTED" "$SERVICE_TIER" \
     "$NETWORK_ACCESS" "$IGNORE_USER_CONFIG" "$SKIP_GIT_REPO_CHECK" \
+    "$HOST_ROUTE" "$HOST_MODEL" "$ROUTING_REASON" "$PACKET_SHA256" \
     > "$RUN/result.txt"
 else
-  printf 'sandbox=%s workspace=%s started=%s pgid=%s model=%s effort=%s fast_requested=%s tier=%s network=%s ignore_user_config=%s skip_git_repo_check=%s\n' \
+  printf 'sandbox=%s workspace=%s started=%s pgid=%s model=%s effort=%s fast_requested=%s tier=%s network=%s ignore_user_config=%s skip_git_repo_check=%s host_route=%s host_model=%s routing_reason=%s packet_sha256=%s\n' \
     "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" "$MODEL" "$EFFORT" \
     "$FAST_REQUESTED" "$SERVICE_TIER" "$NETWORK_ACCESS" \
-    "$IGNORE_USER_CONFIG" "$SKIP_GIT_REPO_CHECK" > "$RUN/result.txt"
+    "$IGNORE_USER_CONFIG" "$SKIP_GIT_REPO_CHECK" "$HOST_ROUTE" \
+    "$HOST_MODEL" "$ROUTING_REASON" "$PACKET_SHA256" > "$RUN/result.txt"
 fi
 trap ':' INT
 if [ -n "$RESUME_THREAD" ]; then
@@ -256,9 +345,4 @@ else
   done
 fi
 
-printf 'run=%s\n' "$RUN"
-printf 'result=%s\n' "$RUN/result.txt"
-printf 'events=%s\n' "$RUN/events.jsonl"
-printf 'report=%s\n' "$RUN/report.md"
-printf 'thread=%s\n' "$THREAD"
-printf 'provenance=%s\n' "$(sed -n '1p' "$RUN/result.txt")"
+emit_manifest

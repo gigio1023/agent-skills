@@ -35,14 +35,21 @@ hex (e.g. `20260726T054537Z-bd8431f2`).
 `report.md` is the only consumer-facing handoff. The JSON protocol repeats the
 last agent message inside `events.jsonl`; keep that raw file for diagnostics,
 but the host reads and verifies `report.md`.
+The run directory's `report.md` is reserved for `-o/--output-last-message`.
+Never use it as a task deliverable path. Put generated artifacts in a named
+workspace location and identify them in the final response.
 
 `result.txt` line 1 records provenance —
 `sandbox=… workspace=… started=… pgid=… model=… effort=… fast_requested=…
-tier=… network=… ignore_user_config=… skip_git_repo_check=…`, plus
-`thread=… resumed_from=…`
+tier=… network=… ignore_user_config=… skip_git_repo_check=… host_route=…
+host_model=… routing_reason=… packet_sha256=…`, plus `thread=…
+resumed_from=…`
 for a resume. `fast_requested` is `no` unless the user explicitly requested
-Fast; the launch script derives `tier=default|priority` from it. `pgid` is what makes the
-run's liveness decidable later; it is the detached session leader, so
+Fast; the launch script derives `tier=default|priority` from it. `host_route`
+is `launcher-subagent|direct-main`. `host_model` is the exact host model ID or
+`unavailable`. `routing_reason` records the selected model or fallback reason.
+`packet_sha256` binds provenance to the copied immutable packet. `pgid` is what
+makes the run's liveness decidable later; it is the detached session leader, so
 `kill -0 -"$PGID"` answers "still alive?" and `kill -INT -"$PGID"` cancels.
 The terminal state is appended after codex returns:
 
@@ -73,9 +80,11 @@ keeps authentication but excludes the user's Codex configuration.
 ## Launch manifest
 
 `scripts/launch-run.sh` is the only normal initial-run and resume entry point.
-It validates the fixed launch inputs, copies the packet, writes the per-run
-wrapper, detaches the Codex process, waits only for initial provenance and a
-bounded thread-ID probe, then prints exactly six `key=value` lines:
+The main host first chooses an absolute run path that does not exist. The
+script validates the fixed launch inputs, creates that path, copies the packet,
+writes the per-run wrapper, detaches the Codex process, waits only for initial
+provenance and a bounded thread-ID probe, then prints exactly six `key=value`
+lines:
 
 ```text
 run=/absolute/run/directory
@@ -98,20 +107,41 @@ bash scripts/launch-run.sh \
   --workspace /absolute/workspace \
   --sandbox read-only \
   --packet /absolute/packet.md \
+  --run-dir /absolute/workspace/.agent-runs/codex/20260813T010203Z-a1b2c3d4 \
   --model gpt-5.6-sol \
   --effort xhigh \
   --fast-requested no \
   --network-access no \
   --ignore-user-config no \
-  --skip-git-repo-check no
+  --skip-git-repo-check no \
+  --host-route launcher-subagent \
+  --host-model claude-sonnet-5 \
+  --routing-reason default
 ```
 
 `--network-access=yes` requires `workspace-write`.
 `--ignore-user-config=yes` keeps CLI authentication while excluding the user's
 Codex config. `--skip-git-repo-check=yes` is required for a non-git workspace.
-`--run-dir` may place the artifacts outside the workspace or give a stable ID,
-but the target directory must not already exist. Input or validation failures
-return nonzero before a Codex process starts.
+`--run-dir` is required and may place artifacts outside the workspace. Its
+target directory must not already exist. Input or validation failures return
+nonzero before a Codex process starts.
+
+If launcher output is lost, do not assume the launch failed. Check the exact
+preselected path. When it exists, recover the same six-field manifest without
+starting Codex:
+
+```bash
+bash scripts/launch-run.sh \
+  --recover-manifest \
+  --run-dir /absolute/preselected/run \
+  --packet /absolute/packet.md
+```
+
+Recovery compares the supplied packet with `prompt.md`, recomputes its SHA-256,
+and requires matching packet and host provenance. Use the recovered run when
+it passes. An existing path that fails recovery is a contract failure. Only an
+absent path permits one direct-main launch through the normal command with the
+same `--run-dir`. Never retry merely because a manifest did not arrive.
 
 ## Sandbox by mission
 
@@ -235,8 +265,11 @@ missing provenance; concurrent read-only runs; complex paths; the native Perl
 fallback; and `setsid` branch selection through a local semantics-compatible
 shim. It also checks Sol/xhigh/non-Fast defaults, contextual Terra routing,
 explicit Fast provenance, optional config and git-check flags, resume
-inheritance, and rejection of an invalid Fast assertion. It does not claim to
-test GNU util-linux itself.
+inheritance, and rejection of an invalid Fast assertion. It also verifies
+packet-bound host provenance, manifest recovery without a second Codex launch,
+rejection of an invalid existing run, a recorded direct-main fallback, and the
+required preselected run path. Sixteen scenarios currently pass. It does not
+claim to test GNU util-linux itself.
 
 ## Run states
 
@@ -301,16 +334,20 @@ user grants it.
 bash scripts/launch-run.sh \
   --workspace "$DIR" \
   --packet "$FOLLOWUP_PACKET" \
-  --resume-from "$RUN"
+  --resume-from "$RUN" \
+  --run-dir "$NEW_RUN" \
+  --host-route launcher-subagent \
+  --host-model "$HOST_MODEL" \
+  --routing-reason resume-inherited
 ```
 
 `RUN` names one exact source run directory and `FOLLOWUP_PACKET` is the new
 immutable packet. The script refuses to resume while that source run's process
 group is alive. It extracts the explicit thread ID and provenance, creates a
 fresh run directory, and returns the same six-field launch manifest as a new
-thread. Use `--run-dir` only when the main host deliberately chooses the new
-artifact location. Never `resume --last`: parallel work can make it select the
-wrong thread.
+thread. The main host must select `NEW_RUN` before dispatch so a lost resume
+manifest can be recovered by exact path. Never `resume --last`: parallel work
+can make it select the wrong thread.
 
 Model or effort may change when the resumed work or current availability gives
 a concrete reason. Update the packet and record the reason when overriding the
@@ -398,6 +435,13 @@ checker to skip the directory, or set `RUN` outside the repository.
 - **`INCOMPLETE exit=0`**: Codex returned no non-empty final response. Inspect
   the last `agent_message` in `events.jsonl`; if it contains the result, resume
   and ask Codex to return that complete result as its final response.
+- **Launcher returned no manifest**: inspect the exact preselected run path.
+  Recover the manifest when it exists and matches the packet. Launch directly
+  only when the path is absent. An existing invalid path is a contract failure,
+  not permission to overwrite or retry.
+- **The task wrote a deliverable to `$RUN/report.md`**: the CLI final capture
+  may have replaced it. Inspect the workspace and event log before resuming.
+  Keep future deliverables outside the run directory.
 - **Run seems hung**: `--status` first — it separates `RUNNING` from `DIED`,
   which no amount of `--tail` reading can. If it is `RUNNING`, read
   [Run states](#run-states) before cancelling: quiet usually means reasoning.
