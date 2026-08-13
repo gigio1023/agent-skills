@@ -180,7 +180,7 @@ existing `npx skills` lock entries can continue to update in place.
 
 | Skill | What it helps with |
 | --- | --- |
-| [frontend-design](skills/development/frontend-design/) | Apply visual hierarchy, art direction, interaction judgment, and UI quality checks |
+| [frontend-design](skills/development/frontend-design/) | Route and verify user-visible frontend work from bug fixes and local changes through new UI and redesigns |
 | [mermaid-diagrams](skills/development/mermaid-diagrams/) | Design readable, parser-safe Mermaid diagrams and validate their rendering |
 
 ### Writing and Language

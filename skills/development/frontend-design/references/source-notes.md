@@ -1,44 +1,125 @@
 # Source Notes
 
-Last reviewed: 2026-06-29.
+Last reviewed: 2026-08-13.
 
-This skill is a synthesis, not a verbatim copy. Keep it compact and judgment-oriented.
+This skill synthesizes sources into routing, research, and verification rules.
+It does not copy a provider prompt, brand analysis, or bundled design fixture as
+an aesthetic default.
 
-## Sources Considered
+## Contents
 
-- OpenAI API prompting docs: relevant meta-rule that prompts/instructions should be treated like application code, versioned, reviewed, tested, and kept close to product behavior.
-  https://developers.openai.com/api/docs/guides/prompting
+- [Trust Tiers](#trust-tiers)
+- [Provider Skills And Prompt Packs](#provider-skills-and-prompt-packs)
+- [Selection And Licensing Rules](#selection-and-licensing-rules)
+- [Architecture Decision](#architecture-decision)
 
-- Anthropic public `frontend-design` skill: strong taste layer for avoiding templated defaults and grounding design in subject matter. Use the principle, not the exact text.
-  https://github.com/anthropics/skills/tree/main/skills/frontend-design
+## Trust Tiers
 
-- Anthropic public skills guidance: supports progressive disclosure and keeping the trigger description strong while moving detailed material into references.
-  https://github.com/anthropics/skills
+### 1. Standards And Platform Evidence
 
-- Vercel Web Interface Guidelines: strong implementation QA checklist for accessibility, focus, forms, animation, typography, content handling, performance, navigation, layout, theming, i18n, and anti-patterns.
+Use these as the authority for accessibility and platform claims:
+
+- WCAG 2.2 and the WAI Authoring Practices Guide for conformance criteria,
+  semantics, keyboard behavior, and widget patterns.
+  https://www.w3.org/TR/WCAG22/
+  https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/
+- Web Platform Baseline, Core Web Vitals guidance, and MDN for browser support,
+  performance evidence, and CSS or Web API behavior.
+  https://web.dev/baseline
+  https://web.dev/articles/vitals
+  https://developer.mozilla.org/
+- W3C Internationalization guidance for language, line breaking, direction, and
+  locale-sensitive presentation.
+  https://www.w3.org/International/
+
+### 2. Production Design Systems
+
+Use these for tested patterns and implementation evidence. Adapt to the current
+product rather than importing their brand:
+
+- GOV.UK Design System and Service Manual for forms, errors, task flows, and
+  accessibility strategy.
+  https://design-system.service.gov.uk/
+  https://www.gov.uk/service-manual
+- GitHub Primer for production component and accessibility practices, and
+  Microsoft HAX for accessible AI-assistant experience patterns.
+  https://primer.style/
+  https://microsoft.github.io/HAXPlaybook/
+- Material Design for canonical layout and interaction patterns.
+  https://m3.material.io/
+- Vercel Web Interface Guidelines for implementation review cues across focus,
+  forms, motion, typography, content, performance, navigation, and i18n.
   https://github.com/vercel-labs/web-interface-guidelines
-  https://github.com/vercel-labs/agent-skills
 
-- Microsoft `frontend-design-review` skill: useful framing around frictionless action, craft, trust, and design review, but too broad to copy directly into this general design skill.
-  https://github.com/microsoft/skills
+### 3. Workflow And Design-Memory Structures
 
-- StyleSeed: useful distinction between design judgment and token dumps, plus coherence rules for color, rhythm, state, and density. Avoid importing brand skins or many hard numeric rules into the general skill because they can become a new template.
-  https://github.com/bitjaru/styleseed
+Use these for process and packaging ideas. Their bundled content has mixed
+provenance and should not become a design authority:
 
-## Selection Criteria
+- Open Design separates functional skills, rendering, reusable design-system
+  packages, preview, and export. Its manifest and `DESIGN.md` structure are
+  useful; bundled fixtures may carry separate licenses or generated prose.
+  https://github.com/nexu-io/open-design
+- Google's DESIGN.md experiment uses structured tokens plus rationale and can
+  lint, diff, and export design memory. It is alpha, so this skill supports a
+  present file without requiring its schema.
+  https://github.com/google-labs-code/design.md
+- Agentic Design System supplies an evidence loop from intent and baseline
+  through render, review, and revision.
+  https://github.com/aa-on-ai/agentic-design-system
+- Open CoDesign shows local design memory, preview, and versioned collaboration.
+  https://github.com/opencoworkai/open-codesign
+- Raven MCP and Designlib MCP show optional runtime retrieval and audit models.
+  Neither service is required for this skill's normal path.
+  https://github.com/rhinocap/raven-mcp
+  https://github.com/app-builders-club/designLib-mcp
 
-Prefer guidance that:
-- Improves decisions across multiple frameworks and output formats.
-- Explains when to choose a pattern, not just what the pattern is.
-- Produces verifiable behavior: screenshots, responsive checks, accessibility checks, build/lint/test.
-- Prevents common AI-generated UI failures without forcing every design into the same aesthetic.
+### 4. Exploration Sources
 
-Reject or quarantine guidance that:
-- Is mostly trend-chasing or inspirational wording.
-- Requires a single brand skin, component library, or visual style for all outputs.
-- Adds long rule lists that the agent will follow mechanically without judgment.
-- Optimizes only for landing pages while harming tools, reports, dashboards, or documents.
+Use catalogs and galleries to discover candidates. Verify an important decision
+against the shipped product, original material, or a stronger source:
+
+- Mobbin, SiteInspire, Awwwards, Interface In Game, and Awesome DESIGN.md.
+  https://mobbin.com/
+  https://www.siteinspire.com/
+  https://www.awwwards.com/
+  https://interfaceingame.com/
+  https://github.com/VoltAgent/awesome-design-md
+- Datawrapper and Observable Plot are useful primary references for explaining
+  and implementing data visualization choices.
+  https://www.datawrapper.de/
+  https://observablehq.com/plot/
+
+## Provider Skills And Prompt Packs
+
+OpenAI, Anthropic, Microsoft, StyleSeed, and other public frontend skills reveal
+common model defaults and useful checks. Treat their aesthetic language as
+failure-mode evidence rather than design authority. Do not inherit requirements
+for a memorable signature, a single bold move, a fixed token palette, or one
+provider's preferred stack.
+
+Relevant comparison sources:
+
+- https://github.com/anthropics/skills/tree/main/skills/frontend-design
+- https://github.com/microsoft/skills
+- https://github.com/bitjaru/styleseed
+- https://github.com/vercel-labs/agent-skills
+
+## Selection And Licensing Rules
+
+Prefer a source when it changes a cross-framework decision, supplies verifiable
+behavior, or documents a recurring failure. Quarantine trend language,
+unattributed brand reconstruction, one-stack assumptions, arbitrary numbers,
+and landing-page advice presented as universal UI guidance.
+
+Keep the skill a synthesis. Before copying code, imagery, fonts, icons, or a
+design-system package, verify the license of that exact asset. A repository's
+license may not cover every bundled fixture or third-party file.
 
 ## Architecture Decision
 
-Keep one `frontend-design` skill as the shared art-direction and quality layer. Add references by surface or verification type. Do not create React/Vue/HTML-specific design skills unless repeated failures prove that implementation details need separate local runbooks.
+Keep `frontend-design` as a portable routing and quality layer for user-visible
+frontend work. Scale its cost through Preserve, Adapt, and Direct paths. Keep
+reference search and design-memory tools optional. Add scripts or a persistent
+catalog only after a repeated failure shows that model judgment and project
+evidence are insufficient.
