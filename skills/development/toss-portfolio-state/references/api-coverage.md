@@ -7,6 +7,7 @@
 - Default Read-Only Account State
 - Basic Market Context
 - Full Market Context
+- Classified Read-Only Endpoints Not Called
 - Mutating Endpoints Blocked
 - Known Documentation Edge Cases
 
@@ -87,6 +88,22 @@ Full mode additionally calls:
 | `GET` | `/api/v1/rankings` | KR/US rankings. |
 | `GET` | `/api/v1/market-indicators/{symbol}/candles` | Indicator candles. |
 | `GET` | `/api/v1/market-indicators/{symbol}/investor-trading` | KOSPI/KOSDAQ investor trading. |
+
+## Classified Read-Only Endpoints Not Called
+
+The official API also exposes these read-only endpoints. They are classified so
+new mutating surfaces cannot pass the coverage gate unnoticed, but the snapshot
+does not call them until its normalized contract has a decision-relevant field
+for their output.
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/api/v1/stocks/all` | Full tradable stock universe for one market. |
+| `GET` | `/api/v1/stocks/{symbol}/credit-trades` | Korean stock margin-loan and stock-loan trends. |
+| `GET` | `/api/v1/stocks/{symbol}/investor-trading` | Korean stock investor trading and holdings trends. |
+| `GET` | `/api/v1/stocks/{symbol}/program-trades` | Korean stock program-trading trends. |
+| `GET` | `/api/v1/stocks/{symbol}/securities-lending` | Korean stock securities-lending trends. |
+| `GET` | `/api/v1/stocks/{symbol}/short-selling` | Korean stock short-selling trends. |
 
 ## Mutating Endpoints Blocked
 

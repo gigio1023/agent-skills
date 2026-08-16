@@ -13,10 +13,9 @@ description: >
 
 # Toss Portfolio State
 
-Use this skill to collect a read-only Toss Invest OpenAPI snapshot and turn it
-into a normalized `toss_portfolio_snapshot`. The result is temporary personal
-account-state evidence with optional market context, not a trading engine or an
-investment recommendation.
+Collect a read-only Toss Invest OpenAPI snapshot as a normalized
+`toss_portfolio_snapshot`. It is temporary account-state evidence, not a trading
+engine or investment recommendation.
 
 ## Quick Start
 
@@ -25,11 +24,23 @@ investment recommendation.
 2. Confirm from the requested outcome that the task is read-only. If it includes
    orders, transfers, automatic rebalancing, or live execution, state the
    boundary and stop before loading credentials.
-3. Load credentials only from process environment or a user-specified env file.
-   Never store secrets, tokens, raw account numbers, or raw broker responses in
-   the skill directory.
-4. Run the bundled fetcher with Bun. Use `--no-env-file` so Bun does not
-   auto-load an ambient `.env`; pass the intended file explicitly:
+3. Prefer the configured home-server route when Toss restricts API access to
+   that public IP. Read `references/remote-access.md`, then run the bundled Bun
+   transport from the active skill directory:
+
+```bash
+bun --no-env-file --no-install scripts/remote_portfolio_snapshot.ts fetch --market-context basic --orders-days 30 --recent-orders-limit 40
+```
+
+   If the device is not configured, run the reference's one-time setup only
+   after the user approves local SSH key and config changes. Do not create a
+   per-device wrapper binary or fall back to a local Toss request.
+
+4. Use the direct fetcher only when the user explicitly chooses a local route
+   whose egress IP is authorized. Load credentials only from process environment
+   or a user-specified env file. Never store secrets, tokens, raw account
+   numbers, or raw broker responses in the skill directory. Use `--no-env-file`
+   so Bun does not auto-load an ambient `.env`; pass the intended file explicitly:
 
 ```bash
 bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file .env --market-context basic --orders-days 30 --recent-orders-limit 40
@@ -55,40 +66,19 @@ out of scope because this skill exists to separate evidence from execution.
 
 ### 2. Collection
 
-Use `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts` from
-this skill directory when possible. If the harness cannot run Bun, manually
-follow `references/snapshot-contract.md` and `references/api-coverage.md` while
-preserving the same redaction and output fields.
-
-Required credential names:
-
-- `TOSS_INVEST_API_KEY`
-- `TOSS_INVEST_SECRET_KEY`
-
-Optional settings:
-
-- `TOSS_INVEST_BASE_URL`
-- `TOSS_INVEST_ACCOUNT_ALIAS`
-
-The explicit env file may contain both required credentials and these optional
-settings. A non-official base URL is rejected unless the command also includes
-`--allow-custom-base-url`. Use that gate only for a user-approved HTTPS endpoint
-or a loopback mock; the selected host receives the API key and secret during
-token creation.
+The required names are `TOSS_INVEST_API_KEY` and
+`TOSS_INVEST_SECRET_KEY`; optional settings are `TOSS_INVEST_BASE_URL` and
+`TOSS_INVEST_ACCOUNT_ALIAS`. CLI flags override the explicit env file, which
+overrides process environment. A non-official base URL requires the explicit
+`--allow-custom-base-url` gate and must be a user-approved HTTPS endpoint or a
+loopback mock.
 
 Secret handling:
 
-- Prefer inheriting process environment variables from the user's shell or pass
-  an env-file path with `--env-file`.
 - Do not paste secret values into commands, prompts, logs, or durable files.
-- Do not print or summarize the env file content. If checking setup, report only
-  whether required keys are present or missing.
-- Do not use bare `bun` in instructions that touch credentials; Bun auto-loads
-  ambient `.env` files by default, so use `bun --no-env-file --no-install ...`
-  and let the script read only the explicit `--env-file`.
-- Do not print resolved environment values or include credentials in a base URL.
-  Custom non-loopback hosts must use HTTPS, and HTTP is accepted only for an
-  explicitly gated loopback mock.
+- Report only whether required env keys are present; never print their values.
+- Always use `bun --no-env-file --no-install` and pass the intended env file
+  explicitly so Bun cannot auto-load an ambient `.env`.
 
 ### 3. Normalization
 
@@ -103,10 +93,9 @@ meaning is decisive.
 When another skill needs personal portfolio state, pass the normalized snapshot
 or summarize only the fields needed for that decision. Keep these boundaries:
 
-- Account state can block personal action readiness.
-- Account state cannot prove a market thesis by itself.
-- Recent order history can flag behavior risk, but it is not a complete tax-lot
-  ledger.
+- Account state can block personal action readiness but cannot prove a market
+  thesis.
+- Recent orders can flag behavior risk but do not form a complete tax-lot ledger.
 - Toss quote or last-price fields are broker snapshot data; current market tape
   still needs independent source freshness checks.
 
@@ -116,12 +105,14 @@ or summarize only the fields needed for that decision. Keep these boundaries:
 |---|---|---|
 | `references/snapshot-contract.md` | Before fetching, mapping, validating, or handing off a snapshot | Credential boundary, output schema, freshness, redaction, and blocker rules. |
 | `references/api-coverage.md` | When checking Toss OpenAPI coverage, deciding whether to call optional market APIs, or updating endpoint support | Official endpoint groups, read-only vs mutating classification, default/basic/full coverage, and known documentation edge cases. |
+| `references/remote-access.md` | When the API must use a registered home public IP or a new client device needs SSH setup | Per-device setup, server prerequisites, remote execution, and fail-closed rules. |
 
 ## Scripts
 
 | Script | Use | Self-test |
 |---|---|---|
 | `scripts/fetch_portfolio_snapshot.ts` | Fetch and normalize a read-only Toss Invest OpenAPI portfolio snapshot. | `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --self-test` |
+| `scripts/remote_portfolio_snapshot.ts` | Set up per-device Tailscale SSH access and run the fetcher on the registered home-server egress. | `bun --no-env-file --no-install scripts/remote_portfolio_snapshot.ts --self-test` |
 
 ## Output Contract
 
@@ -139,27 +130,23 @@ request depends on the missing field.
 
 Before shipping changes:
 
-- `SKILL.md` frontmatter has only `name` and `description`.
-- The script self-test exits 0.
+- Both documented script self-tests exit 0. The remote test must reject
+  credential/base-URL overrides and preserve encoded snapshot arguments.
 - `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` exits 0 with `coverage_ok: true`, no missing expected endpoints, and no unclassified official endpoints. Fetch, parse, missing-endpoint, and classification failures exit nonzero.
-- The reference path exists and is one level deep.
-- No credential, token, raw account number, or raw broker response is committed.
-- The frontmatter includes positive triggers and explicit near-miss exclusions.
+- Run the package validator and confirm no credential, token, raw account
+  number, private hostname, or raw broker response was committed.
 
 ## Gotchas
 
-- Do not let "API access" expand into order placement. This skill intentionally
-  collects evidence only.
 - Do not print or persist bearer tokens, raw account numbers, client secrets, or
   raw API envelopes. Mask account numbers and omit order IDs, conditional order
   IDs, client order IDs, and triggered order IDs.
-- Do not "helpfully" open and quote `.env` contents. Use the file as an input
-  source only, and keep values inside the script process.
 - Do not use `bunx` for the bundled fetcher. `bunx` is for package executables;
   this skill ships a local Bun script.
-- Do not point credentials at a custom base URL merely because one appears in
-  ambient configuration. Require the explicit gate and verify the intended
-  origin without displaying secret values.
+- Do not install a client-wide `toss-home-snapshot` wrapper. Resolve and run the
+  transport bundled with the active skill so updates move with the package.
+- Do not copy SSH private keys between devices. The setup route creates one key
+  per device and only authorizes its public key on the home server.
 - Do not treat the snapshot as current-market research. A broker snapshot may be
   stale, delayed, session-specific, or incomplete for market-tape purposes.
 - Do not infer tax lots from recent closed orders alone. Treat tax-sensitive

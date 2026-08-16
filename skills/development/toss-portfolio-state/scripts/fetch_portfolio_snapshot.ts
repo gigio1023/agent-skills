@@ -71,6 +71,15 @@ const FULL_MARKET_ENDPOINTS = [
   "GET /api/v1/market-indicators/{symbol}/investor-trading",
 ];
 
+const CLASSIFIED_UNUSED_READ_ENDPOINTS = [
+  "GET /api/v1/stocks/{symbol}/credit-trades",
+  "GET /api/v1/stocks/{symbol}/investor-trading",
+  "GET /api/v1/stocks/{symbol}/program-trades",
+  "GET /api/v1/stocks/{symbol}/securities-lending",
+  "GET /api/v1/stocks/{symbol}/short-selling",
+  "GET /api/v1/stocks/all",
+];
+
 interface Options {
   accountAlias?: string;
   accountType: string;
@@ -456,13 +465,14 @@ function buildApiCoverage(openApiDocument: unknown, baseUrl = DEFAULT_BASE_URL) 
 
   const defaultRead = new Set([...DEFAULT_READ_ENDPOINTS, ...BASIC_MARKET_ENDPOINTS]);
   const fullRead = new Set([...DEFAULT_READ_ENDPOINTS, ...FULL_MARKET_ENDPOINTS]);
+  const classifiedRead = new Set([...fullRead, ...CLASSIFIED_UNUSED_READ_ENDPOINTS]);
   const blocked = new Set(MUTATING_ENDPOINTS_BLOCKED);
   const officialEndpoints = new Set(official.map((item) => item.endpoint));
-  const missingExpectedEndpoints = [...new Set([...fullRead, ...blocked])]
+  const missingExpectedEndpoints = [...new Set([...classifiedRead, ...blocked])]
     .filter((endpoint) => !officialEndpoints.has(endpoint))
     .sort();
   const unclassifiedOfficialEndpoints = official.filter(
-    (item) => !fullRead.has(item.endpoint) && !blocked.has(item.endpoint),
+    (item) => !classifiedRead.has(item.endpoint) && !blocked.has(item.endpoint),
   );
 
   return {
@@ -471,6 +481,9 @@ function buildApiCoverage(openApiDocument: unknown, baseUrl = DEFAULT_BASE_URL) 
     official_endpoint_count: official.length,
     default_read_only_endpoints: official.filter((item) => defaultRead.has(item.endpoint)),
     full_read_only_endpoints: official.filter((item) => fullRead.has(item.endpoint)),
+    classified_unused_read_only_endpoints: official.filter((item) =>
+      CLASSIFIED_UNUSED_READ_ENDPOINTS.includes(item.endpoint)
+    ),
     blocked_mutating_endpoints: official.filter((item) => blocked.has(item.endpoint)),
     missing_expected_endpoints: missingExpectedEndpoints,
     unclassified_official_endpoints: unclassifiedOfficialEndpoints,
@@ -1659,6 +1672,7 @@ function runSelfTest() {
   const expectedCoverageEndpoints = unique([
     ...DEFAULT_READ_ENDPOINTS,
     ...FULL_MARKET_ENDPOINTS,
+    ...CLASSIFIED_UNUSED_READ_ENDPOINTS,
     ...MUTATING_ENDPOINTS_BLOCKED,
   ]);
   const completeCoverage = buildApiCoverage(
