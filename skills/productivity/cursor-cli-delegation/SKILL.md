@@ -35,10 +35,9 @@ the external lane adds value, and the lead can inspect the result.
    - a deadline, preservation rules, acceptance evidence, and stop conditions.
 2. Keep planning, conflict resolution, scope changes, destructive decisions,
    integration, and final acceptance in the lead harness.
-3. Read `references/cursor-agent-cli.md` and probe the installed CLI. Unless the
-   user supplies another exact model policy, resolve and use
-   `cursor-grok-4.5-high-fast` for the parent and every Cursor subagent. Never
-   infer an ID from its display name or silently substitute another model.
+3. Read `references/cursor-agent-cli.md` and probe the installed CLI. Apply
+   Model Policy below. Never infer an ID from a display name or silently
+   substitute another model.
 4. Choose one isolation owner. Reuse existing isolation, or create one only
    when the user or packet authorizes a new branch/worktree. Never stack
    isolation mechanisms.
@@ -49,14 +48,15 @@ the external lane adds value, and the lead can inspect the result.
    execution, including read-only command and MCP work, rather than planning.
    Grant unattended writes or MCP approval only when the mission authorizes it.
 7. Encourage the Cursor parent to use subagents for independent execution
-   lanes. Every child must receive the selected exact model ID plus a
-   lane-specific subset of authority, preservation, evidence, and stop rules.
-   If Cursor cannot select and later expose the child's model, keep that lane in
-   the parent instead.
+   lanes. A justified per-lane model guide may differ from the parent; every
+   child must still receive its exact model ID, any thinking or effort setting
+   the live Task/tool schema exposes, and a lane-specific subset of authority,
+   preservation, evidence, and stop rules. If Cursor cannot select and later
+   expose those child settings, keep that lane in the parent instead.
 8. Inspect the returned result, structured events, repository diff, generated
    artifacts, verification output, and Cursor transcript. Reject the lane if
-   any child used a model outside the user-selected policy. Exit zero or an
-   executor claim is not acceptance.
+   any child used a model or thinking setting outside the selected policy. Exit
+   zero or an executor claim is not acceptance.
 
 Finish open research or decisions in the lead first. For parallel lanes,
 `parallel-subagents` owns decomposition and synthesis; this skill owns each
@@ -66,6 +66,29 @@ Delegation never expands user authorization. Review-only missions stay
 read-only. A change mission permits only the local edits and non-destructive
 checks described in the packet.
 
+## Model Policy
+
+After the dated CLI reference and a live `agent models` probe:
+
+1. An exact user-supplied model policy wins.
+2. Else, when the bounded mission's dominant need is sustained context, careful
+   judgment or synthesis, instruction work, or sustained subagent coordination,
+   select Claude Fable 5 as a first-class option and pass an exact verified
+   Fable thinking ID from the live listing.
+3. Else use `cursor-grok-4.6-high-fast` for the parent and every child with no
+   justified per-lane guide.
+
+Fable is an explicit selection, not a silent fallback or substitution. If the
+selected ID is absent, stop.
+
+Enable thinking whenever the selected model and live Cursor surface support it.
+Top-level: a listed thinking profile or a parameterized `--model` override
+only when the live CLI documents that form. Child tasks: enable an exposed
+thinking option, or set an effort control when that is the documented thinking
+surface. Never invent a model ID, suffix, override, or child field. If no
+supported thinking form exists, keep the exact selected ID and record that.
+Dated IDs live in `references/cursor-agent-cli.md`.
+
 ## Mission Packet
 
 Write one packet containing:
@@ -73,7 +96,8 @@ Write one packet containing:
 - one observable outcome and the fixed decisions;
 - workspace, revision, isolation owner, instructions, and sources of truth;
 - authorized files, commands, MCPs, credentials, network or external effects,
-  retries, artifacts, subagents, and the exact model each child must use;
+  retries, artifacts, subagents, and the exact model and available thinking
+  setting each child must use;
 - preserved behavior and explicit non-goals;
 - required checks, observable acceptance, and returned evidence;
 - a wall-clock deadline and scoped cancellation owner;
@@ -106,9 +130,10 @@ branch or worktree requires explicit user or mission-packet authority.
 Cursor may create internal subagents for independent exploration,
 implementation, or verification. Restate the outcome, scope, authority,
 evidence, and stop conditions to every child, narrowing authority to that
-child's lane. Pass the selected exact model in every child task; do not use a
-convenience or fallback model. Require transcript or tool-call evidence of each
-child model. Missing evidence makes that child's result unverified.
+child's lane. Pass each child's exact model and any available thinking
+setting in the child task; do not use a convenience or fallback model.
+Require transcript or tool-call evidence of those settings. Missing
+evidence makes that child's result unverified.
 
 ## MCP and Permission Boundary
 
@@ -125,9 +150,11 @@ environment or credential mechanisms without printing their values.
 
 The lead accepts the mission only after checking:
 
-- CLI version, exact requested model ID and mapping, launch arguments, and the
-  service-reported initialization label;
-- every Cursor child task's explicit model argument and transcript evidence;
+- CLI version, exact requested model ID and mapping, thinking form or recorded
+  lack of support, launch arguments, and the service-reported initialization
+  label;
+- every Cursor child task's explicit model argument, available thinking
+  setting, and transcript evidence;
 - process status, terminal result, and session identity when supplied;
 - changed files and external effects stayed inside authority;
 - the diff is the smallest correct root-cause implementation;
@@ -144,7 +171,9 @@ mission. Preserve its evidence and return the decision to the lead.
 - Do not silently substitute a model, mode, worktree, or MCP permission.
 - Do not use `--mode plan` or `--mode ask`; return unfinished planning to the
   lead and execute settled work in normal mode.
-- Do not let an internal Task choose its own default model.
+- Do not let an internal Task choose its own default model or thinking setting.
+- Do not invent a model ID, thinking suffix, parameterized override, or child
+  thinking field.
 - Do not treat `--force` as local-write permission; it is a broad trust grant.
 - Do not run concurrent writers in one checkout.
 - Do not ask the executor that made a diff to provide final acceptance.
