@@ -1,6 +1,6 @@
 # Cursor Agent CLI Contract
 
-Verified against the local Cursor Agent CLI on 2026-07-23. Installed help and
+Verified against the local Cursor Agent CLI on 2026-08-18. Installed help and
 model listing are the source of truth for accepted syntax and availability;
 official documentation and changelogs also govern permission semantics.
 
@@ -37,13 +37,17 @@ select a substitute model unless the user authorized that action.
 On the verified installation:
 
 ```text
-agent version: 2026.07.20-8cc9c0b
-agent models display name: Cursor Grok 4.5 Fast
-requested model ID: cursor-grok-4.5-high-fast
-initialization event model: Cursor Grok 4.5 High Fast
+agent version: 2026.08.11-e8db854
+default model ID: cursor-grok-4.6-high-fast
+default display entry: Cursor Grok 4.6 Fast
+initialization event model: Cursor Grok 4.6 High Fast
+Fable 5 thinking candidate: claude-fable-5-thinking-high
+Fable 5 display entry: Claude Fable 5 1M Thinking (NO ZDR)
 ```
 
-Treat this as a dated observation, not a permanent alias.
+The same listing includes other Fable 5 thinking profiles, including xhigh and
+max. The top-level CLI has no standalone `--thinking` flag. Treat this block as
+a dated observation, not a permanent alias.
 
 ## Model Resolution
 
@@ -58,10 +62,44 @@ such as “High Fast” is not a CLI contract. If the requested ID is absent, st
 and report the available relevant entries. Never silently fall back to `auto`
 or a different model.
 
+When the user supplies no exact model policy:
+
+- Select Claude Fable 5 as a first-class option when the bounded mission's
+  dominant need is sustained context, careful judgment or synthesis,
+  instruction work, or sustained subagent coordination. Pass
+  `claude-fable-5-thinking-high` unless the user or an explicit mission policy
+  names another listed Fable thinking ID.
+- Otherwise use `cursor-grok-4.6-high-fast` for the parent and every child with
+  no justified per-lane guide.
+
+That Fable choice is an explicit selection, not a silent fallback or
+substitution. A justified per-lane model guide may differ from the parent;
+record the reason and still pass each child's exact ID.
+
+### Thinking
+
+Enable thinking whenever the selected model and live Cursor surface support it.
+
+The verified top-level help has no `--thinking` flag. Use a listed thinking
+profile, or a quoted parameterized `--model` override only when the live help
+or `agent models` tip documents that form for the chosen model, for example
+`'claude-opus-4-8[context=1m,effort=high,fast=false]'`. Never invent a suffix,
+bracket override, or child field.
+
+On this installation, `cursor-grok-4.6-high-fast` has no listed thinking
+profile. When it is selected, pass that exact ID and record that no separately
+selectable top-level thinking form was observed. When Fable 5 is selected, pass
+an exact listed Fable thinking ID.
+
+For Cursor child tasks, inspect the live Task/tool schema. Enable an exposed
+thinking option, or set an effort control when that is the documented thinking
+surface. If neither exists, keep the child's exact model ID and record that gap.
+
 The initialization event reports a display label, not the requested model ID.
-Retain the CLI version, launch argument, launch-time ID mapping, and emitted
-label together: “requested ID X; service reported label Y.” The label
-corroborates the profile but does not independently prove its exact ID.
+Retain the CLI version, launch argument, launch-time ID mapping, thinking form
+or recorded lack of support, and emitted label together: “requested ID X;
+service reported label Y.” The label corroborates the profile but does not
+independently prove its exact ID.
 
 ## Non-Interactive Launch
 
@@ -72,7 +110,7 @@ packet_path=/absolute/path/to/mission.md
 packet="$(<"$packet_path")"
 agent \
   --print \
-  --model cursor-grok-4.5-high-fast \
+  --model cursor-grok-4.6-high-fast \
   --workspace /absolute/path/to/workspace \
   --output-format stream-json \
   --trust \
@@ -86,7 +124,7 @@ packet_path=/absolute/path/to/mission.md
 packet="$(<"$packet_path")"
 agent \
   --print \
-  --model cursor-grok-4.5-high-fast \
+  --model cursor-grok-4.6-high-fast \
   --workspace /absolute/path/to/workspace \
   --output-format stream-json \
   --sandbox enabled \
@@ -99,7 +137,9 @@ agent \
 plan` or `--mode ask` in this skill: planning stays in the caller, while Cursor
 must be able to execute the packet's commands and MCP operations. For a
 read-only mission, constrain authority in the packet, omit unnecessary broad
-grants, and verify afterward that no mutation occurred.
+grants, and verify afterward that no mutation occurred. For a Fable 5 route,
+pass `--model claude-fable-5-thinking-high` (or another exact listed Fable
+thinking ID named by the user or mission policy) in place of the Grok default.
 
 `--force` is broader than its short help text: Cursor has documented it as
 enabling auto-run, trusting the workspace, skipping MCP confirmations, and
@@ -201,8 +241,9 @@ result state, error state, duration, response text, and session ID.
 Require all of:
 
 - process exit status;
-- CLI version, exact launch arguments, model ID mapping, and initialization
-  display label when emitted;
+- CLI version, exact launch arguments, model ID mapping, thinking form or
+  recorded lack of support, and initialization display label when emitted;
+- every child task's explicit model and available thinking setting;
 - terminal result event;
 - session ID when emitted;
 - executor response;
@@ -261,25 +302,28 @@ The mission may tell the Cursor parent to use subagents when:
 - write ownership is disjoint;
 - each child receives a complete bounded packet and only its lane-specific
   subset of parent authority;
-- each child task explicitly selects the same exact model as the parent unless
-  the user supplied a different model guide;
+- each child task explicitly receives its exact model ID and any thinking or
+  effort setting the live Task/tool schema exposes;
+- a justified per-lane model guide may differ from the parent;
 - the parent integrates and reports their evidence.
 
 For this skill, prefer subagents when independent lanes materially improve
-execution or verification. The default parent and child ID is
-`cursor-grok-4.5-high-fast`; a user's explicit model guide overrides it. Never
-let a Task inherit or choose an unspecified convenience model. The top-level
+execution or verification. Unless an exact user policy or the Fable 5 route
+wins, the default parent and child ID is `cursor-grok-4.6-high-fast`. Never let
+a Task inherit or choose an unspecified convenience model. The top-level
 `--model` proves only the parent. Inspect Cursor's transcript or structured Task
-tool calls for every child's explicit `model` field. A missing field, a
-different model, or unverifiable child selection invalidates that child's
-evidence and therefore any claim that depends on it.
+tool calls for every child's explicit `model` field and, when the schema
+exposes one, its thinking or effort field. A missing required field, a
+different model, an invented setting, or unverifiable child selection
+invalidates that child's evidence and therefore any claim that depends on it.
 
 ## Failure Handling
 
 Return control to the lead when:
 
 - the lead's wall-clock deadline expires or progress stalls;
-- the requested model is unavailable;
+- the requested model, listed thinking profile, or documented override is
+  unavailable;
 - authentication or required MCP routing is unavailable;
 - the process exits nonzero or emits no terminal result;
 - the workspace or base revision differs from the packet;
