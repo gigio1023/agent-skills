@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 15 reusable Agent Skills for shipping software, operating
+A curated pack of 16 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, and handling a few everyday workflows.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/) with a
@@ -57,7 +57,7 @@ meaning, and voice across English, Korean, Italian, and Chinese. Their
 directories remain outside this repository; install `slop-aware-writing` from
 its own repository instead.
 
-Everything else remains this repository's active catalog — 15 skills listed
+Everything else remains this repository's active catalog — 16 skills listed
 in the [Skill catalog](#skill-catalog) below, including the three that never
 moved: [1password-cli](skills/development/1password-cli/),
 [pdf-page-count](skills/productivity/pdf-page-count/), and
@@ -86,7 +86,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-To install all 15 skills for a deliberate set of agents, quote the wildcard so
+To install all 16 skills for a deliberate set of agents, quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -151,7 +151,7 @@ The catalog is organized by the job a person wants to get done, rather than by
 the agent that happens to run it. The on-disk source paths remain stable so
 existing `npx skills` lock entries can continue to update in place.
 
-- [Software Development and Delivery](#software-development-and-delivery) (1)
+- [Software Development and Delivery](#software-development-and-delivery) (2)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (8)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Writing and Language](#writing-and-language) (1)
@@ -161,6 +161,7 @@ existing `npx skills` lock entries can continue to update in place.
 
 | Skill | What it helps with |
 | --- | --- |
+| [pr-review-comment](skills/development/pr-review-comment/) | Validate code review findings against a PR diff and post approved inline review comments |
 | [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
 
 ### Agent and Harness Engineering
@@ -240,7 +241,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 15 unique names. See
+skill, and the local listing discovers the expected 16 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
