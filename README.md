@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A curated pack of 15 reusable Agent Skills for shipping software, operating
+A curated pack of 16 reusable Agent Skills for shipping software, operating
 agent harnesses, writing clearly, and handling a few everyday workflows.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/) with a
@@ -241,7 +241,7 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 15 unique names. See
+skill, and the local listing discovers the expected 16 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
 
