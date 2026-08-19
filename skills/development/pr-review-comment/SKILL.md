@@ -23,8 +23,8 @@ description: >
 - Authorization: collecting and drafting are read-only. Posting, replying,
   requesting changes, approving, or dismissing reviews are separate external
   mutations and require the user's explicit approval for that action.
-- Done: posted review is read back from the target host and its URL, head SHA,
-  event, and accepted comment count match the approved payload.
+- Done: posted review is read back from the target host and its URL, frozen
+  head SHA, event, and accepted comment count match the approved payload.
 
 ## Workflow
 
@@ -49,7 +49,10 @@ Collect at least:
 }
 ```
 
-The `head_sha` is the optimistic lock for every later phase.
+The `head_sha` is the optimistic lock for every later phase. Freeze it as
+`expected_head_sha`; after approval, use that exact value as the Create Review
+API's top-level `commit_id`. Do not rely on GitHub's default, which can select
+a newer PR head.
 
 ### 2. Collect The Complete Diff And Existing Threads
 
@@ -128,7 +131,8 @@ Each inline draft uses this closed schema:
 
 Show one approval packet:
 
-- host, owner/repo, PR number, title, author, and expected head SHA
+- host, owner/repo, PR number, title, author, expected head SHA, and matching
+  top-level review `commit_id`
 - event: `COMMENT`, `REQUEST_CHANGES`, or `APPROVE`
 - every inline path, side, line range, and final body
 - final review body, including why any finding is not inline
@@ -141,18 +145,24 @@ available on the reviewer's own PR.
 
 Immediately before posting, fetch the current head SHA. If it differs from
 `expected_head_sha`, stop, recollect the diff, and revalidate every target.
+If it matches, preserve the freeze by setting the approved payload's top-level
+`commit_id` to exactly `expected_head_sha`. `commit_id` is not a field inside
+an individual inline comment.
 
 Write the approved JSON to a temporary file with the harness file-edit
-mechanism, then post in one call:
+mechanism. Before posting, verify that the serialized top-level `commit_id`
+still equals `expected_head_sha`, then post in one call:
 
 ```bash
 gh api "repos/{owner}/{repo}/pulls/{number}/reviews" \
   --method POST --input "${PAYLOAD_FILE}"
 ```
 
-Read the created review and comments back from the same host. Report the review
-URL, event, commit ID, posted count, and any rejected target. Partial posting
-is a failure that must remain visible.
+Read the created review and comments back from the same host. Verify the
+returned review's `commit_id` equals the frozen `expected_head_sha`; a mismatch
+is a failed post even if GitHub accepted the request. Report the review URL,
+event, commit ID, posted count, and any rejected target. Partial posting is a
+failure that must remain visible.
 
 ## Replying To A Thread
 
@@ -165,7 +175,8 @@ obtain approval, post, and read back the reply URL.
 - Missing REST `patch` content does not mean unchanged code. Fetch the complete
   diff or mark the finding `needs-context`.
 - A valid finding can still produce HTTP 422 when `side`, line, or head SHA is
-  stale. Use the exact target schema and final head check.
+  stale. Use the exact target schema, final head check, and frozen top-level
+  `commit_id`.
 - Submitted reviews and comments are externally visible and not reliably
   deletable. Approval applies to the exact payload, not a paraphrased summary.
 - Do not combine `-f` fields with `--input`; post one JSON document.
