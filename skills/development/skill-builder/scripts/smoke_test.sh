@@ -64,6 +64,40 @@ if ! "${validator}" "${quoted_sample}"; then
   exit 1
 fi
 
+# 한국어 목차 헤딩, Gotchas 동의어 헤딩, 이슈 키 플레이스홀더(ISSUE-XXX)는 모두
+# 유효한 스킬로 통과해야 한다.
+i18n_sample="${tmp}/i18n-sample"
+mkdir -p "${i18n_sample}/references"
+cat > "${i18n_sample}/SKILL.md" <<'EOF'
+---
+name: i18n-sample
+description: >
+  Use when testing Korean TOC headings, Gotchas synonym headings, and
+  issue-key placeholders in a skill body.
+---
+
+# I18n Sample
+
+Read [long.md](references/long.md). Track follow-ups as ISSUE-XXX keys.
+
+## Common Mistakes
+
+- Treating an issue-key placeholder as an unfinished marker.
+EOF
+{
+  echo '# Long Reference'
+  echo ''
+  echo '## 목차'
+  echo ''
+  echo '- Section 1'
+  seq -f 'line %g' 1 110
+} > "${i18n_sample}/references/long.md"
+
+if ! "${validator}" "${i18n_sample}"; then
+  echo "smoke test FAILED: 목차 헤딩/Gotchas 동의어/이슈 키 placeholder fixture 를 validator 가 거부함"
+  exit 1
+fi
+
 # 공식 frontmatter 제약을 실제로 거부하는지도 확인한다.
 invalid="${tmp}/invalid-skill"
 mkdir -p "${invalid}"
@@ -241,8 +275,26 @@ make_invalid_description_fixture "invalid-single-quote" "'Use when it's broken.'
 make_invalid_name_fixture "implicit-null-name" "null"
 make_invalid_name_fixture "implicit-number-name" "123"
 
+# 이슈 키 오탐 수정 후에도 standalone XXX 마커는 계속 거부해야 한다.
+standalone_marker="${tmp}/standalone-marker"
+mkdir -p "${standalone_marker}"
+cat > "${standalone_marker}/SKILL.md" <<'EOF'
+---
+name: standalone-marker
+description: Use when testing a standalone unfinished marker.
+---
+
+# Standalone Marker
+
+XXX finish this section.
+
+## Gotchas
+- This fixture must fail.
+EOF
+
 for malformed in \
   "${missing_close}" \
+  "${standalone_marker}" \
   "${duplicate_name}" \
   "${xml_description}" \
   "${unquoted_colon}" \
