@@ -218,7 +218,9 @@ if grep -nE '(^|[^A-Za-z0-9])(/Users/|/home/|[A-Z]:\\\\)' "${skill_md}" >/dev/nu
 fi
 
 # --- 4) 본문에 TODO/FIXME 같은 미완성 마커 금지 ---
-if grep -nE '\b(TODO|FIXME|XXX)\b' "${skill_md}" >/dev/null; then
+# XXX 는 ISSUE-XXX 같은 이슈 키 플레이스홀더에 오탐하지 않도록 standalone 일 때만
+# 잡는다. 영숫자나 하이픈 접두가 바로 붙은 XXX 는 식별자 일부로 본다.
+if grep -nE '\b(TODO|FIXME)\b|(^|[^A-Za-z0-9_-])XXX\b' "${skill_md}" >/dev/null; then
   report "미완성 마커(TODO/FIXME/XXX) 존재"
 fi
 
@@ -275,7 +277,8 @@ while IFS= read -r ref; do
   ref_lines="$(wc -l < "${ref_path}" | tr -d ' ')"
   if [[ "${ref_lines}" -gt 100 ]]; then
     # 앞 100줄 안에 Table of Contents 헤딩이 있어야 한다 (agent 가 head -100 로 미리봄).
-    if ! head -100 "${ref_path}" | grep -qiE '^#+[[:space:]]+((table of )?contents|toc)([[:space:]]|$)'; then
+    # 한국어 스킬의 "목차" 헤딩도 같은 역할이므로 인정한다.
+    if ! head -100 "${ref_path}" | grep -qiE '^#+[[:space:]]+((table of )?contents|toc|목차)([[:space:]]|$)'; then
       report "긴 참조(${ref}, ${ref_lines}줄)에 앞 100줄 TOC 없음"
     fi
   fi
@@ -303,7 +306,10 @@ if grep -niE 'chain[- ]of[- ]thought|internal reasoning|private reasoning|hidden
 fi
 
 # --- 7) Gotchas 섹션 존재 ---
-grep -qiE '^##+ .*Gotchas' "${skill_md}" || report "Gotchas 섹션 없음"
+# 같은 역할을 하는 동의어 헤딩(주의사항, Common Mistakes, Red Flags, Anti-Patterns)도
+# 실패 패턴 섹션으로 인정한다.
+grep -qiE '^##+ .*(Gotchas|주의사항|Common Mistakes|Red Flags|Anti-?Patterns)' "${skill_md}" \
+  || report "Gotchas(또는 주의사항/Common Mistakes/Red Flags/Anti-Patterns) 섹션 없음"
 
 if [[ "${fail}" -eq 0 ]]; then
   echo "OK: ${skill_dir} portability/frontmatter 검증 통과 (${bytes} bytes, ${lines} lines)"
