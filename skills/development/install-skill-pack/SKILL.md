@@ -100,14 +100,13 @@ missing scanner result as either a pass or a blocker.
    commit ID. Omit `--copy`: the verified normal path uses the CLI's default
    canonical-copy plus agent-symlink mode.
 
-9. Inspect `skills list --global --agent <id> --json` separately for every
-   target. Require each requested name and that agent's display name in the
-   result's `agents` field; name presence alone is insufficient. Take the
-   canonical installed directories from the `path` fields, compare every file
-   with the reviewed package, and apply the CLI-usage reference's symlink checks
-   for non-universal agents. A content mismatch, absent discovery record,
-   unresolved link, or copy fallback makes the install unverified: do not use
-   the skill, preserve the review checkout, and report the evidence.
+9. Inspect `skills list --global --agent <id> --json` for every target. Require
+   each name and canonical path; for a detected harness, also require its display
+   name in `agents`. An absent universal harness can be canonical-ready without
+   appearing there, so verify it from the install summary and report runtime
+   discovery as unavailable rather than creating its config directory. Compare
+   canonical files and non-universal links per the CLI-usage reference. Content,
+   link, or detected-harness discovery failures leave the install unverified.
 
 10. Remove the disposable checkout only after content and discovery
     verification pass.
@@ -166,8 +165,9 @@ npx --yes "skills@$skills_cli_version" add . --list --full-depth
 
 Report the resolved Skills CLI version, repository source, revision mode,
 reviewed commit, selected agents and skills, source-review decision, canonical
-content comparison, agent-link topology, and discovery result. Name any
-explicit standard-target exclusion. For an exact commit, also state that
+content comparison, link topology, and each harness's discovery or canonical-
+ready status. Name any explicit standard-target exclusion. For an exact commit,
+also state that
 automatic remote updates are unavailable and the pinned workflow must be rerun.
 If blocked, identify the observable finding, affected file or command, and
 whether the risk is inherent to the requested capability or unexplained.

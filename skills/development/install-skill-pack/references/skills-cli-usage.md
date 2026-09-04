@@ -69,8 +69,9 @@ npx --yes "skills@$skills_cli_version" list \
 
 For every requested skill, require all of the following:
 
-- the JSON entry's `name` matches and its `agents` array contains that target's
-  display name;
+- the JSON entry's `name` matches and resolves to the canonical package;
+- when the target harness is detected on the host, its display name appears in
+  the entry's `agents` array;
 - the canonical package contains exactly the reviewed files with matching
   contents and executable bits;
 - Claude Code and Hermes Agent resolve to that canonical package through a
@@ -78,6 +79,13 @@ For every requested skill, require all of the following:
 - OpenCode, Cursor, and Codex resolve through the universal canonical directory,
   so no separate per-agent symlink is expected.
 
-Do not infer discovery from a directory that merely exists. Some CLI listings
-can show the canonical package while leaving `agents` empty for the requested
-filter; that is a failed target installation, not success.
+Universal targets share one canonical directory. When such a harness is not
+installed or its configured home is absent, the CLI may accept the target and
+prepare the canonical package while omitting its display name from `agents`.
+Require that target in the successful installation summary, leave its config
+directory untouched, and report `canonical-ready; runtime discovery unavailable`.
+If the harness is present but omitted, treat that as failed discovery.
+
+Do not infer runtime discovery from a directory that merely exists. The JSON
+`name` and canonical path prove package readiness; the `agents` member proves
+discovery only for a harness the CLI can detect.
