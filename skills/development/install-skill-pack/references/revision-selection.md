@@ -68,8 +68,10 @@ test "$reviewed_sha" = "$target_commit"
 install_source="$review_dir/repo"
 ```
 
-Require the complete commit ID so the identity check is exact. The Skills CLI
-copies selected files into its installed destination, so the review checkout
-can be removed after content and discovery verification. A global install from
-this temporary local path is not tracked as a remotely updateable source. To
-reinstall the pinned version, repeat this workflow with the same commit.
+Require the complete commit ID so the identity check is exact. In its default
+symlink mode, the Skills CLI materializes a canonical package copy and links
+non-universal agent destinations to it; it does not keep the disposable source
+checkout as the link target. Remove the checkout only after canonical content,
+agent links, and discovery all pass. A global install from this temporary local
+path is not tracked as a remotely updateable source. To reinstall the pinned
+version, repeat this workflow with the same commit.
