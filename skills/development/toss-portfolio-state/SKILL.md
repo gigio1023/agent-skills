@@ -14,8 +14,7 @@ description: >
 # Toss Portfolio State
 
 Collect a read-only Toss Invest OpenAPI snapshot as a normalized
-`toss_portfolio_snapshot`. It is temporary account-state evidence, not a trading
-engine or investment recommendation.
+`toss_portfolio_snapshot` for temporary account-state evidence.
 
 ## Quick Start
 
@@ -52,6 +51,9 @@ bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file .e
 5. Hand the normalized JSON to the requesting workflow. For
    `investment-decision-support`, treat it as a temporary personal-state input
    unless the user explicitly approves a durable state update.
+
+Keep the requested mode and window or documented defaults. Refetch only for
+needed freshness or an unresolved required field, not to enrich a summary.
 
 ## Workflow
 
@@ -128,13 +130,13 @@ request depends on the missing field.
 
 ## Validation
 
-Before shipping changes:
+Validate the package and inspect for secrets. For changed scripts, invocations,
+or API mappings, also run the applicable checks below. Prose edits need no live
+account collection or network coverage crawl:
 
 - Both documented script self-tests exit 0. The remote test must reject
   credential/base-URL overrides and preserve encoded snapshot arguments.
 - `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` exits 0 with `coverage_ok: true`, no missing expected endpoints, and no unclassified official endpoints. Fetch, parse, missing-endpoint, and classification failures exit nonzero.
-- Run the package validator and confirm no credential, token, raw account
-  number, private hostname, or raw broker response was committed.
 
 ## Gotchas
 
@@ -151,5 +153,3 @@ Before shipping changes:
   stale, delayed, session-specific, or incomplete for market-tape purposes.
 - Do not infer tax lots from recent closed orders alone. Treat tax-sensitive
   decisions as needing human or separate state confirmation.
-- If Toss changes the response shape, surface the missing field as a blocker
-  instead of guessing.

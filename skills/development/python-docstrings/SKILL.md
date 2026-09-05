@@ -131,7 +131,9 @@ undocumented private helper as a defect.
 Apply [review-checklist.md](references/review-checklist.md). At minimum:
 
 - parse or compile every changed Python file;
-- run configured docstring, lint, docs-build, type, or focused test checks;
+- run required repository checks and the configured docstring, lint, or
+  docs-build checks that cover the edit; add type or runtime tests only when
+  a documented claim or tool-sensitive change needs them;
 - inspect the diff and re-read each claim against final code and tests;
 - for Git-backed doc-only edits, run:
 
@@ -143,6 +145,8 @@ The guard removes standard runtime docstrings, compares executable AST, and
 rejects changed semantic-directive text or counts. It fails closed on invalid or
 missing files; attribute docstrings remain AST changes. Inspect the diff for
 directive placement and prose correctness even after a pass.
+
+Finish after those checks; report unresolved claims without widening scope.
 
 ## Output
 
@@ -163,7 +167,6 @@ Run scripts from the skill directory or resolve paths relative to the active
 
 ## Gotchas
 
-- More documentation creates more synchronization obligations.
 - Incidental lower-level exceptions are not automatically public guarantees.
 - Examples may become doctests; keep them deterministic and policy-compatible.
 - “Thread-safe”, “idempotent”, and “guaranteed cleanup” require direct evidence.

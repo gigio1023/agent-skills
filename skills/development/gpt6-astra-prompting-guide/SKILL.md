@@ -82,6 +82,11 @@ and provide a proposed correction without silently changing it.
 
 ### Make Quality And Completion Observable
 
+For a multi-skill audit, inventory the actual packages and inspect each normal
+path plus the references that govern it. Fix the clause that causes the issue;
+do not append the same autonomy or brevity paragraph to every package. Preserve
+each skill's trigger, model target, required artifact, and domain safeguards.
+
 Choose a writing contract that retains the requested artifact, evidence, and
 material limitations. Add a delegation rule only for a workflow with available
 collaboration tools and suitable independent work. Name required checks and

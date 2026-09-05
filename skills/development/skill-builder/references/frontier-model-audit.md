@@ -1,7 +1,7 @@
 # Frontier-Model Skill Audit
 
 Use this reference when a skill was built around limitations of an older model
-generation and must be retuned for GPT-5.6 Sol, Claude Fable 5, or another
+generation and must be retuned for GPT-6 Astra, GPT-5.6 Sol, Claude Fable 5, or another
 frontier model.
 
 ## Contents
@@ -15,10 +15,17 @@ frontier model.
 
 ## Current Evidence
 
-Sources reviewed on 2026-07-10:
+Sol/Fable sources reviewed on 2026-07-10. Astra guidance checked on 2026-09-05:
+
+- OpenAI, [Using GPT-6 Astra](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra),
+  prompting best practices. Audit clarification pauses, loaded-file conflicts,
+  repetitive presentation, insufficient delegation, and excessive testing.
+  These are tuning targets, not proof that every skill needs every intervention.
+
+Earlier model sources:
 
 - OpenAI, `Using GPT-5.6`:
-  https://developers.openai.com/api/docs/guides/latest-model.md
+  https://developers.openai.com/api/docs/guides/latest-model?model=gpt-5.6
 - OpenAI, `Prompting guidance for GPT-5.6 Sol`:
   https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
 - Anthropic, `Prompting Claude Fable 5`:
@@ -86,10 +93,16 @@ removes text while leaving domain assets and deterministic scripts unchanged.
 
 ## Autonomy, Tools, And Multi-Agent Routing
 
-Define autonomy once by request type or side-effect class. Do not repeat “ask
-first” around safe, in-scope reads, edits, and tests. Preserve confirmation for
-external writes, destructive actions, purchases, secrets, and real scope
-expansion.
+Define autonomy once by request type or side-effect class. Preserve established
+session grants and ask only for a missing consequential decision or permission.
+For external writes, destructive actions, purchases, and secrets, retain the
+actual authorization boundary rather than demanding a second confirmation of
+the same grant. Continue independent authorized work while a question is pending.
+
+If a loaded file causes a pause, identify its path, exact clause, and affected
+action. Distinguish an explicit requirement from an interpretation and resolve
+the conflict within scope and the real instruction hierarchy. Do not duplicate
+this global policy into every skill; edit the task-specific source of the pause.
 
 Expose only relevant tools and describe non-obvious return fields and failures.
 Choose the mechanism by task shape:

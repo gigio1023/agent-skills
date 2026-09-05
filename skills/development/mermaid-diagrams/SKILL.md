@@ -86,6 +86,11 @@ The five failures that dominate real-world broken diagrams:
    preview) for clipping, literal `\n`, unreadable crossings, and reading
    order.
 
+   Validate against the requested destination, or the documented safe subset
+   when it is unknown. After parsing and visual checks pass, finish; expand
+   to other renderers only when another destination is required or a specific
+   compatibility failure remains.
+
 ## Authority
 
 Return what was asked: a code block for "give me a diagram", a file edit for

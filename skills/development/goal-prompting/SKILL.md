@@ -24,7 +24,9 @@ explicit activation without forcing one workflow on every request.
 3. Inspect safely available context before asking for facts: repository
    instructions, plans, tests, scripts, issues, logs, or the supplied draft.
    Ask one concise question only when the missing answer changes the outcome or
-   completion evidence materially.
+   completion evidence materially. Continue drafting the settled parts while
+   that answer is pending; do not invent a verification command or activate an
+   unresolved goal to avoid asking.
 4. Decide whether goal mode fits. Use it for substantial work with a closed,
    verifiable end state. Recommend a normal prompt, plan, automation, or human
    review gate when that is the better control surface.
@@ -155,8 +157,6 @@ limit. Do not say a goal was activated when only text was produced.
 
 ## Gotchas
 
-- A goal prompt is both direction and exit criteria. A detailed activity list
-  with no terminal state can keep work busy without making completion honest.
 - A referenced file is not automatically visible to a separate evaluator.
 - “Work autonomously and never ask” can suppress necessary approval or blocker
   handling. Define the decisions the agent may make and the conditions that

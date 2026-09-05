@@ -41,8 +41,9 @@ Apply this checklist to the requested symbols and changed files.
 - [ ] Signatures, annotations, decorators, imports, control flow, and executable
       statements did not change during a doc-only request.
 - [ ] Changed files parse or compile.
-- [ ] Configured docstring, lint, docs-build, type, and focused tests were run
-      when available and proportionate.
+- [ ] Required repository checks and applicable docstring, lint, or docs-build
+      checks ran; type or runtime tests were added only for a specific claim or
+      tool-sensitive change, rather than every prose edit.
 - [ ] The doc-only diff guard passed when a Git base was available.
 - [ ] Each final claim was re-read against current code and tests.
 - [ ] Skipped checks and unresolved intent are reported where material.

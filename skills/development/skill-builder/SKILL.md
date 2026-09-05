@@ -4,7 +4,8 @@ description: >
   Use when creating, improving, auditing, or modernizing an agent skill;
   converting a workflow into a reusable skill; or working on SKILL.md,
   resources, triggers, packaging, or portability. Also use when adapting a
-  legacy skill to a stronger model generation such as GPT-5.6 Sol or Fable 5.
+  legacy skill to a stronger model generation such as GPT-6 Astra, GPT-5.6 Sol,
+  or Fable 5.
   NOT for ordinary project documentation or one-off prompts.
 ---
 
@@ -121,7 +122,11 @@ unless the user explicitly requests them.
   artifact.
 - Validate the artifact directly (the Validation section below is the
   checklist) rather than through synthetic behavior trials; documentation-only
-  changes need none at all.
+  changes need no synthetic trials. Package and reference checks still apply.
+
+For pack-wide work, account for every skill and fix conflicts in its relevant
+resources and templates. A PR request changes repository sources; installation
+needs its own grant. Do not add the same global policy to every skill.
 
 ## Improving An Existing Skill
 
@@ -146,7 +151,7 @@ Refresh `references/skill-docs.md` from its official sources after 30 days.
 
 | File | Read when | Content |
 |------|-----------|---------|
-| `references/frontier-model-audit.md` | Modernizing a legacy skill or prompt for stronger models | Subtractive GPT-5.6 Sol/Fable 5 audit without benchmark scaffolding |
+| `references/frontier-model-audit.md` | Modernizing a legacy skill or prompt for stronger models | Subtractive Astra/Sol/Fable audit without benchmark scaffolding |
 | `references/skill-naming.md` | Naming or renaming a skill | Ecosystem evidence, name archetypes, candidate scoring, and rename gate |
 | `references/skill-tips.md` | Choosing skill type, portability, scripts, or hooks | Authoring patterns and cross-harness addenda |
 | `references/skill-docs.md` | Checking current field, surface, runtime, or security constraints | Dated official Anthropic documentation snapshot |
@@ -154,8 +159,6 @@ Refresh `references/skill-docs.md` from its official sources after 30 days.
 
 ## Gotchas
 
-- A longer skill is not a safer skill. Strong instruction-following amplifies
-  contradictions and obsolete scaffolding.
 - Do not encode system-level autonomy, tone, or tool policy again in every skill;
   keep only task-specific deltas.
 - Do not force subagents or parallelism when sequential work is better. Keep a
