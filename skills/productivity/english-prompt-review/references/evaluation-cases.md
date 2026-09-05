@@ -1,13 +1,10 @@
 # Evaluation Cases
 
-Use these cases to compare a baseline with this skill or to check an always-on
-integration. The expected rewrites are examples, not exact strings; preserve
-the meaning and constraints shown in the input.
+Use these cases to compare a baseline with this skill or to check an always-on integration. The expected rewrites are examples, not exact strings; preserve the meaning and constraints shown in the input.
 
 ## Contents
 
-- Positive cases: software engineering, AI research, game development,
-  material ambiguity, and credential-like input
+- Positive cases: software engineering, AI research, game development, material ambiguity, and credential-like input
 - Near misses: already-natural commands and non-English input
 - Review rubric
 
@@ -21,12 +18,10 @@ the meaning and constraints shown in the input.
 
 **Pass criteria**
 
-- Reframes the whole request with `identify the root cause` or an equally clear
-  diagnostic phrase.
+- Reframes the whole request with `identify the root cause` or an equally clear diagnostic phrase.
 - Keeps the request for a small fix and regression coverage.
 - Does not claim the payment paths are already verified.
-- Uses Korean to explain any important semantic distinction while keeping
-  `identify the root cause`, its contrast, and the rewritten prompt in English.
+- Uses Korean to explain any important semantic distinction while keeping `identify the root cause`, its contrast, and the rewritten prompt in English.
 
 ### 2. AI research
 
@@ -38,10 +33,8 @@ the meaning and constraints shown in the input.
 
 - Produces one coherent request for an evaluation or comparison.
 - Keeps the no-tuning boundary.
-- Suggests a metric or evaluation wording only as a clarification, not as an
-  invented mandate.
-- Explains in Korean that `answer quality` is underspecified and keeps candidate
-  dimensions such as `factual accuracy` or `answer completeness` in English.
+- Suggests a metric or evaluation wording only as a clarification, not as an invented mandate.
+- Explains in Korean that `answer quality` is underspecified and keeps candidate dimensions such as `factual accuracy` or `answer completeness` in English.
 
 ### 3. Game development
 
@@ -51,12 +44,10 @@ the meaning and constraints shown in the input.
 
 **Pass criteria**
 
-- Uses a precise performance phrase only if supported, such as profiling the
-  bottleneck or investigating frame-time spikes.
+- Uses a precise performance phrase only if supported, such as profiling the bottleneck or investigating frame-time spikes.
 - Preserves the order: diagnose before optimizing.
 - Does not assume the issue is network latency.
-- Explains the ambiguity of `laggy` in Korean while keeping `input latency`,
-  `network latency`, `stutter`, and `frame-time spike` in English.
+- Explains the ambiguity of `laggy` in Korean while keeping `input latency`, `network latency`, `stutter`, and `frame-time spike` in English.
 
 ### 4. Material ambiguity
 
@@ -66,11 +57,9 @@ the meaning and constraints shown in the input.
 
 **Pass criteria**
 
-- Does not silently decide whether `other tests` means related payment tests or
-  the full test suite.
+- Does not silently decide whether `other tests` means related payment tests or the full test suite.
 - Explains the scope difference in Korean.
-- Presents the choices in English, such as `the relevant payment tests` and
-  `the full test suite`.
+- Presents the choices in English, such as `the relevant payment tests` and `the full test suite`.
 - Does not provide a full Korean translation of the rewritten prompt.
 
 ### 5. Credential-like input
@@ -81,11 +70,9 @@ the meaning and constraints shown in the input.
 
 **Pass criteria**
 
-- Replaces the credential-like URL with a stable typed placeholder such as
-  `<DATABASE_URL_1>` in the rewrite and any delegated review packet.
+- Replaces the credential-like URL with a stable typed placeholder such as `<DATABASE_URL_1>` in the rewrite and any delegated review packet.
 - Does not reproduce the original URL in coaching output.
-- Preserves the migration request and explains that security-sensitive values
-  are the exception to keeping technical tokens unchanged.
+- Preserves the migration request and explains that security-sensitive values are the exception to keeping technical tokens unchanged.
 
 ## Near Misses
 
@@ -98,8 +85,7 @@ the meaning and constraints shown in the input.
 **Pass criteria**
 
 - Starts the task.
-- In quiet or always-on mode, skips the coaching block because no material
-  rewrite improves the request.
+- In quiet or always-on mode, skips the coaching block because no material rewrite improves the request.
 
 ### 7. Non-English input
 
@@ -114,11 +100,4 @@ the meaning and constraints shown in the input.
 
 ## Review Rubric
 
-Reject a candidate if it changes authority, removes a constraint, exposes a
-credential-like value, introduces jargon without a real distinction, delays the
-requested task, or turns the response into a grammar lesson. Also reject
-Korean-only definitions, complete Korean translations of the rewrite, or a
-fluent English rewrite that conceals a material ambiguity. Accept it only when
-the rewritten prompt is clearer as a complete message, remains faithful to the
-original, and makes key English distinctions learnable without Korean
-substituting for them.
+Reject a candidate if it changes authority, removes a constraint, exposes a credential-like value, introduces jargon without a real distinction, delays the requested task, or turns the response into a grammar lesson. Also reject Korean-only definitions, complete Korean translations of the rewrite, or a fluent English rewrite that conceals a material ambiguity. Accept it only when the rewritten prompt is clearer as a complete message, remains faithful to the original, and makes key English distinctions learnable without Korean substituting for them.

@@ -319,14 +319,9 @@ Run `op document <subcommand> --help` for exact flags before writing or download
 
 Service accounts are useful for automation with scoped vault access:
 
-`op service-account create` returns its token once. A bare invocation prints
-that token to stdout, which exposes it to agent tool output and logs. Do not run
-the command as a standalone agent action.
+`op service-account create` returns its token once. A bare invocation prints that token to stdout, which exposes it to agent tool output and logs. Do not run the command as a standalone agent action.
 
-For an agent-run creation, first verify the service-account name, source-vault
-permissions, and destination vault for the saved token. Then use one persistent
-shell and capture the token directly into a mode-`0600` temporary file before
-creating a concealed Password item. This example never prints the token:
+For an agent-run creation, first verify the service-account name, source-vault permissions, and destination vault for the saved token. Then use one persistent shell and capture the token directly into a mode-`0600` temporary file before creating a concealed Password item. This example never prints the token:
 
 ```bash
 set -euo pipefail
@@ -360,12 +355,7 @@ op item get "$service_account_name token" --vault "$token_vault" \
   jq -e '.reference | strings | startswith("op://")' >/dev/null
 ```
 
-The trap deletes both temporary files even when storage or verification fails.
-In that case, treat the one-time token as lost, disable the unusable service
-account through 1Password administration, fix the destination flow, and create
-a replacement. Never disable cleanup merely to reveal the token. If a safe
-capture-and-store flow is not available, ask the user to run creation in their
-own terminal and save the token immediately.
+The trap deletes both temporary files even when storage or verification fails. In that case, treat the one-time token as lost, disable the unusable service account through 1Password administration, fix the destination flow, and create a replacement. Never disable cleanup merely to reveal the token. If a safe capture-and-store flow is not available, ask the user to run creation in their own terminal and save the token immediately.
 
 Use `op service-account ratelimit` for a read-only rate-limit check.
 

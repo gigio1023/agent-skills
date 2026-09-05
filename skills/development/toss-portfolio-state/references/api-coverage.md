@@ -18,31 +18,19 @@ Use the official Toss Invest OpenAPI sources when checking endpoint coverage:
 - `https://developers.tossinvest.com/llms.txt`
 - `https://openapi.tossinvest.com/openapi-docs/latest/openapi.json`
 
-The OpenAPI JSON is the canonical source for endpoint paths, schemas, examples,
-rate-limit groups, and current version. Use this command to compare the bundled
-script against the current official endpoint list:
+The OpenAPI JSON is the canonical source for endpoint paths, schemas, examples, rate-limit groups, and current version. Use this command to compare the bundled script against the current official endpoint list:
 
 ```bash
 bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage
 ```
 
-Success requires `coverage_ok: true`, a nonzero `official_endpoint_count`, an
-empty `missing_expected_endpoints`, and an empty
-`unclassified_official_endpoints`. The command exits nonzero when the document
-cannot be fetched or parsed, when an expected endpoint disappears, or when a new
-official endpoint has not been classified. The reported `source` is the origin
-actually queried.
+Success requires `coverage_ok: true`, a nonzero `official_endpoint_count`, an empty `missing_expected_endpoints`, and an empty `unclassified_official_endpoints`. The command exits nonzero when the document cannot be fetched or parsed, when an expected endpoint disappears, or when a new official endpoint has not been classified. The reported `source` is the origin actually queried.
 
 ## Coverage Modes
 
-- `--market-context none`: account-state only. Use for quick balance/holdings
-  snapshots or when market data is handled by another source.
-- `--market-context basic`: default. Adds stock metadata, warnings, current
-  prices, price limits, and market-indicator prices for held and explicit
-  symbols.
-- `--market-context full`: adds heavier public market data: orderbook, trades,
-  daily candles, rankings, market-indicator candles, and KOSPI/KOSDAQ investor
-  trading.
+- `--market-context none`: account-state only. Use for quick balance/holdings snapshots or when market data is handled by another source.
+- `--market-context basic`: default. Adds stock metadata, warnings, current prices, price limits, and market-indicator prices for held and explicit symbols.
+- `--market-context full`: adds heavier public market data: orderbook, trades, daily candles, rankings, market-indicator candles, and KOSPI/KOSDAQ investor trading.
 
 ## Default Read-Only Account State
 
@@ -91,10 +79,7 @@ Full mode additionally calls:
 
 ## Classified Read-Only Endpoints Not Called
 
-The official API also exposes these read-only endpoints. They are classified so
-new mutating surfaces cannot pass the coverage gate unnoticed, but the snapshot
-does not call them until its normalized contract has a decision-relevant field
-for their output.
+The official API also exposes these read-only endpoints. They are classified so new mutating surfaces cannot pass the coverage gate unnoticed, but the snapshot does not call them until its normalized contract has a decision-relevant field for their output.
 
 | Method | Path | Purpose |
 |---|---|---|
@@ -120,9 +105,5 @@ These official endpoints exist but are not part of this skill:
 
 ## Known Documentation Edge Cases
 
-- `GET /api/v1/orders` operation text supports `status=OPEN|CLOSED`, while an
-  older schema description may still say `CLOSED` is not supported. The fetcher
-  attempts `CLOSED` and records a warning if the upstream rejects it.
-- Toss API responses include rate-limit headers. The fetcher runs sequentially,
-  applies a small request delay, and retries `429` or transient server errors
-  with `Retry-After` or exponential backoff.
+- `GET /api/v1/orders` operation text supports `status=OPEN|CLOSED`, while an older schema description may still say `CLOSED` is not supported. The fetcher attempts `CLOSED` and records a warning if the upstream rejects it.
+- Toss API responses include rate-limit headers. The fetcher runs sequentially, applies a small request delay, and retries `429` or transient server errors with `Retry-After` or exponential backoff.
