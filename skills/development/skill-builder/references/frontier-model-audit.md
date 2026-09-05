@@ -1,152 +1,47 @@
-# Frontier-Model Skill Audit
+# Model-Aware Skill Audit
 
-Use this reference when a skill was built around limitations of an older model
-generation and must be retuned for GPT-6 Astra, GPT-5.6 Sol, Claude Fable 5, or another
-frontier model.
+Use when a model change or observed failure suggests old instructions no longer help. Do not rewrite a package merely to mention a newer model.
 
-## Contents
+## Establish The Problem
 
-- Current evidence
-- Instruction classification
-- Subtractive audit
-- Autonomy, tools, and multi-agent routing
-- Direct verification
-- Finish and report
+Read the skill, relevant loaded instructions, and user correction. Distinguish the expected result, actual result, and suspected cause. A hypothetical failure is not a measured regression.
 
-## Current Evidence
+Inspect the relevant stack together: project guidance, co-loaded skills, linked resources, and tool descriptions. Locate where a duplicated or conflicting rule belongs. Do not turn a scoped audit into an edit of every installed instruction.
 
-Sol/Fable sources reviewed on 2026-07-10. Astra guidance checked on 2026-09-05:
+Consult the matching model guide and current primary source for model claims. [OpenAI's Astra guidance](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra) identifies clarification pauses, loaded-file conflicts, presentation, delegation, and excessive verification as areas to investigate. It does not establish that every skill needs every intervention.
 
-- OpenAI, [Using GPT-6 Astra](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra),
-  prompting best practices. Audit clarification pauses, loaded-file conflicts,
-  repetitive presentation, insufficient delegation, and excessive testing.
-  These are tuning targets, not proof that every skill needs every intervention.
+## Audit By Function
 
-Earlier model sources:
+| Instruction | Treatment |
+| --- | --- |
+| Domain fact or artifact invariant | Preserve/correct against its source |
+| Fragile command, ordering, authority | Keep precise and verify |
+| Observed mistake | Keep condition and remedy |
+| Repeated policy or generic knowledge | Remove when it adds no task information |
+| Host-specific feature | Put in the documented target layer |
+| Legacy compensation | Reassess; age alone does not invalidate it |
+| Repeated user preference | Preserve when it usefully selects audience, taste, or output |
 
-- OpenAI, `Using GPT-5.6`:
-  https://developers.openai.com/api/docs/guides/latest-model?model=gpt-5.6
-- OpenAI, `Prompting guidance for GPT-5.6 Sol`:
-  https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
-- Anthropic, `Prompting Claude Fable 5`:
-  https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
-- Anthropic, `Skill authoring best practices`:
-  https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
-- OpenAI, `Build skills`:
-  https://learn.chatgpt.com/docs/build-skills
-- Anthropic, `Extend Claude with skills`:
-  https://code.claude.com/docs/en/skills
+Classify only enough to make the edit. No audit matrix, fixed edit count, or target byte size is required.
 
-Durable findings:
+Thariq's [July 2026 context guidance](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models) reports reducing Claude Code's system prompt by over 80% without measurable loss on its coding evaluations. That is evidence about those models and that harness, not a reduction target or evidence of gains for this package or another model.
 
-- Stronger models need less generic scaffolding. OpenAI reports better quality
-  and large token reductions from shorter prompts; Anthropic warns that
-  prescriptive older skills can degrade Fable 5 output.
-- State the outcome, non-obvious constraints, authority, evidence bar, output,
-  and stop conditions. Let the model choose ordinary implementation steps.
-- Strong instruction following makes contradictions and repeated rules more
-  harmful, not less.
-- GPT-5.6 is already compressed; generic brevity can remove required content.
-  Prioritize required facts and artifacts instead of asking for minimal text.
-- Fable 5 sustains long runs and delegation well. Its progress claims should be
-  grounded in current tool results, and it should not be asked to reproduce
-  private reasoning.
+## Fix The Cause
 
-## Instruction Classification
+Resolve conflicts at their source. Preserve the user's authorized outcome; do not append an unlimited-autonomy override. Missing decisions block only the dependent work.
 
-Tag each meaningful block before editing:
+Use the [diagnosis options](skill-tips.md) to distinguish missing information, retrieval problems, ambiguous requirements, interface limits, and missing outcome evidence. Improve the affected resource or interface when prose is not the cause. An expressive parameter or useful error can replace several instructions about working around an awkward helper.
 
-- `domain invariant`: private schema, policy, vocabulary, format, or safety rule.
-- `fragile procedure`: exact order or command where deviation is risky.
-- `tool contract`: non-obvious routing, return shape, side effect, or fallback.
-- `artifact contract`: required fields, file, render, citation, or user-visible
-  result.
-- `verification`: executable or inspectable evidence of completion.
-- `observed gotcha`: a repeated failure supported by traces or user feedback.
-- `generic default`: behavior the target model already performs without help.
-- `legacy compensation`: verbose steps added for a weaker prior model.
-- `harness policy`: global autonomy, tone, or permission guidance that belongs in
-  system/project instructions rather than this task skill.
+Keep required detail when shortening. Use code for reliable repetitive work and leave contextual choices to the agent. Delegation needs actual capability, bounded work, and an integration owner. A domain skill should not silently select a model tier or runtime setting.
 
-Keep the first six when they are specific to the task contract. Delete or
-relocate the last three unless real usage or an observed failure shows they are
-still needed.
+Inspect affected references and templates. A clean entry point does not repair a contradictory procedure it subsequently loads.
 
-## Subtractive Audit
+Keep a workaround's failure condition and supporting evidence in an existing reference or change record when future maintainers need it. Reconsider it when the relevant model, tool, or contract changes. Preserve essential constraints and retain enough provenance to explain a removal.
 
-1. Read the current skill, its direct references, and any user-provided failure
-   or correction before editing.
-2. Remove duplicate rules, generic knowledge, and process narration first.
-3. Replace exhaustive keyword maps or rigid step lists with outcome and decision
-   rules when context should determine the path.
-4. Preserve exact requirements for destructive, security-sensitive, regulated,
-   schema-bound, or deterministic operations.
-5. Consolidate repeated output templates into one canonical contract.
-6. Move long rationale, examples, and current-version notes into one-level
-   references.
-7. Add a rule only for the requested contract or an observed recurring failure.
-8. Run direct structural checks and the documented invocation of anything that
-   changed.
+## Verify And Finish
 
-Do not rewrite merely to mention the new model. A successful refresh often
-removes text while leaving domain assets and deterministic scripts unchanged.
+Run package checks and meaningful tests of changed executable resources. Use actual task feedback and existing traces when available. Model trials, benchmarks, and scorecards require a corresponding request.
 
-## Autonomy, Tools, And Multi-Agent Routing
+For requested comparisons, hold inputs, tools, environment, and relevant settings constant. Compare required outputs and unwanted effects. Report improvement only for behavior exercised.
 
-Define autonomy once by request type or side-effect class. Preserve established
-session grants and ask only for a missing consequential decision or permission.
-For external writes, destructive actions, purchases, and secrets, retain the
-actual authorization boundary rather than demanding a second confirmation of
-the same grant. Continue independent authorized work while a question is pending.
-
-If a loaded file causes a pause, identify its path, exact clause, and affected
-action. Distinguish an explicit requirement from an interpretation and resolve
-the conflict within scope and the real instruction hierarchy. Do not duplicate
-this global policy into every skill; edit the task-specific source of the pause.
-
-Expose only relevant tools and describe non-obvious return fields and failures.
-Choose the mechanism by task shape:
-
-- Direct calls for small, sequential, approval-sensitive, citation-bearing, or
-  native-artifact work.
-- Deterministic or programmatic execution for bounded filtering, joining,
-  ranking, aggregation, and repeated validation.
-- Subagents for independent judgment, context isolation, specialized tools,
-  disjoint implementation, or fresh-context verification.
-
-Keep model names and cost tiers in a dedicated routing skill. Portable domain
-skills state capabilities and decision rules, not a permanently current model
-catalog.
-
-When the same package targets Claude Code and Codex, apply
-`cross-harness-skills` for discovery text, invocation, optional metadata, tool
-names, permissions, and resource-path boundaries. Keep the portable core usable
-when either harness-specific adapter is absent.
-
-## Direct Verification
-
-Verify only the artifact surfaces changed by the request:
-
-- Frontmatter and discovery text remain valid and specific.
-- Every directly linked reference and documented asset exists.
-- Changed scripts and templates pass their exact documented invocation.
-- Installation or package listing still discovers the skill when packaging
-  changed.
-- The skill remains within its authority, portability, and output boundaries on
-  a direct read-through.
-
-Do not create prompt suites, model comparisons, scoring rubrics, or benchmark
-reports unless the user requested that separate work.
-
-## Finish And Report
-
-Prefer the smallest change that satisfies the requested contract. Reject edits
-that only add model praise, repeat global policy, or move text without improving
-the skill's usability.
-
-Report:
-
-- What changed and why.
-- Which domain constraints and gotchas were preserved.
-- Files and direct checks used.
-- Any prerequisite or harness surface that remained unavailable.
+Deliver the changed contract, preserved constraints, checks, and untested behavior. Editing instructions does not switch runtime models.

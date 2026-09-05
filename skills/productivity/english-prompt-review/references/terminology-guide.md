@@ -1,24 +1,16 @@
 # Technical English Terminology Guide
 
-Use this as a judgment guide, not a replacement table. A term earns a
-recommendation only when it captures the user's intended technical distinction
-more clearly than the original wording.
+Use this as a judgment guide, not a replacement table. A term earns a recommendation only when it captures the user's intended technical distinction more clearly than the original wording.
 
 ## How to Teach a Term
 
-Keep the term, alternatives, and examples in English. Use Korean for the narrow
-semantic explanation, then return immediately to an English contrast or reuse
-example. Do not finish with a Korean-only definition.
+Keep the term, alternatives, and examples in English. Use Korean for the narrow semantic explanation, then return immediately to an English contrast or reuse example. Do not finish with a Korean-only definition.
 
 ```text
-`identify the root cause`: 실패 지점을 찾는 데서 끝나지 않고 원인을 특정한다는
-뜻이다. `locate the failure` describes where; `identify the root cause`
-explains why.
+`identify the root cause`: 실패 지점을 찾는 데서 끝나지 않고 원인을 특정한다는 뜻이다. `locate the failure` describes where; `identify the root cause` explains why.
 ```
 
-If two terms imply different work, present both English choices and explain the
-decision boundary in Korean. Do not recommend the more technical-sounding term
-until the prompt provides enough evidence to support it.
+If two terms imply different work, present both English choices and explain the decision boundary in Korean. Do not recommend the more technical-sounding term until the prompt provides enough evidence to support it.
 
 ## Software Engineering
 
@@ -32,10 +24,7 @@ until the prompt provides enough evidence to support it.
 | Check resource use | `profile` or `benchmark` | `Profile` locates cost; `benchmark` compares measured performance. |
 | Limit the work | `keep the change scoped to ...` | The boundary matters to implementation and review. |
 
-Prefer concrete verbs such as `trace`, `isolate`, `validate`, `instrument`,
-`refactor`, `ship`, and `roll out` when the request supports them. Do not use
-`robust`, `seamless`, `leverage`, or `ensure` as vague substitutes for an
-observable requirement.
+Prefer concrete verbs such as `trace`, `isolate`, `validate`, `instrument`, `refactor`, `ship`, and `roll out` when the request supports them. Do not use `robust`, `seamless`, `leverage`, or `ensure` as vague substitutes for an observable requirement.
 
 ## AI and Machine Learning
 
@@ -48,9 +37,7 @@ observable requirement.
 | Check if results generalize | `evaluate generalization` | Do not use it as a synonym for any improvement. |
 | Tie answers to supplied sources | `ground the response in ...` | This refers to evidence use, not generic accuracy. |
 
-Avoid treating `hallucination`, `alignment`, `agentic`, `reasoning`, and
-`grounded` as catch-all praise or diagnosis. Ask for the observed behavior,
-failure mode, or metric instead when the wording is not specific enough.
+Avoid treating `hallucination`, `alignment`, `agentic`, `reasoning`, and `grounded` as catch-all praise or diagnosis. Ask for the observed behavior, failure mode, or metric instead when the wording is not specific enough.
 
 ## Game Development
 
@@ -63,23 +50,18 @@ failure mode, or metric instead when the wording is not specific enough.
 | Improve game-agent behavior | `AI behavior` or `behavior tree` | Use `behavior tree` only when that architecture is actually intended. |
 | Change rendering stages | `render pipeline` | The request is about rendering flow, not a visual style alone. |
 
-`Lag` is often too broad. Prefer `input latency`, `network latency`, `frame-time
-spike`, `stutter`, or `low frame rate` when the prompt provides enough evidence
-to distinguish them.
+`Lag` is often too broad. Prefer `input latency`, `network latency`, `frame-time spike`, `stutter`, or `low frame rate` when the prompt provides enough evidence to distinguish them.
 
 ## Rewrite Patterns
 
 These are shapes for whole-prompt paraphrases, not mandatory templates.
 
 ```text
-Investigate <observed failure>, identify the root cause, and make the smallest
-viable fix. Preserve <constraint> and verify the result with <evidence>.
+Investigate <observed failure>, identify the root cause, and make the smallest viable fix. Preserve <constraint> and verify the result with <evidence>.
 
-Review <target> for <goal>. Keep the scope to <boundary>, call out uncertainties,
-and do not change files unless I explicitly ask.
+Review <target> for <goal>. Keep the scope to <boundary>, call out uncertainties, and do not change files unless I explicitly ask.
 
-Profile <system> under <scenario>, identify the main bottleneck, and recommend
-the next experiment before making an optimization.
+Profile <system> under <scenario>, identify the main bottleneck, and recommend the next experiment before making an optimization.
 ```
 
 Prefer the user's own concise wording when it already states the task clearly.

@@ -1,8 +1,6 @@
 # Python Contract Documentation Patterns
 
-Adapt these examples to the repository's established Google, NumPy,
-Sphinx/reStructuredText, or project-specific format. The semantics matter more
-than the headings.
+Adapt these examples to the repository's established Google, NumPy, Sphinx/reStructuredText, or project-specific format. The semantics matter more than the headings.
 
 ## Contents
 
@@ -38,8 +36,7 @@ def reserve(items: list[Item], limit: int | None = None) -> list[Item]:
     """
 ```
 
-Annotations already carry container types. The docstring adds ordering,
-ownership, sentinel behavior, public failure, and persistence.
+Annotations already carry container types. The docstring adds ordering, ownership, sentinel behavior, public failure, and persistence.
 
 ## Coroutine and Cancellation
 
@@ -53,8 +50,7 @@ async def publish(batch: Batch) -> Receipt:
     """
 ```
 
-Write cancellation guarantees only when the implementation and tests establish
-them. “Async” alone does not promise concurrency, atomicity, or thread safety.
+Write cancellation guarantees only when the implementation and tests establish them. “Async” alone does not promise concurrency, atomicity, or thread safety.
 
 ## Generator Laziness
 
@@ -67,8 +63,7 @@ def iter_pages(source: Source) -> Iterator[Page]:
     """
 ```
 
-For generators, call time and iteration time are different API boundaries.
-Document when I/O, validation, and cleanup occur when callers depend on it.
+For generators, call time and iteration time are different API boundaries. Document when I/O, validation, and cleanup occur when callers depend on it.
 
 ## Context Manager Lifecycle
 
@@ -82,8 +77,7 @@ def locked(record: Record) -> Iterator[Record]:
     """
 ```
 
-Name the acquired resource, yielded value, cleanup, reentrancy, and exception
-suppression only when applicable.
+Name the acquired resource, yielded value, cleanup, reentrancy, and exception suppression only when applicable.
 
 ## Protocol and Callback
 
@@ -97,8 +91,7 @@ class ProgressSink(Protocol):
         """
 ```
 
-Put shared obligations on the protocol or callback type. Implementations should
-document deviations or additional effects instead of copying this text.
+Put shared obligations on the protocol or callback type. Implementations should document deviations or additional effects instead of copying this text.
 
 ## Overloads
 
@@ -117,8 +110,7 @@ def read(key: Key, *, raw: bool = False) -> Record | bytes:
     """
 ```
 
-Avoid duplicating the shared failure and side-effect contract on every overload.
-Let annotations express the type relationship.
+Avoid duplicating the shared failure and side-effect contract on every overload. Let annotations express the type relationship.
 
 ## Property and Cache
 
@@ -173,8 +165,7 @@ def find(user_id: int) -> User | None:
     """
 ```
 
-Explain the identifier namespace, visibility rules, or why absence returns
-`None`; otherwise the annotations and name already carry the information.
+Explain the identifier namespace, visibility rules, or why absence returns `None`; otherwise the annotations and name already carry the information.
 
 ### Guessing rationale
 
@@ -183,8 +174,7 @@ Explain the identifier namespace, visibility rules, or why absence returns
 time.sleep(1)
 ```
 
-Without supporting evidence, this may be rate limiting, backoff, test timing, or
-a workaround. Do not turn a guess into maintained documentation.
+Without supporting evidence, this may be rate limiting, backoff, test timing, or a workaround. Do not turn a guess into maintained documentation.
 
 ### Treating directives as ordinary comments
 
@@ -193,5 +183,4 @@ result = dynamic_call()  # type: ignore[no-any-return]
 unused = prepare()  # noqa: F841
 ```
 
-Changing or moving these comments can alter type-checker or linter behavior even
-though the Python AST is otherwise unchanged.
+Changing or moving these comments can alter type-checker or linter behavior even though the Python AST is otherwise unchanged.
