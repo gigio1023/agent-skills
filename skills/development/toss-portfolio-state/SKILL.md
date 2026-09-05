@@ -81,6 +81,7 @@ When another skill needs personal portfolio state, pass the normalized snapshot 
 |---|---|---|
 | `scripts/fetch_portfolio_snapshot.ts` | Fetch and normalize a read-only Toss Invest OpenAPI portfolio snapshot. | `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --self-test` |
 | `scripts/remote_portfolio_snapshot.ts` | Set up per-device Tailscale SSH access and run the fetcher on the registered home-server egress. | `bun --no-env-file --no-install scripts/remote_portfolio_snapshot.ts --self-test` |
+| `scripts/request_confidentiality.test.ts` | Check redirect rejection and error redaction with loopback servers and synthetic credentials. | `bun --no-env-file --no-install test scripts/request_confidentiality.test.ts` |
 
 ## Output Contract
 
@@ -93,11 +94,13 @@ On failure, return a blocker with the failed capability, whether the failure is 
 Validate the package and inspect for secrets. For changed scripts, invocations, or API mappings, also run the applicable checks below. Prose edits need no live account collection or network coverage crawl:
 
 - Both documented script self-tests exit 0. The remote test must reject credential/base-URL overrides and preserve encoded snapshot arguments.
+- The request-confidentiality tests exit 0. They must prove token and account requests reject HTTP 307/308 before contacting the redirect destination, and HTTP errors or malformed JSON never expose upstream text. These tests use only local mock servers and synthetic credentials.
 - `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` exits 0 with `coverage_ok: true`, no missing expected endpoints, and no unclassified official endpoints. Fetch, parse, missing-endpoint, and classification failures exit nonzero.
 
 ## Gotchas
 
 - Do not print or persist bearer tokens, raw account numbers, client secrets, or raw API envelopes. Mask account numbers and omit order IDs, conditional order IDs, client order IDs, and triggered order IDs.
+- API requests reject redirects, including redirects from the approved origin. HTTP errors report only the status; arbitrary upstream error messages, codes, request IDs, and JSON parser excerpts are intentionally omitted. Known credential, token, account-number, and order-ID values are also removed from error and warning strings.
 - Do not use `bunx` for the bundled fetcher. `bunx` is for package executables; this skill ships a local Bun script.
 - Do not install a client-wide `toss-home-snapshot` wrapper. Resolve and run the transport bundled with the active skill so updates move with the package.
 - Do not copy SSH private keys between devices. The setup route creates one key per device and only authorizes its public key on the home server.

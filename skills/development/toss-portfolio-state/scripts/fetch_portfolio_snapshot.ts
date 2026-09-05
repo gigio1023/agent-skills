@@ -111,6 +111,8 @@ interface ApiClient {
   requestDelayMs: number;
 }
 
+const sensitiveValues = new Set<string>();
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   if (options.help) {
@@ -444,7 +446,7 @@ function validateBaseUrl(raw: string, allowCustomBaseUrl: boolean) {
 }
 
 async function fetchOpenApiDocument(baseUrl: string): Promise<JsonRecord> {
-  const response = await fetch(`${baseUrl}${OPENAPI_JSON_PATH}`);
+  const response = await fetchApi(`${baseUrl}${OPENAPI_JSON_PATH}`);
   return asRecord(await parseOkJson(response), "OpenAPI document");
 }
 
@@ -516,7 +518,7 @@ async function fetchToken(baseUrl: string, env: { clientId: string; clientSecret
     client_id: env.clientId,
     client_secret: env.clientSecret,
   });
-  const response = await fetch(`${baseUrl}/oauth2/token`, {
+  const response = await fetchApi(`${baseUrl}/oauth2/token`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -606,7 +608,7 @@ async function getJson(
 async function requestWithRetry(url: string, init: RequestInit): Promise<unknown> {
   const maxAttempts = 4;
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    const response = await fetch(url, init);
+    const response = await fetchApi(url, init);
     if (response.status !== 429 && response.status < 500) {
       return parseOkJson(response);
     }
@@ -620,23 +622,30 @@ async function requestWithRetry(url: string, init: RequestInit): Promise<unknown
   throw new Error("unreachable retry state");
 }
 
-async function parseOkJson(response: Response): Promise<unknown> {
-  const text = await response.text();
-  const value = text.trim() ? JSON.parse(text) : {};
-  if (!response.ok) {
-    const record = optionalRecord(value);
-    const error = optionalRecord(record?.error);
-    const code = typeof error?.code === "string" ? error.code : "unknown";
-    const requestId =
-      typeof error?.requestId === "string"
-        ? ` requestId=${error.requestId}`
-        : response.headers.get("X-Request-Id")
-          ? ` requestId=${response.headers.get("X-Request-Id")}`
-          : "";
-    const message =
-      typeof error?.message === "string" ? error.message : `HTTP ${response.status}`;
-    throw new Error(`${code}: ${message}${requestId}`);
+async function fetchApi(url: string, init: RequestInit = {}): Promise<Response> {
+  try {
+    // Initial-origin approval must also bound every request body and header.
+    return await fetch(url, { ...init, redirect: "error" });
+  } catch {
+    // Transport errors may contain URLs, headers or body excerpts.
+    throw new Error("API request failed; redirects are disabled");
   }
+}
+
+async function parseOkJson(response: Response): Promise<unknown> {
+  if (!response.ok) {
+    await response.body?.cancel().catch(() => {});
+    // Upstream messages, codes and request IDs are untrusted arbitrary text.
+    throw new Error(`API request failed: HTTP ${response.status}`);
+  }
+  let value: unknown;
+  try {
+    const text = await response.text();
+    value = text.trim() ? JSON.parse(text) : {};
+  } catch {
+    throw new Error("API response could not be read as JSON");
+  }
+  rememberSensitiveValues(value);
   return value;
 }
 
@@ -1178,6 +1187,8 @@ function readCredentials(values: Map<string, string>) {
   if (!clientId || !clientSecret) {
     throw new Error("Missing TOSS_INVEST_API_KEY or TOSS_INVEST_SECRET_KEY");
   }
+  sensitiveValues.add(clientId);
+  sensitiveValues.add(clientSecret);
   return { clientId, clientSecret };
 }
 
@@ -1221,6 +1232,7 @@ function selectAccount(accounts: unknown[], preferredType: string): JsonRecord {
 }
 
 function redactSensitive(value: unknown): unknown {
+  if (typeof value === "string") return redactKnownValues(value);
   if (Array.isArray(value)) {
     return value.map(redactSensitive);
   }
@@ -1245,6 +1257,23 @@ function isSensitiveKey(key: string) {
     key === "conditionalOrderId" ||
     key === "clientOrderId" ||
     key === "triggeredOrderId";
+}
+
+function rememberSensitiveValues(value: unknown) {
+  if (!value || typeof value !== "object") return;
+  for (const [key, item] of Object.entries(value)) {
+    if (isSensitiveKey(key) && typeof item === "string" && item) {
+      sensitiveValues.add(item);
+    }
+    rememberSensitiveValues(item);
+  }
+}
+
+function redactKnownValues(text: string) {
+  for (const value of [...sensitiveValues].sort((a, b) => b.length - a.length)) {
+    text = text.split(value).join("[redacted]");
+  }
+  return text;
 }
 
 function asRecord(value: unknown, label = "value"): JsonRecord {
@@ -1392,7 +1421,7 @@ function sleep(ms: number) {
 }
 
 function errorMessage(error: unknown) {
-  return error instanceof Error ? error.message : String(error);
+  return redactKnownValues(error instanceof Error ? error.message : String(error));
 }
 
 function buildOpenApiFixture(endpoints: string[]) {
@@ -1732,6 +1761,17 @@ function runSelfTest() {
   assert(cliSettings.resolvedOptions.accountAlias === "cli-account", "CLI account alias precedence");
   assert(cliSettings.baseUrl === DEFAULT_BASE_URL, "CLI base URL precedence");
 
+  const fixtureCredentials = readCredentials(new Map([
+    ["TOSS_INVEST_API_KEY", "FIXTURE_CLIENT_ID"],
+    ["TOSS_INVEST_SECRET_KEY", "FIXTURE_CLIENT_SECRET"],
+  ]));
+  rememberSensitiveValues({ access_token: "FIXTURE_TOKEN", nested: {
+    accountNo: "FIXTURE_ACCOUNT_NUMBER", orderId: "FIXTURE_ORDER_ID",
+  } });
+  const echoed = `${fixtureCredentials.clientId} ${fixtureCredentials.clientSecret} FIXTURE_TOKEN FIXTURE_ACCOUNT_NUMBER FIXTURE_ORDER_ID`;
+  assert(!errorMessage(new Error(echoed)).includes("FIXTURE_"), "known values redacted in errors");
+  assert(!JSON.stringify(redactSensitive({ warnings: [echoed] })).includes("FIXTURE_"), "known values redacted in warnings");
+
   console.log(
     JSON.stringify(
       {
@@ -1744,6 +1784,7 @@ function runSelfTest() {
         has_conditional_orders: Boolean(optionalRecord(snapshot.conditional_orders)),
         coverage_gate: true,
         custom_base_url_gate: true,
+        error_redaction: true,
         env_setting_precedence: true,
       },
       null,
