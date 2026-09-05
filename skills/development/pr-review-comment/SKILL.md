@@ -129,6 +129,11 @@ Each inline draft uses this closed schema:
 
 ### 6. Preview And Approve
 
+If no supported, new finding remains, report that result and finish. Do not
+invent a comment, submit an empty review, or switch to `APPROVE` merely to
+produce an external action. An explicitly requested overall review event is
+a separate outcome and must still have the corresponding authorization.
+
 Show one approval packet:
 
 - host, owner/repo, PR number, title, author, expected head SHA, and matching
@@ -140,6 +145,10 @@ Show one approval packet:
 
 Do not post until the user approves this exact packet. `REQUEST_CHANGES` is not
 available on the reviewer's own PR.
+
+An unchanged packet already approved in this session needs no second approval.
+If permission is still missing, identify this exact-payload rule and present
+the completed packet; continue read-only validation while awaiting the answer.
 
 ### 7. Recheck, Post, And Read Back
 
@@ -180,9 +189,6 @@ obtain approval, post, and read back the reply URL.
 - Submitted reviews and comments are externally visible and not reliably
   deletable. Approval applies to the exact payload, not a paraphrased summary.
 - Do not combine `-f` fields with `--input`; post one JSON document.
-- Do not spend comment space explaining reviewer tools, severity frameworks, or
-  validation methodology. The code fact, consequence, and concrete alternative
-  are the useful content.
 
 ## Reference Files
 

@@ -1,6 +1,6 @@
 # Model Prompting Contract
 
-Use this reference to translate current GPT-5.6-series and Claude Fable guidance
+Use this reference to translate GPT-6 Astra, GPT-5.6-series, and Claude Fable guidance
 into one portable filesystem skill. This is a dated maintenance reference, not a
 reason to put model names into every domain skill.
 
@@ -16,10 +16,14 @@ reason to put model names into every domain skill.
 
 ## Official Sources
 
-Reviewed 2026-07-10:
+Sol/Fable snapshot reviewed 2026-07-10; Astra addition reviewed 2026-09-05.
+
+- OpenAI, [Using GPT-6 Astra](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra).
+  Keep its clarification, loaded-instruction, style, delegation, and testing
+  observations distinct from the older model comparison below.
 
 - OpenAI, `Using GPT-5.6`:
-  https://developers.openai.com/api/docs/guides/latest-model.md
+  https://developers.openai.com/api/docs/guides/latest-model?model=gpt-5.6
 - OpenAI, `Prompting guidance for GPT-5.6 Sol`:
   https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
 - OpenAI, `Build skills`:
@@ -143,6 +147,14 @@ features. A portable skill specifies the communication outcome, not either
 mechanism.
 
 ## Model-Era Migration
+
+Inspect existing instructions and relevant resources before adding a new model
+clause. An Astra refresh should resolve unnecessary pauses and contradictory
+files at their source, preserve session grants, and bound checks by the changed
+artifact. These are authoring adaptations, not measured cross-model results.
+
+The comparison sequence below applies only when model evaluation is requested.
+Otherwise deliver the static patch and report the untested model behavior.
 
 1. Freeze representative tasks and success criteria.
 2. Run each primary model/harness pair without the skill and with the current

@@ -2,8 +2,8 @@
 name: cross-harness-skills
 description: >
   Use when creating, reviewing, or modernizing one agent skill that must work in
-  both Claude Code and Codex, especially when reconciling current GPT-5.6-series
-  and Claude Fable prompting guidance, separating portable instructions from
+  both Claude Code and Codex, especially when reconciling GPT-6 Astra,
+  GPT-5.6-series, and Claude Fable prompting guidance, separating instructions from
   harness adapters, or testing the same skill across both runtimes. NOT for a
   single-harness extension or ordinary skill creation without a portability
   requirement; use skill-builder alone.
@@ -20,9 +20,10 @@ and path features stay in adapters or installation documentation.
 
 1. Classify the request. A review-only request returns findings and does not
    edit files; a create, improve, or modernize request authorizes in-scope edits.
-2. Define the two primary targets: Claude Code with the intended Claude Fable
-   model, and Codex with the intended GPT-5.6-series model. Record unavailable
-   combinations rather than treating one successful run as proof for both.
+2. Identify the intended model in each harness from the request or active
+   configuration; do not substitute a model merely because this guide names it.
+   Record unavailable combinations rather than treating one successful run as
+   proof for both.
 3. Read `references/model-prompting-contract.md` for the shared prompt contract
    and the model-specific behaviors that must not leak into domain skills.
 4. Read `references/harness-portability.md` before using a path, invocation
@@ -37,8 +38,9 @@ and path features stay in adapters or installation documentation.
 7. Apply `references/review-gate.md` to the package and its directly linked
    resources. In change mode, patch measured defects; do not rewrite a passing
    skill to mention model names.
-8. Validate packaging and scripts, then evaluate trigger and task behavior in
-   both primary targets with the same fixtures and success rubric.
+8. Validate packaging and changed executable resources. Run model comparisons
+   only when requested; reuse existing traces when available and distinguish
+   static findings from behavior exercised in either harness.
 
 ## Portable Prompt Contract
 
@@ -66,7 +68,8 @@ the contract unambiguous for the task.
 
 ## Shared Frontier-Model Rules
 
-- Start from the shortest prompt that passes evaluations. Remove repeated rules,
+- Start from the smallest prompt that preserves the task and passes applicable
+  checks. Remove repeated rules,
   generic competence reminders, obsolete examples, and routine process narration.
 - Lead with the outcome. Preserve required facts, artifacts, evidence, caveats,
   and actions; remove repetition and options not pursued before compressing them.

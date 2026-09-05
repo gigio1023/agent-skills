@@ -5,6 +5,9 @@
 > and
 > https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 > **Snapshot date**: 2026-07-10
+> **Maintenance check**: 2026-09-05 — reopened both official sources; refreshed
+> API prerequisites and Foundry scope below. Other dated runtime claims still
+> require live verification before deployment.
 > **Freshness policy**: Refresh the official pages before relying on field,
 > runtime, API, or availability details when this snapshot is older than 30 days.
 
@@ -101,12 +104,13 @@ when the text needs either.
 - Claude Code: filesystem Custom Skills, personal or project-scoped, and plugin
   distribution.
 - Claude API: pre-built and uploaded Custom Skills through the code-execution
-  container and Skills API. Current use requires the documented Skills and Files
-  beta headers.
+  container and Skills API. The overview requires code execution; check the
+  live API guide for the integration's current headers instead of carrying
+  old beta prerequisites into a new prompt.
 - claude.ai: pre-built and individually uploaded Custom Skills for eligible
   plans with code execution.
 - Claude Platform on AWS and Microsoft Foundry: documented Skills API support;
-  product-specific deployment requirements apply.
+  Foundry requires a Hosted on Anthropic deployment.
 
 Custom Skills do not automatically sync across these surfaces. API uploads are
 workspace-wide, claude.ai uploads are individual, and Claude Code skills are

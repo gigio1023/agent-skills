@@ -47,6 +47,9 @@ When wording is materially ambiguous, do not hide the uncertainty inside a
 fluent rewrite. Separate the shared meaning from the unresolved choice and give
 English variants for each plausible interpretation. Do not silently guess.
 
+Ask about ambiguity only where execution depends on it. Continue independent
+authorized work; cosmetic coaching choices never block the main task.
+
 ### Rewrite the Prompt, Not Every Token
 
 Treat the prompt as a small piece of working communication. Use a clear subject
@@ -169,5 +172,3 @@ this skill or to calibrate a harness integration.
   `root cause` describes a diagnosis goal; it does not authorize code changes.
 - Do not let a fluent Korean explanation stand alone as proof of understanding;
   anchor it to an English expression, contrast, or reuse example.
-- Keep the coaching block small. Its purpose is to build intuition while the
-  user gets their work done, not to become a second task.

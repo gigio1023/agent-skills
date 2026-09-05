@@ -31,6 +31,10 @@ requested that separate work.
    - minimum `N`: pass when `count >= N`;
    - exact `N`: pass when `count == N`.
 
+One successful counter result for the exact output file completes counting.
+Do not render pages or run additional backends unless the file changed or a
+concrete discrepancy calls that result into question.
+
 ## Output Contract
 
 Report the file, page count, limit if any, and result. When over or under the

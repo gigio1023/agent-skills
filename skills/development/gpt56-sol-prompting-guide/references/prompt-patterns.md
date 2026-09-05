@@ -63,8 +63,9 @@ materials and report the result. Do not implement changes unless requested.
 For requests to change, build, or fix, make the requested in-scope local changes
 and run relevant non-destructive validation without asking first.
 
-Require confirmation for external writes, destructive actions, purchases, or a
-material expansion of scope.
+Require the appropriate authorization for external writes, destructive actions,
+purchases, or a material expansion of scope. Reuse an explicit grant already
+established for the same action and target; ask only for what remains missing.
 ```
 
 Response prioritization:
@@ -192,7 +193,9 @@ sent according to the integration's state-management contract.
 
 ## Migration and Evaluation
 
-Migration sequence:
+For a requested model comparison, use this migration sequence. A static prompt
+review or wording migration does not require creating cases or launching model
+sessions; report its execution limits instead.
 
 1. Preserve the current reasoning effort and change only the model.
 2. Run two to five representative success cases and one or two near misses.

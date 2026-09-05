@@ -33,6 +33,9 @@ the external lane adds value, and the lead can inspect the result.
    - a named repository and revision or worktree;
    - explicit write, command, MCP, credential, and external-effect authority;
    - a deadline, preservation rules, acceptance evidence, and stop conditions.
+   Fill these from the settled plan and session grants. Return only unresolved
+   consequential choices to the lead; packet preparation is not another user
+   approval round for decisions already made.
 2. Keep planning, conflict resolution, scope changes, destructive decisions,
    integration, and final acceptance in the lead harness.
 3. Read `references/cursor-agent-cli.md` and probe the installed CLI. Apply
@@ -59,7 +62,7 @@ the external lane adds value, and the lead can inspect the result.
    zero or an executor claim is not acceptance.
 
 Finish open research or decisions in the lead first. For parallel lanes,
-`parallel-subagents` owns decomposition and synthesis; this skill owns each
+`orchestrate-subagents` owns decomposition and synthesis; this skill owns each
 explicitly selected Cursor CLI lane.
 
 Delegation never expands user authorization. Review-only missions stay

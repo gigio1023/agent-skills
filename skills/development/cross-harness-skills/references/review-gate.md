@@ -42,6 +42,11 @@ its normal path.
 
 ## Evaluation Matrix
 
+Use this matrix only for an explicitly requested model comparison. Ordinary
+skill maintenance completes with the applicable package, prompt, and adapter
+checks above; unavailable model runs are a limitation, not a blocker or a
+reason to create fixtures.
+
 Use at least two positive triggers, two adjacent negative triggers, and these
 behavior cases:
 
@@ -53,7 +58,7 @@ behavior cases:
 | Tool or script failure | Faithful failure, bounded retry, no false completion |
 | Long or parallel path | Grounded phase updates, ownership, sequential fallback |
 
-Run each case in the intended Codex/GPT-5.6 and Claude Code/Fable pair. For an
+Run each case in the intended Codex and Claude Code model pair. For an
 existing skill, compare no-skill, current, and candidate conditions with the
 same fixture, effort, and rubric. Record an unavailable cell instead of
 extrapolating.

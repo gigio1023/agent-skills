@@ -81,8 +81,10 @@ for impossible internal states.
 Pause rule:
 
 ```text
-Pause only for a destructive or irreversible action, a real scope change, or
-input only the user can provide. Otherwise continue with reversible in-scope work.
+Pause when an action lacks required authorization, scope materially changes,
+or a needed decision belongs to the user. Preserve an existing grant for the
+same action and target; continue independent authorized work while awaiting
+missing input.
 ```
 
 ## Progress and Long Runs
@@ -194,6 +196,11 @@ Do not prompt the model to expose or reproduce reasoning. Ask for concise
 rationale, evidence, assumptions, and decision criteria.
 
 ## Migration and Evaluation
+
+Run this comparison only when requested. For static prompt work, inspect the
+existing stack and available traces, deliver the patch, and state the behavior
+not exercised. Do not create a benchmark or invoke another model merely because
+the runtime is available.
 
 Migration sequence:
 

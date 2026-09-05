@@ -45,10 +45,16 @@ mismatch only when it changes the task.
 5. Before item/vault/document/service-account/plugin writes, verify that the
    user requested the mutation and that the account, vault, item, and
    destination are unambiguous. Read `references/security-patterns.md` and use
-   `--dry-run` where the command supports it.
+   `--dry-run` where the command supports it. Reuse the account and destination
+   already established in this session; ask only about unresolved identity or
+   exposure, not whether to perform the same authorized operation again.
 6. Verify the requested outcome without printing secret values. Report the
    account or vault scope, what changed or was found, any sensitive file
    created, and the smallest unblock step if authentication failed.
+
+If a write returns an uncertain result, inspect metadata in the same session
+before retrying. Do not repeat a create operation merely to obtain clearer
+output or verify success by revealing the stored secret.
 
 ## macOS Authentication
 

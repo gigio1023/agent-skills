@@ -19,9 +19,8 @@ Use the five-agent standard set unless the user explicitly excludes a member.
 Add named extras without the broad `--all` option. Let the CLI manage the
 canonical global package and agent-facing links.
 
-Third-party security assessments are optional context: read the selected source
-directly, make the security decision from that evidence, and do not treat a
-missing scanner result as either a pass or a blocker.
+Review the source directly. Third-party scans are optional; a missing scanner
+result is neither a pass nor a blocker.
 
 ## Quick Path
 
@@ -29,7 +28,9 @@ missing scanner result as either a pass or a blocker.
    shorthand, a full repository URL, or another cloneable Git URL. Read
    [`references/skills-cli-usage.md`](references/skills-cli-usage.md) for the
    standard target IDs, current CLI contract, symlink mode, and per-agent
-   verification. If no skills were named, list the repository's skills first;
+   verification. Resolve names from the current request and already-established
+   session scope, including a skill just published for installation. If that
+   leaves the selection unclear, list the repository's skills first;
    install every package only when the user explicitly requested the complete
    pack.
 
@@ -111,6 +112,11 @@ missing scanner result as either a pass or a blocker.
 10. Remove the disposable checkout only after content and discovery
     verification pass.
 
+If installation returns an uncertain result, inspect canonical content and
+agent-facing links before rerunning it. Preserve the reviewed revision and
+selection while diagnosing; an unavailable universal harness does not justify
+another install or a new configuration directory.
+
 ## Selecting Skills
 
 Add one `--skill <frontmatter-name>` argument per requested package to the
@@ -138,14 +144,8 @@ beforehand. For named skills, put their names before `--global`.
 - Running the Skills CLI trusts its npm publisher and executes remote CLI code.
   The source review covers selected skill packages, not npm provenance or the
   CLI implementation.
-- Omit a ref for the normal path. Do not invent `#main`; the remote decides its
-  default branch.
 - `#<branch>` selects a branch. Do not use `@<branch>`; the CLI interprets `@`
   as a skill filter.
-- Do not assume `source#<commit>` can pin an arbitrary commit. Use the reviewed
-  detached checkout path.
-- Do not use `--all` or add `--copy` on the normal path. The former expands the
-  target set; the latter defeats the required agent-link topology.
 - Installation can overwrite selected skills. Back up only those directories
   when the exact old version must be preserved until verification passes.
 - Global installation does not authorize deletion of unrelated or stale
