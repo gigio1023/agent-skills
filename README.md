@@ -2,24 +2,13 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 17 specialized, reusable Agent Skills for working
-with agent harnesses, designing interfaces, writing clearly, and handling a
-few everyday workflows.
+A personal collection of 17 specialized, reusable Agent Skills for working with agent harnesses, designing interfaces, writing clearly, and handling a few everyday workflows.
 
-For a structured software-development work loop, start with
-[gigio-pack](https://github.com/gigio1023/gigio-pack). It is the primary
-reference for orienting, planning, executing, reviewing, and handing off work.
-This repository complements it with focused skills that fit alongside that
-loop.
+For a structured software-development work loop, start with [gigio-pack](https://github.com/gigio1023/gigio-pack). It is the primary reference for orienting, planning, executing, reviewing, and handing off work. This repository complements it with focused skills that fit alongside that loop.
 
-Each skill follows the [Agent Skills format](https://agentskills.io/): a
-`SKILL.md` plus any colocated references, scripts, and assets. Install only
-what you need with [`npx skills`](https://github.com/vercel-labs/skills), then
-update from the tracked source.
+Each skill follows the [Agent Skills format](https://agentskills.io/): a `SKILL.md` plus any colocated references, scripts, and assets. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills), then update from the tracked source.
 
-[Catalog](#skill-catalog) · [Install](#install-with-npx-skills) ·
-[Update](#keep-skills-up-to-date) · [Related repositories](#related-skill-repositories) ·
-[Local development](#local-development)
+[Catalog](#skill-catalog) · [Install](#install-with-npx-skills) · [Update](#keep-skills-up-to-date) · [Related repositories](#related-skill-repositories) · [Local development](#local-development)
 
 ## Install with `npx skills`
 
@@ -41,11 +30,9 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
   --yes
 ```
 
-Replace the skill names and agent IDs as needed. Omit `--global` for a
-project-local install.
+Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 17 skills for a deliberate set of agents. Quote the wildcard so
-the shell does not expand it:
+Install all 17 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -55,8 +42,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
   --yes
 ```
 
-Prefer an explicit `--agent` list. The CLI's `--all` option targets every skill
-and every supported agent, which is usually broader than intended.
+Prefer an explicit `--agent` list. The CLI's `--all` option targets every skill and every supported agent, which is usually broader than intended.
 
 ## Keep skills up to date
 
@@ -78,8 +64,7 @@ Add a trailing `--yes` when the Skills CLI itself must run non-interactively:
 npx --yes skills update --global --yes
 ```
 
-Updates refresh only already tracked skills. Rerun an `add` command to install
-new skills from this pack. Verify global installs with:
+Updates refresh only already tracked skills. Rerun an `add` command to install new skills from this pack. Verify global installs with:
 
 ```bash
 npx --yes skills list --global
@@ -139,8 +124,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 ## Related skill repositories
 
-These repositories are independently versioned and not included when this pack
-is installed. Use each README for its install and update workflow.
+These repositories are independently versioned and not included when this pack is installed. Use each README for its install and update workflow.
 
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
@@ -167,8 +151,9 @@ npx --yes skills find
 
 ## Local development
 
-This repository is a multi-skill pack. The canonical source for each bundled
-skill is `skills/<source-category>/<skill-name>/`.
+Keep Markdown prose in natural paragraphs without fixed-column hard wrapping; use editor soft wrap for display. Follow [skill-builder](skills/development/skill-builder/SKILL.md) when authoring or maintaining a skill.
+
+This repository is a multi-skill pack. The canonical source for each bundled skill is `skills/<source-category>/<skill-name>/`.
 
 Inspect a checkout without creating an update-tracked install:
 
@@ -176,8 +161,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder,
-every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 17 unique names. See
-[Repository Structure](docs/repo-structure.md) for the catalog, storage, and
-installation boundaries.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 17 unique names. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.

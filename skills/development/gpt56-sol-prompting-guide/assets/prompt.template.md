@@ -28,18 +28,15 @@ Produce <user-visible outcome> for <audience or downstream consumer>.
 - Use <tool> when <decision rule>. Its decisive fields are <fields>.
 - Complete <required retrieval or validation> before <dependent action>.
 - Use direct calls for <judgment, approval, citation, or native artifact work>.
-- Use programmatic calls only for <bounded deterministic reduction stage> and
-  return <compact schema, evidence, retry limit, and stop condition>.
+- Use programmatic calls only for <bounded deterministic reduction stage> and return <compact schema, evidence, retry limit, and stop condition>.
 
 # Output
 
-Lead with <conclusion or artifact>. Include <required evidence>, <material
-caveat>, and <next action>. Omit <secondary detail and repetition>.
+Lead with <conclusion or artifact>. Include <required evidence>, <material caveat>, and <next action>. Omit <secondary detail and repetition>.
 
 # Validation and Stop Rules
 
 - Validate with <test, render, comparison, or source check>.
 - Retry <transient failure> at most <count> times using <fallback>.
-- If <required evidence> remains missing, <ask for the smallest missing input,
-  narrow the claim, or return a structured blocker>.
+- If <required evidence> remains missing, <ask for the smallest missing input, narrow the claim, or return a structured blocker>.
 - Stop when <observable completion condition> is satisfied.

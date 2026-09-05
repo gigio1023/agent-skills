@@ -15,27 +15,14 @@ Last reviewed: 2026-09-05.
 
 ## Interpretation Boundary
 
-The main guide's five tendencies are official observations. The diagnostic
-workflow, prompt clauses, template, worker ownership fields, and validation
-reporting rules are this package's operational adaptations. They are not
-OpenAI-certified prompts or independently measured performance improvements.
+The main guide's five tendencies are official observations. The diagnostic workflow, prompt clauses, template, worker ownership fields, and validation reporting rules are this package's operational adaptations. They are not OpenAI-certified prompts or independently measured performance improvements.
 
-The Sol skill supplies a familiar package layout, not evidence for Astra
-behavior. In particular, do not carry its compression, tool-count, or reasoning
-defaults forward without Astra-specific support.
+The Sol skill supplies a familiar package layout, not evidence for Astra behavior. In particular, do not carry its compression, tool-count, or reasoning defaults forward without Astra-specific support.
 
-The user-over-skill guideline in the Astra guide concerns skill guidance; it
-does not reverse the API instruction hierarchy. Apply message authority and
-application permission boundaries when adapting that advice.
+The user-over-skill guideline in the Astra guide concerns skill guidance; it does not reverse the API instruction hierarchy. Apply message authority and application permission boundaries when adapting that advice.
 
 ## Maintenance
 
-Open the model-specific guide and confirm that its body identifies Astra.
-The unqualified `latest-model` route can change to a different model. Search
-official OpenAI documentation for the exact model if the recorded route moves
-or returns an incomplete body; do not infer a new slug from an old pattern.
+Open the model-specific guide and confirm that its body identifies Astra. The unqualified `latest-model` route can change to a different model. Search official OpenAI documentation for the exact model if the recorded route moves or returns an incomplete body; do not infer a new slug from an old pattern.
 
-Recheck runtime claims before an API migration. If sources conflict, report
-the exact disagreement and avoid an unsupported example. If live retrieval is
-unavailable, label this dated snapshot as the fallback. Record the review date
-after checking the pages, not merely after editing this file.
+Recheck runtime claims before an API migration. If sources conflict, report the exact disagreement and avoid an unsupported example. If live retrieval is unavailable, label this dated snapshot as the fallback. Record the review date after checking the pages, not merely after editing this file.

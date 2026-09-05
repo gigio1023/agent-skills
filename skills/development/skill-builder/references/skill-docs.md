@@ -1,146 +1,87 @@
-# Agent Skills — Selected Official Anthropic Documentation Snapshot
+# Sources And Rule Provenance
 
-> **Sources**:
-> https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
-> and
-> https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
-> **Snapshot date**: 2026-07-10
-> **Maintenance check**: 2026-09-05 — reopened both official sources; refreshed
-> API prerequisites and Foundry scope below. Other dated runtime claims still
-> require live verification before deployment.
-> **Freshness policy**: Refresh the official pages before relying on field,
-> runtime, API, or availability details when this snapshot is older than 30 days.
+Checked 2026-09-05. Format specifications, runtime contracts, authoring advice, and example implementations serve different purposes. This is a scoped synthesis, not a complete API snapshot.
 
-## Table of Contents
+## Contents
 
-- Why Skills
-- Loading model
-- Authoring principles
-- Skill structure and frontmatter
-- Progressive disclosure
-- Where Skills work
-- Runtime constraints
-- Security and retention
-- Checklist
+- Format and runtime
+- Authoring sources
+- Local decisions
+- Freshness
 
-## Why Skills
+## Format And Runtime
 
-Skills are reusable filesystem packages containing instructions, metadata, and
-optional resources. They load on demand, so they are best for domain knowledge,
-workflows, and repeatable procedures that should not occupy every conversation.
+[Agent Skills specification](https://agentskills.io/specification) defines required name/description metadata and optional license, compatibility, metadata, and experimental allowed-tools fields. Name syntax and folder identity are format requirements. Its approximate 5,000-token and 500-line guidance is authoring advice; it does not impose an 8KB file limit.
 
-## Loading Model
+[Claude Code skills](https://code.claude.com/docs/en/skills) documents native invocation, hooks, and execution controls. The current runtime even permits omitted frontmatter fields; this package's portable validator intentionally requires name/description. Native fields need runtime-specific review.
 
-Skills use three levels of disclosure:
+[Anthropic authoring guidance](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) also restricts reserved names and XML in metadata. The validator's optional claude-code target applies those restrictions, not the full native schema. It is not a runtime-conformance certification.
 
-| Level | Loaded when | Content |
-|-------|-------------|---------|
-| Metadata | Startup | `name` and `description` |
-| Instructions | Skill trigger | `SKILL.md` body |
-| Resources | As needed | References, scripts, templates, and data |
+[OpenAI Build skills](https://learn.chatgpt.com/docs/build-skills) describes on-demand instructions and native agents/openai.yaml metadata. Its initial skill-list budget is 2% of context, with an 8,000-character fallback when the context size is unknown. That catalog budget does not limit individual files; selected skills load their full instructions.
 
-Only metadata for every installed skill is loaded at startup. The description
-therefore carries discovery; the body and resources should focus on execution.
+## Authoring Sources
 
-## Authoring Principles
+### Thariq Shihipar
 
-- Assume the model is already capable. Include only information that earns its
-  context cost.
-- Match degrees of freedom to risk. Use text heuristics for open-ended work,
-  parameterized patterns for preferred approaches, and exact scripts for fragile
-  operations.
-- Keep instructions model-capability-aware without duplicating model-specific
-  prompting policy in every domain skill.
-- Start small and refine from real user requests or observed failures rather
-  than speculative process scaffolding.
-- Use feedback loops for quality-critical work: run or inspect, fix, and verify
-  again.
-- Avoid time-sensitive instructions in the main path and keep terminology
-  consistent.
+[How we use skills](https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills) is dated June 3, 2026 on the official blog. A March 17 posting is visible in an [archive of his X post](https://x.noodl3.net/trq212/status/2033949937936085378); direct X retrieval was unavailable. The blog date should not be treated as the first publication date. Its byline identifies an Anthropic member of technical staff working on Claude Code, not a team-lead title.
 
-## Skill Structure And Frontmatter
+Later writing and implementation broaden the advice beyond that skills article. Dates below refer to official blog publication or the indicated artifact, not search-index crawl dates. Adaptations are in [authoring patterns](skill-tips.md).
 
-Every package requires `SKILL.md`:
+| Source | What it supports and where it stops |
+| --- | --- |
+| [Seeing like an agent](https://claude.com/blog/seeing-like-an-agent), April 10, 2026 | Design tools around observed model behavior; revisit action and retrieval interfaces. It does not require a particular tool count. |
+| [Session management](https://claude.com/blog/using-claude-code-session-management-and-1m-context), April 15, 2026 | Choose continuation, compaction, reset, or isolation from task relevance and context needs. Native commands and context sizes are host-specific. |
+| [Prompt caching](https://claude.com/blog/lessons-from-building-claude-code-prompt-caching-is-everything), April 30, 2026 | Stable prefixes and dynamic updates matter to Claude's harness. Apply cache details to supported adapters, not as portable tool/model-switching prohibitions. |
+| [HTML artifacts](https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html), May 20, 2026 | Human-readable, interactive references and exported decisions; explicitly a personal preference, not a required format. |
+| [Dynamic workflows](https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code), June 2, 2026; coauthored with Sid Bidasaria | Task-shaped orchestration and adaptable workflow templates. Coordination and token cost must earn their place; native features need host support. |
+| [Finding your unknowns](https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns), July 6, 2026 | Discover missing requirements with references, exploration, prototypes, or questions; revise from discoveries during work. Personal habits such as interviews, fresh sessions, and quizzes are not universal gates. |
+| [Context engineering for Claude 5](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models), July 24, 2026 | Audit overlapping instructions, design expressive interfaces, and supply rich references. The reported >80% reduction with no measurable coding-evaluation loss applies to their system prompt and models, not a quota or a result for our skills. |
+| [ELI5 source](https://github.com/anthropics/claude-plugins-community/blob/794af9e63d07fad17087dcab61f21f44cb48effd/eli5/skills/eli5/SKILL.md), August 21, 2026 | A small audience-and-format skill. This revision and authorship were checked through GitHub history; the source is 10 lines and 321 bytes. Size and existence establish neither accuracy nor comparative performance. |
 
-```yaml
----
-name: processing-pdfs
-description: >
-  Extracts text and tables, fills forms, and merges PDFs. Use when the user asks
-  to work with PDF files or document forms.
----
-```
+The July 19 [Peter Yang interview page](https://creatoreconomy.so/p/how-i-plan-build-and-run-loops-with-claude-code-thariq-shihipar) publicly lists related planning, artifacts, and verification topics. Only its public introduction and takeaways were inspected, not subscriber-only content; the guidance here is grounded in the direct articles and code above.
 
-Required fields:
+These operational lessons are not format validation requirements. A short skill can encode a recurring preference without a complicated workflow. Important task invariants still need precise instructions. Model-specific claims should not be silently transferred to another model or runtime.
 
-- `name`: at most 64 characters; lowercase letters, numbers, and hyphens; no XML
-  tags; no reserved `anthropic` or `claude` terms.
-- `description`: non-empty, at most 1024 characters, no XML tags, and specific
-  about both what the skill does and when to use it. Write in third person.
+### Anthropic
 
-The portable default is these two fields only.
-Keep `name` on one line. Write `description` as one quoted scalar or an indented
-`>`/`|` block; quote a single-line value that contains `: ` so strict YAML
-runtimes do not reinterpret it as a mapping. For maximum portability, avoid
-inline comments and inner quote/escape syntax in metadata; use a block scalar
-when the text needs either.
+The [authoring guide](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) supports clear discovery, selective detail, and control matched to task fragility. Contents maps and size advice address usability, not runtime rejection.
 
-## Progressive Disclosure
+The [engineering introduction](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) explains filesystem disclosure, code reuse, actual-task feedback, and inspection of code/dependencies/external access. Static scanning cannot establish that an arbitrary package is secure.
 
-- Keep the `SKILL.md` body under 500 lines; split before it becomes a context
-  burden.
-- Link references directly from `SKILL.md`. Avoid nested reference chains because
-  the model may preview only part of a referenced file.
-- Give references over 100 lines a contents map near the top.
-- Use descriptive filenames and forward-slash relative paths.
-- State whether a bundled script should be executed or read as reference.
-- Prefer deterministic scripts for repeatable validation or transformation, and
-  give errors enough detail to support repair.
-- Make complex or high-stakes changes verifiable through a plan-validate-execute-
-  verify loop.
+### Agent Skills creator guidance
 
-## Where Skills Work
+[Best practices](https://agentskills.io/skill-creation/best-practices) starts with real expertise and project artifacts. It favors coherent scope, moderate detail, specific retrieval conditions, and defaults instead of exhaustive menus. Its examples are patterns to adapt rather than a compulsory workflow.
 
-- Claude Code: filesystem Custom Skills, personal or project-scoped, and plugin
-  distribution.
-- Claude API: pre-built and uploaded Custom Skills through the code-execution
-  container and Skills API. The overview requires code execution; check the
-  live API guide for the integration's current headers instead of carrying
-  old beta prerequisites into a new prompt.
-- claude.ai: pre-built and individually uploaded Custom Skills for eligible
-  plans with code execution.
-- Claude Platform on AWS and Microsoft Foundry: documented Skills API support;
-  Foundry requires a Hosted on Anthropic deployment.
+### Maintained implementations
 
-Custom Skills do not automatically sync across these surfaces. API uploads are
-workspace-wide, claude.ai uploads are individual, and Claude Code skills are
-filesystem installations.
+- [Anthropic skill-creator](https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/SKILL.md): iteration and user-reviewed comparative runs; it also allows skipping evaluations when the user does not want them. Its runner and directory layout are implementation choices.
+- [OpenAI skill-creator](https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.system/skill-creator/SKILL.md): separate reusable code, references, output assets, and native UI metadata; do not promote one implementation's preferred layout into a format rule.
 
-## Runtime Constraints
+These revisions were resolved on the check date. Reading them does not authorize installing or executing their workflows.
 
-- Claude API skill containers have no network access or runtime package
-  installation; use pre-installed dependencies only.
-- Claude Code has the user's local network and execution environment; avoid
-  global package installation and respect project policy.
-- claude.ai network and installation behavior can vary with product and admin
-  settings.
-- Fully qualify MCP tools as `ServerName:tool_name` and do not assume a package
-  or tool exists without a check or documented prerequisite.
+## Local Decisions
 
-## Security And Retention
+| Rule | Classification and rationale |
+| --- | --- |
+| Remove 8KB warning | Unsourced heuristic introduced in [agent-skills PR 4](https://github.com/gigio1023/agent-skills/pull/4) |
+| File above 500 lines | Organization advisory, not format failure |
+| Long reference without contents map | Advisory; headings/search hints can suffice |
+| Cross-links between references | Valid; broken direct links fail, auxiliary paths need context review |
+| No Gotchas heading | Valid; include useful exceptions, not filler |
+| Standard optional metadata | Type-checked; native/unknown fields require review |
+| Actual YAML parser | Local choice to accept valid quoting and structured metadata |
+| Model evaluations opt-in | Workflow preference, separate from script regression tests |
+| Mutable state outside installed files | Protect data during package replacement |
+| Naming without mandatory scoring | Preserve working names unless change has value |
+| Minimal authoring path | Audience and result preferences can be sufficient; no mandatory resources or workflow |
+| Diagnose before adding rules | Repair the missing information, retrieval, interface, or conflicting instruction |
+| Inspect relevant co-loaded guidance | Resolve duplication at its source within authorized edit scope |
+| Revisit workaround rules on relevant change | Retain condition and evidence where useful; no deletion percentage or expiration ritual |
 
-Treat a skill like software. Audit every bundled instruction, script, image, and
-external fetch for unexpected network access, file access, tool misuse, or data
-exposure. External content can change and may contain malicious instructions.
+The [validation contract](validation.md) gives executable checks and coverage limits. Other pack skills may prefer two fields as a conservative authoring default; that is not a general prohibition on optional standard metadata.
 
-Agent Skills is not eligible for Zero Data Retention under the current official
-documentation. Check the live retention page for deployment decisions.
+## Freshness
 
-## Checklist
+Reopen a relevant source when changing version-sensitive behavior, investigating reported drift, or reconciling the installed runtime. Record what was checked. Do not mark an entire snapshot current after checking only one section.
 
-- Description is specific about what and when.
-- Body is under 500 lines and contains only behavior-changing guidance.
-- References are one level deep; long references have a contents map.
-- Terminology and paths are consistent and portable.
-- Scripts solve deterministic work, handle errors, and are documented.
-- Critical operations have validation and feedback loops.
+If verification is unavailable, identify that claim. Avoid unsupported benchmark numbers, ecosystem counts, and fixed expiration rituals. No model-performance comparison was performed for this maintenance revision.

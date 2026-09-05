@@ -4,102 +4,56 @@
 
 ### Intent
 
-Keep `codex-delegate` an instruction-driven bridge from Claude Code, Cursor,
-and similar hosts into `codex exec`. Codex should retain freedom to reason,
-decide within the authority granted by the packet, and use internal parallel
-subagents aggressively when the work benefits. The skill should not grow into
-a broker, daemon, or plugin-like agent manager.
+Keep `codex-delegate` an instruction-driven bridge from Claude Code, Cursor, and similar hosts into `codex exec`. Codex should retain freedom to reason, decide within the authority granted by the packet, and use internal parallel subagents aggressively when the work benefits. The skill should not grow into a broker, daemon, or plugin-like agent manager.
 
 ### Evidence inspected
 
-- OpenAI Codex source at
-  `/Users/gigio/git/codex`, commit
-  `fe01054a28fa4bd04716d9ceadb410f2443a50ce`
+- OpenAI Codex source at `/Users/gigio/git/codex`, commit `fe01054a28fa4bd04716d9ceadb410f2443a50ce`
 - Installed CLI: `codex-cli 0.145.0`
-- Core agent registry, status channels, completion mailbox, app-server
-  protocol, TUI agent feed, and `codex exec --json` event projection
+- Core agent registry, status channels, completion mailbox, app-server protocol, TUI agent feed, and `codex exec --json` event projection
 
 ### Findings
 
-1. Codex represents subagents as `CodexThread` instances in one runtime. A
-   shared `AgentControl` owns their `ThreadId`, hierarchical `AgentPath`,
-   parent-child registry, and per-thread status watch channel.
-2. `AgentStatus` is the last lifecycle state derived from events:
-   `PendingInit`, `Running`, `Interrupted`, `Completed`, `Errored`, `Shutdown`,
-   or `NotFound`. It has no heartbeat, activity timestamp, or `Stalled` state.
-3. The parent model learns through spawn results, explicit status tools,
-   mailbox messages, and completion envelopes. It does not automatically see
-   every child event.
-4. App-server clients can subscribe to each child thread and therefore show
-   richer per-child turn and item activity. The public repository does not
-   contain the Codex Desktop frontend itself.
-5. Default multi-agent V1 exposes root `spawn_agent` and `wait_agent` calls as
-   `collab_tool_call` records in `codex exec --json`. These are partial,
-   root-visible snapshots. Child reasoning, commands, intermediate messages,
-   and descendants are filtered out.
-6. Experimental multi-agent V2 currently exposes less through `codex exec`:
-   spawn activity is dropped by the exec projection and wait records carry no
-   child status map.
-7. Codex treats a model response stream with no SSE activity for five minutes
-   as a lost connection and retries. This detects a transport stall, not a
-   wedged turn task or tool.
+1. Codex represents subagents as `CodexThread` instances in one runtime. A shared `AgentControl` owns their `ThreadId`, hierarchical `AgentPath`, parent-child registry, and per-thread status watch channel.
+2. `AgentStatus` is the last lifecycle state derived from events: `PendingInit`, `Running`, `Interrupted`, `Completed`, `Errored`, `Shutdown`, or `NotFound`. It has no heartbeat, activity timestamp, or `Stalled` state.
+3. The parent model learns through spawn results, explicit status tools, mailbox messages, and completion envelopes. It does not automatically see every child event.
+4. App-server clients can subscribe to each child thread and therefore show richer per-child turn and item activity. The public repository does not contain the Codex Desktop frontend itself.
+5. Default multi-agent V1 exposes root `spawn_agent` and `wait_agent` calls as `collab_tool_call` records in `codex exec --json`. These are partial, root-visible snapshots. Child reasoning, commands, intermediate messages, and descendants are filtered out.
+6. Experimental multi-agent V2 currently exposes less through `codex exec`: spawn activity is dropped by the exec projection and wait records carry no child status map.
+7. Codex treats a model response stream with no SSE activity for five minutes as a lost connection and retries. This detects a transport stall, not a wedged turn task or tool.
 
 ### Decisions
 
-- Do not enable detailed reasoning summaries merely to manufacture a
-  heartbeat.
-- Do not add a `STALLED` state or automatic cancellation based on JSONL
-  silence.
-- Keep terminal record plus process-group existence as the authoritative outer
-  lifecycle: `DONE`, `EXITED`, `RUNNING`, `DIED`, or `UNKNOWN`.
+- Do not enable detailed reasoning summaries merely to manufacture a heartbeat.
+- Do not add a `STALLED` state or automatic cancellation based on JSONL silence.
+- Keep terminal record plus process-group existence as the authoritative outer lifecycle: `DONE`, `EXITED`, `RUNNING`, `DIED`, or `UNKNOWN`.
 - Show event age as an uninterpreted observation, not a health verdict.
-- Fix the disposable watcher so it wakes when either a terminal record appears
-  or the recorded process group disappears.
-- The renderer may recognize `collab_tool_call` and show the last
-  root-observed subagent snapshot. It must label this as partial and
-  version-dependent.
-- Prefer lightweight prompt guidance asking the root Codex agent for sparse
-  progress checkpoints after dispatch and completed work waves.
-- Do not adopt `codex app-server` in the normal skill path. It provides the
-  richer supervision surface but crosses the intended boundary into a
-  persistent manager.
+- Fix the disposable watcher so it wakes when either a terminal record appears or the recorded process group disappears.
+- The renderer may recognize `collab_tool_call` and show the last root-observed subagent snapshot. It must label this as partial and version-dependent.
+- Prefer lightweight prompt guidance asking the root Codex agent for sparse progress checkpoints after dispatch and completed work waves.
+- Do not adopt `codex app-server` in the normal skill path. It provides the richer supervision surface but crosses the intended boundary into a persistent manager.
 
 ### Open investigation
 
-Evaluate whether an established, compact Unix CLI can replace or simplify the
-current `setsid` launcher and polling watcher without becoming a required
-dependency or agent-management layer. Compare at least:
+Evaluate whether an established, compact Unix CLI can replace or simplify the current `setsid` launcher and polling watcher without becoming a required dependency or agent-management layer. Compare at least:
 
 - ubiquitous session tools such as `tmux` or GNU Screen;
 - small job queues such as Task Spooler;
-- platform-native supervisors such as `systemd-run --user` and macOS
-  `launchctl`;
+- platform-native supervisors such as `systemd-run --user` and macOS `launchctl`;
 - the current POSIX-style `setsid`/PGID/result-file baseline.
 
-Judge each candidate by installation burden, macOS/Linux portability, detached
-survival, exact exit-state recovery, concurrent job handling, log access,
-machine-readable status, and whether it preserves the skill's deliberately
-small scope.
+Judge each candidate by installation burden, macOS/Linux portability, detached survival, exact exit-state recovery, concurrent job handling, log access, machine-readable status, and whether it preserves the skill's deliberately small scope.
 
 ## 2026-07-29: External CLI survey
 
 ### Sources
 
-- tmux official repository and manual:
-  <https://github.com/tmux/tmux>,
-  <https://man.openbsd.org/tmux>
-- GNU Screen manual:
-  <https://www.gnu.org/software/screen/manual/screen.html>
-- Task Spooler upstream and manual:
-  <https://viric.name/soft/ts/>,
-  <https://viric.name/soft/ts/man_ts.html>
-- GNU Parallel manual and history:
-  <https://www.gnu.org/software/parallel/parallel.html>,
-  <https://www.gnu.org/software/parallel/history.html>
-- systemd transient service documentation:
-  <https://man7.org/linux/man-pages/man1/systemd-run.1.html>
-- GNU `nohup` documentation:
-  <https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html>
+- tmux official repository and manual: <https://github.com/tmux/tmux>, <https://man.openbsd.org/tmux>
+- GNU Screen manual: <https://www.gnu.org/software/screen/manual/screen.html>
+- Task Spooler upstream and manual: <https://viric.name/soft/ts/>, <https://viric.name/soft/ts/man_ts.html>
+- GNU Parallel manual and history: <https://www.gnu.org/software/parallel/parallel.html>, <https://www.gnu.org/software/parallel/history.html>
+- systemd transient service documentation: <https://man7.org/linux/man-pages/man1/systemd-run.1.html>
+- GNU `nohup` documentation: <https://www.gnu.org/software/coreutils/manual/html_node/nohup-invocation.html>
 
 ### Candidate findings
 
@@ -113,64 +67,34 @@ small scope.
 | `launchctl` | Built-in macOS detached service execution and status | macOS-only and introduces service labels and cleanup lifecycle |
 | `nohup`, dtach, daemonize | Simple detachment or PID/log helpers | They do not retain enough lifecycle truth to replace the existing wrapper and result record |
 
-No candidate distinguishes a working process from a process that is alive but
-semantically wedged.
+No candidate distinguishes a working process from a process that is alive but semantically wedged.
 
 ### Decision
 
-- Keep the dependency-free run-directory, process-group, terminal-record, and
-  JSONL design as the normal path.
-- On systems with util-linux, prefer its `setsid -f` command for the launch.
-  Retain the current Perl `POSIX::setsid()` launcher as the macOS and
-  no-`setsid` fallback. Both paths preserve the same `run.sh` and evidence
-  contract.
-- Do not add automatic backend detection. Two status implementations would
-  increase the surface area and make behavior depend on whatever happens to be
-  installed. The `setsid`/Perl choice is only an equivalent launch primitive,
-  not a second status backend.
-- Do not integrate tmux into the normal recipe. It is the most recognizable
-  mature tool and a reasonable user-controlled outer shell for interactive
-  inspection, but it does not simplify the headless JSONL workflow enough.
-- Keep Task Spooler as the only promising optional backend for users who
-  routinely launch several independent root Codex missions. It should queue
-  top-level `codex exec` runs only and never manage Codex's internal subagents.
-- Do not add the Task Spooler recipe until real use shows that managing several
-  outer missions is common. The intended default is one capable root Codex run
-  coordinating its own internal parallel agents.
-- The next justified implementation changes remain the watcher death wakeup
-  and optional rendering of root-visible `collab_tool_call` events.
+- Keep the dependency-free run-directory, process-group, terminal-record, and JSONL design as the normal path.
+- On systems with util-linux, prefer its `setsid -f` command for the launch. Retain the current Perl `POSIX::setsid()` launcher as the macOS and no-`setsid` fallback. Both paths preserve the same `run.sh` and evidence contract.
+- Do not add automatic backend detection. Two status implementations would increase the surface area and make behavior depend on whatever happens to be installed. The `setsid`/Perl choice is only an equivalent launch primitive, not a second status backend.
+- Do not integrate tmux into the normal recipe. It is the most recognizable mature tool and a reasonable user-controlled outer shell for interactive inspection, but it does not simplify the headless JSONL workflow enough.
+- Keep Task Spooler as the only promising optional backend for users who routinely launch several independent root Codex missions. It should queue top-level `codex exec` runs only and never manage Codex's internal subagents.
+- Do not add the Task Spooler recipe until real use shows that managing several outer missions is common. The intended default is one capable root Codex run coordinating its own internal parallel agents.
+- The next justified implementation changes remain the watcher death wakeup and optional rendering of root-visible `collab_tool_call` events.
 
 ## 2026-07-29: Implemented minimal path
 
-- The canonical launch now prefers util-linux `setsid -f` and falls back to
-  Perl `POSIX::setsid()`. Both feed the same `run.sh`, provenance, status, and
-  cancellation contract.
-- Single-run and multi-run watchers now stop on either an `exit=` record or a
-  vanished recorded process group.
-- The renderer now recognizes `collab_tool_call`, renders root-visible state
-  counts, and adds a clearly labeled partial agent snapshot to `--status`.
-- The fixture covers spawn and wait records with running, completed, and
-  errored child states.
-- No tmux recipe was added to the deployed skill. The local machine has no
-  tmux installation, so its alternate PTY and PGID behavior could not be
-  verified against the existing cancellation contract. Shipping an untested
-  second launcher would contradict the one-backend decision above.
+- The canonical launch now prefers util-linux `setsid -f` and falls back to Perl `POSIX::setsid()`. Both feed the same `run.sh`, provenance, status, and cancellation contract.
+- Single-run and multi-run watchers now stop on either an `exit=` record or a vanished recorded process group.
+- The renderer now recognizes `collab_tool_call`, renders root-visible state counts, and adds a clearly labeled partial agent snapshot to `--status`.
+- The fixture covers spawn and wait records with running, completed, and errored child states.
+- No tmux recipe was added to the deployed skill. The local machine has no tmux installation, so its alternate PTY and PGID behavior could not be verified against the existing cancellation contract. Shipping an untested second launcher would contradict the one-backend decision above.
 
 ## 2026-07-29: File-only handoff and cross-harness validation
 
 ### Contract change
 
-- `codex exec -o "$RUN/report.md"` now captures the final agent response as the
-  sole handoff. The delegate no longer writes a separate report and then emits
-  a duplicate `final.md`.
-- Prompt, JSONL stdout, stderr, report, provenance, and terminal status all stay
-  in the run directory. The detached launcher emits no result to its caller.
-- A terminal record now includes `handoff=ready|incomplete`. Ready requires both
-  exit 0 and a non-empty report. The renderer maps clean exit with no report to
-  `INCOMPLETE`, not `DONE`.
-- The wrapper catches group SIGINT while Codex is running, then records Codex's
-  exit before restoring the default handler. This removes dependence on
-  shell-specific wait behavior during cancellation.
+- `codex exec -o "$RUN/report.md"` now captures the final agent response as the sole handoff. The delegate no longer writes a separate report and then emits a duplicate `final.md`.
+- Prompt, JSONL stdout, stderr, report, provenance, and terminal status all stay in the run directory. The detached launcher emits no result to its caller.
+- A terminal record now includes `handoff=ready|incomplete`. Ready requires both exit 0 and a non-empty report. The renderer maps clean exit with no report to `INCOMPLETE`, not `DONE`.
+- The wrapper catches group SIGINT while Codex is running, then records Codex's exit before restoring the default handler. This removes dependence on shell-specific wait behavior during cancellation.
 
 ### Deterministic scenarios
 
@@ -183,140 +107,60 @@ semantically wedged.
 5. Non-zero exit and stderr capture.
 6. A quiet live group is `RUNNING`; after group death it is `DIED`.
 7. Concurrent read-only runs keep separate handoffs.
-8. Group SIGINT remains `EXITED` with a terminal record; missing PGID becomes
-   `UNKNOWN`.
+8. Group SIGINT remains `EXITED` with a terminal record; missing PGID becomes `UNKNOWN`.
 
-The actual GNU branch was also exercised in the locally available Linux
-container image: util-linux 2.37.2 `setsid -f` produced a detached shell whose
-PID equaled its PGID and which appended its terminal record.
+The actual GNU branch was also exercised in the locally available Linux container image: util-linux 2.37.2 `setsid -f` produced a detached shell whose PID equaled its PGID and which appended its terminal record.
 
 ### Live results on codex-cli 0.145.0
 
-- Direct read-only run from a Git repository whose path contains spaces and
-  Korean text: exit 0, handoff ready, exact report captured, zero launcher
-  stdout/stderr, no workspace mutation beyond run artifacts.
-- Live `/bin/sleep 90` cancellation: `RUNNING` with command in flight, then
-  group SIGINT produced `exit=1 handoff=incomplete`; the process group and
-  child disappeared.
-- Resume of that cancelled thread in a fresh run directory: same thread ID,
-  exit 0, handoff ready, no `final.md`.
-- Forced two-agent read-only mission: both results reached one report and the
-  run finished ready. The root JSONL exposed only started/completed
-  `collab_tool_call` records for `wait`, with empty receiver and state maps.
-  This confirms that the renderer's agent view is genuinely partial.
+- Direct read-only run from a Git repository whose path contains spaces and Korean text: exit 0, handoff ready, exact report captured, zero launcher stdout/stderr, no workspace mutation beyond run artifacts.
+- Live `/bin/sleep 90` cancellation: `RUNNING` with command in flight, then group SIGINT produced `exit=1 handoff=incomplete`; the process group and child disappeared.
+- Resume of that cancelled thread in a fresh run directory: same thread ID, exit 0, handoff ready, no `final.md`.
+- Forced two-agent read-only mission: both results reached one report and the run finished ready. The root JSONL exposed only started/completed `collab_tool_call` records for `wait`, with empty receiver and state maps. This confirms that the renderer's agent view is genuinely partial.
 
 ### Host harness results
 
-- Cursor Agent discovered the project-local candidate from `.agents/skills`,
-  launched the documented detached script, and verified a ready report.
-- Claude Code first selected the stale global skill with the same name instead
-  of the project symlink. That run used the old foreground and duplicate-file
-  contract. An isolated temporary Claude plugin namespace then loaded the
-  candidate correctly and passed the same test.
-- The stale global copy remains untouched. Before normal Claude Code use, sync
-  or replace `~/.agents/skills/codex-delegate` with the accepted canonical
-  package; do not assume a same-name project symlink wins discovery.
+- Cursor Agent discovered the project-local candidate from `.agents/skills`, launched the documented detached script, and verified a ready report.
+- Claude Code first selected the stale global skill with the same name instead of the project symlink. That run used the old foreground and duplicate-file contract. An isolated temporary Claude plugin namespace then loaded the candidate correctly and passed the same test.
+- The stale global copy remains untouched. Before normal Claude Code use, sync or replace `~/.agents/skills/codex-delegate` with the accepted canonical package; do not assume a same-name project symlink wins discovery.
 
 ## 2026-08-12: Model and dispatch policy refresh
 
 ### Decision
 
-- New runs default to `gpt-5.6-sol`, `xhigh`, and explicit
-  `service_tier="default"`.
-- Use `gpt-5.6-terra` at `xhigh` for bounded implementation or evidence
-  collection when task fit justifies it. Other model or effort changes need a
-  concrete task reason and belong in run provenance.
+- New runs default to `gpt-5.6-sol`, `xhigh`, and explicit `service_tier="default"`.
+- Use `gpt-5.6-terra` at `xhigh` for bounded implementation or evidence collection when task fit justifies it. Other model or effort changes need a concrete task reason and belong in run provenance.
 - `service_tier="priority"` is allowed only after an explicit Fast request.
-- Resumes start from the original sandbox, model, and effort. Model and effort
-  may change for a concrete task or availability reason. Fast persists only
-  when provenance records an explicit request; legacy runs without that marker
-  resume non-Fast.
-- A host-side launcher subagent is the default execution path for one or many
-  immutable packets when the harness supports native subagents. It calls the
-  deterministic launcher, verifies provenance, returns the manifest, and stops.
-- When the harness can pin a subagent model, use its reliable lightweight model
-  for this mechanical role. In Claude Code the intended route is Sonnet-class;
-  escalate only after unavailability or a manifest-contract failure.
-- The main session owns packet creation, routing, watching, report verification,
-  resume and cancel decisions, and acceptance. Direct use of the same launcher
-  script remains the fallback when a launcher subagent is unavailable or fails.
-- When five or more Codex roots already run in parallel, internal subagents
-  default off unless a packet names a remaining independent need and a bounded
-  child count.
+- Resumes start from the original sandbox, model, and effort. Model and effort may change for a concrete task or availability reason. Fast persists only when provenance records an explicit request; legacy runs without that marker resume non-Fast.
+- A host-side launcher subagent is the default execution path for one or many immutable packets when the harness supports native subagents. It calls the deterministic launcher, verifies provenance, returns the manifest, and stops.
+- When the harness can pin a subagent model, use its reliable lightweight model for this mechanical role. In Claude Code the intended route is Sonnet-class; escalate only after unavailability or a manifest-contract failure.
+- The main session owns packet creation, routing, watching, report verification, resume and cancel decisions, and acceptance. Direct use of the same launcher script remains the fallback when a launcher subagent is unavailable or fails.
+- When five or more Codex roots already run in parallel, internal subagents default off unless a packet names a remaining independent need and a bounded child count.
 
 ### Evidence
 
-The local Codex 0.147.0 model registry lists `priority` as Fast for both Sol
-and Terra and lists `xhigh` for both models. This Mac's
-`~/.codex/config.toml` sets `service_tier = "default"`, so the launcher passes
-`default` explicitly to prevent a global Fast preference from leaking into a
-delegation.
+The local Codex 0.147.0 model registry lists `priority` as Fast for both Sol and Terra and lists `xhigh` for both models. This Mac's `~/.codex/config.toml` sets `service_tier = "default"`, so the launcher passes `default` explicitly to prevent a global Fast preference from leaking into a delegation.
 
-The Terra usage audit deduplicated 460 retained native Codex sessions and found
-108 with `originator=codex_exec` between 2026-07-10 and 2026-08-12. Of those,
-62 sessions issued 210 actual internal `spawn_agent` calls. Only 13 native
-threads could be joined unambiguously to retained Claude launch output: six
-from main-host traces and seven from host-subagent traces, so that split is
-evidence of both patterns rather than a population ratio.
+The Terra usage audit deduplicated 460 retained native Codex sessions and found 108 with `originator=codex_exec` between 2026-07-10 and 2026-08-12. Of those, 62 sessions issued 210 actual internal `spawn_agent` calls. Only 13 native threads could be joined unambiguously to retained Claude launch output: six from main-host traces and seven from host-subagent traces, so that split is evidence of both patterns rather than a population ratio.
 
-The retained Maccheroni run artifacts provide a narrower complete sample: 29
-`result.txt` files and all 29 end in `exit=0 handoff=ready`. They record 26 Sol
-and three Terra runs; 20 xhigh, eight high, and one max effort; and five legacy
-priority/Fast runs versus 24 default/non-Fast runs. The strongest main-host
-trace successfully managed groups of three and four plus an explicit resume.
-The strongest host-side launcher trace started three five-run campaigns whose
-15 roots all completed, but the launcher-subagent transcripts ended before the
-roots and did not receive a reliable completion handoff. A broader directory
-pass found one Sonnet launcher that started a production-like Sol run and one
-Sonnet synthetic end-to-end success. In the production-like case, Codex
-finished ready but the launcher transcript ended while waiting. The main host
-recovered the run later.
+The retained Maccheroni run artifacts provide a narrower complete sample: 29 `result.txt` files and all 29 end in `exit=0 handoff=ready`. They record 26 Sol and three Terra runs; 20 xhigh, eight high, and one max effort; and five legacy priority/Fast runs versus 24 default/non-Fast runs. The strongest main-host trace successfully managed groups of three and four plus an explicit resume. The strongest host-side launcher trace started three five-run campaigns whose 15 roots all completed, but the launcher-subagent transcripts ended before the roots and did not receive a reliable completion handoff. A broader directory pass found one Sonnet launcher that started a production-like Sol run and one Sonnet synthetic end-to-end success. In the production-like case, Codex finished ready but the launcher transcript ended while waiting. The main host recovered the run later.
 
 ### Follow-up
 
-The packet now requires a root-visible child-state sweep before the final
-handoff and bounds internal fan-out when the host already runs five or more
-roots. Existing file-backed run artifacts remain the lifecycle source of truth;
-the bundled launch script makes that contract deterministic without adding a
-broker, ledger, or persistent manager. Sonnet launch capability and synthetic
-end-to-end behavior are verified. The production launch-and-manifest-only role
-remains unverified.
+The packet now requires a root-visible child-state sweep before the final handoff and bounds internal fan-out when the host already runs five or more roots. Existing file-backed run artifacts remain the lifecycle source of truth; the bundled launch script makes that contract deterministic without adding a broker, ledger, or persistent manager. Sonnet launch capability and synthetic end-to-end behavior are verified. The production launch-and-manifest-only role remains unverified.
 
 ## 2026-08-13: Lost-manifest takeover and route provenance
 
 ### What changed
 
-The earlier policy allowed a launcher subagent to choose or create a run path.
-If the launcher started Codex but failed to return its manifest, the main host
-could interpret silence as launch failure and start the same packet again. The
-production-like Sonnet trace demonstrated the first half of this failure: the
-run completed but its host-side completion handoff disappeared.
+The earlier policy allowed a launcher subagent to choose or create a run path. If the launcher started Codex but failed to return its manifest, the main host could interpret silence as launch failure and start the same packet again. The production-like Sonnet trace demonstrated the first half of this failure: the run completed but its host-side completion handoff disappeared.
 
-The conservative contract now makes the main host select an absent absolute
-run path before dispatch. Every launch and resume receives that path through
-`--run-dir`. If launcher output is lost, the same script can recover a manifest
-from that exact path after verifying `prompt.md`, `result.txt`, `run.sh`, the
-packet hash, and host metadata. An absent path permits one direct-main launch.
-An existing invalid path is a contract failure and never triggers overwrite or
-automatic retry.
+The conservative contract now makes the main host select an absent absolute run path before dispatch. Every launch and resume receives that path through `--run-dir`. If launcher output is lost, the same script can recover a manifest from that exact path after verifying `prompt.md`, `result.txt`, `run.sh`, the packet hash, and host metadata. An absent path permits one direct-main launch. An existing invalid path is a contract failure and never triggers overwrite or automatic retry.
 
-Provenance now adds `host_route`, `host_model`, `routing_reason`, and
-`packet_sha256`. The first three distinguish launcher-subagent use, direct
-fallback, host model, and task-shaped routing without reconstructing Claude or
-Cursor transcripts. The hash binds the recovered run to the immutable packet.
-`$RUN/report.md` is reserved for CLI final capture so task deliverables cannot
-be silently replaced by `-o`.
+Provenance now adds `host_route`, `host_model`, `routing_reason`, and `packet_sha256`. The first three distinguish launcher-subagent use, direct fallback, host model, and task-shaped routing without reconstructing Claude or Cursor transcripts. The hash binds the recovered run to the immutable packet. `$RUN/report.md` is reserved for CLI final capture so task deliverables cannot be silently replaced by `-o`.
 
 ### Verification and revisit rule
 
-The deterministic smoke suite now passes 16 scenarios. New cases prove that a
-lost manifest is recovered without another Codex invocation, invalid existing
-provenance blocks adoption, direct fallback records its route, and launches
-without a main-selected run path fail before process creation.
+The deterministic smoke suite now passes 16 scenarios. New cases prove that a lost manifest is recovered without another Codex invocation, invalid existing provenance blocks adoption, direct fallback records its route, and launches without a main-selected run path fail before process creation.
 
-Launcher-first remains an operational default. Direct-main batches also worked
-well in retained history, so no comparative success claim is warranted. After
-ten production launch-and-manifest-only runs, compare manifest return, watcher
-arming, fallback, duplicate-run, and acceptance outcomes. Keep launcher-first
-when that path is stable; otherwise route small batches directly while keeping
-the same script and artifact contract.
+Launcher-first remains an operational default. Direct-main batches also worked well in retained history, so no comparative success claim is warranted. After ten production launch-and-manifest-only runs, compare manifest return, watcher arming, fallback, duplicate-run, and acceptance outcomes. Keep launcher-first when that path is stable; otherwise route small batches directly while keeping the same script and artifact contract.
