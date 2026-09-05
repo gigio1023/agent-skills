@@ -38,8 +38,9 @@ Claude Code can share the same installed set through:
 ~/.claude/skills -> ~/.agents/skills
 ```
 
-Keep `~/.claude/skills` as a symlink to the whole `~/.agents/skills` directory,
-not a separate copy and not only per-skill links.
+That shared-directory symlink is one development layout. An installer-managed
+per-skill link is also valid. Preserve the selected topology; skill editing
+does not authorize replacing the user's whole Claude Code skill directory.
 
 ## Creation Workflow
 
@@ -47,10 +48,10 @@ not a separate copy and not only per-skill links.
 2. Write `SKILL.md` and references there.
 3. Add or update `README.md` only when the skill should be listed as part of the
    public skill pack.
-4. Expose the skill under `~/.agents/skills/` with a symlink or installer-managed
-   copy.
-5. Verify `~/.claude/skills` points to `~/.agents/skills` when sharing skills
-   with Claude Code.
+4. When installation is requested, expose the skill under `~/.agents/skills/`
+   with the selected installer or an explicitly chosen development symlink.
+5. For that installation, verify the existing shared-directory or per-skill
+   link topology without converting unrelated agent configuration.
 6. Validate frontmatter, referenced paths, line count, and trigger examples.
 
 ## Migrating Existing Local Skills
@@ -67,8 +68,8 @@ For a skill that already exists only under `~/.agents/skills/`:
 
 - Edit the canonical repo copy.
 - If `~/.agents/skills/<skill-name>` is a symlink, no extra sync is needed.
-- If it is a plain directory, either migrate it to the canonical layout or copy
-  the accepted patch back deliberately and mention the divergence.
+- If it is a plain directory, report that repository edits are not installed.
+  Refresh it only when installation is part of the user's requested scope.
 - Keep exact model-routing preferences in dedicated routing skills instead of
   burying them inside harness-neutral skills.
 

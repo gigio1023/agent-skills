@@ -172,6 +172,9 @@ Non-negotiable rules:
 - Fast is a separate dial. Set `service_tier="priority"` only when the user
   explicitly asks for Fast; urgency inferred from the task is not enough.
 - Shape GPT-5.6-family packets with the sibling `gpt56-sol-prompting-guide`.
+  When the selected target is GPT-6 Astra, use `gpt6-astra-prompting-guide`
+  instead. The prompting guide follows the resolved model; it does not change
+  the default route or authorize another run.
   Allow internal subagents when independent branches justify them; keep small,
   dependent, or conflicting work sequential.
 - Judgment ownership comes from the packet. Codex may execute fixed decisions,

@@ -25,8 +25,9 @@ and add model-specific instructions only for measured gaps.
    - safety, business, scope, and permission boundaries;
    - tool-routing decisions and required return fields;
    - output shape, validation, fallback, and stop rules.
-3. For an existing prompt, freeze representative eval cases before editing.
-   Record current behavior, including a success case and the failure being fixed.
+3. For an existing prompt, inspect available traces or checks and record the
+   observed failure. Without execution evidence, label the diagnosis as a
+   hypothesis; a static prompt review can still produce a useful patch.
 4. Remove redundant rules, generic exhortations, obsolete process steps,
    irrelevant tools, ineffective examples, and contradictions.
 5. Add only the smallest instruction, schema, example, or tool rule that fixes a
@@ -35,8 +36,9 @@ and add model-specific instructions only for measured gaps.
 6. Keep API and harness controls outside the prose prompt. Configure model,
    reasoning effort and mode, persisted reasoning, prompt caching, and tool
    eligibility in the request or runtime.
-7. Run the same evals. Accept the change only when task success and required
-   evidence improve without an unjustified latency, token, or cost regression.
+7. Run applicable existing checks. Create eval cases or launch comparison runs
+   only when requested; compare task success, required evidence, latency,
+   tokens, and cost on the same cases when that evaluation is in scope.
 8. Deliver the final prompt, relevant runtime settings, and concise rationale for
    behavior-changing edits. Do not expose private reasoning.
 
@@ -45,15 +47,8 @@ the current API behavior may have changed.
 
 ## Core Prompt Shape
 
-For a complex prompt, use only the sections that change behavior:
-
-1. Role and operating context.
-2. Goal and observable success criteria.
-3. Evidence and task inputs.
-4. Constraints and authority boundaries.
-5. Tool routes and prerequisite retrieval.
-6. Output and validation requirements.
-7. Retry, fallback, abstention, and stop rules.
+For complex prompts, use the contract captured in Quick Start and include only
+sections that change behavior.
 
 Describe the destination rather than scripting every intermediate thought. Let
 the model choose an efficient path once the outcome and invariants are clear.
@@ -137,7 +132,7 @@ reasoning transcript or hidden chain of thought.
 
 ## Migration and Evaluation
 
-For a GPT-5.5 or GPT-5.4 prompt migration:
+For a GPT-5.5 or GPT-5.4 prompt migration with requested model execution:
 
 1. Change the model while preserving the current reasoning baseline.
 2. Run representative cases before prompt edits.
@@ -148,6 +143,9 @@ For a GPT-5.5 or GPT-5.4 prompt migration:
 
 Use two to five realistic positive cases and one or two near-miss cases that
 must not trigger the behavior. A tie does not justify extra prompt text.
+
+For a prompt-only migration, deliver the static patch and name the behavior
+that remains untested; do not create evaluation scaffolding as a prerequisite.
 
 ## Output Contract
 
@@ -167,7 +165,6 @@ not available.
 
 ## Gotchas
 
-- Do not make a long prompt safer by repeating the same rule.
 - Do not place model, reasoning, cache, or tool-eligibility parameters inside
   prose when the runtime owns them.
 - Do not enable Programmatic Tool Calling merely because several calls exist.

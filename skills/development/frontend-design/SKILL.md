@@ -128,6 +128,11 @@ surface is runnable. Exercise the changed interaction and the states named by
 the brief. Run existing build, lint, test, and accessibility checks when they
 cover the change.
 
+Finish when the affected states and required project checks are covered. Add
+another viewport, browser, or visual pass only for a supported target, a new
+change, a failure, or a specific unresolved regression; the reference's full
+catalog is not a mandatory test matrix for every component edit.
+
 For a change, lead with the implemented outcome, then list only the viewports,
 states, and commands actually verified. For a review, lead with findings and say
 that no files were changed. Always name missing assets, unavailable render paths,

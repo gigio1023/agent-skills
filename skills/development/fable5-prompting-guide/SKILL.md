@@ -21,8 +21,9 @@ micromanagement before adding model-specific scaffolding.
    tool contract, long-running agent, or failure diagnosis.
 2. Define the observable outcome, why it matters, relevant context, authority
    boundary, evidence, output, and completion criteria.
-3. For an existing prompt, freeze representative eval cases and run the current
-   prompt before changing it when the runtime is available.
+3. For an existing prompt, inspect available traces or checks. Separate an
+   observed failure from a suspected prompt cause; runtime availability alone
+   does not authorize comparison runs.
 4. Remove repeated rules, exhaustive behavior lists, stale thinking-budget
    instructions, aggressive tool triggers, and scaffolding for behavior Fable 5
    already performs reliably.
@@ -31,7 +32,8 @@ micromanagement before adding model-specific scaffolding.
    patterns. Use `assets/prompt.template.md` for a new complex prompt.
 6. Put effort, thinking display, timeout, fallback, compaction, and tool setup in
    the API or harness rather than pretending they are prompt instructions.
-7. Test on the same cases at the intended effort. Compare outcome correctness,
+7. Validate the requested artifact. When model evaluation is requested, test
+   the same cases at the intended effort and compare outcome correctness,
    evidence, scope control, latency, tokens, and cost.
 8. Deliver the prompt, required runtime settings, and concise rationale. Request
    evidence and decisions, never a transcript of private reasoning.
@@ -143,6 +145,10 @@ fallback and user-facing behavior. Do not attempt to prompt around safeguards.
 Keep fallback routing, billing, and retry behavior in the integration.
 
 ## Effort and Evaluation
+
+Create evaluation fixtures or run additional model sessions only on request.
+A static review may deliver revised wording with an untested-behavior caveat;
+it does not need a new benchmark to finish.
 
 Use `high` as the initial default for most substantial tasks, `xhigh` for the
 most capability-sensitive workloads, and `medium` or `low` for routine or
