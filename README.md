@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 16 specialized, reusable Agent Skills for working
+A personal collection of 17 specialized, reusable Agent Skills for working
 with agent harnesses, designing interfaces, writing clearly, and handling a
 few everyday workflows.
 
@@ -44,7 +44,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 Replace the skill names and agent IDs as needed. Omit `--global` for a
 project-local install.
 
-Install all 16 skills for a deliberate set of agents. Quote the wildcard so
+Install all 17 skills for a deliberate set of agents. Quote the wildcard so
 the shell does not expand it:
 
 ```bash
@@ -90,7 +90,7 @@ npx --yes skills list --global
 The catalog is organized by the job to be done, not by the agent that runs it.
 
 - [Software Development and Delivery](#software-development-and-delivery) (2)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (8)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (9)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Writing and Language](#writing-and-language) (1)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
@@ -112,6 +112,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
 | [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
+| [gpt6-astra-prompting-guide](skills/development/gpt6-astra-prompting-guide/) | Write and tune GPT-6 Astra prompt stacks using official OpenAI guidance on follow-through, instruction conflicts, style, delegation, and verification |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
 
@@ -177,6 +178,6 @@ npx --yes skills add . --list
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder,
 every referenced path exists, the README entry still points to the correct
-skill, and the local listing discovers the expected 16 unique names. See
+skill, and the local listing discovers the expected 17 unique names. See
 [Repository Structure](docs/repo-structure.md) for the catalog, storage, and
 installation boundaries.
