@@ -1,24 +1,16 @@
-# Cursor Agent CLI Contract
-
-Verified against the local Cursor Agent CLI on 2026-08-18. Installed help and model listing are the source of truth for accepted syntax and availability; official documentation and changelogs also govern permission semantics.
+# Cursor Agent CLI Reference
 
 ## Contents
 
-- Preflight
-- Model resolution
-- Non-interactive launch
-- Prompt transport
-- Workspace isolation
-- Permissions and MCP
-- Structured evidence
-- Sessions and follow-ups
-- Parallel and nested agents
-- Failure handling
-- Maintenance sources
+- Preflight and model selection
+- Direct invocation
+- Evidence and follow-ups
+- Long runs and cancellation
+- Maintenance evidence
 
-## Preflight
+## Preflight And Model Selection
 
-Run these read-only checks from the target repository:
+From the intended workspace, inspect the installed CLI without changing configuration:
 
 ```bash
 command -v agent
@@ -28,232 +20,90 @@ agent --help
 agent models
 ```
 
-Stop when the executable, authentication, requested model, or required current flag is unavailable. Do not log in, update the CLI, change configuration, or select a substitute model unless the user authorized that action.
+Stop if the executable, authentication, requested model, or necessary capability is unavailable. Installation, login, configuration changes, and model substitutions need authorization. Preserve relevant version/model evidence privately; status output may include account details.
 
-On the verified installation:
+Default parent ID: `cursor-grok-4.6-xhigh-fast`. The locally observed listing and initialization label was `Cursor Grok 4.6 Extra High Fast`. An exact user-requested ID overrides this default. Verify the ID with the live account listing; do not repair malformed identifiers or silently route planning/judgment to another model. The listed xhigh profile selects the default effort; do not invent a separate thinking flag. Request-specific profiles or native overrides must be supported by current CLI evidence.
 
-```text
-agent version: 2026.08.11-e8db854
-default model ID: cursor-grok-4.6-high-fast
-default display entry: Cursor Grok 4.6 Fast
-initialization event model: Cursor Grok 4.6 High Fast
-Fable 5 thinking candidate: claude-fable-5-thinking-high
-Fable 5 display entry: Claude Fable 5 1M Thinking (NO ZDR)
-```
+This default governs the external Cursor parent, not the calling harness or every internal child. Leave child selection to Cursor unless the user imposes a policy; then verify the exposed controls and returned evidence, and name unsupported requirements.
 
-The same listing includes other Fable 5 thinking profiles, including xhigh and max. The top-level CLI has no standalone `--thinking` flag. Treat this block as a dated observation, not a permanent alias.
+## Direct Invocation
 
-## Model Resolution
+Use native CLI commands, not a bundled launcher. A command-execution API that accepts an argument array avoids shell interpolation. When using a shell, quote each dynamic argument and never evaluate prompt content as code.
 
-Resolve the model at launch time:
+The following is a POSIX-shell headless example. Set `workspace` to the existing authorized workspace and `packet_path` to a secret-free UTF-8 task file outside the skill package. Short tasks may use a directly quoted prompt instead; a file is not mandatory.
 
 ```bash
-agent models
-```
-
-Match the exact requested profile and pass its ID with `--model`. A display name such as “High Fast” is not a CLI contract. If the requested ID is absent, stop and report the available relevant entries. Never silently fall back to `auto` or a different model.
-
-When the user supplies no exact model policy:
-
-- Select Claude Fable 5 as a first-class option when the bounded mission's dominant need is sustained context, careful judgment or synthesis, instruction work, or sustained subagent coordination. Pass `claude-fable-5-thinking-high` unless the user or an explicit mission policy names another listed Fable thinking ID.
-- Otherwise use `cursor-grok-4.6-high-fast` for the parent and every child with no justified per-lane guide.
-
-That Fable choice is an explicit selection, not a silent fallback or substitution. A justified per-lane model guide may differ from the parent; record the reason and still pass each child's exact ID.
-
-### Thinking
-
-Enable thinking whenever the selected model and live Cursor surface support it.
-
-The verified top-level help has no `--thinking` flag. Use a listed thinking profile, or a quoted parameterized `--model` override only when the live help or `agent models` tip documents that form for the chosen model, for example `'claude-opus-4-8[context=1m,effort=high,fast=false]'`. Never invent a suffix, bracket override, or child field.
-
-On this installation, `cursor-grok-4.6-high-fast` has no listed thinking profile. When it is selected, pass that exact ID and record that no separately selectable top-level thinking form was observed. When Fable 5 is selected, pass an exact listed Fable thinking ID.
-
-For Cursor child tasks, inspect the live Task/tool schema. Enable an exposed thinking option, or set an effort control when that is the documented thinking surface. If neither exists, keep the child's exact model ID and record that gap.
-
-The initialization event reports a display label, not the requested model ID. Retain the CLI version, launch argument, launch-time ID mapping, thinking form or recorded lack of support, and emitted label together: “requested ID X; service reported label Y.” The label corroborates the profile but does not independently prove its exact ID.
-
-## Non-Interactive Launch
-
-Execution lane without broad unattended authority:
-
-```bash
-packet_path=/absolute/path/to/mission.md
+model='cursor-grok-4.6-xhigh-fast'
+workspace='/absolute/path/to/existing-workspace'
+packet_path='/absolute/private/path/task.txt'
 packet="$(<"$packet_path")"
-agent \
-  --print \
-  --model cursor-grok-4.6-high-fast \
-  --workspace /absolute/path/to/workspace \
+agent --print \
+  --model "$model" \
+  --workspace "$workspace" \
   --output-format stream-json \
-  --trust \
-  "$packet"
+  --yolo \
+  -- "$packet"
 ```
 
-Change mission with explicit broad unattended-command authority:
+This packet-loading syntax works in Bash and Zsh; use the host shell's equivalent elsewhere. The end-of-options delimiter protects a prompt beginning with an option. Embedded quotes, substitutions, and newlines in the quoted variable stay data; shell command substitution removes trailing newlines. If those newlines matter, use the host's argument-array capability and file-reading facility that preserves them. The CLI accepts the prompt positionally; never put secrets in it, even when loaded from a file.
+
+Adapt the invocation using current CLI help and task authority:
+
+| Need | Native choice |
+| --- | --- |
+| Different parent model | Replace `--model` with the verified exact requested ID |
+| Narrower approvals | Omit `--yolo`; an approval block is not permission to bypass it |
+| Explicit read-only or planning mode | Use the supported `--mode ask` or `--mode plan` |
+| Related continuation | Add `--resume "$session_id"` with the actual returned ID |
+| Another output or interaction style | Select a supported format or interactive mode when the host can drive it; adjust completion evidence accordingly |
+| Additional native capability | Check current help, prerequisites, and effects; use it directly when authorized |
+
+These are examples, not an exhaustive list or a new CLI abstraction. Keep general mode when no special mode was requested. Preserve sandbox configuration; do not add `--sandbox disabled`, extra workspace roots, blanket MCP approval, or workspace creation as incidental launch fixes.
+
+The observed help describes `--yolo` as an alias of `--force` (“Run Everything”). Treat it as broad unattended command/tool approval. The task's actual authority and the host's stricter policies still apply.
+
+## Evidence And Follow-ups
+
+For headless structured runs, retain process exit status, initialization/model evidence when emitted, terminal result, and exact session identity. A valid session ID must be a nonempty string, and supplied IDs must agree across initialization, result, and an explicit resume request. Reject missing required evidence or conflicting identity rather than choosing whichever ID appears last. Check the current stream contract if its schema changes.
+
+Preserve stdout and stderr using the host's capture facility. When persistent files are needed, create a private per-run directory outside the skill package and avoid overwriting earlier evidence. Save the process status before another shell command replaces it; avoid pipelines that conceal the CLI exit status. For large logs, inspect incrementally instead of loading the entire transcript. There is no required receipt schema or dependency on a custom parser. Logs may contain prompts, tool data, and thinking; share only reviewed evidence, not raw private traces.
+
+For other supported interaction/output styles, use their documented completion and session surfaces. Do not infer success merely because a terminal marker from a different format is absent or because the CLI printed a plausible answer. Separate transport completion from the requested artifact's acceptance.
+
+For a related follow-up, set `session_id` from the actual prior run, prepare the new instruction, and reuse the model/workspace choices as appropriate:
 
 ```bash
-packet_path=/absolute/path/to/mission.md
-packet="$(<"$packet_path")"
-agent \
-  --print \
-  --model cursor-grok-4.6-high-fast \
-  --workspace /absolute/path/to/workspace \
+agent --print \
+  --model "$model" \
+  --workspace "$workspace" \
   --output-format stream-json \
-  --sandbox enabled \
-  --force \
-  --trust \
-  "$packet"
+  --yolo \
+  --resume "$session_id" \
+  -- "$followup"
 ```
 
-`--print` is the scripting and non-interactive surface. Do not add `--mode plan` or `--mode ask` in this skill: planning stays in the caller, while Cursor must be able to execute the packet's commands and MCP operations. For a read-only mission, constrain authority in the packet, omit unnecessary broad grants, and verify afterward that no mutation occurred. For a Fable 5 route, pass `--model claude-fable-5-thinking-high` (or another exact listed Fable thinking ID named by the user or mission policy) in place of the Grok default.
+Retain any narrower approval or mode choice from the task. Recheck workspace state and carry forward relevant authority/constraints. Do not use bare `--resume`, `--continue`, or a latest-session shortcut when identity is ambiguous. A normal refinement is a valid continuation; resume is not limited to failed-check repair.
 
-`--force` is broader than its short help text: Cursor has documented it as enabling auto-run, trusting the workspace, skipping MCP confirmations, and activating web tools. Ordinary file-write authority is not enough. Use this recipe only when the packet separately authorizes that full unattended surface and every configured MCP and web/network effect is trusted. Otherwise omit `--force`; an approval stop makes the headless mission incomplete rather than granting broader authority. Do not add `--trust` unless workspace trust itself is authorized.
+## Long Runs And Cancellation
 
-The sandbox is a useful default for local implementation but may block a task whose explicit requirements cross its boundary. Do not disable it merely to make a failed run continue. Return that boundary to the lead.
+Use the host's native background-process/session facility when available; retain its live handle and captured evidence. If it is unavailable, foreground execution is valid. A host call returning while work continues is not a task failure: inspect the same tracked invocation instead of launching another one. Set a deadline only when the task or host requires it, not as an arbitrary default for long work.
 
-## Prompt Transport
+Cancel through a verified live process handle scoped to this invocation. Do not kill by executable name or signal a historical PID from a log. Use process-group cancellation only when the host established and still owns that group; a reaped/reused leader ID is not proof of ownership. If safe cancellation cannot be established, report that limitation rather than targeting unrelated work. Detached children and remote/MCP actions may continue after local exit; inspect relevant effects before resuming.
 
-The verified help exposes the prompt as positional arguments and does not expose a prompt-file flag. Put a long packet in a file for review, read it into one quoted shell variable, and pass that variable as one argument.
+## Maintenance Evidence
 
-Do not use `eval`, interpolate the packet into executable shell source, or place secrets in it. When the calling harness has a subprocess API that accepts an argument array, prefer that API over composing a shell string.
+Local syntax and model listing were checked on 2026-09-09. Initial preflight reported `2026.09.02-c22c1a3`; a later probe reported `2026.09.08-6caf4ff`. No install/update command was invoked, and the cause/timing of that transition was not established. Treat these as dated observations, not a guarantee of current CLI availability.
 
-Keep the packet as a temporary or ignored artifact unless the repository asks for tracked task documents. Do not create a standing report or tracker merely to transport the prompt.
+An earlier Python-assisted transport smoke used the exact default, YOLO, an empty temporary workspace, and a no-tools/no-writes task. Fresh and same-session runs succeeded without workspace changes. That helper has been removed; this evidence does not establish execution of the current direct-shell examples or behavior across calling harnesses. Sandbox configuration was already disabled during the earlier smoke, so it establishes no sandbox-enforcement claim.
 
-## Workspace Isolation
+Recheck installed help and the relevant official surface when changing syntax, permission rules, or stream handling:
 
-The verified CLI supports:
-
-```text
---workspace <path-or-name>
---add-dir <path>
---worktree [name]
---worktree-base <branch>
---skip-worktree-setup
-```
-
-Use one isolation owner:
-
-- If the lead or harness already created a worktree, pass its absolute path with `--workspace` and omit Cursor worktree flags.
-- Otherwise Cursor may create one only when the user or mission packet explicitly authorizes a new branch/worktree. Use `--worktree <name>` and an explicit `--worktree-base <ref>`.
-- Never create a Cursor worktree inside a lead-owned worktree.
-
-Record the canonical workspace path, base revision, and pre-run status. After the run, compare the same workspace and inspect its diff. Without creation authority, reuse existing isolation or stop.
-
-Before Cursor creates a worktree, inspect `.cursor/worktrees.json`. Its setup commands are part of the mission's command, network, credential, and external effect authority. If they are not all authorized, add `--skip-worktree-setup`; if skipping leaves prerequisites unmet, stop. Capture setup effects and treat an unexpected setup mutation or failure as mission failure.
-
-## Permissions and MCP
-
-The verified CLI exposes separate flags:
-
-```text
---force
---sandbox enabled|disabled
---trust
---approve-mcps
-```
-
-Do not infer independent safety boundaries after adding `--force`, whose documented behavior can imply workspace trust, MCP confirmation bypass, and web tools. For an MCP mission without that broad grant:
-
-1. Inspect repository and user Cursor MCP configuration.
-2. Confirm every automatically approved server is trusted and in scope.
-3. Add `--approve-mcps` only when blanket approval of that configured set is acceptable.
-4. State tool-specific authority in the mission packet.
-
-The CLI can discover repository rules and MCP configuration, but discovery does not grant authority. A server may perform external writes, open windows, or control another process.
-
-## Structured Evidence
-
-Prefer:
-
-```text
---output-format stream-json
-```
-
-Capture the host process status and parse the stream. The documented stream includes an initialization event with fields such as workspace/model/permission mode and a terminal result event. Current documented terminal JSON includes result state, error state, duration, response text, and session ID.
-
-Require all of:
-
-- process exit status;
-- CLI version, exact launch arguments, model ID mapping, thinking form or recorded lack of support, and initialization display label when emitted;
-- every child task's explicit model and available thinking setting;
-- terminal result event;
-- session ID when emitted;
-- executor response;
-- independent workspace status and diff;
-- required command outputs and generated artifacts.
-
-Do not treat prose such as “all tests pass” as test evidence. Do not treat exit zero as proof that the requested outcome or authorized scope was satisfied. Thinking or partial deltas are transport noise, not acceptance evidence; do not surface them as hidden reasoning.
-
-`--stream-partial-output` is optional and only applies to `--print` with `stream-json`. Use it for live progress only when the calling harness can absorb the additional event volume.
-
-## Sessions and Follow-ups
-
-The verified CLI supports:
-
-```text
---resume [chatId]
---continue
-agent ls
-agent resume
-agent create-chat
-```
-
-Prefer a fresh mission for independent work. Resume the exact returned session only for a narrow correction that depends on its context. Never use a vague “continue previous” in parallel orchestration, where the previous session may belong to another lane.
-
-A follow-up packet should state:
-
-- accepted evidence from the prior run;
-- the one failed criterion;
-- the exact correction authority;
-- unchanged non-goals and stop conditions.
-
-Do not ask the same executor to self-approve its first result.
-
-## Parallel and Nested Agents
-
-The verified top-level help has no general `--parallel` flag for launching independent local missions. The outer harness owns process concurrency, worktrees, deadlines, cancellation, and synthesis.
-
-Cursor officially supports subagents in the CLI, including parallel specialized contexts. Current Cursor releases also describe asynchronous and nested subagents. Treat that as agent capability, not a stable top-level command-line API.
-
-The mission may tell the Cursor parent to use subagents when:
-
-- lanes are independent;
-- write ownership is disjoint;
-- each child receives a complete bounded packet and only its lane-specific subset of parent authority;
-- each child task explicitly receives its exact model ID and any thinking or effort setting the live Task/tool schema exposes;
-- a justified per-lane model guide may differ from the parent;
-- the parent integrates and reports their evidence.
-
-For this skill, prefer subagents when independent lanes materially improve execution or verification. Unless an exact user policy or the Fable 5 route wins, the default parent and child ID is `cursor-grok-4.6-high-fast`. Never let a Task inherit or choose an unspecified convenience model. The top-level `--model` proves only the parent. Inspect Cursor's transcript or structured Task tool calls for every child's explicit `model` field and, when the schema exposes one, its thinking or effort field. A missing required field, a different model, an invented setting, or unverifiable child selection invalidates that child's evidence and therefore any claim that depends on it.
-
-## Failure Handling
-
-Return control to the lead when:
-
-- the lead's wall-clock deadline expires or progress stalls;
-- the requested model, listed thinking profile, or documented override is unavailable;
-- authentication or required MCP routing is unavailable;
-- the process exits nonzero or emits no terminal result;
-- the workspace or base revision differs from the packet;
-- a user change overlaps the authorized edit;
-- the executor requests destructive, credential, network, or external-write authority not already granted;
-- required acceptance cannot be demonstrated;
-- another product or architecture decision is needed.
-
-When supported, launch Cursor in a dedicated process group or session and record its handle. On timeout, terminate only that recorded group; otherwise use the calling harness's scoped process-tree cancellation. Never signal the caller's ambient process group. Confirm spawned work has stopped, capture stdout and stderr separately, then inspect the workspace and external effects. Classify the mission as incomplete and do not auto-resume before lead review.
-
-Preserve structured output and the resulting diff. One bounded retry is reasonable only when the packet already defines the recovery, such as a transient transport retry or a corrected exact command. Otherwise the lead decides the next step.
-
-## Maintenance Sources
-
-Primary sources:
-
-- [Cursor CLI overview](https://cursor.com/docs/cli/overview)
+- [CLI overview](https://cursor.com/docs/cli/overview)
 - [Headless CLI](https://cursor.com/docs/cli/headless)
 - [CLI parameters](https://cursor.com/docs/cli/reference/parameters)
-- [CLI output format](https://cursor.com/docs/cli/reference/output-format)
-- [Using the CLI, including rules and MCP](https://cursor.com/docs/cli/using)
-- [CLI permission semantics for `--force`](https://cursor.com/changelog/page/9)
-- [Cursor 2.4: CLI subagents and skills](https://cursor.com/changelog/2-4)
-- [Cursor 2.5: asynchronous and nested subagents](https://cursor.com/changelog/2-5)
+- [Output format](https://cursor.com/docs/cli/reference/output-format)
+- [Rules and MCP](https://cursor.com/docs/cli/using)
+- [CLI subagents and skills](https://cursor.com/changelog/2-4)
+- [Asynchronous and nested subagents](https://cursor.com/changelog/2-5)
 
-Re-run the preflight after a CLI update. Update this dated reference when local help, structured events, permission behavior, model IDs, or official subagent contracts change.
+Do not claim all sources were refreshed after checking one flag. Model/harness comparison runs and paid smoke tests require a separate request; static package validation is sufficient for this documentation-only maintenance unless a specific unresolved issue requires more.
