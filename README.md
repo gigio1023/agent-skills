@@ -91,7 +91,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 | Skill | What it helps with |
 | --- | --- |
-| [cursor-cli-delegation](skills/productivity/cursor-cli-delegation/) | Delegate a closed execution mission through Cursor Agent CLI while the calling harness retains judgment and acceptance |
+| [cursor-cli-delegation](skills/productivity/cursor-cli-delegation/) | Explicitly delegate planning, research, implementation, or review through direct Cursor CLI calls with task-specific options and session follow-ups |
 | [codex-delegate](skills/development/codex-delegate/) | Delegate bounded tasks from a non-Codex host with durable runs and explicit execution boundaries |
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
