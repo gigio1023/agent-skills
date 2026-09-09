@@ -1,19 +1,16 @@
 # Cursor Agent CLI Reference
 
-Local syntax and model listing checked 2026-09-09. Initial preflight reported `2026.09.02-c22c1a3`; a post-smoke probe reported `2026.09.08-6caf4ff` with the required flags and exact default still present. No install/update command was invoked; the cause and exact transition time were not established, so the individual smoke launches cannot be pinned conclusively to one version. Installed help and live account availability govern launch syntax; this snapshot is not a permanent model alias or security guarantee.
-
 ## Contents
 
-- Preflight and exact models
-- Runner invocation
-- Evidence and exit semantics
-- Permissions and isolation
-- Follow-ups and cancellation
-- Verified scope and sources
+- Preflight and model selection
+- Direct invocation
+- Evidence and follow-ups
+- Long runs and cancellation
+- Maintenance evidence
 
-## Preflight And Exact Models
+## Preflight And Model Selection
 
-Run from the intended workspace, without changing configuration:
+From the intended workspace, inspect the installed CLI without changing configuration:
 
 ```bash
 command -v agent
@@ -23,109 +20,90 @@ agent --help
 agent models
 ```
 
-Stop for missing executable, authentication, required flags, or selected model. Do not install, log in, update, or substitute a model without authorization. Preserve the version and relevant model-list entry in private task evidence; avoid publishing account details from status output. The runner deliberately does not redo these service probes on every turn.
+Stop if the executable, authentication, requested model, or necessary capability is unavailable. Installation, login, configuration changes, and model substitutions need authorization. Preserve relevant version/model evidence privately; status output may include account details.
 
-The verified default ID is `cursor-grok-4.6-xhigh-fast`, listed as `Cursor Grok 4.6 Extra High Fast`; a live initialization event reported that same display label. The request's exact model wins. There is no automatic Fable route and no fallback to `auto`. Do not normalize a malformed identifier into a guessed valid model. No standalone `--thinking` flag was exposed: the exact default already chooses the xhigh profile. Use another documented profile or bracket override only when requested and verified for that model, not an invented thinking suffix.
+Default parent ID: `cursor-grok-4.6-xhigh-fast`. The locally observed listing and initialization label was `Cursor Grok 4.6 Extra High Fast`. An exact user-requested ID overrides this default. Verify the ID with the live account listing; do not repair malformed identifiers or silently route planning/judgment to another model. The listed xhigh profile selects the default effort; do not invent a separate thinking flag. Request-specific profiles or native overrides must be supported by current CLI evidence.
 
-Top-level `--model` selects the Cursor parent. Internal subagent models and effort need explicit enforcement only when the user imposes such a policy; then inspect the current child tool schema and transcript, and report unsupported controls or missing evidence rather than asserting compliance.
+This default governs the external Cursor parent, not the calling harness or every internal child. Leave child selection to Cursor unless the user imposes a policy; then verify the exposed controls and returned evidence, and name unsupported requirements.
 
-## Runner Invocation
+## Direct Invocation
 
-Execute `scripts/cursor_run.py` with Python 3.9+ on macOS/Linux. Resolve paths from the directory containing this skill's `SKILL.md`, not a caller-specific installation path. The packet and state directory must be outside the skill package; prefer a private state location outside the target repository too.
+Use native CLI commands, not a bundled launcher. A command-execution API that accepts an argument array avoids shell interpolation. When using a shell, quote each dynamic argument and never evaluate prompt content as code.
 
-Prepare a UTF-8, secret-free packet describing the authorized task, sources, allowed effects, preservation rules, and expected evidence. Then, from the skill directory:
-
-```bash
-python3 -B scripts/cursor_run.py \
-  --workspace /absolute/path/to/existing-workspace \
-  --prompt-file /absolute/private/path/mission.txt
-```
-
-This translates to an argument array, never a shell string:
-
-```text
-agent --print --output-format stream-json --model cursor-grok-4.6-xhigh-fast --workspace /absolute/path/to/existing-workspace --yolo -- <packet as one argument>
-```
-
-The end-of-options delimiter protects a packet beginning with a flag; quotes, newlines, shell substitutions, and metacharacters remain literal text. It does not make secrets safe in argv. The CLI has no verified prompt-file flag; the runner reads the file and passes its contents positionally. There is no `eval`, shell interpolation, or arbitrary extra-flags forwarding. `--agent` accepts one executable name/path, not a compound command.
-
-Options that change the invocation:
-
-| Runner option | Meaning |
-| --- | --- |
-| `--model EXACT_ID` | Request-specific parent model; verify it with `agent models` first |
-| `--resume EXACT_SESSION_ID` | Resume this session, including an ordinary related follow-up |
-| `--mode ask` / `--mode plan` | Explicitly requested native read-only mode; default `agent` omits the CLI mode flag |
-| `--no-yolo` | Omit broad unattended approval when the request/host requires a narrower lane |
-| `--timeout SECONDS` | Optional positive finite wall-clock budget; omitted means no runner-imposed deadline |
-| `--state-dir PATH` | Private runtime root; default `~/.local/state/cursor-cli-delegation` |
-| `--agent PATH` | Installed executable; useful for multiple installations, not model fallback |
-
-The runner creates no worktree, queue, database, daemon, retry policy, ACP bridge, or model-routing layer. It preserves sandbox configuration and never passes `--sandbox disabled`. It is an evidence/process helper, not a permission enforcement system.
-
-## Evidence And Exit Semantics
-
-Each invocation creates a unique `run-*` directory (mode 0700), with files created under umask 077 (mode 0600):
-
-- `stdout.log`: raw stream saved during execution; inspect this for live progress if needed.
-- `stderr.log`: separate raw diagnostics.
-- `events.jsonl`: valid object events parsed line by line after process termination, without retaining the full transcript. Memory tracks the largest event, initialization, and latest result; malformed lines remain in stdout and produce one bounded issue per category.
-- `receipt.json`: sanitized launch argv (packet omitted), requested model, reported initialization label, workspace, PID, process exit, stop reason, session/resumed session, terminal result, issues, timing, and evidence directory.
-
-The runner prints a JSON object containing the receipt path. It retains raw output rather than guessing a service response. Logs may contain the echoed packet, sensitive tool output, and thinking events; keep them private, review before sharing, and do not reproduce hidden reasoning as acceptance evidence. The packet is omitted only from receipt argv, not guaranteed absent from logs or result text. Cursor's own session persistence is separate from these files.
-
-`transport_status: complete` is an evidence check, not task acceptance. `task_status` stays `unverified`; the calling workflow must inspect actual sources, artifacts, checks, diffs, and external-state readbacks. A success event or prose assertion does not establish that code works, sources are sound, scope was respected, or child models matched a policy.
-
-| Runner exit | Meaning |
-| --- | --- |
-| `0` | Process exited zero and structured completion/session evidence passed; task still requires acceptance |
-| `1` | Process exited zero but structured evidence was incomplete or erroneous |
-| `2` | Invalid runner input; no launch |
-| `124` | Runner deadline; owned process group cancellation attempted |
-| `127` | Executable could not launch; receipt preserves the failure |
-| Other positive process exit | Preserved as returned by Cursor |
-| `128 + signal` | Child signal exit or runner SIGINT/SIGTERM cancellation |
-
-The receipt distinguishes overlapping numeric meanings, such as a child itself returning 124. Nonzero exits, missing initialization/model evidence, missing/error terminal results, malformed structured output, and missing/conflicting session IDs make the transport incomplete. Every supplied session ID must be a nonempty string and agree across events, including initialization and result, and with an explicit resume ID. Preserve absent fields as unknown, not invented evidence. Disk failure or forcible runner SIGKILL can prevent a final receipt; raw logs are the fallback, not a success claim.
-
-## Permissions And Isolation
-
-The verified help calls `--yolo` an alias for `--force` (“Run Everything”), and `--force` allows commands unless explicitly denied. Treat it as a broad trust grant that can bypass prompts for workspace/tools; it does not authorize otherwise forbidden effects. It is the requested default, not a reason to add `--approve-mcps`, `--trust`, `--add-dir`, or sandbox overrides.
-
-Inspect repository and user Cursor MCP/plugin/rule configuration before launch, without printing credentials. Discovery of a tool or source does not authorize using it. A server may write external state or control another process. If a required boundary cannot be enforced with the available lane, stop rather than relying on prompt wording as a sandbox. `--no-yolo` may encounter approval stops in headless mode; do not treat that as permission to broaden access.
-
-Record canonical workspace, revision/status when applicable, and preexisting user changes. Reuse outer isolation and omit Cursor worktree flags. If worktree creation is separately authorized, choose one owner and inspect `.cursor/worktrees.json` setup commands before using native creation; setup itself can have command/network effects. The helper never creates worktrees. Parallel writers need distinct workspaces or disjoint ownership.
-
-## Follow-ups And Cancellation
-
-For any related continuation, use the exact session returned in the receipt:
+The following is a POSIX-shell headless example. Set `workspace` to the existing authorized workspace and `packet_path` to a secret-free UTF-8 task file outside the skill package. Short tasks may use a directly quoted prompt instead; a file is not mandatory.
 
 ```bash
-python3 -B scripts/cursor_run.py \
-  --workspace /absolute/path/to/same-workspace \
-  --prompt-file /absolute/private/path/followup.txt \
-  --resume EXACT_SESSION_ID
+model='cursor-grok-4.6-xhigh-fast'
+workspace='/absolute/path/to/existing-workspace'
+packet_path='/absolute/private/path/task.txt'
+packet="$(<"$packet_path")"
+agent --print \
+  --model "$model" \
+  --workspace "$workspace" \
+  --output-format stream-json \
+  --yolo \
+  -- "$packet"
 ```
 
-Replace the placeholder with the actual ID; do not use `--continue`, bare `--resume`, or “latest” when multiple sessions may exist. Include the next objective plus relevant preserved constraints/authority, not only a failed criterion. Check workspace state before continuing, and avoid simultaneous continuations of one session. An independent mission should start fresh.
+This packet-loading syntax works in Bash and Zsh; use the host shell's equivalent elsewhere. The end-of-options delimiter protects a prompt beginning with an option. Embedded quotes, substitutions, and newlines in the quoted variable stay data; shell command substitution removes trailing newlines. If those newlines matter, use the host's argument-array capability and file-reading facility that preserves them. The CLI accepts the prompt positionally; never put secrets in it, even when loaded from a file.
 
-The runner owns one POSIX session/process group. Timeout or SIGINT/SIGTERM sends TERM and then KILL only while its leader remains unreaped, then waits for the leader; it does not search by process name or signal the caller's group. If polling already reaped the leader, cancellation skips group signals to avoid a reused ID and records that cleanup limitation in the receipt. Send SIGINT/SIGTERM to the active runner through the host's scoped process handle for manual cancellation; do not send signals to stale receipt PIDs. The PID is historical evidence, not a persistent cancellation API.
+Adapt the invocation using current CLI help and task authority:
 
-Children that detach into another group and remote/MCP jobs may outlive this cancellation. Descendants can also remain when cleanup is skipped after the leader was reaped. Group signals do not prove every effect stopped. Inspect relevant external state and remaining owned work before accepting or resuming. A force-killed runner cannot guarantee cleanup. No automatic retry or resume occurs; choose the next action from evidence and existing authority.
+| Need | Native choice |
+| --- | --- |
+| Different parent model | Replace `--model` with the verified exact requested ID |
+| Narrower approvals | Omit `--yolo`; an approval block is not permission to bypass it |
+| Explicit read-only or planning mode | Use the supported `--mode ask` or `--mode plan` |
+| Related continuation | Add `--resume "$session_id"` with the actual returned ID |
+| Another output or interaction style | Select a supported format or interactive mode when the host can drive it; adjust completion evidence accordingly |
+| Additional native capability | Check current help, prerequisites, and effects; use it directly when authorized |
 
-## Verified Scope And Sources
+These are examples, not an exhaustive list or a new CLI abstraction. Keep general mode when no special mode was requested. Preserve sandbox configuration; do not add `--sandbox disabled`, extra workspace roots, blanket MCP approval, or workspace creation as incidental launch fixes.
 
-A live authorized transport smoke used the exact Grok default, YOLO, a temporary empty workspace, and a no-tools/no-writes packet. A fresh response and ordinary exact-session follow-up both returned terminal success and process exit zero, with the expected tokens and unchanged empty workspace. This checks prompt transport, structured evidence, and resume—not research quality, implementation, child model controls, or cross-harness behavior. Local sandbox configuration was already disabled; the helper did not change it or pass a disable flag. Therefore the smoke establishes no sandbox-enforcement claim. Per-run IDs and private logs stay in external task evidence rather than the installed package.
+The observed help describes `--yolo` as an alias of `--force` (“Run Everything”). Treat it as broad unattended command/tool approval. The task's actual authority and the host's stricter policies still apply.
 
-Primary maintenance sources:
+## Evidence And Follow-ups
+
+For headless structured runs, retain process exit status, initialization/model evidence when emitted, terminal result, and exact session identity. A valid session ID must be a nonempty string, and supplied IDs must agree across initialization, result, and an explicit resume request. Reject missing required evidence or conflicting identity rather than choosing whichever ID appears last. Check the current stream contract if its schema changes.
+
+Preserve stdout and stderr using the host's capture facility. When persistent files are needed, create a private per-run directory outside the skill package and avoid overwriting earlier evidence. Save the process status before another shell command replaces it; avoid pipelines that conceal the CLI exit status. For large logs, inspect incrementally instead of loading the entire transcript. There is no required receipt schema or dependency on a custom parser. Logs may contain prompts, tool data, and thinking; share only reviewed evidence, not raw private traces.
+
+For other supported interaction/output styles, use their documented completion and session surfaces. Do not infer success merely because a terminal marker from a different format is absent or because the CLI printed a plausible answer. Separate transport completion from the requested artifact's acceptance.
+
+For a related follow-up, set `session_id` from the actual prior run, prepare the new instruction, and reuse the model/workspace choices as appropriate:
+
+```bash
+agent --print \
+  --model "$model" \
+  --workspace "$workspace" \
+  --output-format stream-json \
+  --yolo \
+  --resume "$session_id" \
+  -- "$followup"
+```
+
+Retain any narrower approval or mode choice from the task. Recheck workspace state and carry forward relevant authority/constraints. Do not use bare `--resume`, `--continue`, or a latest-session shortcut when identity is ambiguous. A normal refinement is a valid continuation; resume is not limited to failed-check repair.
+
+## Long Runs And Cancellation
+
+Use the host's native background-process/session facility when available; retain its live handle and captured evidence. If it is unavailable, foreground execution is valid. A host call returning while work continues is not a task failure: inspect the same tracked invocation instead of launching another one. Set a deadline only when the task or host requires it, not as an arbitrary default for long work.
+
+Cancel through a verified live process handle scoped to this invocation. Do not kill by executable name or signal a historical PID from a log. Use process-group cancellation only when the host established and still owns that group; a reaped/reused leader ID is not proof of ownership. If safe cancellation cannot be established, report that limitation rather than targeting unrelated work. Detached children and remote/MCP actions may continue after local exit; inspect relevant effects before resuming.
+
+## Maintenance Evidence
+
+Local syntax and model listing were checked on 2026-09-09. Initial preflight reported `2026.09.02-c22c1a3`; a later probe reported `2026.09.08-6caf4ff`. No install/update command was invoked, and the cause/timing of that transition was not established. Treat these as dated observations, not a guarantee of current CLI availability.
+
+An earlier Python-assisted transport smoke used the exact default, YOLO, an empty temporary workspace, and a no-tools/no-writes task. Fresh and same-session runs succeeded without workspace changes. That helper has been removed; this evidence does not establish execution of the current direct-shell examples or behavior across calling harnesses. Sandbox configuration was already disabled during the earlier smoke, so it establishes no sandbox-enforcement claim.
+
+Recheck installed help and the relevant official surface when changing syntax, permission rules, or stream handling:
 
 - [CLI overview](https://cursor.com/docs/cli/overview)
 - [Headless CLI](https://cursor.com/docs/cli/headless)
 - [CLI parameters](https://cursor.com/docs/cli/reference/parameters)
 - [Output format](https://cursor.com/docs/cli/reference/output-format)
 - [Rules and MCP](https://cursor.com/docs/cli/using)
-- [CLI permission history](https://cursor.com/changelog/page/9)
 - [CLI subagents and skills](https://cursor.com/changelog/2-4)
 - [Asynchronous and nested subagents](https://cursor.com/changelog/2-5)
 
-The installed help/model list and actual stream were rechecked for this revision; those web pages were not all refreshed. Recheck the relevant surface after a CLI change or observed drift. Do not promote a dated display name, permission behavior, or child schema into an unsupported current guarantee.
+Do not claim all sources were refreshed after checking one flag. Model/harness comparison runs and paid smoke tests require a separate request; static package validation is sufficient for this documentation-only maintenance unless a specific unresolved issue requires more.
