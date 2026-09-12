@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 17 specialized, reusable Agent Skills for working with agent harnesses, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 18 specialized, reusable Agent Skills for working with agent harnesses, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 For a structured software-development work loop, start with [gigio-pack](https://github.com/gigio1023/gigio-pack). It is the primary reference for orienting, planning, executing, reviewing, and handing off work. This repository complements it with focused skills that fit alongside that loop.
 
@@ -32,7 +32,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 
 Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 17 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 18 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -75,7 +75,7 @@ npx --yes skills list --global
 The catalog is organized by the job to be done, not by the agent that runs it.
 
 - [Software Development and Delivery](#software-development-and-delivery) (2)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (9)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (10)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Writing and Language](#writing-and-language) (1)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
@@ -100,6 +100,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [gpt6-astra-prompting-guide](skills/development/gpt6-astra-prompting-guide/) | Write and tune GPT-6 Astra prompt stacks using official OpenAI guidance on follow-through, instruction conflicts, style, delegation, and verification |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
+| [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
 
 ### Design and Visualization
 
