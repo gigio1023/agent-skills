@@ -97,7 +97,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 |
 | [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts |
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
-| [gpt6-astra-prompting-guide](skills/development/gpt6-astra-prompting-guide/) | Write and tune GPT-6 Astra prompt stacks using official OpenAI guidance on follow-through, instruction conflicts, style, delegation, and verification |
+| [gpt6-astra-prompting-guide](skills/development/gpt6-astra-prompting-guide/) | Design GPT-6 Astra prompts, skills, and repository instructions with focused context and explicit completion boundaries |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
 | [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
