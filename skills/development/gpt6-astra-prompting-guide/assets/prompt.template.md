@@ -1,29 +1,13 @@
-# Task
+# Task Prompt Template
 
-Deliver <outcome> for <audience>. Completion requires <artifact or action> and <observable evidence>.
+Adapt the text below into the requested prompt. Fill or remove each placeholder. Keep only the context and constraints the task needs; use [prompt patterns](../references/prompt-patterns.md) for a specific unresolved behavior. The template does not require planning phases, delegation, or a review stop.
 
-# Inputs
+```text
+Deliver <outcome> for <audience>, using <relevant inputs>. Preserve <essential constraints>.
 
-<Relevant context and sources, clearly separated from governing instructions.>
+The task is complete when <observable result and required checks>. Continue through <included execution, inspection, and repair work> until that condition is met.
 
-# Decisions And Authority
+You may <authorized actions within scope>. Use <default> for <routine omission>. Ask before <action that still needs authorization>; prepare <reviewable evidence> first and continue <independent work> while waiting.
 
-- Continue with <authorized actions> under <existing permission boundaries>.
-- Use <assumption> for <routine missing preference>.
-- Ask for <material missing information>; meanwhile complete <independent work>.
-- Before seeking ungranted approval for <action>, prepare <reviewable result>.
-- Resolve loaded guidance according to instruction authority. Identify the source and relevant passage if it prevents a requested action.
-
-# Tools And Collaboration
-
-- Use <tool> for <decision>, relying on <decisive result fields>.
-- Delegate <independent work> within <limits> when collaboration is available; retain <integration responsibility>. Otherwise continue sequentially.
-- Wait for <pending evidence> before <dependent claim or action>.
-
-# Communication
-
-Write for <reader background> in <required format>. Include <essential facts, evidence, limitations, and next actions>. Preserve the requested deliverable. Incorporate corrections while keeping valid work and the active objective.
-
-# Completion
-
-Run <required checks> and confirm <affected behavior>. Broaden verification only for <changed behavior, failure, or unresolved concern>. When <acceptance condition> is met, deliver <final output>. If blocked, report <missing input or permission>, completed work, and the smallest next action.
+Return <artifact or completed action> in <needed format>, with <supporting evidence and material limitations>.
+```
