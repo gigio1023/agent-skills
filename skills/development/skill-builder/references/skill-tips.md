@@ -31,6 +31,7 @@ Use the observed task, result, and available context to choose a repair:
 | Task-specific preference or decision was missing | Supply the known default; ask about consequential ambiguity |
 | Tool could not express the needed operation or report its result | Improve parameters, output, or errors; document unsupported cases |
 | Loaded instructions conflict or repeat unnecessarily | Resolve the rule at its authoritative source within edit scope |
+| A clear rule existed but was not used | Check discovery, loading, tool evidence, and actual adherence before adding another copy |
 | Outcome could not be checked | State the task's observable result and available evidence |
 | Old workaround constrains a capable model | Review the original reason and current evidence before removing it |
 
@@ -41,6 +42,8 @@ When the reusable behavior is still unclear, choose the cheapest useful source o
 ## Turn Evidence Into Instructions
 
 Start with failed artifacts, user corrections, successful commands, preferences, project contracts, or expert runbooks. Extract reusable decisions, not incidental identifiers from one run.
+
+For session-derived or private workflows and user-preference extraction, use [workflow extraction](workflow-extraction.md). It distinguishes evidence strength from repetition counts and separates reusable method, private project knowledge, and mutable run state. A tool-backed or single-project workflow can still deserve a skill.
 
 Write conditions and verification: "An accepted job may still be queued; check terminal state before reporting completion" is stronger than "verify everything."
 
@@ -90,3 +93,5 @@ Review a normal trigger and an adjacent out-of-scope request when editing discov
 When model evaluation is requested, compare the same task and environment against no skill or the previous version. Judge required outputs and side effects, not obedience to incidental stylistic sentences.
 
 For important workarounds, retain the observed condition, evidence, and relevant model/tool dependency in a reference or change record. On a related change, revisit that reason and retire rules that no longer apply. A date alone is not evidence for deletion, and a past failure is not a reason to keep a rule forever. This does not require telemetry, background optimization, or a registry for every sentence. See the [validator contract](validation.md) for what static checks establish.
+
+Retain successful approaches as positive defaults, with the conditions that made them useful. If the user asks for iteration after actual use, improve the part that caused extra explanation or an unsupported decision. Do not treat a renamed heading or a passing keyword assertion as evidence of better task performance.

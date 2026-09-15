@@ -1,6 +1,6 @@
 # Sources And Rule Provenance
 
-Checked 2026-09-05. Format specifications, runtime contracts, authoring advice, and example implementations serve different purposes. This is a scoped synthesis, not a complete API snapshot.
+Baseline checked 2026-09-05; the Astra authoring article and workflow-extraction decisions below were added on 2026-09-15. Older runtime claims were not comprehensively rechecked. Format specifications, runtime contracts, authoring advice, and example implementations serve different purposes. This is a scoped synthesis, not a complete API snapshot.
 
 ## Contents
 
@@ -20,6 +20,10 @@ Checked 2026-09-05. Format specifications, runtime contracts, authoring advice, 
 [OpenAI Build skills](https://learn.chatgpt.com/docs/build-skills) describes on-demand instructions and native agents/openai.yaml metadata. Its initial skill-list budget is 2% of context, with an 8,000-character fallback when the context size is unknown. That catalog budget does not limit individual files; selected skills load their full instructions.
 
 ## Authoring Sources
+
+### OpenAI
+
+[Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra), read on 2026-09-15, supports precise discovery, conditional reference loading, revisiting inherited recipes, and defining completion together with permission. It warns that overly broad descriptions and unconditional reading can add irrelevant context. These are design considerations, not a package-size quota or evidence that a particular skill improves model behavior. Preserve useful domain detail and real boundaries across the models that will consume a shared package.
 
 ### Thariq Shihipar
 
@@ -77,8 +81,15 @@ These revisions were resolved on the check date. Reading them does not authorize
 | Diagnose before adding rules | Repair the missing information, retrieval, interface, or conflicting instruction |
 | Inspect relevant co-loaded guidance | Resolve duplication at its source within authorized edit scope |
 | Revisit workaround rules on relevant change | Retain condition and evidence where useful; no deletion percentage or expiration ritual |
+| Personal and project-local skills are valid outcomes | Reuse by one user or project can justify a package; cross-project adoption is not required |
+| Extract successful methods as well as corrections | Evidence quality and usefulness matter more than transcript volume or a catalog of mistakes |
+| Combine skills with existing tools and runbooks | Method and judgment can complement deterministic access and execution without a new framework |
+| Keep private evidence outside shared packages | Publish the method and synthetic examples, not confidential source records or identifiable disguised cases |
+| Improve, create, and merge by task boundary | Compare trigger, decision, result, and authority; overlap alone does not justify a merger |
 
 The [validation contract](validation.md) gives executable checks and coverage limits. Other pack skills may prefer two fields as a conservative authoring default; that is not a general prohibition on optional standard metadata.
+
+The workflow-extraction rules are local authoring choices grounded in maintenance experience and the owner's requested use of personal skills. They are not attributed to the Astra article as format requirements or benchmark results. Their [working reference](workflow-extraction.md) deliberately contains no private source records.
 
 ## Freshness
 

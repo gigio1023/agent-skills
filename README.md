@@ -99,7 +99,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [gpt56-sol-prompting-guide](skills/development/gpt56-sol-prompting-guide/) | Write and migrate prompt stacks for GPT-5.6 Sol and the GPT-5.6 family |
 | [gpt6-astra-prompting-guide](skills/development/gpt6-astra-prompting-guide/) | Design GPT-6 Astra prompts, skills, and repository instructions with focused context and explicit completion boundaries |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
-| [skill-builder](skills/development/skill-builder/) | Create, audit, maintain, and modernize reusable agent skills |
+| [skill-builder](skills/development/skill-builder/) | Turn real workflows and preferences into personal, project-local, or shared skills; audit and improve them without publishing private evidence |
 | [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
 
 ### Design and Visualization
