@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 18 specialized, reusable Agent Skills for working with agent harnesses, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 19 specialized, reusable Agent Skills for working with agent harnesses, research and evaluation, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 For a structured software-development work loop, start with [gigio-pack](https://github.com/gigio1023/gigio-pack). It is the primary reference for orienting, planning, executing, reviewing, and handing off work. This repository complements it with focused skills that fit alongside that loop.
 
@@ -32,7 +32,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 
 Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 18 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 19 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -76,6 +76,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 - [Software Development and Delivery](#software-development-and-delivery) (2)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (10)
+- [Research and Evaluation](#research-and-evaluation) (1)
 - [Design and Visualization](#design-and-visualization) (2)
 - [Writing and Language](#writing-and-language) (1)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
@@ -101,6 +102,12 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Turn real workflows and preferences into personal, project-local, or shared skills; audit and improve them without publishing private evidence |
 | [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
+
+### Research and Evaluation
+
+| Skill | What it helps with |
+| --- | --- |
+| [internal-source-research](skills/productivity/internal-source-research/) | Reconstruct internal project context across authorized sources, using cost-aware reading and evidence-backed synthesis |
 
 ### Design and Visualization
 
@@ -162,4 +169,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 17 unique names. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 19 unique names. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.
