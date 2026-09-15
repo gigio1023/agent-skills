@@ -1,6 +1,6 @@
 # Repository Structure
 
-The README presents the 17 bundled skills in five task-oriented categories. Their existing source paths stay under `skills/development/` and `skills/productivity/` because the Skills CLI records each installed skill's exact path for future updates. The catalog taxonomy can improve without breaking that compatibility surface.
+The README presents the bundled skills in task-oriented categories. Their existing source paths stay under `skills/development/` and `skills/productivity/` because the Skills CLI records each installed skill's exact path for future updates. The catalog taxonomy can improve without breaking that compatibility surface.
 
 Installation has one owner: [`npx skills`](https://github.com/vercel-labs/skills). The CLI discovers the pack, records remote-source metadata, and manages the destinations for explicitly selected agents. This repository does not carry per-harness installation adapters.
 
@@ -17,7 +17,7 @@ flowchart LR
   accDescr: The README groups skills by task. Stable source paths flow through the Skills CLI into selected agents, while standalone repositories are referenced only.
 
   subgraph repo ["agent-skills repository"]
-    IDX["README catalog<br/>5 task categories"]
+    IDX["README catalog<br/>task categories"]
     SRC["Stable skill sources<br/>development · productivity"]
   end
 
