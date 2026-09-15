@@ -2,9 +2,11 @@
 
 ## Source Of Truth
 
-Edit the selected checkout under skills/<category>/<skill-name>. Reuse existing categories and conventions, read project instructions, and preserve unrelated changes. This repository uses development/ and productivity/.
+Honor the selected repository or private project scope. In this repository, edit the selected checkout under skills/<category>/<skill-name>; the categories are development/ and productivity/. Elsewhere follow the owning project's discoverable skill layout. Reuse existing conventions, read applicable project instructions, and preserve unrelated changes. A project-local skill does not need migration into a public or global pack to be useful.
 
 Update catalogs when adding, removing, renaming, or changing advertised scope. Do not rewrite unrelated catalog entries to standardize wording.
+
+Keep a shared method separate from its private project bindings: source maps, schemas, runner commands, and access constraints belong with their authorized owner and are loaded when relevant. Stable private instructions may live in a private skill; mutable task records stay outside replaceable installed packages. Do not move confidential material into a public repository merely to make a link self-contained.
 
 ## Development And Installation
 
