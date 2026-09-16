@@ -1,6 +1,24 @@
-# Engineering Document Forms
+# Document Forms
 
-Use when choosing or revising a technical document's structure. Begin with the reader's task and the governing project template. The questions below guide content selection; they are not a universal section checklist. Read a real exemplar through [source readings](source-readings.md) when its form is unfamiliar.
+Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. The questions below guide content selection; they are not a universal section checklist. Read a real technical exemplar through [source readings](source-readings.md) when that form is unfamiliar.
+
+## Guide or explanation for a new reader
+
+Start with the task or concrete problem that makes the subject useful. Give the reader enough context to follow the first example, then introduce the concept or distinction needed for the next step. A beginner may need a familiar term explained; an experienced reader may need only its nonstandard local meaning.
+
+Keep prerequisites before the actions they constrain. Use examples with enough context to work, and distinguish illustrative output from verified behavior. Let the depth follow the reader's need rather than turning every guide into an exhaustive reference. End when the reader can perform the intended task or explain the concept; add a recap only if it helps retain or apply what was learned.
+
+## Decision memo or proposal
+
+Make the requested decision, recommendation, or change clear early, with the reasons needed to evaluate it. Show credible alternatives on common dimensions and name the constraint that decides this case. Preserve uncertainty that affects the choice; avoid an inventory of every hypothetical objection.
+
+Include ownership, timing, cost, or follow-up when the decision requires them and the source supplies them. A recommendation is not an approval, and an accepted proposal is not an implementation. Short memos can make their case in a few paragraphs without an executive-summary template.
+
+## Post, essay, or personal account
+
+Use the requested voice and the author's perspective. An opening example, question, scene, or claim can lead when it gives the reader a reason to continue. Develop the actual idea rather than replacing it with a generic conclusion-first report.
+
+Keep a personal detail, aside, or stylistic repetition when it advances the account or carries the writer's voice. Remove generic significance claims and stock closing advice that the piece does not earn. Distinguish the author's experience or opinion from an externally established fact, and preserve attribution for quotations. Editing for clarity does not authorize inventing experience or making the narrator more certain.
 
 ## Technical report or experiment report
 

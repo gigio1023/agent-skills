@@ -1,28 +1,29 @@
 # Composition with Document and Interface Skills
 
-Use when an existing workflow also needs technical prose, internal sharing, a dashboard, or a shadcn implementation. Compose only the specialties needed for the requested artifact; do not restart intake or recursively invoke a full document workflow at every link.
+Use when document work also involves internal sharing, a dashboard, focused language repair, or an interface implementation. Compose only the specialties needed for the requested artifact; do not restart intake or route every document through the entire pack.
 
 ## Responsibilities
 
 | Skill | Contribution |
 | --- | --- |
-| `technical-report-writing` | Dry technical voice, factual statements, mechanisms, measurements, decisions, document form, and authoring/export choices |
-| `share-internal-doc` | Standalone reader context, internal-recipient suitability, source access, and the authorized sharing workflow |
+| `technical-report-writing` | Reader-based information selection, explanation, authoring and revision, voice, multilingual prose, document visibility, and production choices |
+| `share-internal-doc` | Internal-recipient suitability, sensitive information and attribution, source access, review obligations, and authorized sharing/readback |
 | `insight-dashboard` | Quantitative comparison, informative initial view, data/filter/claim alignment, and static presentation of selected results |
-| `shadcn-frontend` | Project-specific shadcn components, theme/variant rules, design-system lint, and actual interface behavior |
+| [Official shadcn skill](https://ui.shadcn.com/docs/skills) | Maintainer-provided shadcn project and component guidance for an actual implementation |
 | `frontend-design` | Design intensity, composition, and visual/interaction review for a user-visible change |
-| `slop-aware-writing` / `korean-clarity` | Focused prose revision and Korean semantic completeness when their concerns apply |
+| `slop-aware-writing` | Existing standalone, explicit focused-revision requests; not a mandatory second authoring pass |
+| `korean-clarity` | Korean semantic repair when omitted sentence components or relations obscure meaning, including in chat |
 
-`share-internal-doc` is maintained separately in [Gigio Pack](https://github.com/gigio1023/gigio-pack/tree/main/skills/share-internal-doc). Keep its package name and source ownership there. This pack supplies the technical-writing craft it can use; it does not ship a second copy or depend on unpublished edits in that repository. Read the available companion at runtime when the task calls for it. Missing optional companions do not remove the core source, accuracy, and recipient checks.
+These are integration boundaries for this writer, not a claim that separately maintained packages have already been narrowed or migrated. `share-internal-doc` remains in [Gigio Pack](https://github.com/gigio1023/gigio-pack/tree/main/skills/share-internal-doc), and the revision/language packages retain their own sources. Read the available companion when its task applies. Respect required recipient and evidence checks; reconcile overlapping editorial advice with the current user request rather than drafting the document twice. Missing optional companions do not remove the writer's accuracy or privacy obligations.
 
 ## Useful combinations
 
-- **Internal technical report:** keep `share-internal-doc` as the end-to-end sharing workflow when it is already active; apply the voice/facts, appropriate form, and examples from this skill to the document being written. Return to that workflow's recipient and delivery checks.
-- **Standalone technical report or project document:** use this skill directly. Add specialized document or figure tooling only as the medium requires.
-- **Data dashboard:** use this skill's measurement and prose guidance with `insight-dashboard`. Use `shadcn-frontend` only for an actual shadcn implementation. A result statement should describe the active data, not advertise the interface.
+- **Internal document:** use this writer for the document's content and expression. When `share-internal-doc` is active, retain its recipient, sensitive-information, access, and delivery checks.
+- **Standalone report, guide, memo, or post:** use this skill directly. Add specialized document or figure tooling only as the medium requires.
+- **Data dashboard:** combine the writer's information selection and prose with `insight-dashboard` for comparison and state correctness. Use the official shadcn skill only for an actual shadcn implementation. A result statement should describe the active data, not advertise the interface.
 - **Print-first PDF:** choose a native production route here. Do not load frontend skills or build a web application solely because the document contains tables or charts.
-- **Generic shadcn form or product UI:** use `shadcn-frontend` and the relevant frontend design guidance. A technical-report workflow is unnecessary unless the page is itself a report.
+- **Generic shadcn form or product UI:** use the official shadcn skill and relevant frontend design guidance. Do not create or require a local wrapper for the official skill. A document-writing workflow is unnecessary unless the requested work includes substantive reader-facing prose.
 
 Follow the current user's tone and medium requirements over a source's brand voice. For a dry technical report, a company's enthusiastic announcement is not a voice sample. Required project templates and material interpretation conditions remain meaningful; optional boilerplate does not become required through skill composition.
 
-If maintaining an external document-workflow skill, link to this capability for technical writing and document production rather than copying the reference catalog. Changing that other repository or its installed package requires the scope for that change; consuming this package does not itself migrate or install anything.
+If maintaining an external sharing workflow, link to this capability for writing and document production rather than copying the reference catalog. A user should not have to learn a prescribed skill order to obtain one document. Changing another repository or its installed package requires the scope for that change; composing available skills does not itself migrate or install them.

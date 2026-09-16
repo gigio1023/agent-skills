@@ -2,9 +2,9 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 23 specialized, reusable Agent Skills for working with agent harnesses, research and evaluation, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 22 specialized, reusable Agent Skills for working with agent harnesses, research and evaluation, designing interfaces, writing clearly, and handling a few everyday workflows.
 
-For a structured software-development work loop, start with [gigio-pack](https://github.com/gigio1023/gigio-pack). It is the primary reference for orienting, planning, executing, reviewing, and handing off work. This repository complements it with focused skills that fit alongside that loop.
+For continuity across sessions, models, and agent harnesses, use [gigio-pack](https://github.com/gigio1023/gigio-pack): project intent, plans, execution, review, and handoff. This repository supplies focused capabilities for the work itself. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/): a `SKILL.md` plus any colocated references, scripts, and assets. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills), then update from the tracked source.
 
@@ -32,7 +32,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 
 Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 23 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 22 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -77,7 +77,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 - [Software Development and Delivery](#software-development-and-delivery) (2)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (10)
 - [Research and Evaluation](#research-and-evaluation) (2)
-- [Design and Visualization](#design-and-visualization) (4)
+- [Design and Visualization](#design-and-visualization) (3)
 - [Writing and Language](#writing-and-language) (2)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
 
@@ -116,7 +116,6 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | --- | --- |
 | [frontend-design](skills/development/frontend-design/) | Route and verify user-visible frontend work from bug fixes and local changes through new UI and redesigns |
 | [mermaid-diagrams](skills/development/mermaid-diagrams/) | Design readable, parser-safe Mermaid diagrams and validate their rendering |
-| [shadcn-frontend](skills/development/shadcn-frontend/) | Build shadcn/ui pages with official component guidance, design-system lint, and rendered checks |
 | [insight-dashboard](skills/development/insight-dashboard/) | Build evidence-led dashboards with aligned comparisons, filters, factual captions, and static output |
 
 ### Writing and Language
@@ -124,7 +123,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | Skill | What it helps with |
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
-| [technical-report-writing](skills/productivity/technical-report-writing/) | Write dry technical reports, design docs, RFCs, ADRs, and project documents with detailed factual prose, worked examples, and native PDF/editable-document production |
+| [technical-report-writing](skills/productivity/technical-report-writing/) | Write, revise, and review reports, guides, proposals, memos, posts, and project documents with reader-focused information selection, multilingual prose, and native document production |
 
 ### Personal and Everyday Tools
 
@@ -134,13 +133,13 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce exact, minimum, or maximum page limits |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Export a read-only Toss Invest portfolio and market-context snapshot |
 
-## Technical documents and dashboards
+## Writing, documents, and dashboards
 
-Use `technical-report-writing` to explain mechanisms, interpret evidence, and justify engineering choices. Use `insight-dashboard` to design useful comparisons and exploration; use `shadcn-frontend` to implement the content with working, accessible components. PDF production can go directly through native document tooling.
+Use `technical-report-writing` for content selection, explanation, and prose in the requested language and medium. Its existing name remains stable; its scope includes nontechnical and external-facing documents. Use `insight-dashboard` for analytical or operational data views, including static output, and for keeping selection-dependent values and explanations consistent. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. This pack does not bundle a shadcn wrapper. PDF and editable-document production can go directly through native document tooling.
 
-The skills teach actions and show finished examples rather than relying on prohibitions. Start with [writing patterns](skills/productivity/technical-report-writing/references/writing-patterns.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or [content-to-component patterns](skills/development/shadcn-frontend/references/content-to-components.md). The [public example library](skills/productivity/technical-report-writing/references/example-library.md) and dashboard library provide task-matched reading pointers across 108 public works, alongside the original paper, specification, and official-tool readings. Load the examples relevant to the current task; the libraries are not mandatory reading lists.
+The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what must remain beside a claim. Consult [writing patterns](skills/productivity/technical-report-writing/references/writing-patterns.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public example library](skills/productivity/technical-report-writing/references/example-library.md) for the current task, not as a mandatory reading list.
 
-For internal sharing, combine this craft with `share-internal-doc` from Gigio Pack; its source remains in that repository. These are independent entry points, not a mandatory three-skill pipeline. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md).
+For internal sharing, `share-internal-doc` from Gigio Pack contributes recipient suitability, source access, privacy, and authorized delivery. Keep one owner for the draft rather than requiring a second editing pass. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md) and [adoption and cross-repository migration](docs/writing-skills.md), including an optional document-default snippet for project instructions.
 
 ## Related skill repositories
 
@@ -148,7 +147,7 @@ These repositories are independently versioned and not included when this pack i
 
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
-| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Software-development work loop | The primary reference for orienting, planning, executing, reviewing, and handing off software work |
+| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and delivery workflows | Preserve intent, plans, actual results, and handoff across sessions and harnesses |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
 | [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing` | Evidence-bounded authoring and revision that prevents or removes AI slop while preserving reader context, meaning, and voice across English, Korean, Italian, and Chinese |
 | [draw.io Agent Skill](https://github.com/gigio1023/drawio-agent-skill) | `drawio-diagram` | Native, editable draw.io authoring with structural, layout, export, and visual checks |
@@ -162,6 +161,7 @@ These repositories are independently versioned and not included when this pack i
 | --- | --- | --- |
 | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`, and more | Working with Obsidian vaults and file formats |
 | [find-skills](https://github.com/vercel-labs/skills/tree/main/skills/find-skills) | `find-skills` | Discovering and installing additional skills |
+| [Official shadcn skills](https://ui.shadcn.com/docs/skills) | `shadcn` | Project-aware shadcn/ui component discovery, composition, and implementation; maintained upstream |
 
 You can also browse [skills.sh](https://skills.sh/) or search from the CLI:
 
@@ -181,4 +181,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 23 unique names. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 22 unique names. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.

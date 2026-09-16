@@ -84,6 +84,8 @@ Use the project's native report or record format when it has one; otherwise writ
 
 Label the evidence boundary when it matters: a hypothetical plan, source location, or synthetic local fixture is not real execution; real execution is not automatically a validated result. Preserve uncertainty instead of smoothing it into progress language.
 
+Keep operational preservation separate from document selection. Retain required provenance in the campaign's records; include it in a reader-facing report when it affects interpretation, reproduction, audit, or action. Active handles, failures, denominators, and unresolved state remain visible when the operator needs them. Routine report-build receipts need not accompany the result.
+
 ## Compose and finish
 
 Read [synthetic maintainer review cases](references/synthetic-maintainer-review-cases.md) only when maintaining or auditing this skill. They are illustrative review material, not exercised behavior.

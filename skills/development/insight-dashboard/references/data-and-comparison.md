@@ -4,7 +4,7 @@ Use when selecting measures, transforming data, or choosing a display. Work from
 
 ## Define the measured quantity
 
-Inspect the unit of observation, population, period, time zone, versions, and aggregation. State the conditions that change interpretation where readers encounter the result. Keep the source query and transformations in the project; expose an authorized source link and useful definition in the page.
+Inspect the unit of observation, population, period, time zone, versions, and aggregation. State the conditions that change interpretation where readers encounter the result. Keep the source query and transformations in the project; expose authorized source links and definitions when they help the reader interpret, reproduce, or act on the result.
 
 Name the actual metric boundary. Completion rate counts completed work over attempted work; latency may describe only successful requests. A cost per attempt and a cost per completed task answer different questions. When a filter changes the population, recompute the appropriate denominator with it.
 

@@ -28,7 +28,7 @@ Preserve the project's data model, terminology, and requested medium. Inspect su
 3. **Connect overview to variation.** Show the important subgroup, tail, or exception when an aggregate could conceal it. A rate may need its sample count; an average may need the affected records. Select these additions by their effect on interpretation.
 4. **Assign text complementary roles.** The heading states a supported finding or useful question; the chart shows the comparison; labels identify quantities; a note states material conditions; prose explains the implication. Write one clear explanation instead of repeating the finding across cards and captions.
 5. **Carry meaning through the states.** Derive values, rankings, titles, and explanatory text from the same selection, or visibly separate fixed analysis from exploration. Keep missing, stale, failed, and zero distinct.
-6. **Make the view shareable and inspectable.** Preserve appropriate selection state in a hosted URL, show data freshness, and link authorized definitions or source data. A URL identifies a selection, not an immutable snapshot; record a data version or retrieval time when reproducibility requires one.
+6. **Make timing and sources useful.** Show the observation period or latest observation beside the result when freshness affects interpretation or action. Label retrieval time separately when it matters; a build timestamp measures neither. Preserve appropriate selection state in a hosted URL and link useful authorized definitions or source data. A URL identifies a selection, not an immutable snapshot; retain a dataset version or snapshot when reproduction requires one.
 
 In a **synthetic service comparison**, a successful-request median alone may favor a configuration with more timeouts. Show completions alongside latency and explain the trade-off. The good result is a reader who can choose under a stated reliability requirement, not a uniformly green row of cards.
 
@@ -38,7 +38,7 @@ In a **synthetic service comparison**, a successful-request median alone may fav
 - [Pattern examples](references/pattern-examples.md): task-matched public dashboards, actionable adaptations, and finished synthetic view specifications.
 - [Interaction and static delivery](references/interaction-and-static.md): selection changes, asynchronous updates, URL sharing, error states, and print.
 
-For technical analysis prose, use `technical-report-writing` when available. For internal recipient context and sharing, use `share-internal-doc` when available. For an actual shadcn implementation, use `shadcn-frontend`. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
+For document-level information selection and prose, use `technical-report-writing` when available. For internal recipient context and sharing, use `share-internal-doc` when available. For a shadcn implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available; otherwise consult the official component documentation. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
 
 For print-first output, use a native document-production route. Web and PDF can share data and calculations while using different layouts. In the static view, expose the selected comparisons and labels that the reader otherwise accesses through tabs or hover.
 
@@ -46,4 +46,12 @@ For print-first output, use a native document-production route. Web and PDF can 
 
 Independently calculate representative values and compare them with the table, chart, headline, and export. Exercise the initial view, a selection that changes the conclusion, and an empty or unavailable-data case. Verify the relevant URL restore, reset, keyboard, and drill-down paths. For live data, test freshness and failure without replacing the last valid observation with a fabricated zero.
 
-Inspect the delivered size and a narrow viewport. Confirm that a reader can identify the important comparison, its reference, and the next useful detail. Check the actual PDF or offline artifact when requested. Deliver the working source and requested output, with a short account of checks actually run. Keep build logs and verification narration outside the reader-facing page, and publish only within the user's grant.
+Inspect the delivered size and a narrow viewport, plus the actual PDF or offline artifact when requested. Before delivery, check:
+
+- Does the initial view expose the useful comparison, supported finding, or operational action for this task?
+- Are material conditions beside the claims or views they change, with important failures and denominators preserved?
+- Do definitions and interaction explanations answer a real reader question, with routine use handled by clear labels and controls?
+- Do production details and verification records help this reader compare, reproduce, audit, or act? Omit irrelevant narration without automatically moving it to an appendix.
+- Where the view contains prose, are paragraphs organized by meaning without fixed-column source wrapping? Choose rendered line width for the medium and readability; it is a separate layout decision.
+
+Deliver the working source and requested output, with a short account of checks actually run. Keep routine build logs and verification narration in the working record. Include a record in the reader artifact only when it serves the task above, placed with the affected result or in useful source or methods detail. Publish only within the user's grant.

@@ -65,7 +65,7 @@ Choose a reader situation, then inspect the relevant public work. The finished s
 
 **Reader task:** narrow a change from an aggregate to its contributing population.
 
-**Finished view, synthetic:** a resource-cost view begins with a period comparison, then groups costs by service. Selecting a service updates its usage, unit-cost view, detail table, and title together. A shared link restores the filters; the exported report includes their visible labels and data time.
+**Finished view, synthetic:** a resource-cost view begins with a period comparison, then groups costs by service. Selecting a service updates its usage, unit-cost view, detail table, and title together. A shared link restores the filters; the exported report includes their visible labels and observation period. If the reader must reproduce the export, its source detail identifies the retained dataset version or snapshot.
 
 **Build:** offer groupings and resolution choices that answer different questions. Keep one selection-to-result path and handle delayed requests so old responses do not overwrite the newest selection.
 
@@ -93,7 +93,7 @@ Each entry is a reading pointer and original adaptation. Text or a dashboard mod
 
 - **[Grafana Play — Kubernetes / Compute Resources / Pod](https://play.grafana.org/d/6581e46e4e5c7ba40a07646395ef7b23/kubernetes-compute-resources-pod?orgId=1)** — Inspect pod usage and quota. Pair resource consumption with its limit and throttling signal, using hierarchical filters that reflect the resource relationship.
 
-- **[Netdata 데모 스페이스 — All Nodes 실시간 개관](https://app.netdata.cloud/spaces/netdata-demo/rooms/all-nodes)** — Inspect latest observation and node breakdown. Show freshness and relevant aggregation with the measure, and expose the node that an overall average can conceal. Toggle semantics need their own test.
+- **[Netdata Demo Space — All Nodes](https://app.netdata.cloud/spaces/netdata-demo/rooms/all-nodes)** — Inspect latest observation and node breakdown. Show freshness and relevant aggregation with the measure, and expose the node that an overall average can conceal. Toggle semantics need their own test.
 
 - **[Evidence — Internal KPI Portal](https://evidence-demo.netlify.app/)** — Inspect date-based KPI pages. Generate a concise comparison sentence from the same data as the values, and preserve the selected date in navigation.
 
@@ -105,25 +105,25 @@ Each entry is a reading pointer and original adaptation. Text or a dashboard mod
 
 - **[Cloudflare System Status](https://www.cloudflarestatus.com/)** — Inspect incident summary and timeline. Separate severity from investigation state, and show impact and event times in terms useful to affected readers.
 
-- **[NESO Carbon Intensity 대시보드](https://carbonintensity.org.uk/)** — Inspect actual/forecast and regional values. Make observed and forecast quantities distinguishable, with units, aggregation, and accessible source data near the display.
+- **[NESO Carbon Intensity Dashboard](https://carbonintensity.org.uk/)** — Inspect actual/forecast and regional values. Make observed and forecast quantities distinguishable, with units, aggregation, and accessible source data near the display.
 
 - **[Mozilla GLAM — Glean Aggregated Metrics Explorer](https://glam.telemetry.mozilla.org/)** — Inspect probe detail and coverage. Pair a rate or distribution with its population, definition, and a useful route to inspect the underlying query or data.
 
 - **[Firefox Public Data Report — User Activity](https://data.firefox.com/dashboard/user-activity)** — Inspect metric definition and region selection. Put the measurement boundary beside the chart and keep selected-region values and labels aligned.
 
-- **[Taipower 오늘의 전력 정보 대시보드](https://www.taipower.com.tw/d006/loadGraph/loadGraph/load_briefing3.html)** — Inspect load, utilization, and capacity. Combine a current quantity with its capacity reference and a readable state; expose the calculation and observation time.
+- **[Taipower Daily Power Information](https://www.taipower.com.tw/d006/loadGraph/loadGraph/load_briefing3.html)** — Inspect load, utilization, and capacity. Combine a current quantity with its capacity reference and a readable state; expose the calculation and observation time.
 
 - **[GitHub Status](https://www.githubstatus.com/)** — Inspect component status and uptime. Organize status by user-facing task, then link current state to useful historical evidence.
 
 - **[rustc performance data](https://perf.rust-lang.org/)** — Inspect comparison baseline and interpolation note. Make the chosen comparison and missing-data treatment visible. Keep estimated or carried-forward values distinct from measurements.
 
-- **[Open Electricity (OpenNEM) NEM 트래커](https://explore.openelectricity.org.au/energy/nem/)** — Inspect time range, resolution, and generation groups. Coordinate period and resolution while keeping resulting units visible; offer groupings that answer distinct analytical questions.
+- **[Open Electricity (OpenNEM) NEM Tracker](https://explore.openelectricity.org.au/energy/nem/)** — Inspect time range, resolution, and generation groups. Coordinate period and resolution while keeping resulting units visible; offer groupings that answer distinct analytical questions.
 
-- **[Plausible Analytics 공개 데모](https://plausible.io/plausible.io)** — Inspect period selector and comparison values. Update values and comparison context together, and preserve appropriate selection state in a shareable URL.
+- **[Plausible Analytics Public Demo](https://plausible.io/plausible.io)** — Inspect period selector and comparison values. Update values and comparison context together, and preserve appropriate selection state in a shareable URL.
 
-- **[Matomo 온라인 데모](https://demo.matomo.cloud/)** — Inspect overview widgets and live visits. Use modular regions when the tasks are genuinely independent; connect summary measures to relevant events rather than adding unrelated widgets.
+- **[Matomo Online Demo](https://demo.matomo.cloud/)** — Inspect overview widgets and live visits. Use modular regions when the tasks are genuinely independent; connect summary measures to relevant events rather than adding unrelated widgets.
 
-- **[Wikimedia Movement Metrics 월간 리포트](https://upload.wikimedia.org/wikipedia/commons/a/ab/February_2025_Wikimedia_movement_metrics.pdf)** — Inspect metric interpretation and missing-data notes. Keep a periodic static report interpretable with useful source links, definition changes, and specific missing-data explanations.
+- **[Wikimedia Movement Metrics Monthly Report](https://upload.wikimedia.org/wikipedia/commons/a/ab/February_2025_Wikimedia_movement_metrics.pdf)** — Inspect metric interpretation and missing-data notes. Keep a periodic static report interpretable with useful source links, definition changes, and specific missing-data explanations.
 
 - **[Wikimedia Topviews Analysis](https://pageviews.wmcloud.org/topviews?project=en.wikipedia.org)** — Inspect ranked table and excluded items. Pair consumption with contribution when the question needs both, and make consequential filtering visible beside the result.
 
@@ -143,4 +143,4 @@ Each entry is a reading pointer and original adaptation. Text or a dashboard mod
 - [Google SRE's fictional postmortem example](https://sre.google/sre-book/example-postmortem/): separate impact, trigger, recovery, and corrective action; use actual evidence in a real operational view.
 - [Datawrapper on chart text](https://datawrapper.de/blog/text-in-data-visualizations), [Wilke on making a point](https://clauswilke.com/dataviz/telling-a-story.html), and [IBM Carbon dashboards](https://carbondesignsystem.com/data-visualization/dashboards): choose a useful comparison and make text, visual hierarchy, and detail work together.
 
-For technical prose, use `technical-report-writing` when available. For component behavior, use `shadcn-frontend`. Match techniques to the current reader task instead of importing a brand skin or fixed template.
+For document-level information selection and prose, use `technical-report-writing` when available. For shadcn component behavior, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available or consult the official component documentation. Match techniques to the current reader task instead of importing a brand skin or fixed template.

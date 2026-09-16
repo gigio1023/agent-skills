@@ -2,7 +2,7 @@
 
 Use this catalog to select and closely read a public technical exemplar. The value is in the writing operation: how the author states a fact, explains a mechanism, introduces a comparison, qualifies a result, or justifies a choice. A company name or a “technical report” label does not make every sentence worth copying.
 
-The sources below were inspected on 2026-09-15. The package contains original synthesis and small illustrative phrases, not copied reports or image collections. Source claims remain attributed; reading a benchmark is not reproducing it. The dry register and selective use of detail are editorial defaults of this skill, not a claim that every cited source recommends the same voice.
+The sources below were inspected on 2026-09-15. The package contains original synthesis and small illustrative phrases, not copied reports or image collections. Source claims remain attributed; reading a benchmark is not reproducing it. The dry register is a default for technical reports, not every genre or a claim that every cited source recommends the same voice. Reader-based information selection applies across genres.
 
 ## Contents
 
@@ -103,7 +103,7 @@ Supporting source: [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174.html) for d
 
 ## Broader foundations and selective transfer
 
-The expanded [example library](example-library.md) connects project specifications, engineering investigations, and visual explanations to original writing actions. `insight-dashboard` maintains the complementary operational and analysis library; `shadcn-frontend` turns selected information relationships into components and behavior checks. These reading paths extend, rather than replace, the close readings above.
+The expanded [example library](example-library.md) connects project specifications, engineering investigations, and visual explanations to original writing actions. `insight-dashboard` maintains the complementary operational and analysis library. For a shadcn implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. These reading paths extend, rather than replace, the close readings above.
 
 The earlier collection also informs these choices:
 
@@ -114,7 +114,7 @@ The earlier collection also informs these choices:
 - **Explanatory sequence and exploration:** [Distill on momentum](https://distill.pub/2017/momentum/) and [Segel and Heer](https://idl.uw.edu/papers/narrative), section 4.4, inform concrete-to-general explanation and the relationship between authored findings and reader exploration. Choose interaction when it answers a useful question.
 - **Chart composition and text:** [IBM Carbon dashboards](https://carbondesignsystem.com/data-visualization/dashboards), [Datawrapper on text](https://datawrapper.de/blog/text-in-data-visualizations), and [Wilke on making a point](https://clauswilke.com/dataviz/telling-a-story.html) inform reading order, useful detail, and complementary titles, labels, annotations, and prose.
 - **Direct language:** [Microsoft's style tips](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice) and [Vercel's writing guidelines](https://github.com/vercel-labs/writing-guidelines) inform concrete wording and efficient editing. Apply the destination's language and register; preserve facts and natural Korean relations.
-- **Interface execution:** [Vercel's interface guidelines](https://vercel.com/design/guidelines), [official shadcn skills](https://ui.shadcn.com/docs/skills), and [shadcn MCP](https://ui.shadcn.com/docs/mcp) inform usable state and project-aware composition through `shadcn-frontend`. Component documentation remains authoritative for APIs.
+- **Interface execution:** [Vercel's interface guidelines](https://vercel.com/design/guidelines), [official shadcn skills](https://ui.shadcn.com/docs/skills), and [shadcn MCP](https://ui.shadcn.com/docs/mcp) inform usable state and project-aware implementation. Use the official skill directly; component documentation remains authoritative for APIs.
 - **Document rendering:** [Typst](https://typst.app/docs/), [Quarto](https://quarto.org/docs/output-formats/pdf-basics.html), and [Pandoc](https://pandoc.org/MANUAL.html#creating-a-pdf) inform the native and conversion routes in [document production](document-production.md). Select the renderer by the recipient workflow and existing source.
 
 Use each source for the property actually inspected. A saved text supports a textual reading; a diagram's layout or an interaction's effect requires the corresponding visual or behavioral inspection. Borrow the explanatory technique in original wording while preserving the actual project's evidence and current API.

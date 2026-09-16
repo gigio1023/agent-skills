@@ -47,7 +47,7 @@ Separate the following in the answer, in whatever form best serves the reader ra
 
 Resolve apparent conflicts by comparing what each source actually asserts, its time, authority, scope, and whether it describes a plan, an event, implementation state, or current operation. Preserve meaningful disagreement instead of selecting the newest or most convenient source by default. Recommendations may describe a backlog or next work, but never create or assign it without separate authority.
 
-Report coverage and freshness with the conclusion: which scoped lanes were searched, what was deeply read, which gaps or failures remain, and how those limits affect confidence. Do not relay a private raw corpus when a compact evidence-backed synthesis will suffice.
+Keep collection scope, observation dates, and retrieval failures in the authorized research record. In the answer, include the coverage or freshness information that changes confidence, interpretation, or next action, placing a material limit beside the affected conclusion. An access-audit reader may need the full source-by-source account; a decision reader usually needs the supported conclusion and its consequential gaps. Do not relay a private raw corpus when a compact evidence-backed synthesis will suffice.
 
 ## Use bounded delegation only when it helps
 

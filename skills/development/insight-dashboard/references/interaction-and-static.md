@@ -8,13 +8,15 @@ Make active population, period, and comparison baseline visible. Persist appropr
 
 Derive selection-dependent rows, totals, rates, rankings, title, chart, and export from the same filtered result. When commentary belongs to a fixed investigation, attach its period and population and separate it from the exploratory view. On a date change, use matching commentary or say that none has been recorded; present a hypothesis as a hypothesis.
 
-A shared URL identifies the requested view. Live data behind that URL can change. For an immutable record, retain an authorized dataset version, snapshot, or exported result with the time and conditions needed to interpret it.
+A shared URL identifies the requested view. Live data behind that URL can change. For an immutable record, retain an authorized dataset version, snapshot, or exported result with the period and conditions needed to interpret it. Retrieval time alone does not identify an immutable dataset.
+
+Distinguish observation time, retrieval time, and build time. Observation time says when the measured activity occurred; retrieval time says when the source was read; build time says when the artifact was generated. Show the first where freshness changes interpretation or action, and the others only when the reader needs them for source latency, reproduction, or artifact identity. A recent build cannot make old observations current. Put concise timing labels by affected values and longer useful provenance with sources or methods; omit production receipts that serve no reader task.
 
 ## Make asynchronous behavior intelligible
 
 Associate each request with its selection and ensure that an older response cannot replace the result of a newer selection. During loading, either retain the previous view with a clear pending state or show a suitable placeholder. Preserve controls and keyboard focus where possible.
 
-For monitoring, show the last observation time and the freshness rule relevant to use. A failed refresh can retain the last valid result while explaining that it is stale. Distinguish service failure from missing telemetry. Offer pause when freezing a live time window helps investigation, and make resumed updating visible.
+For monitoring, show the last observation time and the freshness rule relevant to use. A failed refresh can retain the last valid result. Show the retrieval failure and mark observations stale only when they exceed that rule. Distinguish service failure from missing telemetry. Offer pause when freezing a live time window helps investigation, and make resumed updating visible.
 
 Use precise state language:
 

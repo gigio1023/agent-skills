@@ -1,10 +1,10 @@
 # Voice and Factual Prose
 
-Use while drafting or revising technical prose. The goal is a restrained engineering register, not a corporate brand voice. Apply the same factual discipline in Korean and English; let each language keep its natural syntax. See [worked examples](worked-examples.md) for complete rewrites and [source readings](source-readings.md) for the public basis.
+Use while drafting or revising sentences and paragraphs. The technical examples use a restrained engineering register; adapt the voice to the requested genre and author instead of imposing that register on every document. Apply the same factual discipline across languages while keeping their natural syntax. See [worked examples](worked-examples.md) for complete rewrites, [multilingual writing](multilingual-writing.md) for language-specific choices, and [source readings](source-readings.md) for the public technical basis.
 
 ## Write the reader's understanding
 
-Choose the relation to explain before choosing the sentence. State a component's operation, show the observation that changes a hypothesis, compare the cost that decides an alternative, or explain the condition that limits a result. [Writing patterns](writing-patterns.md) pairs these actions with finished synthetic paragraphs and reader checks. Use a pattern to guide the work, then let the evidence and reader determine the paragraph's final shape.
+Choose relevant information before choosing the sentence, then identify the relation the reader needs. State a component's operation, show the observation that changes a hypothesis, compare the cost that decides an alternative, or explain the condition that limits a result. [Writing patterns](writing-patterns.md) pairs these actions with finished synthetic paragraphs and reader checks. Use a pattern to guide the work, then let the evidence and reader determine the paragraph's final shape. A fluent sentence can still be unnecessary; use [reader-value decisions](reader-value.md) when selection is the problem.
 
 Trace a request through its state changes so the reader can predict the next operation. Compare alternatives on common dimensions and explain the constraint that decides this case. Keep technical precision inside the sentence that needs it. These concrete actions give clarity and balance an observable result.
 
@@ -54,6 +54,6 @@ Distinguish an analogy from an implementation. If an analogy needs a paragraph e
 
 Place a citation where its scope is clear: beside the reported value, mechanism, comparison, or attributed claim. Prefer the paper's relevant section/table, a source permalink, or a maintained specification to a product home page. Preserve source versions when an API, policy, or result could change. Summarizing several sources does not make them independent evidence if they all repeat one experiment.
 
-Keep a methods note that changes the interpretation on the main reading path. Put reproducibility detail in a methods section or appendix when the reader needs it but not at every mention. Delete reader-irrelevant caveats rather than creating a permanent appendix of deleted prose. A citation is not a request for readers to reconstruct the argument from scratch.
+Keep a methods note that changes the interpretation beside the affected claim or comparison. Use a methods section, Sources section, appendix, or existing record for detail that an actual reproduction or audit task needs. Detail without that use can be deleted from the prose instead of permanently relocated. A citation is not a request for readers to reconstruct the argument from scratch.
 
 Headings should name the behavior, decision, or comparison that follows. Use neutral headings when there is no established result. Lists work for parallel observations; tables work when rows share meaningful dimensions. Do not convert an argument into a checklist to make it appear concise.
