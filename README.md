@@ -136,7 +136,9 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 ## Technical documents and dashboards
 
-Use `technical-report-writing` for the document's factual voice, mechanisms, measurements, and engineering argument. Add `insight-dashboard` for quantitative views and `shadcn-frontend` for an actual shadcn implementation. PDF production does not require an HTML intermediate. The technical-writing skill includes section-level readings of engineering papers, KEPs, RFCs, PEPs, and decision records, with sentence, paragraph, table, and caption examples.
+Use `technical-report-writing` to explain mechanisms, interpret evidence, and justify engineering choices. Use `insight-dashboard` to design useful comparisons and exploration; use `shadcn-frontend` to implement the content with working, accessible components. PDF production can go directly through native document tooling.
+
+The skills teach actions and show finished examples rather than relying on prohibitions. Start with [writing patterns](skills/productivity/technical-report-writing/references/writing-patterns.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or [content-to-component patterns](skills/development/shadcn-frontend/references/content-to-components.md). The [public example library](skills/productivity/technical-report-writing/references/example-library.md) and dashboard library provide task-matched reading pointers across 108 public works, alongside the original paper, specification, and official-tool readings. Load the examples relevant to the current task; the libraries are not mandatory reading lists.
 
 For internal sharing, combine this craft with `share-internal-doc` from Gigio Pack; its source remains in that repository. These are independent entry points, not a mandatory three-skill pipeline. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md).
 

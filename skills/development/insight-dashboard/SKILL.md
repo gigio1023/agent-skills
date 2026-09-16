@@ -2,41 +2,48 @@
 name: insight-dashboard
 description: >
   Use when creating or redesigning a data dashboard, interactive analysis report,
-  or static dashboard for print. Makes the key comparison and supported insight
-  visible before exploration. NOT for generic forms or landing pages
-  (shadcn-frontend), or ordinary technical prose documents (technical-report-writing).
+  operational view, or static dashboard for print. Designs useful comparisons,
+  explanatory text, data exploration, and selection-consistent results. NOT for
+  generic forms or landing pages, or ordinary prose documents.
 ---
 
 # Insight Dashboard
 
-Deliver a data view that answers the reader's question, using real results and an intelligible initial view. Select the useful comparison before choosing components. A collection of metrics is not an analysis, and the reader should not need to discover the author's point by manipulating filters.
+Build a data view that helps the reader answer a recurring question or choose an action. Make the useful comparison visible in the initial view, then provide a clear path to the details that explain it. Let data and the reader's task determine the layout.
 
-## Connect the content and production skills
+Preserve the project's data model, terminology, and requested medium. Inspect supplied data before choosing claims. Use authorized real results; mark development fixtures as synthetic. If a missing input prevents the main comparison, identify that input and build only the supported views. Review requests return findings rather than changing the application.
 
-For a technical analysis, use `technical-report-writing` when available for dry factual prose, measurement conditions, mechanisms, and sentence-to-caption examples. For an internal deliverable, use `share-internal-doc` when available for reader context, recipient suitability, and source access. Apply these specialties within this task without restarting intake. Without optional companions, retain a clear question, supported interpretation, material comparison conditions, and usable sources, without promotional copy, process narration, or irrelevant definitions.
+## Choose the first useful view
 
-When implementing in shadcn/ui, use `shadcn-frontend` for project discovery, composition, lint, and rendered behavior. For a PDF or static document, use the document-production guidance in `technical-report-writing` instead. Shadcn is a web implementation choice, not a required intermediate format for every dashboard.
+- **Communicate a finding:** lead with the supported finding and decisive comparison, then the factors, exceptions, and observations that explain it. Add exploration for a concrete follow-up question.
+- **Investigate:** start with a meaningful baseline, visible selections, and enough context to choose a population. Link overview, breakdown, and record detail so the reader can narrow a question.
+- **Monitor:** prioritize affected services, severity, freshness, and the next operational action. Keep severity separate from investigation status; distinguish unavailable telemetry from healthy service.
+- **Review periodically:** connect previous actions to current measures and the next proposed action. Associate human commentary with its period and evidence. Add explanations where judgment matters rather than requiring a comment on every card.
+- **Answer a small recurring question:** show the answer and the useful next link. A current-version page can be complete without a KPI grid or trend chart.
 
-## Choose the useful shape
+## Compose the comparison
 
-- **A report that communicates a finding:** put the supported finding and decisive comparison first, then contributing factors, alternatives, or the observations that explain it. Add exploration only when it serves another reader question.
-- **An exploration tool:** start with an informative comparison and visible selections. Search, filters, drill-down, and linked charts should let readers answer the stated class of questions.
-- **Operational monitoring:** prioritize exceptions, current state, freshness, and the action needed. Do not manufacture an executive narrative over a screen whose purpose is to detect problems.
+1. **Put the reference beside the value.** Pair the current measure with the relevant prior period, target, baseline, capacity, or denominator. Explain a changed definition where it changes the comparison.
+2. **Give the decisive evidence room.** Use tables for exact lookup, aligned bars or dots for categories, lines for time, and distributions for variation. Let supporting details have less emphasis. Choose axes and grouping for the question rather than visual drama.
+3. **Connect overview to variation.** Show the important subgroup, tail, or exception when an aggregate could conceal it. A rate may need its sample count; an average may need the affected records. Select these additions by their effect on interpretation.
+4. **Assign text complementary roles.** The heading states a supported finding or useful question; the chart shows the comparison; labels identify quantities; a note states material conditions; prose explains the implication. Write one clear explanation instead of repeating the finding across cards and captions.
+5. **Carry meaning through the states.** Derive values, rankings, titles, and explanatory text from the same selection, or visibly separate fixed analysis from exploration. Keep missing, stale, failed, and zero distinct.
+6. **Make the view shareable and inspectable.** Preserve appropriate selection state in a hosted URL, show data freshness, and link authorized definitions or source data. A URL identifies a selection, not an immutable snapshot; record a data version or retrieval time when reproducibility requires one.
 
-Read [data and comparison](references/data-and-comparison.md) when choosing measures, transformations, and charts. Read [interaction and static delivery](references/interaction-and-static.md) when filters, sharing, or printing change the visible population. These are design choices, not compulsory headings.
+In a **synthetic service comparison**, a successful-request median alone may favor a configuration with more timeouts. Show completions alongside latency and explain the trade-off. The good result is a reader who can choose under a stated reliability requirement, not a uniformly green row of cards.
 
-## Make the point visible
+## Load the detail that changes a decision
 
-Give the decisive comparison more space and visual emphasis than supporting data. Use a finding-bearing chart title where the data supports one; let axis labels and a short local note supply units and conditions. Do not repeat the same statement in a title, caption, metric card, and paragraph. Use neutral question-based headings when the result is genuinely unresolved.
+- [Data and comparison](references/data-and-comparison.md): denominators, aggregation, uncertainty, chart selection, and worked arithmetic.
+- [Pattern examples](references/pattern-examples.md): task-matched public dashboards, actionable adaptations, and finished synthetic view specifications.
+- [Interaction and static delivery](references/interaction-and-static.md): selection changes, asynchronous updates, URL sharing, error states, and print.
 
-Choose chart forms by the comparison: aligned bars or dots for categories, lines for change over time, distributions for spread, and scatterplots for a meaningful relationship. A table is often best for exact lookup. Use a common scale for comparable panels and direct labels where they reduce lookup effort. Avoid converting every datum into a card or compressing a wide data dump until it fits.
+For technical analysis prose, use `technical-report-writing` when available. For internal recipient context and sharing, use `share-internal-doc` when available. For an actual shadcn implementation, use `shadcn-frontend`. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
 
-Keep limitations that change interpretation beside the affected result. Delete generic disclaimers, routine definitions, UI tours, and claims about the report's rigor. A useful methods section explains an actual calculation or sampling choice; it does not warehouse every deleted sentence. The [pattern examples](references/pattern-examples.md) illustrate how technical reports state and explain evidence, rather than supplying fixed brand skins.
+For print-first output, use a native document-production route. Web and PDF can share data and calculations while using different layouts. In the static view, expose the selected comparisons and labels that the reader otherwise accesses through tabs or hover.
 
-## Build and verify
+## Verify the complete reader task
 
-Compute displayed quantities from the supplied data; keep missing values distinct from zero. Do not invent metrics to fill a layout. If the main comparison cannot be supported, expose the specific missing input and continue only with supported views. Development fixtures must be visibly synthetic and stay out of an unlabeled shared report.
+Independently calculate representative values and compare them with the table, chart, headline, and export. Exercise the initial view, a selection that changes the conclusion, and an empty or unavailable-data case. Verify the relevant URL restore, reset, keyboard, and drill-down paths. For live data, test freshness and failure without replacing the last valid observation with a fabricated zero.
 
-Verify the calculation, displayed population, and interpretation together. Exercise changed filters and empty states; confirm derived statements update or remain attached to a clearly separate fixed analysis. Inspect the result at its delivered size. For PDF, replace interactions with the selected comparisons and retain necessary labels, sources, and conditions on the page.
-
-Deliver the requested working dashboard or document and its editable source. Use the original request's publication and installation permissions. Keep build/check details in the short delivery note, not in the reader-facing dashboard.
+Inspect the delivered size and a narrow viewport. Confirm that a reader can identify the important comparison, its reference, and the next useful detail. Check the actual PDF or offline artifact when requested. Deliver the working source and requested output, with a short account of checks actually run. Keep build logs and verification narration outside the reader-facing page, and publish only within the user's grant.

@@ -2,6 +2,8 @@
 
 Use these to inspect the actual sentence, paragraph, table, and caption decisions, not only the document outline. The first section analyzes public documents. Every example in the second section is synthetic and constructed for teaching; its numbers and events are not measurements of a real system or anonymized company records.
 
+For finished paragraphs organized by reader task, start with [writing patterns](writing-patterns.md). Use the contrasts here to diagnose why a sentence or display is less useful, then retain the action and result demonstrated by the stronger version.
+
 ## Contents
 
 - Public readings: [PEP 703](#pep-703-separate-the-measured-cost-from-the-intended-benefit), [Rust RFC](#rust-rfc-2394-give-a-concrete-mental-model-before-precise-semantics), [MapReduce](#mapreduce-explain-an-experimental-curve-through-system-behavior), [Circuit Tracing](#circuit-tracing-tie-a-limitation-to-a-counterexample).

@@ -2,6 +2,12 @@
 
 Use while drafting or revising technical prose. The goal is a restrained engineering register, not a corporate brand voice. Apply the same factual discipline in Korean and English; let each language keep its natural syntax. See [worked examples](worked-examples.md) for complete rewrites and [source readings](source-readings.md) for the public basis.
 
+## Write the reader's understanding
+
+Choose the relation to explain before choosing the sentence. State a component's operation, show the observation that changes a hypothesis, compare the cost that decides an alternative, or explain the condition that limits a result. [Writing patterns](writing-patterns.md) pairs these actions with finished synthetic paragraphs and reader checks. Use a pattern to guide the work, then let the evidence and reader determine the paragraph's final shape.
+
+Trace a request through its state changes so the reader can predict the next operation. Compare alternatives on common dimensions and explain the constraint that decides this case. Keep technical precision inside the sentence that needs it. These concrete actions give clarity and balance an observable result.
+
 ## Subjects, verbs, and register
 
 Make the technical subject do the work: the scheduler assigns, the worker acknowledges, the client retries, the measurement records. Prefer the actual operation to a prestige synonym: a component does not merely “enable seamless orchestration” when it queues jobs and retries failures. Keep an established term such as backpressure or linearizability when it names the behavior precisely. Replace vague praise with the invariant, mechanism, or observed result that would justify it.

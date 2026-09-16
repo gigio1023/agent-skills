@@ -1,55 +1,53 @@
 ---
 name: technical-report-writing
 description: >
-  Use when writing or revising dry technical reports, engineering proposals,
+  Use when writing or revising technical reports, engineering proposals,
   design docs, RFCs, ADRs, experiment reports, or project documentation in
-  Markdown, HTML, editable documents, or PDF. Covers voice, factual statements,
-  mechanisms, measurements, decisions, and production. NOT for marketing copy,
-  PR copy, or prose polish alone (slop-aware-writing).
+  Markdown, HTML, editable documents, or PDF. Teaches factual prose,
+  explanation, evidence, comparison, and document production through public
+  examples. NOT for marketing or PR copy, or prose polish alone.
 ---
 
 # Technical Report Writing
 
-Produce an engineering document the reader can use to understand a system, evaluate a result, or make a decision. Use a restrained, factual register: concrete subjects, observable behavior, stated measurement conditions, and explicit reasons. Preserve technical depth while removing promotional framing, defensive repetition, and authoring-session narration.
+Write a document the reader can use to explain a system, evaluate a result, or choose an action. Make the important point easy to find and the reasoning worth reading. Use concrete subjects, exact operations, useful examples, and evidence proportionate to the claim. A dry register is direct and complete, with enough technical detail to understand why the result or design matters.
 
-Infer the reader, task, source material, document type, and delivery medium from the request and project. Preserve existing source files, terminology, and required templates. Review requests return findings; writing and revision requests return the requested artifact. Ask only when a missing input changes the result and cannot be recovered from authorized sources.
+Infer the reader, task, source material, and medium from the request and project. Preserve established terminology, source files, and required templates. A review returns findings; a writing request returns the requested artifact. Recover available inputs before asking about consequential gaps.
 
-## Start with the engineering content
+## Build the explanation from evidence
 
-Read the evidence before drafting the claim. Establish the current behavior, proposed change or observed result, mechanism, relevant comparison, and consequence for this reader. These are questions for the author, not compulsory headings. A design proposal must not sound like an implemented system; a completed experiment must not be described as a prediction.
+1. **Choose the reader's entry point.** Open a report with its important finding, a proposal with the changed behavior and reason, a procedure with the task, and an explanation with the concrete problem or example that makes the concept useful. Select the entry point for this document rather than imposing one outline.
+2. **Connect the facts.** Give each paragraph a job: trace a mechanism, interpret an observation, compare alternatives, or justify a choice. Supply the relation between evidence and conclusion. When evidence leaves a choice unresolved, identify the observation that would distinguish the alternatives.
+3. **Show the system acting.** Name the actor, input, operation, state change, and output that matter. Trace one request or record through the relevant components. Introduce precise semantics after the example has given the reader something to attach them to.
+4. **Make comparisons fair and useful.** Give alternatives the same decision dimensions. Preserve each credible option's advantage, then explain which constraint decides this case. For measurements, retain the baseline, population, units, and conditions needed to read the difference.
+5. **State each claim at its supported strength.** Use present tense for specified behavior, past tense for a completed observation, explicit proposal language for a proposed change, and conditional wording for a hypothesis. Put a material qualification beside its claim. Strong writing instructions call for decisive author actions, not exaggerated certainty about facts.
+6. **Spend detail on understanding.** Include the example, definition, counterexample, or failure path that resolves a likely reader question. Introduce unfamiliar or locally redefined terms at first useful use; use familiar technical vocabulary directly. Keep reproducibility detail retrievable without repeating it at every result.
+7. **Give each form a distinct job.** Use prose for relationships, tables for parallel comparisons, steps for dependent actions, and figures for visible structure or behavior. Let the title orient or state the finding, the figure show the evidence, the caption supply local conditions, and the body explain the implication.
 
-Write the most useful entry point for the genre: the result for a report, the changed behavior and reason for a proposal, the action for a procedure, or the concept a reader needs to learn. Build each substantive paragraph around a relation the evidence supports. A list of facts under a headline does not explain why they matter.
+For example, in an independently constructed **synthetic proposal**:
 
-Use plain present tense for specified behavior, past tense for a completed measurement or incident, and explicit proposal language for future behavior. Name the component or actor that performs the action. First person is appropriate for an author's measured action or design choice; passive voice is appropriate when the actor is irrelevant and the object is the topic. Dry writing is not subjectless bureaucracy, uniformly short sentences, or unexplained noun fragments.
+> Store a completion record for each batch. On restart, retry batches without a completion record. A crash after saving output but before recording completion can replay the same batch, so key output writes by batch ID and make repeated writes idempotent.
 
-Keep known facts, estimates, hypotheses, and recommendations distinct in the wording that carries them. Put a material assumption, exclusion, or uncertainty beside the affected statement. Do not introduce a paragraph explaining how carefully the document separates these categories. Remove the generic disclaimer, not the condition that makes the claim true.
+The paragraph gives the proposed operation, the recovery path, and the implementation condition. It teaches the mechanism rather than praising reliability. In a real document, establish those semantics from its design and implementation.
 
-## Read the detail the task needs
+## Choose useful examples and detail
 
-| Decision | Reference |
-| --- | --- |
-| Drafting substantial technical prose, or repairing tone, causal language, definitions, and fact presentation | [Voice and factual prose](references/voice-and-facts.md) |
-| Choosing the shape of a proposal, RFC, ADR, architecture explanation, experiment report, or operational document | [Engineering document forms](references/document-forms.md) |
-| Reporting measurements, comparison tables, uncertainty, equations, or technical figures | [Measurements and figures](references/measurements-and-figures.md) |
-| Needing sentence-, paragraph-, table-, and caption-level demonstrations | [Worked examples](references/worked-examples.md): public-source readings and independently constructed synthetic examples |
-| Choosing a public technical exemplar or checking where a writing pattern comes from | [Source readings](references/source-readings.md): section-level analysis, transfer decisions, and source versions |
-| Producing or converting a PDF or editable document | [Document production](references/document-production.md): native typesetting, analysis publishing, office, and browser routes |
-| Combining this skill with internal sharing, dashboards, or frontend implementation | [Composition](references/composition.md) |
+For a new substantial document, read [voice and factual prose](references/voice-and-facts.md), the relevant [document form](references/document-forms.md), and the matching example below. For a small revision, load only what resolves the actual choice.
 
-For a small edit, use the core and the relevant reference only. For a new technical document, read voice/facts and the relevant document form, then the examples or production detail that resolve actual choices. Do not load every source or force every genre through a single outline.
+- **Explain, compare, investigate, or report progress:** [writing patterns](references/writing-patterns.md) pairs reader situations with writing actions, finished examples, and reader checks.
+- **Inspect sentence, paragraph, table, and caption craft:** [worked examples](references/worked-examples.md) contains public close readings and synthetic rewrites.
+- **Find a nearby public work:** [example library](references/example-library.md) groups design documents, engineering investigations, and visual explanations by task. Read the relevant passage before borrowing its technique.
+- **Understand the original technical and editorial basis:** [source readings](references/source-readings.md) retains section-level analysis of papers, specifications, and documentation guides.
+- **Present numbers, uncertainty, equations, or figures:** [measurements and figures](references/measurements-and-figures.md).
+- **Produce a PDF or editable document:** [document production](references/document-production.md). Start with Typst for an unconstrained print-first report, DOCX when recipient editing decides the medium, or the project's existing source. PDF needs no shadcn intermediate.
+- **Combine internal sharing, data views, and frontend work:** [composition](references/composition.md). Use optional companions for their specialty without restarting intake or requiring the entire pack.
 
-## Preserve the detail that does work
+Borrow the source's explanatory operation and adapt its depth to the reader. Keep the project's architecture, evidence, and voice authoritative. A useful public example can motivate a technique without establishing a universal heading, chart count, governance process, or current API.
 
-Explain component responsibilities, data or control flow, state changes, prerequisites, failure behavior, and trade-offs where they determine the reader's understanding. Keep exact API names, units, versions, and status distinctions. Define a term when its unfamiliar or nonstandard meaning changes the argument, not just because it is technical. Use ordinary domain terminology without a glossary tour.
+## Verify the reader's result
 
-Keep the reasoning behind a decision and the strongest relevant alternative. A rejected option needs its real advantage and the constraint that made another choice preferable. A negative result or limitation belongs when it changes interpretation or action. Generic assurances, cosmetic completion badges, repeated scope statements, and paragraphs describing what the report includes usually do not.
+Check claims against inspected sources and compute arithmetic with tools. Preserve measurement boundaries, exact identifiers, requirement levels, and proposal status. Label invented teaching examples as synthetic; never present them as collected results. Keep a missing measurement distinct from zero and a temporal association distinct from a demonstrated cause.
 
-Use prose for explanation, tables for genuinely parallel attributes, steps for dependent actions, and figures for relationships that become clearer visually. Captions and notes supply distinct information; they should not repeat the same conclusion in the title, caption, card, and nearby paragraph. A short document may need no chart. A long technical argument should not be compressed to an arbitrary page limit.
+Read the document without the drafting conversation. Can the reader state the main point, explain its support, find the condition that changes its interpretation, and perform the intended next task? Retain details that help those answers; remove author-facing self-description and duplicated explanation.
 
-## Verify and deliver
-
-Check substantive claims against the inspected sources, and compute reported arithmetic with the project's tools. Recheck terminology, units, denominators, measurement conditions, and whether a stated cause has causal evidence. Verify a mechanism against the actual design or implementation, not the vocabulary of an admired source. Label invented teaching examples as synthetic; never present them as collected results.
-
-Read the document without the drafting conversation. Check that the main point, its support, and its material conditions remain understandable. Remove detail that serves only the author. Inspect the actual requested output after rendering, including citations, tables, figures, text, and pagination. Deliver the artifact and editable source where applicable.
-
-Match information to the authorized recipients. Public examples must come from public sources or be constructed independently of private cases. Keep private source maps, logs, customer details, internal metrics, and personal paths out of public packages and attachments; replacing names alone is not sufficient anonymization. Publication still requires the corresponding user request.
+Render and inspect the actual requested output, including figures, links, text, tables, and page boundaries. Deliver the artifact and editable source where applicable. Match source access to authorized recipients. Public packages contain public-source analysis or independently synthetic examples, not private records, internal metrics, logs, or personal paths. Publication requires the corresponding user request.

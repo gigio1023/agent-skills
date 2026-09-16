@@ -4,6 +4,21 @@ Use this catalog to select and closely read a public technical exemplar. The val
 
 The sources below were inspected on 2026-09-15. The package contains original synthesis and small illustrative phrases, not copied reports or image collections. Source claims remain attributed; reading a benchmark is not reproducing it. The dry register and selective use of detail are editorial defaults of this skill, not a claim that every cited source recommends the same voice.
 
+## Contents
+
+- [Google developer documentation: voice without bureaucratic prose](#google-developer-documentation-voice-without-bureaucratic-prose)
+- [Google engineering documentation: audience, decisions, and canonical sources](#google-engineering-documentation-audience-decisions-and-canonical-sources)
+- [Kubernetes KEP template: make a design operationally reviewable](#kubernetes-kep-template-make-a-design-operationally-reviewable)
+- [Rust RFC 2394: observable behavior, then reference semantics](#rust-rfc-2394-observable-behavior-then-reference-semantics)
+- [Python PEP 703: distinguish intended capability from measured overhead](#python-pep-703-distinguish-intended-capability-from-measured-overhead)
+- [MapReduce: connect system design to controlled experiments](#mapreduce-connect-system-design-to-controlled-experiments)
+- [Circuit Tracing: test the explanation, not only the output](#circuit-tracing-test-the-explanation-not-only-the-output)
+- [AlphaEvolve: separate the system mechanism from applications](#alphaevolve-separate-the-system-mechanism-from-applications)
+- [SRE example: impact, mechanism, and corrective action](#sre-example-impact-mechanism-and-corrective-action)
+- [MADR: preserve the decision and its reason](#madr-preserve-the-decision-and-its-reason)
+- [Broader foundations and selective transfer](#broader-foundations-and-selective-transfer)
+- [Selecting another exemplar](#selecting-another-exemplar)
+
 ## Google developer documentation: voice without bureaucratic prose
 
 Source: [Voice and tone](https://developers.google.com/style/tone), particularly the body guidance, avoidance list, and informal/right/formal examples.
@@ -85,6 +100,24 @@ Source: [Use Markdown Architectural Decision Records](https://adr.github.io/madr
 The record asks a concrete format question, names alternative approaches, and records the chosen option with reasons. Transfer the inspectable question-to-choice relationship and preservation of the decision. For engineering decisions, prefer reasons tied to constraints and consequences; broad claims such as a project's liveliness should not replace the technical rationale.
 
 Supporting source: [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174.html) for documents that explicitly adopt BCP 14 requirement language. Preserve its uppercase convention where used; do not import the RFC's publication boilerplate into unrelated project prose.
+
+## Broader foundations and selective transfer
+
+The expanded [example library](example-library.md) connects project specifications, engineering investigations, and visual explanations to original writing actions. `insight-dashboard` maintains the complementary operational and analysis library; `shadcn-frontend` turns selected information relationships into components and behavior checks. These reading paths extend, rather than replace, the close readings above.
+
+The earlier collection also informs these choices:
+
+- **Reader problem and consequential questions:** [Amazon's product-management discussion](https://aws.amazon.com/executive-insights/content/product-management-at-amazon/) motivates starting from a concrete reader or user need. Adapt the question, not its press-release voice or a compulsory PR/FAQ template.
+- **Value, comparison, and local source placement:** [Stripe's annual update](https://stripe.com/annual-updates/2025) provides a visual reference for readable comparison and labeling. Treat it as presentation evidence, not the default voice of an engineering report.
+- **Population-specific findings:** [Anthropic's geographic economic analysis](https://www.anthropic.com/research/economic-index-geography) and [GitHub Octoverse](https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/) illustrate linking findings to data views. Keep each observed population and measure explicit rather than generalizing to all users or developers.
+- **Evaluation conditions:** [OpenAI's reasoning report](https://openai.com/index/learning-to-reason-with-llms/) connects comparisons with compute and sampling choices. Preserve those conditions and the attribution of reported results. AlphaEvolve's system and application distinction is discussed above.
+- **Explanatory sequence and exploration:** [Distill on momentum](https://distill.pub/2017/momentum/) and [Segel and Heer](https://idl.uw.edu/papers/narrative), section 4.4, inform concrete-to-general explanation and the relationship between authored findings and reader exploration. Choose interaction when it answers a useful question.
+- **Chart composition and text:** [IBM Carbon dashboards](https://carbondesignsystem.com/data-visualization/dashboards), [Datawrapper on text](https://datawrapper.de/blog/text-in-data-visualizations), and [Wilke on making a point](https://clauswilke.com/dataviz/telling-a-story.html) inform reading order, useful detail, and complementary titles, labels, annotations, and prose.
+- **Direct language:** [Microsoft's style tips](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice) and [Vercel's writing guidelines](https://github.com/vercel-labs/writing-guidelines) inform concrete wording and efficient editing. Apply the destination's language and register; preserve facts and natural Korean relations.
+- **Interface execution:** [Vercel's interface guidelines](https://vercel.com/design/guidelines), [official shadcn skills](https://ui.shadcn.com/docs/skills), and [shadcn MCP](https://ui.shadcn.com/docs/mcp) inform usable state and project-aware composition through `shadcn-frontend`. Component documentation remains authoritative for APIs.
+- **Document rendering:** [Typst](https://typst.app/docs/), [Quarto](https://quarto.org/docs/output-formats/pdf-basics.html), and [Pandoc](https://pandoc.org/MANUAL.html#creating-a-pdf) inform the native and conversion routes in [document production](document-production.md). Select the renderer by the recipient workflow and existing source.
+
+Use each source for the property actually inspected. A saved text supports a textual reading; a diagram's layout or an interaction's effect requires the corresponding visual or behavioral inspection. Borrow the explanatory technique in original wording while preserving the actual project's evidence and current API.
 
 ## Selecting another exemplar
 

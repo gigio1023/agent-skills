@@ -1,13 +1,27 @@
 # Interface Checks
 
-Use the existing project's commands and supported targets. Cover the changed behavior rather than manufacturing a universal test matrix.
+Choose checks for the changed reader task and the actual supported targets. Use the project's existing commands and test infrastructure.
 
-- Build, type check, and lint the actual app/package. Verify that lint scans the intended UI files and loads its theme.
-- Inspect the initial view and the states affected by the change: loading, empty, failure, sparse/dense data, selection, or completion. Exercise the state, not only its JSX branch.
-- Check keyboard reachability, visible focus, meaningful control names, overlay focus return, and semantic headings/tables. A chart needs an accessible summary or data representation; color alone cannot carry status.
-- Render at a relevant laptop and narrow viewport. Check overflow, truncated names, chart labels, long values, and touch targets. Use the project's supported browsers when browser behavior changed.
-- For a dashboard, verify calculations independently of the rendering, preserve active filters in shared URLs where applicable, and ensure the heading/caption remains true after filtering.
-- For an offline artifact, open the built file with networking disabled and inspect missing fonts, scripts, images, and navigation. A dev-server screenshot does not verify the distributable file.
-- For a printed output, switch to the document-production path. Test the PDF itself; hidden tabs, hover values, and collapsed content cannot carry its main argument.
+## Package and design system
 
-Use automated accessibility checks when available and inspect relevant interactions yourself. Automated tools do not establish complete accessibility or editorial clarity. Return concise observations of failures, not an inventory of hypothetical checks.
+Build, type check, lint, and run relevant tests in the application package. Confirm lint includes intended UI files and loads the correct theme. When adding policy, exercise an intentional violation and its correction. Review primitive changes, variants, and narrow exceptions with the requested behavior still intact.
+
+## Reading and layout
+
+Inspect the initial view at a relevant laptop and narrow viewport. Confirm the main answer, comparison, or action has a clear reading position. Try long names, dense rows, large and negative values, and sparse data where relevant. Preserve meaningful units, readable labels, and numeric alignment. Use reflow or a deliberate scroll region instead of compressing the entire view.
+
+## Behavior and accessibility
+
+Exercise the changed task with pointer and keyboard input. Check visible focus, meaningful control names, native link/button behavior, overlay focus return, and semantic headings/tables. Use automated accessibility checks when available and inspect interactions manually. Give charts a usable accessible explanation or data view, and pair color-based status with text or shape.
+
+Exercise relevant loading, empty, error, stale, and success states rather than only checking their JSX branches. Verify that a recovery action works and that background updates preserve useful context. Respect reduced-motion preferences for meaningful animations.
+
+## Data and selection
+
+Independently calculate a representative displayed value. Check the same population and definition across rows, cards, chart, title, and export. Change to a selection that alters the finding, then try a missing or zero-denominator case. Reload URL state, navigate back, reset, and test rapid changes with delayed responses. Confirm an older response cannot replace the newest selection.
+
+## Actual delivery
+
+For offline HTML, open the built file with networking disabled and check essential scripts, fonts, images, navigation, and data. For print, inspect the actual PDF: visible selected comparisons, readable labels, complete text, useful citations, and sound page boundaries. For a hosted internal tool, verify the intended access boundary rather than using an unrestricted preview to bypass it.
+
+Report the checks actually exercised and failures that affect use. Build and static lint are useful evidence; they do not establish complete accessibility, analytical validity, or visual clarity.

@@ -46,6 +46,12 @@ Include the timeline entries that locate detection, diagnosis, mitigation, recov
 
 Actions should address the mechanism or detection gap and have an observable completion condition. Avoid “improve monitoring” without naming the signal and response it should enable. Keep accountable ownership appropriate to the recipients without blame or erasure. The Google SRE example demonstrates separation of impact, cause, trigger, resolution, actions, and timeline; it is a fictional teaching example, not an actual Google outage.
 
+## Periodic review or progress report
+
+The reader needs to connect prior work to current evidence and choose the next useful action. Open with the consequential change or unresolved issue. Relate the relevant previous action, current observation, comparison, and proposed next step. Use [the periodic-review writing pattern](writing-patterns.md#write-a-periodic-review) for an example. A status report can be complete with a few grounded paragraphs; a dashboard can provide the supporting exploration.
+
+Bind commentary to the period and population it explains. Link deeper evidence where recipients can access it. Keep definition changes and missing observations near the affected comparison. State a causal explanation only when its evidence supports it; otherwise distinguish the observation, working hypothesis, and next investigation. Choose sections by the work being reviewed rather than allocating an explanation slot to every metric.
+
 ## Project overview, reference, or runbook
 
 A project overview explains what the project does, where it fits, the main entry points, and how to perform the first relevant task. Preserve enough context for a newcomer without teaching familiar infrastructure. Point to the canonical code, API, and maintenance docs rather than duplicating changing information.
