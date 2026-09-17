@@ -1,26 +1,28 @@
 # PR Body Guidance
 
-Read this when a repository has no PR template or when deciding whether a change needs optional reviewer context. Repository templates remain authoritative even when their headings differ from this fallback.
+Read this before writing a new body or rewriting one. A repository template is authoritative even when its headings differ from the fallback here; this file then governs only how the template's fields are filled.
 
 ## Contents
 
 - Reader test
 - Default shape
-- Conditional sections
-- Validation
-- Writing rules
-- Pattern basis
+- Headings in the PR language
+- Structure
+- One more section
+- Cut list
+- Validation and checks
+- Examples
+- Where this shape comes from
 
 ## Reader Test
 
-A useful PR body lets a reviewer or future maintainer answer:
+A reviewer skims the body once, before the diff. It succeeds when it answers three questions in under a minute:
 
-- What problem or constraint led to this change?
-- What reviewer-visible outcomes does the branch introduce?
-- What important decision, boundary, risk, or user impact is absent from the diff?
-- What needs human review that CI cannot prove?
+- Why does this change exist? The problem, the intent, and the decision the code cannot show.
+- What will I see changed? Outcomes and behavior, not a file inventory.
+- What do I have to decide or do? A breaking change, a tradeoff to weigh, a screenshot to judge. Often nothing, and then nothing is written.
 
-The title should describe the whole diff in one specific sentence. If it cannot, surface a scope mismatch; a longer description does not make unrelated changes coherent.
+The title describes the whole diff in one specific sentence. If it cannot, report the scope mismatch; a longer body does not make unrelated changes coherent.
 
 ## Default Shape
 
@@ -29,52 +31,119 @@ Use this only when the repository has no template:
 ```markdown
 ## Context
 
-Explain the existing problem, who or what it affects, and the decision behind the change. Make the paragraph understandable without the authoring session or linked discussion.
+One short paragraph: the problem or constraint, who or what it affects, and the decision behind the change. Understandable without the authoring session or a linked thread.
 
 ## Changes
 
-- State each reviewer-visible outcome or behavior change.
-- Name an important boundary or intentionally unchanged behavior when useful.
+- One bullet per reviewer-visible outcome.
+  - Nest one level when several outcomes belong to one component or theme.
+- Name an intentionally unchanged behavior or boundary when a reviewer would otherwise look for it.
 ```
 
-Use one short paragraph for context and one bullet per meaningful outcome. Do not force a minimum bullet count. Omit file inventories and implementation details that the diff communicates more clearly.
+A small change needs no headings: two or three sentences that give the why and the what. Do not pad a one-line fix into two sections.
 
-## Conditional Sections
+## Headings In The PR Language
+
+Title, headings, and prose share the language settled with the user. Translate the two fallback headings; keep a template's headings exactly as written. Conventional prefixes such as `fix:` and `docs:`, identifiers, commands, paths, and quoted text stay as they are.
+
+| Language | Context | Changes |
+| --- | --- | --- |
+| English | `## Context` | `## Changes` |
+| Korean | `## 배경` | `## 변경 사항` |
+
+For another language, use the plain equivalents of "context" and "changes" that the team's existing PRs already use.
+
+## Structure
+
+Structure is what lets a body be read in one pass; length is what stops it being read.
+
+- Prefer bullets over paragraphs for anything with more than one item. Keep each bullet to one outcome and one or two sentences.
+- Nest one level when four or more items fall into groups a reviewer would recognize, such as a component, a user-facing surface, or a migration step. Do not nest deeper.
+- Put the decision the code cannot show first in Context. History, alternatives not taken, and background the reviewer already has stay out.
+- Put issue references and design links next to the claim they support. The body must still make sense if the link is unavailable or the reader lacks access.
+
+## One More Section
+
+Add a third section only for these triggers, and keep it as short as the others:
 
 | Section | Add when |
 | --- | --- |
-| `## Review notes` | The reviewer should focus on a tradeoff, uncertainty, generated file, or non-obvious part of the diff. State the feedback wanted. |
-| `## User impact` | Behavior, UI, accessibility, documentation, or release communication changes for users. |
-| `## Migration` | Compatibility breaks or adopters must take action. State what changes and how to adapt. |
-| `## Rollout and rollback` | Deployment order, feature flags, data changes, or operational recovery affect risk. |
-| `## Performance` | Measurements justify the approach or the change alters a performance budget. Give comparable numbers and conditions. |
-| `## Screenshots` | A visual change is hard to judge from code. Prefer before and after views when both matter. |
-| `## Validation` | Manual results cover behavior CI cannot prove, or CI is absent, failing, or intentionally skipped. |
+| Migration or breaking change | Adopters must act. State what breaks and how to adapt. |
+| Screenshots | A visual change is hard to judge from code. Show before and after when both matter. |
 
-Omit optional sections with no useful content. Put issue references and design links next to the claim they support unless a repository template requires a dedicated section.
+Everything else that used to earn a section, such as a tradeoff to weigh, a performance number, a rollout order, or a review focus, is one bullet or one sentence where it belongs, or a template field when the template asks for it.
+
+## Cut List
+
+Sentences of these kinds add length and no information. Delete them, or replace them with the fact they were avoiding.
+
+| Pattern | Example | Instead |
+| --- | --- | --- |
+| Hedge or disclaimer | "This should not affect other modules." | Check, then either say what it affects or say nothing. |
+| Self-appraisal | "Thoroughly tested and carefully reviewed." | Nothing; the checks and the diff speak. |
+| Courtesy filler | "Let me know if you'd like any changes." | Nothing. |
+| Announcement | "This PR aims to improve…" | Start with the problem. |
+| Process narration | "First I investigated the logs, then…" | The finding, not the path to it. |
+| Restated diff | "Renamed `foo` to `bar` in `a.py`, `b.py`, and `c.py`." | The outcome the rename achieves, once. |
+| Chat reference | "As discussed", "follow-up to our conversation" | The decision itself, stated for a reader who was not there. |
+| Deferral padding | "Further improvements could be made in a future PR." | A concrete non-goal, only when a reviewer would otherwise ask for it. |
+
+## Validation And Checks
+
+Do not add a validation or testing section. Automated results live in the forge's checks and the commit history; a prose copy goes stale and attracts filler. Two exceptions:
+
+- The repository template or contributor guide asks for one. Answer its field in one or two lines.
+- A check the reviewer will hit is red or skipped for a known reason. State that in one line where it belongs; it is a fact, not a section.
+
+## Examples
+
+Before, a body that says little in many words:
+
+```markdown
+## Summary
+
+This PR aims to improve the reliability of the export job. As discussed, the job was sometimes failing. I investigated the logs and found the issue and fixed it. I have thoroughly tested this change and it should not affect other jobs.
+
+## Changes
+
+- Updated `export_job.py`
+- Updated `retry.py`
+- Added tests
 
 ## Validation
 
-GitHub Checks or the repository's equivalent is the live record for automated tests. Do not copy CI job names, matrices, successful logs, or a status snapshot into the body.
+- Ran the full test suite locally, all green.
+- Manually triggered the job three times.
 
-Add a visible `Validation` section only when reviewers need information outside that live record:
+Let me know if you would like any changes.
+```
 
-- a manual UI, device, migration, compatibility, or accessibility check;
-- a benchmark or experiment whose result informs the decision;
-- missing, failing, flaky, or deliberately skipped CI;
-- a short reproduction step the reviewer is expected to run.
+After, the same change:
 
-Keep reviewer-useful reproduction steps visible. Put long command inventories, diagnostic output, or supporting logs in a `<details>` block. Omit successful command output. If nothing relevant ran and the repository expects this field, write `Not run:` with the reason.
+```markdown
+## Context
 
-## Writing Rules
+The nightly export failed whenever the warehouse returned a 503 during the first batch, because the retry wrapper only covered later batches. Customers then received no file that day.
 
-- Use concise, plain English and define project-specific shorthand on first use.
-- Do not refer to the current chat, earlier private discussion, or an unnamed request. Avoid phrases such as `as discussed` and `follow-up` without context.
-- Explain decisions the code cannot show. Do not narrate how the author worked.
-- Link issues and design documents, but keep the body understandable if a link becomes unavailable or the reader lacks access.
-- State limitations or deliberate non-goals when they affect review or future maintenance.
-- Recheck the body after the branch changes during review.
+## Changes
 
-## Pattern Basis
+- Retry the first batch with the same backoff as the rest, so a transient 503 delays the export instead of dropping it.
+- Fail the job after the retry budget is spent, with the batch index in the error.
+```
 
-This fallback distills recurring guidance from Google's [CL description](https://google.github.io/eng-practices/review/developer/cl-descriptions.html) and [small CL](https://google.github.io/eng-practices/review/developer/small-cls.html) guides, GitHub's [PR writing guidance](https://github.blog/developer-skills/github/how-to-write-the-perfect-pull-request/), Microsoft's [author guidance](https://microsoft.github.io/code-with-engineering-playbook/code-reviews/process-guidance/author-guidance/), and public templates from [React](https://github.com/react/react/blob/main/.github/PULL_REQUEST_TEMPLATE.md), [Kubernetes](https://github.com/kubernetes/kubernetes/blob/master/.github/PULL_REQUEST_TEMPLATE.md), [Next.js](https://github.com/vercel/next.js/blob/canary/.github/pull_request_template.md), [Grafana](https://github.com/grafana/grafana/blob/main/.github/PULL_REQUEST_TEMPLATE.md), and [Terraform](https://github.com/hashicorp/terraform/blob/main/.github/pull_request_template.md).
+The same change when the team reads PRs in Korean:
+
+```markdown
+## 배경
+
+warehouse가 첫 배치에서 503을 반환하면 nightly export가 실패했습니다. retry wrapper가 첫 배치를 감싸지 않았기 때문이고, 그날 고객은 파일을 받지 못했습니다.
+
+## 변경 사항
+
+- 첫 배치도 나머지 배치와 같은 backoff로 재시도합니다. 일시적인 503은 export를 지연시킬 뿐 중단시키지 않습니다.
+- retry 예산을 다 쓰면 배치 인덱스를 담은 에러로 작업을 실패 처리합니다.
+```
+
+## Where This Shape Comes From
+
+The why-then-what core follows Google's [CL description](https://google.github.io/eng-practices/review/developer/cl-descriptions.html) guidance: a first line that says what, a body that says why. The testing section that many public templates carry, such as [Kubernetes](https://github.com/kubernetes/kubernetes/blob/master/.github/PULL_REQUEST_TEMPLATE.md) and [React](https://github.com/react/react/blob/main/.github/PULL_REQUEST_TEMPLATE.md), is left out on purpose: in a team repository the forge's checks are the live record, and the section filled with reassurance rather than information. Follow such a template when the repository has one.
