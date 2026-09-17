@@ -17,7 +17,7 @@ Ask what the passage lets the reader understand or do, then what consequential m
 
 Choose among four edits. **Retain** information already doing useful work. **Rewrite locally** when needed information is unclear. **Delete** information with no reader contribution. **Relocate** only when a specific reproduction, audit, operational, or lookup task needs a different level of detail. Use an existing authorized record when it already serves that purpose; moving information is not inherently better than deleting prose.
 
-Keep a condition with any claim or figure that may be read on its own. A shared methods note can carry a common rule, but a reader should not have to discover a distant appendix to learn that a chart excludes failures. Citations support the explanation; they do not replace it.
+For a claim or figure intended to circulate independently, retain the conditions needed to interpret that view. Otherwise use the actual reading context: surrounding text, a clear label, or appropriate code or documentation may already explain the point. A shared methods note can carry a common rule; do not repeat it as a defensive caveat. State a core definition when this reader cannot reasonably recover it, or when its meaning differs from the ordinary one.
 
 ## Paired examples
 
