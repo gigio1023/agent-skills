@@ -12,6 +12,8 @@ When reviewing session collections, account for inherited forks, forwarded reque
 
 One well-understood example can be enough to start a personal or project-local skill. Say what it supports without inventing frequency or claiming measured improvement. Keep detailed private evidence locators in the authorized analysis, not in a public package or PR.
 
+Carry accepted decisions into implementation. Distinguish what the user chose, what an agent proposed, and what the current files implement; a prototype or earlier summary is not proof of approval. When a later correction supersedes a proposal, update the affected instructions, examples, catalog entries, and publication copy together. For example, when the user chooses an upstream skill to replace a local prototype, carry out that replacement within the authorized scope rather than retaining the prototype because it already exists. Choosing upstream alone does not authorize retiring an existing package. Preserve unrelated work and reuse existing task notes instead of requiring a new decision ledger.
+
 ## Separate The Method From Its Context
 
 Ask what a later agent should do differently when the same situation arises. Preserve that decision and the reason that helps it adapt. Separate three kinds of material:
