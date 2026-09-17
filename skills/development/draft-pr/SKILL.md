@@ -61,11 +61,12 @@ Do not ask again for an update to the same PR. When nobody can answer, as in an 
 
 ## Shape The Body
 
-A body the reviewer does not read has failed. Say why the change exists and what changed, as a reviewer who did not see the work will meet it; nothing else is required. Read [references/pr-body-guidance.md](references/pr-body-guidance.md) before writing a new body or rewriting one; it holds the default shape, the headings in each language, the cut list, and worked examples.
+A body the reviewer does not read has failed. Say why the change exists and what changed, as a reviewer who did not see the work will meet it; nothing else is required. Read [references/pr-body-guidance.md](references/pr-body-guidance.md) before writing a new body or rewriting one; it holds the default shape, the headings in each language, when a table beats bullets, the cut list, and worked examples.
 
 - A repository template wins: fill its headings and checklists, remove unfilled placeholders, and do not append the fallback shape to it.
 - Without a template, use `## Context` for the problem, intent, and decision, then `## Changes` for reviewer-visible outcomes, both in the PR language. A small change needs two or three sentences and no headings.
 - Structure carries the reading: short paragraphs, one bullet per outcome, and one level of nesting when items group by component or theme.
+- Use a table when several items share the same few attributes and the reviewer will compare them side by side, such as settings with their old and new defaults or endpoints with their new status. Design it before filling it: each column is one attribute named in its header, each row is one item, and a cell holds a value, an identifier, or a short phrase. A point that needs a full sentence goes in a bullet under the table, not in a cell.
 - No validation or testing section unless the template asks for one; the forge's checks and the commits are the record. No hedges, disclaimers, courtesy closings, self-appraisal, process narration, restated diff, or references to the chat.
 
 Link issues and design records without making them prerequisites for understanding the PR. Immediately before publication, compare the title and body with the final diff and update descriptions that no longer match the branch.

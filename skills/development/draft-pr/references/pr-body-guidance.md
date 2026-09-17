@@ -8,6 +8,7 @@ Read this before writing a new body or rewriting one. A repository template is a
 - Default shape
 - Headings in the PR language
 - Structure
+- Tables
 - One more section
 - Cut list
 - Validation and checks
@@ -57,10 +58,49 @@ For another language, use the plain equivalents of "context" and "changes" that 
 
 Structure is what lets a body be read in one pass; length is what stops it being read.
 
-- Prefer bullets over paragraphs for anything with more than one item. Keep each bullet to one outcome and one or two sentences.
+- Prefer bullets over paragraphs for anything with more than one item, and a table when the items share attributes the reviewer will compare; see Tables below. Keep each bullet to one outcome and one or two sentences.
 - Nest one level when four or more items fall into groups a reviewer would recognize, such as a component, a user-facing surface, or a migration step. Do not nest deeper.
 - Put the decision the code cannot show first in Context. History, alternatives not taken, and background the reviewer already has stay out.
 - Put issue references and design links next to the claim they support. The body must still make sense if the link is unavailable or the reader lacks access.
+
+## Tables
+
+A table lets the reviewer compare several items on the same attributes without re-reading bullets. Use one when that comparison is the point: settings with their old and new defaults, endpoints with their new status, options weighed with the chosen one marked. Items read in sequence, items with a single attribute, and a single item stay in bullets or a sentence.
+
+Design the grid before filling it:
+
+- Columns are the attributes the reviewer compares, one per column, named in the header. Drop a column that would read the same in every row or stay empty in most rows, and state that fact once above the table. Two to four columns is the usual range.
+- Rows are the items, one per row, in the order the reviewer would scan them: by impact, by their order in the diff, or alphabetically when nothing else orders them.
+- Cells hold a value, an identifier, or a short phrase. A cell that wants a full sentence, a list, or a qualifying clause shows that the attribute is not tabular; keep the fact in the cell and move the point to a bullet beneath the table.
+
+Headers follow the PR language; identifiers, values, and code stay as written. A table with one data column is a list and a table with one row is a sentence; write those as such.
+
+A table that earns its place:
+
+```markdown
+- Tighten the default timeouts so a stalled upstream fails the request instead of holding the worker.
+
+| Setting | Before | After |
+| --- | --- | --- |
+| `connect_timeout` | 30s | 5s |
+| `read_timeout` | 120s | 30s |
+| `retry_budget` | unlimited | 3 |
+
+- Explicit values in `config.yaml` are kept; only the defaults change.
+```
+
+In Korean the header row reads `| 설정 | 이전 | 이후 |` and the rest of the table does not change.
+
+The same content as a table that should have been prose:
+
+```markdown
+| Setting | Change |
+| --- | --- |
+| `connect_timeout` | Reduced from 30s to 5s because the upstream normally answers within a second and a stalled connection held the worker for the full 30s during the incident on the 3rd. |
+| `read_timeout` | Reduced from 120s to 30s for the same reason. |
+```
+
+One data column and a sentence per cell: the reason belongs in Context, and the values belong in the three-column table above.
 
 ## One More Section
 
