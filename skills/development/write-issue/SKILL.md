@@ -34,7 +34,7 @@ Without a working tracker tool or authentication, deliver the draft and its fiel
 An issue is one task with a clear outcome: a change, a document, a decision, an action. When the request is not a task, such as an open discussion or a running log, say so and offer the home that fits.
 
 - **Title:** the target and the action ("Retry payment webhooks on 5xx responses"), the deliverable ("Reranker comparison table for long queries"), or, for a bug reported to someone else, the symptom ("CSV export drops the last row at exactly 1000 rows"), since the fix is theirs to choose. It is read in a list beside other titles.
-- **Body:** at most one sentence of purpose when the title does not carry it, then three to five concrete tasks or facts, then only the links that pass the check below. Fewer is fine, and the description may be empty when the title is enough. When the user has not supplied a particular, do not invent it: write the issue without it and name the gap in the report.
+- **Body:** at most one sentence of purpose when the title does not carry it, then an overview table or figure only when [Tables, Figures, And Collapsed Detail](#tables-figures-and-collapsed-detail) calls for one, then three to five concrete tasks or facts, then only the links that pass the check below. Fewer is fine, and the description may be empty when the title is enough. When the user has not supplied a particular, do not invent it: write the issue without it and name the gap in the report.
 - **Fields:** relations, labels, milestone, and parent carry structure. Do not restate them in prose.
 
 Leave these out unless the user asks or the team's template requires them, because each has a better home: acceptance criteria or definition-of-done sections (checks belong where the work is reviewed, such as a pull request checklist or a plan on a shared branch, so link that), as-is and to-be framing, background already stated in the parent or project, defensive disclaimers, and status narration. Saying what has not been checked yet is a fact the reader can act on, not a disclaimer.
@@ -44,6 +44,14 @@ By kind:
 - **Bug or request:** quote the reporter's words and link the conversation rather than paraphrasing, attributing by role unless readers need the name to act. Cut anything confidential from the quote and mark the cut. Add what the reader needs to reproduce it: where, observed, expected.
 - **Wrong output in data or an evaluation:** show one real input with its observed and expected output in a small table, and link the dataset revision.
 - **Uncertain or research work:** name the issue as the question, or as the deliverable that answers it (a comparison table, a decision memo, a case set). No estimates and no invented sub-tasks. The full results and the reasoning stay in the experiment log, document, dashboard, or pull request. The issue states the headline finding in two or three lines, at the latest when it is closed, and links that record when readers can open it. Progress narrative goes to a project or status update or a comment, not the body.
+
+## Tables, Figures, And Collapsed Detail
+
+Most issues need none of these, because a title and a few lines already scan. Add one only when the reader takes in the content faster with it than with the sentences it replaces. None of them may hide the point: the finding, the tasks, and the decision stay in visible text.
+
+- **Overview table, right after the purpose sentence.** Use it when the content is the same few fields repeated over several items, such as sub-issues with their state, candidates with their metrics, or components with their impact, so the reader sees the whole set before the details. Give every column a header and let the first column name each row. Keep a cell to a few words, a number, or a link. A cell that needs a sentence means the material is not tabular, so write it as a bullet instead. A table for a single item, or one that repeats the bullets under it, is decoration.
+- **Figure, when structure is the point.** A flow, an architecture, a dependency between parts, or a before and after that would take a paragraph reads faster as a small diagram. Make it with the `technical-diagram` skill when that skill is available, giving it the reader's question and the issue text as the surrounding context. Otherwise use a diagram format the tracker renders natively, or leave the figure out. Skip it when a sentence or the table already carries the structure, or when making it would cost more than it saves the reader. Put the rendered image into the issue through the tracker's upload or attach function, in a format the tracker displays inline, and say in one visible line what it shows. A path to the file is not a figure. When the available tool cannot upload, give the file to the user and report that it is not attached.
+- **Collapsed section, only for detail that has to be there.** Cutting comes first. Collapse when the issue cannot do without a long block that most readers will skip: a full reproduction log, a complete configuration, a long per-item result list, steps someone must follow exactly. The summary line says what the block holds and what it concludes, and the body reads complete with every section closed. Never collapse the finding, the task list, the decision, or anything a reader must see to act. Use the tracker's own collapsible form.
 
 ## State The Claim, Justify Every Link
 
@@ -98,11 +106,11 @@ Read the matching file when the tracker is:
 
 | Tracker | File | What it resolves |
 | --- | --- | --- |
-| Linear | [references/linear.md](references/linear.md) | Issue versus sub-issue, project, and milestone; where narrative goes; sub-issue inheritance and auto-close; templates and triage; field names |
-| GitHub Issues | [references/github-issues.md](references/github-issues.md) | Visibility, templates, task lists versus sub-issues, relations, `gh` flags |
+| Linear | [references/linear.md](references/linear.md) | Issue versus sub-issue, project, and milestone; where narrative goes; sub-issue inheritance and auto-close; templates and triage; tables, diagrams, collapsible sections, and file upload; field names |
+| GitHub Issues | [references/github-issues.md](references/github-issues.md) | Visibility, templates, task lists versus sub-issues, relations, collapsed sections, diagrams, image attachment, `gh` flags |
 | Forgejo, Gitea, Jira, others | None | Apply the rules above, and discover fields, templates, and the self-assign form from the tracker's own tool help |
 
-[references/examples.md](references/examples.md) has worked drafts for each kind, including a Korean outline and a draft whose sources were local paths, a server path, and a pile of loosely related links; read it when the right shape is unclear. [references/sources.md](references/sources.md) records the public sources behind the non-obvious rules and how strong they are; read it when a rule is questioned or being changed.
+[references/examples.md](references/examples.md) has worked drafts for each kind, including a Korean outline, a draft that uses an overview table, a figure, and one collapsed block, and a draft whose sources were local paths, a server path, and a pile of loosely related links; read it when the right shape is unclear. [references/sources.md](references/sources.md) records the public sources behind the non-obvious rules and how strong they are; read it when a rule is questioned or being changed.
 
 ## Report
 

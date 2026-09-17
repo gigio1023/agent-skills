@@ -11,6 +11,7 @@ Product behavior below was checked against Linear's documentation on 2026-09-17.
 - Sub-issue behavior
 - Relations
 - Templates and triage
+- Tables, diagrams, collapsible sections, and files
 - Express fields through the MCP server or API
 
 ## Choose The Container
@@ -50,6 +51,21 @@ Use blocked by, blocks, related, and duplicate instead of prose. A blocker shows
 
 - A team can set a default issue template, and templates exist at workspace and team level. Read the template that applies before drafting, keep its headings, and remove placeholders you do not fill.
 - Issues created by an integration, or by someone who is not a member of the destination team, land in that team's Triage inbox. The team then accepts, declines, marks as duplicate, or snoozes. When filing into another team, leave the assignee empty and leave priority, cycle, and status for their triage to set.
+
+## Tables, Diagrams, Collapsible Sections, And Files
+
+When to use each is decided by the core rule in `SKILL.md`. This section covers only how Linear expresses them. Editor forms are from Linear's [editor documentation](https://linear.app/docs/editor), read on 2026-09-17.
+
+| Element | In the editor | Through the MCP server or API |
+| --- | --- | --- |
+| Table | `\|--` then Space, or `/table` | A Markdown table in the description |
+| Diagram | `/diagram`, or a code block that begins with `mermaid` | A fenced code block with the language `mermaid` |
+| Collapsible section | `>>>` then Space, or `/collapsible section` | The editor page does not document a Markdown form. Save, read the description back, and confirm it renders as a collapsible section. |
+| File or image | `/file` or `/insert` | The server's upload flow below |
+
+When the collapsible section does not survive the round trip, keep the long detail in a comment or a linked shared document and say in the body what it holds and concludes. Do not leave a wall of text in the description because the collapse failed.
+
+A Mermaid block is drawn by Linear itself, so it needs no upload. A figure made by another tool, such as the `technical-diagram` skill, has to be uploaded. The Linear MCP server does this in three steps for an issue that already exists: prepare the upload with the issue, filename, content type, and exact byte size; send the raw bytes with `PUT` to the signed URL within 60 seconds, repeating every signed header verbatim; then create the attachment from the returned asset URL. Handle one file at a time. As of 2026-09 the tools are named `prepare_attachment_upload` and `create_attachment_from_upload`; names can change, so confirm against the live schema. This adds the file to the issue's attachments. Whether the asset URL also displays inline when placed in the description as an image was not verified, so read the issue back, and when the figure does not show inline, name the attachment in the one visible line that says what the figure shows.
 
 ## Express Fields Through The MCP Server Or API
 
