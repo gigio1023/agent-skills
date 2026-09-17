@@ -9,7 +9,7 @@ Read this when the right shape for a draft is unclear. Every example is invented
 - Uncertain or research work, with its closing note
 - Splitting one large in-progress issue
 - Korean noun-phrase outline
-- Overview table, a figure, and one collapsed block
+- Overview table and a figure, with a long log cut instead of collapsed
 - Local and server-only material with a pile of links
 
 ## Bug Relayed From Chat, Ownership Ambiguous
@@ -129,11 +129,11 @@ Not this, which narrates in past-tense sentences:
 수신 서버가 503을 반환했을 때 재시도를 하지 않고 실패 처리했습니다. 그래서 재시도 로직을 추가했고 metric도 넣었습니다.
 ```
 
-## Overview Table, A Figure, And One Collapsed Block
+## Overview Table And A Figure, With A Long Log Cut Instead Of Collapsed
 
-The author is moving three nightly evaluation suites to a new runner and wants one issue a teammate can take in at a glance. The content is the same three fields over three suites, the hand-off between the runner and the result store is what people keep getting wrong, and the failing log is long but needed by whoever picks up the blocked suite. The draft is shown in GitHub's form; the collapsible form differs by tracker.
+The author is moving three nightly evaluation suites to a new runner and wants one issue a teammate can take in at a glance. The content is the same three fields over three suites, and the hand-off between the runner and the result store is what people keep getting wrong. The author also has a 400-line log of the failing upload and first thought of folding it into the issue.
 
-````markdown
+```markdown
 Title: Move nightly evaluation suites to the batch runner
 
 Nightly runs hit the 6 hour limit on the old runner twice last week.
@@ -148,26 +148,15 @@ Nightly runs hit the 6 hour limit on the old runner twice last week.
 Figure: the batch runner writes results to the queue and a separate worker uploads them to the result store, so an upload failure does not fail the run.
 
 - Find why ROUGE-L and BERTScore differ on Summarization (tokenizer version is the first suspect)
-- Fix the upload step for result files over 2 GB, which is what Long context produces
+- Fix the upload step for large result files: the upload worker times out after 300 s on the 2.3 GB file that Long context produces, on all three retries
 - Switch the nightly schedule once all three suites match
-
-<details>
-<summary>Upload failure log for Long context: the worker times out after 300 s on a 2.3 GB file</summary>
-
-```text
-02:14:07 upload start results/long-context/2026-09-16.parquet size=2.3GB
-02:19:07 error: request timed out after 300s
-02:19:07 retry 1/3 ...
 ```
-
-</details>
-````
 
 Fields: no estimate. The figure is attached with the tracker's upload function, so the image reference resolves for every reader.
 
 Assignee: the author. It is the author's own migration.
 
-Why: the table comes right after the purpose sentence because three suites share three fields, every column has a header, the first column names each row, and no cell is longer than a few words. The figure earns its place because the hand-off it shows is the part readers misunderstand, and one visible line says what it shows. Only the log is collapsed: whoever takes the upload fix needs it, most readers do not, its summary line already gives the conclusion, and the tasks and findings stay visible. With the block closed the issue still reads complete. Had there been one suite, a sentence would replace the table; had the flow been a straight line, the figure would be dropped.
+Why: the table comes right after the purpose sentence because three suites share three fields, every column has a header, the first column names each row, and no cell is longer than a few words. The figure earns its place because the hand-off it shows is the part readers misunderstand, and one visible line says what it shows. The log is cut, not collapsed: the one thing it establishes, a 300 s timeout on a 2.3 GB file on every retry, fits in the task bullet, and a shorter issue beats a folded one. A collapsed block would be justified only if whoever takes the fix had to read the full log and it had no shared home; then its summary line would carry that same conclusion. Had there been one suite, a sentence would replace the table; had the flow been a straight line, the figure would be dropped.
 
 ## Local And Server-Only Material With A Pile Of Links
 
