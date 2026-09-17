@@ -1,6 +1,6 @@
 # Judgment Gate
 
-Use this before finalizing a Fable 5-led answer.
+Use this before finalizing a Fable-led answer.
 
 ## Decisive Issue Check
 
@@ -12,17 +12,23 @@ Use this before finalizing a Fable 5-led answer.
 
 ## Evidence Check
 
-- Did Fable 5 own the judgment-dependent discovery needed to stabilize the frame, or explicitly define coverage and source-selection rules before bulk collection began?
+- Did Fable own the judgment-dependent discovery needed to stabilize the frame, or explicitly define coverage and source-selection rules before bulk collection began?
 - Was each delegated lane justified by independence, context isolation, fresh verification, tool fit, or a measured cost/latency advantage?
 - Did workers inspect primary or source-of-truth material for decisive claims?
 - Are current facts dated and sourced?
 - Are local code/file claims tied to paths and line references?
 - Are weak sources, stale facts, and conflicts labeled instead of smoothed over?
 
+## Assignment Check
+
+- Was each lane's model and effort chosen for its difficulty tier and stated at dispatch, or did a lane inherit the lead's settings by omission?
+- Where the harness could not apply a chosen model or effort, was the lane reported as it actually ran?
+- Did any `low`-effort lane whose value was fresh information carry a verification instruction, or run higher?
+
 ## Execution Check
 
 - Could each worker execute from a stable packet without inventing a missing premise or decision rule?
-- When evidence broke a premise or exposed a new consequential choice, was that judgment returned to Fable 5 before execution continued?
+- When evidence broke a premise or exposed a new consequential choice, was that judgment returned to Fable before execution continued?
 - Is every progress or completion claim backed by a tool result, inspected source, test, or named artifact from this run?
 - Did a consequential long run receive an independent specification check when anchoring or drift was a material risk?
 - Did the lead avoid unnecessary delegation and idle waiting?
@@ -30,7 +36,7 @@ Use this before finalizing a Fable 5-led answer.
 
 ## Synthesis Check
 
-- Did Fable 5 personally resolve conflicts instead of averaging worker opinions?
+- Did Fable personally resolve conflicts instead of averaging worker opinions?
 - Is the final recommendation tied to a decision rule?
 - Is the confidence level earned by the evidence?
 - Is the caveat concrete enough to act on?

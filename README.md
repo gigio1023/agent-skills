@@ -107,7 +107,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
 | [orchestrate-subagents](skills/development/orchestrate-subagents/) | Coordinate requested delegated work and synthesize its evidence |
 | [small-model-handoff](skills/development/small-model-handoff/) | Package a settled bounded step for a less capable executor |
-| [fable5-model-routing](skills/development/fable5-model-routing/) | Route explicitly requested judgment to Fable 5 in supported harnesses |
+| [fable5-model-routing](skills/development/fable5-model-routing/) | Set each subagent's model and effort by task difficulty when Fable leads, and route requested judgment to Fable in supported harnesses |
 
 ### Design and Visualization
 
