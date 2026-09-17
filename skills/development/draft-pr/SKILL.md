@@ -19,12 +19,13 @@ Publish the requested work as a draft or work-in-progress PR on the forge that o
 ## Quick Start
 
 1. Preflight Git state, publication remote, forge, exact head and target repositories, provider authentication and authenticated user, base branch, and any existing PR for the current branch.
-2. Lock the intended diff. Preserve unrelated worktree changes and meaningful existing PR content.
-3. Create a topic branch when on the base branch. Fetch the target remote and rebase only when the topic branch is behind, conflicted, or explicitly needs synchronization.
-4. Commit the intended scope, run relevant checks, and push safely. Rewrite only a clearly user-owned topic branch and use `--force-with-lease`.
-5. Write real Markdown to a temporary file, create a draft or work-in-progress PR or update the existing PR through the selected provider adapter, then assign the authenticated user by default.
-6. Verify the remote PR fields and report its URL, state, base/head, assignees, results, and any remaining caveat.
-7. Merge only on explicit request. Recheck the exact PR and gates, squash-merge through the same adapter, and verify the merged state.
+2. Settle the PR language: the user's instruction or the repository's stated language decides; otherwise ask the user now, so the remaining steps run without another pause.
+3. Lock the intended diff. Preserve unrelated worktree changes and meaningful existing PR content.
+4. Create a topic branch when on the base branch. Fetch the target remote and rebase only when the topic branch is behind, conflicted, or explicitly needs synchronization.
+5. Commit the intended scope, run relevant checks, and push safely. Rewrite only a clearly user-owned topic branch and use `--force-with-lease`.
+6. Write the title and body in that language as real Markdown in a temporary file, create a draft or work-in-progress PR or update the existing PR through the selected provider adapter, then assign the authenticated user by default.
+7. Verify the remote PR fields and report its URL, state, base/head, assignees, results, and any remaining caveat.
+8. Merge only on explicit request. Recheck the exact PR and gates, squash-merge through the same adapter, and verify the merged state.
 
 A PR request grants scoped commits and push; do not ask again. If publication is blocked, name the failed command or rule and finish authorized local work.
 
@@ -39,31 +40,44 @@ Do not broaden the task into unrelated refactors, repository cleanup, or rewriti
 - New PRs are draft by default. On Forgejo, use and verify the instance's recognized work-in-progress title prefix. Do not silently create a ready PR.
 - Create and update requests do not authorize merging. An explicit merge request authorizes one squash merge only after the documented gates pass. Never switch methods, force a merge, remove a work-in-progress prefix, or delete the head branch merely to make the merge succeed.
 - Use the login returned by the selected provider's authenticated-user lookup as the default assignee for new and existing PRs, while preserving current assignees. An explicit user choice of another assignee overrides this default. If the work context alone suggests assigning someone else, ask the user before adding them; never infer another person's assignment silently.
-- Write every new or rewritten PR title and body in concise, plain English, regardless of the language used in the request or surrounding discussion. Preserve non-English text only when it is meaningful existing content, a required quotation, or a repository-specific identifier.
+- Settle the PR language before writing the title or body, following the PR language rules below. Title and body share one language; conventional prefixes, identifiers, commands, paths, and quoted text keep their original form.
 - A request to write PR copy does not authorize branch, push, or forge mutations. Enter this workflow only when publication intent is explicit.
-- Prefer repository conventions over invented ones. If the repo has a PR template, read it, preserve its required headings and checklists, and remove unfilled placeholders. Do not append the fallback body shape to a repository template.
-- Write for a reviewer encountering the work for the first time. Introduce the problem, affected behavior, and relevant constraints without referring to the current chat, earlier discussion, or private shorthand. Keep only context that changes how the reviewer understands, verifies, or acts on the PR.
 - Keep the PR focused on one outcome. If no specific title can describe the whole diff in one sentence, report the scope mismatch instead of hiding it behind a generic title or long body.
-- Make the body scan-first. Omit process narration, obvious diff restatements, generic background, and empty sections. Do not turn the body into a long narrative or insert manual line breaks for line length.
 - Preserve meaningful existing PR body content such as screenshots, links, issue references, release notes, or reviewer context. Do not overwrite an existing PR title unless the user asked to rewrite it or it is clearly a generated placeholder.
 
 ## Publication Workflow
 
 Before any Git or forge mutation, read and follow [references/publish-workflow.md](references/publish-workflow.md). It contains the provider selection, preflight, synchronization, body-file, assignment, and verification path. Keep the quick path above as the completion checklist.
 
-## Shape And Recheck The Body
+## PR Language
 
-Read [references/pr-body-guidance.md](references/pr-body-guidance.md) before writing a new body or substantially rewriting one. A repository template wins. Without one, default to `## Context` and `## Changes`; add `## Validation` only for manual results CI cannot prove or a material CI caveat. Add other sections only when their trigger in the reference applies.
+Reviewers read a PR in their team's working language, so the language is the user's call rather than a default that ignores where the PR lands. Resolve it in this order:
 
-Link issues and design records without making them prerequisites for understanding the PR. Keep enough context in the body for future readers whose access or memory differs from the author's. Immediately before publication, compare the title and body with the final diff and update descriptions that no longer match the branch.
+1. The user's explicit instruction for this PR or this repository.
+2. A language the repository already states for PRs: a PR template, a contributor guide, or agent instructions that name one.
+3. Otherwise ask the user, once per repository in a session, before writing the body. Offer the language of the repository's recent PR titles and README as the suggestion. English is the answer when the user has no preference.
+
+Do not ask again for an update to the same PR. When nobody can answer, as in an unattended run, use the repository's observed language, else English, and say in the report which rule decided. A user who wants the answer to stick records it in the repository's contributor guide or agent instructions; publishing a PR does not edit those files.
+
+## Shape The Body
+
+A body the reviewer does not read has failed. Say why the change exists and what changed, as a reviewer who did not see the work will meet it; nothing else is required. Read [references/pr-body-guidance.md](references/pr-body-guidance.md) before writing a new body or rewriting one; it holds the default shape, the headings in each language, the cut list, and worked examples.
+
+- A repository template wins: fill its headings and checklists, remove unfilled placeholders, and do not append the fallback shape to it.
+- Without a template, use `## Context` for the problem, intent, and decision, then `## Changes` for reviewer-visible outcomes, both in the PR language. A small change needs two or three sentences and no headings.
+- Structure carries the reading: short paragraphs, one bullet per outcome, and one level of nesting when items group by component or theme.
+- No validation or testing section unless the template asks for one; the forge's checks and the commits are the record. No hedges, disclaimers, courtesy closings, self-appraisal, process narration, restated diff, or references to the chat.
+
+Link issues and design records without making them prerequisites for understanding the PR. Immediately before publication, compare the title and body with the final diff and update descriptions that no longer match the branch.
 
 ## Title Style
 
-Use the repository's title convention when obvious. Otherwise use a concise present-tense English title:
+Use the repository's title convention when obvious. Otherwise use a concise present-tense title in the PR language, keeping the repository's conventional prefix when it uses one:
 
 - `fix: preserve PR body formatting`
 - `docs: add draft PR skill`
 - `refactor: simplify auth callback handling`
+- `fix: PR 본문 서식 보존` when the team reads PRs in Korean
 
 Avoid:
 
@@ -74,7 +88,7 @@ Avoid:
 
 ## Output Contract
 
-Report the provider, PR URL, remote state, base/head, assignees, action taken, commits and checks used, preserved reviewer context, and material caveats. For a merge, include the verified check state, resulting commit when available, and head-branch deletion state. On failure, name the exact command or remote condition and smallest next action. Never equate a push or an unverified merge command with a completed PR action.
+Report the provider, PR URL, remote state, base/head, assignees, action taken, commits and checks used, preserved reviewer context, and material caveats. When the user was not asked, name the PR language and the rule that settled it. For a merge, include the verified check state, resulting commit when available, and head-branch deletion state. On failure, name the exact command or remote condition and smallest next action. Never equate a push or an unverified merge command with a completed PR action.
 
 ## Gotchas
 
