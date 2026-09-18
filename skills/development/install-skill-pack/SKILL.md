@@ -3,17 +3,18 @@ name: install-skill-pack
 description: >
   Use when installing or refreshing skills globally from a user-selected Git
   repository or revision with the Skills CLI for the standard Claude Code,
-  Hermes Agent, OpenCode, Cursor, and Codex targets. Reviews packages and
-  verifies revision identity, installed content, symlinks, and discovery. NOT
-  for unpublished local changes, project-local installs, unscoped all-agent
-  installs, or silently changing unrelated global skills.
+  Hermes Agent, OpenCode, Cursor, Codex, GitHub Copilot, ZCode, OpenClaw, and
+  Grok targets. Reviews packages and verifies revision identity, installed
+  content, symlinks, and discovery. Global is the default; a project-local
+  install runs only on an explicit request. NOT for unpublished local changes,
+  unscoped all-agent installs, or silently changing unrelated global skills.
 ---
 
 # Install Skill Pack
 
 Install reviewed skills from the user's Git repository. The default path passes the bare source to the CLI and follows the remote's default branch. Branch and commit pins are optional.
 
-Use the five-agent standard set unless the user explicitly excludes a member. Add named extras without the broad `--all` option. Let the CLI manage the canonical global package and agent-facing links.
+Install globally by default; run a project-local install only when the user explicitly requests one. Use the nine-agent standard set unless the user explicitly excludes a member. Add named extras without the broad `--all` option. Let the CLI manage the canonical global package and agent-facing links.
 
 Review the source directly. Third-party scans are optional; a missing scanner result is neither a pass nor a blocker.
 
@@ -29,7 +30,7 @@ Review the source directly. Third-party scans are optional; a missing scanner re
 
    Branch and commit inputs are mutually exclusive. Preserve the user's source form for the CLI. Normalize it separately for Git review; for example, clone `owner/repo` through `https://github.com/owner/repo.git`. Read and apply [`references/revision-selection.md`](references/revision-selection.md) to prepare `install_source`, `reviewed_sha`, and the review checkout.
 
-3. Resolve npm's current stable `skills@latest` version once per operation and verify its version and live interface through the CLI-usage reference. Stop if the version is malformed, the reported version differs, or a standard target ID is unsupported. Executing the npm CLI is a separate package-manager trust boundary; reviewing a skill repository does not establish the CLI publisher's integrity.
+3. Resolve npm's current stable `skills@latest` version once per operation and verify its version and live interface through the CLI-usage reference. Stop if the version is malformed, the reported version differs, or a standard target ID is unsupported. An npm policy such as `min-release-age` may refuse a young release with an error that reads like a missing version; step down to the newest release the policy allows instead of bypassing the policy. Executing the npm CLI is a separate package-manager trust boundary; reviewing a skill repository does not establish the CLI publisher's integrity.
 
 4. Prepare the disposable checkout through the selected revision path. Record the checked-out commit as `reviewed_sha`. Stop if the source cannot be mapped to one repository, the branch is absent, the commit is unreachable, or the exact requested commit differs from the checkout.
 
@@ -50,6 +51,10 @@ Review the source directly. Third-party scans are optional; a missing scanner re
      --agent opencode \
      --agent cursor \
      --agent codex \
+     --agent github-copilot \
+     --agent zcode \
+     --agent openclaw \
+     --agent grok \
      --skill <skill-name> \
      --yes
    ```
@@ -82,6 +87,8 @@ It can fetch unreviewed sources outside the current repository. State that scope
 
 - Running the Skills CLI trusts its npm publisher and executes remote CLI code. The source review covers selected skill packages, not npm provenance or the CLI implementation.
 - `#<branch>` selects a branch. Do not use `@<branch>`; the CLI interprets `@` as a skill filter.
+- Do not pass CLI flags through a shell variable. Zsh does not word-split an unquoted variable, so a flags string arrives as one argument; the CLI ignored it, installed project-locally, and still printed `Installed`. Write flags literally and confirm the mode with the per-agent listing before reporting success.
+- An installed canonical package may have been edited in place by another session or harness since its install. Before an install that overwrites one, compare the canonical package against the reviewed revision; surface material diffs to the user instead of silently discarding them, and re-review anything the overwrite would carry away.
 - Installation can overwrite selected skills. Back up only those directories when the exact old version must be preserved until verification passes.
 - Global installation does not authorize deletion of unrelated or stale skills. Remove those only when the user explicitly names them.
 
