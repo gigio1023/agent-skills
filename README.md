@@ -162,7 +162,7 @@ These repositories are independently versioned and not included when this pack i
 | --- | --- | --- |
 | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) | `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`, and more | Working with Obsidian vaults and file formats |
 | [find-skills](https://github.com/vercel-labs/skills/tree/main/skills/find-skills) | `find-skills` | Discovering and installing additional skills |
-| [Official shadcn skills](https://ui.shadcn.com/docs/skills) | `shadcn` | Project-aware shadcn/ui component discovery, composition, and implementation; maintained upstream |
+| [shadcn-ui/ui](https://github.com/shadcn-ui/ui/tree/main/skills) | `shadcn`, `migrate-radix-to-base` | Project-aware shadcn/ui component work and Radix UI to Base UI migration ([docs](https://ui.shadcn.com/docs/skills)) |
 
 You can also browse [skills.sh](https://skills.sh/) or search from the CLI:
 
