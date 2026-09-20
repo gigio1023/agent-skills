@@ -14,6 +14,8 @@ Use when choosing how much to write or change, grounding a new document, or pres
 
 Do not expand a short message into a report. A memo, guide, or post needs the amount of structure that makes its task understandable. Do not impose a thesis on an API reference or a fixed outline on a personal account.
 
+For structural revision, select the information and presentation units before editing sentences. Separate unlike rows, divide overloaded views by reader question, and replace paragraph tables with actual comparisons or short sections. Preserve the user's explicit editorial preferences as defaults; a wide genre range does not make those preferences optional. Read [information design](information-design.md) for these decisions.
+
 ## Ground what the document says
 
 Use sources that establish the specific claim: implementation for current behavior, an accepted specification for intended behavior, a decision record for approval, or original data for a measurement. If implementation and specification disagree, state what each establishes rather than silently reconciling them. Repeated summaries of one study are not independent support.

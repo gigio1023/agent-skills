@@ -123,7 +123,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | Skill | What it helps with |
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
-| [technical-report-writing](skills/productivity/technical-report-writing/) | Write, revise, and review reports, guides, proposals, memos, posts, and project documents with reader-focused information selection, multilingual prose, and native document production |
+| [technical-report-writing](skills/productivity/technical-report-writing/) | Write, revise, and review documents with clear structure, compact tables, focused visuals, and the explanation each genre needs |
 
 ### Personal and Everyday Tools
 
@@ -135,11 +135,11 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 ## Writing, documents, and dashboards
 
-Use `technical-report-writing` for content selection, explanation, and prose in the requested language and medium. Its existing name remains stable; its scope includes nontechnical and external-facing documents. Use `insight-dashboard` for analytical or operational data views, including static output, and for keeping selection-dependent values and explanations consistent. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. This pack does not bundle a shadcn wrapper. PDF and editable-document production can go directly through native document tooling.
+Use `technical-report-writing` as the document-authoring entry point in the requested language and medium. Its core covers noun-phrase headings, information selection, short cells, table and figure planning, explanation, and removal of research diaries and blanket disclaimers. Its existing name remains stable; its scope includes nontechnical and external-facing documents. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
 
 The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [writing patterns](skills/productivity/technical-report-writing/references/writing-patterns.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public example library](skills/productivity/technical-report-writing/references/example-library.md) for the current task, not as a mandatory reading list.
 
-For internal sharing, `share-internal-doc` from Gigio Pack is a complete document-and-sharing entry point that handles recipient suitability, source access, privacy, and authorized delivery. Keep one owner for the draft rather than requiring a second editing pass. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md) and [adoption and cross-repository migration](docs/writing-skills.md).
+For internal sharing, `share-internal-doc` from Gigio Pack applies the available writer and adds recipient suitability, usable source access, privacy, and authorized delivery. Naming it alone still produces a complete shared document without a second editorial workflow. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md) and [adoption and cross-repository migration](docs/writing-skills.md).
 
 ## Related skill repositories
 

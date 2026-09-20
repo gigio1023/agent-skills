@@ -23,6 +23,24 @@ For a claim or figure intended to circulate independently, retain the conditions
 
 All examples below are independently synthetic teaching cases. They are not anonymized work records. “Delete the paragraph” is an editing action, not text to insert into the document.
 
+### Author framing and useful metadata
+
+**Draft:** “Alex's synthesis and proposal, as of this week. I reviewed the available options and propose a bounded queue.”
+
+**Technical proposal:** Delete the author introduction and write “Use a bounded queue to limit outstanding requests.” Keep the proposed status in the section heading or recommendation wording. Do not replace the removed byline with an impersonal sentence announcing that this document contains a synthesis.
+
+A measurement date that defines the observation window, an assigned action owner, or required publication credit serves a different purpose. Keep it where that purpose is clear. Page ownership and the act of sharing usually do not need another sentence in the body.
+
+### Research narration and subject methods
+
+**Draft:** “We completed several rounds of research, saved the original materials locally, and checked the evidence folders. All figures are reported by their respective authors.”
+
+**Technical explanation:** Delete this paragraph. Present the relevant mechanism and comparison, with citations attached to the claims. Do not replace it with a shorter research diary or a generic source disclaimer.
+
+**Requested collection audit:** The reader has explicitly asked what was retrieved and what is missing. Provide the inventory and actual gaps. A collection count now answers the requested question.
+
+**Important distinction:** The algorithm being explained, the experiment's workload, and the observed incident chronology are subject matter. Preserve their necessary steps and conditions. The author's search order, extraction tools, and storage layout are production history and stay out unless requested.
+
 ### Production receipt: comparison versus artifact identity
 
 **Same draft:** “This report was generated from a frozen catalog. The catalog passed its schema check, and its content hash was recorded after the build. The results and full settings are available through the navigation links. This carefully validated report provides a comprehensive overview.”

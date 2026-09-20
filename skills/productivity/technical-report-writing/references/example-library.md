@@ -150,7 +150,7 @@ These are text and information-structure reading pointers. Inspect the actual fi
 
 - **[2D Visibility algorithm](https://www.redblobgames.com/articles/visibility/)** — Read algorithm summary. Conclude a mechanism explanation with its usable ordered operations and a clear distinction between implemented and untried approaches.
 
-- **[CO₂ and Greenhouse Gas Emissions landing page](https://ourworldindata.org/co2-and-greenhouse-gas-emissions)** — Read key insights and baseline. Give a supported finding a clear heading, with the baseline and uncertainty needed to interpret its evidence.
+- **[CO₂ and Greenhouse Gas Emissions landing page](https://ourworldindata.org/co2-and-greenhouse-gas-emissions)** — Read key insights and baseline. Make the supported finding prominent, with the baseline and uncertainty needed to interpret its evidence. Adapt headline wording to this skill's noun-phrase title default; state the finding in the nearby text.
 
 - **[Air Pollution topic page](https://ourworldindata.org/air-pollution)** — Read metric definition and evidence. Define the measurement boundary before the result when that boundary is necessary for interpretation.
 
