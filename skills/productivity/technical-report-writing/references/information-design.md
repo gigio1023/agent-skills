@@ -18,9 +18,17 @@ A restrained factual record may be excellent for an incident brief and insuffici
 
 Structure must carry meaning. Repeating “One-line summary / Definition / Why it matters” for every concept can create a verbose document made entirely of bullets. Use those elements where they do work, without repeated labels or empty nesting. Several related bullets often need one connective sentence explaining their relationship.
 
+## List hierarchy
+
+Let indentation express a relationship: an option and its costs, a component and its failure cases, or a workstream and its actions. Use a second level for related details and a third when those details genuinely divide again. A long bullet that switches subjects needs separate items or groups, not more semicolons. Keep siblings parallel and each leaf focused on one fact or action.
+
+Do not force every bullet to have children. A parent such as “Other details” adds no organizing meaning, and a single child that merely restates its parent should be merged. If the reader must follow several nested qualifications to reach the point, use a short subsection or explanation. Depth follows the content; neither a one-level cap nor a three-level quota helps.
+
 ## Table design
 
 Decide the row entity and shared attributes before filling cells. A row may represent a configuration, event, option, component, or lookup term. Headers should name actual attributes, not serve as containers called “Content” or “Notes” for everything left over.
+
+Expose that design in the rendered table. Give the row-label column a meaningful header such as “Configuration,” and give every row an explicit name. Numbering, order, color, or surrounding prose cannot substitute for row identity. In a matrix, name both dimensions with a corner label such as “Requirement / Option” or separate visible axis headings. A blank corner is acceptable only when a visible group or axis heading already makes the row dimension explicit. Repeat row labels when splitting a table; do not make readers remember the order from an earlier view.
 
 Use these repairs:
 

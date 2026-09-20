@@ -13,7 +13,9 @@ Use these capabilities for the requested task. Installing them does not create a
 
 Reuse the reader, evidence, and authority already established for the task. One task may need several capabilities, but it need not pass through every skill. Keep the actual explanation under one editorial judgment.
 
-The writer is the main document-authoring entry point. Its core defaults require noun-phrase headings, short cells, deliberate table selection and splitting, focused visuals, and removal of research-process narration and blanket disclaimers. These preferences do not depend on opening an optional reference. Genre determines the depth: factual records need observations, explanations need mechanisms, and proposals need reasons and alternatives. A current explicit style request or governing template can override a default.
+The writer is the main document-authoring entry point. Its core defaults require noun-phrase headings, explicit row and column meanings, short cells, deliberate table selection and splitting, focused visuals, and meaningful list hierarchy. State findings and proposals directly, omit ornamental author framing and research diaries, and introduce internal aliases through accurate domain terms. These preferences do not depend on opening an optional reference. Genre determines the depth: factual records need observations, explanations need mechanisms, and proposals need reasons and alternatives. A current explicit style request or governing template can override a default.
+
+The writer's [finished examples](../skills/productivity/technical-report-writing/references/finished-examples.md) combine prose and displays for an explanation, measured comparison, and proposal. Its public source library and close readings retain the original techniques and their limits; examples teach an operation without imposing a universal outline.
 
 share-internal-doc adds the sharing context without duplicating those methods. Calling it alone remains enough to obtain a complete shared document. Publication and installation remain separate actions; no new style skill or mandatory multi-skill sequence is introduced.
 

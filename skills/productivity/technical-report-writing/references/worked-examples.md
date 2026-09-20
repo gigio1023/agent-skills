@@ -2,11 +2,12 @@
 
 Use these to inspect sentence, paragraph, table, figure, and caption decisions, not only the document outline. Structural repairs and synthetic rewrites are independently constructed teaching examples; their numbers and events are not measurements of a real system or anonymized company records. The public readings analyze the cited documents.
 
-For finished paragraphs organized by reader task, start with [writing patterns](writing-patterns.md). Use the contrasts here to diagnose why a sentence or display is less useful, then retain the action and result demonstrated by the stronger version.
+For prose and displays working together, start with [finished examples](finished-examples.md); for a single explanatory paragraph, use [writing patterns](writing-patterns.md). Use the contrasts here to diagnose why a sentence or display is less useful, then retain the action and result demonstrated by the stronger version.
 
 ## Contents
 
 - Structural repairs: [paragraph table](#paragraph-table), [table-split](#table-split), [heading-and-cell-phrases](#heading-and-cell-phrases), [figure-split](#figure-split), [genre-transfer](#genre-transfer).
+- Reader context: [row identity](#row-identity), [internal aliases](#internal-aliases), [list hierarchy](#list-hierarchy).
 - Public readings: [PEP 703](#pep-703-separate-the-measured-cost-from-the-intended-benefit), [Rust RFC](#rust-rfc-2394-give-a-concrete-mental-model-before-precise-semantics), [MapReduce](#mapreduce-explain-an-experimental-curve-through-system-behavior), [Circuit Tracing](#circuit-tracing-tie-a-limitation-to-a-counterexample).
 - Prose: [mechanism](#replace-praise-with-the-mechanism), [proposal status](#keep-a-proposal-from-sounding-implemented), [observation and explanation](#separate-an-observation-from-its-explanation), [alternative](#compare-an-alternative-fairly), [failure sequence](#keep-the-failure-sequence-and-remove-blame).
 - Evidence display: [comparison conditions](#preserve-the-comparison-conditions-in-a-compact-result), [table](#make-a-table-carry-repeated-context-once), [caption](#give-a-caption-a-job-distinct-from-the-title).
@@ -123,6 +124,53 @@ Allow reassignment after lease expiry and give each assignment a new generation 
 
 The factual record is enough for its reporting task. The explanation adds the missing mechanism; the proposal adds the changed behavior and the reason to choose it. Reusing the incident bullets for all three would remove necessary content.
 
+### Row identity
+
+**Before:** the columns name delivery options, but blank row headings leave the reader to infer that the rows are requirements.
+
+| | Live updates | Daily digest |
+| --- | --- | --- |
+| | Yes | No |
+| | No | Yes |
+
+**After:**
+
+| Requirement / Delivery option | Live updates | Daily digest |
+| --- | --- | --- |
+| Immediate notice | Yes | No |
+| One scheduled message | No | Yes |
+
+The corner heading names both dimensions, and each row states the requirement being assessed. If row labels already existed but their dimension was unnamed, repair the header alone. Do not add a paragraph decoding row order.
+
+### Internal aliases
+
+**Before:** “Run the classifier on review-set-r3. This is our gold-standard dataset.”
+
+**After:** “Evaluate the classifier on the labeled support-ticket dataset (internal ID: `review-set-r3`). Labels come from a mix of human review and automated rules.”
+
+The source for this teaching case establishes mixed label origins, not a gold-standard validation process. The edit explains the role and preserves the lookup ID without asserting that all labels were validated. Use “labeled dataset” in subsequent explanation. Omit the internal ID altogether when the reader will not need it.
+
+### List hierarchy
+
+**Before:**
+
+- Search rollout: build the index, check phrase queries and category filters, compare incremental updates with a full rebuild, enable a pilot, check latency, and disable the pilot if results are incomplete.
+
+**After:**
+
+- Index correctness
+  - Build the initial index.
+  - Compare incremental updates with a full rebuild.
+  - Check query behavior.
+    - Phrase queries preserve word order.
+    - Category filters exclude other categories.
+- Pilot rollout
+  - Enable search for the pilot group after correctness checks pass.
+  - Measure request latency under pilot traffic.
+  - Disable the pilot if indexed results are incomplete.
+
+The hierarchy distinguishes two workstreams, their actions, and the cases within one check. It uses a third level only for that real subdivision. A short, independent observation can remain a single-level bullet; causal reasoning may still read better as a paragraph.
+
 ## Public documents: read the writing operation
 
 ### PEP 703: separate the measured cost from the intended benefit
@@ -200,11 +248,11 @@ The columns expose both denominators and the latency population. A neighboring p
 
 ### Give a caption a job distinct from the title
 
-Title: “The tail grows when backup tasks are disabled.”
+Title: “Worker completion times with and without backup tasks”
 
-Caption: “Completion time by worker for the same input partitioning. The right panel disables speculative backup tasks; all other tested settings are unchanged.”
+Caption: “The right panel has a longer tail after speculative backup tasks are disabled. Input partitioning and all other tested settings are unchanged.”
 
-The synthetic title carries the observed pattern, while the caption identifies the comparison. The body would explain how the tail affects total completion time if the supplied data supports that consequence. Do not add another sentence telling readers that the chart demonstrates the importance of robust orchestration.
+The synthetic title names the comparison, while the caption states the pattern and its conditions. The body would explain how the tail affects total completion time if the supplied data supports that consequence. Do not add another sentence telling readers that the chart demonstrates the importance of robust orchestration.
 
 ### Compare an alternative fairly
 

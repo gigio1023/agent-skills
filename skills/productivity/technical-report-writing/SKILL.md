@@ -17,7 +17,7 @@ Infer the reader, task, sources, language, and medium from the request and proje
 
 ## Document structure
 
-Choose the content and form for each reader question. Use short lists for parallel facts, steps for dependent actions, tables for comparable attributes or exact lookup, charts for quantitative patterns, and diagrams for relationships or behavior. Use paragraphs to explain causes, mechanisms, implications, and trade-offs. Avoid long stretches of prose, but also avoid a nested bullet under every sentence. Formatting does not replace explanation.
+Choose the content and form for each reader question. Use lists for parallel facts, steps for dependent actions, tables for comparable attributes or exact lookup, charts for quantitative patterns, and diagrams for relationships or behavior. Use short connected paragraphs to explain causes, mechanisms, implications, and trade-offs. Split a bullet that bundles several subjects. Use second- or third-level bullets when they express real groups and supporting details; keep independent peers at the same level. Give each parent a useful meaning and each leaf one point. Neither a flat-only list nor automatic nesting is a default. Formatting does not replace explanation.
 
 Use clear noun phrases for section headings, table titles, and figure titles. Name the subject or comparison: “Recovery paths,” not “How does the system recover?” or “This approach makes recovery safer.” Put the finding in the opening sentence or caption. Keep headings specific enough to predict their contents; “Start,” “Three conclusions,” and generic “Overview” labels do not identify the subject by themselves.
 
@@ -27,7 +27,7 @@ For a new or restructured document, decide which question each section and visua
 
 ## Tables and visuals
 
-Design a table before populating it: identify the comparison or lookup, row items, and shared attributes. Split it when columns answer different questions or rows mix unlike kinds of information. Remove a column with no useful variation. Omit the table when a list or short explanation does the job better. An “Item / Content” grid containing paragraphs is usually prose constrained by cell borders.
+Design a table before populating it: identify the comparison or lookup, row items, and shared attributes. Make both dimensions explicit in the table: name the row entity in its header and label every row, as well as naming the compared attributes. A matrix needs visible row and column dimensions; a blank corner or row position must not carry unexplained meaning. Split the table when columns answer different questions or rows mix unlike kinds of information. Remove a column with no useful variation. Omit the table when a list or short explanation does the job better. An “Item / Content” grid containing paragraphs is usually prose constrained by cell borders.
 
 Keep cells to values, identifiers, or short phrases; use a short sentence only when needed for meaning. Move shared context into headers or one nearby note. Put reasoning and extended explanation outside the grid. If many cells need paragraphs, redesign the table rather than shrinking the type. Preserve a condition that changes a value's meaning. A compact two-column lookup is valid; neither a column count nor a word quota determines quality.
 
@@ -41,6 +41,8 @@ Keep what helps the reader understand, compare, verify, decide, or act. Delete r
 
 Exclude blanket disclaimers, self-protective wording, self-appraisal, routine reading instructions, and table tours. Do not replace a deleted paragraph with another disclaimer or automatically move it to an appendix. Attach usable citations to the relevant claims. State a material condition or uncertainty inside the specific fact it qualifies, without prefacing the entire document with a warning. Keep an actually required notice in its required place.
 
+State findings and proposals directly: “Use a bounded queue” or “Proposed retry policy,” rather than “I found” or “I propose.” Omit ornamental bylines, “the author's synthesis” introductions, and prose that repeats page ownership or sharing context. Keep dates that bound an observation, attribution that distinguishes a source or responsible actor, and required publication metadata. Use an author-centered voice only when explicitly requested or essential to the genre or meaning; technical reports do not need a narrator to establish proposal status.
+
 Preserve the supported strength of retained claims. Attribute reported results, distinguish proposals from implementation, and retain contrary observations and comparison conditions that change the conclusion. Do not upgrade one case to “the only method,” “required,” or “proven” through summarization or a diagram label. A global caveat cannot repair an overclaim. Preserve original evidence in its owning location; removing report prose does not authorize deleting records. Use [reader-value decisions](references/reader-value.md) for a difficult retain, rewrite, delete, or relocate decision.
 
 ## Explanation and language
@@ -49,7 +51,7 @@ Open with the useful finding, task, recommendation, or concrete problem for this
 
 Name the actor, input, operation, state change, and output when explaining a mechanism. Trace a representative request or record. Compare alternatives on the same dimensions and explain the deciding constraint. Spend detail on the example, distinction, or failure path that resolves a real reader question.
 
-Use established field terminology and explain unfamiliar meanings at first useful use. Keep ordinary connecting language natural in the reader's language. Complete sentences matter in explanatory prose; headings, labels, and cells need concise, unambiguous phrases, not artificial full sentences.
+Use established field terminology and explain unfamiliar meanings at first useful use. Name an unfamiliar internal artifact by its actual role before introducing a local alias; include the exact alias only when readers need it for lookup or coordination. Use the meaningful term in subsequent explanation. Do not replace opaque shorthand with a new slogan, rename a real identifier, or imply verification or quality that the source does not establish. Keep ordinary connecting language natural in the reader's language. Complete sentences matter in explanatory prose; headings, labels, and cells need concise, unambiguous phrases, not artificial full sentences.
 
 Read only the reference needed for the current decision:
 
@@ -57,7 +59,8 @@ Read only the reference needed for the current decision:
 - [Voice and factual prose](references/voice-and-facts.md): actors, logical relations, supported claims, and citation placement.
 - [Multilingual writing](references/multilingual-writing.md): language-specific meaning and expression.
 - [Writing patterns](references/writing-patterns.md): mechanisms, investigations, proposals, and progress.
-- [Example library](references/example-library.md) and [source readings](references/source-readings.md): relevant public passages and their explanatory techniques.
+- [Finished examples](references/finished-examples.md): for a new or restructured explanation, measured comparison, or proposal, choose the matching sample to see prose, tables, lists, and a diagram working together. Adapt its operation, not its outline.
+- [Example library](references/example-library.md) and [source readings](references/source-readings.md): when the matching sample does not resolve an explanatory choice, inspect a relevant public passage and its technique.
 - [Document production](references/document-production.md): the existing source or a suitable native PDF/editable-document route; no web application is needed solely to produce a PDF.
 - [Composition](references/composition.md): internal sharing, analytical views, and specialist production without repeated intake or editorial passes.
 
@@ -70,10 +73,11 @@ Check claims against inspected sources and compute arithmetic with tools. Preser
 Read the actual document without the drafting conversation and repair these failures before delivery:
 
 - The opening or headings do not identify the subject, useful result, or task.
-- A table's cells contain the explanation, its rows mix categories, or its columns serve unrelated questions.
+- A table's cells contain the explanation, its row meaning is implicit, its rows mix categories, or its columns serve unrelated questions.
 - A diagram needs tiny text, several competing reading paths, or an accompanying tour to explain its organization.
-- Research narration, generic disclaimers, repeated summaries, or “how to read this table” prose displace content.
-- A reader without the authoring context must visit another document or a distant glossary to understand the main point.
+- Research narration, author self-introduction, repeated “I propose” framing, generic disclaimers, or table tours displace content.
+- An opaque local alias or missing context forces the reader to visit another document or a distant glossary to understand the main point.
+- A long flat bullet bundles multiple subjects, or nesting adds indentation without a meaningful group.
 - Compression removes the mechanism, rationale, attribution, or condition needed for this genre.
 
 Inspect the destination at its delivered size, including figures, citations, table wrapping, page boundaries, and the initial view. Keep Markdown source paragraphs unwrapped; rendered line width is a separate layout choice. Deliver the requested artifact and editable source where applicable. Match private information and source access to the authorized audience, and publish or send only when authorized. Finish when the artifact and applicable checks are complete; report only material unresolved issues.
