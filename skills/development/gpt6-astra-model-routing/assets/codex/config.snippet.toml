@@ -1,0 +1,11 @@
+# Merge into ~/.codex/config.toml after review. Keys verified against Codex CLI 0.154.0.
+# Unnamed workers go to Terra at xhigh instead of inheriting the lead. Always set the
+# effort with the model: a model alone falls back to that model's catalog default.
+
+[agents]
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "xhigh"
+
+# Role files live in ~/.codex/agents/*.toml (see assets/codex/agents/). They are discovered
+# from that directory without stanzas here. Declaring at least one role also makes the
+# spawn tool expose agent_type. To lower a lane, edit model_reasoning_effort in its file.
