@@ -2,11 +2,15 @@
 
 Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. The questions below guide content selection; they are not a universal section checklist. Read a real technical exemplar through [source readings](source-readings.md) when that form is unfamiliar.
 
+Use the shared noun-phrase heading, compact-cell, and focused-visual defaults across these forms. Vary the explanation and reading order by purpose. A factual record's brevity is not a reason to omit mechanisms from a guide or reasons from a proposal. [Information design](information-design.md) covers the choice between paragraphs, lists, tables, and visuals.
+
 ## Guide or explanation for a new reader
 
 Start with the task or concrete problem that makes the subject useful. Give the reader enough context to follow the first example, then introduce the concept or distinction needed for the next step. A beginner may need a familiar term explained; an experienced reader may need only its nonstandard local meaning.
 
 Keep prerequisites before the actions they constrain. Use examples with enough context to work, and distinguish illustrative output from verified behavior. Let the depth follow the reader's need rather than turning every guide into an exhaustive reference. End when the reader can perform the intended task or explain the concept; add a recap only if it helps retain or apply what was learned.
+
+Introduce the concepts needed for the next example, not an obligatory textbook chapter or exhaustive glossary before the reader reaches the useful question. Use a short mechanism explanation alongside the visual; a sequence of definitions and labeled boxes alone does not teach why the system behaves as it does.
 
 ## Decision memo or proposal
 
@@ -58,11 +62,13 @@ Write “We chose X because Y” when a choice was actually made; use proposed s
 
 ## Incident report or postmortem
 
+Resolve whether the requested document is a factual incident record or an explanatory postmortem. A factual record can be complete with concise observations, a chronology, grouped findings, and response actions. Do not invent a root cause, recommendation, or prevention program to fill a template. An explanatory postmortem needs the supported causal reasoning and corrective actions below.
+
 Lead with the affected service or behavior, user-visible impact, duration when known, and current recovery state. Separate the trigger from the conditions that let it become an incident. Explain the causal sequence with evidence, and mark a suspected link as suspected instead of filling it with a plausible story.
 
 Include the timeline entries that locate detection, diagnosis, mitigation, recovery, and consequential decisions. Preserve time zones and distinguish a system event from when responders learned about it. Omit a transcript of routine activity. A change preceding recovery is not automatically the fix; explain what evidence connects them.
 
-Actions should address the mechanism or detection gap and have an observable completion condition. Avoid “improve monitoring” without naming the signal and response it should enable. Keep accountable ownership appropriate to the recipients without blame or erasure. The Google SRE example demonstrates separation of impact, cause, trigger, resolution, actions, and timeline; it is a fictional teaching example, not an actual Google outage.
+When corrective actions are part of the requested scope, they should address the mechanism or detection gap and have an observable completion condition. Avoid “improve monitoring” without naming the signal and response it should enable. Keep accountable ownership appropriate to the recipients without blame or erasure. The Google SRE example demonstrates separation of impact, cause, trigger, resolution, actions, and timeline; it is a fictional teaching example, not an actual Google outage.
 
 ## Periodic review or progress report
 

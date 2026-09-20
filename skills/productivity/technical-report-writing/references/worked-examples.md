@@ -1,15 +1,175 @@
 # Worked Examples
 
-Use these to inspect the actual sentence, paragraph, table, and caption decisions, not only the document outline. The first section analyzes public documents. Every example in the second section is synthetic and constructed for teaching; its numbers and events are not measurements of a real system or anonymized company records.
+Use these to inspect sentence, paragraph, table, figure, and caption decisions, not only the document outline. Structural repairs and synthetic rewrites are independently constructed teaching examples; their numbers and events are not measurements of a real system or anonymized company records. The public readings analyze the cited documents.
 
-For finished paragraphs organized by reader task, start with [writing patterns](writing-patterns.md). Use the contrasts here to diagnose why a sentence or display is less useful, then retain the action and result demonstrated by the stronger version.
+For prose and displays working together, start with [finished examples](finished-examples.md); for a single explanatory paragraph, use [writing patterns](writing-patterns.md). Use the contrasts here to diagnose why a sentence or display is less useful, then retain the action and result demonstrated by the stronger version.
 
 ## Contents
 
+- Structural repairs: [paragraph table](#paragraph-table), [table-split](#table-split), [heading-and-cell-phrases](#heading-and-cell-phrases), [figure-split](#figure-split), [genre-transfer](#genre-transfer).
+- Reader context: [row identity](#row-identity), [internal aliases](#internal-aliases), [list hierarchy](#list-hierarchy).
 - Public readings: [PEP 703](#pep-703-separate-the-measured-cost-from-the-intended-benefit), [Rust RFC](#rust-rfc-2394-give-a-concrete-mental-model-before-precise-semantics), [MapReduce](#mapreduce-explain-an-experimental-curve-through-system-behavior), [Circuit Tracing](#circuit-tracing-tie-a-limitation-to-a-counterexample).
 - Prose: [mechanism](#replace-praise-with-the-mechanism), [proposal status](#keep-a-proposal-from-sounding-implemented), [observation and explanation](#separate-an-observation-from-its-explanation), [alternative](#compare-an-alternative-fairly), [failure sequence](#keep-the-failure-sequence-and-remove-blame).
 - Evidence display: [comparison conditions](#preserve-the-comparison-conditions-in-a-compact-result), [table](#make-a-table-carry-repeated-context-once), [caption](#give-a-caption-a-job-distinct-from-the-title).
 - Concision and language: [self-description](#remove-report-self-description), [definition](#define-the-measurement-not-the-familiar-word), [Korean relations](#restore-the-relation-in-korean).
+
+## Structural repairs
+
+These examples are independently synthetic. They teach editorial decisions without reproducing private documents, source identities, measurements, or incident details.
+
+### Paragraph table
+
+**Reader:** an engineer comparing two document-indexing configurations.
+
+**Before:**
+
+| Item | Content |
+| --- | --- |
+| Method | Documents are indexed either during the upload request or later by a worker. The second configuration writes a durable job first. |
+| Result | Direct indexing takes 800 ms before acknowledging upload. Queued indexing takes 80 ms to acknowledge and 3 seconds to make the document searchable. |
+| Meaning | Queued indexing acknowledges earlier, but users must wait for the worker before their document appears in search. |
+
+The rows are different parts of an argument. The grid does not provide a comparison.
+
+**After:**
+
+**Upload and search latency**
+
+| Configuration | Upload acknowledgment | Search availability |
+| --- | ---: | ---: |
+| Direct indexing | 800 ms | 800 ms |
+| Queued indexing | 80 ms | 3 s |
+
+Queued indexing acknowledges the upload after saving a durable job. A worker then updates the search index. This shortens the upload wait while delaying search availability.
+
+The compact table compares values; the short paragraph explains why they differ. The heading is a noun phrase. No paragraph explaining how to read the columns is needed.
+
+### Table split
+
+**Reader:** a team selecting an export path for two independent needs: output behavior and maintenance responsibility.
+
+**Before:**
+
+| Path | Output and delivery | Scheduling and ownership |
+| --- | --- | --- |
+| On demand | CSV is generated when requested and returned by HTTP; each export covers the selected account. | No schedule is used; the API team maintains the handler. |
+| Scheduled | A daily Parquet file covers all accounts and is written to object storage. | The scheduler runs nightly; the data team maintains the worker. |
+
+**After:**
+
+**Export behavior**
+
+| Path | Format | Delivery | Coverage |
+| --- | --- | --- | --- |
+| On demand | CSV | HTTP response | Selected account |
+| Scheduled | Parquet | Object storage | All accounts |
+
+**Maintenance**
+
+| Path | Trigger | Owner |
+| --- | --- | --- |
+| On demand | Request | API team |
+| Scheduled | Nightly schedule | Data team |
+
+Stable path names connect the views. Choose the first table alone when the reader only needs the output contract. The second table earns its place only when maintenance affects the choice.
+
+### Heading and cell phrases
+
+**Before heading:** “Why does the worker retry the same job?”
+
+**After heading:** “Job retries”
+
+**Before cell under “Retry policy”:** “The worker retries a failed job at most three times.”
+
+**After cell:** “Up to 3 retries”
+
+**Explanatory sentence:** “The worker retries the job when the result is not acknowledged before the lease expires.”
+
+Headings and cells remain compact while the sentence supplies the operation and condition. Do not apply a complete-sentence prose rule to labels.
+
+The same distinction applies in Korean: use “작업 재시도” as the heading and “최대 3회” in the retry-limit cell. Keep the relation explicit in prose: “워커는 리스가 만료될 때까지 처리 결과가 확인되지 않으면 작업을 다시 시도한다.”
+
+### Figure split
+
+**Before:** one diagram combines a request path, a database schema, a release timeline, and two latency charts. Small type and four legends make every element fit, but the reader must infer which parts explain runtime behavior.
+
+**After figure plan:**
+
+| View | Question | Contents |
+| --- | --- | --- |
+| Request lifecycle | Where does a request wait? | Client, queue, worker; submit/dequeue/acknowledge edges |
+| Queue latency | Which configuration reduces waiting? | Matched baseline/candidate distributions |
+
+Explain the durable job record beside the lifecycle only if it is needed to understand recovery. Keep the full schema in the implementation reference. Omit the release timeline when it does not explain either result.
+
+The first view establishes the mechanism; the second provides the comparison. A reader can follow either without interpreting unrelated deployment or history panels. A pair of matched distributions belongs together because comparing them is the task.
+
+### Genre transfer
+
+**Synthetic factual input:** a stale queue lease prevented a job from being reassigned; the operator reset the lease; the job then completed.
+
+**Factual incident record:**
+
+- **Observation:** Job retained an expired lease.
+- **Response:** Operator reset the lease.
+- **Result:** Another worker completed the job.
+
+**Technical explanation:**
+
+The queue records the worker assigned to a job in a lease. When that worker stops, the lease must expire before the queue assigns another worker. If reassignment still treats the expired lease as active, the job remains blocked.
+
+**Proposal:**
+
+Allow reassignment after lease expiry and give each assignment a new generation number. Reject acknowledgments from older generations so a delayed worker cannot complete a reassigned job. Increasing the lease duration alone would delay recovery without handling stale acknowledgments.
+
+The factual record is enough for its reporting task. The explanation adds the missing mechanism; the proposal adds the changed behavior and the reason to choose it. Reusing the incident bullets for all three would remove necessary content.
+
+### Row identity
+
+**Before:** the columns name delivery options, but blank row headings leave the reader to infer that the rows are requirements.
+
+| | Live updates | Daily digest |
+| --- | --- | --- |
+| | Yes | No |
+| | No | Yes |
+
+**After:**
+
+| Requirement / Delivery option | Live updates | Daily digest |
+| --- | --- | --- |
+| Immediate notice | Yes | No |
+| One scheduled message | No | Yes |
+
+The corner heading names both dimensions, and each row states the requirement being assessed. If row labels already existed but their dimension was unnamed, repair the header alone. Do not add a paragraph decoding row order.
+
+### Internal aliases
+
+**Before:** “Run the classifier on review-set-r3. This is our gold-standard dataset.”
+
+**After:** “Evaluate the classifier on the labeled support-ticket dataset (internal ID: `review-set-r3`). Labels come from a mix of human review and automated rules.”
+
+The source for this teaching case establishes mixed label origins, not a gold-standard validation process. The edit explains the role and preserves the lookup ID without asserting that all labels were validated. Use “labeled dataset” in subsequent explanation. Omit the internal ID altogether when the reader will not need it.
+
+### List hierarchy
+
+**Before:**
+
+- Search rollout: build the index, check phrase queries and category filters, compare incremental updates with a full rebuild, enable a pilot, check latency, and disable the pilot if results are incomplete.
+
+**After:**
+
+- Index correctness
+  - Build the initial index.
+  - Compare incremental updates with a full rebuild.
+  - Check query behavior.
+    - Phrase queries preserve word order.
+    - Category filters exclude other categories.
+- Pilot rollout
+  - Enable search for the pilot group after correctness checks pass.
+  - Measure request latency under pilot traffic.
+  - Disable the pilot if indexed results are incomplete.
+
+The hierarchy distinguishes two workstreams, their actions, and the cases within one check. It uses a third level only for that real subdivision. A short, independent observation can remain a single-level bullet; causal reasoning may still read better as a paragraph.
 
 ## Public documents: read the writing operation
 
@@ -88,11 +248,11 @@ The columns expose both denominators and the latency population. A neighboring p
 
 ### Give a caption a job distinct from the title
 
-Title: “The tail grows when backup tasks are disabled.”
+Title: “Worker completion times with and without backup tasks”
 
-Caption: “Completion time by worker for the same input partitioning. The right panel disables speculative backup tasks; all other tested settings are unchanged.”
+Caption: “The right panel has a longer tail after speculative backup tasks are disabled. Input partitioning and all other tested settings are unchanged.”
 
-The synthetic title carries the observed pattern, while the caption identifies the comparison. The body would explain how the tail affects total completion time if the supplied data supports that consequence. Do not add another sentence telling readers that the chart demonstrates the importance of robust orchestration.
+The synthetic title names the comparison, while the caption states the pattern and its conditions. The body would explain how the tail affects total completion time if the supplied data supports that consequence. Do not add another sentence telling readers that the chart demonstrates the importance of robust orchestration.
 
 ### Compare an alternative fairly
 

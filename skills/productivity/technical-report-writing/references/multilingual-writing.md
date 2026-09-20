@@ -20,7 +20,7 @@ Check an appended `-ing` clause if it supplies an unsupported effect or an uncle
 
 ## Korean
 
-Keep subjects, objects, predicates, particles, and referents recoverable. Restore omitted relations when compressed noun phrases make the reader infer what happened. Preserve an established speech level; a technical explanation can use consistent `-다` endings without forced variation. Use `korean-clarity` when Korean semantic repair needs its more detailed guidance, including outside document work.
+Keep subjects, objects, predicates, particles, and referents recoverable in explanatory prose. Restore omitted relations when compressed noun phrases make the reader infer what happened. Section headings and visual titles use noun phrases; table cells use compact values or phrases whose meaning is supplied by the header. Do not expand them into full sentences to satisfy a prose rule. Preserve an established speech level; a technical explanation can use consistent `-다` endings without forced variation. Use `korean-clarity` when Korean semantic repair needs its more detailed guidance, including outside document work.
 
 Replace nominal or translated constructions only when the relation becomes clearer. Keep standard English technical terms when they are precise and familiar to the intended reader. Do not treat English spelling itself as a defect or require a Korean replacement after first use. Keep a causal connector when it expresses causation and a contrast when it distinguishes real alternatives.
 

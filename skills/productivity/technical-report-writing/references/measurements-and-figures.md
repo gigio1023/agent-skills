@@ -20,17 +20,19 @@ A repeated run, an ablation, a paired comparison, and a causal intervention answ
 
 ## Tables
 
+Use [information design](information-design.md#table-design) to decide whether to split, replace, or omit a table before formatting its measurements. A short table can still be dense when its cells mix methods, results, interpretation, and source history.
+
 Make column headings carry repeated context: units, metric names, direction when unclear, and relevant settings. Align numeric values for comparison, keep precision consistent, and order rows for the reader's question. Use restrained emphasis on the meaningful comparison, not a badge in every cell. A status column can be useful; a “verified” decoration usually does not add evidence.
 
-Keep conditions that change a row's interpretation beside that row. Use a short note for a shared exclusion or measurement rule. Keep long explanations out of cells unless the table truly compares prose attributes. A one-row table of unrelated facts is often clearer as a sentence or list. Do not fill missing cells with invented zeroes.
+Keep conditions that change a row's interpretation beside that row. Use a short note for a shared exclusion or measurement rule. Cells should hold values, identifiers, or short phrases; put extended explanations beside the table. When comparing qualitative attributes, use consistent short descriptions and explain the deciding trade-off outside the grid. A one-row table of unrelated facts is often clearer as a sentence or list. Do not fill missing cells with invented zeroes.
 
 For alternatives, compare the same decision dimensions and explain the chosen trade-off in prose. Avoid a composite score unless its meaning and weights are justified for this decision. Exact lookup may need a table even when a chart looks more impressive.
 
 ## Figures and captions
 
-Choose a figure because it clarifies a mechanism, change, distribution, or comparison. Show a decisive result at a legible size before adding detail. Comparable panels need compatible axes and scales, or an explicit reason for differences. Use direct labels when they reduce legend lookup; preserve units, baseline, and the actual meaning of color. Do not rely on color alone.
+Choose a figure because it clarifies a mechanism, change, distribution, or comparison. Give it one primary question and a noun-phrase title. Split distinct questions or detail levels before adding more panels, legends, or smaller type. Show a decisive result at a legible size before adding detail. Comparable panels need compatible axes and scales, or an explicit reason for differences. Use direct labels when they reduce legend lookup; preserve units, baseline, and the actual meaning of color. Do not rely on color alone.
 
-A caption should identify what was measured or depicted and supply the local interpretation condition missing from the title and axes. Add the finding there only if it is not already clearly stated nearby. Point to a panel or visible feature when explaining a mechanism; do not tour every mark. A methods detail such as fixed attention patterns can be part of the figure's meaning, while a generic warning about the limits of all research is not.
+A caption should identify what was measured or depicted and supply the local interpretation condition missing from the title and axes. Add the finding there only if it is not already clearly stated nearby. Point to a panel or visible feature when explaining a mechanism; do not tour every mark. A methods detail such as fixed attention patterns can be part of the figure's meaning, while a generic warning about the limits of all research is not. After restructuring, number figures in reading order and repair references to panels and figures.
 
 For an ablation or failure experiment, compare the normal and changed condition on aligned panels and explain the expected versus observed effect. MapReduce's Figure 3 uses matched input/shuffle/output panels for normal execution, disabled backup tasks, and killed workers. The useful transfer is the controlled comparison and interpretation, not its historical hardware or palette.
 

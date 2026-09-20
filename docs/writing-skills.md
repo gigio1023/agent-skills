@@ -4,14 +4,20 @@ Use these capabilities for the requested task. Installing them does not create a
 
 | Capability | Responsibility |
 | --- | --- |
-| `technical-report-writing` | Select information, explain, author or revise prose, and produce the requested document |
+| `technical-report-writing` | Own document selection, structure, compact tables, focused visuals, explanation, and production |
 | `insight-dashboard` | Design a useful initial comparison and keep data definitions, selections, values, commentary, and exports consistent |
 | Official `shadcn` skill | Implement shadcn/ui using upstream project-aware guidance |
-| `share-internal-doc` in Gigio Pack | Complete a colleague-facing document request, including recipients, sensitive attribution, source access, and authorized delivery; reuse the writer when available |
+| `share-internal-doc` in Gigio Pack | Apply the writer, then check recipients, sensitive attribution, source access, and authorized delivery |
 | `slop-aware-writing` | Explicit focused revision of existing prose; useful on its own |
 | `korean-clarity` | Repair Korean semantic omissions and unclear relationships, including in ordinary responses |
 
 Reuse the reader, evidence, and authority already established for the task. One task may need several capabilities, but it need not pass through every skill. Keep the actual explanation under one editorial judgment.
+
+The writer is the main document-authoring entry point. Its core defaults require noun-phrase headings, explicit row and column meanings, short cells, deliberate table selection and splitting, focused visuals, and meaningful list hierarchy. State findings and proposals directly, omit ornamental author framing and research diaries, and introduce internal aliases through accurate domain terms. These preferences do not depend on opening an optional reference. Genre determines the depth: factual records need observations, explanations need mechanisms, and proposals need reasons and alternatives. A current explicit style request or governing template can override a default.
+
+The writer's [finished examples](../skills/productivity/technical-report-writing/references/finished-examples.md) combine prose and displays for an explanation, measured comparison, and proposal. Its public source library and close readings retain the original techniques and their limits; examples teach an operation without imposing a universal outline.
+
+share-internal-doc adds the sharing context without duplicating those methods. Calling it alone remains enough to obtain a complete shared document. Publication and installation remain separate actions; no new style skill or mandatory multi-skill sequence is introduced.
 
 Failure details, denominators, responsibilities, comparison conditions, and uncertainty matter when their omission changes interpretation. They are not required sections or ritual caveats. Context, an appropriate source document, or code may already make a condition clear. Explain core definitions and consequential differences where the intended reader needs them.
 

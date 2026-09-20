@@ -1,79 +1,83 @@
 ---
 name: technical-report-writing
 description: >
-  Write, revise, or review reader-facing documents: reports, guides,
-  proposals, memos, posts, design docs, and project documentation for
-  internal or external readers, in any language or medium. Use for
-  information selection, explanation, prose editing, and document production;
-  sharing authorization and specialized interface implementation remain separate.
+  Write, revise, or review reader-facing reports, guides, proposals, memos,
+  posts, design docs, and project documentation in any language or medium.
+  Use for information selection, document structure, concise tables,
+  explanatory visuals, prose, and production. Owns document craft;
+  share-internal-doc adds recipient suitability and authorized delivery.
+  NOT for ordinary chat or specialized interface implementation alone.
 ---
 
 # Technical Report Writing
 
-Write for the reader's question, background knowledge, and intended use. Choose information before polishing its expression. Make the important point easy to find and give the reasoning, examples, and evidence needed to understand or use it. A dry technical register suits engineering reports; a guide, personal post, or proposal can need a different voice.
+Produce a document that a reader without the drafting conversation can understand and use. Select and organize the information before polishing sentences. Default to clear noun-phrase headings, short readable blocks, compact comparisons, and focused visuals. Preserve the explanation needed to understand the subject; a concise document can still be substantial.
 
-Infer the reader, task, source material, language, and medium from the request and project. Preserve established terminology, source files, required templates, and the author's intended voice. A review returns findings; an authoring or revision request returns the requested text or artifact. Recover available inputs before asking about consequential gaps. Editing a document does not authorize changing its underlying system or publishing it.
+Infer the reader, task, sources, language, and medium from the request and project. Use available inputs before asking about consequential gaps. Preserve established terms, source files, required templates, and the author's intended voice. A review returns findings; authoring or revision returns the requested text or artifact. Editing does not authorize changing the underlying system or publishing. A current explicit style request or governing template takes precedence over these editorial defaults.
 
-## Select what the reader needs
+## Document structure
 
-Keep content that helps the reader understand, compare, verify, decide, or act. Accuracy alone does not require retaining a sentence. Delete redundant definitions, routine UI tours, generic caveats, and self-assessment when they do no work for this reader. Judge their function in context, not the author's presumed motive or whether the text sounds AI-generated.
+Choose the content and form for each reader question. Use lists for parallel facts, steps for dependent actions, tables for comparable attributes or exact lookup, charts for quantitative patterns, and diagrams for relationships or behavior. Use short connected paragraphs to explain causes, mechanisms, implications, and trade-offs. Split a bullet that bundles several subjects. Use second- or third-level bullets when they express real groups and supporting details; keep independent peers at the same level. Give each parent a useful meaning and each leaf one point. Neither a flat-only list nor automatic nesting is a default. Formatting does not replace explanation.
 
-Preserve the accuracy, attribution, and evidential strength of retained claims, together with facts or conditions whose omission would materially change their interpretation or use. Failures, adverse results, populations, denominators, comparison conditions, uncertainty, and responsibilities are examples to consider, not a mandatory list to restate. Omit their explanation when the intended reader can already infer it from the passage or appropriate source and no consequential misunderstanding results. Keep core definitions and interpretation-changing conditions accessible; preserve any actually required notice. Removing an unsupported judgment must not erase the observed action or accountable next step.
+Use clear noun phrases for section headings, table titles, and figure titles. Name the subject or comparison: “Recovery paths,” not “How does the system recover?” or “This approach makes recovery safer.” Put the finding in the opening sentence or caption. Keep headings specific enough to predict their contents; “Start,” “Three conclusions,” and generic “Overview” labels do not identify the subject by themselves.
 
-Choose the useful edit: retain a good passage, rewrite necessary but unclear information locally, delete unnecessary information, or relocate detail for an identifiable reader task. Deletion needs no replacement disclaimer, footnote, or automatic appendix. Place a needed qualification where it resolves the reader's likely misunderstanding. Do not repeat it beside every claim when surrounding text, a shared method, or the relevant code or document already makes the condition clear.
+Organize for the document's purpose. A factual incident record can use an overview, chronology, grouped observations, and response. A technical introduction needs the problem, a concrete example, and enough mechanism to explain it. A proposal needs the changed behavior, alternatives, and the reason to choose. Do not turn a concise incident report into a universal template, or turn a technical explanation into an inventory of facts. Keep needed definitions near first use; an exhaustive glossary or prerequisite chapter is not the default.
 
-Distinguish the report from its production record. Include build details, timestamps, revisions, and verification receipts when the reader needs them to compare, reproduce, audit, or act. A Sources section is a useful destination when it serves that task, not a compulsory home for everything removed. Preserve underlying evidence under its own retention rules; editing the report does not authorize deleting records.
+For a new or restructured document, decide which question each section and visual answers before filling it. Do not print the planning exercise, impose a fixed outline, or add a review pause unless requested. Use [information design](references/information-design.md) for block selection and split decisions, and [document forms](references/document-forms.md) for genre-specific depth.
 
-When the choice is unclear, [reader-value decisions](references/reader-value.md) gives a functional diagnosis and paired examples where changing the reader's task changes the right edit.
+## Tables and visuals
 
-## Build the explanation from evidence
+Design a table before populating it: identify the comparison or lookup, row items, and shared attributes. Make both dimensions explicit in the table: name the row entity in its header and label every row, as well as naming the compared attributes. A matrix needs visible row and column dimensions; a blank corner or row position must not carry unexplained meaning. Split the table when columns answer different questions or rows mix unlike kinds of information. Remove a column with no useful variation. Omit the table when a list or short explanation does the job better. An “Item / Content” grid containing paragraphs is usually prose constrained by cell borders.
 
-Use the actions that fit the document. A mechanism explanation needs a system path; a personal account or lookup page may not need systems, measurements, or an argument at all.
+Keep cells to values, identifiers, or short phrases; use a short sentence only when needed for meaning. Move shared context into headers or one nearby note. Put reasoning and extended explanation outside the grid. If many cells need paragraphs, redesign the table rather than shrinking the type. Preserve a condition that changes a value's meaning. A compact two-column lookup is valid; neither a column count nor a word quota determines quality.
 
-1. **Choose the reader's entry point.** Open a report with its important finding, a proposal with the changed behavior and reason, a procedure with the task, and an explanation with the concrete problem or example that makes the concept useful. Select the entry point for this document rather than imposing one outline.
-2. **Connect the facts.** Give each paragraph a job: trace a mechanism, interpret an observation, compare alternatives, or justify a choice. Supply the relation between evidence and conclusion. When evidence leaves a choice unresolved, identify the observation that would distinguish the alternatives.
-3. **Show the system acting.** Name the actor, input, operation, state change, and output that matter. Trace one request or record through the relevant components. Introduce precise semantics after the example has given the reader something to attach them to.
-4. **Make comparisons fair and useful.** Give alternatives the same decision dimensions. Preserve each credible option's advantage, then explain which constraint decides this case. For measurements, retain the baseline, population, units, and conditions needed to read the difference.
-5. **State each claim at its supported strength.** Use present tense for specified behavior, past tense for a completed observation, explicit proposal language for a proposed change, and conditional wording for a hypothesis. Keep a qualification accessible where it is needed to interpret the claim. Strong writing instructions call for decisive author actions, not exaggerated certainty about facts.
-6. **Spend detail on understanding.** Include the example, definition, counterexample, or failure path that resolves a likely reader question. Introduce unfamiliar or locally redefined terms at first useful use; use familiar vocabulary directly. Match depth to the reader, not an arbitrary length target.
-7. **Make the useful content visible.** Give the opening's explanation, finding, or task and its decisive support enough space in any medium. Use prose for relationships, tables for parallel comparisons, steps for dependent actions, and figures when visible structure or behavior is easier to understand than text. Titles, captions, and body text should contribute different information. A document need not become a dashboard or contain a figure.
+Give each chart or diagram one primary comparison, relationship, or mechanism. Separate unrelated questions and levels of detail; matched panels may belong together when they answer the same question. Do not combine a process, component inventory, historical timeline, benchmark, and deployment catalog merely because all concern one subject. Plan the reading order, labels, and useful size. Split or remove detail before adding more boxes, legends, footnotes, or smaller text.
 
-For example, in an independently constructed **synthetic proposal**:
+Use visuals where they reduce the reader's work, without a mandatory figure count. Show real entities and label arrows with the operation or data. Keep titles, labels, captions, and nearby text complementary. Number figures in reading order after restructuring. Read [measurements and figures](references/measurements-and-figures.md) for quantitative meaning and [worked examples](references/worked-examples.md) for complete structural repairs.
 
-> Store a completion record for each batch. On restart, retry batches without a completion record. A crash after saving output but before recording completion can replay the same batch, so key output writes by batch ID and make repeated writes idempotent.
+## Content and evidence
 
-The paragraph gives the proposed operation, the recovery path, and the implementation condition. It teaches the mechanism rather than praising reliability. In a real document, establish those semantics from its design and implementation.
+Keep what helps the reader understand, compare, verify, decide, or act. Delete research-process narration unless requested: search rounds, collection counts, source-folder inventories, local preservation steps, and accounts of how carefully the author worked. Explain the subject's method when needed; how the author searched for that method is a different topic. An explicitly requested audit, evidence inventory, or reproduction protocol retains its required records.
 
-## Choose useful examples and detail
+Exclude blanket disclaimers, self-protective wording, self-appraisal, routine reading instructions, and table tours. Do not replace a deleted paragraph with another disclaimer or automatically move it to an appendix. Attach usable citations to the relevant claims. State a material condition or uncertainty inside the specific fact it qualifies, without prefacing the entire document with a warning. Keep an actually required notice in its required place.
 
-Read only the reference that resolves the current writing decision. A substantial document can benefit from a nearby finished example; a sentence edit does not need the full library.
+State findings and proposals directly: “Use a bounded queue” or “Proposed retry policy,” rather than “I found” or “I propose.” Omit ornamental bylines, “the author's synthesis” introductions, and prose that repeats page ownership or sharing context. Keep dates that bound an observation, attribution that distinguishes a source or responsible actor, and required publication metadata. Use an author-centered voice only when explicitly requested or essential to the genre or meaning; technical reports do not need a narrator to establish proposal status.
 
-- **Choose between new writing, local editing, and structural revision:** [authoring and revision](references/authoring-and-revision.md) covers source grounding, scope, and preserving voice while repairing the reader's problem.
-- **Build sentences and paragraphs:** [voice and factual prose](references/voice-and-facts.md) covers subjects, logical connections, claim strength, and detail placement.
-- **Resolve language-specific meaning or voice:** [multilingual writing](references/multilingual-writing.md) provides conditional English, Korean, Italian, and Chinese guidance; use the same meaning checks for other languages.
-- **Choose the document's structure:** [document forms](references/document-forms.md), including guides, memos, posts, and engineering forms. Use the reader's task and governing template, not every listed section.
-- **Explain, compare, investigate, or report progress:** [writing patterns](references/writing-patterns.md) pairs reader situations with writing actions, finished examples, and reader checks.
-- **Inspect sentence, paragraph, table, and caption craft:** [worked examples](references/worked-examples.md) contains public close readings and synthetic rewrites.
-- **Find a nearby public work:** [example library](references/example-library.md) groups design documents, engineering investigations, and visual explanations by task. Read the relevant passage before borrowing its technique.
-- **Understand the original technical and editorial basis:** [source readings](references/source-readings.md) retains section-level analysis of papers, specifications, and documentation guides.
-- **Present numbers, uncertainty, equations, or figures:** [measurements and figures](references/measurements-and-figures.md).
-- **Produce a PDF or editable document:** [document production](references/document-production.md). Start with Typst for an unconstrained print-first report, DOCX when recipient editing decides the medium, or the project's existing source. PDF needs no shadcn intermediate.
-- **Combine internal sharing, data views, and frontend work:** [composition](references/composition.md). Use optional companions for their specialty without restarting intake or requiring the entire pack.
+Preserve the supported strength of retained claims. Attribute reported results, distinguish proposals from implementation, and retain contrary observations and comparison conditions that change the conclusion. Do not upgrade one case to “the only method,” “required,” or “proven” through summarization or a diagram label. A global caveat cannot repair an overclaim. Preserve original evidence in its owning location; removing report prose does not authorize deleting records. Use [reader-value decisions](references/reader-value.md) for a difficult retain, rewrite, delete, or relocate decision.
 
-Borrow the source's explanatory operation and adapt its depth to the reader. Keep the project's architecture, evidence, and voice authoritative. A useful public example can motivate a technique without establishing a universal heading, chart count, governance process, or current API.
+## Explanation and language
 
-## Verify the reader's result
+Open with the useful finding, task, recommendation, or concrete problem for this reader. Supply the context and reasoning needed to understand it in this document. Links support verification and deeper inspection; they must not require readers to reconstruct the main explanation elsewhere.
 
-Check claims against inspected sources and compute arithmetic with tools. Preserve measurement boundaries, exact identifiers, requirement levels, and proposal status. Label invented teaching examples as synthetic; never present them as collected results. Keep a missing measurement distinct from zero and a temporal association distinct from a demonstrated cause.
+Name the actor, input, operation, state change, and output when explaining a mechanism. Trace a representative request or record. Compare alternatives on the same dimensions and explain the deciding constraint. Spend detail on the example, distinction, or failure path that resolves a real reader question.
 
-Read the document without the drafting conversation. Check the actual reader-facing content before delivery:
+Use established field terminology and explain unfamiliar meanings at first useful use. Name an unfamiliar internal artifact by its actual role before introducing a local alias; include the exact alias only when readers need it for lookup or coordination. Use the meaningful term in subsequent explanation. Do not replace opaque shorthand with a new slogan, rename a real identifier, or imply verification or quality that the source does not establish. Keep ordinary connecting language natural in the reader's language. Complete sentences matter in explanatory prose; headings, labels, and cells need concise, unambiguous phrases, not artificial full sentences.
 
-- Does the opening make the useful explanation, finding, comparison, or task easy to find, with its decisive support given room?
-- Does each production or verification detail help this reader interpret, reproduce, audit, or act?
-- Can this reader correctly interpret each claim or view using its wording, surrounding context, and appropriate supporting material, without redundant qualifications?
-- Do definitions, UI instructions, headings, and captions add information the intended reader needs?
-- Are paragraphs organized by meaning, with facts, logical relations, voice, and material limits intact?
+Read only the reference needed for the current decision:
 
-Use these questions to repair the artifact, not to print a checklist or a self-congratulatory completion paragraph. In Markdown, keep natural prose paragraphs without fixed-column source wrapping. Preserve list structure, code, and intentional hard breaks. Rendered line width is a separate layout choice: inspect it for the medium and reader instead of treating unwrapped source as a requirement for unlimited screen width.
+- [Authoring and revision](references/authoring-and-revision.md): source grounding, scope, and preservation of voice.
+- [Voice and factual prose](references/voice-and-facts.md): actors, logical relations, supported claims, and citation placement.
+- [Multilingual writing](references/multilingual-writing.md): language-specific meaning and expression.
+- [Writing patterns](references/writing-patterns.md): mechanisms, investigations, proposals, and progress.
+- [Finished examples](references/finished-examples.md): for a new or restructured explanation, measured comparison, or proposal, choose the matching sample to see prose, tables, lists, and a diagram working together. Adapt its operation, not its outline.
+- [Example library](references/example-library.md) and [source readings](references/source-readings.md): when the matching sample does not resolve an explanatory choice, inspect a relevant public passage and its technique.
+- [Document production](references/document-production.md): the existing source or a suitable native PDF/editable-document route; no web application is needed solely to produce a PDF.
+- [Composition](references/composition.md): internal sharing, analytical views, and specialist production without repeated intake or editorial passes.
 
-Inspect the final text in its destination context; render generated outputs and check figures, links, tables, page boundaries, and the initial view where relevant. Deliver the artifact and editable source where applicable. Include private personal or organizational information only within the authorized audience and purpose; permission to inspect a source is not permission to disclose it. Match source access to recipients, and publish or send only when authorized. Finish when the requested artifact and applicable checks are complete; report only material unresolved issues in the delivery note.
+Borrow the useful operation from an example, not its whole outline, density, or style. Explicit user preferences remain operative across genres unless overridden; optional reference reading must not hide them.
+
+## Reader and delivery checks
+
+Check claims against inspected sources and compute arithmetic with tools. Preserve identifiers, units, populations, proposal status, and requirement levels. Label invented teaching examples as synthetic. Keep missing data distinct from zero and temporal association distinct from demonstrated cause.
+
+Read the actual document without the drafting conversation and repair these failures before delivery:
+
+- The opening or headings do not identify the subject, useful result, or task.
+- A table's cells contain the explanation, its row meaning is implicit, its rows mix categories, or its columns serve unrelated questions.
+- A diagram needs tiny text, several competing reading paths, or an accompanying tour to explain its organization.
+- Research narration, author self-introduction, repeated “I propose” framing, generic disclaimers, or table tours displace content.
+- An opaque local alias or missing context forces the reader to visit another document or a distant glossary to understand the main point.
+- A long flat bullet bundles multiple subjects, or nesting adds indentation without a meaningful group.
+- Compression removes the mechanism, rationale, attribution, or condition needed for this genre.
+
+Inspect the destination at its delivered size, including figures, citations, table wrapping, page boundaries, and the initial view. Keep Markdown source paragraphs unwrapped; rendered line width is a separate layout choice. Deliver the requested artifact and editable source where applicable. Match private information and source access to the authorized audience, and publish or send only when authorized. Finish when the artifact and applicable checks are complete; report only material unresolved issues.
