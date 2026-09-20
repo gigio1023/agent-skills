@@ -23,6 +23,16 @@ For a claim or figure intended to circulate independently, retain the conditions
 
 All examples below are independently synthetic teaching cases. They are not anonymized work records. “Delete the paragraph” is an editing action, not text to insert into the document.
 
+### Research narration and subject methods
+
+**Draft:** “We completed several rounds of research, saved the original materials locally, and checked the evidence folders. All figures are reported by their respective authors.”
+
+**Technical explanation:** Delete this paragraph. Present the relevant mechanism and comparison, with citations attached to the claims. Do not replace it with a shorter research diary or a generic source disclaimer.
+
+**Requested collection audit:** The reader has explicitly asked what was retrieved and what is missing. Provide the inventory and actual gaps. A collection count now answers the requested question.
+
+**Important distinction:** The algorithm being explained, the experiment's workload, and the observed incident chronology are subject matter. Preserve their necessary steps and conditions. The author's search order, extraction tools, and storage layout are production history and stay out unless requested.
+
 ### Production receipt: comparison versus artifact identity
 
 **Same draft:** “This report was generated from a frozen catalog. The catalog passed its schema check, and its content hash was recorded after the build. The results and full settings are available through the navigation links. This carefully validated report provides a comprehensive overview.”

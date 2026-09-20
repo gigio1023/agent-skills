@@ -6,15 +6,15 @@ Use when document work also involves internal sharing, a dashboard, focused lang
 
 | Skill | Contribution |
 | --- | --- |
-| `technical-report-writing` | Reader-based information selection, explanation, authoring and revision, voice, multilingual prose, document visibility, and production choices |
-| `share-internal-doc` | Complete colleague-facing document request, using this writer when available, plus recipient suitability, attribution, source access, and authorized sharing/readback |
+| `technical-report-writing` | Document craft: selection, structure, headings, tables, visuals, explanation, and production |
+| `share-internal-doc` | Recipient suitability, attribution, usable source access, and authorized delivery |
 | `insight-dashboard` | Quantitative comparison, informative initial view, data/filter/claim alignment, and static presentation of selected results |
 | [Official shadcn skill](https://ui.shadcn.com/docs/skills) | Maintainer-provided shadcn project and component guidance for an actual implementation |
 | `frontend-design` | Design intensity, composition, and visual/interaction review for a user-visible change |
 | `slop-aware-writing` | Existing standalone, explicit focused-revision requests; not a mandatory second authoring pass |
 | `korean-clarity` | Korean semantic repair when omitted sentence components or relations obscure meaning, including in chat |
 
-These boundaries are implemented by coordinated repository changes; check the installed companion's version during adoption rather than assuming a draft PR has already updated it. `share-internal-doc` remains in [Gigio Pack](https://github.com/gigio1023/gigio-pack/tree/main/skills/share-internal-doc), and the revision/language packages retain their own sources. Read the available companion when its task applies. Respect required recipient and evidence checks; reconcile overlapping editorial advice with the current user request rather than drafting the document twice. Missing optional companions do not remove the writer's accuracy or privacy obligations.
+Use this writer as the authoring entry point. `share-internal-doc` remains in [Gigio Pack](https://github.com/gigio1023/gigio-pack/tree/main/skills/share-internal-doc); a user naming it alone receives a complete document through the available writer. Carry the reader brief and explicit editorial preferences through once, then add recipient and delivery checks. Do not draft the document twice or create a separate style skill to repeat these defaults. Check installed companion versions during adoption; a draft PR does not update them. Missing companions do not remove accuracy, privacy, or established user preferences.
 
 ## Useful combinations
 

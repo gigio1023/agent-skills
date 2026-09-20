@@ -1,15 +1,127 @@
 # Worked Examples
 
-Use these to inspect the actual sentence, paragraph, table, and caption decisions, not only the document outline. The first section analyzes public documents. Every example in the second section is synthetic and constructed for teaching; its numbers and events are not measurements of a real system or anonymized company records.
+Use these to inspect sentence, paragraph, table, figure, and caption decisions, not only the document outline. Structural repairs and synthetic rewrites are independently constructed teaching examples; their numbers and events are not measurements of a real system or anonymized company records. The public readings analyze the cited documents.
 
 For finished paragraphs organized by reader task, start with [writing patterns](writing-patterns.md). Use the contrasts here to diagnose why a sentence or display is less useful, then retain the action and result demonstrated by the stronger version.
 
 ## Contents
 
+- Structural repairs: [paragraph table](#paragraph-table), [table-split](#table-split), [heading-and-cell-phrases](#heading-and-cell-phrases), [figure-split](#figure-split), [genre-transfer](#genre-transfer).
 - Public readings: [PEP 703](#pep-703-separate-the-measured-cost-from-the-intended-benefit), [Rust RFC](#rust-rfc-2394-give-a-concrete-mental-model-before-precise-semantics), [MapReduce](#mapreduce-explain-an-experimental-curve-through-system-behavior), [Circuit Tracing](#circuit-tracing-tie-a-limitation-to-a-counterexample).
 - Prose: [mechanism](#replace-praise-with-the-mechanism), [proposal status](#keep-a-proposal-from-sounding-implemented), [observation and explanation](#separate-an-observation-from-its-explanation), [alternative](#compare-an-alternative-fairly), [failure sequence](#keep-the-failure-sequence-and-remove-blame).
 - Evidence display: [comparison conditions](#preserve-the-comparison-conditions-in-a-compact-result), [table](#make-a-table-carry-repeated-context-once), [caption](#give-a-caption-a-job-distinct-from-the-title).
 - Concision and language: [self-description](#remove-report-self-description), [definition](#define-the-measurement-not-the-familiar-word), [Korean relations](#restore-the-relation-in-korean).
+
+## Structural repairs
+
+These examples are independently synthetic. They teach editorial decisions without reproducing private documents, source identities, measurements, or incident details.
+
+### Paragraph table
+
+**Reader:** an engineer comparing two document-indexing configurations.
+
+**Before:**
+
+| Item | Content |
+| --- | --- |
+| Method | Documents are indexed either during the upload request or later by a worker. The second configuration writes a durable job first. |
+| Result | Direct indexing takes 800 ms before acknowledging upload. Queued indexing takes 80 ms to acknowledge and 3 seconds to make the document searchable. |
+| Meaning | Queued indexing acknowledges earlier, but users must wait for the worker before their document appears in search. |
+
+The rows are different parts of an argument. The grid does not provide a comparison.
+
+**After:**
+
+**Upload and search latency**
+
+| Configuration | Upload acknowledgment | Search availability |
+| --- | ---: | ---: |
+| Direct indexing | 800 ms | 800 ms |
+| Queued indexing | 80 ms | 3 s |
+
+Queued indexing acknowledges the upload after saving a durable job. A worker then updates the search index. This shortens the upload wait while delaying search availability.
+
+The compact table compares values; the short paragraph explains why they differ. The heading is a noun phrase. No paragraph explaining how to read the columns is needed.
+
+### Table split
+
+**Reader:** a team selecting an export path for two independent needs: output behavior and maintenance responsibility.
+
+**Before:**
+
+| Path | Output and delivery | Scheduling and ownership |
+| --- | --- | --- |
+| On demand | CSV is generated when requested and returned by HTTP; each export covers the selected account. | No schedule is used; the API team maintains the handler. |
+| Scheduled | A daily Parquet file covers all accounts and is written to object storage. | The scheduler runs nightly; the data team maintains the worker. |
+
+**After:**
+
+**Export behavior**
+
+| Path | Format | Delivery | Coverage |
+| --- | --- | --- | --- |
+| On demand | CSV | HTTP response | Selected account |
+| Scheduled | Parquet | Object storage | All accounts |
+
+**Maintenance**
+
+| Path | Trigger | Owner |
+| --- | --- | --- |
+| On demand | Request | API team |
+| Scheduled | Nightly schedule | Data team |
+
+Stable path names connect the views. Choose the first table alone when the reader only needs the output contract. The second table earns its place only when maintenance affects the choice.
+
+### Heading and cell phrases
+
+**Before heading:** “Why does the worker retry the same job?”
+
+**After heading:** “Job retries”
+
+**Before cell under “Retry policy”:** “The worker retries a failed job at most three times.”
+
+**After cell:** “Up to 3 retries”
+
+**Explanatory sentence:** “The worker retries the job when the result is not acknowledged before the lease expires.”
+
+Headings and cells remain compact while the sentence supplies the operation and condition. Do not apply a complete-sentence prose rule to labels.
+
+The same distinction applies in Korean: use “작업 재시도” as the heading and “최대 3회” in the retry-limit cell. Keep the relation explicit in prose: “워커는 리스가 만료될 때까지 처리 결과가 확인되지 않으면 작업을 다시 시도한다.”
+
+### Figure split
+
+**Before:** one diagram combines a request path, a database schema, a release timeline, and two latency charts. Small type and four legends make every element fit, but the reader must infer which parts explain runtime behavior.
+
+**After figure plan:**
+
+| View | Question | Contents |
+| --- | --- | --- |
+| Request lifecycle | Where does a request wait? | Client, queue, worker; submit/dequeue/acknowledge edges |
+| Queue latency | Which configuration reduces waiting? | Matched baseline/candidate distributions |
+
+Explain the durable job record beside the lifecycle only if it is needed to understand recovery. Keep the full schema in the implementation reference. Omit the release timeline when it does not explain either result.
+
+The first view establishes the mechanism; the second provides the comparison. A reader can follow either without interpreting unrelated deployment or history panels. A pair of matched distributions belongs together because comparing them is the task.
+
+### Genre transfer
+
+**Synthetic factual input:** a stale queue lease prevented a job from being reassigned; the operator reset the lease; the job then completed.
+
+**Factual incident record:**
+
+- **Observation:** Job retained an expired lease.
+- **Response:** Operator reset the lease.
+- **Result:** Another worker completed the job.
+
+**Technical explanation:**
+
+The queue records the worker assigned to a job in a lease. When that worker stops, the lease must expire before the queue assigns another worker. If reassignment still treats the expired lease as active, the job remains blocked.
+
+**Proposal:**
+
+Allow reassignment after lease expiry and give each assignment a new generation number. Reject acknowledgments from older generations so a delayed worker cannot complete a reassigned job. Increasing the lease duration alone would delay recovery without handling stale acknowledgments.
+
+The factual record is enough for its reporting task. The explanation adds the missing mechanism; the proposal adds the changed behavior and the reason to choose it. Reusing the incident bullets for all three would remove necessary content.
 
 ## Public documents: read the writing operation
 
