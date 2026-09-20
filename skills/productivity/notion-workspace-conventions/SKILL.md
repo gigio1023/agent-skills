@@ -34,9 +34,10 @@ When a playbook suggests a destination, title, or edit that this skill governs d
 
 ## Naming And Language
 
-- Titles state the Korean topic first with English technical terms inline, then the scope after a colon, following the workspace's existing pattern (예: "클라이언트 × 프록시 상세 비교: 기능·경로·보존 범위").
+- Write new pages in English by default: English titles and English body prose.
+- Use Korean-based titles — Korean topic with English technical terms inline — only when the user explicitly asks for Korean; the scope-after-colon pattern then applies (예: "클라이언트 × 프록시 상세 비교: 기능·경로·보존 범위").
+- Whatever the language, product names, system names, code identifiers, and API terms stay in English exactly as written.
 - Dated documents such as meeting records and direction notes carry the date in the title, matching their neighbor pages (관측 패턴: "8/31 리더십 회의 …", "… 제품 방향성 260807").
-- Body prose is Korean; product names, system names, code identifiers, and API terms stay in English exactly as written.
 - One page serves one purpose. Split when a section starts serving a different reader.
 
 ## Quality Bar For New Or Rewritten Pages
