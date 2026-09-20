@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 28 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 29 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 For continuity across sessions, models, and agent harnesses, use [gigio-pack](https://github.com/gigio1023/gigio-pack): project intent, plans, execution, review, and handoff. This repository supplies focused capabilities for the work itself. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
@@ -32,7 +32,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 
 Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 28 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 29 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -78,7 +78,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (13)
 - [Design and Visualization](#design-and-visualization) (3)
 - [Writing and Language](#writing-and-language) (2)
-- [Personal and Everyday Tools](#personal-and-everyday-tools) (3)
+- [Personal and Everyday Tools](#personal-and-everyday-tools) (4)
 
 ### Software Development and Delivery
 
@@ -132,6 +132,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [1password-cli](skills/development/1password-cli/) | Use the local macOS 1Password CLI for vault, secret, OTP, and environment workflows |
 | [pdf-page-count](skills/productivity/pdf-page-count/) | Count PDF pages and enforce exact, minimum, or maximum page limits |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Export a read-only Toss Invest portfolio and market-context snapshot |
+| [notion-workspace-conventions](skills/productivity/notion-workspace-conventions/) | Apply this workspace's Notion destinations, naming, language, and edit policies whenever an agent reads or writes Notion |
 
 ## Writing, documents, and dashboards
 
@@ -182,4 +183,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 28 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 29 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.
