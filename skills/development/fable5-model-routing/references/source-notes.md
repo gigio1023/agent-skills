@@ -38,7 +38,7 @@ Routing evidence outside vendor docs:
 - Self-correction illusion (Chen et al., 2026, arXiv:2606.05976): the same error relabeled as external input is corrected far more often than when it appears as the model's own thought.
 - InflationAgent (Fu et al., 2026, arXiv:2608.13571): retry inflation on cheap models of roughly three to four times single-call cost.
 - OpenAI Codex `Subagents`: https://learn.chatgpt.com/docs/agent-configuration/subagents (read-heavy work for subagents; role-to-model guidance for the GPT-5.6 family).
-- Community packages read for patterns: matteoscurati/delegation-kit (mirrored Claude and Codex lanes with an inverted effort curve), AqueGen/model-routing (dispatch-logging hook and one-step retry rule), obra/superpowers strict-cost design spec (pre-registered failures of cheap models on judgment).
+- Community packages read for patterns: matteoscurati/delegation-kit (mirrored Claude and Codex subagent definitions with an inverted effort curve), AqueGen/model-routing (dispatch-logging hook and one-step retry rule), obra/superpowers strict-cost design spec (pre-registered failures of cheap models on judgment).
 
 ## Measured Numbers Behind the Rules
 
@@ -69,19 +69,19 @@ Guidance statements the rules rest on:
 ## Durable Translation
 
 - Fable can lead difficult, long-horizon work and coordinate subagents; delegate for concurrency, isolation, fresh verification, tool fit, or a measured efficiency gain, not to keep the lead's context empty.
-- Effort is the main intelligence, latency, and cost control, and level names do not transfer across models. Below the frontier the owner's policy fixes `xhigh` as the floor; the vendor numbers above show what lowering a lane would buy and are kept for that decision.
-- The lane definitions exist because Claude Code sets a subagent's effort only through a definition. A skill that names efforts without shipping definitions cannot execute its own table.
+- Effort is the main intelligence, latency, and cost control, and level names do not transfer across models. Below the frontier the owner's policy fixes `xhigh` as the floor; the vendor numbers above show what lowering a route would buy and are kept for that decision.
+- The shipped subagent definitions exist because Claude Code sets a subagent's effort only through a definition. A skill that names efforts without shipping definitions cannot execute its own table.
 - Reporting must distinguish what was read from what ran. No current harness in this reference exposes a subagent's applied effort without a hook.
 
 ## Policy History
 
 - 2026-08-07: opened only on explicit request, because an unrequested opening meant switching the lead model.
 - 2026-09-17: standing policy when Fable already leads in Claude Code or Cursor; on-request path kept for other leads.
-- 2026-09-20: scope keyed to the lead model rather than the harness, with harness mechanics moved to adapters. Effort floor of `xhigh` for models below the frontier, adjustable per lane. Lane definitions shipped as assets. Verifier lane reframed as a fresh-context specification check after the Opus 5 guidance. Packet templates and the long judgment checklist removed in favor of `orchestrate-subagents` and the dispatch statement. Measurement of any of these policies on cost or quality has not been done.
+- 2026-09-20: scope keyed to the lead model rather than the harness, with harness mechanics moved to adapters. Effort floor of `xhigh` for models below the frontier, adjustable per route. Subagent definitions shipped as assets, named `<model>-<role>`. The reviewer route reframed as a fresh-context specification check after the Opus 5 guidance. Packet templates and the long judgment checklist removed in favor of `orchestrate-subagents` and the dispatch statement. Vocabulary follows the repository's `terminology.md`: subagent, subagent definition, task, dispatch, route, tier; "lane" retired because no harness documentation or routing paper uses it for these senses. Measurement of any of these policies on cost or quality has not been done.
 
 ## Not Verified
 
 - Cursor's subagent definition directory and which model strings accept `effort`.
 - Hermes documentation for the observed keys.
-- Which effort a proxy-routed lane runs at; it is read from the route, not observed.
-- The exact inheritance path for a `sonnet` or `haiku` lane on a machine that saves `modelSettings` only for other models; the documentation says a definition without `effort` inherits the session level.
+- Which effort a proxy-routed subagent runs at; it is read from the proxy's route string, not observed.
+- The exact inheritance path for a `sonnet` or `haiku` subagent on a machine that saves `modelSettings` only for other models; the documentation says a definition without `effort` inherits the session level.

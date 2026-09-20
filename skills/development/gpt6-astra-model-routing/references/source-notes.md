@@ -56,7 +56,7 @@ Served Codex catalog (`codex debug models`, afternoon): Astra default `medium`, 
 
 ## Policy History
 
-- 2026-09-20: created as the GPT-family sibling of `fable5-model-routing`, keyed to the lead model rather than a harness, with the shared core mirrored and Codex as the verified adapter. Measurement of the lane defaults on cost or quality has not been done.
+- 2026-09-20: created as the GPT-family sibling of `fable5-model-routing`, keyed to the lead model rather than a harness, with the shared core mirrored and Codex as the verified adapter. Measurement of the default routes on cost or quality has not been done. Vocabulary follows the repository's `terminology.md`: subagent, subagent definition or role, task, dispatch, route, tier; "lane" is not used.
 
 ## Not Verified
 

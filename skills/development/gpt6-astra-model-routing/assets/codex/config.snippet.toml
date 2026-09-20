@@ -8,4 +8,4 @@ default_subagent_reasoning_effort = "xhigh"
 
 # Role files live in ~/.codex/agents/*.toml (see assets/codex/agents/). They are discovered
 # from that directory without stanzas here. Declaring at least one role also makes the
-# spawn tool expose agent_type. To lower a lane, edit model_reasoning_effort in its file.
+# spawn tool expose agent_type. To lower a role's effort, edit model_reasoning_effort in its file.

@@ -1,6 +1,6 @@
 # Harness Adapters
 
-The routing policy in `SKILL.md` is harness-neutral. This reference says how each harness actually sets a subagent's model and effort, what it cannot set, where the lane definitions go, and how to report what was resolved. Codex is the worked example, checked against its source at tag `rust-v0.154.0` and the installed CLI 0.154.0 on 2026-09-20; line references are into `codex-rs/`. Recheck facts when the harness changes.
+The routing policy in `SKILL.md` is harness-neutral. This reference says how each harness actually sets a subagent's model and effort, what it cannot set, where the role files go, and how to report what was resolved. Codex is the worked example, checked against its source at tag `rust-v0.154.0` and the installed CLI 0.154.0 on 2026-09-20; line references are into `codex-rs/`. Recheck facts when the harness changes.
 
 ## Contents
 
@@ -17,10 +17,10 @@ Before the first spawn in an unfamiliar harness, establish four things and recor
 
 1. **Where a delegated agent's model is set.** Three places are common: an argument on the spawn call, a field in a per-agent definition file, or one global delegation setting. A harness may offer more than one, with a precedence order.
 2. **Where its reasoning effort is set.** Check the same three places. Many harnesses set effort only per definition or only globally.
-3. **Which lane shapes that allows.** Per-spawn control means the tier table can be applied directly and stated in the dispatch line. Per-definition control means install one definition per lane, then choose the definition. Global-only control means one lane; choose whether that lane is acceptable for the tier and state the inherited settings.
+3. **Which routes that allows.** Per-spawn control means the tier table can be applied directly and stated in the dispatch line. Per-definition control means install one definition per route, then choose the definition. Global-only control means one route; decide whether it is acceptable for the tier and state the inherited settings.
 4. **Whether the runtime exposes the applied settings.** Look for a dispatch log, a hook, or a status view. If nothing exposes them, every dispatch line ends with `runtime unverified`.
 
-If a lane cannot be given a different model or effort, the skill still governs the decision: say the inherited values, and do not spawn a below-frontier lane for judgment-adjacent work.
+If a subagent cannot be given a different model or effort, the skill still governs the decision: say the inherited values, and do not send judgment-adjacent work to a below-frontier model.
 
 ## Codex
 
@@ -50,7 +50,7 @@ If a lane cannot be given a different model or effort, the skill still governs t
 
 The bundled catalog (`codex debug models --bundled`) and the served catalog (`codex debug models`) differ, and the served one changed within one day during this skill's authoring: Luna moved from V1 to V2 and gained `ultra`, and Astra's default effort read `medium` where the bundle says `low`. Read the catalog at install time, record the values in `source-notes.md` with the date, and never hard-code them in instructions.
 
-### Installing the lanes
+### Installing the routes
 
 1. Read `codex debug models` and note each candidate model's `default_reasoning_level`, `supported_reasoning_levels`, and `multi_agent_version`.
 2. After approval, merge `assets/codex/config.snippet.toml` into `~/.codex/config.toml`. Its `[agents]` block sends every unnamed worker to Terra at `xhigh`; always set model and effort together there.
@@ -65,7 +65,7 @@ The bundled catalog (`codex debug models --bundled`) and the served catalog (`co
 {"task_name": "impl_parser", "message": "...", "model": "gpt-5.6-sol", "reasoning_effort": "xhigh", "fork_turns": "none"}
 ```
 
-Use `agent_type` for a locked lane and `model` plus `reasoning_effort` together for an ad-hoc one. `fork_turns` is `"none"`, `"all"`, or a positive integer string; a fresh-context worker uses `"none"`.
+Use `agent_type` for a pinned role and `model` plus `reasoning_effort` together for an ad-hoc assignment. `fork_turns` is `"none"`, `"all"`, or a positive integer string; a fresh-context worker uses `"none"`.
 
 ### Under codex-delegate
 
@@ -75,16 +75,16 @@ When another host launches a Codex run through `codex-delegate`, that skill owns
 
 Observed in a local Hermes configuration on 2026-09-20; confirm against the current Hermes documentation before relying on key names.
 
-`delegation.model` and `delegation.provider` set one model for every delegated agent, so Hermes offers a single delegation lane per configuration. Effort is per model: `agent.reasoning_effort` is the lead's level, and `agent.reasoning_overrides` maps a model name to an effort, for example `gpt-6-astra: high` beside `gpt-5.6-terra: xhigh`, which is the effort floor expressed in Hermes terms. The routing decision is therefore whether the configured delegation model fits the tier; when it does not, keep the work with the lead or ask the user to change `delegation.model` for the session, and state the inherited lane.
+`delegation.model` and `delegation.provider` set one model for every delegated agent, so Hermes offers one delegated-agent model per configuration. Effort is per model: `agent.reasoning_effort` is the lead's level, and `agent.reasoning_overrides` maps a model name to an effort, for example `gpt-6-astra: high` beside `gpt-5.6-terra: xhigh`, which is the effort floor expressed in Hermes terms. The routing decision is therefore whether the configured delegation model fits the tier; when it does not, keep the work with the lead or ask the user to change `delegation.model` for the session, and state the inherited settings.
 
 ## OpenCode
 
-Checked against `opencode.ai/docs/agents/` on 2026-09-20. Agents are defined under `agent.<name>` with their own `model`; unrecognized keys pass through to the provider, so `reasoningEffort` sets a lane's effort where the provider supports it. `mode: subagent` marks a lane and `permission.task` controls which agents may be spawned. Lanes are per definition.
+Checked against `opencode.ai/docs/agents/` on 2026-09-20. Agents are defined under `agent.<name>` with their own `model`; unrecognized keys pass through to the provider, so `reasoningEffort` sets a subagent's effort where the provider supports it. `mode: subagent` marks a delegated agent and `permission.task` controls which agents may be spawned. Routes are per definition.
 
 ## Claude Code or Cursor Under an Astra Lead
 
-An Astra lead in Claude Code or Cursor requires a proxy that exposes Astra as the session model; the proxy configuration observed for this pack exposed only GPT-5.6 models as lanes. If such a session exists, the mechanics are those harnesses' and are documented in `fable5-model-routing`'s adapter reference; the routing policy is unchanged.
+An Astra lead in Claude Code or Cursor requires a proxy that exposes Astra as the session model; the proxy configuration observed for this pack exposed only GPT-5.6 models as subagent definitions. If such a session exists, the mechanics are those harnesses' and are documented in `fable5-model-routing`'s adapter reference; the routing policy is unchanged.
 
 ## Reporting and Measurement
 
-State one line per lane before spawning: tier, lane, resolved model, resolved effort, where the value was read, and `runtime confirmed` or `runtime unverified`. In Codex, "where the value was read" is the role file path, the `[agents]` key, or the spawn argument; a locked role's advertisement in the tool description counts as confirmation of the pin, while an inherited effort stays unverified because nothing reports the child's applied level back to the lead.
+State one line per task before spawning: tier, `agent_type`, resolved model, resolved effort, where the value was read, and `runtime confirmed` or `runtime unverified`. In Codex, "where the value was read" is the role file path, the `[agents]` key, or the spawn argument; a pinned role's advertisement in the tool description counts as confirmation of the pin, while an inherited effort stays unverified because nothing reports the child's applied level back to the lead.

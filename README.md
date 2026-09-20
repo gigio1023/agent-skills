@@ -108,7 +108,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
 | [orchestrate-subagents](skills/development/orchestrate-subagents/) | Coordinate requested delegated work and synthesize its evidence |
 | [small-model-handoff](skills/development/small-model-handoff/) | Package a settled bounded step for a less capable executor |
-| [fable5-model-routing](skills/development/fable5-model-routing/) | Choose each subagent's model and effort when a Claude Fable lead delegates, in any harness with subagents, and ship the lane definitions that make effort selectable |
+| [fable5-model-routing](skills/development/fable5-model-routing/) | Choose each subagent's model and effort when a Claude Fable lead delegates, in any harness with subagents, and ship the subagent definitions that make effort selectable |
 | [gpt6-astra-model-routing](skills/development/gpt6-astra-model-routing/) | Choose each subagent's model and effort when a GPT-6 Astra lead delegates, keep workers on GPT-5.6 models at full effort, and reserve Astra for judgment |
 
 ### Design and Visualization
@@ -183,4 +183,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 29 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 29 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md).
