@@ -49,7 +49,7 @@ CLAUDE.md = always-loaded facts and norms (recommended under 200 lines); skills 
 Two classification axes hold up:
 
 1. **Engineering vs non-engineering.** The essential difference is not domain identity but **how the result is verified**. Engineering work has executable verification (tests, builds, renders); non-engineering output cannot be tested directly, so **the user's understanding is the only acceptance criterion** — which is why explainer+quiz is quality verification itself, not a formality.
-2. **Domain lanes.** A recurring domain like games can graduate into its own lane (a dedicated skill set). Research can split into a lane the same way.
+2. **Domain skill sets.** A recurring domain like games can graduate into its own dedicated skill set. Research can split off the same way.
 
 The common working mode is **novice-entry**: touching a domain the user has no expertise in, deeply and broadly, to generate ideas. The launch-video anecdote in the article is the general form of this mode — start from what you know → learn how the domain works → explore options → react to something concrete → switch back to learning when you realize you don't know what "good" looks like → launch from a brief.
 
@@ -57,16 +57,16 @@ The common working mode is **novice-entry**: touching a domain the user has no e
 
 ```text
 Layer 0  push line (domain-agnostic)        ← deployed (2026-07-11)
-         initiation + technique choice + effort limits + lane routing
+         initiation + technique choice + effort limits + domain routing
 Layer 1  unknowns-pass skill (domain-agnostic) ← built (2026-07-11)
          how to run each technique well + launch brief template
-Layer 2  domain lanes (open set)             ← promoted only when a domain recurs
+Layer 2  domain skill sets (open set)             ← promoted only when a domain recurs
          game-*, (research?), (investment?), ...
 ```
 
-- **Layer 0 — push line**: global instructions in every harness. When a large/ambiguous/unfamiliar request arrives without a spec, plan, or reference, propose the single cheapest technique before executing. Five techniques: blindspot brief / option map (divergent brainstorm) / throwaway variants (taste) / mini-interview (≤7 questions, options plus a recommendation, hardest-to-reverse first) / reference request. Rules: never ask for discoverable facts, confirm the starting point once, effort limits (≤7 questions, ≤3 variants, ≤1 artifact), route to domain lanes first, compress into a launch brief. During work keep a deviation log (4 fields); after work in an unfamiliar domain offer explainer+quiz. NOT for: small edits, well-specified work, "just do it."
+- **Layer 0 — push line**: global instructions in every harness. When a large/ambiguous/unfamiliar request arrives without a spec, plan, or reference, propose the single cheapest technique before executing. Five techniques: blindspot brief / option map (divergent brainstorm) / throwaway variants (taste) / mini-interview (≤7 questions, options plus a recommendation, hardest-to-reverse first) / reference request. Rules: never ask for discoverable facts, confirm the starting point once, effort limits (≤7 questions, ≤3 variants, ≤1 artifact), route to domain skill sets first, compress into a launch brief. During work keep a deviation log (4 fields); after work in an unfamiliar domain offer explainer+quiz. NOT for: small edits, well-specified work, "just do it."
 - **Layer 1 — unknowns-pass (built)**: the push line owns initiation, so the skill owns execution guidance only — a table classifying the dominant unknown (technique selection), how to run each of the five techniques well, the verification split (executable vs comprehension-checked), the launch brief template, and scenario-based quiz question structure. Location: `skills/productivity/unknowns-pass/`.
-- **Layer 2 — domain lanes**: the existing lane is games (game-direction → production → review); a partial lane is investment (toss-portfolio-state + fable5-judgment); general deep discovery is deep-interview (explicit invocation only). **Promotion rule**: when a domain (a) recurs and (b) the generic techniques prove insufficient for it, promote it to a dedicated lane. Finding: the `toss-portfolio-state` description references an uninstalled skill, `investment-decision-support` (dangling) — a natural candidate name if the investment lane is promoted. A research lane (working name research-direction) is also a promotion candidate.
+- **Layer 2 — domain skill sets**: the existing one is games (game-direction → production → review); a partial one is investment (toss-portfolio-state + fable5-judgment); general deep discovery is deep-interview (explicit invocation only). **Promotion rule**: when a domain (a) recurs and (b) the generic techniques prove insufficient for it, promote it to a dedicated skill set. Finding: the `toss-portfolio-state` description references an uninstalled skill, `investment-decision-support` (dangling) — a natural candidate name if the investment skill set is promoted. A research skill set (working name research-direction) is also a promotion candidate.
 
 ## 5. What Is Deployed (Tier 0 v2, 2026-07-11)
 
@@ -83,7 +83,7 @@ Single canonical source plus symlinks/mirror:
                                   tool. Re-sync after editing the canonical file)
 ```
 
-v1 → v2 changes (reflecting the user profile): scope widened from code to all substantial work; brainstorm (option map) separated from taste variants, taking the techniques from 4 to 5; "hardest-to-reverse decisions first" added to the priorities; domain-lane routing added; the notes file generalized to `decision-log.md` for non-code work; post-work comprehension check (explainer+quiz) added.
+v1 → v2 changes (reflecting the user profile): scope widened from code to all substantial work; brainstorm (option map) separated from taste variants, taking the techniques from 4 to 5; "hardest-to-reverse decisions first" added to the priorities; domain routing added; the notes file generalized to `decision-log.md` for non-code work; post-work comprehension check (explainer+quiz) added.
 
 Known risks and responses:
 
@@ -108,20 +108,20 @@ Known risks and responses:
 Decisions confirmed in the 2026-07-11 interview (deep-interview):
 
 - **Dropped the observation period; build now**: the original plan was "observe for 1–2 weeks, then decide," but a missed trigger is invisible — you have to notice that the line should have fired to record that it didn't — so manual observation was self-contradictory. The user chose to build immediately.
-- **One skill with a verification split**: splitting into an engineering skill and a non-engineering skill would duplicate most of the body. A single `unknowns-pass` keeps Tariq's lifecycle (techniques before, notes during, a check after) and only diverges on plan ordering, the notes file, and the final check depending on how the result is verified (executable vs comprehension-checked). Non-engineering domains (investment, research, career, life planning, money management) are absorbed through trigger vocabulary in the description and the in-body split, not separate lanes.
+- **One skill with a verification split**: splitting into an engineering skill and a non-engineering skill would duplicate most of the body. A single `unknowns-pass` keeps Tariq's lifecycle (techniques before, notes during, a check after) and only diverges on plan ordering, the notes file, and the final check depending on how the result is verified (executable vs comprehension-checked). Non-engineering domains (investment, research, career, life planning, money management) are absorbed through trigger vocabulary in the description and the in-body split, not separate skill sets.
 - **The push line stays generic**: it does not name a specific skill (avoiding Cursor re-sync burden and coupling). The skill is discovered through its description triggers.
 - **Distribution path**: build in this repository → merge to main → install via the install-skill-pack procedure.
 
 Remaining actions:
 
-1. **Domain lane promotion**: if a domain (research, investment, ...) recurs and the generic techniques prove insufficient, evaluate promotion per the rule in §4.
+1. **Domain skill set promotion**: if a domain (research, investment, ...) recurs and the generic techniques prove insufficient, evaluate promotion per the rule in §4.
 2. **When editing the canonical file**: edit `~/.agents/AGENTS.md` → re-sync the Cursor user rule (cursor_dialog update, id 16793847). The symlinked harnesses update automatically.
 
 ## 8. Usage Scenarios (examples — this list does not bound the scope)
 
-- **Domain with a lane (games)**: "I want to make a game but have no design experience" → routing sends it to game-direction (taste interview + concept slate are already specialized there). The generic layer fires only for sub-domains the lane doesn't cover ("I don't know what a shader is" → blindspot brief).
-- **Non-engineering without a lane (investment strategy)**: establish facts with toss-portfolio-state → blindspot brief (the questions an expert would ask, the landmines) → option map (conservative through aggressive candidates) → reactions → mini-interview (decisions only a human can make, like risk tolerance; hardest-to-reverse first) → launch brief (effectively an investment policy document) → decision-log during operation → quiz before committing money (the real acceptance step in this domain).
-- **Exploratory work without a lane (research ideas)**: option map is the main technique — explore the area, diverge into 5–10 directions, reactions fix the scope → launch a fresh session from the brief → when output arrives, confirm understanding with explainer+quiz.
+- **Domain with a skill set (games)**: "I want to make a game but have no design experience" → routing sends it to game-direction (taste interview + concept slate are already specialized there). The generic layer fires only for sub-domains the skill set doesn't cover ("I don't know what a shader is" → blindspot brief).
+- **Non-engineering without a skill set (investment strategy)**: establish facts with toss-portfolio-state → blindspot brief (the questions an expert would ask, the landmines) → option map (conservative through aggressive candidates) → reactions → mini-interview (decisions only a human can make, like risk tolerance; hardest-to-reverse first) → launch brief (effectively an investment policy document) → decision-log during operation → quiz before committing money (the real acceptance step in this domain).
+- **Exploratory work without a skill set (research ideas)**: option map is the main technique — explore the area, diverge into 5–10 directions, reactions fix the scope → launch a fresh session from the brief → when output arrives, confirm understanding with explainer+quiz.
 - **Judgment-heavy work (job change / life planning)**: enter with option map
   + blindspot brief → the user explicitly invokes deep-interview when depth is needed → final judgment goes to fable5-judgment. Nothing new to build; the push line only handles the entry.
 - **Negative (must not fire)**: typo fixes, well-specified implementation, "just do it."

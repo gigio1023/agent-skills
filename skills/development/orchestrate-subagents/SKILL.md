@@ -21,11 +21,11 @@ Use the native delegation, task, thread, worktree, or subagent mechanism provide
 ## Quick Start
 
 1. Restate the user's objective, decision pressure, and expected output.
-2. Decide whether parallelization is actually useful. Prefer parallel work when the task has independent sources, perspectives, files, modules, hypotheses, or verification lanes.
+2. Decide whether parallelization is actually useful. Prefer parallel work when the task has independent sources, perspectives, files, modules, hypotheses, or independent verifications.
 3. Read `references/delegation-patterns.md` for the task type.
 4. Read `references/harness-adapters.md` and use the current harness' native delegation mechanism, model policy, and cost-routing options without hardcoding commands from another environment.
-5. Size the first wave deliberately. Spawn the smallest useful wave while the decomposition is still uncertain; open a lane for every genuinely independent task when the split is already clear or the user asks for maximum parallelism. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, and stop condition.
-6. Prefer asynchronous updates and reuse a long-lived agent for related follow-up work when retained context is valuable. While agents run, advance a disjoint lead-agent slice instead of blocking on the slowest lane. When a worker finishes and independent work remains queued, dispatch its next packet right away — a wave is a starting shape, not a barrier.
+5. Size the first wave deliberately. Spawn the smallest useful wave while the decomposition is still uncertain; spawn a subagent for every genuinely independent task when the split is already clear or the user asks for maximum parallelism. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, and stop condition.
+6. Prefer asynchronous updates and reuse a long-lived agent for related follow-up work when retained context is valuable. While agents run, advance a disjoint lead-agent slice instead of blocking on the slowest subagent. When a worker finishes and independent work remains queued, dispatch its next packet right away — a wave is a starting shape, not a barrier.
 7. Before reporting progress, tie each claim to a worker artifact, tool result, source, or test from the current run.
 8. Read results, then synthesize. Do not concatenate summaries. Use `references/synthesis-gate.md` to merge claims, evidence, confidence, conflicts, and remaining gaps.
 9. If gaps remain and the user goal still needs it, launch a targeted follow-up wave. Otherwise finish with a decision, implementation, or research answer.
@@ -37,7 +37,7 @@ Parallel agents are not a brainstorming trick. They are context isolation, cover
 
 Orchestration intensity is a dial the lead keeps adjusting, not a shape chosen once. The same discipline covers a single scoped helper, one bounded wave, and a sustained worker pool that the lead keeps saturated by re-dispatching queued tasks as workers finish. Set the intensity from how much genuinely independent work exists, the task's stakes, and the user's budget — then revise it mid-run as results reveal more or less independence than expected.
 
-Subagent count follows independent ownership, the user's budget, and the available concurrency limit. Queue excess work and reuse finished workers; do not treat a clear decomposition as unlimited spending authority. Surplus agents duplicate effort and add noise. Fewer is not safer — starved lanes serialize independent work. The right number changes with the kind of work, so decide it by planning the split, not by defaulting to a familiar count.
+Subagent count follows independent ownership, the user's budget, and the available concurrency limit. Queue excess work and reuse finished workers; do not treat a clear decomposition as unlimited spending authority. Surplus agents duplicate effort and add noise. Fewer is not safer — too few subagents serialize independent work. The right number changes with the kind of work, so decide it by planning the split, not by defaulting to a familiar count.
 
 Not every multi-call workflow needs an agent. Use a deterministic or programmatic tool path for bounded structured reduction that needs no semantic judgment between calls; keep sequential work direct when each result determines the next move.
 
@@ -49,7 +49,7 @@ Favor policies over brittle mechanics. A portable orchestration skill should des
 
 Parallelize when at least one is true:
 
-- Independent evidence lanes exist: official docs, academic papers, GitHub repos, market data, codebase areas, user files, or competing product examples.
+- Independent evidence sources exist: official docs, academic papers, GitHub repos, market data, codebase areas, user files, or competing product examples.
 - Multiple expert lenses would improve judgment: supporter, skeptic, operator, historian, implementer, reviewer, security, accessibility, performance.
 - Implementation can be split by disjoint ownership: modules, packages, screens, scripts, tests, docs, migration, verification.
 - Verification can run while implementation continues.

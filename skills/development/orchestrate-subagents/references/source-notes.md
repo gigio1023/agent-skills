@@ -15,7 +15,7 @@ This skill reflects the user's recurring need for sustained parallel work across
 
 The model-generation update changed several defaults:
 
-- Strong lead models can identify and sustain independent lanes more reliably. Parallelism may therefore be a normal execution optimization when the task clearly benefits; it is not limited to prompts that say "use subagents."
+- Strong lead models can identify and sustain independent subagents more reliably. Parallelism may therefore be a normal execution optimization when the task clearly benefits; it is not limited to prompts that say "use subagents."
 - Asynchronous communication and useful lead-agent work reduce blocking. Reuse long-lived agents for related follow-ups, but use fresh context when verifier independence matters.
 - Programmatic tool calling is a better fit than subagents for bounded structured reduction with no semantic judgment between calls.
 - Long-run progress must be audited against current tool results, artifacts, sources, or tests instead of worker self-report.

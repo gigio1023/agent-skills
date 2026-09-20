@@ -17,7 +17,7 @@ When the task definition already lives in a durable file, the packet carries its
 ```text
 Objective: Answer this specific question: <question>.
 
-Scope: Inspect <source types / domains / repos / files>. Do not cover <excluded scope> because another lane owns it.
+Scope: Inspect <source types / domains / repos / files>. Do not cover <excluded scope> because another subagent owns it.
 
 Method: Prefer primary sources and direct inspection. Treat popularity as a weak signal. Flag AI-slop, stale, or unsupported sources.
 
