@@ -19,6 +19,12 @@ Choose among four edits. **Retain** information already doing useful work. **Rew
 
 For a claim or figure intended to circulate independently, retain the conditions needed to interpret that view. Otherwise use the actual reading context: surrounding text, a clear label, or appropriate code or documentation may already explain the point. A shared methods note can carry a common rule; do not repeat it as a defensive caveat. State a core definition when this reader cannot reasonably recover it, or when its meaning differs from the ordinary one.
 
+## Give each block a contribution
+
+Judge a block by what the reader can understand after it. A heading locates a subject; the opening supplies a fact or problem; an example makes it concrete; a mechanism explains why; a condition bounds the conclusion. A table can carry exact values while prose explains their relationship. Complementary roles justify keeping both. A second promise to explain the same subject adds no such contribution.
+
+Put information where the reader can use it. Apply a terminology convention in the prose, define a symbol beside its equation, and identify an overloaded term where the meanings first diverge. This preserves knowledge without requiring a preliminary style-rules chapter. A reading guide earns space when it resolves a real route choice that the headings and layout leave unclear. The [worked explanation](explanation-with-depth.md) contrasts orientation, actual teaching, and an over-compressed result.
+
 ## Paired examples
 
 All examples below are independently synthetic teaching cases. They are not anonymized work records. “Delete the paragraph” is an editing action, not text to insert into the document.

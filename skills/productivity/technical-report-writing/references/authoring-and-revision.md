@@ -16,6 +16,12 @@ Do not expand a short message into a report. A memo, guide, or post needs the am
 
 For structural revision, select the information and presentation units before editing sentences. Separate unlike rows, divide overloaded views by reader question, and replace paragraph tables with actual comparisons or short sections. Preserve the user's explicit editorial preferences as defaults; a wide genre range does not make those preferences optional. Read [information design](information-design.md) for these decisions.
 
+## Continue from user edits
+
+Treat the current user-edited copy as the revision baseline. If an earlier draft is available, inspect the actual differences: deletion of a reading guide supports removing redundant navigation, not assuming the reader wants the underlying theory removed. Distinguish direct edits and explicit requests from an agent's interpretation. Infer the narrowest useful rule and apply it to comparable passages within scope; do not turn one deletion into a global ban or a reduction quota.
+
+Preserve intentional omissions through conversion and regeneration. Reconcile a stale generator or source before using it to publish, and recheck a collaborative destination for intervening edits before applying changes. If a deleted passage contains a condition essential to a retained claim, keep that meaning locally with the claim rather than restoring the discarded preamble. Ask only when a real conflict of meaning or authority remains.
+
 ## Ground what the document says
 
 Use sources that establish the specific claim: implementation for current behavior, an accepted specification for intended behavior, a decision record for approval, or original data for a measurement. If implementation and specification disagree, state what each establishes rather than silently reconciling them. Repeated summaries of one study are not independent support.
