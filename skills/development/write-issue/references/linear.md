@@ -25,21 +25,23 @@ Product behavior below was checked against Linear's documentation on 2026-09-17.
 
 When a parent keeps growing, Linear's remedy is to turn it into a project, not to nest deeper.
 
+When reorganizing existing work, first reuse the project or parent whose outcome it serves. Combine implementation chores that share one useful result; keep separately owned fixes, decisions, and deliverables visible. A milestone needs a real project checkpoint, so do not turn thematic groups into numbered stages just to arrange the list. These are the skill's editorial defaults, not additional Linear product rules.
+
 For exploratory work Linear offers two forms: a placeholder issue to break down later, or an issue framed as a deliverable such as "Write project spec". The deliverable form is one of the two the core rule allows for uncertain work; the placeholder form is not, because it names no outcome.
 
 ## Where Narrative Goes
 
 The issue description stays a short task statement. Longer material has its own home:
 
-- **Project updates** carry progress: a health indicator plus text on status, challenges, and next steps. The project lead writes them, commonly weekly. Put progress narrative here or in a comment, not in issue bodies.
+- **Project updates** carry progress: a health indicator plus text on status, challenges, and next steps. The project lead writes them, commonly weekly. Use them when a project update is requested or useful to the intended readers.
 - **Documents** carry long-form text such as specs, runbooks, and meeting notes. Link the document from the issue.
-- **Comments** carry discussion and follow-up on one issue.
+- **Comments** carry discussion, material decisions, blockers, and handoffs on one issue. An editorial rewrite needs no announcement comment. When removing activity history from a body, keep useful evidence in its existing record rather than automatically reposting it as a comment.
 
 ## Sub-Issue Behavior
 
 - A new sub-issue inherits the parent's team, priority, and project. Labels are not inherited, so add the labels the team filters by.
 - The assignee can be inherited: when the author is assigned to the parent, or when all existing sub-issues share the parent's assignee. Inheritance can therefore assign someone nobody chose. Set or clear the assignee explicitly on every sub-issue according to the core assignee rule, and confirm it when reading the result back.
-- A sub-issue created in an active status may join the current cycle. Create it in the team's backlog or not-started status, as the core splitting rule says, move only the one the user names as active, and check the cycle afterwards.
+- A sub-issue created in an active status may join the current cycle. Use the team's backlog or not-started status unless the user's instruction or current evidence identifies it as active, and check the cycle afterwards.
 - A sub-issue may live in a different team from its parent.
 - Parent auto-close (the parent completes when all sub-issues are done) and sub-issue auto-close (remaining sub-issues complete when the parent is done) are opt-in team workflow settings. Do not assume either. Before closing a parent, look at its open sub-issues, because with sub-issue auto-close enabled they will be closed too. Do not change these settings as part of issue writing.
 
