@@ -4,6 +4,8 @@ Read this when the right shape for a draft is unclear. Every example is invented
 
 ## Contents
 
+- From an agenda to a usable result
+- Consolidating a fragmented portfolio
 - Bug relayed from chat, ownership ambiguous
 - Wrong output in data or an evaluation
 - Uncertain or research work, with its closing note
@@ -11,6 +13,68 @@ Read this when the right shape for a draft is unclear. Every example is invented
 - Korean noun-phrase outline
 - Overview table and a figure, with a long log cut instead of collapsed
 - Local and server-only material with a pile of links
+
+## From An Agenda To A Usable Result
+
+A team wants better help-center search. Their records contain collected queries, several relevance-label revisions, loader changes, run notes, and candidate scores. The reader needs to know whether to change the search configuration and what evidence will support that choice. These are synthetic examples; their names, values, and URLs are invented.
+
+The existing project gives the agenda:
+
+```markdown
+Project: Choose search configuration for help-center answers
+
+Support agents need the correct help article while answering a customer. Compare the current search configuration with the proposed alternatives, then recommend a configuration that improves retrieval within the 250 ms p95 search budget.
+```
+
+That purpose leads to a concrete need: every candidate must face the same queries with the same relevance judgments. The dataset issue makes that result usable:
+
+```markdown
+Title: Query set for reproducing help-center search failures
+
+Capture searches that return the wrong help article or miss a relevant one so the team can compare configurations on the same failures.
+
+- Deliver the reviewed query set with the index snapshot, expected relevant articles, and a short rationale for each relevance judgment.
+- Include queries that already retrieve the right article so a change can be checked for regressions.
+- Dataset and labeling guide: https://data.example.com/help-search/revisions/4 (search team access).
+```
+
+Fields: the existing search project, with the author assigned because they own the dataset work. The draft uses no new milestone or parent.
+
+Why these details: the first sentence makes the dataset's use explicit. The snapshot and judgments allow a comparable run; the regression cases explain a design choice; the link is where the next person gets the input. A current case count would be useful if it established the agreed coverage or delivery size. Counts from each intermediate revision, how queries were copied from chat, and every loader PR do not help someone use this result.
+
+The comparison issue states what can be done with the evidence. Once the comparison is complete, its body reads:
+
+```markdown
+Title: Search configuration recommendation for help-center answers
+
+Adopt the hybrid configuration for the next rollout: recall@5 improves from 0.76 to 0.84 on the reviewed query set, with p95 search latency of 180 ms against the 250 ms budget.
+
+- Comparison uses the same query set and index snapshot for both configurations.
+- Queries containing product codes still retrieve the wrong article. Keep those queries on exact-match lookup for the rollout and track the retrieval fix separately.
+- Comparison table and run settings: https://docs.example.com/help-search/comparison
+```
+
+The outcome comes first, followed by the conditions that make the comparison interpretable and the remaining defect that changes the rollout. Definitions of every metric, a list of checks not performed, and the history of each experiment would dilute this decision. The unresolved product-code defect stays because someone must act on it. Neither issue needs a progress comment repeating its rewritten body.
+
+## Consolidating A Fragmented Portfolio
+
+The user asks to reorganize the issues in that search project. The current list reflects editing sessions: query export, label cleanup, index pinning, candidate shortlist, run configuration, parser repair, comparison dashboard, and product-code retrieval. Read their contents before choosing which records survive.
+
+The resulting portfolio has three independently useful outcomes in this example:
+
+| Existing work | Resulting issue | Result someone can use |
+| --- | --- | --- |
+| Query export, label cleanup, index pinning | Query set for reproducing help-center search failures | Runnable comparison input |
+| Candidate shortlist, run configuration, parser repair, comparison dashboard | Search configuration recommendation for help-center answers | Supported rollout choice |
+| Product-code retrieval defect | Exact-match lookup for product-code searches | Verified routing fix |
+
+Keep the existing project as the home. Reuse the best matching dataset and comparison issues, rewrite their bodies around the results above, and carry forward the current dataset revision, comparison conditions, and useful result links. Their small implementation chores remain in those issues or the linked PRs. Resolve redundant records through the tracker's supported relation or duplicate status when the reorganization request includes that authority.
+
+Keep the product-code fix separate because the owner can deliver and verify it independently of choosing the general search configuration. If the parser repair instead prevents any comparison from completing and another engineer owns it, retain it as a separate blocker linked to the comparison. Its importance comes from that concrete handoff, not from the fact that it changes code.
+
+This example happens to leave three issues. There is no target count and no sequence of phases: the dataset can be useful before a recommendation, and the product-code fix can proceed independently. Preserve existing completion evidence and known active work; grouping issues does not establish that they have started or finished.
+
+Why the consolidation works: the titles now tell a teammate what the project will produce and what each result enables. The smaller list is a consequence of combining work with the same completion decision. Distinct outcomes and actionable defects remain visible.
 
 ## Bug Relayed From Chat, Ownership Ambiguous
 
@@ -25,7 +89,7 @@ Title: `payment.succeeded` webhook delivered three times after a 503
 Reported by support in the payments help channel: https://chat.example.com/archives/C042/p1726555
 
 - Where: webhook delivery worker, production, one merchant so far
-- Observed: three deliveries for one charge after a single 503. Event ids not checked yet.
+- Observed: three deliveries for one charge after a single 503. Compare the event ids to determine whether these are retries the receiver could deduplicate.
 - Expected: one delivery per event, or retries that reuse the event id so receivers can deduplicate
 ```
 
@@ -33,7 +97,7 @@ Fields: label `bug`, which the team already uses. No priority, cycle, or status 
 
 Assignee: left empty. The delivery worker belongs to the payments team and this is a report for their triage.
 
-Why: the title states the symptom, because a report filed for another team's triage should not presume the fix. The reporter's words are quoted, attributed by role, and the conversation is linked, so nothing is lost in paraphrase. The draft does not invent a fact the reporter never gave. "Event ids not checked yet" tells the reader what to do next, so it is a fact and not a defensive disclaimer. There is no acceptance-criteria section and no background about how webhooks work.
+Why: the title states the symptom, because a report filed for another team's triage should not presume the fix. The reporter's words and conversation preserve the reported behavior. Checking event ids distinguishes a delivery defect from receiver deduplication, so that uncertainty changes the investigation. The issue needs no background about how webhooks work.
 
 ## Wrong Output In Data Or An Evaluation
 
@@ -86,7 +150,7 @@ Why: the title names a deliverable, so the issue can be closed whatever the answ
 
 "Migrate the evaluation harness to the new runner" has been in progress for two weeks and the user asks to split it. Three separate lumps have shown up in the work so far.
 
-Parent: left exactly as it is. It stays the record of the final outcome.
+Parent: reused as the record of the final outcome. Its existing purpose is already clear, so the split needs only the child relations.
 
 Sub-issues created:
 
@@ -97,13 +161,13 @@ Sub-issues created:
 Not created:
 
 - "Finish the migration". It names the parent's outcome again and has no separate work of its own.
-- "Write migration docs". Nobody has started it and its size is a guess. It is mentioned in the report so the user can add it when it becomes real.
+- "Write migration docs". No separate audience or handoff has been identified. The setup notes needed to use the new runner stay with the migration; a distinct documentation issue would need a concrete result of its own.
 
 Assignee: the author on all three, set explicitly on each sub-issue. The user is doing this work.
 
-Report line: "You already have three issues in progress, so I created all three sub-issues as not started. Tell me which one you are on now and I will move it, which makes four."
+Report line: "Created the loader, parity-check, and nightly-job sub-issues under the existing migration issue. The parent remains in progress; the new children are not started because the current record does not identify which is active."
 
-Why: sub-issues come from lumps that exist, not from a plan of what the work might contain. A sub-issue restates the parent when it names the parent's outcome again without work of its own. A real last step is different: a cutover with its own date and rollback steps becomes a sub-issue once that work exists. The in-progress count is raised with the user instead of silently growing.
+Why: each sub-issue has work that can be verified separately. "Finish the migration" only repeats the parent. A real cutover with a date and rollback steps could be a distinct action once those requirements are known. Creating children does not supply evidence that each one is active.
 
 ## Korean Noun-Phrase Outline
 

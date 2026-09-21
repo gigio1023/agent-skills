@@ -1,49 +1,61 @@
 ---
 name: write-issue
 description: >
-  Use when the user asks to write, file, edit, split, or close out an issue or
+  Use when the user asks to write, file, edit, split, consolidate, or close out an issue or
   ticket in a tracker such as Linear, GitHub Issues, Forgejo, Gitea, or Jira,
   including "이슈 만들어줘", "Linear 티켓 써줘", "이 이슈 sub-issue로 나눠줘",
   "file a bug for this", "open an issue", and "turn this into a ticket". Reads
-  the team's existing issues first, writes one task with a clear outcome in a
-  short body that states its own findings and keeps only links every reader can
-  open, assigns the author by default and leaves the assignee empty when
-  ownership is ambiguous, and shows a draft before touching other people's
+  the team's existing issues first, connects each issue to a useful outcome,
+  consolidates related work, and writes a short body with sources readers can
+  open. Assigns the author by default, leaves ambiguous ownership unassigned,
+  and checks authority before changing other people's
   issues. NOT for pull requests (use draft-pr), PR review comments (use
   pr-review-comment), or long specs and reports (use technical-report-writing).
 ---
 
 # Write Issue
 
-Write issues a teammate can scan in a list and act on: one task with a clear outcome, a short body that states what it means, and only the links a reader needs and can open. An issue is a shared record that notifies people and outlives the session that wrote it, so match what the team already does and keep ownership, visibility, and sources deliberate.
+Write issues that let teammates understand what the work is trying to change and act on its result. Read together, the project, parent, and issue titles should reveal the larger agenda. Each body supplies the context, concrete result, and evidence its reader needs without reconstructing the author's activity history.
 
 The rules for shape (title, body, what to leave out, language) are defaults: the user's instruction and the team's own template or convention win over them. The link check and shared-record safety run on every issue whatever the convention, and the assignee follows its rule unless the user says who.
 
 ## Normal Path
 
-1. Read before writing. Fetch the issue being edited, the conventions of its project or milestone including any issue template, and two or three neighboring issues. Stop once you can say what language, length, and structure the team uses, then match that instead of imposing a shape.
-2. Draft the title, body, and fields with the rules below.
+1. Read before writing. Fetch the issue being edited, its project or parent, any applicable template, and enough neighboring issues to understand the intended outcome and existing division of work. Match the team's language and conventions. For a portfolio review, inspect the relevant set, including work that may overlap or already have a suitable parent.
+2. Identify what this work enables: a behavior change, a usable artifact, or a decision. Choose whether it belongs in an existing issue, a distinct issue, or a project or parent, then draft the title, body, and fields with the rules below. Read [the worked outcome and consolidation examples](references/examples.md#from-an-agenda-to-a-usable-result) when turning an activity list into issues.
 3. Run the check in [State The Claim, Justify Every Link](#state-the-claim-justify-every-link) on every link, path, and attachment in the draft.
-4. Decide whether to show it first. Show the complete draft with its intended field values and wait when the user asked for a draft or it is unclear whether they want a draft or a posted issue, when the change touches an issue someone else created or owns, when you had to guess the destination team or repository, when the destination is more visible than the user may expect, or when the check dropped a link or file the user asked to include. Otherwise the request to create or edit is the grant: follow the harness's approval rules and add no second confirmation.
+4. Decide whether to show it first. Reuse authorization already established in the session. Show the complete draft with its intended field values and wait when the user asked for a draft, publication intent is unclear, a change to someone else's issue has not been authorized, the destination or audience needs a consequential guess, or the check dropped a link or file the user explicitly required. Otherwise the request to create, edit, or reorganize is the grant: follow the harness's approval rules and add no second confirmation.
 5. Write through the tracker's tool. On create, set only the fields the request or the team's convention calls for and leave the rest at the tracker's defaults. On edit, change only the requested fields. Read the result back and report.
 
 Without a working tracker tool or authentication, deliver the draft and its field values as text, and say that the issue was not created and that the team's conventions could not be read. Do not install or authenticate a tool implicitly.
 
+## Start With The Outcome
+
+Understand why the work matters before compressing it. Who needs the result, what will they be able to change or decide, and what must exist for them to act? Answer those questions from the available work and the user's intent. They guide selection of content; they are not mandatory headings or a three-step plan.
+
+Make the connection concrete. "Model evaluation" names an activity. "Choose a search configuration that retrieves the right help article within the response budget" explains the decision. A query set, a comparison table, and a timeout fix may contribute to that decision, but each becomes a separate issue only when it has independently actionable work.
+
+Give a reader who opens the issue from a list enough context to understand its contribution. One purpose sentence can be enough, followed by the result or work that serves it. A good opening does not rescue a body filled with unrelated revisions and records: keep selecting details against the intended use all the way through.
+
 ## What An Issue Holds
 
-An issue is one task with a clear outcome: a change, a document, a decision, an action. When the request is not a task, such as an open discussion or a running log, say so and offer the home that fits.
+An issue tracks one coherent outcome: a change, a usable artifact, a decision, or an action. Keep open discussion and running logs in the team's discussion or record space.
 
 - **Title:** the target and the action ("Retry payment webhooks on 5xx responses"), the deliverable ("Reranker comparison table for long queries"), or, for a bug reported to someone else, the symptom ("CSV export drops the last row at exactly 1000 rows"), since the fix is theirs to choose. It is read in a list beside other titles.
-- **Body:** at most one sentence of purpose when the title does not carry it, then an overview table or figure only when [Tables, Figures, And Collapsed Detail](#tables-figures-and-collapsed-detail) calls for one, then three to five concrete tasks or facts, then only the links that pass the check below. Fewer is fine, and the description may be empty when the title is enough. When the user has not supplied a particular, do not invent it: write the issue without it and name the gap in the report.
-- **Fields:** relations, labels, milestone, and parent carry structure. Do not restate them in prose.
+- **Body:** use a short paragraph or a few bullets to connect the reason for the work to what will be delivered, changed, or decided. Name the observable result that makes the work useful, including a completion condition when a reader needs it. Keep the conditions, inputs, and latest supported result that affect execution or interpretation. There is no required bullet count; the description may be empty when the title is enough. Do not invent a result, owner, metric, deadline, or task to fill a shape.
+- **Fields:** relations, labels, milestone, and parent carry structure. Let the body explain the issue's contribution rather than repeat the field values.
 
-Leave these out unless the user asks or the team's template requires them, because each has a better home: acceptance criteria or definition-of-done sections (checks belong where the work is reviewed, such as a pull request checklist or a plan on a shared branch, so link that), as-is and to-be framing, background already stated in the parent or project, defensive disclaimers, and status narration. Saying what has not been checked yet is a fact the reader can act on, not a disclaimer.
+Select details by what they let the reader do. A dataset issue might need its inputs, expected labels, current size, and accessible revision because those enable the next comparison. Collection chronology, intermediate row counts, every policy revision, and a chain of implementation PRs belong in the supporting record unless one explains a current choice or blocker. Put the useful conclusion in the issue and link the record that supports it.
+
+Use the team's required sections. Otherwise a completion fact can sit naturally beside the deliverable; it need not become an acceptance-criteria section. Explain unfamiliar context when it is needed for action, without adding definitions of familiar terms, scope disclaimers, or a list of everything outside the task. Keep an uncertainty only when it changes the next action or the interpretation of a result, and say how: "Three disputed relevance labels need review before the candidates can be ranked."
 
 By kind:
 
 - **Bug or request:** quote the reporter's words and link the conversation rather than paraphrasing, attributing by role unless readers need the name to act. Cut anything confidential from the quote and mark the cut. Add what the reader needs to reproduce it: where, observed, expected.
-- **Wrong output in data or an evaluation:** show one real input with its observed and expected output in a small table, and link the dataset revision.
-- **Uncertain or research work:** name the issue as the question, or as the deliverable that answers it (a comparison table, a decision memo, a case set). No estimates and no invented sub-tasks. The full results and the reasoning stay in the experiment log, document, dashboard, or pull request. The issue states the headline finding in two or three lines, at the latest when it is closed, and links that record when readers can open it. Progress narrative goes to a project or status update or a comment, not the body.
+- **Wrong output in data or an evaluation:** show a representative input with observed and expected output when that lets someone reproduce or diagnose the problem and the audience may see it. Link the dataset revision. A dataset delivery issue instead explains what its cases make reproducible and what each case provides.
+- **Uncertain or research work:** name the question or the usable result that answers it, such as a comparison with a recommendation. State the decision it informs and the comparison conditions that matter. Keep estimates and sub-tasks grounded in known work. Full results and reasoning stay in the experiment log, document, dashboard, or pull request; the issue carries the supported conclusion and its consequence when they are available. A negative result can complete the work when it answers the question.
+
+When closing or refreshing an issue, lead with the result: the selected option and the comparison that supports it, the delivered artifact and how to use it, or the unresolved finding that determines the next action. Add a comment only for a requested update or a material decision, blocker, or handoff that readers need. Rewriting a body does not call for a second comment that announces or repeats the rewrite.
 
 ## Tables, Figures, And Collapsed Detail
 
@@ -58,7 +70,7 @@ Concise comes first. Most issues need none of these, because a title and a few l
 An issue is a shared internal document. Its readers have the tracker, not the author's machine, server, or session.
 
 - **The text stands on its own.** A teammate who was not in the session can tell from the issue alone what the matter is, what was found or decided, and what is to be done. Give the one piece of background they lack, and do not assume they saw the chat, the run, or an earlier draft.
-- **No defensive writing.** Do not pad the issue with hedges, caveats that protect the author, reminders of how carefully the work was done, or lists of everything that was not checked. State what is known. Name an unknown once, next to the claim it limits, when the reader would act differently for knowing it.
+- **State useful uncertainty precisely.** Name an unknown once, next to the claim it limits, when the reader would act differently for knowing it. Preserve a reproducible defect or a disputed result that needs action. Remove reassurance about the author's diligence and generic warnings that do not change the decision.
 - **The author owns the claim.** State the finding, number, decision, or task in the issue's own text. A link lets the reader verify it or go deeper; it never stands in for the statement. "See <path>" or "details in <link>" without saying what is there pushes the work of finding out onto the reader and lets the author avoid committing to a statement.
 - **Every link and attachment earns its place.** Keep one only when the reader needs it to act on the issue or to check a specific claim made in it, and say what it is and why one would open it. Drop links and files that are merely related, that duplicate another link, or that were added to look thorough.
 - **Every link opens for the issue's readers.** Usable: a repository URL or a repository-qualified path on a shared branch, a shared document, a tracker item, a chat permalink, a dataset or dashboard URL. Not usable: a path on the author's machine, a path on a server or GPU node given as if it were a link, localhost or a private IP address without stated access conditions, an unpushed branch or local-only commit, a scratch or session file, a plan or notes file that was never shared, a private document the readers cannot access, an expired signed URL, a dead link.
@@ -78,11 +90,17 @@ When editing an existing issue, run the same check on the body you are changing:
 
 These are the reader-access principles of `share-internal-doc` from Gigio Pack. Use that skill when available for sensitive material, criticism of named people, or an audience wider than the team.
 
-## Splitting And Relations
+## Consolidation, Splitting, And Relations
 
-Use a parent with sub-issues for work too large for one issue and too small for a project. Split only after the separate lumps have shown up in the work, because imagined tasks make poor sub-issues. The parent stands for the final outcome: leave its title, body, and fields as they are, and do not add a sub-issue that merely restates it, meaning one that names the parent's outcome again without a separate piece of work of its own. Express blocked-by, related, and duplicate as relations, not prose.
+Read the relevant titles together before adding another issue. Reuse a project or parent that already expresses the intended result. When restructuring is authorized and the container's purpose is unclear, clarify it from the existing work instead of creating a competing umbrella. A group title should say what changes or what decision becomes possible; "Research tasks" and "Evaluation improvements" leave that work to the reader.
 
-Keep each person's in-progress issues few, reading the count from the tracker when the user does not give it. Create sub-issues as not started where the tracker has a status, and ask which one is being worked on now instead of marking several in progress. When a request would push the in-progress count up, say so before changing any status and let the user decide.
+Combine chores that serve the same result and have no separate owner, handoff, or completion decision. Source collection and candidate screening may belong in one selection issue; runner settings, output parsing, and result formatting may belong under one reproducible comparison. Give a substantial blocker its own issue when someone can fix and verify it independently. Keep distinct experiments, decisions, or deliverables separate when one can finish or change direction without the others.
+
+Use sub-issues for actual separable work within a parent's outcome. Use a project when the broader scope and team conventions call for it. Preserve an existing parent's useful context, and do not create a child that simply repeats its final outcome. Add dependencies only when work truly cannot proceed without another result. Milestones represent real checkpoints agreed for the project, not an invented research, implementation, validation sequence.
+
+During an authorized consolidation, choose the surviving issue, carry forward the facts and links needed to act, and preserve ownership, blockers, and completion evidence. Use the tracker's duplicate or relation mechanism for superseded issues when the request authorizes that status change; otherwise report the proposed resolution. Do not delete the historical records or call unrelated work duplicate merely to reduce the count.
+
+Set blocked-by, related, and duplicate through relations. Preserve current statuses during an editorial rewrite. When creating sub-issues, use not-started status unless current evidence or the user's instruction identifies active work; do not mark every child in progress. Report a consequential ownership or status ambiguity instead of making it up.
 
 ## Assignee
 
@@ -112,8 +130,8 @@ Read the matching file when the tracker is:
 | GitHub Issues | [references/github-issues.md](references/github-issues.md) | Visibility, templates, task lists versus sub-issues, relations, collapsed sections, diagrams, image attachment, `gh` flags |
 | Forgejo, Gitea, Jira, others | None | Apply the rules above, and discover fields, templates, and the self-assign form from the tracker's own tool help |
 
-[references/examples.md](references/examples.md) has worked drafts for each kind, including a Korean outline, a draft with an overview table and a figure where a long log was cut instead of collapsed, and a draft whose sources were local paths, a server path, and a pile of loosely related links; read it when the right shape is unclear. [references/sources.md](references/sources.md) records the public sources behind the non-obvious rules and how strong they are; read it when a rule is questioned or being changed.
+[references/examples.md](references/examples.md) shows an agenda carried into usable results, portfolio consolidation, individual drafts, and source selection. Read it when choosing what belongs in an issue. [references/sources.md](references/sources.md) records public sources and local editorial choices; read it when a rule is questioned or being changed.
 
 ## Report
 
-Report in the language the user is using. Lead with the issue URL or identifier and what was done: created, edited, split, closed, or drafted only. Then give the one-line assignee decision, the fields set or changed and, on an edit, the fields deliberately left alone, every link or reference removed and why, material that has no shared copy yet, any kept link whose access you could not verify, particulars the user still has to supply, and anything the user must decide, such as a rising in-progress count.
+Report in the user's language. Lead with the issue URL or identifier and the action completed. For a consolidation, show the resulting outcome groups and which records were combined or retained. Summarize assignment or status changes, consequential source removals, and any unresolved access or ownership decision. Keep the report proportional to the change; it need not repeat the issue body or inventory every preserved field.
