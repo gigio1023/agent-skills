@@ -86,7 +86,7 @@ Check before posting. For each link, path, or attachment in the draft:
 
 Links the user hands you are candidates, not an instruction to include each one. Run the same check. When it drops a link or file the user asked to include, show the draft with the reason before posting. Restore what the user then asks for, with any access limit stated beside it so the issue stays honest about what readers can open.
 
-When editing an existing issue, run the same check on the body you are changing: remove references that are unreachable or useless, and tell the user what was removed. In someone else's issue, those removals are part of the draft you show first.
+When editing an existing issue, run the same check on the body you are changing: remove references that are unreachable or useless, and report consequential removals. Include those removals in any draft required by the Normal Path.
 
 These are the reader-access principles of `share-internal-doc` from Gigio Pack. Use that skill when available for sensitive material, criticism of named people, or an audience wider than the team.
 
