@@ -15,6 +15,8 @@ Produce a document that a reader without the drafting conversation can understan
 
 Infer the reader, task, sources, language, and medium from the request and project. Use available inputs before asking about consequential gaps. Preserve established terms, source files, required templates, and the author's intended voice. A review returns findings; authoring or revision returns the requested text or artifact. Editing does not authorize changing the underlying system or publishing. A current explicit style request or governing template takes precedence over these editorial defaults.
 
+For a user-edited document, compare the current copy with an earlier version when available to learn which functions the user removed and retained. Use that evidence to shape the explanation, as described in [authoring and revision](references/authoring-and-revision.md); the current copy remains the revision baseline.
+
 ## Document structure
 
 Choose the content and form for each reader question. Use lists for parallel facts, steps for dependent actions, tables for comparable attributes or exact lookup, charts for quantitative patterns, and diagrams for relationships or behavior. Use short connected paragraphs to explain causes, mechanisms, implications, and trade-offs. Split a bullet that bundles several subjects. Use second- or third-level bullets when they express real groups and supporting details; keep independent peers at the same level. Give each parent a useful meaning and each leaf one point. Neither a flat-only list nor automatic nesting is a default. Formatting does not replace explanation.
@@ -24,6 +26,8 @@ Use clear noun phrases for section headings, table titles, and figure titles. Na
 Organize for the document's purpose. A factual incident record can use an overview, chronology, grouped observations, and response. A technical introduction needs the problem, a concrete example, and enough mechanism to explain it. A proposal needs the changed behavior, alternatives, and the reason to choose. Do not turn a concise incident report into a universal template, or turn a technical explanation into an inventory of facts. Keep needed definitions near first use; an exhaustive glossary or prerequisite chapter is not the default.
 
 For a new or restructured document, decide which question each section and visual answers before filling it. Do not print the planning exercise, impose a fixed outline, or add a review pause unless requested. Use [information design](references/information-design.md) for block selection and split decisions, and [document forms](references/document-forms.md) for genre-specific depth.
+
+In a long explanation, let the visible path carry the subject, useful result, and its interpretation conditions. Place optional foundations and derivations at the point where readers may need them, using clearly named collapsible sections when supported. The title identifies the subject, an optional callout locates the scope, and the opening begins the explanation. Each has a distinct job. Use [information design](references/information-design.md) to choose depth for readers with different backgrounds.
 
 ## Tables and visuals
 
@@ -49,7 +53,9 @@ Preserve the supported strength of retained claims. Attribute reported results, 
 
 Open with the useful finding, task, recommendation, or concrete problem for this reader. Supply the context and reasoning needed to understand it in this document. Links support verification and deeper inspection; they must not require readers to reconstruct the main explanation elsewhere.
 
-Name the actor, input, operation, state change, and output when explaining a mechanism. Trace a representative request or record. Compare alternatives on the same dimensions and explain the deciding constraint. Spend detail on the example, distinction, or failure path that resolves a real reader question.
+Build understanding through the subject itself. Show a concrete observation or problem, introduce the term needed to explain it, trace the mechanism, and connect the result to a consequence or choice. These are useful moves, not compulsory sections or a fixed order. Each substantive block should add a fact, relationship, example, warrant, or decision that the preceding blocks have not supplied. A reader should be able to explain more after the paragraph, rather than merely know what a later chapter promises to teach.
+
+Name the actor, input, operation, state change, and output when explaining a mechanism. Keep the same representative request or record through the explanation so readers can connect the parts. Put a symbol's meaning beside its first useful operation and a comparison condition beside the result it qualifies. Spend detail on the distinction or failure path that resolves a real reader question. For a long or introductory explanation, use [an explanation with optional depth](references/explanation-with-depth.md) as the matching worked example; it shows how a clear opening, mathematical example, and expandable foundation work together.
 
 Use established field terminology and explain unfamiliar meanings at first useful use. Name an unfamiliar internal artifact by its actual role before introducing a local alias; include the exact alias only when readers need it for lookup or coordination. Use the meaningful term in subsequent explanation. Do not replace opaque shorthand with a new slogan, rename a real identifier, or imply verification or quality that the source does not establish. Keep ordinary connecting language natural in the reader's language. Complete sentences matter in explanatory prose; headings, labels, and cells need concise, unambiguous phrases, not artificial full sentences.
 

@@ -45,6 +45,12 @@ Flow long text and tables across pages deliberately. Repeat table headers where 
 
 Use one authoritative content/data workflow. Different outputs may use different layouts and renderers; they do not require separately maintained facts. Preserve source tables and figure generation code as appropriate. For interactive-to-static conversion, select the comparisons and visible conditions the document needs rather than printing disabled controls.
 
+## Preserve mathematical and collapsible content
+
+Use the destination's supported inline and display equation forms when available. Read its current format contract instead of assuming ordinary Markdown or LaTeX delimiters will round-trip. Keep short expressions inline and use display blocks for derivations or expressions that need width. Preserve symbols, subscripts, superscripts, alignment, and neighboring prose boundaries; repair rendering through the supported syntax rather than changing the mathematical claim. Do not blindly strip whitespace inside expressions or rely on whitespace padding for layout.
+
+After conversion or publication, retrieve the delivered content and compare equations, figures, captions, and section nesting with the intended revision. Counts can reveal loss but do not prove that expressions or images match. Separately inspect representative equations and expanded sections at the delivered width for clipping or broken layout. Content equality and syntax validation are distinct from screen inspection; state a material unavailable check accurately.
+
 ## Inspect the artifact, not just the build
 
 Check expected sections, final text, calculations, tables, sources, and figures in the actual output. Inspect page count against any requested bound; no bound means no invented one-page constraint. Check the opening, page breaks, long tables, dense figures, and final page. For short documents, inspect every page. Search/text extraction catches missing content; rendered images reveal clipping, overlaps, small type, missing glyphs, and detached captions. Use both when each tests a real risk.
