@@ -89,7 +89,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [git-worktree-setup](skills/development/git-worktree-setup/) | Isolate authorized repository work while preserving existing changes |
 | [commit-and-push](skills/development/commit-and-push/) | Commit and push the requested changes with appropriate evidence |
 | [draft-pr](skills/development/draft-pr/) | Publish or update an actual pull request |
-| [write-issue](skills/development/write-issue/) | Write, edit, and split tracker issues that state their own findings, keep only links every reader can open, and assign deliberately |
+| [write-issue](skills/development/write-issue/) | Write and consolidate tracker issues around useful outcomes, with enough context to act and sources readers can open |
 | [python-coding-standards](skills/development/python-coding-standards/) | Implement maintainable Python models, modules, and checks |
 
 ### Agent and Harness Engineering
