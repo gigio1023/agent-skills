@@ -18,6 +18,14 @@ A restrained factual record may be excellent for an incident brief and insuffici
 
 Structure must carry meaning. Repeating “One-line summary / Definition / Why it matters” for every concept can create a verbose document made entirely of bullets. Use those elements where they do work, without repeated labels or empty nesting. Several related bullets often need one connective sentence explaining their relationship.
 
+## Long documents and progressive disclosure
+
+Choose what remains visible by the reader's task. Keep the subject, useful result, necessary definitions, and interpretation conditions on the main path. Offer substantial prerequisite explanations, mathematical derivations, exercises, and secondary comparisons as optional sections when readers differ in background. A section title should name what it contains; add one short cue about when to open it only if that helps the choice. Avoid a separate tour that repeats every toggle and an inner introduction that repeats the tour.
+
+Use the actual medium: native toggles in a collaborative page, expandable sections on a supported website, or clearly linked sections in a static document. Check the initial view and a representative expanded section. Hiding text does not justify keeping irrelevant content, and shortening the initial view must not make the main claim misleading. Ensure exports include necessary expanded content or a usable route to it.
+
+**Synthetic example:** A guide to message queues needs a recommendation, workload assumptions, and an example request on the main path. An optional section titled “Queueing model derivation” can hold the equations for readers checking the estimate. A callout naming the guide's scope need not be followed by learning outcomes, a chapter-by-chapter route, and another scope paragraph. Keep any condition that changes the recommendation beside that recommendation.
+
 ## List hierarchy
 
 Let indentation express a relationship: an option and its costs, a component and its failure cases, or a workstream and its actions. Use a second level for related details and a third when those details genuinely divide again. A long bullet that switches subjects needs separate items or groups, not more semicolons. Keep siblings parallel and each leaf focused on one fact or action.
