@@ -28,7 +28,7 @@ Harness mechanics, fetched 2026-09-20:
 - Claude Agent SDK `Subagents`: https://code.claude.com/docs/en/agent-sdk/subagents
 - Cursor `Subagents`: https://cursor.com/docs/agent/subagents
 - OpenCode `Agents`: https://opencode.ai/docs/agents/
-- Hermes Agent: observed configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_effort`, `agent.reasoning_overrides`) on 2026-09-20; documentation not re-fetched.
+- Hermes Agent: configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_effort`, `agent.reasoning_overrides`) observed in a local configuration on 2026-09-20. The delegation and Kanban documentation pages were read the same day for vocabulary, not for a key-by-key check of that configuration.
 - Per-invocation effort requests: anthropics/claude-code issues #43083 (closed completed, shipped the frontmatter `effort` field) and #72596 (closed not planned).
 
 Routing evidence outside vendor docs:
@@ -82,6 +82,6 @@ Guidance statements the rules rest on:
 ## Not Verified
 
 - Cursor's subagent definition directory and which model strings accept `effort`.
-- Hermes documentation for the observed keys.
+- Whether the observed Hermes configuration keys match the current Hermes configuration reference.
 - Which effort a proxy-routed subagent runs at; it is read from the proxy's route string, not observed.
 - The exact inheritance path for a `sonnet` or `haiku` subagent on a machine that saves `modelSettings` only for other models; the documentation says a definition without `effort` inherits the session level.

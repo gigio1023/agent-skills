@@ -1,11 +1,10 @@
 ---
 name: fable5-model-routing
 description: >
-  Choose each subagent's model and reasoning effort when a Claude Fable 5 or
-  5.1 lead delegates, in any harness with subagents (Claude Code, Cursor, and
-  Hermes are examples), install the subagent definitions that make effort
-  selectable there, and state each subagent's resolved settings before
-  spawning. Also use to bring Fable in as a judge under another lead. NOT for
+  Choose each subagent's model and reasoning effort every time a Claude Fable
+  5 or 5.1 lead delegates, in any harness with subagents (Claude Code, Cursor,
+  and Hermes are examples), install the subagent definitions where the harness
+  takes them, and state each subagent's resolved settings before spawning. Also use to bring Fable in as a judge under another lead. NOT for
   deciding whether to delegate (orchestrate-subagents) or for a GPT-6 Astra
   lead (gpt6-astra-model-routing).
 ---
@@ -64,7 +63,7 @@ Effort names do not mean the same amount of thinking across models, so never cop
 
 ### Dispatch statement
 
-Before each spawn, state one line per task: tier, `agent_type`, resolved model, resolved effort, where that value was read, and whether the runtime confirmed it. Example: `bounded-exec | opus-builder | opus | xhigh | ~/.claude/agents/opus-builder.md | runtime unverified`. If a value is inherited, name the inherited value and its source. If the harness exposes no way to observe the applied setting, say `runtime unverified` rather than claiming what ran.
+Before each spawn, state one line per task: tier, `agent_type`, resolved model, resolved effort, where that value was read, and whether the runtime confirmed it, in the form `<tier> | <agent_type> | <model> | <effort> | <where read> | runtime confirmed or unverified`. If a value is inherited, name the inherited value and its source. If the harness exposes no way to observe the applied setting, say `runtime unverified` rather than claiming what ran.
 
 ## Default Routes for a Fable Lead
 
@@ -77,6 +76,8 @@ The `agent_type` names are the subagent definitions in `assets/agents/`; the ada
 | Bounded execution, coding | `opus-builder`: Opus 5 at `xhigh` | `fable-lean-builder`: Fable at `low`, which in a Fable-led session often costs less than Opus because Fable 5.1 cache reads are half of Opus 5's; a proxy-routed GPT-5.6 Sol subagent |
 | Judgment-adjacent support | `fable-reviewer`: Fable at `high` | Opus 5 at `xhigh` when the user wants a second model family on the check |
 | Judgment core | The lead | Not delegated |
+
+A dispatch line for this table reads `bounded-exec | opus-builder | opus | xhigh | ~/.claude/agents/opus-builder.md | runtime unverified`.
 
 Under the effort floor, every below-frontier subagent runs at `xhigh`, so cost differs by model, not by effort. Anthropic's own measurements put Opus 5 at `low` as the cheapest per solved coding task; that configuration sits below the floor, so it is a reference point for a user who chooses to lower one route, not a default.
 
@@ -106,7 +107,7 @@ Answer as the lead's judgment, not as a committee transcript: the decision or hi
 |------|-----------|---------|
 | `references/harness-adapters.md` | Before the first spawn in a session, and whenever the harness or its version is unfamiliar | How each harness sets subagent model and effort, what it cannot set, how to install the subagent definitions, and how to report resolved settings |
 | `references/source-notes.md` | When maintaining this skill | Dated sources, measured numbers behind the rules, policy history, and the mirror note shared with `gpt6-astra-model-routing` |
-| `assets/agents/` | When installing subagent definitions | Definitions per harness, each carrying a model and an effort |
+| `assets/agents/` | When installing subagent definitions | Claude Code definitions, each carrying a model and, where the model supports one, an effort |
 
 ## Gotchas
 

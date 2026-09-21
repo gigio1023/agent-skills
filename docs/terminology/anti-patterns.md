@@ -14,4 +14,4 @@
 
 **Exceptions:** Quoted source text, such as Hermes's "worker lane"; product syntax, such as Mermaid's `subgraph lane` and `swimlane-beta`; and literal uses in fields that own the word, such as SIMD or GPU lanes, CI lanes in Fastlane, and BPMN swimlanes.
 
-**Reference:** [R001](references.md#r001) through [R007](references.md#r007) for the absence in harness documentation, [R008](references.md#r008) and [R009](references.md#r009) for the literature nouns, [R010](references.md#r010) and [R012](references.md#r012) for community usage, [R011](references.md#r011) for the decision.
+**Reference:** [R001](references.md#r001) through [R007](references.md#r007), [R013](references.md#r013), and [R014](references.md#r014) for the absence in harness and SDK documentation, [R008](references.md#r008) and [R009](references.md#r009) for the literature nouns, [R010](references.md#r010) and [R012](references.md#r012) for community usage, [R011](references.md#r011) for the decision.

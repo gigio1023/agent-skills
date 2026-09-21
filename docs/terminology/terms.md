@@ -8,7 +8,7 @@
 
 **Use and distinctions:** The running instance, as opposed to its configuration (see subagent definition). "Worker" is an acceptable informal synonym in prose about a lead and its workers; "teammate" is Claude Code's word for a peer in an agent team, not a subagent.
 
-**Reference:** [R001](references.md#r001), [R002](references.md#r002), [R003](references.md#r003), [R005](references.md#r005).
+**Reference:** [R001](references.md#r001), [R002](references.md#r002), [R003](references.md#r003), [R005](references.md#r005), [R013](references.md#r013).
 
 ## subagent definition
 
@@ -24,7 +24,7 @@
 
 **Use and distinctions:** Prefer "delegated task" on first use when the lead's own task is also in view. In Claude Code the historical tool name was `Task`; the tool is now `Agent`, so the noun no longer collides with a tool name.
 
-**Reference:** [R001](references.md#r001), [R003](references.md#r003), [R005](references.md#r005), [R007](references.md#r007).
+**Reference:** [R001](references.md#r001), [R003](references.md#r003), [R005](references.md#r005), [R007](references.md#r007), [R013](references.md#r013).
 
 ## dispatch
 

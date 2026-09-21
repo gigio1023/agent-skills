@@ -1,11 +1,11 @@
 ---
 name: gpt6-astra-model-routing
 description: >
-  Choose each subagent's model and reasoning effort when a GPT-6 Astra lead
-  delegates, in any harness with subagents (Codex and Hermes are examples),
-  install the worker defaults and role files that keep workers on GPT-5.6
-  models at full effort, and state each subagent's resolved settings before
-  spawning. Also use to bring Astra in as a judge under a Sol or Terra lead.
+  Choose each subagent's model and reasoning effort every time a GPT-6 Astra
+  lead delegates, in any harness with subagents (Codex and Hermes are
+  examples), install the worker defaults and role files where the harness
+  takes them so workers stay on GPT-5.6 models at full effort, and state each
+  subagent's resolved settings before spawning. Also use to bring Astra in as a judge under a Sol or Terra lead.
   NOT for deciding whether to delegate (orchestrate-subagents), for missions
   launched through codex-delegate, or for a Claude Fable lead
   (fable5-model-routing).
@@ -67,7 +67,7 @@ Effort names do not mean the same amount of thinking across models, so never cop
 
 ### Dispatch statement
 
-Before each spawn, state one line per task: tier, `agent_type`, resolved model, resolved effort, where that value was read, and whether the runtime confirmed it. Example: `bounded-exec | opus-builder | opus | xhigh | ~/.claude/agents/opus-builder.md | runtime unverified`. If a value is inherited, name the inherited value and its source. If the harness exposes no way to observe the applied setting, say `runtime unverified` rather than claiming what ran.
+Before each spawn, state one line per task: tier, `agent_type`, resolved model, resolved effort, where that value was read, and whether the runtime confirmed it, in the form `<tier> | <agent_type> | <model> | <effort> | <where read> | runtime confirmed or unverified`. If a value is inherited, name the inherited value and its source. If the harness exposes no way to observe the applied setting, say `runtime unverified` rather than claiming what ran.
 
 ## Default Routes for an Astra Lead
 
@@ -80,6 +80,8 @@ The `agent_type` names are the role files in `assets/codex/agents/`; the adapter
 | Bounded execution, implementation | `sol-builder`: GPT-5.6 Sol at `xhigh` | Sol's catalog default effort is `low`; a spawn that names the model without the effort lands there, so both are always set |
 | Judgment-adjacent support | `astra-judge`: GPT-6 Astra at `high` | The frontier as a worker, at reduced effort; fresh-context specification check or contested judgment |
 | Judgment core | The lead | Not delegated |
+
+A dispatch line for this table reads `bounded-exec | sol-builder | gpt-5.6-sol | xhigh | ~/.codex/agents/sol-builder.toml | runtime unverified`.
 
 Under the effort floor the cost lever is the worker model, not its effort. The single most effective change is a session default that sends unnamed workers to Terra at `xhigh` instead of letting them inherit Astra. Astra's own effort is lowered only when Astra is the worker.
 

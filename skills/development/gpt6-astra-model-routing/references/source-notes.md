@@ -36,7 +36,7 @@ Runtime checks on the authoring machine, 2026-09-20: `codex debug models` and `c
 
 Other harnesses:
 
-- Hermes Agent: observed configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_effort`, `agent.reasoning_overrides`) on 2026-09-20; documentation not re-fetched.
+- Hermes Agent: configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_effort`, `agent.reasoning_overrides`) observed in a local configuration on 2026-09-20. The delegation and Kanban documentation pages were read the same day for vocabulary, not for a key-by-key check of that configuration.
 - OpenCode `Agents`: https://opencode.ai/docs/agents/
 
 Community packages read for patterns: matteoscurati/delegation-kit (Codex role files `astra-judge`, `terra-builder`, `luna-clerk` with the inverted effort curve and a Sol lead that consults Astra), AqueGen/model-routing (dispatch logging and the one-step retry rule), obra/superpowers strict-cost design spec (pre-registered failures of cheap models on judgment).
@@ -63,5 +63,5 @@ Served Codex catalog (`codex debug models`, afternoon): Astra default `medium`, 
 - The live spawn tool schema under an Astra lead; inferred from source defaults and the rendered usage hint, not observed.
 - Whether the served catalog's `model_messages.multi_agent` replaces the delegation-mode texts on a given machine.
 - Whether a managed or enterprise configuration layer overrides the `[agents]` keys.
-- Hermes documentation for the observed keys.
+- Whether the observed Hermes configuration keys match the current Hermes configuration reference.
 - Any effect of these defaults on cost or quality.

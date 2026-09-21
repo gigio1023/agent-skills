@@ -67,10 +67,10 @@
 
 - Nous Research; official documentation.
 - https://hermes-agent.nousresearch.com/docs/user-guide/features/delegation and https://hermes-agent.nousresearch.com/docs/user-guide/features/kanban-worker-lanes
-- Checked 2026-09-20; configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_overrides`) also observed in a local configuration the same day.
+- Checked 2026-09-20 for vocabulary; configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_overrides`) observed in a local configuration the same day and not checked key by key against these pages.
 - Supporting passages: "profile" for the configured agent, "Per-task model override", and the Kanban definition of a worker lane as "A class of process that the kanban dispatcher can route tasks to".
 - Used by: task; the "lane" anti-pattern (the one harness usage, and its narrower meaning).
-- Inspection status: pages fetched and searched.
+- Inspection status: pages fetched and searched for the nouns above; the configuration reference was not compared with the local keys.
 
 <a id="r008"></a>
 ## R008 — RouteLLM
@@ -120,3 +120,23 @@
 - Status: rejected as an authority for wording. It uses "lane" heavily for configured subagents, but a large share of its recent commit history carries model-authorship trailers, and the source policy excludes model-written prose from terminology authority. Its role names (`astra-judge`, `terra-builder`, `luna-clerk`) were still useful as examples of the `<model>-<role>` naming shape.
 - Used by: the "lane" anti-pattern (community usage with authorship judgment).
 - Inspection status: agent files, Codex role files, and commit history read.
+
+<a id="r013"></a>
+## R013 — Anthropic, "How we built our multi-agent research system"
+
+- Anthropic; engineering blog post, published 2025-06-13.
+- https://www.anthropic.com/engineering/multi-agent-research-system
+- Checked 2026-09-20.
+- Supporting passages: an orchestrator that spawns "specialized subagents" with "specific research tasks"; scaling the number of subagents with task complexity.
+- Used by: subagent, task; the "lane" anti-pattern (absence, page text searched).
+- Inspection status: full page fetched and searched.
+
+<a id="r014"></a>
+## R014 — OpenAI Agents SDK, "Handoffs"
+
+- OpenAI; official SDK documentation.
+- https://openai.github.io/openai-agents-python/handoffs/
+- Checked 2026-09-20.
+- Supporting passages: handoffs "allow an agent to delegate tasks to another agent" and are represented "as tools to the LLM"; the configured unit is an `Agent`.
+- Used by: the "lane" anti-pattern (absence, and "handoff" as the SDK's noun for transfer of control).
+- Inspection status: page fetched and searched.

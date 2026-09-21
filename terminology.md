@@ -12,7 +12,7 @@ Use the English names and contextual meanings recorded here in the pack's skills
 
 | Term | Concise meaning and scope | Reference |
 | --- | --- | --- |
-| subagent | An agent a lead spawns to handle a delegated task; the running instance. Claude Code, Codex, Cursor, and Anthropic's engineering writing all use it. | [R001](docs/terminology/references.md#r001), [R003](docs/terminology/references.md#r003), [R005](docs/terminology/references.md#r005) |
+| subagent | An agent a lead spawns to handle a delegated task; the running instance. Claude Code, Codex, Cursor, and Anthropic's engineering writing all use it. | [R001](docs/terminology/references.md#r001), [R003](docs/terminology/references.md#r003), [R005](docs/terminology/references.md#r005), [R013](docs/terminology/references.md#r013) |
 | subagent definition | The configured record that fixes a subagent's model, effort, tools, and instructions. Say "agent file" when pointing at its path. Codex calls the same thing a custom role or agent type. | [R002](docs/terminology/references.md#r002), [R004](docs/terminology/references.md#r004) |
 | task | The unit of work a lead delegates; "delegated task" on first use when the parent task is also in view. | [R001](docs/terminology/references.md#r001), [R003](docs/terminology/references.md#r003) |
 | dispatch | The act of handing a task to a subagent, and the one-line statement of its tier, `agent_type`, model, effort, source, and runtime status that the routing skills require. | [R010](docs/terminology/references.md#r010), [R011](docs/terminology/references.md#r011) |
