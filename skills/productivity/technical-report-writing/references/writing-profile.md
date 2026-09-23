@@ -1,6 +1,6 @@
 # Writing Profile
 
-Standing preferences of this pack's author for documents, PR bodies, issue bodies, and messages to colleagues that the author writes or asks to have written. Apply them whenever drafting or revising such text, whether or not a skill was named; when revising another person's text, their voice and register stay, and only the meaning and structure rules apply. A current explicit request or a governing template overrides a line here. This file holds taste only; the craft rules that apply to any writer stay in SKILL.md and are not repeated here.
+Standing preferences of this pack's author for documents, PR bodies, issue bodies, and messages to colleagues that the author writes or asks to have written. Apply them whenever drafting or revising such text, whether or not a skill was named; when revising another person's text, their voice and register stay, and only the meaning and structure rules apply. A current explicit request or a governing template overrides a line here. This file holds taste only; the craft rules that apply to any writer stay in SKILL.md and are not repeated here. It is the single source: the author's instruction files carry it by import or by a copy that `scripts/sync_profile.py` refreshes, and it stays within 40 lines.
 
 ## Reader
 
@@ -9,8 +9,12 @@ Standing preferences of this pack's author for documents, PR bodies, issue bodie
 ## First screen
 
 - Start with the subject, the finding, or the decision. No sentence that introduces the document: purpose declaration, reading order, "읽는 기준" or "이 문서에서 하려는 일" labels, section previews, or a sentence that describes the table below. Scope lives in the title and the first line's subject; one line pointing to a sibling document is allowed in a document set. A date stays beside the table or number it bounds, never as a document-level as-of line. Inside one document there is no reading guide; a set of pages may have one overview table that says which page holds what.
-- A summary block is a heading or bold label plus short parallel items, one or two levels deep, ending in noun phrases. Prose is for explanation in the body.
+- A summary block is a heading or bold label plus short parallel items, one or two levels deep, ending in noun phrases.
 - Blocks, bullets, and notes the user wrote stay as written in every later pass. A user note left on the page is an instruction to the writer, never text for the reader.
+
+## Body
+
+- Structure carries the content: nested items, tables, and callouts are the default texture, and a nested item states a claim and then its condition. A paragraph appears where reasoning needs connecting words, as for a mechanism, a cause, or a trade-off, and opens with its point. Mechanism, equations, and confirmed examples keep their depth inside that structure; shorter never means shallower.
 
 ## What stays and what goes
 
