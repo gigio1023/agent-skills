@@ -6,7 +6,7 @@ Use the relevant section when language, locale, or voice affects a drafting or r
 
 Follow the requested language and locale, governing terminology, genre, and approved voice sample. Keep exact identifiers, quotations, commands, official names, requirement levels, and numbers intact. Revise the surrounding explanation in the target language's natural syntax. Do not translate or localize a document merely because a clarity edit was requested.
 
-When changing a sentence, compare its actor, action, object, scope, negation, condition, time, causal relation, and degree of certainty with the source. Keep a repeated term when it makes reference clearer. Keep a connector when it expresses a real relation. Adjust rhythm to the thought; do not enforce ending counts, paragraph-length variation, or change percentages. Do not invent punctuation bans per document; apply an explicit house preference, such as the Korean one below.
+When changing a sentence, compare its actor, action, object, scope, negation, condition, time, causal relation, and degree of certainty with the source. Keep a repeated term when it makes reference clearer. Keep a connector when it expresses a real relation. Adjust rhythm to the thought; do not enforce ending counts, paragraph-length variation, or change percentages. Do not invent punctuation bans per document; apply the explicit house preference in [writing profile](writing-profile.md).
 
 For languages not covered below, use the same semantic checks with the supplied examples and applicable locale guidance. A material ambiguity calls for a focused source check or question, not an invented language rule. If translating is requested, compare the resulting claim and its conditions with the source; fluency alone does not establish fidelity.
 
@@ -20,21 +20,7 @@ Check an appended `-ing` clause if it supplies an unsupported effect or an uncle
 
 ## Korean
 
-Keep subjects, objects, predicates, particles, and referents recoverable in explanatory prose. Restore omitted relations when compressed noun phrases make the reader infer what happened. Section headings and visual titles use noun phrases; table cells use compact values or phrases whose meaning is supplied by the header. Do not expand them into full sentences to satisfy a prose rule. Preserve an established speech level; a technical explanation can use consistent `-다` endings without forced variation. Use `korean-clarity` when Korean semantic repair needs its more detailed guidance, including outside document work.
-
-Replace nominal or translated constructions only when the relation becomes clearer. Keep standard English technical terms when they are precise and familiar to the intended reader. Do not treat English spelling itself as a defect or require a Korean replacement after first use. Keep a causal connector when it expresses causation and a contrast when it distinguishes real alternatives.
-
-Ordinary verbs and nouns stay Korean; English is for field terms the reader uses, such as judge, harness, and ablation. “acknowledge한다” and “enqueue가 끝났다” are defects. Do not present code-switched Korean as a model sentence.
-
-State what a thing is before what it is not. Use a definition by negation (“X가 아니라 Y”) only when the reader would otherwise pick X. An internal alias such as `v3`, `r3`, or `gold v2` follows the role description and appears only when readers need it for lookup; naming the alias does not explain it.
-
-Standing house punctuation for Korean technical prose in this pack: avoid the middle dot (U+00B7) and dashes as punctuation. Use a colon for a label split and a comma or period for a clause split. Keep these characters where they appear inside quotations, code, and official names.
-
-Check Korean drafts and revision diffs against [correction cases](correction-cases.md); [exemplar passages](exemplar-passages.md) show the operations in published Korean technical prose.
-
-**Synthetic clarification:** “재시도 증가에 따른 큐 영향 확인 필요” can become “재시도가 늘어날 때 큐에 어떤 영향이 있는지 확인해야 한다.” The rewrite restores the object of the investigation; it does not select an unstated metric or claim that a particular effect has already been observed.
-
-**Meaning boundary:** “이 설정에서는 연결이 끊길 수 있다” expresses a possibility. Changing it to “이 설정에서는 연결이 끊긴다” would strengthen the claim. Removing repetitive hedging is useful only when the remaining sentence still expresses the actual evidence or requirement.
+Korean meaning, terminology, definition by negation, and the evidence-backed Korean tells live in [Korean writing](korean-writing.md), which also carries the synthetic Korean examples. The house punctuation and the English field-term boundary are the author's preferences in [writing profile](writing-profile.md).
 
 ## Italian
 
@@ -56,4 +42,4 @@ Leave line-breaking, hanging punctuation, and page-edge behavior to the renderer
 
 ## Basis and reuse
 
-The authoring, revision, voice-preservation, and language guidance in this package adapts selected methods from [slop-aware-writing](https://github.com/gigio1023/slop-aware-writing/tree/0eb3b774d124302bdd9ed0fcbe184a50cde90ec3/slop-aware-writing), copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing). This synthesis selects semantic and reader-task decisions; it does not import that package's pattern-count policies or empirical claims. The examples here are independently synthetic. Public technical close readings remain in [source readings](source-readings.md).
+The authoring, revision, voice-preservation, and language guidance in this package adapts selected methods from [slop-aware-writing](https://github.com/gigio1023/slop-aware-writing/tree/0eb3b774d124302bdd9ed0fcbe184a50cde90ec3/slop-aware-writing), copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing). This synthesis selects semantic and reader-task decisions; it does not import that package's pattern-count policies. The Korean tells and the Korean clarity rules in [Korean writing](korean-writing.md) were merged from slop-aware-writing and korean-clarity at their 2026-09-21 revisions; empirical claims appear only there, with their evidence class and limits. The examples here are independently synthetic. Public technical close readings remain in the repository's `docs/writing-sources.md`.
