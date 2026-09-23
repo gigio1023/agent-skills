@@ -66,7 +66,7 @@ Rules:
 
 ## State, Class, And ER Traps
 
-- Use `stateDiagram-v2`; plain `stateDiagram` is the legacy renderer.
+- Plain `stateDiagram` and `stateDiagram-v2` render with the same unified renderer under default config on v10 and later, and v12 removes the legacy renderer. Keep writing `stateDiagram-v2` for v10 and v11 hosts, where a host config of `state.defaultRenderer: dagre-d3` still routes plain `stateDiagram` to the legacy renderer.
 - State names with spaces: declare `state "Long name" as id`, then use `id`.
 - State `classDef` cannot target `[*]` start/end states or composite states; transitions between internal states of *different* composites are not supported.
 - Colons inside state descriptions require v11.13+.
@@ -99,9 +99,10 @@ flowchart LR
   A --> B
 ```
 
-- Useful keys: `title`, `config.theme`, `config.look` (`classic` | `handDrawn` — render-verified camelCase; flowchart and state diagrams), `config.layout` (`dagre` default, `elk`, `tidy-tree`), `config.themeVariables`, `config.flowchart.curve`, top-level `config.htmlLabels` (`flowchart.htmlLabels` deprecated since v11.12.3).
+- Useful keys: `title`, `config.theme`, `config.look` (`classic` | `handDrawn` — render-verified camelCase; flowchart and state diagrams; `neo` from v11.14), `config.layout` (`dagre`, `elk`, `tidy-tree`; defaults below), `config.themeVariables`, `config.flowchart.curve`, top-level `config.htmlLabels` (`flowchart.htmlLabels` deprecated since v11.12.3). v12 ignores the `defaultRenderer` option of `flowchart`, `class`, and `state`; select the layout with `layout`.
+- **Defaults differ by major version.** v11 defaults to `theme: default`, `look: classic`, and the dagre layout, with ELK only where the host registers it. v12 (2026-09-10) bundles ELK and makes it the default layout for flowchart, state, class, ER, requirement, use case, and agentflow diagrams, and makes `theme: redux-color` with `look: neo` the default for flowchart, class, state, ER, requirement, sequence, use case, swimlane, Venn, and agentflow diagrams; other types stay on `default` and `classic`, and mindmap (cose-bilkent) and swimlane keep their own layouts in both majors. v12 also requires ES2024, Safari 17.4+, and Node 22.12+. To keep the v11 look on a v12 host, set all three in frontmatter: `layout: dagre`, `theme: default`, `look: classic`. An explicit `theme` also stops hosts from switching the theme with the viewer's light or dark mode (`color-and-style.md`).
 - `securityLevel`, `startOnLoad`, `maxTextSize` are host-controlled and not overridable from a diagram. `click`/`link` interactivity requires the host to run `securityLevel: loose` — treat links as best-effort decoration.
-- ELK ships as a separate package; when `layout: elk` silently renders as dagre, the host has not registered it. Simplify structure instead of depending on the layout engine.
+- On v11, ELK ships as the separate `@mermaid-js/layout-elk` package, and v12's tiny build omits it; when `layout: elk` silently renders as dagre, the host has not registered it. Simplify structure instead of depending on the layout engine.
 
 ## Limits And Label Internals
 
