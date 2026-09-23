@@ -24,6 +24,8 @@ DIRECTIVE_RE = re.compile(
     r"pylint\s*:|"
     r"pyright\s*:|"
     r"mypy\s*:|"
+    r"ty\s*:|"
+    r"pyrefly\s*:|"
     r"isort\s*:|"
     r"coverage\s*:|"
     r"pragma\s*:\s*no\s+cover\b"

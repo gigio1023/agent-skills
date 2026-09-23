@@ -18,18 +18,6 @@ def count_with_pypdf(path: str) -> int | None:
         return None
 
 
-def count_with_pypdf2(path: str) -> int | None:
-    try:
-        from PyPDF2 import PdfReader  # type: ignore
-    except Exception:
-        return None
-    try:
-        reader = PdfReader(path)
-        return len(reader.pages)
-    except Exception:
-        return None
-
-
 def count_with_pdfinfo(path: str) -> int | None:
     try:
         out = subprocess.check_output(["pdfinfo", path], text=True, stderr=subprocess.STDOUT)
@@ -66,7 +54,7 @@ def main() -> int:
         print(f"Error: PDF file not found: {target}", file=sys.stderr)
         return 2
 
-    for counter in (count_with_pypdf, count_with_pypdf2, count_with_pdfinfo, count_with_mdls):
+    for counter in (count_with_pypdf, count_with_pdfinfo, count_with_mdls):
         pages = counter(str(target))
         if pages is not None:
             print(pages)

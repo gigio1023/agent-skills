@@ -19,7 +19,15 @@ cat > "$tmp_dir/directive.py" <<'PY'
 unused = 1  # noqa: F841
 PY
 
-git -C "$tmp_dir" add sample.py directive.py
+cat > "$tmp_dir/ty_directive.py" <<'PY'
+value: int = "text"  # ty: ignore[invalid-assignment]
+PY
+
+cat > "$tmp_dir/pyrefly_directive.py" <<'PY'
+value: int = "text"  # pyrefly: ignore[bad-assignment]
+PY
+
+git -C "$tmp_dir" add sample.py directive.py ty_directive.py pyrefly_directive.py
 git -C "$tmp_dir" commit -qm "fixture"
 
 cat > "$tmp_dir/sample.py" <<'PY'
@@ -61,5 +69,19 @@ if (
     echo "expected semantic directive change to fail" >&2
     exit 1
 fi
+
+for checker in ty pyrefly; do
+    cat > "$tmp_dir/${checker}_directive.py" <<'PY'
+value: int = "text"  # Fixture value kept for the type-checker test.
+PY
+
+    if (
+        cd "$tmp_dir"
+        python3 "$guard" --base HEAD "${checker}_directive.py" >/dev/null 2>&1
+    ); then
+        echo "expected removed $checker suppression to fail" >&2
+        exit 1
+    fi
+done
 
 echo "OK: doc-only diff guard smoke tests passed"

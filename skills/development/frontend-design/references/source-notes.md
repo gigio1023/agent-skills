@@ -38,7 +38,7 @@ Use these for process and packaging ideas. Their bundled content has mixed prove
 - Google's DESIGN.md experiment uses structured tokens plus rationale and can lint, diff, and export design memory. It is alpha, so this skill supports a present file without requiring its schema. https://github.com/google-labs-code/design.md
 - Agentic Design System supplies an evidence loop from intent and baseline through render, review, and revision. https://github.com/aa-on-ai/agentic-design-system
 - Open CoDesign shows local design memory, preview, and versioned collaboration. https://github.com/opencoworkai/open-codesign
-- Raven MCP and Designlib MCP show optional runtime retrieval and audit models. Neither service is required for this skill's normal path. https://github.com/rhinocap/raven-mcp https://github.com/app-builders-club/designLib-mcp
+- Raven MCP and Designlib MCP show optional runtime retrieval and audit models. Designlib's standalone repository returned 404 on 2026-09-23; the design-builder plugin from the same publisher documents and configures it. Neither service is required for this skill's normal path. https://github.com/rhinocap/raven-mcp https://github.com/app-builders-club/design-builder
 
 ### 4. Exploration Sources
 

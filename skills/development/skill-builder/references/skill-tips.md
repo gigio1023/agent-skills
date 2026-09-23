@@ -18,7 +18,7 @@ A repeated preference can justify a skill even when the model already knows how 
 
 For such a skill, write clear discovery and the intended result, check the package, and finish. No script, reference folder, elaborate workflow, or invented gotcha is necessary. For a fragile task, retain precise ordering, effects, and required checks. Choose depth from the work, not a preferred file size.
 
-Thariq's [later context guidance](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models) also emphasizes expressive interfaces and rich references. Use these as design choices, not rules to delete all examples or shorten every skill by a percentage.
+Thariq's [later context guidance](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/) also emphasizes expressive interfaces and rich references. Use these as design choices, not rules to delete all examples or shorten every skill by a percentage.
 
 ## Diagnose Before Adding Instructions
 
