@@ -1,6 +1,6 @@
 # 1Password CLI Usage Reference
 
-This reference is based on local `op` 2.34.1 help on macOS arm64, checked 2026-06-27. When in doubt, run `op <command> --help` because the installed CLI is the source of truth.
+This reference is based on local `op` 2.34.1 help on macOS arm64, checked 2026-06-27. On 2026-09-23 the [1Password CLI release notes](https://app-updates.agilebits.com/product_history/CLI2) list 2.39.0 (released 2026-08-14) as the current stable; the help-derived claims below were not re-checked against 2.39.0 help. When in doubt, run `op <command> --help` because the installed CLI is the source of truth.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ This reference is based on local `op` 2.34.1 help on macOS arm64, checked 2026-0
 
 ## Command Surface
 
-Top-level commands in local stable 2.34.1:
+Top-level commands in local stable 2.34.1 (help checked 2026-06-27):
 
 | Area | Commands |
 | --- | --- |
@@ -35,7 +35,7 @@ Top-level commands in local stable 2.34.1:
 | Shell integration | `op completion <shell>`, `op plugin list`, `op plugin init`, `op plugin inspect`, `op plugin run`, `op plugin clear`, `op plugin credential ...` |
 | Updates | `op update` |
 
-Local stable 2.34.1 does not expose `op environment`, and local `op run --help` does not expose `--environment`. Official docs describe 1Password Environments as a beta path that requires a beta CLI build; verify local help before using any Environment-specific command.
+Local stable 2.34.1 help (checked 2026-06-27) does not expose `op environment`, and local `op run --help` does not expose `--environment`. Official docs describe 1Password Environments as a beta path that requires a beta CLI build, `2.33.0-beta.02` or later, and the stable release notes through 2.39.0 add no Environments commands (checked 2026-09-23); verify local help before using any Environment-specific command.
 
 ## Global Flags and Environment Variables
 
@@ -212,7 +212,7 @@ Precedence:
 
 Masking is on by default. Use `--no-masking` only when the user explicitly needs the real secret visible in output.
 
-Official docs also describe `op run --environment <environmentID> -- <command>` for 1Password Environments beta. Do not use it on stable 2.34.1 unless `op run --help` shows the flag or the user intentionally installed a supported beta build.
+Official docs also describe `op run --environment <environmentID> -- <command>` for 1Password Environments beta. Do not use it on a stable build unless `op run --help` shows the flag or the user intentionally installed a supported beta build.
 
 ## `op inject`
 

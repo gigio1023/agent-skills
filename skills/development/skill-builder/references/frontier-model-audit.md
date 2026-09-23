@@ -24,7 +24,7 @@ Consult the matching model guide and current primary source for model claims. [O
 
 Classify only enough to make the edit. No audit matrix, fixed edit count, or target byte size is required.
 
-Thariq's [July 2026 context guidance](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models) reports reducing Claude Code's system prompt by over 80% without measurable loss on its coding evaluations. That is evidence about those models and that harness, not a reduction target or evidence of gains for this package or another model.
+Thariq's [July 2026 context guidance](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/) reports reducing Claude Code's system prompt by over 80% without measurable loss on its coding evaluations. That is evidence about those models and that harness, not a reduction target or evidence of gains for this package or another model.
 
 Anthropic's [cost and intelligence guide](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence) measured what stale instructions cost on one support-desk evaluation: prompts written for Claude Opus 4.8 cost 36% more per ticket on Opus 5 at the same accuracy, removing "verify twice" cut Opus 5's cost per ticket by a third, and removing a retired thinking setting, contradictory rules, or a hand-rolled scratchpad each restored accuracy. Instructions a newer model follows too literally cost money, and instructions that no longer fit it cost accuracy. Treat this as a reason to audit legacy compensation when the model changes, not as a promise that a given removal saves. For Claude Opus 5.5 targets, `opus5-prompting-guide` lists the instructions to remove first.
 

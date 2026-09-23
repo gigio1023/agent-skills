@@ -72,7 +72,7 @@ Use exact signature parameter names and a summary useful to generated indexes.
 
 Comments should explain why an order or branch is required, which invariant is preserved, why an alternative is unsafe, which external constraint applies, or what a fallback distinguishes. Place them immediately above the smallest relevant block.
 
-Avoid `Step 1` narration, comments that repeat the next line, banners around routine code, and guessed intent. Preserve `# type:`, `# type: ignore`, `# noqa`, formatter, linter, type-checker, import-sort, and coverage directives unless the user explicitly requests the corresponding tool-behavior change.
+Avoid `Step 1` narration, comments that repeat the next line, banners around routine code, and guessed intent. Preserve `# type:`, `# type: ignore`, `# ty: ignore`, `# pyrefly: ignore`, `# noqa`, formatter, linter, type-checker, import-sort, and coverage directives unless the user explicitly requests the corresponding tool-behavior change.
 
 ## Python-Specific Contracts
 
