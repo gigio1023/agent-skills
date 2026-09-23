@@ -125,7 +125,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | Skill | What it helps with |
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
-| [technical-report-writing](skills/productivity/technical-report-writing/) | Write, revise, and review documents with clear structure, compact tables, focused visuals, and the explanation each genre needs |
+| [technical-report-writing](skills/productivity/technical-report-writing/) | Write, revise, and review documents with clear structure, compact tables, focused visuals, and the explanation each genre needs, including explicit AI-slop revision and Korean clarity |
 
 ### Personal and Everyday Tools
 
@@ -139,7 +139,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 Use `technical-report-writing` as the document-authoring entry point in the requested language and medium. Its core covers noun-phrase headings, information selection, short cells, table and figure planning, explanation, and removal of research diaries and blanket disclaimers. Its existing name remains stable; its scope includes nontechnical and external-facing documents. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
 
-The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [writing patterns](skills/productivity/technical-report-writing/references/writing-patterns.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public example library](skills/productivity/technical-report-writing/references/example-library.md) for the current task, not as a mandatory reading list.
+The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [synthetic examples](skills/productivity/technical-report-writing/references/synthetic-examples.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public writing sources](docs/writing-sources.md) for the current task, not as a mandatory reading list.
 
 For internal sharing, `share-internal-doc` from Gigio Pack applies the available writer and adds recipient suitability, usable source access, privacy, and authorized delivery. Naming it alone still produces a complete shared document without a second editorial workflow. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md) and [adoption and cross-repository migration](docs/writing-skills.md).
 
@@ -152,7 +152,7 @@ These repositories are independently versioned and not included when this pack i
 | [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and delivery workflows | Preserve intent, plans, actual results, and handoff across sessions and harnesses |
 | [Research Credo](https://github.com/gigio1023/research-credo) | Research methods, internal source reconstruction, and evaluation operations | Investigate, experiment, train, build and review data or benchmarks, and interpret findings |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
-| [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing`, `korean-clarity` | Explicit focused prose revision and independent Korean semantic clarity |
+| [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing`, `korean-clarity` | Merged into `technical-report-writing`; the repository remains the MIT license source and will be archived after the merged skill is installed and verified |
 | [draw.io Agent Skill](https://github.com/gigio1023/drawio-agent-skill) | `drawio-diagram` | Native, editable draw.io authoring with structural, layout, export, and visual checks |
 | [Game Studio](https://github.com/gigio1023/game-studio) | `game-direction`, `game-production`, `game-review` | Creator-owned direction, proof-based production, and evidence-first review across the game lifecycle |
 | [Godot Best Practice](https://github.com/gigio1023/godot-best-practice) | `godot-best-practice` | Godot-native implementation and review grounded in the project's engine version, serialized resources, and engine-level evidence |

@@ -1,10 +1,10 @@
 # Voice and Factual Prose
 
-Use while drafting or revising sentences and paragraphs. The technical examples use a restrained engineering register; adapt the voice to the requested genre and author instead of imposing that register on every document. Apply the same factual discipline across languages while keeping their natural syntax. See [worked examples](worked-examples.md) for complete rewrites, [multilingual writing](multilingual-writing.md) for language-specific choices, and [source readings](source-readings.md) for the public technical basis.
+Use while drafting or revising sentences and paragraphs. The technical examples use a restrained engineering register; adapt the voice to the requested genre and author instead of imposing that register on every document. Apply the same factual discipline across languages while keeping their natural syntax. See [synthetic examples](synthetic-examples.md) for complete rewrites and [multilingual writing](multilingual-writing.md) for language-specific choices; public source pointers are kept in the repository's docs/writing-sources.md.
 
 ## Write the reader's understanding
 
-Choose relevant information before choosing the sentence, then identify the relation the reader needs. State a component's operation, show the observation that changes a hypothesis, compare the cost that decides an alternative, or explain the condition that limits a result. [Writing patterns](writing-patterns.md) pairs these actions with finished synthetic paragraphs and reader checks. Use a pattern to guide the work, then let the evidence and reader determine the paragraph's final shape. A fluent sentence can still be unnecessary; use [reader-value decisions](reader-value.md) when selection is the problem.
+Choose relevant information before choosing the sentence, then identify the relation the reader needs. State a component's operation, show the observation that changes a hypothesis, compare the cost that decides an alternative, or explain the condition that limits a result. [Synthetic examples](synthetic-examples.md) show several of these actions as before-and-after rewrites. Use an example to guide the work, then let the evidence and reader determine the paragraph's final shape. A fluent sentence can still be unnecessary; use [reader-value decisions](reader-value.md) when selection is the problem.
 
 Trace a request through its state changes so the reader can predict the next operation. Compare alternatives on common dimensions and explain the constraint that decides this case. Keep technical precision inside the sentence that needs it. These concrete actions give clarity and balance an observable result.
 
@@ -19,6 +19,12 @@ Default to subject-centered prose in technical and shared reports. Remove “my 
 Use passive voice when the object is the topic and the actor adds nothing: “The buffer is released after the callback returns” can be exact. Restore the actor if it determines ownership or responsibility. Avoid empty framing such as “it is important to note” and “it can be seen that” when the following proposition can stand alone.
 
 Do not simulate dryness with noun piles, missing predicates, legalistic qualifiers, or identical short sentences. A long sentence is useful when it carries one tightly connected condition and action; split it when the reader must hold unrelated facts in memory. In Korean prose, retain particles that identify the subject, object, comparison, and condition. This sentence guidance does not require full sentences in headings, labels, or table cells: use clear noun phrases and compact values there. Preserve established English identifiers; do not translate an API into a new name to make a sentence sound formal.
+
+Replace governance-speak with the actor and action. Document-architecture nouns such as “single source of truth,” “authoritative document,” “단일 source,” and “권위 문서” carry the author's filing system into the prose, while the reader needs what happens and where to look: “Retry limits are defined in `retry.md`,” not “`retry.md` is the single source for retry policy.” Treat abstract nouns of process the same way: “the service owner approves the change,” not “change governance applies.”
+
+## Keep each author's voice in revision
+
+When one pass revises texts by several people, or one author's notes written in different registers, keep each text's own register, stance, and recurring choices; do not converge them toward one safe middle voice. Keep hedges that mark genuine doubt, keep the author's first person and explicit causal chains, and do not swap plain words for rarer synonyms to sound polished.
 
 ## Make each paragraph carry a relation
 
@@ -61,3 +67,5 @@ Place a citation where its scope is clear: beside the reported value, mechanism,
 Keep an interpretation-changing method accessible in the actual reading context. Surrounding explanation, a clear label, or the appropriate code or document can already supply it; do not append the same note to every claim. Use a methods section, Sources section, appendix, or existing record for detail that an actual reproduction or audit task needs. Detail without that use can be deleted from the prose instead of permanently relocated. A citation is not a request for readers to reconstruct the argument from scratch.
 
 Use clear noun-phrase section headings and visual titles that name the subject, behavior, or comparison. Put assertions and questions in the body, unless a governing template or explicit user request requires them as headings. Lists work for parallel observations; tables work when rows share meaningful dimensions. Keep reasoning in short connected explanations instead of forcing either paragraphs or nested bullets to carry every part of the document.
+
+A caption or lead-in that only restates the command or code below it, such as “다음 명령어로 의존성을 설치합니다” above `uv sync`, is deleted. Keep it when it says why, when, for whom, or with what scope the command runs, which the command itself does not show.

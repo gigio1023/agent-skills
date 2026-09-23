@@ -42,11 +42,19 @@ Keep deliberate register and regional language choices unless they obscure the i
 
 During revision, distinguish an irrelevant sentence from a material condition. Delete the former; keep or clarify the latter. Preserve the meaning and force of retained facts, quotations, numbers, commands, requirements, and logical relations. If the source leaves two interpretations open, do not select one as a style correction.
 
+## Revise explicit AI-slop requests
+
+A request to remove AI slop, humanize prose, or “AI 티 빼줘” asks for a focused revision of existing text; slop is a reader-visible failure, not an authorship verdict. Give each suspect sentence one function: empty framing, cover (a hedge, defense, or disclaimer that answers no reader question), restatement of a point already made, or a needed condition. Remove only the first three, and keep the condition beside the claim it limits. When a removed sentence was bridging retained facts, reconnect them with the relation the source supports instead of leaving a list of fragments. Fix the dominant cluster first with the smallest edit that works, then reread the section for long-range meaning. Pattern counts, edit percentages, and detector scores do not establish quality.
+
+Keep change narration where change is the reader's job: changelogs, release notes, migration guides, decision records, incident timelines, histories, and retrospectives. Elsewhere, describe the current subject. This section and the voice rules in [voice and factual prose](voice-and-facts.md) adapt `slop-aware-writing`, copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing).
+
 ## Check the requested result
 
 Compare the revised passage with its source and read it in context. Did the edit strengthen a claim, remove an exception, change ownership, reverse a relation, or flatten the intended voice? Did a shorter paragraph lose the explanation that made the conclusion credible? Did newly added context come from evidence rather than a plausible story?
 
 Diff the revision against the previous version. Confirm that untouched passages, confirmed examples, mechanism, equations, and figures are unchanged, and that no added sentence restates an instruction or a review note.
+
+Then read the revision as if told a model wrote it. Before delivering, fix any tell the original lacked, such as a stock transition, a symmetric contrast, upgraded vocabulary, or a formulaic close, and any flattening of the author's stance, register, or recurring choices.
 
 For a major documentation update, check that described behavior matches the relevant implementation and that material user-visible changes are covered. For a local wording edit, keep verification local. Repair affected links, anchors, and renderer syntax when changing structure.
 
