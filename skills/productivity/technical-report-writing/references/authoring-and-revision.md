@@ -18,7 +18,11 @@ For structural revision, select the information and presentation units before ed
 
 ## Continue from user edits
 
-Treat the current user-edited copy as the revision baseline. If an earlier draft is available, inspect the actual differences: deletion of a reading guide supports removing redundant navigation, not assuming the reader wants the underlying theory removed. Distinguish direct edits and explicit requests from an agent's interpretation. Infer the narrowest useful rule and apply it to comparable passages within scope; do not turn one deletion into a global ban or a reduction quota.
+Treat the current user-edited copy as the revision baseline. Compare it with the closest reliable earlier version. If agents, generators, or collaborators changed the document between snapshots, isolate those changes before attributing a difference to the user; a combined diff is not evidence that every change expresses a user preference. Inspect the direct differences by function: deletion of a reading guide supports removing redundant navigation, not assuming the reader wants the underlying theory removed. Distinguish direct edits and explicit requests from an agent's interpretation. Infer the narrowest useful rule and apply it to comparable passages within scope; do not turn one deletion into a global ban or a reduction quota.
+
+Read omission together with retention. Removing benchmark definitions, source anecdotes, or a second inventory table while retaining the mechanism and comparison condition supports prioritizing the core explanation over exhaustive reference detail. It does not establish a target percentage reduction. When the reader-facing document and a local evidence record serve different purposes, preserve the detailed record in its authorized location and keep only the detail that changes understanding or action in the reader-facing copy.
+
+A later correction narrows or overrides an earlier request. “The explanation is good” followed by “show the key figure again” approves the explanation and asks for the figure; it does not approve the previous result as a whole. A request to preserve a confirmed example and a request to restructure around it are honored separately: the example stays intact while the structure around it changes.
 
 Preserve intentional omissions through conversion and regeneration. Reconcile a stale generator or source before using it to publish, and recheck a collaborative destination for intervening edits before applying changes. If a deleted passage contains a condition essential to a retained claim, keep that meaning locally with the claim rather than restoring the discarded preamble. Ask only when a real conflict of meaning or authority remains.
 
@@ -41,6 +45,8 @@ During revision, distinguish an irrelevant sentence from a material condition. D
 ## Check the requested result
 
 Compare the revised passage with its source and read it in context. Did the edit strengthen a claim, remove an exception, change ownership, reverse a relation, or flatten the intended voice? Did a shorter paragraph lose the explanation that made the conclusion credible? Did newly added context come from evidence rather than a plausible story?
+
+Diff the revision against the previous version. Confirm that untouched passages, confirmed examples, mechanism, equations, and figures are unchanged, and that no added sentence restates an instruction or a review note.
 
 For a major documentation update, check that described behavior matches the relevant implementation and that material user-visible changes are covered. For a local wording edit, keep verification local. Repair affected links, anchors, and renderer syntax when changing structure.
 

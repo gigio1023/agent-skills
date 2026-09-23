@@ -9,6 +9,7 @@ Read this before writing a new body or rewriting one. A repository template is a
 - Headings in the PR language
 - Structure
 - Tables
+- Before and after
 - One more section
 - Cut list
 - Validation and checks
@@ -65,7 +66,7 @@ Structure is what lets a body be read in one pass; length is what stops it being
 
 ## Tables
 
-A table lets the reviewer compare several items on the same attributes without re-reading bullets. Use one when that comparison is the point: settings with their old and new defaults, endpoints with their new status, options weighed with the chosen one marked. Items read in sequence, items with a single attribute, and a single item stay in bullets or a sentence.
+A table lets the reviewer compare several items on the same attributes without re-reading bullets. Use one when that comparison is the point: settings with their old and new defaults, endpoints with their new status, options weighed with the chosen one marked. Items read in sequence, items with a single attribute, and a single item stay in bullets or a sentence. Before And After below is the one case where a table is always used, because as-is against to-be is always a side-by-side comparison.
 
 Design the grid before filling it:
 
@@ -101,6 +102,31 @@ The same content as a table that should have been prose:
 ```
 
 One data column and a sentence per cell: the reason belongs in Context, and the values belong in the three-column table above.
+
+## Before And After
+
+Every PR that changes behavior, structure, a default, or a data flow shows both states explicitly, because the reviewer judges the diff against that comparison. It has two parts:
+
+- One table of what changes. Rows are the things that change; columns are Before and After, plus at most one attribute column. Cells stay values or short phrases. Headers follow the PR language: `| Item | Before | After |` in English, `| 항목 | 이전 | 이후 |` in Korean.
+- One figure made with the `technical-diagram` skill when it is available, showing the before and after topology or flow. Without the skill, use a diagram format the forge renders natively, such as Mermaid on GitHub, or say in one visible line that the figure is omitted. Attach the figure through the forge's image upload, or commit the SVG on the branch and link it; a local path is not a figure. One visible line under it says what it shows.
+
+The Before side is the PR's actual base branch at the merge base, read from the code there, not from an earlier draft the author passed through or from memory. When the base is not the default branch, name it once above the table.
+
+A pure refactor with no behavior change, a docs typo, or a one-line fix has nothing to compare. Say that in one sentence and skip the table and the figure.
+
+```markdown
+`integration/next` 기준입니다.
+
+| 항목 | 이전 | 이후 |
+| --- | --- | --- |
+| 첫 배치의 503 | 즉시 실패 | backoff로 재시도 |
+| retry 대상 배치 | 두 번째 배치부터 | 전체 배치 |
+| 실패 에러 | 배치 인덱스 없음 | 배치 인덱스 포함 |
+
+![export job의 retry 범위](https://github.com/user-attachments/assets/...)
+
+그림: nightly export에서 retry wrapper가 감싸는 배치 범위의 이전과 이후.
+```
 
 ## One More Section
 
