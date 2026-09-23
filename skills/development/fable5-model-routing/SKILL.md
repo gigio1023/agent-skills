@@ -41,7 +41,7 @@ Before each spawn, read the packet and answer three questions: can a worker judg
 ### Effort by model class
 
 - **Frontier lead models** (Claude Fable 5.1, GPT-6 Astra) vary effort by task shape. As lead they run the session's effort. As a worker they run lower: `high` for a fresh-context check, `low` or `medium` for bounded execution when the cheaper run is cheap to verify.
-- **Every model below the frontier** (Claude Opus 5, Sonnet 5, GPT-5.6 Sol, Terra, Luna) runs at `xhigh` by default, and `xhigh` is the floor. Lower a route only by editing that subagent's definition or spawn arguments and recording a one-line reason. `max` is acceptable where the model is cheap enough that the extra tokens do not matter.
+- **Every model below the frontier** (Claude Opus 5.5 and Opus 5, Sonnet 5, GPT-5.6 Sol, Terra, Luna) runs at `xhigh` by default, and `xhigh` is the floor. Lower a route only by editing that subagent's definition or spawn arguments and recording a one-line reason. `max` is acceptable where the model is cheap enough that the extra tokens do not matter.
 - **Fan-out efforts** such as Codex `ultra` never go on a worker.
 - **Models without an effort control** (Claude Haiku 4.5) cannot honor the floor; keep them out of the default routes and use them only on explicit request for mechanical collection.
 
@@ -73,13 +73,13 @@ The `agent_type` names are the subagent definitions in `assets/agents/`; the ada
 |------|---------------|--------------|
 | Mechanical collection | `sonnet-collector`: Sonnet 5 at `xhigh` | A proxy-routed GPT-5.6 Luna subagent; `haiku-collector` on explicit request |
 | Bounded execution, collection or research with citations | `sonnet-researcher`: Sonnet 5 at `xhigh` | `opus-builder` |
-| Bounded execution, coding | `opus-builder`: Opus 5 at `xhigh` | `fable-lean-builder`: Fable at `low`, which in a Fable-led session often costs less than Opus because Fable 5.1 cache reads are half of Opus 5's; a proxy-routed GPT-5.6 Sol subagent |
-| Judgment-adjacent support | `fable-reviewer`: Fable at `high` | Opus 5 at `xhigh` when the user wants a second model family on the check |
+| Bounded execution, coding | `opus-builder`: Opus 5.5 at `xhigh`, through the `opus` alias | `fable-lean-builder`: Fable at `low`, chosen on a measured gain, since Opus 5.5 costs less per token on every price line including cached input; a proxy-routed GPT-5.6 Sol subagent |
+| Judgment-adjacent support | `fable-reviewer`: Fable at `high` | Opus 5.5 at `xhigh` when the user wants a different model on the check |
 | Judgment core | The lead | Not delegated |
 
 A dispatch line for this table reads `bounded-exec | opus-builder | opus | xhigh | ~/.claude/agents/opus-builder.md | runtime unverified`.
 
-Under the effort floor, every below-frontier subagent runs at `xhigh`, so cost differs by model, not by effort. Anthropic's own measurements put Opus 5 at `low` as the cheapest per solved coding task; that configuration sits below the floor, so it is a reference point for a user who chooses to lower one route, not a default.
+Under the effort floor, every below-frontier subagent runs at `xhigh`, so cost differs by model, not by effort. Anthropic's published cost-per-task measurements predate Opus 5.5 and put Opus 5 at `low` as the cheapest per solved coding task. For Opus 5.5, Anthropic reports that `medium`, its default, matches or beats Opus 5 at `high`, and that at `xhigh` and `max` it thinks more per turn than Opus 5 did at the same level. Both configurations sit below the floor, so they are reference points for a user who chooses to lower one route, not defaults.
 
 ## Fable Owns
 
@@ -115,6 +115,6 @@ Answer as the lead's judgment, not as a committee transcript: the decision or hi
 - Do not let a subagent inherit the lead's settings by omission; inheriting is a choice to state, not a default to fall into.
 - Do not claim a setting the harness did not apply. Report what you read and where; mark the runtime unverified when nothing exposes it.
 - Do not steer effort with prompt wording. Sentences such as "answer without deliberating" do not change a subagent's budget and are off-doctrine for Fable.
-- Do not route a reviewer to re-check the lead's own work; Opus 5 in particular over-verifies when told to, and the value of the reviewer is the fresh read of the specification.
+- Do not route a reviewer to re-check the lead's own work; Opus over-verifies when told to (Anthropic's Opus 5 guidance, which remains the baseline for Opus 5.5), and the value of the reviewer is the fresh read of the specification.
 - Do not assign a model that cannot honor the effort floor to judgment-adjacent work.
 - Do not hide a material model, effort, or tool substitution when it changes confidence, cost, latency, or reproducibility.

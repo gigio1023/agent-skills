@@ -3,7 +3,7 @@ name: cross-harness-skills
 description: >
   Use when creating, reviewing, or modernizing one agent skill that must work in
   both Claude Code and Codex, especially when reconciling GPT-6 Astra,
-  GPT-5.6-series, and Claude Fable prompting guidance, separating instructions from
+  GPT-5.6-series, Claude Fable, and Claude Opus prompting guidance, separating instructions from
   harness adapters, or testing the same skill across both runtimes. NOT for a
   single-harness extension or ordinary skill creation without a portability
   requirement; use skill-builder alone.
@@ -88,7 +88,7 @@ For a review, lead with findings and state that files were not changed. For a ch
 
 | File | Read when | Content |
 | --- | --- | --- |
-| `references/model-prompting-contract.md` | Writing or simplifying instructions | GPT-5.6/Fable synthesis, differences, and portable prompt pattern |
+| `references/model-prompting-contract.md` | Writing or simplifying instructions | GPT-5.6, Fable, and Opus synthesis, differences, and portable prompt pattern |
 | `references/harness-portability.md` | Using paths, metadata, tools, invocation, or parallel features | Claude Code/Codex loading and adapter matrix |
 | `references/review-gate.md` | Reviewing a new or existing package | Per-skill audit, evaluation matrix, and acceptance gate |
 

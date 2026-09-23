@@ -4,6 +4,8 @@ Use these packet shapes when delegating. Adapt wording to the harness and task.
 
 When the task definition already lives in a durable file, the packet carries its path plus the scalar config values the worker needs. Do not paraphrase the file's content into the packet.
 
+Write each stop condition so the worker's last message is a result or a stated blocker with what remains, never a plan for what it will do next. The harness returns that last message to the lead as the result.
+
 ## Contents
 
 - Research packet

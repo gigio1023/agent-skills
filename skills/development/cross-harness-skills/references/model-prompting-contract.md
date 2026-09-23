@@ -1,6 +1,6 @@
 # Model Prompting Contract
 
-Use this reference to translate GPT-6 Astra, GPT-5.6-series, and Claude Fable guidance into one portable filesystem skill. This is a dated maintenance reference, not a reason to put model names into every domain skill.
+Use this reference to translate GPT-6 Astra, GPT-5.6-series, Claude Fable, and Claude Opus guidance into one portable filesystem skill. This is a dated maintenance reference, not a reason to put model names into every domain skill.
 
 ## Contents
 
@@ -14,7 +14,7 @@ Use this reference to translate GPT-6 Astra, GPT-5.6-series, and Claude Fable gu
 
 ## Official Sources
 
-Sol/Fable snapshot reviewed 2026-07-10; Astra addition reviewed 2026-09-05.
+Sol/Fable snapshot reviewed 2026-07-10; Astra addition reviewed 2026-09-05; Opus 5.5 addition reviewed 2026-09-23.
 
 - OpenAI, [Using GPT-6 Astra](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra). Keep its clarification, loaded-instruction, style, delegation, and testing observations distinct from the older model comparison below.
 
@@ -22,6 +22,7 @@ Sol/Fable snapshot reviewed 2026-07-10; Astra addition reviewed 2026-09-05.
 - OpenAI, `Prompting guidance for GPT-5.6 Sol`: https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
 - OpenAI, `Build skills`: https://learn.chatgpt.com/docs/build-skills
 - Anthropic, `Prompting Claude Fable 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
+- Anthropic, `Prompting Claude Opus 5.5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5, which builds on `Prompting Claude Opus 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
 - Anthropic, `Prompting best practices`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
 - Anthropic, `Skill authoring best practices`: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 - Anthropic, `Extend Claude with skills`: https://code.claude.com/docs/en/skills
@@ -58,6 +59,8 @@ This avoids GPT-5.6's over-compression under generic brevity instructions and Fa
 | Effort | Preserve baseline, test same and one level lower; raise only on measured gain | Effort is a major latency/cost control and high can over-explore routine work | Record effort in evaluations; do not hard-code it in portable domain skills |
 | Prompt structure | Lightweight task sections are sufficient | XML tags help complex mixed-content API prompts | Use plain Markdown for normal skills; reserve XML for adapter templates with a measured need |
 | Memory | Persisted reasoning and harness memory require freshness discipline | Explicit lesson memory can improve long-running agents | Store durable state outside upgradeable skill folders and only when the workflow needs it |
+
+Claude Opus 5.5 shares Fable 5.1's API behavior (thinking always on, forced tool use rejected, append-only history) but differs in ways a portable skill should not paper over. Its default effort is `medium`, and at a given level it thinks more per turn than Opus 5. On long unattended runs it can end a turn with a progress update, so the done state must be checkable rather than inferred from a text-only turn. It delegates readily and verifies its own work unprompted, so delegation and verification instructions should state criteria rather than encourage more. `opus5-prompting-guide` covers Opus-targeted prompts.
 
 Do not average away these differences. The shared core states intent and contract; a model or harness adapter selects runtime controls.
 

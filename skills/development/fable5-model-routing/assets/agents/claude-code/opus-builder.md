@@ -1,6 +1,6 @@
 ---
 name: opus-builder
-description: Bounded implementation on Opus 5 at xhigh. Implement or change exactly what a fixed specification calls for, run the checks it names, and report evidence.
+description: Bounded implementation on Opus 5.5 (the opus alias) at xhigh. Implement or change exactly what a fixed specification calls for, run the checks it names, and report evidence.
 model: opus
 effort: xhigh
 ---
