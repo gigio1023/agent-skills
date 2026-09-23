@@ -207,6 +207,6 @@ Keep this definition when it differs from what the intended audience would assum
 
 **Before:** “재시도 안정성 확보 및 처리 일관성 보장.”
 
-**After:** “워커는 출력을 모두 저장한 뒤에 batch 처리 완료 응답(ack)을 보낸다. 재시도하면 이미 저장된 출력이 남아 있을 수 있으므로, 같은 batch를 다시 써도 결과가 달라지지 않아야 한다.”
+**After:** “워커는 출력을 모두 저장한 뒤에 batch 처리 완료 응답(ack)을 보낸다. 재시도하면 이미 저장된 출력이 남아 있을 수 있으므로 같은 batch를 다시 써도 결과가 달라지지 않아야 한다.”
 
 The rewrite restores who acts, in what order, and what must hold. It keeps the technical identifiers, uses Korean verbs for ordinary actions, and replaces a guarantee with the condition the implementation must satisfy.
