@@ -1,23 +1,22 @@
 # Source Notes
 
-Last reviewed: 2026-07-10; Claude Opus guidance added 2026-09-23.
+Last reviewed: 2026-07-10; Claude Opus guidance and GPT-6 sources added 2026-09-23.
 
 This skill reflects the user's recurring need for sustained parallel work across coding, research, literature review, and value judgment, plus current public guidance from the major agent ecosystems.
 
 ## Current Sources
 
-- Anthropic, `Prompting Claude Fable 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
+- Anthropic, `Prompting Claude Fable 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5, and `Prompting Claude Fable 5.1`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
 - Anthropic, `Prompting Claude Opus 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
 - Anthropic, `Prompting Claude Opus 5.5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5
-- OpenAI, `Using GPT-5.6`: https://developers.openai.com/api/docs/guides/latest-model.md
-- OpenAI, `Prompting guidance for GPT-5.6 Sol`: https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
+- OpenAI, `Using GPT-6` (Astra, Sol, and Luna): https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md. The 2026-07-10 review read `Using GPT-5.6` and the GPT-5.6 Sol prompting guidance; this pack stopped using GPT-5.6 on 2026-09-23. GPT-6's guide notes that Astra may delegate less often than a workflow wants, so a packet or skill should say when to delegate.
 - Anthropic Agent Skills authoring guidance: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 - OpenAI Codex subagents: https://learn.chatgpt.com/docs/agent-configuration/subagents
 - Anthropic Claude Code subagents: https://code.claude.com/docs/en/sub-agents
 
 The model-generation update changed several defaults:
 
-- Strong lead models can identify and sustain independent lanes more reliably. Parallelism may therefore be a normal execution optimization when the task clearly benefits; it is not limited to prompts that say "use subagents."
+- Strong lead models can identify and sustain independent subagents more reliably. Parallelism may therefore be a normal execution optimization when the task clearly benefits; it is not limited to prompts that say "use subagents."
 - Asynchronous communication and useful lead-agent work reduce blocking. Reuse long-lived agents for related follow-ups, but use fresh context when verifier independence matters.
 - Programmatic tool calling is a better fit than subagents for bounded structured reduction with no semantic judgment between calls.
 - Long-run progress must be audited against current tool results, artifacts, sources, or tests instead of worker self-report.

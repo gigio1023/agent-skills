@@ -28,7 +28,7 @@ For each questionable instruction, identify what it contributes: domain knowledg
 
 Keep exact procedures when order or syntax determines correctness, such as a migration prerequisite or a tool's result-correlation contract. Explain the reason when it helps the agent adapt. Do not replace a reliable procedure solely to shorten the file, impose a reduction percentage, or claim that stronger models need no guidance.
 
-Repository instructions may also be used by contributors running Sol, Luna, or other models. Keep shared project facts and invariants model-neutral. Scope Astra-specific tuning to an explicit target or a documented model-specific route; do not silently impose it on every contributor. If a workaround has evidence worth retaining, keep its failure condition and source in a maintenance reference so it can be reconsidered when the model or tool changes.
+Repository instructions may also be used by contributors running Claude models or other harnesses. Keep shared project facts and invariants model-neutral. Scope GPT-6-specific tuning to an explicit target or a documented model-specific route; do not silently impose it on every contributor. Within the GPT-6 family, a clause written for an Astra behavior applies to Sol only after the Sol workload shows the same behavior. If a workaround has evidence worth retaining, keep its failure condition and source in a maintenance reference so it can be reconsidered when the model or tool changes.
 
 ## Make Repository Reading Conditional
 

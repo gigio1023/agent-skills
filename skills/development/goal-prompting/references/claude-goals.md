@@ -4,11 +4,13 @@ Use this reference when the target is Claude Code or when translating a goal int
 
 ## Current Contract
 
-Claude Code's `/goal` sets one completion condition for the current session and starts a turn immediately. After each turn, a separate small evaluator model reads the condition and conversation. A negative decision starts another turn; a positive decision clears the goal as achieved.
+Claude Code's `/goal` sets one completion condition for the current session and starts a turn immediately. It wraps a session-scoped prompt-based Stop hook: after each turn, Claude Code sends the condition and the conversation to the small fast model (Haiku by default on the Claude API), which returns one of three verdicts. Not yet met starts another turn with the reason as guidance; met clears the goal as achieved; impossible clears it as failed and records the reason. If Claude keeps answering the evaluator without progress, with no tool use for several turns, Claude Code stops the loop and returns control with the goal still set.
+
+A turn that fails on an error the user must fix clears the goal: an authentication failure when Claude Code manages its own credentials, an exhausted credit balance, a context overflow that compaction could not clear, or an unavailable model. Other errors keep the goal set; from v2.1.269, interactive sessions retry transient failures up to three times and pause on rate or usage limits. When a subagent or background command is still running at the end of a turn, evaluation waits for a turn with no background work, and check-ins (v2.1.234 or later) ask Claude to inspect long-running work.
 
 The command requires Claude Code v2.1.139 or later. It is user-entered session input rather than an agent-callable goal-state API. When another agent authors a Claude Code goal, it should return a ready-to-submit `/goal` command and must not claim that the target session changed.
 
-The evaluator does not run commands or read files. It can judge only evidence that Claude has surfaced in the conversation. Write completion conditions so the transcript can demonstrate them.
+The evaluator does not run commands or read files. It can judge only evidence that Claude has surfaced in the conversation. Write completion conditions so the transcript can demonstrate them, and so missing evidence reads as not yet met rather than as impossible: name the check Claude should run and report, not only the final state.
 
 An effective condition normally includes:
 

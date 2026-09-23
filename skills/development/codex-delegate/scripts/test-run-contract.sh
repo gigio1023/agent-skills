@@ -66,7 +66,7 @@ launch_run() {
   local run=$2
   local mode=$3
   local launch_path=$4
-  local model=${5:-gpt-5.6-sol}
+  local model=${5:-gpt-6-sol}
   local effort=${6:-xhigh}
   local fast_requested=${7:-no}
   local ignore_user_config=${8:-no}
@@ -203,10 +203,10 @@ grep -q '^thread=mock-thread$' "$RUN_ONE.manifest" || fail "launch manifest has 
 grep -q '^provenance=' "$RUN_ONE.manifest" || fail "launch manifest has no provenance"
 grep -q 'payload-token' "$RUN_ONE.manifest" && fail "launch manifest leaked prompt content"
 grep -q '^exit=0 handoff=ready ' "$RUN_ONE/result.txt" || fail "ready marker missing"
-grep -q 'model=gpt-5.6-sol effort=xhigh fast_requested=no tier=default network=no ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/result.txt" || fail "default provenance drifted"
+grep -q 'model=gpt-6-sol effort=xhigh fast_requested=no tier=default network=no ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/result.txt" || fail "default provenance drifted"
 EXPECTED_PACKET_SHA=$(openssl dgst -sha256 -r "$RUN_ONE/prompt.md" | awk '{print $1}')
 grep -q "host_route=launcher-subagent host_model=claude-sonnet-5 routing_reason=default packet_sha256=$EXPECTED_PACKET_SHA" "$RUN_ONE/result.txt" || fail "host provenance or packet hash drifted"
-grep -q 'model=gpt-5.6-sol effort=xhigh tier=default ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/stderr.log" || fail "default model settings did not reach codex"
+grep -q 'model=gpt-6-sol effort=xhigh tier=default ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/stderr.log" || fail "default model settings did not reach codex"
 grep -q 'payload-token-SUCCESS' "$RUN_ONE/report.md" || fail "stdin prompt did not reach report"
 [ ! -e "$RUN_ONE/final.md" ] || fail "obsolete final.md was created"
 status_of "$RUN_ONE" | grep -q '^state    DONE exit=0 handoff=ready' || fail "DONE status missing"
@@ -284,21 +284,21 @@ printf 'sandbox=read-only workspace=%s started=%s\n' \
 status_of "$RUN_EIGHT" | grep -q '^state    UNKNOWN' || fail "missing pgid did not degrade to UNKNOWN"
 pass "truncated provenance degrades to UNKNOWN without guessing"
 
-RUN_NINE="$TEST_ROOT/terra-run"
+RUN_NINE="$TEST_ROOT/astra-run"
 launch_run "$WORKSPACE_ONE" "$RUN_NINE" SUCCESS "$BASE_PATH" \
-  gpt-5.6-terra xhigh no yes yes
+  gpt-6-astra xhigh no yes yes
 wait_for_terminal "$RUN_NINE"
-grep -q 'model=gpt-5.6-terra effort=xhigh fast_requested=no tier=default' "$RUN_NINE/result.txt" || fail "Terra provenance drifted"
-grep -q 'model=gpt-5.6-terra effort=xhigh tier=default' "$RUN_NINE/stderr.log" || fail "Terra settings did not reach codex"
+grep -q 'model=gpt-6-astra effort=xhigh fast_requested=no tier=default' "$RUN_NINE/result.txt" || fail "Astra provenance drifted"
+grep -q 'model=gpt-6-astra effort=xhigh tier=default' "$RUN_NINE/stderr.log" || fail "Astra settings did not reach codex"
 grep -q 'ignore_user_config=yes skip_git_repo_check=yes' "$RUN_NINE/result.txt" || fail "explicit safety flags were not recorded"
 grep -q 'ignore_user_config=yes skip_git_repo_check=yes' "$RUN_NINE/stderr.log" || fail "explicit safety flags did not reach codex"
-pass "contextual Terra routing stays xhigh and non-Fast with explicit safety flags"
+pass "contextual Astra routing stays xhigh and non-Fast with explicit safety flags"
 
 RUN_TEN="$TEST_ROOT/explicit-fast-run"
-launch_run "$WORKSPACE_ONE" "$RUN_TEN" SUCCESS "$BASE_PATH" gpt-5.6-sol xhigh yes
+launch_run "$WORKSPACE_ONE" "$RUN_TEN" SUCCESS "$BASE_PATH" gpt-6-sol xhigh yes
 wait_for_terminal "$RUN_TEN"
-grep -q 'model=gpt-5.6-sol effort=xhigh fast_requested=yes tier=priority' "$RUN_TEN/result.txt" || fail "Fast provenance drifted"
-grep -q 'model=gpt-5.6-sol effort=xhigh tier=priority' "$RUN_TEN/stderr.log" || fail "explicit Fast setting did not reach codex"
+grep -q 'model=gpt-6-sol effort=xhigh fast_requested=yes tier=priority' "$RUN_TEN/result.txt" || fail "Fast provenance drifted"
+grep -q 'model=gpt-6-sol effort=xhigh tier=priority' "$RUN_TEN/stderr.log" || fail "explicit Fast setting did not reach codex"
 pass "explicit Fast request is represented separately from effort"
 
 RUN_ELEVEN="$TEST_ROOT/invalid-fast-run"
@@ -327,7 +327,7 @@ PATH="$BASE_PATH" /bin/bash "$LAUNCHER" --workspace "$WORKSPACE_ONE" \
 wait_for_terminal "$RUN_TWELVE"
 [ ! -s "$TEST_ROOT/resumed-launch.stderr" ] || fail "resume launcher leaked stderr"
 grep -q 'thread=mock-thread resumed_from=plain-run' "$RUN_TWELVE/result.txt" || fail "resume provenance lost its source"
-grep -q 'model=gpt-5.6-sol effort=xhigh fast_requested=no tier=default' "$RUN_TWELVE/result.txt" || fail "resume did not inherit route"
+grep -q 'model=gpt-6-sol effort=xhigh fast_requested=no tier=default' "$RUN_TWELVE/result.txt" || fail "resume did not inherit route"
 grep -q 'ignore_user_config=no skip_git_repo_check=no' "$RUN_TWELVE/result.txt" || fail "resume did not inherit safety flags"
 grep -q 'host_route=launcher-subagent host_model=claude-sonnet-5 routing_reason=resume-inherited packet_sha256=' "$RUN_TWELVE/result.txt" || fail "resume lost current host provenance"
 grep -q '^thread=mock-thread$' "$RUN_TWELVE.manifest" || fail "resume manifest lost its thread"
@@ -360,7 +360,7 @@ pass "an existing path without matching provenance is a contract failure"
 
 RUN_FIFTEEN="$TEST_ROOT/direct-fallback-run"
 launch_run "$WORKSPACE_ONE" "$RUN_FIFTEEN" SUCCESS "$BASE_PATH" \
-  gpt-5.6-sol xhigh no no no direct-main unavailable manifest-delivery-failure
+  gpt-6-sol xhigh no no no direct-main unavailable manifest-delivery-failure
 wait_for_terminal "$RUN_FIFTEEN"
 grep -q 'host_route=direct-main host_model=unavailable routing_reason=manifest-delivery-failure' "$RUN_FIFTEEN/result.txt" || fail "direct fallback route was not recorded"
 pass "direct fallback through an absent preselected path records its route"

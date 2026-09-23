@@ -25,6 +25,18 @@ The migration starts from Gigio main at `ada2fa6`. Earlier package history remai
 
 The names and resources are preserved, including the reader-record refinements from the writer branch. No duplicate discoverable compatibility packages remain here. Research methods are independent of whether their result changes code.
 
+## Renamed and removed on 2026-09-23
+
+The owner stopped using GPT-5.6 models, and OpenAI publishes one prompting guide for the GPT-6 family.
+
+| Before | After |
+| --- | --- |
+| `skills/development/gpt6-astra-prompting-guide/` | `skills/development/gpt6-prompting-guide/`, covering GPT-6 Astra and Sol |
+| `skills/development/gpt56-sol-prompting-guide/` | Removed; GPT-6 Sol prompts use `gpt6-prompting-guide` |
+| `gpt6-astra-model-routing` Codex roles `terra-scout`, `luna-clerk` | `sol-scout`, `sol-clerk`, both on `gpt-6-sol` |
+
+The Skills CLI tracks installed skills by path, so an update does not rename them. After this change merges, install `gpt6-prompting-guide`, confirm it is discovered, and remove the old global names only when the owner asks: `npx --yes skills remove --global gpt6-astra-prompting-guide gpt56-sol-prompting-guide --yes`. Codex role files already copied to `~/.codex/agents/` keep their old names until they are replaced.
+
 ## Publication and installation
 
 Merge the Research Credo destination first, then this change, then the Gigio source removals. Install and verify the merged writer before archiving the slop-aware-writing repository. Review destination contents before removing source packages.

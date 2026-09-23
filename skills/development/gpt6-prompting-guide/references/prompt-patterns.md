@@ -1,6 +1,6 @@
-# Astra Prompt Patterns
+# GPT-6 Prompt Patterns
 
-These original examples adapt [OpenAI's Astra guidance](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md#prompting-best-practices) and its [skills and prompts article](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra). Read the section matching the problem, fill the relevant fields, and reconcile it with the existing instructions. They are options, not a universal prompt to concatenate.
+These original examples adapt [OpenAI's GPT-6 prompting guidance](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md#prompting-best-practices), which addresses behavior observed with Astra and is offered as a starting point for the whole family, and the [skills and prompts article](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra). Use them for Astra and Sol; for Sol, confirm the behavior a pattern addresses before adding it. Read the section matching the problem, fill the relevant fields, and reconcile it with the existing instructions. They are options, not a universal prompt to concatenate.
 
 ## Contents
 
@@ -61,7 +61,7 @@ When a tool contract is missing information the caller needs, describe its purpo
 Use [tool] to [specific operation]. [Input] selects [scope]. The call [side effect, if any] and returns [result fields]. [Pending state] means work is still in progress; [completion field] establishes completion. On [recoverable error], use [supported recovery].
 ```
 
-This is a package authoring pattern, not an official Astra tool schema. Verify capabilities in the actual tool or runtime documentation; prose does not implement them.
+This is a package authoring pattern, not an official GPT-6 tool schema. Verify capabilities in the actual tool or runtime documentation; prose does not implement them.
 
 ## Delegation
 
