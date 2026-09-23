@@ -88,7 +88,7 @@ Links the user hands you are candidates, not an instruction to include each one.
 
 When editing an existing issue, run the same check on the body you are changing: remove references that are unreachable or useless, and report consequential removals. Include those removals in any draft required by the Normal Path.
 
-These are the reader-access principles of `share-internal-doc` from Gigio Pack. Use that skill when available for sensitive material, criticism of named people, or an audience wider than the team.
+These are the reader-access principles of `technical-report-writing`'s sharing-and-delivery reference. Read that reference when available for sensitive material, criticism of named people, or an audience wider than the team.
 
 ## Consolidation, Splitting, And Relations
 

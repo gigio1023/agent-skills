@@ -140,7 +140,7 @@ Use `technical-report-writing` as the document-authoring entry point in the requ
 
 The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [synthetic examples](skills/productivity/technical-report-writing/references/synthetic-examples.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public writing sources](docs/writing-sources.md) for the current task, not as a mandatory reading list.
 
-For internal sharing, `share-internal-doc` from Gigio Pack applies the available writer and adds recipient suitability, usable source access, privacy, and authorized delivery. Naming it alone still produces a complete shared document without a second editorial workflow. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md) and [adoption and cross-repository migration](docs/writing-skills.md).
+For internal sharing, the writer's [sharing and delivery](skills/productivity/technical-report-writing/references/sharing-and-delivery.md) reference adds recipient suitability, usable source access, the sharing pass, and authorized delivery; the former Gigio Pack `share-internal-doc` was merged here on 2026-09-24. See [composition guidance](skills/productivity/technical-report-writing/references/composition.md) and [adoption and cross-repository migration](docs/writing-skills.md).
 
 ## Related skill repositories
 
