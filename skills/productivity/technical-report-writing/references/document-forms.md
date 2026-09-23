@@ -1,6 +1,6 @@
 # Document Forms
 
-Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. The questions below guide content selection; they are not a universal section checklist. Read a real technical exemplar through [source readings](source-readings.md) when that form is unfamiliar.
+Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. The questions below guide content selection; they are not a universal section checklist. When that form is unfamiliar, read a real technical exemplar; public source pointers are kept in the repository's docs/writing-sources.md.
 
 Use the shared noun-phrase heading, compact-cell, and focused-visual defaults across these forms. Vary the explanation and reading order by purpose. A factual record's brevity is not a reason to omit mechanisms from a guide or reasons from a proposal. [Information design](information-design.md) covers the choice between paragraphs, lists, tables, and visuals.
 
@@ -72,7 +72,7 @@ When corrective actions are part of the requested scope, they should address the
 
 ## Periodic review or progress report
 
-The reader needs to connect prior work to current evidence and choose the next useful action. Open with the consequential change or unresolved issue. Relate the relevant previous action, current observation, comparison, and proposed next step. Use [the periodic-review writing pattern](writing-patterns.md#write-a-periodic-review) for an example. A status report can be complete with a few grounded paragraphs; a dashboard can provide the supporting exploration.
+The reader needs to connect prior work to current evidence and choose the next useful action. Open with the consequential change or unresolved issue. Relate the relevant previous action, current observation, comparison, and proposed next step. A status report can be complete with a few grounded paragraphs; a dashboard can provide the supporting exploration.
 
 Bind commentary to the period and population it explains. Link deeper evidence where recipients can access it. Keep definition changes and missing observations near the affected comparison. State a causal explanation only when its evidence supports it; otherwise distinguish the observation, working hypothesis, and next investigation. Choose sections by the work being reviewed rather than allocating an explanation slot to every metric.
 

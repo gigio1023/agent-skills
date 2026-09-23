@@ -27,8 +27,8 @@ The names and resources are preserved, including the reader-record refinements f
 
 ## Publication and installation
 
-Merge the Research Credo destination first, then this change, then the Gigio source removals. The slop revision companion can follow writer availability. Review destination contents before removing source packages.
+Merge the Research Credo destination first, then this change, then the Gigio source removals. Install and verify the merged writer before archiving the slop-aware-writing repository. Review destination contents before removing source packages.
 
 Publishing PRs does not install them. During a separately requested refresh, use `install-skill-pack` to select the available destination revision, add the moved names, and verify tracked repository/path metadata and the intended harness destinations. A same-name installed directory alone does not prove migration; old source metadata cannot follow a moved path automatically. Preserve customizations, avoid duplicate names, and never uninstall first or hand-edit installer locks.
 
-The writer remains `technical-report-writing`; `share-internal-doc` remains in Gigio as the full internal-document entry. `slop-aware-writing` and `korean-clarity` stay independently installable from their own repository. See [writing composition](writing-skills.md).
+The writer remains `technical-report-writing`; `share-internal-doc` remains in Gigio as the full internal-document entry. `slop-aware-writing` and `korean-clarity` are merged into the writer; their repository remains the MIT license source and will be archived after the merged skill is installed and verified. See [writing composition](writing-skills.md).
