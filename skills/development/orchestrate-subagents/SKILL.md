@@ -76,6 +76,7 @@ Stay single-agent when the task is tiny, highly sequential, privacy-sensitive wi
 - Preserve provenance. Every important claim should say where it came from and whether it is direct evidence, inference, taste, or speculation.
 - Track state explicitly. Know which agents are running, what each owns, what is blocked, and what output is expected next.
 - Ground progress claims in current-run evidence. A worker saying it is done is not proof; inspect its artifact, cited source, diff, or test result.
+- Treat a worker result that announces its next step as unfinished. A subagent's last message is its result, and some models, Claude Opus 5.5 among them, can end a turn on a progress note; resume the worker with the open items instead of accepting the note.
 - Re-anchor follow-up waves. Every new wave should include what is already known and what remains uncertain, not the whole conversation dump.
 - Protect the worktree. For code edits, assign disjoint write scopes and remind workers that other agents may be editing nearby files.
 - Close the loop. A parallel run is not done until results are synthesized, contradictions are handled, and the user gets a clear answer or artifact.
@@ -86,6 +87,7 @@ Stay single-agent when the task is tiny, highly sequential, privacy-sensitive wi
 - More agents can make the answer worse. If agents duplicate effort, inherit the same bad premise, or produce unranked summaries, parallelism creates noise.
 - Do not use subagents for structured filtering, joining, ranking, or aggregation when a bounded deterministic reduction is clearer and cheaper.
 - Do not outsource the core decision. Subagents provide evidence and arguments; the lead agent decides.
+- Do not spawn a subagent to re-check the lead's own reasoning. A reviewer earns its cost through fresh context on the specification and artifact; models that already verify their own work, such as Claude Opus, over-verify when told to.
 - Do not let star counts or popularity replace quality judgment. Use popularity as one weak signal, then inspect substance.
 - Do not force code-edit workers into overlapping files unless the user accepts merge risk or the harness provides clean worktree isolation.
 - Do not wait idly. Once agents are running, advance non-overlapping work.

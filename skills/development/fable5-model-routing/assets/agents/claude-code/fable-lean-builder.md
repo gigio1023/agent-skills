@@ -1,6 +1,6 @@
 ---
 name: fable-lean-builder
-description: Bounded execution on Fable at low effort for work that is cheap to verify. Often cheaper than Opus in a Fable-led session because of cache pricing. Add a verification instruction when fresh information matters, since low effort searches less.
+description: Bounded execution on Fable at low effort for work that is cheap to verify. Add a verification instruction when fresh information matters, since low effort searches less.
 model: fable
 effort: low
 ---
