@@ -290,7 +290,7 @@ Keep this definition when it differs from what the intended audience would assum
 
 Before: “재시도 안정성 확보 및 처리 일관성 보장.”
 
-After: “Worker는 출력 저장이 끝난 뒤 batch를 acknowledge한다. 재시도할 때 이미 저장된 출력이 있을 수 있으므로 같은 batch를 다시 써도 결과가 달라지지 않아야 한다.”
+After: “Worker는 출력 저장이 끝난 뒤에 batch의 처리 완료 응답(ack)을 보낸다. 재시도할 때 이미 저장된 출력이 있을 수 있으므로 같은 batch를 다시 써도 결과가 달라지지 않아야 한다.”
 
 The rewrite restores who acts, in what order, and what must hold. It preserves technical identifiers rather than replacing them with unclear formal nouns. It also replaces a guarantee with the condition the implementation must satisfy.
 

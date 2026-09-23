@@ -20,7 +20,7 @@ Structure must carry meaning. Repeating “One-line summary / Definition / Why i
 
 ## Long documents and progressive disclosure
 
-Choose what remains visible by the reader's task. Keep the subject, useful result, necessary definitions, and interpretation conditions on the main path. Offer substantial prerequisite explanations, mathematical derivations, exercises, and secondary comparisons as optional sections when readers differ in background. A section title should name what it contains; add one short cue about when to open it only if that helps the choice. Avoid a separate tour that repeats every toggle and an inner introduction that repeats the tour.
+Choose what remains visible by the reader's task. Keep the subject, useful result, necessary definitions, and interpretation conditions on the main path. Key figures and the main result stay outside collapsed sections. Offer substantial prerequisite explanations, mathematical derivations, exercises, and secondary comparisons as optional sections when readers differ in background. A section title should name what it contains; add one short cue about when to open it only if that helps the choice. Avoid a separate tour that repeats every toggle and an inner introduction that repeats the tour.
 
 Use the actual medium: native toggles in a collaborative page, expandable sections on a supported website, or clearly linked sections in a static document. Check the initial view and a representative expanded section. Hiding text does not justify keeping irrelevant content, and shortening the initial view must not make the main claim misleading. Ensure exports include necessary expanded content or a usable route to it.
 
@@ -56,6 +56,8 @@ The finished table should not need a paragraph explaining that the “Problem”
 ## Figure design
 
 Before drawing, identify the reader's question, the entities or quantities needed, the relationship to show, and the intended reading order. These choices determine what to omit or split.
+
+The first figure shows the document's own subject and its relationships. A figure of general prerequisites, such as a generic Transformer block in a guide to refusal directions, is background for the point of need and cannot serve as the overview. Numbers, arrows, and legend indicate one reading order.
 
 A process diagram shows operations and state transitions. A component view shows responsibilities and interfaces. A chart shows a quantitative comparison or pattern. A timeline shows change over time. Combining these is justified only when the combination directly answers the same question.
 
