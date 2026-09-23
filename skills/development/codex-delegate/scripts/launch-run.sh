@@ -7,7 +7,7 @@ usage: launch-run.sh --workspace DIR --packet FILE --run-dir DIR (--sandbox MODE
        launch-run.sh --recover-manifest --run-dir DIR --packet FILE
 
 Options:
-  --model MODEL              new-thread default: gpt-5.6-sol
+  --model MODEL              new-thread default: gpt-6-sol
   --effort EFFORT            new-thread default: xhigh
   --fast-requested yes|no    new-thread default: no
   --network-access yes|no    new-thread default: no; yes requires workspace-write
@@ -211,7 +211,7 @@ if [ -n "$RESUME_FROM" ]; then
   RESUMED_FROM=$(basename "$RESUME_FROM")
 else
   [ "$SANDBOX_SET" = yes ] || fail "--sandbox is required for a new thread"
-  [ "$MODEL_SET" = yes ] || MODEL=gpt-5.6-sol
+  [ "$MODEL_SET" = yes ] || MODEL=gpt-6-sol
   [ "$EFFORT_SET" = yes ] || EFFORT=xhigh
   [ "$FAST_REQUESTED_SET" = yes ] || FAST_REQUESTED=no
   [ "$NETWORK_ACCESS_SET" = yes ] || NETWORK_ACCESS=no

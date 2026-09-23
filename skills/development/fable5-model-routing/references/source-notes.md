@@ -28,9 +28,9 @@ Harness mechanics, fetched 2026-09-20:
 - Claude Code `Changelog` (2.1.272 to 2.1.278): https://code.claude.com/docs/en/changelog
 - Claude Code `Model configuration` and `Settings` rechecked on 2026-09-23 against 2.1.280 for alias resolution and effort resolution: https://code.claude.com/docs/en/settings-reference
 - Claude Agent SDK `Subagents`: https://code.claude.com/docs/en/agent-sdk/subagents
-- Cursor `Subagents`: https://cursor.com/docs/agent/subagents
+- Cursor `Subagents`: https://cursor.com/docs/subagents (the old `docs/agent/subagents` path redirects; definition locations read 2026-09-23)
 - OpenCode `Agents`: https://opencode.ai/docs/agents/
-- Hermes Agent: configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_effort`, `agent.reasoning_overrides`) observed in a local configuration on 2026-09-20. The delegation and Kanban documentation pages were read the same day for vocabulary, not for a key-by-key check of that configuration.
+- Hermes Agent: configuration keys (`delegation.model`, `delegation.provider`, `agent.reasoning_effort`, `agent.reasoning_overrides`) observed in a local configuration on 2026-09-20. The delegation and Kanban documentation pages were read the same day for vocabulary, not for a key-by-key check of that configuration. The Hermes Agent v0.21.3 source, read 2026-09-23 (`tools/delegate_tool_config.py` lines 494-507), shows that children take `delegation.reasoning_effort`, else the parent's resolved effort, and never `agent.reasoning_overrides`.
 - Per-invocation effort requests: anthropics/claude-code issues #43083 (closed completed, shipped the frontmatter `effort` field) and #72596 (closed not planned).
 
 Routing evidence outside vendor docs:
@@ -39,7 +39,7 @@ Routing evidence outside vendor docs:
 - Routing collapse (Lai and Ye, 2026, arXiv:2602.03478): learned routers send nearly all near-tie queries to the strongest model.
 - Self-correction illusion (Chen et al., 2026, arXiv:2606.05976): the same error relabeled as external input is corrected far more often than when it appears as the model's own thought.
 - InflationAgent (Fu et al., 2026, arXiv:2608.13571): retry inflation on cheap models of roughly three to four times single-call cost.
-- OpenAI Codex `Subagents`: https://learn.chatgpt.com/docs/agent-configuration/subagents (read-heavy work for subagents; role-to-model guidance for the GPT-5.6 family).
+- OpenAI Codex `Subagents`: https://learn.chatgpt.com/docs/agent-configuration/subagents (read-heavy work for subagents; role-to-model guidance for the GPT-5.6 family when read on 2026-09-20; by 2026-09-23 the page said to start most tasks with `gpt-6-sol`).
 - Community packages read for patterns: matteoscurati/delegation-kit (mirrored Claude and Codex subagent definitions with an inverted effort curve), AqueGen/model-routing (dispatch-logging hook and one-step retry rule), obra/superpowers strict-cost design spec (pre-registered failures of cheap models on judgment).
 
 ## Measured Numbers Behind the Rules
@@ -75,7 +75,7 @@ Guidance statements the rules rest on:
 - Fable can lead difficult, long-horizon work and coordinate subagents; delegate for concurrency, isolation, fresh verification, tool fit, or a measured efficiency gain, not to keep the lead's context empty.
 - Effort is the main intelligence, latency, and cost control, and level names do not transfer across models. Below the frontier the owner's policy fixes `xhigh` as the floor; the vendor numbers above show what lowering a route would buy and are kept for that decision.
 - The shipped subagent definitions exist because Claude Code sets a subagent's effort only through a definition. A skill that names efforts without shipping definitions cannot execute its own table.
-- Reporting must distinguish what was read from what ran. No current harness in this reference exposes a subagent's applied effort without a hook.
+- Reporting must distinguish what was read from what ran. No harness in this reference reports a subagent's applied effort to the lead. In Claude Code the user can see it in `/tasks` when the definition sets `effort`; a hook records only the requested values.
 
 ## Policy History
 
@@ -83,12 +83,12 @@ Guidance statements the rules rest on:
 - 2026-09-17: standing policy when Fable already leads in Claude Code or Cursor; on-request path kept for other leads.
 - 2026-09-20: scope keyed to the lead model rather than the harness, with harness mechanics moved to adapters. Effort floor of `xhigh` for models below the frontier, adjustable per route. Subagent definitions shipped as assets, named `<model>-<role>`. The reviewer route reframed as a fresh-context specification check after the Opus 5 guidance. Packet templates and the long judgment checklist removed in favor of `orchestrate-subagents` and the dispatch statement. Vocabulary follows the repository's `terminology.md`: subagent, subagent definition, task, dispatch, route, tier; "lane" retired because no harness documentation or routing paper uses it for these senses. Measurement of any of these policies on cost or quality has not been done.
 
+- 2026-09-23 (later): the owner stopped using GPT-5.6 models. The shared core's below-frontier list names GPT-6 Sol in place of GPT-5.6 Sol, Terra, and Luna (edited in both routing skills), and the proxy-routed alternatives name GPT-6 Sol. The Hermes effort mechanism was corrected from source, the Cursor definition directories were recorded, and the Claude Code notes now cover same-family alias resolution and `/tasks`.
 - 2026-09-23: Opus facts refreshed after Claude Code 2.1.280 moved the `opus` alias to Opus 5.5. The shared core's below-frontier list names Opus 5.5 and Opus 5 (edited in both routing skills), `opus-builder` is described as Opus 5.5, the claim that Fable at `low` undercuts Opus on cache price was removed because Opus 5.5 is cheaper on every price line, and the Claude Code effort-resolution order was updated. The `xhigh` floor is unchanged; Anthropic's Opus 5.5 advice to reserve `xhigh` for measured gains is recorded above for the owner's decision.
 
 ## Not Verified
 
 - Cost per completed task for Opus 5.5 at `xhigh` against Opus 5 at `xhigh` or Fable 5.1 at `low`; neither this pack nor Anthropic's cost page has measured it.
-- Cursor's subagent definition directory and which model strings accept `effort`.
-- Whether the observed Hermes configuration keys match the current Hermes configuration reference.
+- Which Cursor model strings accept `effort`.
 - Which effort a proxy-routed subagent runs at; it is read from the proxy's route string, not observed.
 - The exact inheritance path for a `sonnet` or `haiku` subagent on a machine that saves `modelSettings` only for other models; the documentation says a definition without `effort` inherits the session level.

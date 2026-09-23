@@ -1,6 +1,6 @@
 # Source Notes
 
-Last reviewed: 2026-09-17.
+Last reviewed: 2026-09-17. Thinking-block readability, per-message effort models, and fallback targets rechecked 2026-09-23.
 
 ## Official Anthropic Sources
 
@@ -43,7 +43,7 @@ Runtime behavior:
 
 Behavior that moved and now has a clause in `prompt-patterns.md`: fewer user-facing progress updates; one tool call per turn in loops with implied reads; denser prose in places; less formatting in chat; unmarked quotations in summaries; whole-file rewrites for small edits; fewer search calls at `low` effort; longer thinking before long deliverables at `xhigh` and `max`; unrequested fixes and extra test files on open-ended implementation.
 
-API changes that are harness work, not prompt work: forced `tool_choice` returns 400; thinking blocks are bound to the producing conversation and to that model or newer, so history must be append-only (enforced for accounts created on or after 2026-08-31, with `thinking-binding-controls-2026-08-01` controls); per-message effort (beta `mid-conversation-output-config-2026-07-01`); turn-scoped system messages (beta `mid-conversation-system-clear-at-2026-08-21`); `thinking.display: "updates"` (beta `thinking-display-updates-2026-08-18`); cache reads at a quarter of the Fable 5 rate; server-side `fallbacks: "default"` (beta `server-side-fallback-2026-07-01`), whose permitted targets the Models API publishes per model as `allowed_fallback_models` (Opus 4.8 and Opus 5 on 2026-09-17). Added 2026-09-23 from the Opus 5.5 pages: on the Claude API, Fable 5.1 and Mythos 5.1 read Opus 5.5 thinking blocks, so a conversation escalated from Opus 5.5 to Fable 5.1 keeps its reasoning; Opus 5.5 does not read Fable blocks.
+API changes that are harness work, not prompt work: forced `tool_choice` returns 400; thinking blocks are bound to the producing conversation and readable only by Fable 5.1 and Mythos 5.1 (Opus 5.5 drops them), so history must be append-only (enforced for accounts created on or after 2026-08-31, with `thinking-binding-controls-2026-08-01` controls); per-message effort (beta `mid-conversation-output-config-2026-07-01`); turn-scoped system messages (beta `mid-conversation-system-clear-at-2026-08-21`); `thinking.display: "updates"` (beta `thinking-display-updates-2026-08-18`); cache reads at a quarter of the Fable 5 rate; server-side `fallbacks: "default"` (beta `server-side-fallback-2026-07-01`), whose permitted targets the Models API publishes per model as `allowed_fallback_models` (Opus 4.8 and Opus 5 on 2026-09-17). Added 2026-09-23 from the Opus 5.5 pages: on the Claude API, Fable 5.1 and Mythos 5.1 read Opus 5.5 thinking blocks, so a conversation escalated from Opus 5.5 to Fable 5.1 keeps its reasoning; Opus 5.5 does not read Fable blocks.
 
 Unchanged from Fable 5: adaptive thinking always on, `display: "omitted"` default, no prefill, no sampling parameters, 512-token minimum cacheable prefix, same tokenizer, same base prices, 30-day data retention.
 

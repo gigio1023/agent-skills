@@ -1,9 +1,10 @@
-# Merge into ~/.codex/config.toml after review. Keys verified against Codex CLI 0.154.0.
-# Unnamed workers go to Terra at xhigh instead of inheriting the lead. Always set the
+# Merge into ~/.codex/config.toml after review. Keys verified against Codex CLI 0.154.0;
+# gpt-6-sol needs Codex CLI 0.156.1 or later.
+# Unnamed workers go to GPT-6 Sol at xhigh instead of inheriting the lead. Always set the
 # effort with the model: a model alone falls back to that model's catalog default.
 
 [agents]
-default_subagent_model = "gpt-5.6-terra"
+default_subagent_model = "gpt-6-sol"
 default_subagent_reasoning_effort = "xhigh"
 
 # Role files live in ~/.codex/agents/*.toml (see assets/codex/agents/). They are discovered

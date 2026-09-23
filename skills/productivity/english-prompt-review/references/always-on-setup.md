@@ -1,6 +1,6 @@
 # Always-On Prompt Coaching
 
-This skill can review a prompt in a separate lane, but a filesystem skill alone cannot intercept every message. The harness must be configured to load this skill for substantive English task requests. Use its native global or workspace instruction mechanism to add the policy below.
+This skill can review a prompt in a separate pass, delegated to a subagent, but a filesystem skill alone cannot intercept every message. The harness must be configured to load this skill for substantive English task requests. Use its native global or workspace instruction mechanism to add the policy below.
 
 ## Portable Policy
 
@@ -18,7 +18,7 @@ Place the policy in the tool's always-loaded instruction or rule file, then make
 | On request | The user asks to review, improve, or naturalize a prompt. | The skill returns the rewrite immediately with the requested scope. |
 | Quiet | The user is focused on delivery and wants no visible coaching. | The task continues normally; do not accumulate or retain prompt data. |
 
-An always-on policy should not alter the primary task's permissions, tools, or completion bar. A failed or unavailable review lane is not a failure of the task lane; complete the task and omit the coaching block rather than pretending it ran.
+An always-on policy should not alter the primary task's permissions, tools, or completion bar. A failed or unavailable review subagent is not a failure of the primary task; complete the task and omit the coaching block rather than pretending it ran.
 
 ## Integration Check
 

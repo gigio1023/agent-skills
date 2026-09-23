@@ -10,15 +10,25 @@
 
 ## Preflight And Model Selection
 
-From the intended workspace, inspect the installed CLI without changing configuration:
+From the intended workspace, inspect the installed CLI without changing configuration. Cursor's documentation names the executable `agent`, but another tool can own that name on PATH: on one macOS machine on 2026-09-16, Grok Build's installer relinked `~/.local/bin/agent` to its own binary, and Cursor answered only as `cursor-agent`. Resolve the executable first and use it in every later command:
 
 ```bash
-command -v agent
-agent --version
-agent status
-agent --help
-agent models
+cursor_cli=''
+for candidate in agent cursor-agent; do
+  command -v "$candidate" >/dev/null 2>&1 || continue
+  case "$("$candidate" --version 2>/dev/null)" in
+    grok*|'') continue ;;
+  esac
+  cursor_cli=$candidate
+  break
+done
+"$cursor_cli" --version
+"$cursor_cli" status
+"$cursor_cli" --help
+"$cursor_cli" models
 ```
+
+Cursor's version string is a dated build such as `2026.09.08-6caf4ff`. If neither name reports one, stop and say which executable answered instead; do not launch a different vendor's CLI with Cursor flags.
 
 Stop if the executable, authentication, requested model, or necessary capability is unavailable. Installation, login, configuration changes, and model substitutions need authorization. Preserve relevant version/model evidence privately; status output may include account details.
 
@@ -37,7 +47,7 @@ model='cursor-grok-4.6-xhigh-fast'
 workspace='/absolute/path/to/existing-workspace'
 packet_path='/absolute/private/path/task.txt'
 packet="$(<"$packet_path")"
-agent --print \
+"$cursor_cli" --print \
   --model "$model" \
   --workspace "$workspace" \
   --output-format stream-json \
@@ -73,7 +83,7 @@ For other supported interaction/output styles, use their documented completion a
 For a related follow-up, set `session_id` from the actual prior run, prepare the new instruction, and reuse the model/workspace choices as appropriate:
 
 ```bash
-agent --print \
+"$cursor_cli" --print \
   --model "$model" \
   --workspace "$workspace" \
   --output-format stream-json \

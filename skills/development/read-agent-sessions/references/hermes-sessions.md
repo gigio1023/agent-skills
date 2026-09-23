@@ -48,7 +48,7 @@ Exclude `role='tool'` and `active=0`/`compacted=1` rows for a human-readable con
 
 ## CLI alternative
 
-`hermes sessions list`, `hermes sessions export` (JSONL / Markdown / QMD), `hermes sessions rename` — read-only viewing via these is safe and often faster than SQL.
+`hermes sessions list` and `hermes sessions export` (JSONL / Markdown / QMD) are read-only and often faster than SQL. `hermes sessions rename` writes to `state.db`, so this skill does not use it.
 
 ## Caveats
 

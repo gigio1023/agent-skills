@@ -32,7 +32,7 @@ For tools and skills, inspect:
 - License and installation risk.
 - Whether the repo distinguishes policy from implementation detail.
 
-## Assign Anti-Slop Lanes
+## Assign Anti-Slop Subagents
 
 For high-noise topics, dedicate one subagent to skepticism:
 
@@ -44,7 +44,7 @@ The skeptic does not need to be negative. The useful output is calibrated trust.
 
 ## Research Output Contract
 
-Every research lane should return:
+Every research subagent should return:
 
 - Sources inspected.
 - Which sources were discarded and why.

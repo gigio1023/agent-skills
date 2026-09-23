@@ -66,7 +66,7 @@ bash scripts/launch-run.sh \
   --sandbox read-only \
   --packet /absolute/packet.md \
   --run-dir /absolute/workspace/.agent-runs/codex/20260813T010203Z-a1b2c3d4 \
-  --model gpt-5.6-sol \
+  --model gpt-6-sol \
   --effort xhigh \
   --fast-requested no \
   --network-access no \
@@ -152,7 +152,7 @@ From the skill root:
 bash scripts/test-run-contract.sh
 ```
 
-This uses a fake `codex` executable, makes no model or network call, and checks the complete shell contract: manifest-only launcher output; packet copying; file-only Codex stdout, stderr, event, and report channels; non-empty handoff gating; non-zero exit; process-group death; graceful group cancellation; missing provenance; concurrent read-only runs; complex paths; the native Perl fallback; and `setsid` branch selection through a local semantics-compatible shim. It also checks Sol/xhigh/non-Fast defaults, contextual Terra routing, explicit Fast provenance, optional config and git-check flags, resume inheritance, and rejection of an invalid Fast assertion. It also verifies packet-bound host provenance, manifest recovery without a second Codex launch, rejection of an invalid existing run, a recorded direct-main fallback, and the required preselected run path. Sixteen scenarios currently pass. It does not claim to test GNU util-linux itself.
+This uses a fake `codex` executable, makes no model or network call, and checks the complete shell contract: manifest-only launcher output; packet copying; file-only Codex stdout, stderr, event, and report channels; non-empty handoff gating; non-zero exit; process-group death; graceful group cancellation; missing provenance; concurrent read-only runs; complex paths; the native Perl fallback; and `setsid` branch selection through a local semantics-compatible shim. It also checks GPT-6 Sol/xhigh/non-Fast defaults, contextual Astra routing, explicit Fast provenance, optional config and git-check flags, resume inheritance, and rejection of an invalid Fast assertion. It also verifies packet-bound host provenance, manifest recovery without a second Codex launch, rejection of an invalid existing run, a recorded direct-main fallback, and the required preselected run path. Sixteen scenarios currently pass. It does not claim to test GNU util-linux itself.
 
 ## Run states
 

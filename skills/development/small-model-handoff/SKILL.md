@@ -1,9 +1,8 @@
 ---
 name: small-model-handoff
 description: >
-  Use only when the user invokes small-model-handoff by name, or when a pack
-  skill (gigio-execute-plan, orchestrate-subagents) name-calls it while
-  dispatching to a weaker executor, to turn an already researched and approved
+  Use only when the user invokes small-model-handoff by name, or when another
+  loaded skill explicitly names it while dispatching to a weaker executor, to turn an already researched and approved
   plan into a bounded prompt for an executor less capable than the planner.
   Covers scoped changes, test, build, and check runs, reproductions, and
   read-only evidence collection. Requires exact scope, actions, authority,
@@ -18,7 +17,7 @@ Turn the settled current step of a plan into a narrow execution contract for a m
 
 ## Invocation Policy
 
-Use this skill when the user explicitly invokes it to build the bounded prompt, or when `gigio-execute-plan` or `orchestrate-subagents` name-calls it while dispatching work to a weaker executor. Model names, cost preferences, executor recommendations, and discussion or edits to this skill do not invoke it. Do not auto-apply it to a handoff. Do not use it for a peer or high-capability executor that can safely inherit open judgment. Use `session-handoff` for successor-ready session transfers.
+Use this skill when the user explicitly invokes it to build the bounded prompt, or when another loaded skill explicitly names it while dispatching work to a weaker executor. Model names, cost preferences, executor recommendations, and discussion or edits to this skill do not invoke it. Do not auto-apply it to a handoff. Do not use it for a peer or high-capability executor that can safely inherit open judgment. Use `session-handoff` for successor-ready session transfers.
 
 ## Quick Path
 

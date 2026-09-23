@@ -1,6 +1,6 @@
 # Model Prompting Contract
 
-Use this reference to translate GPT-6 Astra, GPT-5.6-series, Claude Fable, and Claude Opus guidance into one portable filesystem skill. This is a dated maintenance reference, not a reason to put model names into every domain skill.
+Use this reference to translate GPT-6 (Astra and Sol), Claude Fable, and Claude Opus guidance into one portable filesystem skill. This is a dated maintenance reference, not a reason to put model names into every domain skill.
 
 ## Contents
 
@@ -14,14 +14,11 @@ Use this reference to translate GPT-6 Astra, GPT-5.6-series, Claude Fable, and C
 
 ## Official Sources
 
-Sol/Fable snapshot reviewed 2026-07-10; Astra addition reviewed 2026-09-05; Opus 5.5 addition reviewed 2026-09-23.
+Fable snapshot reviewed 2026-07-10 and extended to Fable 5.1 on 2026-09-23. GPT-6 reviewed 2026-09-05 for Astra and on 2026-09-23 for Sol, when this pack stopped using GPT-5.6. Opus 5.5 addition reviewed 2026-09-23.
 
-- OpenAI, [Using GPT-6 Astra](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6-astra). Keep its clarification, loaded-instruction, style, delegation, and testing observations distinct from the older model comparison below.
-
-- OpenAI, `Using GPT-5.6`: https://developers.openai.com/api/docs/guides/latest-model?model=gpt-5.6
-- OpenAI, `Prompting guidance for GPT-5.6 Sol`: https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
+- OpenAI, [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md). Its prompting observations come from Astra and are offered as a starting point for the whole family, including Sol; its limitations and migration sections give the Sol runtime differences.
 - OpenAI, `Build skills`: https://learn.chatgpt.com/docs/build-skills
-- Anthropic, `Prompting Claude Fable 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
+- Anthropic, `Prompting Claude Fable 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5, and `Prompting Claude Fable 5.1`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
 - Anthropic, `Prompting Claude Opus 5.5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5, which builds on `Prompting Claude Opus 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
 - Anthropic, `Prompting best practices`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
 - Anthropic, `Skill authoring best practices`: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
@@ -45,19 +42,20 @@ The portable writing rule is:
 
 > Lead with the outcome. Keep required facts, decisions, artifacts, evidence, caveats, and next actions. Remove introductions, repetition, generic reassurance, and options not pursued first.
 
-This avoids GPT-5.6's over-compression under generic brevity instructions and Fable 5's tendency at high effort to elaborate or survey unused alternatives.
+This counters GPT-6's tendency toward detailed, formatted responses and Fable's tendency at high effort to elaborate or survey unused alternatives, without cutting required substance.
 
 ## Differences To Preserve
 
-| Topic | GPT-5.6 series | Claude Fable | Portable treatment |
+| Topic | GPT-6 (Astra; Sol from the same guidance) | Claude Fable | Portable treatment |
 | --- | --- | --- | --- |
-| Prompt size | Shorter prompts and smaller tool sets often improve quality and efficiency | Brief steering can replace enumerated behavior; older prescriptive skills can degrade output | Start small, retain only evaluated task deltas |
-| Long work | Supports persisted reasoning, pro mode, and sparse phase updates | Designed for long-horizon autonomy; can run longer and occasionally stop early or overplan | Define done state, grounded phase updates, and genuine blockers; configure runtime outside the domain skill |
-| Brevity | Generic “be concise” can suppress required artifacts | Outcome-first selective brevity works; readability must beat shorthand | State what must remain and what to trim |
-| Tools | Programmatic Tool Calling helps bounded structured reduction | Strong direct tool use and asynchronous subagent coordination | Route by task shape; do not require a provider-specific mechanism |
-| Parallelism | Multi-agent and Codex subagents help independent work | Fable dispatches and sustains subagents readily | Make independence the rule and keep a sequential fallback |
-| Effort | Preserve baseline, test same and one level lower; raise only on measured gain | Effort is a major latency/cost control and high can over-explore routine work | Record effort in evaluations; do not hard-code it in portable domain skills |
-| Prompt structure | Lightweight task sections are sufficient | XML tags help complex mixed-content API prompts | Use plain Markdown for normal skills; reserve XML for adapter templates with a measured need |
+| Prompt size | Follows longer instructions, but conflicting guidance in skills or `AGENTS.md` can stop work early | Brief steering can replace enumerated behavior; older prescriptive skills can degrade output | Start small, resolve conflicts at their source, retain only evaluated task deltas |
+| Long work | Stays coherent on long tasks but asks for clarification more often | Designed for long-horizon autonomy; can run longer and occasionally stop early or overplan; 5.1 sends fewer progress updates during tool runs | Define done state, authorized actions, grounded phase updates, and genuine blockers; configure runtime outside the domain skill |
+| Brevity | Tends toward detailed, formatted responses with recurring phrases | Outcome-first selective brevity works; 5.1 writes denser prose with less formatting | State what must remain, the prose style, and what to trim |
+| Tools | Async tool calling, Programmatic Tool Calling, and mid-turn steering are runtime features | Strong direct tool use and asynchronous subagent coordination | Route by task shape; do not require a provider-specific mechanism |
+| Parallelism | May delegate less often than the workflow wants | Fable dispatches and sustains subagents readily | Make independence the rule, say when to delegate, and keep a sequential fallback |
+| Verification | Tests thoroughly, sometimes more broadly than a small change needs | 5.1 can add unrequested fixes and extra tests on open-ended implementation | Tie checks to the changed behavior and required repository checks |
+| Effort | Preserve the effective baseline; Sol accepts `none`, Astra's lowest is `low`; `configuration_update` changes effort mid-conversation | Effort is a major latency/cost control and high can over-explore routine work | Record effort in evaluations; do not hard-code it in portable domain skills |
+| Prompt structure | Short, task-first skill descriptions and conditional reading | XML tags help complex mixed-content API prompts | Use plain Markdown for normal skills; reserve XML for adapter templates with a measured need |
 | Memory | Persisted reasoning and harness memory require freshness discipline | Explicit lesson memory can improve long-running agents | Store durable state outside upgradeable skill folders and only when the workflow needs it |
 
 Claude Opus 5.5 shares Fable 5.1's API behavior (thinking always on, forced tool use rejected, append-only history) but differs in ways a portable skill should not paper over. Its default effort is `medium`, and at a given level it thinks more per turn than Opus 5. On long unattended runs it can end a turn with a progress update, so the done state must be checkable rather than inferred from a text-only turn. It delegates readily and verifies its own work unprompted, so delegation and verification instructions should state criteria rather than encourage more. `opus5-prompting-guide` covers Opus-targeted prompts.
@@ -114,7 +112,7 @@ Provider-specific send-to-user tools and Codex progress surfaces are harness fea
 
 ## Model-Era Migration
 
-Inspect existing instructions and relevant resources before adding a new model clause. An Astra refresh should resolve unnecessary pauses and contradictory files at their source, preserve session grants, and bound checks by the changed artifact. These are authoring adaptations, not measured cross-model results.
+Inspect existing instructions and relevant resources before adding a new model clause. A GPT-6 refresh should resolve unnecessary pauses and contradictory files at their source, preserve session grants, and bound checks by the changed artifact. These are authoring adaptations, not measured cross-model results.
 
 The comparison sequence below applies only when model evaluation is requested. Otherwise deliver the static patch and report the untested model behavior.
 

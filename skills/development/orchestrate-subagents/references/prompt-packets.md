@@ -19,7 +19,7 @@ Write each stop condition so the worker's last message is a result or a stated b
 ```text
 Objective: Answer this specific question: <question>.
 
-Scope: Inspect <source types / domains / repos / files>. Do not cover <excluded scope> because another lane owns it.
+Scope: Inspect <source types / domains / repos / files>. Do not cover <excluded scope> because another subagent owns it.
 
 Method: Prefer primary sources and direct inspection. Treat popularity as a weak signal. Flag AI-slop, stale, or unsupported sources.
 

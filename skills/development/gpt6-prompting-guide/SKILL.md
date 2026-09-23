@@ -1,16 +1,22 @@
 ---
-name: gpt6-astra-prompting-guide
+name: gpt6-prompting-guide
 description: >
   Write, review, debug, or migrate prompts, tool descriptions, skills, and
-  AGENTS.md for GPT-6 Astra. Use for Astra instruction design, not model
-  selection or general API setup.
+  AGENTS.md for GPT-6 Astra or GPT-6 Sol, including moves from GPT-5.6. Use
+  for GPT-6 instruction design, not model selection or general API setup.
 ---
 
-# GPT-6 Astra Prompting Guide
+# GPT-6 Prompting Guide
 
-Produce a usable prompt or instruction change for GPT-6 Astra. Start from the requested outcome and the information the model needs to achieve it. Preserve useful domain knowledge and precise constraints; reconsider inherited scaffolding before adding another rule.
+Produce a usable prompt or instruction change for GPT-6 Astra or GPT-6 Sol. Start from the requested outcome and the information the model needs to achieve it. Preserve useful domain knowledge and precise constraints; reconsider inherited scaffolding before adding another rule.
 
-This package applies OpenAI's [Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) and [Astra prompting guidance](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md#prompting-best-practices). It guides prompt authors regardless of which model performs the edit. Loading it does not select a model or provide runtime capabilities.
+This package applies OpenAI's [Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) and the prompting best practices in [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md#prompting-best-practices). It guides prompt authors regardless of which model performs the edit. Loading it does not select a model or provide runtime capabilities.
+
+## Astra And Sol
+
+OpenAI publishes one set of prompts for the GPT-6 family. They address behavior observed with Astra, and OpenAI asks that they be evaluated with the chosen model and workload; there is no separate Sol prompting guide. Use the same patterns for both models, and before adding a clause for Sol, check that the Sol workload shows the behavior the clause addresses: clarification pauses, sensitivity to skill files, heavily formatted output, under-delegation, or broader testing than the change needs.
+
+The models differ at runtime. Sol accepts reasoning effort `none`, while Astra's lowest level is `low`; in Chat Completions, Sol calls functions only at `none`, so use Responses for reasoning with tools. Sol's API default effort is `medium`. Codex lists `gpt-6-sol` from CLI 0.156.1. [Runtime notes](references/runtime-notes.md) carry these settings and the migration from GPT-5.6.
 
 ## Choose The Relevant Material
 
@@ -19,7 +25,7 @@ This package applies OpenAI's [Rethinking skills and prompts for GPT-6 Astra](ht
 | Author or audit a skill, `AGENTS.md`, or an instruction stack | [Instruction design](references/instruction-design.md): discovery, selective reading, inherited recipes, and completion boundaries |
 | Fix a concrete prompt behavior or tool description | The matching section of [prompt patterns](references/prompt-patterns.md): execution, clarification, conflicts, style, tools, delegation, or verification |
 | Write a new task prompt | Adapt the small [prompt template](assets/prompt.template.md); add detail only for the task's actual decisions |
-| Change an API integration or migrate models | [Runtime notes](references/runtime-notes.md); verify applicable compatibility claims before changing settings |
+| Change an API integration or migrate from GPT-5.6 or Astra to Sol | [Runtime notes](references/runtime-notes.md); verify applicable compatibility claims before changing settings |
 | Check a model claim or source freshness | [Source notes](references/source-notes.md): provenance, review dates, and interpretation limits |
 
 ## Make The Change

@@ -7,7 +7,7 @@ Which model, reasoning effort, and speed tier a delegated run gets, and who owns
 - [Selection order](#selection-order)
 - [Model and effort](#model-and-effort)
 - [Speed — the Fast tier](#speed--the-fast-tier)
-- [GPT-5.6 packets](#gpt-56-packets)
+- [GPT-6 packets](#gpt-6-packets)
 - [Judgment ownership](#judgment-ownership)
 - [Internal parallelism](#internal-parallelism)
 - [Dispatch — durable runs, disposable watchers](#dispatch--durable-runs-disposable-watchers)
@@ -15,19 +15,19 @@ Which model, reasoning effort, and speed tier a delegated run gets, and who owns
 ## Selection order
 
 1. An explicit user choice of model, effort, or Fast mode wins.
-2. Otherwise start a new run with `gpt-5.6-sol` at `xhigh` and `service_tier="default"`.
-3. Route to Terra, another supported model, or another effort only when task shape or availability supplies a concrete reason.
+2. Otherwise start a new run with `gpt-6-sol` at `xhigh` and `service_tier="default"`. Codex lists `gpt-6-sol` from CLI 0.156.1.
+3. Route to GPT-6 Astra, another supported model, or another effort only when task shape or availability supplies a concrete reason.
 4. A resume starts from the original model and effort. Reconsider them when the resumed turn has materially different work or the original route is no longer available.
 
 Record the resolved model, effort, and service tier in `result.txt`. Name the reason for any non-default route in the host's reply. The launcher also records `host_route`, `host_model`, `routing_reason`, and `packet_sha256` so later audits do not have to infer the host path from retained transcripts.
 
 ## Model and effort
 
-Default: `gpt-5.6-sol` at `xhigh` reasoning effort. A delegation must not silently inherit a machine default: pass both values explicitly and record them on the `result.txt` provenance line.
+Default: `gpt-6-sol` at `xhigh` reasoning effort. A delegation must not silently inherit a machine default: pass both values explicitly and record them on the `result.txt` provenance line.
 
 `codex exec` has no reasoning-effort flag. Effort moves only through config, which makes `-c model_reasoning_effort="…"` a sanctioned `-c` override. The rest of the `-c` rule is unchanged: it must never touch `sandbox_mode` or the approval policy, and any override you use is declared visibly in your reply and appended to the provenance line.
 
-Use `gpt-5.6-terra` at `xhigh` only when a bounded implementation, inventory, extraction, or evidence-collection mission does not need Sol's stronger judgment. Keep Sol when uncertain. Difficult debugging, adversarial review, high-stakes judgment, and work where a missed consideration is the expensive failure stay on Sol.
+GPT-5.6 models are no longer used (owner decision, 2026-09-23), so there is no cheaper default worker below Sol. Choose `gpt-6-astra` only when the user asks for it, or when the mission's value lies in judgment the host would otherwise take back, and name that reason; Astra's per-token price is five times Sol's. Keep Sol when uncertain.
 
 Model and effort remain contextual dials. Lower effort only for well-specified mechanical work that is cheap to verify or retry. Use another supported model or effort when availability or task fit gives a concrete benefit; do not make a quota-saving or latency-saving downgrade silently.
 
@@ -35,13 +35,13 @@ The key name and its accepted values belong to the CLI, not to this skill. If a 
 
 ## Speed — the Fast tier
 
-Codex calls the `priority` service tier Fast. The canonical template derives `service_tier` from `FAST_REQUESTED`: `no` maps to `default`, and `yes` maps to `priority`. Set `FAST_REQUESTED=yes` only when the user explicitly requests Fast. Do not infer that request from urgency, task size, or an effort choice.
+Codex's config reference documents the Fast tier as `fast`, which maps to the request value `priority`, and the model catalog advertises it with the id `priority`. The canonical template derives `service_tier` from `FAST_REQUESTED`: `no` maps to `default`, and `yes` maps to `priority`. Set `FAST_REQUESTED=yes` only when the user explicitly requests Fast. Do not infer that request from urgency, task size, or an effort choice.
 
 Fast and reasoning effort are independent. Keep the selected effort unchanged when enabling Fast unless the user or task separately justifies an effort change. Record both the host's explicit-request assertion and the derived tier in provenance. A resume may preserve `yes` for the same mission; a legacy run without that assertion resumes non-Fast unless the user asks. If the CLI rejects a tier, trust its current help and config documentation and report the drift.
 
-## GPT-5.6 packets
+## GPT-6 packets
 
-Model-specific prompting is not restated here. When the packet targets a GPT-5.6-family model, load the sibling skill `gpt56-sol-prompting-guide` (same pack, `skills/development/gpt56-sol-prompting-guide/`) and shape the packet with it before dispatch. This skill owns the mission contract — objective, scope, authority, verification, response contract; that skill owns how the prompt is worded for the model. On wording, the prompting guide wins; on authority, this skill does.
+Model-specific prompting is not restated here. When the packet targets GPT-6 Sol or Astra, load the sibling skill `gpt6-prompting-guide` (same pack, `skills/development/gpt6-prompting-guide/`) and shape the packet with it before dispatch. This skill owns the mission contract — objective, scope, authority, verification, response contract; that skill owns how the prompt is worded for the model. On wording, the prompting guide wins; on authority, this skill does.
 
 ## Judgment ownership
 

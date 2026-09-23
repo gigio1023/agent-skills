@@ -62,7 +62,7 @@ gh api --paginate "repos/{owner}/{repo}/pulls/{number}/reviews?per_page=100"
 
 ### 3. Obtain Candidate Findings
 
-Use the review source the user named. Otherwise inspect the current harness and installed skills, then choose the strongest applicable code-review skill. Parallel review is useful only when independent correctness, security, or repo-specific lanes materially expand coverage.
+Use the review source the user named. Otherwise inspect the current harness and installed skills, then choose the strongest applicable code-review skill. Parallel review is useful only when independent correctness, security, or repo-specific reviewers materially expand coverage.
 
 User-provided review text is candidate evidence, not an accepted verdict. It goes through the same validation as delegated findings.
 

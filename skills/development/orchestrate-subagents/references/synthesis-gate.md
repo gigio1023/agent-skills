@@ -61,7 +61,7 @@ For research and judgment:
 For coding:
 
 - What changed.
-- Which worker or lane owned which area, if relevant.
+- Which worker owned which area, if relevant.
 - Verification performed.
 - Remaining risk or tests not run.
 
