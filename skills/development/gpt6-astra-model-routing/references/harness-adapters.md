@@ -1,6 +1,6 @@
 # Harness Adapters
 
-The routing policy in `SKILL.md` is harness-neutral. This reference says how each harness actually sets a subagent's model and effort, what it cannot set, where the role files go, and how to report what was resolved. Codex is the worked example, checked against its source at tag `rust-v0.154.0` and the installed CLI 0.154.0 on 2026-09-20; line references are into `codex-rs/`. Recheck facts when the harness changes.
+The routing policy in `SKILL.md` is harness-neutral. This reference says how each harness actually sets a subagent's model and effort, what it cannot set, where the role files go, and how to report what was resolved. Codex is the worked example, checked against its source at tag `rust-v0.154.0` and the installed CLI 0.154.0 on 2026-09-20, with the GPT-6 Sol catalog entry read from `rust-v0.156.1` on 2026-09-23; line references are into `codex-rs/`. Recheck facts when the harness changes.
 
 ## Contents
 
@@ -30,7 +30,7 @@ If a subagent cannot be given a different model or effort, the skill still gover
 |------|-------|
 | Subagents inherit the lead's model and effort unless something says otherwise. The spawn tool tells the lead: "Spawned agents inherit your current model by default." | `core/src/tools/handlers/multi_agents_spec.rs:17` |
 | Precedence: the spawn call's `model` and `reasoning_effort` → `[agents] default_subagent_model` and `default_subagent_reasoning_effort` in `config.toml` → inherit the parent. The defaults are read from the resolved config, so they apply even when the spawn tool hides the fields and regardless of fork mode. | `core/src/tools/handlers/multi_agents_common.rs:274-276`; `multi_agents_v2/spawn.rs:128` |
-| A spawn that sets `model` without `reasoning_effort` gives the child that model's catalog `default_reasoning_level`, not the parent's effort. Sol's is `low`. | `multi_agents_common.rs:306-308` |
+| A spawn that sets `model` without `reasoning_effort` gives the child that model's catalog `default_reasoning_level`, not the parent's effort. GPT-6 Sol's is `medium` in the 0.156.1 catalog. | `multi_agents_common.rs:306-308` |
 | A requested effort must appear in the child model's `supported_reasoning_levels`; otherwise the spawn fails with an error the lead sees. | `multi_agents_common.rs:422-442` |
 | Role files outrank spawn arguments. A role that pins model or effort is advertised to the lead as locked: "These settings cannot be changed." | `core/src/agent/role.rs:185-193, 314-317` |
 | The catalog's `multi_agent_version` selects V1 or V2 and beats the `multi_agent_v2` feature default. `features.multi_agent_v2.enabled = false` does not turn V2 off for a catalog-V2 model; only `agents.enabled = false` disables multi-agent tools. | `core/src/config/mod.rs:1544-1552` |
@@ -48,12 +48,12 @@ If a subagent cannot be given a different model or effort, the skill still gover
 
 ### The served catalog moves
 
-The bundled catalog (`codex debug models --bundled`) and the served catalog (`codex debug models`) differ, and the served one changed within one day during this skill's authoring: Luna moved from V1 to V2 and gained `ultra`, and Astra's default effort read `medium` where the bundle says `low`. Read the catalog at install time, record the values in `source-notes.md` with the date, and never hard-code them in instructions.
+The bundled catalog (`codex debug models --bundled`) and the served catalog (`codex debug models`) differ, and the served one changed within one day during this skill's authoring: Luna moved from V1 to V2 and gained `ultra`, and Astra's default effort read `medium` where the bundle says `low`. On 2026-09-23 the served catalog on 0.154.0 had Luna back at V1, and the 0.156.1 bundled catalog added `gpt-6-sol` (default `medium`, levels `low` through `ultra`, V2), which 0.156.0 did not list. Read the catalog at install time, record the values in `source-notes.md` with the date, and never hard-code them in instructions.
 
 ### Installing the routes
 
-1. Read `codex debug models` and note each candidate model's `default_reasoning_level`, `supported_reasoning_levels`, and `multi_agent_version`.
-2. After approval, merge `assets/codex/config.snippet.toml` into `~/.codex/config.toml`. Its `[agents]` block sends every unnamed worker to Terra at `xhigh`; always set model and effort together there.
+1. Read `codex debug models`, confirm that `gpt-6-sol` is listed (Codex CLI 0.156.1 or later), and note each candidate model's `default_reasoning_level`, `supported_reasoning_levels`, and `multi_agent_version`.
+2. After approval, merge `assets/codex/config.snippet.toml` into `~/.codex/config.toml`. Its `[agents]` block sends every unnamed worker to GPT-6 Sol at `xhigh`; always set model and effort together there.
 3. Copy `assets/codex/agents/*.toml` into `~/.codex/agents/` (or a project's `.codex/agents/`). Standalone role files are discovered from that directory and need a `name` and a non-blank `developer_instructions`, or they are skipped with a startup warning. A role file accepts any `config.toml` key, so `model` and `model_reasoning_effort` live at its top level.
 4. Leave `expose_spawn_agent_model_overrides` at its default so the lead can still choose a model and effort per spawn on this skill's instruction. Set it to false only when the user wants the `[agents]` defaults to be the sole author.
 5. In the first session, spawn once and confirm the spawn tool shows `model` and `reasoning_effort`; `codex debug prompt-input` renders the prompt but not the tool schemas, so this cannot be checked statically.
@@ -61,8 +61,8 @@ The bundled catalog (`codex debug models --bundled`) and the served catalog (`co
 ### Spawn argument shape (V2)
 
 ```json
-{"task_name": "scan_callers", "message": "...", "agent_type": "terra-scout"}
-{"task_name": "impl_parser", "message": "...", "model": "gpt-5.6-sol", "reasoning_effort": "xhigh", "fork_turns": "none"}
+{"task_name": "scan_callers", "message": "...", "agent_type": "sol-scout"}
+{"task_name": "impl_parser", "message": "...", "model": "gpt-6-sol", "reasoning_effort": "xhigh", "fork_turns": "none"}
 ```
 
 Use `agent_type` for a pinned role and `model` plus `reasoning_effort` together for an ad-hoc assignment. `fork_turns` is `"none"`, `"all"`, or a positive integer string; a fresh-context worker uses `"none"`.
@@ -73,9 +73,9 @@ When another host launches a Codex run through `codex-delegate`, that skill owns
 
 ## Hermes Agent
 
-Observed in a local Hermes configuration on 2026-09-20; confirm against the current Hermes documentation before relying on key names.
+Checked against the Hermes Agent v0.21.3 source (`tools/delegate_tool_config.py`, `hermes_cli/config_defaults.py`) on 2026-09-23.
 
-`delegation.model` and `delegation.provider` set one model for every delegated agent, so Hermes offers one delegated-agent model per configuration. Effort is per model: `agent.reasoning_effort` is the lead's level, and `agent.reasoning_overrides` maps a model name to an effort, for example `gpt-6-astra: high` beside `gpt-5.6-terra: xhigh`, which is the effort floor expressed in Hermes terms. The routing decision is therefore whether the configured delegation model fits the tier; when it does not, keep the work with the lead or ask the user to change `delegation.model` for the session, and state the inherited settings.
+`delegation.model` and `delegation.provider` set one model for every delegated agent, so Hermes offers one delegated-agent model per configuration. `delegation.reasoning_effort` sets every delegated agent's effort; when it is empty, a child takes the parent's already-resolved effort. `agent.reasoning_effort` and `agent.reasoning_overrides` resolve only the lead's effort, so an override such as `gpt-6-sol: xhigh` does not reach a child. Express the effort floor as `delegation.reasoning_effort: xhigh` beside `delegation.model: gpt-6-sol`; one value then applies to every child. The routing decision is therefore whether the configured delegation model and effort fit the tier; when they do not, keep the work with the lead or ask the user to change the delegation settings for the session, and state the inherited settings.
 
 ## OpenCode
 
@@ -83,7 +83,7 @@ Checked against `opencode.ai/docs/agents/` on 2026-09-20. Agents are defined und
 
 ## Claude Code or Cursor Under an Astra Lead
 
-An Astra lead in Claude Code or Cursor requires a proxy that exposes Astra as the session model; the proxy configuration observed for this pack exposed only GPT-5.6 models as subagent definitions. If such a session exists, the mechanics are those harnesses' and are documented in `fable5-model-routing`'s adapter reference; the routing policy is unchanged.
+An Astra lead in Claude Code or Cursor requires a proxy that exposes Astra as the session model; the proxy configuration observed for this pack on 2026-09-20 exposed only GPT-5.6 models as subagent definitions. If such a session exists, the mechanics are those harnesses' and are documented in `fable5-model-routing`'s adapter reference; the routing policy is unchanged.
 
 ## Reporting and Measurement
 

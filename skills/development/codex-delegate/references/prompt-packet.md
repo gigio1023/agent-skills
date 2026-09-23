@@ -41,7 +41,7 @@ Choose the broad grant: execute fixed decisions; decide within named bounds; or 
 ## Authority and pause conditions
 What it may run or edit, and which external effects are intended — network calls, MCP tools, credentials. When it must stop and report instead of proceeding (destructive actions, contract changes, missing information). Internal subagents: allowed when genuinely independent branches justify them. Choose their number and topology. Keep dependent steps and conflicting writes sequential; a sequential solution remains valid. Before the final handoff, inspect the root-visible child states, wait for active children or intentionally interrupt them, and state the child sweep result in the report.
 
-If the host is already running five or more Codex roots, replace the preceding grant with either `Internal subagents: disabled for this externally parallel lane` or one named independent purpose and a maximum child count.
+If the host is already running five or more Codex roots, replace the preceding grant with either `Internal subagents: disabled for this externally parallel run` or one named independent purpose and a maximum child count.
 
 ## Verification
 Exact commands to run, and what output counts as passing.

@@ -12,7 +12,7 @@ description: >
 
 # English Prompt Review
 
-Help a user develop the habit of expressing technical work naturally in English without making the task harder to execute. Preserve the user's actual request; the coaching lane is a review, not a reinterpretation or a new requirement.
+Help a user develop the habit of expressing technical work naturally in English without making the task harder to execute. Preserve the user's actual request; the coaching pass is a review, not a reinterpretation or a new requirement.
 
 ## Quick Path
 
@@ -58,7 +58,7 @@ Keep exact non-sensitive technical names, identifiers, errors, commands, and cod
 
 ### Keep the Main Work Moving
 
-For background or delegated review, send only a copy sanitized with those placeholders. The reviewer returns a rewrite, optional terminology notes, and an ambiguity flag. The primary lane owns execution and the final response; never restore secrets in coaching output.
+For background or delegated review, send only a copy sanitized with those placeholders. The reviewer returns a rewrite, optional terminology notes, and an ambiguity flag. The primary agent owns execution and the final response; never restore secrets in coaching output.
 
 If delegation is unavailable, execute the task first and review the original prompt before writing the final response. Never claim that a review ran in the background when it did not.
 
@@ -91,7 +91,7 @@ For a prompt that needs no material rewrite, use `Natural and clear as written.`
 ## Authority and Privacy
 
 - A coaching request authorizes analysis and a suggested rewrite, not edits to the user's prompt, files, settings, or agent configuration.
-- The review lane may use the current prompt and task context only. It must not send the prompt to an external service merely to judge wording.
+- The reviewer may use the current prompt and task context only. It must not send the prompt to an external service merely to judge wording.
 - Do not expose internal reasoning. Give the polished result and, when useful, a short reader-facing reason for a terminology recommendation.
 
 ## Validation

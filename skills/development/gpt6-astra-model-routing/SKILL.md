@@ -4,8 +4,8 @@ description: >
   Choose each subagent's model and reasoning effort every time a GPT-6 Astra
   lead delegates, in any harness with subagents (Codex and Hermes are
   examples), install the worker defaults and role files where the harness
-  takes them so workers stay on GPT-5.6 models at full effort, and state each
-  subagent's resolved settings before spawning. Also use to bring Astra in as a judge under a Sol or Terra lead.
+  takes them so workers run GPT-6 Sol at full effort, and state each
+  subagent's resolved settings before spawning. Also use to bring Astra in as a judge under a GPT-6 Sol lead.
   NOT for deciding whether to delegate (orchestrate-subagents), for missions
   launched through codex-delegate, or for a Claude Fable lead
   (fable5-model-routing).
@@ -20,7 +20,7 @@ Astra's cost comes from inheritance: by default a delegated agent runs the lead'
 ## When It Applies
 
 - **Astra leads.** The policy stands for the whole session. Each time the lead decides to delegate, the task gets a model and an effort chosen for its tier, stated before the spawn. The policy applies one level down only: a subagent does not re-apply it to its own children.
-- **A Sol or Terra lead with Astra as a judge.** Apply on request, when the user names this skill or asks to put Astra on the judgment, or when a mission packet grants it. Astra is then a critic and strategist, never an executor: it receives the evidence and the question, returns a verdict with the top risks and specific fixes, and the lead applies or explicitly rebuts each note. Give the judge a countable cap. This shape keeps Astra off the session and is the structural answer to its cost.
+- **A GPT-6 Sol lead with Astra as a judge.** Apply on request, when the user names this skill or asks to put Astra on the judgment, or when a mission packet grants it. Astra is then a critic and strategist, never an executor: it receives the evidence and the question, returns a verdict with the top risks and specific fixes, and the lead applies or explicitly rebuts each note. Give the judge a countable cap. This shape keeps Astra off the session and is the structural answer to its cost.
 - **A harness that cannot vary subagent model or effort.** The skill still applies. Decide whether the inherited settings are acceptable for the tier, and say so.
 
 Read the lead's identity from what the harness states. If it cannot be established, treat the session as non-Astra.
@@ -45,7 +45,7 @@ Before each spawn, read the packet and answer three questions: can a worker judg
 ### Effort by model class
 
 - **Frontier lead models** (Claude Fable 5.1, GPT-6 Astra) vary effort by task shape. As lead they run the session's effort. As a worker they run lower: `high` for a fresh-context check, `low` or `medium` for bounded execution when the cheaper run is cheap to verify.
-- **Every model below the frontier** (Claude Opus 5.5 and Opus 5, Sonnet 5, GPT-5.6 Sol, Terra, Luna) runs at `xhigh` by default, and `xhigh` is the floor. Lower a route only by editing that subagent's definition or spawn arguments and recording a one-line reason. `max` is acceptable where the model is cheap enough that the extra tokens do not matter.
+- **Every model below the frontier** (Claude Opus 5.5 and Opus 5, Sonnet 5, GPT-6 Sol) runs at `xhigh` by default, and `xhigh` is the floor. Lower a route only by editing that subagent's definition or spawn arguments and recording a one-line reason. `max` is acceptable where the model is cheap enough that the extra tokens do not matter.
 - **Fan-out efforts** such as Codex `ultra` never go on a worker.
 - **Models without an effort control** (Claude Haiku 4.5) cannot honor the floor; keep them out of the default routes and use them only on explicit request for mechanical collection.
 
@@ -71,19 +71,19 @@ Before each spawn, state one line per task: tier, `agent_type`, resolved model, 
 
 ## Default Routes for an Astra Lead
 
-The `agent_type` names are the role files in `assets/codex/agents/`; the adapter reference says how to install them in Codex and how to express the same routes elsewhere. The model split follows OpenAI's own subagent guidance for the GPT-5.6 family: the flagship for ambiguous multi-step work, Terra for exploration and read-heavy scans, Luna for clear, repeatable, high-volume work. The efforts follow the floor.
+The `agent_type` names are the role files in `assets/codex/agents/`; the adapter reference says how to install them in Codex and how to express the same routes elsewhere. Every worker runs GPT-6 Sol, the owner's single worker model since 2026-09-23; GPT-5.6 models and GPT-6 Luna are not used. OpenAI's Codex subagent guidance also starts workers on `gpt-6-sol` and names Luna for narrow, high-volume work, which this pack leaves out. The roles differ by instructions, not by model, and the efforts follow the floor. Codex lists `gpt-6-sol` from CLI 0.156.1; on an older CLI the pinned roles cannot spawn, so update Codex before installing them.
 
 | Tier | Default route | Notes |
 |------|---------------|-------|
-| Mechanical collection | `luna-clerk`: GPT-5.6 Luna at `xhigh` | Cheap enough that full effort costs little |
-| Bounded execution, read-heavy exploration or scans | `terra-scout`: GPT-5.6 Terra at `xhigh` | Also the session default worker when the lead names no role |
-| Bounded execution, implementation | `sol-builder`: GPT-5.6 Sol at `xhigh` | Sol's catalog default effort is `low`; a spawn that names the model without the effort lands there, so both are always set |
+| Mechanical collection | `sol-clerk`: GPT-6 Sol at `xhigh` | Collection instructions only; no recommendations |
+| Bounded execution, read-heavy exploration or scans | `sol-scout`: GPT-6 Sol at `xhigh` | Also the session default worker when the lead names no role |
+| Bounded execution, implementation | `sol-builder`: GPT-6 Sol at `xhigh` | Sol's catalog default effort is `medium`; a spawn that names the model without the effort lands there, so both are always set |
 | Judgment-adjacent support | `astra-judge`: GPT-6 Astra at `high` | The frontier as a worker, at reduced effort; fresh-context specification check or contested judgment |
 | Judgment core | The lead | Not delegated |
 
-A dispatch line for this table reads `bounded-exec | sol-builder | gpt-5.6-sol | xhigh | ~/.codex/agents/sol-builder.toml | runtime unverified`.
+A dispatch line for this table reads `bounded-exec | sol-builder | gpt-6-sol | xhigh | ~/.codex/agents/sol-builder.toml | runtime unverified`.
 
-Under the effort floor the cost lever is the worker model, not its effort. The single most effective change is a session default that sends unnamed workers to Terra at `xhigh` instead of letting them inherit Astra. Astra's own effort is lowered only when Astra is the worker.
+Under the effort floor the cost lever is the worker model, not its effort. The single most effective change is a session default that sends unnamed workers to GPT-6 Sol at `xhigh` instead of letting them inherit Astra; Sol's prices are a fifth of Astra's ($2 and $10 per million input and output tokens against $10 and $50). Astra's own effort is lowered only when Astra is the worker.
 
 OpenAI publishes no cost or accuracy numbers for this split and its Astra guide says nothing about which model a subagent should run; the guide's own claim that Astra costs less per task than earlier models despite its per-token price argues against reflexive downgrading. Treat the routes above as this pack's choice, and revisit them if a route fails the one-step retry rule often.
 
@@ -117,7 +117,7 @@ Answer as the lead's judgment, not as a committee transcript: the decision or hi
 
 ## Gotchas
 
-- Do not name a worker model without its effort. In Codex a spawn that sets `model` alone gives the child that model's catalog default, which for Sol is `low`; the lead never sees the drop.
+- Do not name a worker model without its effort. In Codex a spawn that sets `model` alone gives the child that model's catalog default, which for GPT-6 Sol is `medium`; the lead never sees the drop.
 - Do not rely on prompt text as a guardrail. Codex tells the lead that full-history forks reject overrides, but the handler applies them anyway; determinism comes from `[agents]` defaults and role files, not from the sentence.
 - Do not assume a built-in role is cheaper. Codex's `explorer` and `worker` pin no model or effort and inherit the lead's.
 - Do not let a subagent inherit the lead's settings by omission; inheriting is a choice to state, not a default to fall into.

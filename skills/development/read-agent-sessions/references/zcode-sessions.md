@@ -7,7 +7,7 @@ Verified by direct query against this machine's database. All conversational dat
 - Database: `~/.zcode/cli/db/db.sqlite` (with `-wal`/`-shm` — the live WAL is large, so recent turns may not be in the main file yet). Read it with the sqlite3 CLI; do not copy the files, and open read-only:
   `sqlite3 "file:$HOME/.zcode/cli/db/db.sqlite?mode=ro"`
 - Tool-call results: `~/.zcode/cli/artifacts/sess_*/call_<id>-tool-result-<uuid>.json` — referenced by call id, not inlined in the DB.
-- `~/.zcode/v2/tasks-index.sqlite` is a background-task index, not conversations. `~/.zcode/cli/rollout/` exists but was empty; don't depend on it.
+- `~/.zcode/v2/tasks-index.sqlite` is a background-task index, not conversations. `~/.zcode/cli/rollout/` holds one `model-io-sess_*.jsonl` file per session (seen from 2026-09-22), which logs model input and output rather than the conversation store; files can reach tens of megabytes, so read them incrementally if at all, and use the database for the conversation.
 
 ## Session identity
 

@@ -40,7 +40,7 @@ For human turns only, additionally filter user records on `.origin.kind=="human"
 
 ## CLI notes
 
-`claude --resume <session-id>`, `claude --continue`, `--session-id`, `-n/--name`, `--fork-session`. There is no non-interactive session-listing command; enumerate via the filesystem. This skill only reads; resuming belongs to the harness.
+`claude --resume <session-id>`, `claude --continue`, `--session-id`, `-n/--name`, `--fork-session`. `claude agents --json` prints the live interactive and background sessions as a JSON array without a TTY, and `--all` adds completed background sessions (confirmed on Claude Code 2.1.280, 2026-09-23). Past transcripts still need the filesystem. This skill only reads; resuming belongs to the harness.
 
 ## Caveats
 

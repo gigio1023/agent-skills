@@ -1,6 +1,6 @@
 # Goal Prompting Source Notes
 
-Last reviewed: 2026-08-03.
+Last reviewed: 2026-08-03. The Claude goal contract and moved sources were rechecked on 2026-09-23.
 
 ## Contents
 
@@ -15,14 +15,14 @@ Last reviewed: 2026-08-03.
 
 - [Long-running work](https://learn.chatgpt.com/docs/long-running-work) documents Codex Goal mode, the outcome/constraints/verification contract, steering, parallel chats, and unchanged permission boundaries.
 - [Prompting](https://learn.chatgpt.com/docs/prompting) distinguishes goal, context, output, and boundaries, recommends result-first prompts, and routes unsettled multi-step Codex work through plan mode before Goal mode.
-- [Codex slash commands](https://learn.chatgpt.com/docs/reference/slash-commands) documents `/goal` lifecycle commands and the 4,000-character objective limit.
-- [Codex App Server](https://developers.openai.com/codex/app-server) documents persisted thread goal state, status and budget updates, usage accounting, and the same 4,000-character limit.
+- [Codex slash commands](https://learn.chatgpt.com/docs/reference/slash-commands) documents `/goal` lifecycle commands; since the 2026-08-03 review it no longer states the objective limit, which the App Server page still gives.
+- [Codex App Server](https://learn.chatgpt.com/docs/app-server) documents persisted thread goal state, status and budget updates, usage accounting, and the same 4,000-character limit.
 - [OpenAI `define-goal` skill](https://github.com/openai/skills/blob/main/skills/.curated/define-goal/SKILL.md) emphasizes measurable objectives, evidence, bounded scope, active-goal inspection, and explicit activation intent.
 - [Build skills](https://learn.chatgpt.com/docs/build-skills) documents the shared Agent Skills format, progressive disclosure, discovery descriptions, and instruction-first packaging used by this skill.
 
 ## Official Anthropic Sources
 
-- [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal) documents the v2.1.139 minimum, separate evaluator loop, transcript-only evidence, one active goal per session, optional run bounds, the 4,000-character condition limit, resume behavior, and hook or trust prerequisites.
+- [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal) documents the separate evaluator loop with its three verdicts (not yet met, met, impossible), the failure, retry, pause, and background-work rules, transcript-only evidence, one active goal per session, optional run bounds, the 4,000-character condition limit, resume behavior, and hook or trust prerequisites. The v2.1.139 minimum comes from the [Claude Code changelog](https://code.claude.com/docs/en/changelog) entry for 2.1.139 (May 11, 2026); the goal page no longer states it.
 - [Claude Code best practices](https://code.claude.com/docs/en/best-practices) recommends checks Claude can run, evidence over assertions, exploration and planning before risky implementation, specific context, and concise interviewing for larger work.
 - [Claude Code prompt library](https://code.claude.com/docs/en/prompt-library) favors outcomes over prescribed steps and treats saved skills as reusable versions of successful prompt patterns.
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) supports concise skills, trigger-focused descriptions, progressive disclosure, one-level references, appropriate degrees of freedom, and real-usage iteration.
@@ -36,12 +36,12 @@ The review sampled original or materially distinct public packages rather than c
 | [OpenAI `define-goal`](https://github.com/openai/skills/tree/main/skills/.curated/define-goal) | Concise outcome, evidence, scope, and explicit goal creation | Codex goal tools only; does not explain or translate Claude Code semantics |
 | [techwolf-ai `goal-prompt`](https://github.com/techwolf-ai/ai-first-toolkit/tree/main/plugins/session-tools/skills/goal-prompt) | Compact Claude condition with transcript-demonstrable proof | Draft-only and Claude-specific |
 | [nbbaier `goal-refiner`](https://github.com/nbbaier/agent-skills/tree/main/skills/goal-refiner) | Realistic environment, false-completion checks, cleanup, and 4,000-character guard | Codex-only and can overfill bounded goals with a large fixed template |
-| [xopc `define-goal`](https://github.com/xopcai/xopc/tree/main/skills/engineering/define-goal) | Small rewrite of the official pattern with an objective rubric | Harness metadata and persistent-goal-only scope |
-| [zdx `define-goal`](https://github.com/tallesborges/zdx/tree/master/crates/zdx-assets/bundled_skills/define-goal) | Read-only shaping and honest quantitative defaults | Requires confirmation and does not support activation or cross-harness translation |
+| [xopc `define-goal`](https://github.com/xopcai/xopc/tree/main/skills/engineering/define-goal) (link 404 on 2026-09-23) | Small rewrite of the official pattern with an objective rubric | Harness metadata and persistent-goal-only scope |
+| [zdx `define-goal`](https://github.com/tallesborges/zdx/tree/master/crates/zdx-assets/bundled_skills/define-goal) (link 404 on 2026-09-23) | Read-only shaping and honest quantitative defaults | Requires confirmation and does not support activation or cross-harness translation |
 | [dxiiren `define-goal`](https://github.com/dxiiren/python-bootcamp-projects/tree/main/.claude/skills/define-goal) | File-backed work lists, terminal statuses, and resume discipline for very large runs | Claims the evaluator re-reads the goal file, which conflicts with Anthropic's transcript-only evaluator contract; also mandates an exhaustive interview and file system |
 | [alirezarezvani `fable-goal`](https://github.com/alirezarezvani/claude-skills/tree/main/productivity/fable-goal/skills/fable-goal) | Extracts intent from rough input, verifies named resources, and avoids implementation micromanagement | Assumes broad autonomy, internet, deployment, subagents, and no questions until completion |
 | [krzemienski `goal-condition-architect`](https://github.com/krzemienski/shannon/tree/main/skills/goal-condition-architect) | Transcript-provable checks, adversarial false-completion review, and explicit bounds | Makes fixed check counts, generic anti-cheat rules, and a bound mandatory for every task |
-| [alfredolopez80 `goal-refiner`](https://github.com/alfredolopez80/codex-ralph-vault-loop/tree/main/.agents/skills/goal-refiner) | Quick, file-backed, and audit modes with evidence and approval gates | Generates several durable artifacts and extensive scaffolding by default for uncertain risk |
+| [alfredolopez80 `goal-refiner`](https://github.com/alfredolopez80/codex-ralph-vault-loop/tree/main/.agents/skills/goal-refiner) (link 404 on 2026-09-23) | Quick, file-backed, and audit modes with evidence and approval gates | Generates several durable artifacts and extensive scaffolding by default for uncertain risk |
 | [win4r `goal-prompt-builder`](https://github.com/win4r/goal-prompt-builder/tree/main/goal-prompt-builder) | Project inspection, scenario-aware checks, and copy-paste output | Requires interviews, fixed sections, and token budgets while relying on undocumented internal-version assumptions |
 | [agentara `mega-goal-prompt`](https://github.com/agentara/skills/tree/main/skills/productivity/mega-goal-prompt) | Explicitly names Claude Code and Codex and gathers outcome, context, evidence, and boundaries | Treats both harnesses as one runtime and mandates a large interview-driven prompt |
 

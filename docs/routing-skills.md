@@ -5,7 +5,7 @@ Two skills assign a model and a reasoning effort to each subagent a lead spawns.
 | Capability | Responsibility |
 | --- | --- |
 | `fable5-model-routing` | Tier each delegated task under a Fable lead, apply the effort policy, install subagent definitions where the harness needs them, and state each subagent's resolved settings before spawning |
-| `gpt6-astra-model-routing` | The same under an Astra lead, with worker defaults and role files that keep workers on GPT-5.6 models and reserve Astra for judgment |
+| `gpt6-astra-model-routing` | The same under an Astra lead, with worker defaults and role files that run workers on GPT-6 Sol and reserve Astra for judgment |
 | `orchestrate-subagents` | Decide whether and how to decompose, write the packets, coordinate, and synthesize |
 | `small-model-handoff` | Write the bounded prompt when a pack skill dispatches to a weaker executor |
 | `codex-delegate` | Launch and own a whole Codex mission from another host; routing inside that mission belongs to the Astra skill only when Astra leads it |

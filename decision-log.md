@@ -164,3 +164,16 @@ Provenance now adds `host_route`, `host_model`, `routing_reason`, and `packet_sh
 The deterministic smoke suite now passes 16 scenarios. New cases prove that a lost manifest is recovered without another Codex invocation, invalid existing provenance blocks adoption, direct fallback records its route, and launches without a main-selected run path fail before process creation.
 
 Launcher-first remains an operational default. Direct-main batches also worked well in retained history, so no comparative success claim is warranted. After ten production launch-and-manifest-only runs, compare manifest return, watcher arming, fallback, duplicate-run, and acceptance outcomes. Keep launcher-first when that path is stable; otherwise route small batches directly while keeping the same script and artifact contract.
+
+## 2026-09-23: Default model moves to GPT-6 Sol
+
+### Decision
+
+- The owner stopped using GPT-5.6 models. New runs default to `gpt-6-sol`, `xhigh`, and explicit `service_tier="default"`; the 2026-08-12 Sol and Terra routes are superseded.
+- There is no cheaper default worker below Sol. `gpt-6-astra` is used only on a user request or when the mission's value lies in judgment the host would otherwise take back, with the reason recorded in provenance.
+- Packets for GPT-6 Sol or Astra are shaped with `gpt6-prompting-guide`, which replaced `gpt56-sol-prompting-guide` and `gpt6-astra-prompting-guide` the same day.
+
+### Evidence
+
+- OpenAI released `gpt-6-sol` on 2026-09-22 (API changelog). The Codex bundled catalog lists it from `rust-v0.156.1` with default effort `medium` and levels `low` through `ultra`; `rust-v0.156.0` lists only `gpt-6-astra`.
+- The installed CLI on 2026-09-23 was 0.154.0, so the default route needs a Codex update before it can run. The contract test passes with the new defaults because it uses a fake `codex` executable; no live run on `gpt-6-sol` has been made.

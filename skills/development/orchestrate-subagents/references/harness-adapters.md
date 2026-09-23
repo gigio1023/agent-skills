@@ -19,7 +19,7 @@ Use the current harness' native mechanism for delegation. Prefer officially expo
 
 If the harness exposes a tool registry or discovery mechanism, inspect it before inventing commands. If it does not expose delegation, emulate the workflow with sequential packets and explicit synthesis notes.
 
-When the user explicitly selects an external CLI execution skill, that skill may own launch, session, and evidence-capture mechanics for a lane. This skill still owns decomposition and synthesis; never shell out automatically.
+When the user explicitly selects an external CLI execution skill, that skill may own launch, session, and evidence-capture mechanics for a delegated task. This skill still owns decomposition and synthesis; never shell out automatically.
 
 Choose the execution primitive by task shape:
 
@@ -29,7 +29,7 @@ Choose the execution primitive by task shape:
 
 ## Model And Cost Routing
 
-Treat model assignment as part of orchestration design. Choose the model and reasoning effort per lane before spawning workers, then include the assignment in the packet or setup step when the harness supports it.
+Treat model assignment as part of orchestration design. Choose the model and reasoning effort per subagent before spawning, then include the assignment in the packet or setup step when the harness supports it.
 
 Keep this skill harness-neutral. Prefer the current session's defaults unless the user, harness, or a companion skill gives a more specific routing policy. When a companion model-routing skill is loaded, use it for exact model names and cost preferences while this skill continues to own decomposition and synthesis mechanics.
 
@@ -37,16 +37,16 @@ General policy:
 
 - Put the strongest judgment model on framing, conflict resolution, synthesis, and final recommendation.
 - Put long-context or cheaper workers on bounded reading, inventory, extraction, and source collection when they can return compact evidence packets.
-- Keep collection with the lead when direct reading preserves decisive context or each result changes the next judgment. Delegate it when the lane is truly bounded and a compact evidence packet preserves what the decision needs.
+- Keep collection with the lead when direct reading preserves decisive context or each result changes the next judgment. Delegate it when the task is truly bounded and a compact evidence packet preserves what the decision needs.
 
-If an explicitly required model, plugin, or reasoning level is unavailable, report the affected lane and continue independent authorized work. Use an equivalent only when the user's routing policy permits it; do not treat the absence of a capability as permission to replace an exact requirement. For an unspecified lane, choose from configured capabilities and report material limits.
+If an explicitly required model, plugin, or reasoning level is unavailable, report the affected task and continue independent authorized work. Use an equivalent only when the user's routing policy permits it; do not treat the absence of a capability as permission to replace an exact requirement. For a task with no specified model, choose from configured capabilities and report material limits.
 
 ## Codex
 
 Use native subagent tools when available. Typical concepts include:
 
 - Spawn well-scoped agents for independent tasks.
-- Prefer inherited model/settings unless the user or a companion routing skill asks for a specific model, reasoning effort, or cost-saving lane.
+- Prefer inherited model/settings unless the user or a companion routing skill asks for a specific model, reasoning effort, or cost-saving route.
 - Use explorer-style agents for read-only codebase questions.
 - Use worker-style agents for bounded implementation with disjoint ownership.
 - Wait only when the lead agent is blocked on the result.
@@ -60,11 +60,11 @@ Current Codex surfaces may delegate when the user asks or when an applicable ski
 
 Use Claude Code's native subagents, tasks, or agent-team features when present. Prefer filesystem-backed instructions, explicit agent roles, and fresh-context workers for isolated tasks. For team-style workflows, keep handoff artifacts small and reviewable: spec, task, evidence, review result.
 
-Prefer asynchronous communication for independent lanes. Reuse a long-lived agent for related follow-up tasks when its retained context is still correct; use a fresh verifier when independence from the implementation context matters.
+Prefer asynchronous communication for independent subagents. Reuse a long-lived agent for related follow-up tasks when its retained context is still correct; use a fresh verifier when independence from the implementation context matters.
 
-If the user supplies a companion routing skill, use it to choose exact models, plugins, and token-saving lanes. Keep cross-harness packets small: objective, scope, exclusions, evidence contract, and stop condition. Do not dump the whole conversation unless the worker truly needs it.
+If the user supplies a companion routing skill, use it to choose exact models, plugins, and token-saving routes. Keep cross-harness packets small: objective, scope, exclusions, evidence contract, and stop condition. Do not dump the whole conversation unless the worker truly needs it.
 
-Claude-specific caution: skills and subagents are separate concepts. A skill can tell the lead agent how to orchestrate; it should not assume every named agent exists. A normal subagent starts with fresh context, does not inherit a skill already invoked by the parent unless it is preloaded or invoked again, and cannot spawn another subagent. Keep the packet self-contained and let the main thread own further waves; use agent teams only when the visible harness supports them and peer communication is actually needed.
+Claude-specific caution: skills and subagents are separate concepts. A skill can tell the lead agent how to orchestrate; it should not assume every named agent exists. A normal subagent starts with fresh context, and does not inherit a skill already invoked by the parent unless it is preloaded or invoked again. Subagents can spawn their own subagents, up to three layers below the main conversation by default (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`); say in the packet whether the worker may spawn, and remove `Agent` from its tools when it may not. Keep the packet self-contained and let the main thread own further waves; use agent teams only when the visible harness supports them and peer communication is actually needed.
 
 ## Cursor
 
@@ -80,7 +80,7 @@ OpenCode-specific caution: if the agent system runs in the same checkout, treat 
 
 ## Antigravity
 
-Use Antigravity's native skill/task/agent mechanism when available. Treat the same orchestration policies as portable: independent lanes, bounded packets, evidence-first synthesis, follow-up waves only when needed.
+Use Antigravity's native skill/task/agent mechanism when available. Treat the same orchestration policies as portable: independent subagents, bounded packets, evidence-first synthesis, follow-up waves only when needed.
 
 Antigravity-specific caution: community skill bundles can be broad and uneven. Use installed capabilities that are visible in the current harness, not what an online collection claims should exist.
 

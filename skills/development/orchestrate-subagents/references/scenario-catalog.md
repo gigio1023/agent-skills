@@ -12,17 +12,17 @@ Use this catalog to decide whether `orchestrate-subagents` is the right skill, t
 
 ## Judgment And Strategy
 
-- Apply/skip, buy/wait, move/stay, build/buy, or choose-between-options decisions where advocate, skeptic, operator, and outsider lanes sharpen the final recommendation.
+- Apply/skip, buy/wait, move/stay, build/buy, or choose-between-options decisions where advocate, skeptic, operator, and outsider subagents sharpen the final recommendation.
 - Career, relocation, housing, or investment planning where the decision has real cost and uncertainty is spread across independent evidence sources.
 - Product or architecture strategy where implementation feasibility, user value, risk, and reversibility need separate lenses.
 
 ## Coding And Verification
 
-- Unknown codebase exploration before implementation: architecture lane, test lane, risk/contract lane, and implementation-boundary lane.
+- Unknown codebase exploration before implementation: architecture, test, risk/contract, and implementation-boundary subagents.
 - Parallel implementation with clean ownership: separate modules, screens, scripts, tests, docs, migrations, or verification artifacts.
 - Adversarial code review after an implementation or plan: correctness, security/safety, maintainability, performance, accessibility, and user-fit.
 - Verification while implementation continues: test runner, browser/UI checks, build/export checks, smoke tests, and regression review.
-- Migration or release planning: data model, rollout, rollback, docs, and operational risk lanes.
+- Migration or release planning: data model, rollout, rollback, docs, and operational risk subagents.
 
 ## Knowledge Work And Skill Design
 
@@ -41,4 +41,4 @@ Use this catalog to decide whether `orchestrate-subagents` is the right skill, t
 - Tiny sequential tasks where one pass is faster than framing and merging workers.
 - Highly private or credential-sensitive work where splitting context creates unnecessary exposure.
 - Code edits that require overlapping ownership unless the harness provides isolated worktrees and the user accepts integration overhead.
-- Cases where the lead agent has not defined an output contract, evidence requirements, and a stop condition for each lane.
+- Cases where the lead agent has not defined an output contract, evidence requirements, and a stop condition for each subagent.

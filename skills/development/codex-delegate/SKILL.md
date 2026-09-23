@@ -4,8 +4,8 @@ description: >
   Use only from Claude Code, Cursor, or another non-Codex host harness when the
   user explicitly invokes or names codex-delegate to delegate a packaged,
   bounded task to the Codex CLI, or to resume, follow, or cancel such a run.
-  Defaults to gpt-5.6-sol at xhigh effort on the standard non-Fast tier, with
-  task-shaped routing to Terra or another model and effort when justified. Fast
+  Defaults to gpt-6-sol at xhigh effort on the standard non-Fast tier, with
+  task-shaped routing to GPT-6 Astra or another model and effort when justified. Fast
   mode requires an explicit user request. Lets the host set Codex's judgment and
   internal-subagent authority in the packet. Uses a host-side launcher subagent
   as the default execution path when the harness supports one while the main
@@ -23,7 +23,7 @@ Delegate a complete, bounded task from the main session to the Codex CLI with `c
 
 Execution boundary: the host is Claude Code, Cursor, or another non-Codex harness. If this skill is invoked from inside Codex, stop instead of launching Codex recursively. The boundary is instruction-driven; do not add harness detection or a plugin-like management layer to enforce it.
 
-Requirements: `codex` CLI ≥ 0.145, logged in; `openssl` for run IDs; util-linux `setsid` when available, otherwise `perl` with POSIX support for the detached launch (macOS has system Perl but no `setsid` command); `bun` (preferred) or Node ≥ 18 for the renderer.
+Requirements: `codex` CLI ≥ 0.156.1 for the default `gpt-6-sol` (the run contract itself was verified from 0.145), logged in; `openssl` for run IDs; util-linux `setsid` when available, otherwise `perl` with POSIX support for the detached launch (macOS has system Perl but no `setsid` command); `bun` (preferred) or Node ≥ 18 for the renderer.
 
 ## 1. Package the mission
 
@@ -55,7 +55,7 @@ bash "$SKILL_DIR/scripts/launch-run.sh" \
   --sandbox "$SANDBOX" \
   --packet "$PACKET" \
   --run-dir "$RUN" \
-  --model gpt-5.6-sol \
+  --model gpt-6-sol \
   --effort xhigh \
   --fast-requested no \
   --network-access no \
@@ -99,9 +99,9 @@ Non-negotiable rules:
 
 ## Model and dispatch
 
-- Start every new run from `gpt-5.6-sol` at `xhigh` effort with `service_tier="default"`. An explicit user choice wins. Otherwise use Terra at `xhigh`, another supported model, or another effort only when task shape or availability gives a concrete reason. Record the resolved values and the reason for any deviation from the default.
+- Start every new run from `gpt-6-sol` at `xhigh` effort with `service_tier="default"`. An explicit user choice wins. Otherwise use GPT-6 Astra, another supported model, or another effort only when task shape or availability gives a concrete reason. Record the resolved values and the reason for any deviation from the default.
 - Fast is a separate dial. Set `service_tier="priority"` only when the user explicitly asks for Fast; urgency inferred from the task is not enough.
-- Shape GPT-5.6-family packets with the sibling `gpt56-sol-prompting-guide`. When the selected target is GPT-6 Astra, use `gpt6-astra-prompting-guide` instead. The prompting guide follows the resolved model; it does not change the default route or authorize another run. Allow internal subagents when independent branches justify them; keep small, dependent, or conflicting work sequential.
+- Shape GPT-6 Sol and Astra packets with the sibling `gpt6-prompting-guide`. The prompting guide follows the resolved model; it does not change the default route or authorize another run. Allow internal subagents when independent branches justify them; keep small, dependent, or conflicting work sequential.
 - Judgment ownership comes from the packet. Codex may execute fixed decisions, decide within named bounds, or own the mission's investigation, judgment, and decisions end to end. Do not force decisions back to the host when the packet already granted them.
 - Dispatch: the host main session owns the packet, routing decisions, watcher, result verification, resume decision, and cancellation. A host-side launcher subagent is the default execution path for one or many fixed packets. This role is distinct from the per-run `run.sh` wrapper and Codex's internal subagents. It starts each run through `launch-run.sh`, verifies initial provenance, returns a manifest, and stops. The main host preselects every run path, recovers an existing run when only manifest delivery failed, and uses direct launch through the same script only when that path is absent. [references/model-and-dispatch.md](references/model-and-dispatch.md).
 
