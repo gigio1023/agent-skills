@@ -45,7 +45,7 @@ Before each spawn, read the packet and answer three questions: can a worker judg
 ### Effort by model class
 
 - **Frontier lead models** (Claude Fable 5.1, GPT-6 Astra) vary effort by task shape. As lead they run the session's effort. As a worker they run lower: `high` for a fresh-context check, `low` or `medium` for bounded execution when the cheaper run is cheap to verify.
-- **Every model below the frontier** (Claude Opus 5, Sonnet 5, GPT-5.6 Sol, Terra, Luna) runs at `xhigh` by default, and `xhigh` is the floor. Lower a route only by editing that subagent's definition or spawn arguments and recording a one-line reason. `max` is acceptable where the model is cheap enough that the extra tokens do not matter.
+- **Every model below the frontier** (Claude Opus 5.5 and Opus 5, Sonnet 5, GPT-5.6 Sol, Terra, Luna) runs at `xhigh` by default, and `xhigh` is the floor. Lower a route only by editing that subagent's definition or spawn arguments and recording a one-line reason. `max` is acceptable where the model is cheap enough that the extra tokens do not matter.
 - **Fan-out efforts** such as Codex `ultra` never go on a worker.
 - **Models without an effort control** (Claude Haiku 4.5) cannot honor the floor; keep them out of the default routes and use them only on explicit request for mechanical collection.
 

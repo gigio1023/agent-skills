@@ -1,12 +1,14 @@
 # Source Notes
 
-Last reviewed: 2026-07-10.
+Last reviewed: 2026-07-10; Claude Opus guidance added 2026-09-23.
 
 This skill reflects the user's recurring need for sustained parallel work across coding, research, literature review, and value judgment, plus current public guidance from the major agent ecosystems.
 
 ## Current Sources
 
 - Anthropic, `Prompting Claude Fable 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
+- Anthropic, `Prompting Claude Opus 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
+- Anthropic, `Prompting Claude Opus 5.5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5
 - OpenAI, `Using GPT-5.6`: https://developers.openai.com/api/docs/guides/latest-model.md
 - OpenAI, `Prompting guidance for GPT-5.6 Sol`: https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6.md
 - Anthropic Agent Skills authoring guidance: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
@@ -20,6 +22,12 @@ The model-generation update changed several defaults:
 - Programmatic tool calling is a better fit than subagents for bounded structured reduction with no semantic judgment between calls.
 - Long-run progress must be audited against current tool results, artifacts, sources, or tests instead of worker self-report.
 - Delegation never grants new authority for external writes, destructive work, purchases, or material scope expansion.
+
+Claude Opus guidance, read 2026-09-23 (Opus 5.5 keeps the Opus 5 patterns as its starting point):
+
+- Opus delegates readily, which multiplies cost and time on small tasks. Give delegation criteria or use the harness's deterministic caps; do not use subagents to verify or double-check the lead's own work, because the model already verifies and extra verification compounds cost. The Gotchas bullet on re-checking comes from this.
+- On long multi-part tasks, Opus 5.5 can end a turn with a progress update instead of a tool call. A subagent's last message is its result, so such a turn can hand the lead a plan instead of an outcome. The duty to treat an announced next step as unfinished, and the packet rule on stop conditions, follow from this; the subagent case is an inference from the documented behavior, not an observed failure.
+- Anthropic reports that small Opus 5.5 teams finish sooner when the harness appends elapsed time against a budget to each message it returns to the model, and that a tighter budget mainly keeps more agents working in parallel. That lever belongs to whoever builds the harness; a lead running inside Claude Code or Codex cannot append those lines, so this skill does not prescribe it.
 
 ## Patterns Kept
 

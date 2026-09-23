@@ -1,6 +1,6 @@
 # Source Notes
 
-Last updated: 2026-09-20.
+Last updated: 2026-09-23.
 
 ## Mirror Note
 
@@ -13,6 +13,7 @@ Anthropic model and effort guidance, fetched 2026-09-20:
 - `Prompting Claude Fable 5.1`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
 - `What's new in Claude Fable 5.1`: https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1
 - `Prompting Claude Opus 5`: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
+- Fetched 2026-09-23: `Prompting Claude Opus 5.5` (https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5), `What's new in Claude Opus 5.5` (https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5), and `Introducing Claude Opus 5.5`, 2026-09-22 (https://www.anthropic.com/claude-opus-5-5)
 - `Effort`: https://platform.claude.com/docs/en/build-with-claude/effort
 - `Optimizing for cost and intelligence`: https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence
 - `Models overview`: https://platform.claude.com/docs/en/models/overview
@@ -25,6 +26,7 @@ Harness mechanics, fetched 2026-09-20:
 - Claude Code `Create custom subagents`: https://code.claude.com/docs/en/sub-agents
 - Claude Code `Model configuration`: https://code.claude.com/docs/en/model-config
 - Claude Code `Changelog` (2.1.272 to 2.1.278): https://code.claude.com/docs/en/changelog
+- Claude Code `Model configuration` and `Settings` rechecked on 2026-09-23 against 2.1.280 for alias resolution and effort resolution: https://code.claude.com/docs/en/settings-reference
 - Claude Agent SDK `Subagents`: https://code.claude.com/docs/en/agent-sdk/subagents
 - Cursor `Subagents`: https://cursor.com/docs/agent/subagents
 - OpenCode `Agents`: https://opencode.ai/docs/agents/
@@ -56,14 +58,16 @@ From Anthropic's cost and intelligence page, on its own benchmarks with unpublis
 - "Sweep effort on your current model first." On one search benchmark a single model at `low` matched an orchestrator with a Sonnet 5 worker at 29 percent lower cost.
 - Opus 5 at `low` with its failures re-run at default matched the default pass rate for half the cost, conditioned on a checker that does not pass bad work.
 - Two of twenty problems carried 43 percent of one run's spend; compare models on the hardest tenth of tasks.
-- Prices on 2026-09-20 per million tokens, input and output: Fable 5.1 $10 and $50 with cache reads at $0.25; Opus 5 $5 and $25 with cache reads at $0.50; Sonnet 5 $2 and $10; Haiku 4.5 $1 and $5 with no effort parameter and a 200K context.
+- Prices on 2026-09-20 per million tokens, input and output: Fable 5.1 $10 and $50 with cache reads at $0.25; Opus 5 $5 and $25 with cache reads at $0.50; Sonnet 5 $2 and $10; Haiku 4.5 $1 and $5 with no effort parameter and a 200K context. Added 2026-09-23: Opus 5.5 $4 and $20 with cache reads at $0.20 and 5-minute cache writes at $5; its fast mode $8 and $40.
+- The cost page had not added Opus 5.5 measurements when rechecked on 2026-09-23. Anthropic's Opus 5.5 announcement claims about 40% lower cost than Opus 5 at default settings on typical workloads and performance at Fable 5.1's level on most work; these are launch claims, not per-task measurements comparable with the table.
 
 Guidance statements the rules rest on:
 
 - Effort page: `low` is for "simpler tasks that need the best speed and lowest costs, such as subagents"; `xhigh` is for long-running agentic work with token budgets in the millions.
 - Fable 5.1 page: at `low` it calls search and retrieval tools less often; at `xhigh` and `max` it may think long before a long deliverable, so run those at `high`; at `low` it is often competitive on cost per task with Opus and Sonnet at higher effort.
 - Opus 5 page: it delegates readily and verifies its own work unprompted; instructions to use a subagent to verify cause over-verification, and the recommended delegation line says not to use subagents to verify or double-check its own work.
-- Models overview: Anthropic recommends starting with Opus 5 for most workloads and reaching for Fable 5.1 for demanding reasoning and long-horizon agentic work.
+- Models overview, 2026-09-23: Anthropic recommends starting with Opus 5.5 for most workloads and reaching for Fable 5.1 for demanding reasoning and long-horizon agentic work, or when evals on Opus 5.5 at higher effort still fall short. On 2026-09-20 the same page named Opus 5.
+- Opus 5.5 pages: the default effort is `medium` where Opus 5's is `high`; at a given level 5.5 thinks more per turn than Opus 5, most at `xhigh` and `max`; `xhigh` and `max` are for work where a quality gain was measured. The Opus 5 prompting patterns remain its starting point, so the delegation and over-verification guidance above still applies.
 - Multi-agent posts: the 2025 post pairs an Opus lead with Sonnet workers, scales subagent count with task complexity, and reports roughly fifteen times chat token use; the 2026 post gives no model-role guidance and reports three to ten times single-agent use.
 
 ## Durable Translation
@@ -79,8 +83,11 @@ Guidance statements the rules rest on:
 - 2026-09-17: standing policy when Fable already leads in Claude Code or Cursor; on-request path kept for other leads.
 - 2026-09-20: scope keyed to the lead model rather than the harness, with harness mechanics moved to adapters. Effort floor of `xhigh` for models below the frontier, adjustable per route. Subagent definitions shipped as assets, named `<model>-<role>`. The reviewer route reframed as a fresh-context specification check after the Opus 5 guidance. Packet templates and the long judgment checklist removed in favor of `orchestrate-subagents` and the dispatch statement. Vocabulary follows the repository's `terminology.md`: subagent, subagent definition, task, dispatch, route, tier; "lane" retired because no harness documentation or routing paper uses it for these senses. Measurement of any of these policies on cost or quality has not been done.
 
+- 2026-09-23: Opus facts refreshed after Claude Code 2.1.280 moved the `opus` alias to Opus 5.5. The shared core's below-frontier list names Opus 5.5 and Opus 5 (edited in both routing skills), `opus-builder` is described as Opus 5.5, the claim that Fable at `low` undercuts Opus on cache price was removed because Opus 5.5 is cheaper on every price line, and the Claude Code effort-resolution order was updated. The `xhigh` floor is unchanged; Anthropic's Opus 5.5 advice to reserve `xhigh` for measured gains is recorded above for the owner's decision.
+
 ## Not Verified
 
+- Cost per completed task for Opus 5.5 at `xhigh` against Opus 5 at `xhigh` or Fable 5.1 at `low`; neither this pack nor Anthropic's cost page has measured it.
 - Cursor's subagent definition directory and which model strings accept `effort`.
 - Whether the observed Hermes configuration keys match the current Hermes configuration reference.
 - Which effort a proxy-routed subagent runs at; it is read from the proxy's route string, not observed.
