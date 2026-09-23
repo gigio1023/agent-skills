@@ -13,7 +13,7 @@ Palettes, theming, dark-mode survival, and visual hierarchy. Contrast ratios bel
 
 ## When To Color At All
 
-An unstyled diagram inherits the host theme and survives every background — it is the most portable choice and often the best one. Add color only when it encodes meaning (status, ownership, layer), and always pair it with the label or line style so the meaning survives grayscale and color-blindness. Four colors per diagram is a practical ceiling; beyond that, distinguish with labels.
+An unstyled diagram inherits the host theme and survives every background — it is the most portable choice and often the best one. Add color only when it encodes meaning (status, ownership, layer), and always pair it with the label or line style so the meaning survives grayscale and color-blindness. Four colors per diagram is a practical ceiling; beyond that, distinguish with labels. On a v12 host, unstyled diagrams of most common types get the categorical `redux-color` palette instead of a neutral theme (see the v12 paragraph under Theming With themeVariables).
 
 ## Ready-Made Palettes
 
@@ -85,6 +85,8 @@ flowchart LR
 ```
 
 Derived values cascade: setting `primaryColor` recalculates borders and secondary/tertiary colors, so start with `primaryColor` + `lineColor` and add overrides only where the derived result fails. Named themes for quick fit: `neutral` for print/monochrome docs, `dark` for dark-only sites, `forest`/`default` otherwise. `look: handDrawn` signals "draft/proposal" in RFCs; keep `classic` for reference docs.
+
+Mermaid v12 (2026-09-10) changes what an unstyled diagram looks like. The `redux`, `redux-color`, and `neo` themes and their dark variants (`redux-dark`, `redux-dark-color`, `neo-dark`) already exist from v11.14, but v12 makes `redux-color` with `look: neo` the default for flowchart, class, state, ER, requirement, sequence, use case, swimlane, Venn, and agentflow diagrams. An unstyled v12 diagram of those types therefore gets the `redux-color` palette, which gives each subgraph, class, entity, or actor its own categorical color in declaration order; that color follows position, not meaning. When color must carry meaning you assign, set `theme: redux` (same geometry, monochrome) or `theme: default` and keep the `classDef` triplets above, which override the palette; an explicit theme also stops host light/dark switching (Dark-Mode Survival). A host that passes its own theme at initialization overrides these per-type defaults. `base` remains the only theme that `themeVariables` can customize.
 
 Flowchart edge labels need a separate contrast pair. `edgeLabelBackground` sets the box behind labels such as `-->|install|`; `textColor` controls text drawn over the diagram background, including those labels. Set both whenever the diagram hardcodes node or line colors, then render once on a light canvas and once on a dark canvas. Setting only the background can inherit unreadable host-theme text, while setting only the text leaves lines visible through the label.
 
