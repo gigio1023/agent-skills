@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" role="img" aria-labelledby="title desc">
+  <title id="title">Mermaid validation path</title>
+  <desc id="desc">Before: validate_mermaid_markdown.sh runs an unpinned mermaid-cli described as tracking Mermaid 11.16. After: the same unpinned run renders the newest 11.x, and a run from a scratch directory with npm overrides renders Mermaid 12.0.0.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse" overflow="visible">
+      <path d="M1 1 L7 4 L1 7" fill="none" stroke="#D9D9D9" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <style>
+    .entity { font-family: "IBM Plex Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 13px; fill: #FFFFFF; text-anchor: middle; }
+    .sub { font-family: "IBM Plex Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 12px; fill: #A3A6A2; text-anchor: middle; }
+    .field { font-family: "IBM Plex Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 12px; fill: #FFFFFF; text-anchor: middle; }
+    .edge { font-family: "IBM Plex Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 12px; fill: #FFFFFF; }
+    .panel { font-family: "IBM Plex Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 13px; fill: #A3A6A2; }
+    .box { fill: #1A1A1A; stroke: #6B6E6A; stroke-width: 1.2; }
+    .box-accent { fill: #23244A; stroke: #8386EB; stroke-width: 1.2; }
+    .flow { fill: none; stroke: #D9D9D9; stroke-width: 1.2; }
+    .rule { fill: none; stroke: #3A3A3A; stroke-width: 1.2; }
+  </style>
+  <rect width="720" height="420" rx="12" fill="#0D0D0D"/>
+  <path class="rule" d="M272 16 V404"/>
+  <text class="panel" x="16" y="24">main</text>
+  <text class="panel" x="288" y="24">this PR</text>
+  <g id="main-block">
+    <rect class="box" x="16" y="40" width="240" height="48" rx="16"/>
+    <text class="entity" x="136" y="68.5">```mermaid block</text>
+  </g>
+  <g id="pr-block">
+    <rect class="box" x="288" y="40" width="416" height="48" rx="16"/>
+    <text class="entity" x="496" y="68.5">```mermaid block</text>
+  </g>
+  <g id="main-validator">
+    <rect class="box" x="16" y="136" width="240" height="48" rx="16"/>
+    <text class="entity" x="136" y="164.5">validate_mermaid_markdown.sh</text>
+  </g>
+  <g id="pr-validator">
+    <rect class="box" x="288" y="136" width="416" height="48" rx="16"/>
+    <text class="entity" x="496" y="164.5">validate_mermaid_markdown.sh</text>
+  </g>
+  <g id="main-block-to-validator">
+    <path class="flow" d="M136 88 V135" marker-end="url(#arrow)"/>
+  </g>
+  <g id="pr-block-to-validator">
+    <path class="flow" d="M496 88 V135" marker-end="url(#arrow)"/>
+  </g>
+  <g id="main-mmdc">
+    <rect class="box" x="16" y="240" width="240" height="56" rx="16"/>
+    <text class="entity" x="136" y="263.5">@mermaid-js/mermaid-cli</text>
+    <text class="sub" x="136" y="281.5">from npm registry</text>
+  </g>
+  <g id="pr-mmdc-npm">
+    <rect class="box" x="288" y="240" width="202" height="56" rx="16"/>
+    <text class="entity" x="389" y="263.5">@mermaid-js/mermaid-cli</text>
+    <text class="sub" x="389" y="281.5">11.17.0, npm registry</text>
+  </g>
+  <g id="pr-mmdc-local">
+    <rect class="box-accent" x="502" y="240" width="202" height="56" rx="16"/>
+    <text class="entity" x="603" y="263.5">@mermaid-js/mermaid-cli</text>
+    <text class="sub" x="603" y="281.5">11.17.0, local install</text>
+  </g>
+  <g id="main-validator-to-mmdc">
+    <path class="flow" d="M56 184 V239" marker-end="url(#arrow)"/>
+    <text class="edge" x="66" y="216" text-anchor="start">npx -y</text>
+  </g>
+  <g id="pr-validator-to-mmdc-npm">
+    <path class="flow" d="M322 184 V239" marker-end="url(#arrow)"/>
+    <text class="edge" x="332" y="216" text-anchor="start">npx -y, unpinned</text>
+  </g>
+  <g id="pr-validator-to-mmdc-local">
+    <path class="flow" d="M536 184 V239" marker-end="url(#arrow)"/>
+    <text class="edge" x="546" y="216" text-anchor="start">cwd: scratch dir</text>
+  </g>
+  <g id="main-engine">
+    <rect class="box" x="16" y="344" width="240" height="56" rx="16"/>
+    <text class="entity" x="136" y="376.5">mermaid 11.16</text>
+  </g>
+  <g id="pr-engine-11">
+    <rect class="box" x="288" y="344" width="202" height="56" rx="16"/>
+    <text class="entity" x="389" y="367.5">mermaid 11.17.2</text>
+    <text class="sub" x="389" y="385.5">newest 11.x</text>
+  </g>
+  <g id="pr-engine-12">
+    <rect class="box-accent" x="502" y="344" width="202" height="56" rx="16"/>
+    <text class="entity" x="603" y="367.5">mermaid 12.0.0</text>
+    <text class="sub" x="603" y="385.5">ELK layout, neo look</text>
+  </g>
+  <g id="main-mmdc-to-engine">
+    <path class="flow" d="M56 296 V343" marker-end="url(#arrow)"/>
+    <text class="edge" x="66" y="324" text-anchor="start">tracks latest</text>
+  </g>
+  <g id="pr-npm-to-engine">
+    <path class="flow" d="M322 296 V343" marker-end="url(#arrow)"/>
+    <text class="edge" x="332" y="324" text-anchor="start">mermaid ^11.14.0</text>
+  </g>
+  <g id="pr-local-to-engine">
+    <path class="flow" d="M536 296 V343" marker-end="url(#arrow)"/>
+    <text class="edge" x="546" y="324" text-anchor="start">npm overrides</text>
+  </g>
+</svg>

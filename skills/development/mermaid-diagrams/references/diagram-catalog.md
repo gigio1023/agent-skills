@@ -1,11 +1,11 @@
 # Mermaid Diagram Catalog And Representation Patterns
 
-Type selection, the v11 diagram catalog, and ways to render the same content detailed or compact. Verified on Mermaid v11.16.0; host support for newer types varies (see `renderer-compat.md`).
+Type selection, the v11 and v12 diagram catalog, and ways to render the same content detailed or compact. Verified on Mermaid v11.16.0; host support for newer types varies (see `renderer-compat.md`).
 
 ## Contents
 
 - Type selection
-- v11 catalog: newer types worth knowing
+- v11 and v12 catalog: newer types worth knowing
 - The detail dial: compact vs detailed forms
 - Core patterns
 
@@ -22,20 +22,23 @@ Pick the type from what the reader must do, not from what the data looks like:
 | Understand data model relations | `erDiagram` |
 | Understand type/inheritance structure | `classDiagram` |
 | Compare quantities or shares | usually a table or chart, not Mermaid (`pie`/`xychart-beta` only for rough shape) |
-| See work stages/roles side by side | `flowchart` with lane subgraphs, or `swimlane-beta` on current renderers |
+| See work stages/roles side by side | `flowchart` with swimlane subgraphs, or `swimlane-beta` on current renderers |
 
 If one diagram would need two of these reader tasks, make two diagrams.
 
-## V11 Catalog: Newer Types Worth Knowing
+## V11 And V12 Catalog: Newer Types Worth Knowing
 
-Fence keywords as verified on v11.16.0. Anything marked beta can change syntax and typically fails on hosts pinned below the listed version.
+Fence keywords as verified on v11.16.0; entries added on 2026-09-23 were render-checked on Mermaid 11.17.2 and 12.0.0 (the v12 types on 12.0.0 only). Anything marked beta can change syntax and typically fails on hosts pinned below the listed version.
 
 - `architecture-beta` (v11.1+): services, groups, and L/R/T/B port edges for cloud/deploy topology. Bundled icons are only `cloud, database, disk, internet, server`; other icons need a host-registered iconify pack.
 - `block-beta` (use this keyword; plain `block` also parses on v11.16): author-controlled grid — `columns 3`, width spans (`b:2`), `space` placeholders, then explicit edges. Good for datapath/board layouts where automatic layout fights you.
-- `swimlane-beta` (v11.16, syntax may evolve): flowchart syntax with lanes declared as `subgraph lane [Label]`. Prefer lane-style `flowchart` subgraphs when the host version is unknown.
+- `swimlane-beta` (v11.16, syntax may evolve): flowchart syntax with lanes declared as `subgraph lane [Label]`. Prefer swimlane-style `flowchart` subgraphs when the host version is unknown.
 - `kanban`: columns + tasks with `@{ ticket:, assigned:, priority: }` metadata.
 - `packet` (v11.0+): bit-field layouts — `0-15: "Source Port"`, auto-offset `+16:` from v11.7.
-- `radar-beta` (v11.6+), `treemap-beta`, `venn-beta`/`ishikawa-beta` (v11.13+), `eventmodeling` (v11.15+): niche; check host support first.
+- `radar-beta` (v11.6+), `treemap-beta`, `venn-beta`/`ishikawa-beta` (v11.13+), `eventmodeling` (v11.15+), `cynefin-beta` (v11.16, Cynefin domains with items and transitions), `railroad-beta` (v11.16, grammar syntax diagrams; `railroad-ebnf-beta`, `railroad-abnf-beta`, and `railroad-peg-beta` take those notations directly): niche; check host support first.
+- `usecase-beta` (v12.0): UML use case diagrams with actors, use cases, and `systemBoundary ... end` blocks.
+- `agentflow-beta` (v12.0): agentic workflows in flowchart-like syntax, with `flow ... end` containers, `task`/`tool`/`decision` shapes, and `@{ ... }` metadata for models and tools.
+- Flowchart shapes from v11.17: `A@{ shape: person }`, `folder`, `bucket`, `console` (terminal window), and `browser`; older hosts reject the unknown shape name.
 - `timeline`, `gantt`, `journey`, `mindmap`, `quadrantChart`, `gitGraph`: stable, long-supported.
 
 ## The Detail Dial: Compact Vs Detailed Forms
