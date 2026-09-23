@@ -52,7 +52,7 @@ source-readings(0회), example-library(0회), writing-patterns(1회), worked-exa
 |---|---|---|
 | slop-aware-writing | writer로 흡수 | SKILL.md의 진단 절차와 references의 revision, voice-preservation, source-grounding 핵심은 authoring-and-revision.md와 voice-and-facts.md로. korean-tells의 근거 있는 항목은 korean-writing.md로. legacy core-rules.md는 옮기지 않음. MIT 출처 표기는 유지 |
 | korean-clarity | writer로 흡수 | SKILL.md 규칙과 meaning-examples를 korean-writing.md로. 채팅 답변에도 적용한다는 K-004는 SKILL.md 도입에 한 문장으로 |
-| share-internal-doc | 유지 | 수신자, 출처 접근, 최신 공유본 회수, 게시 후 확인만 담당. 문체 규칙 문장은 writer를 가리키도록 별도 PR(gigio-pack) |
+| share-internal-doc | 유지 → 2026-09-24 writer로 흡수 | 처음에는 수신자, 출처 접근, 최신 공유본 회수, 게시 후 확인만 남겨 유지했으나, 문서 없이 전달만 하는 요청이 없고 SKILL.md 7절과 규칙이 겹쳐 references/sharing-and-delivery.md로 옮겼다. 사유와 유지 규칙은 [maintenance.md](maintenance.md) |
 | use-terminology, curate-terminology | 유지 | 문서 밖에도 적용되고 서로 짝. writer는 용어 절에서 참조만 |
 | draft-pr, write-issue | 유지 | 장르 규칙 소유. 편집 판단은 writer 참조 |
 
