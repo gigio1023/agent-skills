@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" role="img" aria-labelledby="title desc">
+  <title id="title">Korean A-16 pronoun rule before and after</title>
+  <desc id="desc">Before, a pronoun such as 그것 is reviewed only when an English source text exists and is otherwise left alone. After, the rule counts noun-phrase candidates in the previous two sentences: none restores the noun only if the referent is certain and otherwise flags it, one drops the pronoun, and two or more repeat the noun phrase.</desc>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse" overflow="visible">
+      <path d="M1 1 L7 4 L1 7" fill="none" stroke="#CCCCCC" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <style>
+    .label { font-family: Inter, "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", Arial, sans-serif; font-size: 14px; fill: #FFFFFF; text-anchor: middle; }
+    .edge { font-family: Inter, "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", Arial, sans-serif; font-size: 12px; fill: #CCCCCC; text-anchor: start; }
+    .panel { font-family: Inter, "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", Arial, sans-serif; font-size: 13px; fill: #929591; letter-spacing: 0.04em; }
+    .box { fill: #0D0D0D; stroke: #CCCCCC; stroke-width: 1.2; }
+    .box-accent { fill: #2E4780; stroke: #8386EB; stroke-width: 1.2; }
+    .flow { fill: none; stroke: #CCCCCC; stroke-width: 1.2; }
+  </style>
+  <rect width="720" height="500" fill="#0D0D0D"/>
+
+  <text class="panel" x="24" y="36">BEFORE (main)</text>
+  <g id="before-pronoun">
+    <rect class="box" x="24" y="92" width="120" height="56" rx="16"/>
+    <text class="label" x="84" y="115">Pronoun</text>
+    <text class="label" x="84" y="134">such as 그것</text>
+  </g>
+  <g id="before-decision">
+    <rect class="box" x="184" y="92" width="180" height="56" rx="16"/>
+    <text class="label" x="274" y="125">English source text?</text>
+  </g>
+  <g id="before-review">
+    <rect class="box" x="470" y="56" width="226" height="56" rx="16"/>
+    <text class="label" x="583" y="89">Review the pronoun</text>
+  </g>
+  <g id="before-leave">
+    <rect class="box" x="470" y="128" width="226" height="56" rx="16"/>
+    <text class="label" x="583" y="161">Leave it</text>
+  </g>
+  <g id="before-pronoun-to-decision">
+    <path class="flow" d="M144 120 H183" marker-end="url(#arrow-ink)"/>
+  </g>
+  <g id="before-decision-yes">
+    <path class="flow" d="M364 120 H380 V84 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="390" y="78">yes</text>
+  </g>
+  <g id="before-decision-no">
+    <path class="flow" d="M380 120 V156 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="390" y="150">no</text>
+  </g>
+
+  <text class="panel" x="24" y="240">AFTER</text>
+  <g id="after-pronoun">
+    <rect class="box" x="24" y="348" width="120" height="56" rx="16"/>
+    <text class="label" x="84" y="371">Pronoun</text>
+    <text class="label" x="84" y="390">such as 그것</text>
+  </g>
+  <g id="after-decision">
+    <rect class="box-accent" x="184" y="332" width="180" height="88" rx="16"/>
+    <text class="label" x="274" y="359">Noun-phrase</text>
+    <text class="label" x="274" y="378">candidates in the</text>
+    <text class="label" x="274" y="397">previous two sentences</text>
+  </g>
+  <g id="after-none">
+    <rect class="box" x="470" y="260" width="226" height="72" rx="16"/>
+    <text class="label" x="583" y="283">Restore the noun only if</text>
+    <text class="label" x="583" y="301">the referent is certain,</text>
+    <text class="label" x="583" y="319">otherwise flag it</text>
+  </g>
+  <g id="after-one">
+    <rect class="box" x="470" y="348" width="226" height="56" rx="16"/>
+    <text class="label" x="583" y="381">Drop the pronoun</text>
+  </g>
+  <g id="after-two-or-more">
+    <rect class="box" x="470" y="420" width="226" height="56" rx="16"/>
+    <text class="label" x="583" y="453">Repeat the noun phrase</text>
+  </g>
+  <g id="after-pronoun-to-decision">
+    <path class="flow" d="M144 376 H183" marker-end="url(#arrow-ink)"/>
+  </g>
+  <g id="after-decision-none">
+    <path class="flow" d="M364 376 H380 V296 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="390" y="290">none</text>
+  </g>
+  <g id="after-decision-one">
+    <path class="flow" d="M364 376 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="390" y="370">one</text>
+  </g>
+  <g id="after-decision-two-or-more">
+    <path class="flow" d="M380 376 V448 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="390" y="442">two or more</text>
+  </g>
+</svg>
