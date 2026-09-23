@@ -39,5 +39,5 @@ If another task changed the source document, count the rebuilt output PDF, not t
 
 - Do not infer pages from filename, file size, source-document pagination, or a viewer thumbnail count.
 - Encrypted or malformed PDFs may fail every backend. Surface the failure; do not report zero pages.
-- The script tries `pypdf`, `PyPDF2`, `pdfinfo`, then macOS `mdls`. If no backend works, install `pypdf` or provide `pdfinfo` rather than rewriting the script during the counting task.
+- The script tries `pypdf`, `pdfinfo`, then macOS `mdls`. If no backend works, install `pypdf` or provide `pdfinfo` rather than rewriting the script during the counting task.
 - A request to check a limit does not authorize layout compression or content cuts. Offer or perform PDF editing only when asked.

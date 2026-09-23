@@ -72,7 +72,7 @@ When another skill needs personal portfolio state, pass the normalized snapshot 
 | File | When to read | Contains |
 |---|---|---|
 | `references/snapshot-contract.md` | Before fetching, mapping, validating, or handing off a snapshot | Credential boundary, output schema, freshness, redaction, and blocker rules. |
-| `references/api-coverage.md` | When checking Toss OpenAPI coverage, deciding whether to call optional market APIs, or updating endpoint support | Official endpoint groups, read-only vs mutating classification, default/basic/full coverage, and known documentation edge cases. |
+| `references/api-coverage.md` | When checking Toss OpenAPI or AsyncAPI coverage, deciding whether to call optional market APIs, or updating endpoint support | Official endpoint groups, read-only vs mutating classification, realtime WebSocket channels, default/basic/full coverage, and known documentation edge cases. |
 | `references/remote-access.md` | When the API must use a registered home public IP or a new client device needs SSH setup | Per-device setup, server prerequisites, remote execution, and fail-closed rules. |
 
 ## Scripts
@@ -95,7 +95,7 @@ Validate the package and inspect for secrets. For changed scripts, invocations, 
 
 - Both documented script self-tests exit 0. The remote test must reject credential/base-URL overrides and preserve encoded snapshot arguments.
 - The request-confidentiality tests exit 0. They must prove token and account requests reject HTTP 307/308 before contacting the redirect destination, and HTTP errors or malformed JSON never expose upstream text. These tests use only local mock servers and synthetic credentials.
-- `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` exits 0 with `coverage_ok: true`, no missing expected endpoints, and no unclassified official endpoints. Fetch, parse, missing-endpoint, and classification failures exit nonzero.
+- `bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage` exits 0 with `coverage_ok: true`, no missing expected endpoints or realtime channels, and no unclassified official endpoints, realtime channels, or realtime operations. The check reads both the OpenAPI and AsyncAPI documents; fetch, parse, missing-entry, and classification failures exit nonzero.
 
 ## Gotchas
 

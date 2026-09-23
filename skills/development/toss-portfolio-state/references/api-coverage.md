@@ -9,6 +9,7 @@
 - Full Market Context
 - Classified Read-Only Endpoints Not Called
 - Mutating Endpoints Blocked
+- Realtime WebSocket Channels Out Of Scope
 - Known Documentation Edge Cases
 
 ## Source Of Truth
@@ -17,14 +18,15 @@ Use the official Toss Invest OpenAPI sources when checking endpoint coverage:
 
 - `https://developers.tossinvest.com/llms.txt`
 - `https://openapi.tossinvest.com/openapi-docs/latest/openapi.json`
+- `https://openapi.tossinvest.com/openapi-docs/latest/asyncapi.json`
 
-The OpenAPI JSON is the canonical source for endpoint paths, schemas, examples, rate-limit groups, and current version. Use this command to compare the bundled script against the current official endpoint list:
+The OpenAPI JSON is the canonical source for REST endpoint paths, schemas, examples, rate-limit groups, and current version. The AsyncAPI 3.0 JSON is the canonical source for the realtime WebSocket API at `wss://openapi-ws.tossinvest.com/ws/v1`: channels, subscription declarations, message schemas, connection limits, keepalive, and reconnect semantics. Use this command to compare the bundled script against the current official endpoint and channel lists:
 
 ```bash
 bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --print-api-coverage
 ```
 
-Success requires `coverage_ok: true`, a nonzero `official_endpoint_count`, an empty `missing_expected_endpoints`, and an empty `unclassified_official_endpoints`. The command exits nonzero when the document cannot be fetched or parsed, when an expected endpoint disappears, or when a new official endpoint has not been classified. The reported `source` is the origin actually queried.
+Success requires `coverage_ok: true`, a nonzero `official_endpoint_count` and `official_channel_count`, and empty `missing_expected_endpoints`, `unclassified_official_endpoints`, `missing_expected_channels`, `unclassified_official_channels`, `missing_expected_realtime_operations`, and `unclassified_official_realtime_operations`. The command exits nonzero when either document cannot be fetched or parsed, when an expected endpoint, channel, or realtime operation disappears, or when a new official endpoint, channel, or realtime operation has not been classified. The reported `source` and `asyncapi_source` are the documents actually queried.
 
 ## Coverage Modes
 
@@ -103,7 +105,18 @@ These official endpoints exist but are not part of this skill:
 | `POST` | `/api/v1/conditional-orders/{conditionalOrderId}/modify` | Modifies conditional orders. |
 | `DELETE` | `/api/v1/conditional-orders/{conditionalOrderId}` | Cancels conditional orders. |
 
+## Realtime WebSocket Channels Out Of Scope
+
+The WebSocket API (AsyncAPI document version 1.2.2, checked 2026-09-23) exposes these channels. They are read-only: the market-data channels stream quotes, the order-event channel streams state changes of the user's own orders, and every send operation only declares subscriptions or keeps the connection alive. This snapshot skill never opens a WebSocket, so the channels are classified only to keep a new realtime surface from passing the coverage gate unnoticed. The script also classifies each channel's operations by action and operation ID.
+
+| Channel | Purpose |
+|---|---|
+| `connection` | Handshake, subscription acknowledgements, error frames, and PING/PONG keepalive shared by all channels. |
+| `realtime-trade` | Realtime trade ticks for declared `trade:kr` and `trade:us` symbols. |
+| `realtime-orderbook` | Realtime orderbook updates for declared `orderbook:kr` and `orderbook:us` symbols. |
+| `realtime-order` | Order events for the user's own account, declared as `personal:order` with `accountSeq`. |
+
 ## Known Documentation Edge Cases
 
-- `GET /api/v1/orders` operation text supports `status=OPEN|CLOSED`, while an older schema description may still say `CLOSED` is not supported. The fetcher attempts `CLOSED` and records a warning if the upstream rejects it.
+- `GET /api/v1/orders` supports `status=OPEN|CLOSED`; the OpenAPI 1.2.17 schema (checked 2026-09-23) lists both values, although earlier schema descriptions said `CLOSED` was not supported. The fetcher still attempts `CLOSED` and records a warning if the upstream rejects it.
 - Toss API responses include rate-limit headers. The fetcher runs sequentially, applies a small request delay, and retries `429` or transient server errors with `Retry-After` or exponential backoff.

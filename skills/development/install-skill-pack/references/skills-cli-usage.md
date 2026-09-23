@@ -33,7 +33,7 @@ Install every skill to these nine CLI IDs unless the user explicitly excludes a 
 | GitHub Copilot | `github-copilot` | Universal canonical package under `~/.agents/skills`; its own CLI reads that directory as a personal source |
 | ZCode | `zcode` | Agent-facing link below `~/.zcode/skills` |
 | OpenClaw | `openclaw` | Agent-facing link below `~/.openclaw/skills`, falling back to `~/.clawdbot` or `~/.moltbot` homes |
-| Grok | `grok` | Agent-facing link below `$GROK_HOME/skills`, defaulting to `~/.grok/skills` |
+| Grok (`Grok Build` in CLI output) | `grok` | Agent-facing link below `$GROK_HOME/skills`, defaulting to `~/.grok/skills` |
 
 Append other explicitly requested IDs, but never replace the standard set with `--all`. Validate IDs through the resolved CLI's registry when exposed; otherwise the explicit `add` command is the compatibility gate and must fail closed on an unknown ID. Hermes uses `hermes-agent`, not `hermes`. The CLI decides an agent is universal when its registry `skillsDir` is the canonical `.agents/skills`; when a target's topology matters for verification, read the registry from `dist/cli.mjs` in the npx cache instead of assuming this table.
 
@@ -57,7 +57,7 @@ npx --yes "skills@$skills_cli_version" list \
 For every requested skill, require all of the following:
 
 - the JSON entry's `name` matches and resolves to the canonical package;
-- when the target harness is detected on the host, its display name appears in the entry's `agents` array;
+- when the target harness is detected on the host, its display name appears in the entry's `agents` array; Skills CLI 1.7.0 reports Grok as `Grok Build`, and the other standard targets under the names in the table above;
 - the canonical package contains exactly the reviewed files with matching contents and executable bits;
 - symlink targets (Claude Code, Hermes Agent, ZCode, OpenClaw, Grok) resolve to that canonical package through a verified skill-level or parent-directory symlink;
 - universal targets (OpenCode, Cursor, Codex, GitHub Copilot) resolve through the universal canonical directory, so no separate per-agent symlink is expected.

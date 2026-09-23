@@ -2,14 +2,14 @@
 
 Use this file when current official documentation mentions a feature that may not exist in the installed local stable CLI, or when the user asks about adjacent 1Password developer features.
 
-Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS arm64.
+Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS arm64. On 2026-09-23 the CLI release notes list 2.39.0 (released 2026-08-14) as the current stable, and Environments commands still ship only in beta builds; `op` was not installed, so the local-help column was not re-checked against 2.39.0 help. The MCP Server row was re-checked against the official docs on 2026-09-23.
 
 ## Local Stable vs Official Docs
 
-| Topic | Official docs say | Local stable 2.34.1 check | Agent guidance |
+| Topic | Official docs say | Local stable 2.34.1 help (2026-06-27) | Agent guidance |
 | --- | --- | --- | --- |
 | 1Password Environments | `op run --environment <environmentID> -- <command>` is documented for Environments beta and requires a beta CLI build. | `op environment` is unknown and `op run --help` does not show `--environment`. | Do not use Environment commands unless local help confirms support or the user intentionally installed beta. Prefer `op run --env-file` for stable local use. |
-| 1Password MCP Server | Docs banner and Environments docs mention MCP Server for Codex to manage Environments without exposing secrets to the agent. | Not a CLI command in local `op --help`. | Treat as a separate MCP/integration task, not a default fallback for CLI work. |
+| 1Password MCP Server | The Environments MCP Server runs in the 1Password desktop app and never returns secret values to the agent. Its docs name Claude Code, Codex, Cursor, and Kiro as clients; Claude Code, Cursor, and Kiro set it up through 1Password plugins marked beta. | Not a CLI command in local `op --help`. | Treat as a separate MCP/integration task, not a default fallback for CLI work. |
 | Secret references | Official docs recommend copying from the desktop app, VS Code extension, or extracting `reference` from `op item get --format json`. | `op item get --format json --fields ...` is available. | Prefer extracting `.reference` from JSON over hand-composing references when names are uncertain. |
 | `.env` loading | Official docs define dotenv parsing, variable expansion, comments, quotes, and `op run --env-file`. | `op run --env-file` is available. | Use for local dev secrets. Remember environment variables are visible to same-user processes on many systems. |
 | Config files | Official docs show raw secret references in config templates and note resolved files must be deleted when no longer needed. | `op inject` is available and local help also shows `{{ op://... }}` examples. | Use whichever template syntax local `op inject` accepts; keep resolved outputs out of git and delete them. |
@@ -21,6 +21,7 @@ Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS 
 ## Official Docs Worth Checking for Freshness
 
 - CLI overview: https://www.1password.dev/cli/
+- CLI release notes: https://app-updates.agilebits.com/product_history/CLI2
 - CLI reference: https://www.1password.dev/cli/reference/
 - Get started: https://www.1password.dev/cli/get-started
 - App integration: https://www.1password.dev/cli/app-integration
@@ -33,6 +34,7 @@ Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS 
 - Item fields: https://www.1password.dev/cli/item-fields
 - Shell plugins: https://www.1password.dev/cli/shell-plugins
 - SSH Agent: https://www.1password.dev/ssh/agent
+- Environments MCP Server: https://www.1password.dev/environments/mcp-server
 - Service accounts: https://www.1password.dev/service-accounts/
 - Connect with CLI: https://www.1password.dev/connect/cli
 - Documentation index: https://www.1password.dev/llms.txt
