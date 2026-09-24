@@ -6,7 +6,7 @@ description: >
   requests and Korean semantic repair in documents and ordinary Korean answers. Owns document
   craft and internal sharing: recipients, source access, the sharing pass, and delivery. NOT for
   PR copy (draft-pr), issues (write-issue), diagrams (technical-diagram), or dashboards
-  (insight-dashboard). Formerly copydesk.
+  (insight-dashboard). Formerly technical-report-writing.
 ---
 
 # Copydesk
