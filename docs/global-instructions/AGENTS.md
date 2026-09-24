@@ -38,6 +38,6 @@ Standing preferences of this pack's author for documents, PR bodies, issue bodie
 ## PR and issue
 
 - Ask which language the reviewing team reads before drafting a PR; English is the default answer, this author's company repos are Korean.
-- A PR body says why and what only, with no validation section, hedges, or self-appraisal. A behavior change always shows as-is and to-be with a table and a `technical-diagram` figure, measured against the PR's real base branch.
+- A PR body says why and what only, with no validation section, hedges, or self-appraisal. A behavior change always shows as-is and to-be in a table, measured against the PR's real base branch; a diagram only when the user asks for one.
 - An issue names the outcome it serves before the tasks, and stays short.
 <!-- writing-profile:end -->
