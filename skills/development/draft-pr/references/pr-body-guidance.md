@@ -105,14 +105,13 @@ One data column and a sentence per cell: the reason belongs in Context, and the 
 
 ## Before And After
 
-Every PR that changes behavior, structure, a default, or a data flow shows both states explicitly, because the reviewer judges the diff against that comparison. It has two parts:
+Every PR that changes behavior, structure, a default, or a data flow shows both states explicitly in one table, because the reviewer judges the diff against that comparison. Rows are the things that change; columns are Before and After, plus at most one attribute column. Cells stay values or short phrases. Headers follow the PR language: `| Item | Before | After |` in English, `| 항목 | 이전 | 이후 |` in Korean.
 
-- One table of what changes. Rows are the things that change; columns are Before and After, plus at most one attribute column. Cells stay values or short phrases. Headers follow the PR language: `| Item | Before | After |` in English, `| 항목 | 이전 | 이후 |` in Korean.
-- One figure made with the `technical-diagram` skill when it is available, showing the before and after topology or flow. Without the skill, use a diagram format the forge renders natively, such as Mermaid on GitHub, or say in one visible line that the figure is omitted. Attach the figure through the forge's image upload, or commit the SVG on the branch and link it; a local path is not a figure. One visible line under it says what it shows.
+The table is the whole comparison. Do not add a diagram, figure, or Mermaid block to the body unless the user asks for one for this PR; a figure drawn by default costs a skill run and an upload, and repeats what the table already says.
 
 The Before side is the PR's actual base branch at the merge base, read from the code there, not from an earlier draft the author passed through or from memory. When the base is not the default branch, name it once above the table.
 
-A pure refactor with no behavior change, a docs typo, or a one-line fix has nothing to compare. Say that in one sentence and skip the table and the figure.
+A pure refactor with no behavior change, a docs typo, or a one-line fix has nothing to compare. Say that in one sentence and skip the table.
 
 ```markdown
 `integration/next` 기준입니다.
@@ -122,10 +121,6 @@ A pure refactor with no behavior change, a docs typo, or a one-line fix has noth
 | 첫 배치의 503 | 즉시 실패 | backoff로 재시도 |
 | retry 대상 배치 | 두 번째 배치부터 | 전체 배치 |
 | 실패 에러 | 배치 인덱스 없음 | 배치 인덱스 포함 |
-
-![export job의 retry 범위](https://github.com/user-attachments/assets/...)
-
-그림: nightly export에서 retry wrapper가 감싸는 배치 범위의 이전과 이후.
 ```
 
 ## One More Section
