@@ -106,7 +106,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Turn real workflows and preferences into personal, project-local, or shared skills; audit and improve them without publishing private evidence |
 | [read-agent-sessions](skills/development/read-agent-sessions/) | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
-| [orchestrate-subagents](skills/development/orchestrate-subagents/) | Coordinate requested delegated work and synthesize its evidence |
+| [orchestrate-subagents](skills/development/orchestrate-subagents/) | Coordinate delegated work, whether the user asked for it or the lead chose it, and synthesize its evidence |
 | [small-model-handoff](skills/development/small-model-handoff/) | Package a settled bounded step for a less capable executor |
 | [fable5-model-routing](skills/development/fable5-model-routing/) | Choose each subagent's model and effort when a Claude Fable lead delegates, in any harness with subagents, and ship the subagent definitions that make effort selectable |
 | [gpt6-astra-model-routing](skills/development/gpt6-astra-model-routing/) | Choose each subagent's model and effort when a GPT-6 Astra lead delegates, run workers on GPT-6 Sol at full effort, and reserve Astra for judgment |
