@@ -39,8 +39,8 @@ The Skills CLI tracks installed skills by path, so an update does not rename the
 
 ## Publication and installation
 
-Merge the Research Credo destination first, then this change, then the Gigio source removals. Install and verify the merged writer before archiving the slop-aware-writing repository. Review destination contents before removing source packages.
+Merge the Research Credo destination first, then this change, then the Gigio source removals. The merged writer was installed and verified before the slop-aware-writing repository was archived on 2026-09-24. Review destination contents before removing source packages.
 
 Publishing PRs does not install them. During a separately requested refresh, use `install-skill-pack` to select the available destination revision, add the moved names, and verify tracked repository/path metadata and the intended harness destinations. A same-name installed directory alone does not prove migration; old source metadata cannot follow a moved path automatically. Preserve customizations, avoid duplicate names, and never uninstall first or hand-edit installer locks.
 
-The writer remains `technical-report-writing`; `share-internal-doc` was merged into it on 2026-09-24 as `references/sharing-and-delivery.md` and retired from Gigio Pack. `slop-aware-writing` and `korean-clarity` are merged into the writer; their repository remains the MIT license source and will be archived after the merged skill is installed and verified. See [writing composition](writing-skills.md).
+The writer remains `technical-report-writing`; `share-internal-doc` was merged into it on 2026-09-24 as `references/sharing-and-delivery.md` and retired from Gigio Pack. `slop-aware-writing` and `korean-clarity` are merged into the writer; their repository was archived on 2026-09-24 and remains the MIT license source. See [writing composition](writing-skills.md).

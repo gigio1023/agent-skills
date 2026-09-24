@@ -8,7 +8,7 @@ Use these capabilities for the requested task. Installing them does not create a
 | `insight-dashboard` | Design a useful initial comparison and keep data definitions, selections, values, commentary, and exports consistent |
 | Official `shadcn` skill | Implement shadcn/ui using upstream project-aware guidance |
 | `share-internal-doc` | Merged into `technical-report-writing` on 2026-09-24 as its sharing-and-delivery reference; retired from Gigio Pack |
-| `slop-aware-writing`, `korean-clarity` | Merged into `technical-report-writing`; their repository remains the MIT license source and will be archived after the merged skill is installed and verified |
+| `slop-aware-writing`, `korean-clarity` | Merged into `technical-report-writing`; their repository was archived on 2026-09-24 and remains the MIT license source |
 
 Reuse the reader, evidence, and authority already established for the task. One task may need several capabilities, but it need not pass through every skill. Keep the actual explanation under one editorial judgment.
 
@@ -22,7 +22,7 @@ Failure details, denominators, responsibilities, comparison conditions, and unce
 
 ## Adoption
 
-The writer, its sharing reference, and the dashboard live here. The writer absorbs the explicit slop revision and Korean clarity skills; the slop-aware-writing repository remains their license source until it is archived. Use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly; this repository has no custom replacement.
+The writer, its sharing reference, and the dashboard live here. The writer absorbs the explicit slop revision and Korean clarity skills; the archived slop-aware-writing repository remains their license source. Use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly; this repository has no custom replacement.
 
 Publishing these changes does not install skills or edit standing instructions. Refresh only the packages the user requests through `install-skill-pack`. If old project guidance names `slop-aware-writing` or `korean-clarity`, or mandates an automatic second pass through slop, propose pointing it at the writer within a requested setup; do not silently rewrite project configuration.
 
