@@ -1,6 +1,6 @@
 # 규칙 판정표
 
-[inventory-writer.md](inventory-writer.md)와 [inventory-siblings.md](inventory-siblings.md)의 행을 근거로, 통합 SKILL.md에 무엇을 어떤 형태로 남기는지 정한다. 판정은 다섯 가지다. 유지(SKILL.md 본문), 참조(작업별로 여는 파일), profile(저자 취향 층 `writing-profile.md`), 삭제, 해소(충돌을 조건으로 푼다). 근거는 Notion 수기 편집 분석과 교정 세션 분석([REVIEW-2026-09-23.md](../../../../../../aim-intelligence/research/2026-09-22-writing-review-learning/REVIEW-2026-09-23.md))이다.
+[inventory-writer.md](inventory-writer.md)와 [inventory-siblings.md](inventory-siblings.md)의 행을 근거로, 통합 SKILL.md에 무엇을 어떤 형태로 남기는지 정한다. 판정은 다섯 가지다. 유지(SKILL.md 본문), 참조(작업별로 여는 파일), profile(저자 취향 층 `writing-profile.md`), 삭제, 해소(충돌을 조건으로 푼다). 근거는 Notion 수기 편집 분석과 교정 세션 분석([REVIEW-2026-09-23.md](findings.md))이다.
 
 ## 1. writer 내부 긴장 T1~T14
 

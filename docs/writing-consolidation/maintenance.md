@@ -6,10 +6,12 @@
 
 | 층 | 내용 | 들어오는 방식 |
 |---|---|---|
-| 취향(writing-profile.md, 40줄 안) | 저자의 상시 선호: 첫 화면, 본문 형태, 남기는 것과 지우는 것, 문장부호와 영어 경계, PR과 issue | 매 세션 컨텍스트에 본문이 들어간다. Claude Code는 `~/.claude/CLAUDE.md`의 `@` import, Codex는 `~/.codex/AGENTS.md` 안의 복사본(`scripts/sync_profile.py`로 갱신) |
+| 취향(writing-profile.md, 40줄 안) | 저자의 상시 선호: 첫 화면, 본문 형태, 남기는 것과 지우는 것, 문장부호와 영어 경계, PR과 issue | 매 세션 컨텍스트에 본문이 들어간다. Claude Code는 `~/.claude/CLAUDE.md`의 `@` import, Codex는 `~/.codex/AGENTS.md` 안의 복사본(`scripts/sync_profile.py`로 갱신). 두 파일의 원본은 [docs/global-instructions](../global-instructions/README.md) |
 | craft(SKILL.md 12KB 안과 참조) | 어느 저자에게나 적용되는 문서 기술 | 문서 작업에서 스킬이 호출될 때 |
 
 취향을 참조 파일에만 두면 스킬이 로드될 때만 작동한다. 설치 다음 날의 첫 실제 문서 작업(2026-09-23 20:28, README 전문 재작성 한 턴)에서 CLAUDE.md의 "스킬과 profile을 먼저 읽어라" 지시가 있었음에도 스킬 본문과 profile은 한 번도 컨텍스트에 들어오지 않았다. 취향은 호출과 무관하게 작동해야 하므로 지시 파일에 본문으로 들어간다. 원본은 스킬 안의 파일 하나이고, 지시 파일의 복사본은 원본에서만 갱신한다.
+
+진단의 전체 요약은 [findings.md](findings.md), 규칙을 넣거나 뺄 때 돌리는 비교 시험은 [harness/](harness/README.md)에 있다.
 
 ## 규칙 셋
 

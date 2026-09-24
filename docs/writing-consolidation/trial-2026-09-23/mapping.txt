@@ -1,0 +1,1 @@
+P=B(opus,new) Q=F(sonnet,new) R=A(opus,old) S=E(sonnet,old)
