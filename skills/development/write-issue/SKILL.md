@@ -10,7 +10,7 @@ description: >
   open. Assigns the author by default, leaves ambiguous ownership unassigned,
   and checks authority before changing other people's
   issues. NOT for pull requests (use draft-pr), PR review comments (use
-  pr-review-comment), or long specs and reports (use technical-report-writing).
+  pr-review-comment), or long specs and reports (use copydesk).
 ---
 
 # Write Issue
@@ -88,7 +88,7 @@ Links the user hands you are candidates, not an instruction to include each one.
 
 When editing an existing issue, run the same check on the body you are changing: remove references that are unreachable or useless, and report consequential removals. Include those removals in any draft required by the Normal Path.
 
-These are the reader-access principles of `technical-report-writing`'s sharing-and-delivery reference. Read that reference when available for sensitive material, criticism of named people, or an audience wider than the team.
+These are the reader-access principles of `copydesk`'s sharing-and-delivery reference. Read that reference when available for sensitive material, criticism of named people, or an audience wider than the team.
 
 ## Consolidation, Splitting, And Relations
 

@@ -20,7 +20,7 @@ import subprocess
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
-SCRIPTS = HERE.parents[2] / "skills" / "productivity" / "technical-report-writing" / "scripts"
+SCRIPTS = HERE.parents[2] / "skills" / "productivity" / "copydesk" / "scripts"
 
 
 def run(cmd: list[str]) -> str:

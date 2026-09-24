@@ -1,15 +1,15 @@
 ---
-name: technical-report-writing
+name: copydesk
 description: >
   Write, revise, or review reader-facing documents in any language and medium: reports,
   guides, proposals, design docs, posts. Includes AI-slop diagnosis on explicit revision
   requests and Korean semantic repair in documents and ordinary Korean answers. Owns document
   craft and internal sharing: recipients, source access, the sharing pass, and delivery. NOT for
   PR copy (draft-pr), issues (write-issue), diagrams (technical-diagram), or dashboards
-  (insight-dashboard).
+  (insight-dashboard). Formerly copydesk.
 ---
 
-# Technical Report Writing
+# Copydesk
 
 ## Work and baseline
 

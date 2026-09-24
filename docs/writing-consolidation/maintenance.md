@@ -16,10 +16,12 @@
 ## 규칙 셋
 
 1. **상한.** SKILL.md는 12,288바이트, writing-profile.md는 40줄. 새 규칙은 기존 규칙 하나를 빼야 들어간다.
-2. **근거.** 규칙은 비교 시험이나 실제 교정 기록에서 측정된 실패에만 넣는다. 한 번 눈에 띈 문장 하나로는 넣지 않고, 후보로 [correction-cases.md](../../skills/productivity/technical-report-writing/references/correction-cases.md)에 먼저 적는다.
+2. **근거.** 규칙은 비교 시험이나 실제 교정 기록에서 측정된 실패에만 넣는다. 한 번 눈에 띈 문장 하나로는 넣지 않고, 후보로 [correction-cases.md](../../skills/productivity/copydesk/references/correction-cases.md)에 먼저 적는다.
 3. **교체.** 분기마다 correction-cases 12건을 최근 실제 교정으로 갈아 끼우고, 더 이상 나오지 않는 유형은 지운다.
 
 ## 2026-09-24의 변경
+
+- 스킬 이름을 technical-report-writing에서 copydesk로 바꿨다. 글 전반을 맡는 스킬이 된 뒤에도 이름이 보고서 하나를 가리켰기 때문이다. 설치 경로는 `~/.agents/skills/copydesk`, CLAUDE.md import 경로도 함께 바뀌었다. 이 폴더의 제안서와 인벤토리는 당시 이름을 그대로 둔다.
 
 - 규칙 2의 첫 적용: 비교 시험에서 측정된 실패 (d) 원문 밖 발명에 대해 규칙 문장이 아니라 절차를 넣었다. `references/source-tracing.md`와 `scripts/trace_check.py`. 블록마다 출처 marker를 달아 쓴 뒤 스크립트로 벗겨 낸다. SKILL.md에는 조건 한 문장과 routing 한 줄만 들어갔고, 그만큼 세 문장을 뺐다(표 대신 목록을 쓰라는 규칙, 권한 없는 시스템 변경 금지의 중복, 단일 행 문단 규칙).
 

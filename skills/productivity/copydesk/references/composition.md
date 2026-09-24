@@ -6,7 +6,7 @@ Use when document work also involves internal sharing, a dashboard, focused lang
 
 | Skill | Contribution |
 | --- | --- |
-| `technical-report-writing` | Document craft: selection, structure, headings, tables, visuals, explanation, and production |
+| `copydesk` | Document craft: selection, structure, headings, tables, visuals, explanation, and production |
 | `share-internal-doc` | Merged into this skill on 2026-09-24: recipients, source access, the latest shared copy, the sharing pass, and delivery are in [sharing and delivery](sharing-and-delivery.md); the Gigio Pack skill is retired |
 | `insight-dashboard` | Quantitative comparison, informative initial view, data/filter/claim alignment, and static presentation of selected results |
 | [Official shadcn skill](https://ui.shadcn.com/docs/skills) | Maintainer-provided shadcn project and component guidance for an actual implementation |
