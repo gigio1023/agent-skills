@@ -1,10 +1,10 @@
 # Global instruction files
 
-The author's user-scope instruction files for Claude Code and Codex, kept here so they have history and travel between machines. They hold only neutral operating rules: a subagent fan-out budget and the writing profile of `technical-report-writing`.
+The author's user-scope instruction files for Claude Code and Codex, kept here so they have history and travel between machines. They hold only neutral operating rules: a subagent fan-out budget and the writing profile of `copydesk`.
 
 | File | Loaded by | Profile delivery |
 |---|---|---|
-| [CLAUDE.md](CLAUDE.md) | Claude Code, as `~/.claude/CLAUDE.md` | `@~/.agents/skills/technical-report-writing/references/writing-profile.md` import; the installed skill's file is read at session start |
+| [CLAUDE.md](CLAUDE.md) | Claude Code, as `~/.claude/CLAUDE.md` | `@~/.agents/skills/copydesk/references/writing-profile.md` import; the installed skill's file is read at session start |
 | [AGENTS.md](AGENTS.md) | Codex, as `~/.codex/AGENTS.md` | A copy of the profile between `<!-- writing-profile:start -->` and `<!-- writing-profile:end -->`, refreshed by `sync_profile.py` |
 
 ## Setup on a machine
@@ -18,10 +18,10 @@ Run from the repository root of a clone that stays in place. Cowork sessions ski
 
 ## When the writing profile changes
 
-The profile's single source is `skills/productivity/technical-report-writing/references/writing-profile.md`. After it changes and the skill is reinstalled, refresh the Codex copy and commit:
+The profile's single source is `skills/productivity/copydesk/references/writing-profile.md`. After it changes and the skill is reinstalled, refresh the Codex copy and commit:
 
 ```bash
-python3 ~/.agents/skills/technical-report-writing/scripts/sync_profile.py docs/global-instructions/AGENTS.md
+python3 ~/.agents/skills/copydesk/scripts/sync_profile.py docs/global-instructions/AGENTS.md
 ```
 
 `--check` reports drift without writing. The Claude Code file needs no refresh because it imports the installed file.

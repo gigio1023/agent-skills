@@ -15,6 +15,6 @@ conversation.
 
 # Writing profile
 
-When writing or revising a document, PR body, issue, or any text a colleague will read, apply the technical-report-writing skill even when no skill was named. Its writing profile is imported below and applies in every session.
+When writing or revising a document, PR body, issue, or any text a colleague will read, apply the copydesk skill even when no skill was named. Its writing profile is imported below and applies in every session.
 
-@~/.agents/skills/technical-report-writing/references/writing-profile.md
+@~/.agents/skills/copydesk/references/writing-profile.md

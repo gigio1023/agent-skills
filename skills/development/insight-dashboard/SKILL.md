@@ -38,7 +38,7 @@ In a **synthetic service comparison**, a successful-request median alone may fav
 - [Pattern examples](references/pattern-examples.md): task-matched public dashboards, actionable adaptations, and finished synthetic view specifications.
 - [Interaction and static delivery](references/interaction-and-static.md): selection changes, asynchronous updates, URL sharing, error states, and print.
 
-For document-level information selection, prose, and internal sharing, use `technical-report-writing` when available. For a shadcn implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available; otherwise consult the official component documentation. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
+For document-level information selection, prose, and internal sharing, use `copydesk` when available. For a shadcn implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available; otherwise consult the official component documentation. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
 
 For print-first output, use a native document-production route. Web and PDF can share data and calculations while using different layouts. In the static view, expose the selected comparisons and labels that the reader otherwise accesses through tabs or hover.
 
