@@ -1,6 +1,6 @@
 # Writing profile
 
-When writing or revising a document, PR body, issue, or any text a colleague will read, apply the technical-report-writing skill even when no skill was named. Its writing profile follows and applies in every session; the block is a copy of the skill's `references/writing-profile.md`, refreshed with `python3 ~/.agents/skills/technical-report-writing/scripts/sync_profile.py ~/.codex/AGENTS.md`.
+When writing or revising a document, PR body, issue, or any text a colleague will read, apply the copydesk skill even when no skill was named. Its writing profile follows and applies in every session; the block is a copy of the skill's `references/writing-profile.md`, refreshed with `python3 ~/.agents/skills/copydesk/scripts/sync_profile.py ~/.codex/AGENTS.md`.
 
 <!-- writing-profile:start -->
 # Writing Profile

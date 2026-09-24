@@ -1,6 +1,6 @@
 # Writing sources
 
-These are maintenance pointers for the pack authors, not runtime references: `technical-report-writing` does not load this file, and it serves only when the skill's techniques are revised. The skill links CC BY-NC-ND sources rather than republishing them, and it keeps every source claim attributed. Teaching examples' invented names and numbers, whether in the skill or in a source such as the SRE example postmortem, are never copied into real documents.
+These are maintenance pointers for the pack authors, not runtime references: `copydesk` does not load this file, and it serves only when the skill's techniques are revised. The skill links CC BY-NC-ND sources rather than republishing them, and it keeps every source claim attributed. Teaching examples' invented names and numbers, whether in the skill or in a source such as the SRE example postmortem, are never copied into real documents.
 
 ## Close readings
 
@@ -104,7 +104,7 @@ The earlier collection also informs these choices:
 - **Chart composition and text:** [IBM Carbon dashboards](https://carbondesignsystem.com/data-visualization/dashboards), [Datawrapper on text](https://datawrapper.de/blog/text-in-data-visualizations), and [Wilke on making a point](https://clauswilke.com/dataviz/telling-a-story.html) inform reading order, useful detail, and complementary titles, labels, annotations, and prose.
 - **Direct language:** [Microsoft's style tips](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice) and [Vercel's writing guidelines](https://github.com/vercel-labs/writing-guidelines) inform concrete wording and efficient editing. Apply the destination's language and register; preserve facts and natural Korean relations.
 - **Interface execution:** [Vercel's interface guidelines](https://vercel.com/design/guidelines), [official shadcn skills](https://ui.shadcn.com/docs/skills), and [shadcn MCP](https://ui.shadcn.com/docs/mcp) inform usable state and project-aware implementation. Use the official skill directly; component documentation remains authoritative for APIs.
-- **Document rendering:** [Typst](https://typst.app/docs/), [Quarto](https://quarto.org/docs/output-formats/pdf-basics.html), and [Pandoc](https://pandoc.org/MANUAL.html#creating-a-pdf) inform the native and conversion routes in [document production](../skills/productivity/technical-report-writing/references/document-production.md). Select the renderer by the recipient workflow and existing source.
+- **Document rendering:** [Typst](https://typst.app/docs/), [Quarto](https://quarto.org/docs/output-formats/pdf-basics.html), and [Pandoc](https://pandoc.org/MANUAL.html#creating-a-pdf) inform the native and conversion routes in [document production](../skills/productivity/copydesk/references/document-production.md). Select the renderer by the recipient workflow and existing source.
 
 Use each source for the property actually inspected. A saved text supports a textual reading; a diagram's layout or an interaction's effect requires the corresponding visual or behavioral inspection. Borrow the explanatory technique in original wording while preserving the actual project's evidence and current API.
 
@@ -114,7 +114,7 @@ Prefer a primary method paper, specification, design proposal, decision record, 
 
 ## Example library
 
-Use this library to find a public work close to the current reader task. The entries identify a passage and an original adaptation, not a prescribed template. Choose the relevant example, read its passage, and apply the technique to the actual project evidence. The skill's [synthetic examples](../skills/productivity/technical-report-writing/references/synthetic-examples.md) hold finished synthetic rewrites; the [close readings](#close-readings) above hold the original technical foundations.
+Use this library to find a public work close to the current reader task. The entries identify a passage and an original adaptation, not a prescribed template. Choose the relevant example, read its passage, and apply the technique to the actual project evidence. The skill's [synthetic examples](../skills/productivity/copydesk/references/synthetic-examples.md) hold finished synthetic rewrites; the [close readings](#close-readings) above hold the original technical foundations.
 
 These are text and information-structure reading pointers. Inspect the actual figure or control before treating its visual meaning or behavior as evidence. Historical proposals, archived editions, and demos remain historical sources; current implementation claims require current documentation. Operational data-view examples are maintained in `insight-dashboard`.
 
