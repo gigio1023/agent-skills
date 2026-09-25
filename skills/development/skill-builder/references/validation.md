@@ -41,4 +41,4 @@ The link checker inspects all packaged Markdown files outside fenced code and in
 
 No package script, template, hook, or downloaded content is executed by linting. Link existence does not prove resource quality or safe execution. Inspect commands, effects, dependencies, and target behavior separately.
 
-The smoke suite tests the checker with temporary local files, including valid long skills, optional metadata, malformed YAML, and broken/escaping resources. It is ordinary software regression testing, not a model benchmark.
+The smoke suite checks that a Python-object YAML tag is rejected rather than constructed, then validates this package. It is ordinary software testing, not a model benchmark.

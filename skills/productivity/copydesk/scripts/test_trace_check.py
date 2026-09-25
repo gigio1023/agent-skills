@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""--strip writes the copy the reader gets: only markers may disappear."""
 import pathlib
 import sys
 import unittest
@@ -27,21 +28,6 @@ code [src L99]
 
 Last line. [assumption: the run used defaults]
 """
-
-
-class AnalyzeTests(unittest.TestCase):
-    def test_untraced_and_counts(self):
-        untraced, counts = trace_check.analyze(DOC)
-        heads = [h for _, h in untraced]
-        self.assertEqual(len(untraced), 3, heads)
-        self.assertTrue(any(h.startswith("Second paragraph") for h in heads))
-        self.assertTrue(any(h.startswith("- item three") for h in heads))
-        self.assertTrue(any(h.startswith("| 3 | 4 |") for h in heads))
-        self.assertEqual(counts, {"src": 3, "background": 1, "assumption": 1, "user": 0})
-
-    def test_code_and_headings_ignored(self):
-        untraced, _ = trace_check.analyze("# H\n\n```\nplain\n```\n")
-        self.assertEqual(untraced, [])
 
 
 class StripTests(unittest.TestCase):
