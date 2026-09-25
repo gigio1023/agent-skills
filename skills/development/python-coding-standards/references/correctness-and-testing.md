@@ -24,9 +24,9 @@ Choose concurrency semantics before choosing an API. `TaskGroup` cancels sibling
 
 Retry only operations whose replay semantics are understood, with a bounded policy appropriate to the dependency. Do not retry deterministic schema failures or non-idempotent effects merely because the exception is catchable.
 
-## Tests that establish behavior
+## Checks that establish behavior
 
-Choose tests from the change's observable effects:
+Verify a change through its observable effects, by running the real entry point on fixed input. A test whose expected values are read off the code just written passes by construction and breaks on the next refactor, so do not write one.
 
 | Changed surface | Useful check |
 | --- | --- |
@@ -37,7 +37,7 @@ Choose tests from the change's observable effects:
 | Resource or async lifecycle | Failure and cancellation release owned resources and preserve intended cancellation |
 | Module extraction | The same behavior through a stable caller-facing boundary, plus relevant import checks |
 
-Use characterization tests when the behavior of code being moved is insufficiently covered. Prefer public behavior and fakes at external dependencies over mocks that encode the old helper layout. Keep fixtures deterministic and isolated; do not require a live service when a local test proves the relevant behavior. Live, paid, or state-changing integration runs need the authority applicable to that environment.
+When code being moved is insufficiently covered, run its caller-facing entry point on the same fixed input before and after the move and compare the outputs instead of leaving characterization tests behind. Add a test only when its expected values come from a spec, a hand calculation, or a reproduced bug that fails before the fix, and losing it would let a security, money, data-loss, or reported-number bug through. Prefer fakes at external dependencies over mocks that encode the helper layout. Keep fixtures deterministic and isolated; do not require a live service when a local run proves the relevant behavior. Live, paid, or state-changing integration runs need the authority applicable to that environment.
 
 Tests and type checks answer different questions. An annotation does not validate a provider response, a successful import does not exercise a cleanup path, and a passing linter does not establish compatibility. Conversely, avoid new tests for prose-only, formatting-only, or trivial mechanical changes when existing checks are sufficient.
 
@@ -57,4 +57,4 @@ Checked 2026-09-10:
 - [Ruff fix safety](https://docs.astral.sh/ruff/linter/#fix-safety): fixes whose behavior may change runtime semantics.
 - [pytest good integration practices](https://docs.pytest.org/en/stable/explanation/goodpractices.html): test layout and import behavior when pytest is the selected runner.
 
-The proportional test policy is this pack's choice. These references do not mandate a coverage percentage, a specific test framework, or test-first development for every change.
+The test policy is this pack's choice: verify end to end, and add a test only when its expected values come from outside the code under change. These references do not mandate a coverage percentage or a specific test framework.

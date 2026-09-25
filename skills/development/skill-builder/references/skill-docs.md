@@ -74,7 +74,7 @@ These revisions were resolved on the check date. Reading them does not authorize
 | No Gotchas heading | Valid; include useful exceptions, not filler |
 | Standard optional metadata | Type-checked; native/unknown fields require review |
 | Actual YAML parser | Local choice to accept valid quoting and structured metadata |
-| Model evaluations opt-in | Workflow preference, separate from script regression tests |
+| Model evaluations opt-in | Workflow preference, separate from running changed scripts on fixed input |
 | Mutable state outside installed files | Protect data during package replacement |
 | Naming without mandatory scoring | Preserve working names unless change has value |
 | Minimal authoring path | Audience and result preferences can be sufficient; no mandatory resources or workflow |
