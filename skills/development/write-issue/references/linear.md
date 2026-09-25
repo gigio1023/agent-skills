@@ -35,7 +35,7 @@ The issue description stays a short task statement. Longer material has its own 
 
 - **Project updates** carry progress: a health indicator plus text on status, challenges, and next steps. The project lead writes them, commonly weekly. Use them when a project update is requested or useful to the intended readers.
 - **Documents** carry long-form text such as specs, runbooks, and meeting notes. Link the document from the issue.
-- **Comments** carry discussion, material decisions, blockers, and handoffs on one issue. An editorial rewrite needs no announcement comment. When removing activity history from a body, keep useful evidence in its existing record rather than automatically reposting it as a comment.
+- **Comments** are rare: use them only when explicitly requested as a comment or when a material decision, blocker, or handoff needs a dated thread. Keep useful evidence in its existing record rather than reposting it as a comment.
 
 ## Sub-Issue Behavior
 
@@ -65,7 +65,7 @@ When to use each is decided by the core rule in `SKILL.md`. This section covers 
 | Collapsible section | `>>>` then Space, or `/collapsible section` | The editor page does not document a Markdown form. Save, read the description back, and confirm it renders as a collapsible section. |
 | File or image | `/file` or `/insert` | The server's upload flow below |
 
-When the collapsible section does not survive the round trip, keep the long detail in a comment or a linked shared document and say in the body what it holds and concludes. Do not leave a wall of text in the description because the collapse failed.
+When the collapsible section does not survive the round trip, keep the long detail in a linked shared document or attachment and say in the body what it holds and concludes. Do not move it into a comment.
 
 A Mermaid block is drawn by Linear itself, so it needs no upload. A figure made by another tool, such as the `technical-diagram` skill, has to be uploaded. The Linear MCP server does this in three steps for an issue that already exists: prepare the upload with the issue, filename, content type, and exact byte size; send the raw bytes with `PUT` to the signed URL within 60 seconds, repeating every signed header verbatim; then create the attachment from the returned asset URL. Handle one file at a time. As of 2026-09 the tools are named `prepare_attachment_upload` and `create_attachment_from_upload`; names can change, so confirm against the live schema. This adds the file to the issue's attachments. Whether the asset URL also displays inline when placed in the description as an image was not verified, so read the issue back, and when the figure does not show inline, name the attachment in the one visible line that says what the figure shows.
 
