@@ -21,7 +21,7 @@ When to use each is decided by the core rule in `SKILL.md`. This section covers 
 - **Table:** a Markdown table in the body.
 - **Collapsed section:** `<details>` with a `<summary>` line, a blank line after the summary, and Markdown inside. See GitHub's [collapsed sections](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections).
 - **Diagram:** a fenced code block with the language `mermaid` is rendered in place. See GitHub's [creating diagrams](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
-- **Image made by another tool,** such as the `technical-diagram` skill: `gh issue create --attach './figure.png#Alt text'` uploads an image or video and appends it to the body. When the body already references the file, as in `![Alt text](./figure.png)`, the reference is replaced by the uploaded URL, which lets the figure sit right after the purpose sentence. `gh issue edit` and `gh issue comment` take the same flag.
+- **Image made by another tool,** such as the `technical-figure` skill: `gh issue create --attach './figure.png#Alt text'` uploads an image or video and appends it to the body. When the body already references the file, as in `![Alt text](./figure.png)`, the reference is replaced by the uploaded URL, which lets the figure sit right after the purpose sentence. `gh issue edit` and `gh issue comment` take the same flag.
 
 In a public repository an attached image is public, like the rest of the issue.
 

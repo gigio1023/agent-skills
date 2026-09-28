@@ -1,11 +1,14 @@
 ---
 name: mermaid-diagrams
 description: |
-  Use when the user asks for Mermaid diagrams, flowcharts, sequence diagrams,
-  architecture diagrams, diagram refactors, or diagram readability fixes.
-  Guides type selection, reader-first layout, parser-safe syntax, palettes and
+  Use when the deliverable is Mermaid source: the user names Mermaid, or the
+  host renders Mermaid blocks itself (GitHub, Linear, Obsidian) and the
+  diagram should stay editable text there. Covers flowcharts, sequence
+  diagrams, architecture diagrams, diagram refactors, and readability fixes:
+  type selection, reader-first layout, parser-safe syntax, palettes and
   dark-mode-safe styling, renderer compatibility, density control, and render
-  validation. NOT for draw.io native XML authoring; use drawio-diagram.
+  validation. NOT for figures delivered as images in documents or posts (use
+  technical-figure) or draw.io native XML authoring (use drawio-diagram).
 ---
 
 # Mermaid Diagrams

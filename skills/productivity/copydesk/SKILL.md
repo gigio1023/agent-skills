@@ -5,7 +5,7 @@ description: >
   guides, proposals, design docs, posts. Includes AI-slop diagnosis on explicit revision
   requests and Korean semantic repair in documents and ordinary Korean answers. Owns document
   craft and internal sharing: recipients, source access, the sharing pass, and delivery. NOT for
-  PR copy (draft-pr), issues (write-issue), diagrams (technical-diagram), or dashboards
+  PR copy (draft-pr), issues (write-issue), figures and charts (technical-figure), or dashboards
   (insight-dashboard). Formerly technical-report-writing.
 ---
 
@@ -33,7 +33,7 @@ Decide which question each section and visual answers, and keep that plan out of
 
 ## Tables and figures
 
-Design a table first: name the row entity in its header, label every row, name the attributes, and name both dimensions of a matrix so no meaning rests on a blank corner. All rows serve one comparison or lookup; split a table whose columns answer different questions or whose rows mix kinds, and drop constant columns. Cells hold values or short phrases, with shared context in headers and reasoning outside the grid; when cells need paragraphs, redesign the table instead of widening it. Each figure answers one question; matched panels for the same question may stay together. The first figure shows the document's own subject; general prerequisites go at their point of need, if anywhere. Give each figure one reading order that numbers, arrows, and legend follow, label arrows with the operation or data, and split before shrinking text. The canvas carries names and mechanism; conditions, sample sizes, and timestamps go in the caption or nearby prose. PR behavior changes follow the profile. Renumber figures after restructuring.
+Design a table first: name the row entity in its header, label every row, name the attributes, and name both dimensions of a matrix so no meaning rests on a blank corner. All rows serve one comparison or lookup; split a table whose columns answer different questions or whose rows mix kinds, and drop constant columns. Cells hold values or short phrases, with shared context in headers and reasoning outside the grid; when cells need paragraphs, redesign the table instead of widening it. Each figure answers one question; matched panels for the same question may stay together. The first figure shows the document's own subject; general prerequisites go at their point of need, if anywhere. Give each figure one reading order that numbers, arrows, and legend follow, label arrows with the operation or data, and split before shrinking text. The canvas carries names and mechanism; conditions, sample sizes, and timestamps go in the caption or nearby prose. When a document needs several figures, plan and draw them with `technical-figure` so each color, line style, and direction keeps one meaning across the set. PR behavior changes follow the profile. Renumber figures after restructuring.
 
 ## Explanation and language
 
