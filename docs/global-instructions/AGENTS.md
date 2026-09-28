@@ -33,7 +33,7 @@ Standing preferences of this pack's author for documents, PR bodies, issue bodie
 - Headings are noun phrases. Table cells hold values or short phrases; a table whose cells need widening is redesigned.
 - Field terms stay in English (judge, harness, ablation, residual stream); ordinary verbs and nouns are Korean. The register is dry and direct: no first-person framing ("I found", "내가 제안하는"), no author or date byline, no courtesy closing, and no sentence that repeats who owns the page or why it is shared. No middle dot (U+00B7) and no dash as punctuation in any body text, Korean or English; a colon splits a label, a period or a connective ending splits clauses, and a Korean connective ending is not followed by a comma. Quotations, code, and official names keep their original marks.
 - Inside a figure canvas: names and mechanism only. Counts, timestamps, sample sizes, comparison conditions, and hedges go in the caption or the adjacent prose. Figures assume an expert reader; organize or split rather than simplify.
-- Screens default to dark styling; light only on request. A requested PDF or print copy follows its own medium.
+- Screens and figures default to light and are built to hold up in dark as well; the context decides the delivered theme: the host surface, the theme of a document's existing figures, or an explicit request. A requested PDF or print copy follows its own medium.
 
 ## PR and issue
 
