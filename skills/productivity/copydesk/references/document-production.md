@@ -57,7 +57,7 @@ Check expected sections, final text, calculations, tables, sources, and figures 
 
 Exercise a representative long-text or multipage case when changing a template. A compiler returning success does not show that the layout remains readable. If accessibility, PDF/A, or another conformance level is requested, use the corresponding validator; ordinary rendering and text extraction are not conformance certification.
 
-Use available `docx`, `pdf`, and `pdf-page-count` skills for their concrete operations, and `data-chart` or technical-figure skills for requested figures. Deliver the requested file and editable source, not merely instructions to run an exporter. Include renderer or setup details in the artifact when its reader needs them to establish identity, reproduce, audit, or act. Otherwise keep material delivery information in the delivery note and omit routine build narration.
+Use available `docx`, `pdf`, and `pdf-page-count` skills for their concrete operations, and `technical-figure` for requested figures and charts. Deliver the requested file and editable source, not merely instructions to run an exporter. Include renderer or setup details in the artifact when its reader needs them to establish identity, reproduce, audit, or act. Otherwise keep material delivery information in the delivery note and omit routine build narration.
 
 ## Primary documentation
 
