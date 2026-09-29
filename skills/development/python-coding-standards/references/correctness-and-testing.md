@@ -1,20 +1,16 @@
 # Correctness and Testing
 
-Read this for changes to source explanations, errors, resources, async behavior, or the checks that establish a Python change. Use the repository's existing test and documentation conventions.
+Read this for changes to errors, resources, async behavior, project documentation, or the checks that establish a Python change. Use the repository's existing test and documentation conventions. Docstrings and comments have their own reference, [docstrings and comments](docstrings-and-comments.md).
 
-## Keep explanations with their implementation
-
-Code is the source of truth for implementation, but it cannot always explain the intent or external constraint behind a decision. Add the missing explanation where a maintainer will encounter the decision: a module docstring for a file's responsibility and non-obvious context; a class or model docstring for its role and invariants; a function docstring for non-obvious inputs, results, side effects, errors, or lifecycle; and a block-local comment for a reason, ordering constraint, workaround, or rejected alternative. Include background only when it explains the current choice. Do not invent history, intent, or guarantees.
-
-Follow the existing docstring style. Describe semantics that annotations do not carry, such as units, ownership, unknown-value handling, partial success, or cancellation. Do not repeat parameter types, obvious names, or each statement in prose. A model field description can supply non-obvious meaning to callers or generated schemas without maintaining a separate field catalog.
+## Documents outside the code
 
 Policy may live outside code. Put other material under `docs/` only when source-local explanations cannot convey it or a reader needs a view assembled across multiple files, such as a cross-component lifecycle or an external operational constraint. Maintain one useful explanation, link to authoritative symbols, and avoid copying code, signatures, schemas, or per-file walkthroughs. Do not create a Markdown implementation report for each task. When the change invalidates an existing explanation, update or remove that explanation in scope rather than leaving stale claims or adding a second account.
 
-Check explanations against code, tests, call sites, and the stated requirement. For documentation-only Python edits, preserve executable behavior and tool directives, parse the changed files, and run applicable documentation checks; add behavioral tests only when a claim needs them. Source explanations should reduce the need to reconcile documents with code, not create another maintenance routine.
-
 ## Errors and resource ownership
 
-Catch the specific failures the current layer can handle. Translate an exception where it becomes meaningful to a caller, preserve its cause with `raise ... from ...` when wrapping it, and keep cancellation or programming errors from becoming an ordinary success result. A broad catch is appropriate only for an intentional boundary with a defined recovery, reporting, or re-raise policy.
+Give a package one exception root and subclass it by what the caller would do differently, not by where the error was raised; a case raised from more than one place earns a named subclass. Errors carry the facts a caller acts on as fields (`status_code`, `path`, the offending value), never as text to parse. Use the builtin exceptions, `TypeError` and `ValueError`, for plain misuse of a function, and the package's own errors for the package's logic. Translate transport and library exceptions into the package's errors at one seam, such as the single function that performs a request or the context manager that wraps a driver call, so no other layer needs to know the driver's exception types.
+
+Catch the specific failures the current layer can handle. Translate an exception where it becomes meaningful to a caller, preserve its cause with `raise ... from ...` when wrapping it, and keep cancellation or programming errors from becoming an ordinary success result. A broad catch is appropriate only for an intentional boundary with a defined recovery, reporting, or re-raise policy. A retry loop catches a named tuple of transient error types, not `Exception`, because the broad form also retries programming errors.
 
 The code that acquires a resource should make its release visible through a context manager or a reliable `finally` path. Tests for changed cleanup behavior should include failure, not just successful completion. Do not scatter logging and re-raising through every layer; avoid duplicate reports and sensitive payloads in logs or public errors.
 
@@ -49,9 +45,10 @@ Run the smallest set that covers the changed surface, including repository-requi
 
 ## Sources
 
-Checked 2026-09-10:
+Checked 2026-09-29:
 
 - [Python errors and exceptions](https://docs.python.org/3/tutorial/errors.html): exception handling, chaining, cleanup, and context managers.
+- The exception-hierarchy and single-seam rules follow the practice measured in httpx and the OpenAI and Anthropic SDKs; see [reference repositories](reference-repositories.md).
 - [Python task cancellation and concurrency](https://docs.python.org/3/library/asyncio-task.html): cancellation propagation, `TaskGroup`, `gather`, and thread offloading.
 - [Ruff configuration](https://docs.astral.sh/ruff/configuration/): project settings and discovery.
 - [Ruff fix safety](https://docs.astral.sh/ruff/linter/#fix-safety): fixes whose behavior may change runtime semantics.

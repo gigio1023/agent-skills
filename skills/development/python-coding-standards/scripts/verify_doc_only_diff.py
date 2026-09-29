@@ -1,37 +1,54 @@
 #!/usr/bin/env python3
-"""Verify that Python changes are limited to docstrings and ordinary comments."""
+"""Verify that Python changes are limited to docstrings and ordinary comments.
+
+The guard compares each file with a Git revision after removing standard
+docstrings, and separately compares the tool directives found in comments.
+It cannot see docstring consumers: a module docstring used as an ``argparse``
+description or a Pydantic model docstring that becomes a JSON-schema
+description changes runtime output while passing here. Check those by hand.
+"""
 
 from __future__ import annotations
 
 import argparse
 import ast
-from collections import Counter
 import io
-from pathlib import Path
 import re
 import subprocess
 import sys
 import tokenize
+from collections import Counter
+from pathlib import Path
 
-
+# Comment segments that tools honor. Ruff, ty, pyrefly, and coverage each find
+# their directive anywhere in a comment, so a comment is split at every "#" and
+# each segment is tested at its start. Case-insensitive because Ruff and
+# coverage accept upper-case spellings of their directives.
 DIRECTIVE_RE = re.compile(
-    r"^#(?:!|\s*(?:"
+    r"^#\s*(?:"
     r"coding\s*[:=]|"
-    r"type\s*:|"
     r"noqa\b|"
     r"fmt\s*:|"
     r"ruff\s*:|"
+    r"flake8\s*:|"
+    r"isort\s*:|"
+    r"yapf\s*:|"
     r"pylint\s*:|"
     r"pyright\s*:|"
     r"mypy\s*:|"
     r"ty\s*:|"
     r"pyrefly\s*:|"
-    r"isort\s*:|"
-    r"coverage\s*:|"
-    r"pragma\s*:\s*no\s+cover\b"
-    r"))",
+    r"pyre-(?:ignore|fixme)|"
+    r"zuban\s*:|"
+    r"nosec\b|"
+    r"pragma\b"
+    r")",
     re.IGNORECASE,
 )
+# PEP 484 type comments are lowercase. Matching them case-sensitively keeps
+# prose such as "# Type: RFC 3339 text" out of the directive count.
+TYPE_COMMENT_RE = re.compile(r"^#\s*type\s*:")
+SHEBANG_RE = re.compile(r"^#!")
 
 
 class DocstringStripper(ast.NodeTransformer):
@@ -47,7 +64,11 @@ class DocstringStripper(ast.NodeTransformer):
             and isinstance(first.value, ast.Constant)
             and isinstance(first.value.value, str)
         ):
-            return body[1:]
+            body = body[1:]
+        # A body that was only "..." or "pass" and a body that was only a
+        # docstring behave the same at runtime, so both normalize to empty.
+        if len(body) == 1 and _is_placeholder(body[0]):
+            return []
         return body
 
     def visit_Module(self, node: ast.Module) -> ast.AST:  # noqa: N802
@@ -73,6 +94,16 @@ class DocstringStripper(ast.NodeTransformer):
         return node
 
 
+def _is_placeholder(statement: ast.stmt) -> bool:
+    if isinstance(statement, ast.Pass):
+        return True
+    return (
+        isinstance(statement, ast.Expr)
+        and isinstance(statement.value, ast.Constant)
+        and statement.value.value is Ellipsis
+    )
+
+
 def run_git(*args: str, cwd: Path) -> bytes:
     """Run Git and return stdout, raising a readable error on failure."""
 
@@ -80,8 +111,7 @@ def run_git(*args: str, cwd: Path) -> bytes:
         ["git", *args],
         cwd=cwd,
         check=False,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
     if result.returncode != 0:
         detail = result.stderr.decode("utf-8", errors="replace").strip()
@@ -100,10 +130,16 @@ def decode_python(data: bytes, label: str) -> str:
 
 
 def normalized_ast(source: str, label: str) -> str:
-    """Return an attribute-free AST dump without standard docstrings."""
+    """Return an attribute-free AST dump without standard docstrings.
+
+    Type comments are deliberately not parsed into the tree: ``TypeIgnore``
+    nodes carry their line number as a field, so a docstring added above a
+    ``# type: ignore`` line would otherwise count as an executable change.
+    ``semantic_directives`` compares those comments by text instead.
+    """
 
     try:
-        tree = ast.parse(source, filename=label, type_comments=True)
+        tree = ast.parse(source, filename=label)
     except SyntaxError as exc:
         raise ValueError(f"{label}: syntax error: {exc}") from exc
     stripped = DocstringStripper().visit(tree)
@@ -112,18 +148,25 @@ def normalized_ast(source: str, label: str) -> str:
 
 
 def semantic_directives(source: str, label: str) -> Counter[str]:
-    """Collect comments that can affect interpreters or development tools."""
+    """Collect comment segments that can affect interpreters or development tools."""
 
+    directives: Counter[str] = Counter()
     try:
         tokens = tokenize.generate_tokens(io.StringIO(source).readline)
-        directives = [
-            token.string.strip()
-            for token in tokens
-            if token.type == tokenize.COMMENT and DIRECTIVE_RE.match(token.string.strip())
-        ]
+        for token in tokens:
+            if token.type != tokenize.COMMENT:
+                continue
+            comment: str = token.string.strip()
+            if token.start[0] == 1 and SHEBANG_RE.match(comment):
+                directives[" ".join(comment.split())] += 1
+                continue
+            segment: str
+            for segment in re.split(r"(?=#)", comment):
+                if DIRECTIVE_RE.match(segment) or TYPE_COMMENT_RE.match(segment):
+                    directives[" ".join(segment.split())] += 1
     except (IndentationError, tokenize.TokenError) as exc:
         raise ValueError(f"{label}: tokenization failed: {exc}") from exc
-    return Counter(directives)
+    return directives
 
 
 def repository_root() -> Path:
@@ -132,8 +175,7 @@ def repository_root() -> Path:
     result = subprocess.run(
         ["git", "rev-parse", "--show-toplevel"],
         check=False,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
     if result.returncode != 0:
@@ -219,8 +261,8 @@ def main() -> int:
         return 1
 
     print(
-        f"OK: {len(args.files)} file(s) contain only standard docstring/comment changes "
-        f"relative to {args.base}"
+        f"OK: {len(args.files)} file(s) contain only standard docstring or comment "
+        f"changes relative to {args.base}"
     )
     return 0
 
