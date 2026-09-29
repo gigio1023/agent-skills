@@ -17,6 +17,7 @@ This skill reflects the user's recurring need for sustained parallel work across
 The model-generation update changed several defaults:
 
 - Strong lead models can identify and sustain independent subagents more reliably. Parallelism may therefore be a normal execution optimization when the task clearly benefits; it is not limited to prompts that say "use subagents."
+- 2026-09-25, owner decision: explicit user instructions about delegation still govern, and the lead's own decision to delegate is valued rather than gated. The description now also opens when the lead has decided on a multi-agent wave, and "the size of the fan-out is the user's call" became "an explicit user choice governs; without one, the lead decides". It still does not open merely because workstreams are independent, which keeps the 2026-08-07 lesson that situation-shaped descriptions over-trigger.
 - Asynchronous communication and useful lead-agent work reduce blocking. Reuse long-lived agents for related follow-ups, but use fresh context when verifier independence matters.
 - Programmatic tool calling is a better fit than subagents for bounded structured reduction with no semantic judgment between calls.
 - Long-run progress must be audited against current tool results, artifacts, sources, or tests instead of worker self-report.

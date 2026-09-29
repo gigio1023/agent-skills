@@ -25,7 +25,7 @@ Astra's cost comes from inheritance: by default a delegated agent runs the lead'
 
 Read the lead's identity from what the harness states. If it cannot be established, treat the session as non-Astra.
 
-Some harnesses spawn subagents and accept model overrides only on an explicit request from the user, a repository instruction, or a skill. When the lead has decided to delegate, this loaded instruction is that explicit request for the spawn and for setting `model` and `reasoning_effort` per the tier table. It does not by itself call for delegation; `orchestrate-subagents` and the lead's judgment decide that. `small-model-handoff` writes the bounded prompt for a weaker executor when a pack skill calls it.
+Some harnesses spawn subagents and accept model overrides only on an explicit request from the user, a repository instruction, or a skill. When the lead has decided to delegate, this loaded instruction is that explicit request for the spawn and for setting `model` and `reasoning_effort` per the tier table. It does not by itself call for delegation; `orchestrate-subagents` and the lead's judgment decide that. An explicit user instruction about delegation, such as not delegating, a cap, or a model, overrides both this authorization and the tier table; without one, delegating on the lead's own judgment is expected. `small-model-handoff` writes the bounded prompt for a weaker executor when a pack skill calls it.
 
 ## Core
 
