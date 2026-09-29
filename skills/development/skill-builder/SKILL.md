@@ -62,7 +62,7 @@ Use [frontier audit](references/frontier-model-audit.md) for model migration. Fo
 
 Write Markdown prose as natural paragraphs without inserting line breaks to meet a character or column limit. Let the editor wrap lines visually. Preserve paragraph boundaries, list structure, tables, code blocks, and intentional Markdown hard breaks. Apply the same approach to references and prose in Markdown templates.
 
-There is no universal 8KB limit. Bytes, tokens, and lines measure different things. Published guidance around 500 lines and 5,000 tokens is a reason to review structure, not a runtime rejection threshold.
+There is no universal 8KB limit. Bytes, tokens, and lines measure different things. Published guidance around 500 lines and 5,000 tokens is a reason to review structure, not a runtime rejection threshold. A pack may set its own byte or line target for one skill; treat it as a target with a few percent of tolerance, and keep the file honest by replacing a rule when adding one rather than by trimming bytes at the margin.
 
 Keep essential instructions together even above a size target. Move optional details according to when they are needed, with that condition beside the link. Prefer shallow navigation; intentional cross-links are valid. A contents map or search hints help long files, but a specific heading does not prove usability.
 

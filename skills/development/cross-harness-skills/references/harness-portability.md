@@ -29,7 +29,7 @@ Once loaded, every line in the body consumes working context. Put the normal pat
 | Required metadata | Use only `name` and `description` in shared frontmatter |
 | Name | Lowercase letters, numbers, and hyphens; maximum 64 characters |
 | Description | Front-load what and when; include an adjacent NOT-for boundary; stay within 1024 characters |
-| Body | Keep under 500 lines and preferably around 8KB or less |
+| Body | Under 500 lines; a router-shaped body of about 8KB to 16KB is normal, and a pack's own byte or line target is a target with a few percent of tolerance, not a gate |
 | References | Link each one directly from `SKILL.md`; add a contents map to long files |
 
 Codex budgets its initial skill listing and can shorten descriptions when many skills are installed. Claude Code also truncates discovery text. Put the most discriminative trigger in the first sentence; do not spend the opening on a workflow summary.

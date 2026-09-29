@@ -6,8 +6,8 @@
 
 | 층 | 내용 | 들어오는 방식 |
 |---|---|---|
-| 취향(writing-profile.md, 40줄 안) | 저자의 상시 선호: 첫 화면, 본문 형태, 남기는 것과 지우는 것, 문장부호와 영어 경계, PR과 issue | 매 세션 컨텍스트에 본문이 들어간다. Claude Code는 `~/.claude/CLAUDE.md`의 `@` import, Codex는 `~/.codex/AGENTS.md` 안의 복사본(`scripts/sync_profile.py`로 갱신). 두 파일의 원본은 [docs/global-instructions](../global-instructions/README.md) |
-| craft(SKILL.md 12KB 안과 참조) | 어느 저자에게나 적용되는 문서 기술 | 문서 작업에서 스킬이 호출될 때 |
+| 취향(writing-profile.md, 40줄 근처) | 저자의 상시 선호: 첫 화면, 본문 형태, 남기는 것과 지우는 것, 문장부호와 영어 경계, PR과 issue | 매 세션 컨텍스트에 본문이 들어간다. Claude Code는 `~/.claude/CLAUDE.md`의 `@` import, Codex는 `~/.codex/AGENTS.md` 안의 복사본(`scripts/sync_profile.py`로 갱신). 두 파일의 원본은 [docs/global-instructions](../global-instructions/README.md) |
+| craft(SKILL.md 12KB 근처와 참조) | 어느 저자에게나 적용되는 문서 기술 | 문서 작업에서 스킬이 호출될 때 |
 
 취향을 참조 파일에만 두면 스킬이 로드될 때만 작동한다. 설치 다음 날의 첫 실제 문서 작업(2026-09-23 20:28, README 전문 재작성 한 턴)에서 CLAUDE.md의 "스킬과 profile을 먼저 읽어라" 지시가 있었음에도 스킬 본문과 profile은 한 번도 컨텍스트에 들어오지 않았다. 취향은 호출과 무관하게 작동해야 하므로 지시 파일에 본문으로 들어간다. 원본은 스킬 안의 파일 하나이고, 지시 파일의 복사본은 원본에서만 갱신한다.
 
@@ -15,9 +15,13 @@
 
 ## 규칙 셋
 
-1. **상한.** SKILL.md는 12,288바이트, writing-profile.md는 40줄. 새 규칙은 기존 규칙 하나를 빼야 들어간다.
+1. **목표치.** SKILL.md는 12KB, writing-profile.md는 40줄을 목표로 두고, 몇 퍼센트 넘는 것은 문제 삼지 않는다. 비대화를 막는 장치는 크기가 아니라 교체다: 새 규칙은 기존 규칙 하나를 빼야 들어간다.
 2. **근거.** 규칙은 비교 시험이나 실제 교정 기록에서 측정된 실패에만 넣는다. 한 번 눈에 띈 문장 하나로는 넣지 않고, 후보로 [correction-cases.md](../../skills/productivity/copydesk/references/correction-cases.md)에 먼저 적는다.
 3. **교체.** 분기마다 correction-cases 12건을 최근 실제 교정으로 갈아 끼우고, 더 이상 나오지 않는 유형은 지운다.
+
+## 2026-09-29의 변경
+
+- 규칙 1의 상한을 목표치로 바꿨다. 12,288바이트를 지키느라 #87에서 3바이트, #89 뒤 163바이트를 다투는 것은 유지 비용만 들고 비대화를 막지 못한다. 소유자 결정: 조금 넘는 것은 괜찮다. 비대화를 막는 장치는 규칙 교체(하나 넣으면 하나 빼기)이고, 이는 그대로 둔다. 같은 취지로 skill-builder와 cross-harness-skills의 크기 문장도 "목표치, 몇 퍼센트 여유"로 맞췄다.
 
 ## 2026-09-24의 변경
 
