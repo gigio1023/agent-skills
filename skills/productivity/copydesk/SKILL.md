@@ -25,7 +25,7 @@ On an explicit revision or deslop request, name what each suspect sentence does 
 
 ## Author profile
 
-Read [writing profile](references/writing-profile.md) before drafting or revising anything a colleague will read, and apply it even when no skill was named. A current explicit request or governing template wins over it, and it wins over the defaults here. The profile is one file of about 40 lines; the author's instruction files carry it by import or by a copy that `python3 scripts/sync_profile.py <instruction-file>` refreshes after any change.
+Read [writing profile](references/writing-profile.md) before drafting or revising anything a colleague will read, and apply it even when no skill was named. A current explicit request or governing template wins over it, and it wins over the defaults here. The profile is one file within 40 lines; the author's instruction files carry it by import or by a copy that `python3 scripts/sync_profile.py <instruction-file>` refreshes after any change.
 
 ## Selection and structure
 

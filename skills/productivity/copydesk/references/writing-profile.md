@@ -1,6 +1,6 @@
 # Writing Profile
 
-Standing preferences of this pack's author for documents, PR bodies, issue bodies, and messages to colleagues that the author writes or asks to have written. Apply them whenever drafting or revising such text, whether or not a skill was named; when revising another person's text, their voice and register stay, and only the meaning and structure rules apply. A current explicit request or a governing template overrides a line here. This file holds taste only; the craft rules that apply to any writer stay in SKILL.md and are not repeated here. It is the single source: the author's instruction files carry it by import or by a copy that `scripts/sync_profile.py` refreshes, and it stays around 40 lines, one line in for one line out.
+Standing preferences of this pack's author for documents, PR bodies, issue bodies, and messages to colleagues that the author writes or asks to have written. Apply them whenever drafting or revising such text, whether or not a skill was named; when revising another person's text, their voice and register stay, and only the meaning and structure rules apply. A current explicit request or a governing template overrides a line here. This file holds taste only; the craft rules that apply to any writer stay in SKILL.md and are not repeated here. It is the single source: the author's instruction files carry it by import or by a copy that `scripts/sync_profile.py` refreshes, and it stays within 40 lines, one line in for one line out.
 
 ## Reader
 
