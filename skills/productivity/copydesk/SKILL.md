@@ -49,7 +49,7 @@ Check claims against inspected sources so that every sentence traces to a source
 
 ## References
 
-Open only what the decision needs; public source pointers are in `docs/writing-sources.md`.
+Open only what the decision needs; public source pointers are in the repo's `docs/writing-sources.md`.
 
 - [Writing profile](references/writing-profile.md): always.
 - [Korean writing](references/korean-writing.md): any Korean document or answer.
