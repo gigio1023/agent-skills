@@ -1,13 +1,14 @@
 ---
 name: orchestrate-subagents
 description: >
-  Use only when the user asks for parallel subagents, delegated agents, agent
-  teams, or competing research tracks, or names orchestrate-subagents.
-  Orchestrates coding, research, judgment, review, planning, and synthesis
-  across Codex, Claude Code, Cursor, OpenCode, Antigravity, and similar
-  harnesses. NOT for small or tightly sequential tasks. Never activate because
-  a task happens to have independent workstreams — spawning an agent or two
-  inline needs no skill, and the size of the fan-out is the user's call.
+  Use when the user asks for parallel subagents, delegated agents, agent
+  teams, or competing research tracks, names orchestrate-subagents, or when
+  the lead has itself decided to run a multi-agent wave. Orchestrates coding,
+  research, judgment, review, planning, and synthesis across Codex, Claude
+  Code, Cursor, OpenCode, Antigravity, and similar harnesses. NOT for small or
+  tightly sequential tasks, and not opened merely because a task has
+  independent workstreams; an agent or two inline needs no skill. An explicit
+  user choice about delegation governs; without one, the lead decides.
 ---
 
 # Orchestrate Subagents
@@ -40,6 +41,8 @@ Orchestration intensity is a dial the lead keeps adjusting, not a shape chosen o
 Subagent count follows independent ownership, the user's budget, and the available concurrency limit. Queue excess work and reuse finished workers; do not treat a clear decomposition as unlimited spending authority. Surplus agents duplicate effort and add noise. Fewer is not safer — too few subagents serialize independent work. The right number changes with the kind of work, so decide it by planning the split, not by defaulting to a familiar count.
 
 Not every multi-call workflow needs an agent. Use a deterministic or programmatic tool path for bounded structured reduction that needs no semantic judgment between calls; keep sequential work direct when each result determines the next move.
+
+An explicit user instruction about delegation governs: whether to delegate, how many subagents, which models, and the budget. Without one, deciding to delegate and sizing the wave are the lead's calls, and making them is expected rather than exceptional; do not stop to ask for permission the user did not ask to give. That autonomy covers the fan-out only. Delegation never grants new authority for external writes, destructive work, purchases, or material scope expansion.
 
 The lead keeps ownership. Subagents may investigate, implement bounded slices, critique, verify, or argue from a perspective, but the lead agent owns task framing, conflict resolution, final judgment, and user communication.
 

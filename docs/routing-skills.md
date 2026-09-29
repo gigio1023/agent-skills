@@ -12,6 +12,10 @@ Two skills assign a model and a reasoning effort to each subagent a lead spawns.
 
 The two routing skills share a core section word for word: three signals that place a task in one of four tiers, an effort policy by model class, eleven decision rules, and a dispatch statement. Their `references/source-notes.md` files carry a mirror note; change the core in both or in neither. The vocabulary they use (subagent, subagent definition, task, dispatch, route, tier) is recorded in the repository's [terminology index](../terminology.md).
 
+## Delegation authority
+
+An explicit user instruction about delegation governs: whether to delegate, how many subagents, which model, and the budget. Without one, the lead decides whether and how widely to delegate, and that initiative is expected rather than exceptional. The routing skills apply to every spawn either way. Delegation never widens authority for external writes, destructive work, or scope.
+
 ## Effort policy
 
 Frontier lead models vary effort by task shape. Every model below the frontier runs at `xhigh` by default, and `xhigh` is the floor; a route is lowered only by editing its subagent definition or spawn arguments with a recorded reason. Models without an effort control stay out of the default routes. The cost lever under this policy is which model does the work, not how hard the cheaper model thinks.
