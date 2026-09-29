@@ -37,6 +37,17 @@ The owner stopped using GPT-5.6 models, and OpenAI publishes one prompting guide
 
 The Skills CLI tracks installed skills by path, so an update does not rename them. After this change merges, install `gpt6-prompting-guide`, confirm it is discovered, and remove the old global names only when the owner asks: `npx --yes skills remove --global gpt6-astra-prompting-guide gpt56-sol-prompting-guide --yes`. Codex role files already copied to `~/.codex/agents/` keep their old names until they are replaced.
 
+## Merged on 2026-09-29
+
+`python-docstrings` was merged into `python-coding-standards`. Docstring and comment work reads the same repository conventions, carries the same review-versus-change authority boundary, and runs the same checks as any other Python change, and the coding-standards skill already owned "explain what the code cannot show". The merged description carries the docstring triggers ("docstring 추가", "주석 보강", "문서화해줘" on Python source).
+
+| Before | After |
+| --- | --- |
+| `skills/development/python-docstrings/SKILL.md`, `references/contract-patterns.md`, `references/review-checklist.md` | `skills/development/python-coding-standards/references/docstrings-and-comments.md` |
+| `skills/development/python-docstrings/scripts/verify_doc_only_diff.py`, `scripts/smoke_test.sh` | `skills/development/python-coding-standards/scripts/` (the guard now parses without type comments, normalizes `...` and `pass` bodies, and finds directives anywhere in a comment) |
+
+After this change merges, update `python-coding-standards` and remove the old global name only when the owner asks: `npx --yes skills remove --global python-docstrings --yes`.
+
 ## Publication and installation
 
 Merge the Research Credo destination first, then this change, then the Gigio source removals. The merged writer was installed and verified before the slop-aware-writing repository was archived on 2026-09-24. Review destination contents before removing source packages.

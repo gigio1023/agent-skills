@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 29 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 28 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 For continuity across sessions, models, and agent harnesses, use [gigio-pack](https://github.com/gigio1023/gigio-pack): project intent, plans, execution, review, and handoff. This repository supplies focused capabilities for the work itself. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
@@ -32,7 +32,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 
 Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 29 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 28 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -74,7 +74,7 @@ npx --yes skills list --global
 
 The catalog is organized by the job to be done, not by the agent that runs it.
 
-- [Software Development and Delivery](#software-development-and-delivery) (7)
+- [Software Development and Delivery](#software-development-and-delivery) (6)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (14)
 - [Design and Visualization](#design-and-visualization) (3)
 - [Writing and Language](#writing-and-language) (2)
@@ -85,12 +85,11 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | Skill | What it helps with |
 | --- | --- |
 | [pr-review-comment](skills/development/pr-review-comment/) | Validate review findings against a PR diff and post approved inline comments |
-| [python-docstrings](skills/development/python-docstrings/) | Document Python API contracts, lifecycle behavior, side effects, and invariants |
 | [git-worktree-setup](skills/development/git-worktree-setup/) | Isolate authorized repository work while preserving existing changes |
 | [commit-and-push](skills/development/commit-and-push/) | Commit and push the requested changes with appropriate evidence |
 | [draft-pr](skills/development/draft-pr/) | Publish or update an actual pull request |
 | [write-issue](skills/development/write-issue/) | Write and consolidate tracker issues around useful outcomes, with enough context to act and sources readers can open |
-| [python-coding-standards](skills/development/python-coding-standards/) | Implement maintainable Python models, modules, and checks |
+| [python-coding-standards](skills/development/python-coding-standards/) | Write, structure, and document maintainable Python: project shape, function and module boundaries, Pydantic models, uv, docstrings, and checks |
 
 ### Agent and Harness Engineering
 
@@ -183,4 +182,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 29 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 28 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
