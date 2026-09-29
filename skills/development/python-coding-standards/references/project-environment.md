@@ -4,7 +4,7 @@ Read this when setting up Python, changing dependencies, or arranging local and 
 
 ## Project files and scope
 
-For new Python projects, select a supported Python version at least 3.12 that fits deployment and dependencies. Initialize only inside the intended project, and keep `project.requires-python`, the selected development interpreter, and CI consistent. In an existing project, inspect its metadata, lockfile, workspace, and automation before changing them; an incidental code fix does not authorize replacing its package manager or dropping older Python support. Identify a conflicting requirement explicitly.
+For new Python projects, start on CPython's current bugfix release line (3.14 as of 2026-09-29), or one line older when a required dependency lags. 3.12 receives security fixes only; it remains the syntax floor for `type` aliases and type parameters, not a new-project baseline. Initialize only inside the intended project, and keep `project.requires-python`, the selected development interpreter, and CI consistent. `uv init` creates a packaged `src/<name>/` layout; `uv init --no-package` gives a flat layout for a tool that is never installed as a distribution. Choose by whether anything will import the project, not by habit. In an existing project, inspect its metadata, lockfile, workspace, and automation before changing them; an incidental code fix does not authorize replacing its package manager or dropping older Python support. Identify a conflicting requirement explicitly.
 
 Use `uv python pin <version>` when the project should persist its development interpreter in `.python-version`. The supported range in `requires-python` and the selected development version serve different purposes; `--python` on one command does not itself pin later commands. Do not assume the newest local interpreter matches the project's intended test runtime.
 
@@ -41,10 +41,11 @@ A narrowly scoped external environment that cannot consume the project workflow 
 
 ## Sources
 
-Checked 2026-09-10:
+Checked 2026-09-29 against uv 0.12:
 
 - [uv projects](https://docs.astral.sh/uv/guides/projects/): project files, interpreter selection, and command execution.
 - [uv dependency management](https://docs.astral.sh/uv/concepts/projects/dependencies/): project requirements, extras, groups, includes, and default groups.
 - [uv locking and syncing](https://docs.astral.sh/uv/concepts/projects/sync/): environment updates and locked versus frozen behavior.
+- [Python release cycle](https://devguide.python.org/versions/): which lines receive bugfix and security releases.
 
-Python 3.12+, uv-first setup, explicit group selection, and the restricted pip exception are owner-selected preferences, not universal Python requirements.
+Astral publishes its own `uv`, `ruff`, and `ty` skills in [astral-sh/claude-code-plugins](https://github.com/astral-sh/claude-code-plugins); they cover commands and migration, and the `uv` skill permits `uv pip install` for legacy workflows where this pack does not. The current-line Python baseline, uv-first setup, explicit group selection, and the restricted pip exception are owner-selected preferences, not universal Python requirements.

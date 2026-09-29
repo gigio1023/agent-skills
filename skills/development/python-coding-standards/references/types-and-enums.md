@@ -1,12 +1,12 @@
 # Types and Enums
 
-Read this when defining types, integrating a typed SDK, selecting a data representation, replacing string constants, or changing enum values. Apply the Python 3.12+ baseline without silently breaking an existing support requirement.
+Read this when defining types, integrating a typed SDK, selecting a data representation, replacing string constants, or changing enum values. Apply the 3.12+ syntax floor without silently breaking an existing support requirement; the version policy for new projects is in [project environment](project-environment.md).
 
 ## Make annotations explicit
 
-Annotate every function and method parameter and return, including private helpers and `-> None`. The implicit `self` and `cls` receivers may retain their normal form; use `Self` when a return type depends on the concrete subclass. Annotate model fields, instance and class attributes, module constants, and local variables at declaration or first assignment. Keep element types explicit and use `ClassVar` for actual shared class state. A plainly inferable right-hand side is not a reason to omit a declaration's type.
+Annotate every function and method parameter and return, including private helpers and `-> None`. The implicit `self` and `cls` receivers may retain their normal form; use `Self` when a return type depends on the concrete subclass. Annotate model fields, instance and class attributes, module constants, and local variables at declaration or first assignment. Keep element types explicit and use `ClassVar` for actual shared class state. A plainly inferable right-hand side is not a reason to omit a declaration's type: the local annotation serves the reader of a diff, a review, or a long function, who has no language server and should not have to open an external library to learn what `response` or `page` holds. The need grows with the number of libraries a function touches, which is where inference is least visible to a human.
 
-Use `list[T]`, `dict[K, V]`, `set[T]`, `tuple[...]`, and `T | None`, and import abstract interfaces such as `Sequence` from `collections.abc`. Use Python 3.12's `type Alias = ...` and type-parameter syntax when an alias or generic is useful; do not add them just to make the code look advanced. Do not use `typing.List` or `typing.Dict` in new annotations. Check runtime annotation consumers before changing forward references; `typing_extensions` cannot make newer parser syntax work on older Python.
+Use `list[T]`, `dict[K, V]`, `set[T]`, `tuple[...]`, and `T | None`, and import abstract interfaces such as `Sequence` from `collections.abc`. Use Python 3.12's `type Alias = ...` and type-parameter syntax when an alias or generic is useful; do not add them just to make the code look advanced. Do not use `typing.List` or `typing.Dict` in new annotations. Check runtime annotation consumers before changing forward references; `typing_extensions` cannot make newer parser syntax work on older Python. On 3.14, annotations are evaluated lazily (PEP 649 and PEP 749) and `from __future__ import annotations` is deprecated; a consumer that reads annotations at runtime, such as Pydantic, still needs every referenced name resolvable when it reads them, so do not hide such names behind `TYPE_CHECKING`.
 
 Python does not allow an annotation directly in every binding position. For tuple unpacking, loops, `with ... as`, and `except ... as`, declare the named variables with annotations before the binding in the same scope. Use an explicitly typed loop or helper when a comprehension or lambda would hide declarations that need annotations. Do not generate invalid syntax or change variable lifetime accidentally. Imports, enum members, type aliases, and implicit receivers are not ordinary local-value declarations; keep their language-defined forms rather than decorating every identifier with a colon.
 
@@ -26,10 +26,11 @@ A checker accepting inferred types does not prove this annotation policy is met.
 | Opaque named values that should not compare as strings | `Enum` | Use an explicit conversion when an external representation is needed |
 | Stateful service or resource owner, not a data record | Ordinary class | Do not turn clients, locks, or file handles into data models just for uniformity |
 | Framework-required dataclass or dictionary-shaped interface | Required dataclass, `TypedDict`, or SDK type | Exception only; identify the concrete requirement near the use |
+| Record inside a library or SDK whose users must not inherit Pydantic, or on a measured hot path | Dataclass, `NamedTuple`, or plain class | Exception only; name the case beside the record, and do not carry it into application code |
 | A genuine lookup table with dynamic keys | `dict[K, V]` | Mapping semantics, not an unnamed record with a fixed set of fields |
 | A structural interface between implementations | `Protocol` | Use for an actual interface, not as another data-model representation |
 
-Dataclasses, `TypedDict`, and record-shaped dictionaries are not equal default alternatives to Pydantic in this pack. Required interoperability, an existing compatibility promise, or a measured runtime constraint can justify them; taste, fewer imports, and speculative performance cannot. Converting a model to the representation an external API requires at the boundary does not create a competing internal model.
+Dataclasses, `TypedDict`, and record-shaped dictionaries are not equal default alternatives to Pydantic in this pack. Required interoperability, an existing compatibility promise, a library boundary that must not impose the dependency, or a measured runtime constraint can justify them; taste, fewer imports, and speculative performance cannot. Converting a model to the representation an external API requires at the boundary does not create a competing internal model.
 
 ## Keep enum values stable
 
@@ -81,11 +82,12 @@ Distinguish `from enum import StrEnum` from `from strenum import StrEnum`. The t
 
 ## Sources and local choices
 
-Checked 2026-09-10. These sources establish language behavior; representation choices and stable-value requirements above are this pack's policy.
+Checked 2026-09-29 on CPython 3.12 and 3.14. These sources establish language behavior; representation choices and stable-value requirements above are this pack's policy.
 
 - [Python enum reference](https://docs.python.org/3/library/enum.html): member names and values, `StrEnum`, `auto()`, exact-string caveat, and version-dependent membership behavior. Construct the enum to parse a value instead of relying on containment behavior across Python versions.
 - [Python typing reference](https://docs.python.org/3/library/typing.html): `Literal`, `NewType`, `TypedDict`, `Protocol`, and annotation-version requirements.
-- [Python 3.12 typing](https://docs.python.org/3.12/library/typing.html) and [PEP 526](https://peps.python.org/pep-0526/): modern annotation forms and variable-binding syntax. Requiring explicit locals is the owner's preference, not a Python requirement.
+- [What's new in Python 3.14](https://docs.python.org/3/whatsnew/3.14.html): deferred annotation evaluation (PEP 649, PEP 749) and the deprecation of `from __future__ import annotations`.
+- [Python 3.12 typing](https://docs.python.org/3.12/library/typing.html) and [PEP 526](https://peps.python.org/pep-0526/): modern annotation forms and variable-binding syntax. Requiring explicit locals is the owner's readability rule for readers without a language server, not a Python requirement, and the measured libraries in [reference repositories](reference-repositories.md) do not follow it.
 - [Python dataclasses reference](https://docs.python.org/3/library/dataclasses.html): generated methods, frozen instances, and hashing conditions.
 - [Third-party StrEnum reference](https://strenum.readthedocs.io/en/latest/api_ref.html): the separate package's value-generation behavior.
 
