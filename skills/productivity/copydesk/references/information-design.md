@@ -1,6 +1,6 @@
 # Information Design
 
-Use when a document needs a new structure, repeated tables conceal the explanation, or a visual contains too much. Make the reader's question determine the unit of presentation. These planning decisions belong in the work, not in a compulsory planning artifact or a preamble to the finished document.
+Use when a document needs a new structure, repeated tables conceal the explanation, or a visual contains too much. Make the reader's question determine the unit of presentation.
 
 ## Reader questions and depth
 
@@ -17,6 +17,16 @@ Establish what a reader should understand or do after each section. Keep the bac
 A restrained factual record may be excellent for an incident brief and insufficient for introducing a technology. Transfer its precise headings, grouping, terminology, and focused figures. Do not transfer the absence of explanatory reasoning to a guide or proposal. Conversely, a request for a factual record does not require speculative causes or recommendations.
 
 Structure must carry meaning. Repeating “One-line summary / Definition / Why it matters” for every concept can create a verbose document made entirely of bullets. Use those elements where they do work, without repeated labels or empty nesting. Several related bullets often need one connective sentence explaining their relationship.
+
+## Medium for understanding
+
+When the reader must understand a mechanism, a structure, or a comparison, choose the medium before writing prose. For these needs prose is the fallback and the connecting text around the display.
+
+- Mechanism or structure: a figure, drawn with `technical-figure`.
+- Behavior the reader learns by changing an input or a selection: an interactive HTML page, as an artifact or with `insight-dashboard` for data.
+- Motion that still frames cannot show: an explainer video when the user asks for one; otherwise propose one.
+
+The same choice applies when the user must review or understand the agent's own work. A page built for one review can be discarded after it.
 
 ## Long documents and progressive disclosure
 
@@ -47,7 +57,7 @@ Use these repairs:
 - **Few rows but dense cells:** redesign the information, not just the column widths. A three-column table can still be overloaded.
 - **Large factual inventory:** group by the reader's lookup needs and show the relevant subset. Keep a full inventory separately only when someone actually needs it.
 
-A two-column term lookup or event record can be useful when entries are short and parallel. A single-row parameter summary can also fit a required form. Avoid mechanical bans based on shape; evaluate whether the grid aids comparison or lookup.
+A two-column term lookup or event record can be useful when entries are short and parallel. A single-row parameter summary can also fit a required form.
 
 Cells normally hold a value, identifier, or short phrase. A row-specific condition stays with its value when removal would mislead. Extended explanation belongs beside the table. Do not replace several paragraphs per cell with several dense abbreviations per cell.
 
@@ -78,5 +88,3 @@ Use a short noun-phrase title. Label the operations on edges and the actual meas
 Place each visual beside the question it answers. Introduce only the vocabulary needed for the next explanation. After moving sections, repair figure numbering, cross-references, and captions; asset filenames need not determine visible numbering.
 
 Put the supported finding or purpose early. Let the following blocks establish it. A source catalog, glossary, or archive inventory must not displace that route. Include those only for an actual lookup or audit need, and keep the main explanation self-contained.
-
-At the delivered size, check table wrapping, readable figure labels, surrounding context, and page breaks. Break a long table deliberately, repeat headers where supported, and avoid leaving a section title with only its first row at a page bottom. Do not copy an otherwise useful example's cramped identifiers or awkward page breaks.

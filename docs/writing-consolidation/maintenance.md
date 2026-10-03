@@ -19,6 +19,12 @@
 2. **근거.** 규칙은 비교 시험이나 실제 교정 기록에서 측정된 실패에만 넣는다. 한 번 눈에 띈 문장 하나로는 넣지 않고, 후보로 [correction-cases.md](../../skills/productivity/copydesk/references/correction-cases.md)에 먼저 적는다.
 3. **교체.** 분기마다 correction-cases 12건을 최근 실제 교정으로 갈아 끼우고, 더 이상 나오지 않는 유형은 지운다.
 
+## 2026-10-03의 변경
+
+- 문장 규칙으로 ASD-STE100 Issue 9(2025-01-15)의 문장과 문단 규칙을 약 80% 강도로 들였다. 승인 어휘 사전은 들이지 않았다. 근거는 소유자 요청이다. profile은 "남기는 것" 두 줄을 한 줄로 합치고 그 자리에 문장 규칙 한 줄을 넣어 37줄을 유지했다. 규칙 여덟 개와 영어, 한국어 예시는 `references/voice-and-facts.md`의 Controlled sentences 절에 있다.
+- 독자가 mechanism, 구조, 비교를 이해해야 하면 산문보다 figure나 interactive page를 먼저 고른다. 이 규칙은 `references/information-design.md`의 Medium for understanding 절에 있다.
+- 늘어난 바이트는 다른 파일과 겹치는 문장을 지워 갚았다. 패키지 전체는 112바이트 줄었다.
+
 ## 2026-09-29의 변경
 
 - 규칙 1의 상한을 목표치로 바꿨다. 12,288바이트를 지키느라 #87에서 3바이트, #89 뒤 163바이트를 다투는 것은 유지 비용만 들고 비대화를 막지 못한다. 소유자 결정: 2%까지 넘는 것은 괜찮다. 비대화를 막는 장치는 규칙 교체(하나 넣으면 하나 빼기)이고, 이는 그대로 둔다. 같은 취지로 skill-builder와 cross-harness-skills의 크기 문장도 "목표치, 2% 여유"로 맞췄다.

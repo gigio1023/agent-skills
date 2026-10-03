@@ -1,6 +1,6 @@
 # Document Forms
 
-Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. The questions below guide content selection; they are not a universal section checklist. When that form is unfamiliar, read a real technical exemplar; public source pointers are kept in the repository's docs/writing-sources.md.
+Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. When that form is unfamiliar, read a real technical exemplar; public source pointers are kept in the repository's docs/writing-sources.md.
 
 Use the shared noun-phrase heading, compact-cell, and focused-visual defaults across these forms. Vary the explanation and reading order by purpose. A factual record's brevity is not a reason to omit mechanisms from a guide or reasons from a proposal. [Information design](information-design.md) covers the choice between paragraphs, lists, tables, and visuals.
 
