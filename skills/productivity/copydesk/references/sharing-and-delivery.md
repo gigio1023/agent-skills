@@ -1,6 +1,6 @@
 # Sharing and Delivery
 
-Read this when a document is about to leave the author's machine, when its recipients or distribution change, and again after any rewrite of a shared copy. It carries the recipient, source-access, sharing-pass, and delivery rules that lived in Gigio Pack's `share-internal-doc` until 2026-09-24; the sharing pass is user-set policy from two review rounds over nine shared reports in September 2026. Document craft stays in SKILL.md and is not repeated here.
+Read this when a document is about to leave the author's machine, when its recipients or distribution change, and again after any rewrite of a shared copy. The sharing pass is user-set policy from two review rounds over nine shared reports in September 2026.
 
 ## Latest shared copy
 

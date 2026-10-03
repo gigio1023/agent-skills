@@ -1,14 +1,14 @@
 # Multilingual Writing
 
-Use the relevant section when language, locale, or voice affects a drafting or revision decision. The common task is to preserve meaning while making the reader's path clear. These are contextual writing choices, not an authorship detector, a word blacklist, or a reason to run every passage through several language checks.
+Use the relevant section when language, locale, or voice affects a drafting or revision decision. Sentence rules for every language are in [controlled sentences](voice-and-facts.md#controlled-sentences).
 
 ## Shared judgment
 
 Follow the requested language and locale, governing terminology, genre, and approved voice sample. Keep exact identifiers, quotations, commands, official names, requirement levels, and numbers intact. Revise the surrounding explanation in the target language's natural syntax. Do not translate or localize a document merely because a clarity edit was requested.
 
-When changing a sentence, compare its actor, action, object, scope, negation, condition, time, causal relation, and degree of certainty with the source. Keep a repeated term when it makes reference clearer. Keep a connector when it expresses a real relation. Adjust rhythm to the thought; do not enforce ending counts, paragraph-length variation, or change percentages. Do not invent punctuation bans per document; apply the explicit house preference in [writing profile](writing-profile.md).
+When changing a sentence, compare its actor, action, object, scope, negation, condition, time, causal relation, and degree of certainty with the source. Keep a connector when it expresses a real relation. Punctuation follows the [writing profile](writing-profile.md).
 
-For languages not covered below, use the same semantic checks with the supplied examples and applicable locale guidance. A material ambiguity calls for a focused source check or question, not an invented language rule. If translating is requested, compare the resulting claim and its conditions with the source; fluency alone does not establish fidelity.
+For languages not covered below, use the same semantic checks with the supplied examples and applicable locale guidance. If translating is requested, compare the resulting claim and its conditions with the source; fluency alone does not establish fidelity.
 
 ## English
 
@@ -16,7 +16,7 @@ Use the established English variety and register. Contractions, fragments, first
 
 Prefer an operation to an inflated abstraction when it preserves meaning: “The worker can retry requests” can replace “The worker provides the capability to perform request retries.” Keep capability, frequency, and permission distinctions when they are real. “Can retry” and “retries” do not make the same claim.
 
-Check an appended `-ing` clause if it supplies an unsupported effect or an unclear actor. State the actual relation or remove the unsupported inference. Repeat a precise noun instead of rotating among “platform,” “solution,” and “engine” for one component. A summary belongs when it synthesizes a decision, not simply because the document has reached its end.
+Check an appended `-ing` clause if it supplies an unsupported effect or an unclear actor. State the actual relation or remove the unsupported inference. A summary belongs when it synthesizes a decision, not simply because the document has reached its end.
 
 ## Korean
 
