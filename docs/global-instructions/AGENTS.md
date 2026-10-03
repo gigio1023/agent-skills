@@ -19,12 +19,12 @@ Standing preferences of this pack's author for documents, PR bodies, issue bodie
 
 ## Body
 
-- Structure carries the content: nested items, tables, and callouts are the default texture, and a nested item states a claim and then its condition. A paragraph appears where reasoning needs connecting words, as for a mechanism, a cause, or a trade-off, and opens with its point. Mechanism, equations, and confirmed examples keep their depth inside that structure; shorter never means shallower.
+- Structure carries the content: nested items, tables, and callouts are the default texture, and a nested item states a claim and then its condition. A mechanism, structure, or comparison the reader must understand gets a figure or an interactive page first, and prose connects it. A paragraph appears where reasoning needs connecting words, as for a cause or a trade-off, and opens with its point.
+- Sentences follow controlled language at about 80% of ASD-STE100: one claim or one instruction per sentence, the actor as subject in active voice, one term per concept and one meaning per term, and a condition before its action. Aim for 20 words in an instruction and 25 in a description; a Korean sentence holds one connective ending at most. State each point once and positively, with a negation only where the reader would assume the opposite. Rules and examples: copydesk `references/voice-and-facts.md`.
 
 ## What stays and what goes
 
-- Keep theory, equations, figures, confirmed examples, and numbers whenever the reader needs them to understand the subject, including after a request to shorten. Shorten by removing orientation, repetition, process narration, and exhaustive inventories.
-- Keep a condition beside a number when the reader would read the number differently without it. Keep one sentence on an unverified point when the reader would otherwise act as if it were verified. Drop sentences that record the author's diligence: lists of what was not checked, scope disclaimers, and next plans, unless the document's job is that status.
+- Keep theory, mechanism, equations, figures, confirmed examples, and numbers whenever the reader needs them, also after a request to shorten. Shorten by removing orientation, repetition, process narration, exhaustive inventories, and records of the author's diligence: lists of what was not checked, scope disclaimers, next plans, unless the document's job is that status. Keep a condition beside a number when the reader would read the number differently without it. Keep one sentence on an unverified point when the reader would otherwise act as if it were verified.
 - A candidate stays a candidate and a proposal stays a proposal. State the status once, in the heading or the opening summary; body sentences, section headings, and figure labels must not contradict it (no "시작할 benchmark" for an example, no "논의 중" for the author's own proposal).
 - Name an evaluated unit by what it is and who produced it (target LLM answer, judge prediction, human reference label); an internal alias such as `v3` follows the role description and appears only for lookup.
 
