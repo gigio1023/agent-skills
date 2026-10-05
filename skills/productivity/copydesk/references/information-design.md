@@ -22,7 +22,7 @@ Structure must carry meaning. Repeating “One-line summary / Definition / Why i
 
 Use professional noun phrases that name the section's subject and analytical role. A heading such as “Model performance comparison” identifies a comparison; “Failure analysis” identifies an analysis. A full-sentence claim such as “The model performs better under load” belongs in the body under a heading such as “Performance under load.” Conversational reactions and promises to explain are not section titles.
 
-Keep the technical terms and qualifiers needed to distinguish the section. Brevity does not justify a vague label such as “Some details,” and a nominal ending alone does not make a sentence a useful heading. Read the headings together to check the argument's structure. Do not impose a fixed word count or copy a paper's section sequence onto another genre. Explicitly supplied titles and required templates retain their wording.
+Keep the technical terms and qualifiers needed to distinguish the section. Brevity does not justify a vague label such as “Some details,” and a nominal ending alone does not make a sentence a useful heading. Read the headings together to check the argument's structure. Do not impose a fixed word count or copy a paper's section sequence onto another genre. Titles explicitly required by the user or a governing template retain their wording.
 
 ## Medium for understanding
 
@@ -38,7 +38,7 @@ The [finished comparison](finished-examples.md#measured-comparison) needs a tabl
 
 ## Long documents and progressive disclosure
 
-Choose what remains visible by the reader's task. Keep the subject, useful result, necessary definitions, and interpretation conditions on the main path. Key figures and the main result stay outside collapsed sections. Offer substantial prerequisite explanations, mathematical derivations, exercises, and secondary comparisons as optional sections when readers differ in background. A section title should name what it contains; add one short cue about when to open it only if that helps the choice. Avoid a separate tour that repeats every toggle and an inner introduction that repeats the tour.
+Choose what remains visible by the reader's task. Keep the subject, useful result, necessary definitions, and interpretation conditions on the main path. Key figures and the main result stay outside collapsed sections. Offer substantial prerequisite explanations, mathematical derivations, exercises, and secondary comparisons as optional sections when readers differ in background. A section title names its contents using the heading rule above. Put any necessary cue about when to open a section in its body, not its title. Avoid a separate tour that repeats every toggle and an inner introduction that repeats the tour.
 
 Use the actual medium: native toggles in a collaborative page, expandable sections on a supported website, or clearly linked sections in a static document. Check the initial view and a representative expanded section. Hiding text does not justify keeping irrelevant content, and shortening the initial view must not make the main claim misleading. Ensure exports include necessary expanded content or a usable route to it.
 

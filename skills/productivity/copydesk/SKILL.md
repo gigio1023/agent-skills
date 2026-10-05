@@ -36,7 +36,7 @@ To shorten, remove redundant orientation, repeated claims, process narration, an
 
 ## Structure and explanation
 
-Open with the subject, supported finding, or decision. Organize sections around reader questions. Section headings are professional noun phrases that identify the subject and the section's role, as in a research paper. Keep necessary technical qualifiers, but put full-sentence claims, explanations, conversational address, and reading instructions in the body. Korean endings such as `~했네요`, `~입니다`, `~해요`, and `~살펴보겠습니다` do not belong in section headings. Preserve an explicitly supplied title or a governing template. Choose the form according to the relationship being explained:
+Open with the subject, supported finding, or decision. Organize sections around reader questions. Section headings are professional noun phrases that identify the subject and the section's role, as in a research paper. Keep necessary technical qualifiers, but put full-sentence claims, explanations, conversational address, and reading instructions in the body. Korean endings such as `~했네요`, `~입니다`, `~해요`, and `~살펴보겠습니다` do not belong in section headings. Follow a title explicitly required by the user or a governing template. Choose the form according to the relationship being explained:
 
 - Prose develops causes, mechanisms, interpretation, and trade-offs.
 - Lists group parallel facts or actions; ordered steps show a procedure.
