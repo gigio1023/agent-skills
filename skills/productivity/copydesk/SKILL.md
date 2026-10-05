@@ -1,67 +1,84 @@
 ---
 name: copydesk
 description: >
-  Write, revise, or review reader-facing documents in any language and medium: reports,
-  guides, proposals, design docs, posts. Includes AI-slop diagnosis on explicit revision
-  requests and Korean semantic repair in documents and ordinary Korean answers. Owns document
-  craft and internal sharing: recipients, source access, the sharing pass, and delivery. NOT for
-  PR copy (draft-pr), issues (write-issue), figures and charts (technical-figure), or dashboards
-  (insight-dashboard). Formerly technical-report-writing.
+  Write, revise, or review reader-facing documents and substantive prose in any
+  language: reports, guides, proposals, design docs, posts, and messages.
+  Includes focused AI-slop revision, English clarity, and Korean semantic repair.
+  Provides shared meaning, voice, and author-profile principles for PRs and issues;
+  draft-pr and write-issue own their artifact structure and publication workflows.
+  Use specialized skills for drawing figures, building dashboards, and file production.
 ---
 
 # Copydesk
 
-## Work and baseline
+Write for the reader's task. Select the facts and relationships they need, explain them in a useful order, and preserve what the evidence actually says. Clear writing lets the reader reconstruct the mechanism or reason for a decision without the drafting conversation.
 
-Write for a reader who lacks the drafting conversation, and select and organize information before polishing sentences. Infer reader, task, sources, language, and medium from context, and ask only about gaps that change meaning or authority. A new document returns the artifact, a review returns findings and edits nothing, and a revision changes only what was authorized. In a user-edited copy, the current copy is the baseline; compare it with the closest earlier version to see which functions the user removed and kept. Only the user's edits show preference, so isolate changes other agents made. Preserve established terms, templates, and voice. The Korean clarity floor in [Korean writing](references/korean-writing.md) also covers ordinary Korean answers and progress reports.
+## Scope and baseline
 
-## Meaning and scope of change
+Infer the reader, purpose, sources, language, medium, and requested intervention from the current request and artifact. Ask only about missing information that changes meaning or authority. Read the [writing profile](references/writing-profile.md) for the author's standing preferences; reuse it when already present in the session. A current request or governing template takes precedence. Another author's text keeps its own voice unless a different voice was requested.
 
-A correction that names a type ("drop sentences like this") covers every instance; one that names a sentence covers that sentence, and other instances are reported, not edited. All else stays byte-identical, including approved examples, mechanism, equations, figures, and any block, bullet, or page note the user wrote; a page note is an instruction, never reader text. After editing, diff against the previous version and confirm nothing outside the correction moved. A correction removes a function, so re-creating it elsewhere repeats the defect, as when a deleted reading guide returns as toggle titles. Instructions shape the document without becoming its text ("newest first" becomes an ordering), and reviewer, subagent, and self-check notes stay out of it.
+| Work | Editing scope |
+| --- | --- |
+| New writing | Compose from the supplied facts and inspected sources; choose the structure that serves the reader. |
+| Local correction | Change the named passage or defect type. Keep unrelated passages intact; include a nearby edit when needed for grammar, references, or consistency. |
+| Broad revision | Reorganize, combine, cut, and rewrite throughout the requested scope while preserving meaning, material detail, voice, and explicitly protected passages. |
+| Review | Return the material findings and useful corrections. Edit or publish only when that is also requested. |
 
-To explain a thing, say what it is, who produces it, what it contains, and what it is for, with one instance and without a definition by negation unless the reader would otherwise assume the negated reading. To shorten, cut orientation first, then repetition, process narration, and inventories; keep mechanism, equations, figures, and confirmed examples, and list the categories cut. A later correction narrows an earlier one, and praise for one part approves only that part. Changing a status (to example, candidate, or proposal) adds no criterion, reason, or fact the source lacks; write the status word and stop. Fix the document, never the skill, mid-task.
+The current user-edited copy is the baseline. When an earlier version helps explain the user's choices, distinguish their edits from agent or collaborator changes. Respect intentional deletions instead of restoring the same function elsewhere. A note left for the writer guides the revision; it does not become reader-facing prose. Exact quotations, identifiers, code, and text explicitly marked to stay verbatim retain their form. Broad revision does not make all user-authored prose immutable. See [authoring and revision](references/authoring-and-revision.md) for difficult scope or voice decisions.
 
-On an explicit revision or deslop request, name what each suspect sentence does for the reader before editing it; a tell is a functional diagnosis, never an authorship verdict. Keep claim strength, meaningful hedges, and voice, then reread the result for new tells, uniform polish, and drift. A batch revision keeps each author's voice distinct.
+## Meaning before polish
 
-## Author profile
+Keep the actor, action, object, condition, scope, timing, negation, requirement level, and uncertainty of each retained claim. Preserve the source's decision status: a candidate remains a candidate, and a proposed mechanism remains proposed. A concise sentence must not turn “should be prepared to retry” into “retries,” or a missing trace into proof that an event never occurred.
 
-Read [writing profile](references/writing-profile.md) before drafting or revising anything a colleague will read, and apply it even when no skill was named. A current explicit request or governing template wins over it, and it wins over the defaults here. The profile is one file within 40 lines; the author's instruction files carry it by import or by a copy that `python3 scripts/sync_profile.py <instruction-file>` refreshes after any change.
+Ground added context in available evidence. A wording edit alone does not authorize inventing a cause, criterion, example, or measurement. If background knowledge is useful, distinguish it from the source's own claims. Cite near the supported claim and keep the explanation understandable without opening every link. When a number matters, preserve the unit, population, comparison conditions, and limitation that determines its interpretation. Compute arithmetic with tools.
 
-## Selection and structure
+To shorten, remove redundant orientation, repeated claims, process narration, and inventories that serve no reader task. Keep the theory, mechanism, examples, equations, figures, and numbers needed to understand the result. Remove empty hedging while retaining uncertainty that changes the claim. For a deslop request, diagnose what the passage fails to do for its reader, then repair that failure; pattern matches do not establish authorship or justify deletion.
 
-Decide which question each section and visual answers, and keep that plan out of the document. Lists carry parallel facts, steps dependent actions, tables comparisons or lookup, charts quantities, diagrams relationships and mechanisms, and paragraphs causes and trade-offs; a mechanism, structure, or comparison gets a figure or interactive page before prose ([medium](references/information-design.md#medium-for-understanding)). Section boundaries follow reader questions; merge source categories, case retellings, and background answering none. Split a bullet that bundles subjects, and nest only real groups. Headings are specific noun phrases, and a section's first sentence carries the finding. A document has no reading guide, section preview, or note on when to expand, since a collapsible section's title and first sentence say what it holds. Collapsible sections hold optional depth such as derivations; the subject, key figures, and results stay visible, and material that helps no reader is removed, not hidden. Each fact goes to its owning artifact: inventories, provenance, and lineage belong in an evidence record unless the reader is auditing. Delete process narration (search rounds, collection counts, accounts of care) unless change is the reader's job, as in a changelog, migration guide, or ADR; keep what identifies the result (object, method, model, unit), with a date beside the number it bounds. Status follows the profile; attribute reported results. Keep each claim's supported strength and any contrary observation or condition that changes the conclusion, including a condition that cuts both ways; no summary or label upgrades one case to "required," and a global caveat never repairs an overclaim. A rewrite also keeps the source's decision status: "under review" stays under review and "not yet chosen" stays unchosen; a dry register removes hedging words, never the tentativeness of a decision. Put a condition inside the fact it qualifies, cite at the claim, keep required notices; when compressing results or a literature table into prose, each retained number keeps its benchmark, setting, and caveat, or leaves with them, and drop blanket disclaimers, self-appraisal, and diligence records; an unverified point gets one sentence only when the reader would otherwise act as if it were verified. Link CC BY-NC-ND sources instead of republishing them, and never copy a teaching example's invented names or numbers into real documents.
+## Structure and explanation
 
-## Tables and figures
+Open with the subject, supported finding, or decision. Organize sections around reader questions and make headings specific. Choose the form according to the relationship being explained:
 
-Design a table first: name the row entity in its header, label every row, name the attributes, and name both dimensions of a matrix so no meaning rests on a blank corner. All rows serve one comparison or lookup; split a table whose columns answer different questions or whose rows mix kinds, and drop constant columns. Cells hold values or short phrases, with shared context in headers and reasoning outside the grid; when cells need paragraphs, redesign the table instead of widening it. Each figure answers one question; matched panels for the same question may stay together. The first figure shows the document's own subject; general prerequisites go at their point of need, if anywhere. Give each figure one reading order that numbers, arrows, and legend follow, label arrows with the operation or data, and split before shrinking text. The canvas carries names and mechanism; conditions, sample sizes, and timestamps go in the caption or nearby prose. When a document needs several figures, plan and draw them with `technical-figure` so each color, line style, and direction keeps one meaning across the set. Renumber figures after restructuring.
+- Prose develops causes, mechanisms, interpretation, and trade-offs.
+- Lists group parallel facts or actions; ordered steps show a procedure.
+- Tables compare common attributes or support exact lookup.
+- Diagrams show relationships, state changes, or flows that are harder to follow in prose.
+- Charts show quantitative patterns; interaction helps when changing an input teaches something useful.
 
-## Explanation and language
+Use a display when it reduces the reader's work. A small comparison can be complete with a table and a paragraph; a short mechanism can be complete in prose. Avoid putting paragraphs into table cells or turning connected reasoning into fragments to satisfy a preferred format. For a new structure or overloaded display, read [information design](references/information-design.md). For a substantial explanation, read the matching [finished example](references/finished-examples.md) before treating individual style rules as a checklist.
 
-The explanation is complete without its links. Use the smallest complete chain for this reader: observation or problem, one example if needed, mechanism, and consequence, each block adding a fact, relation, or decision. For a mechanism, name actor, input, operation, state change, and output, and keep one running example throughout. Define a term or symbol at its first useful use. Use established field terms, name an internal artifact by its role before any alias, and never rename a real identifier. Turn a broad promise ("improves robustness") into an observable test before writing its result. Mechanism the source does not state is background from general knowledge: mark it as such, keep it out of the document's own premises, and leave feasibility the source calls unconfirmed unconfirmed. Never imitate the user's typos, shorthand, or slang. Sentences follow [controlled sentences](references/voice-and-facts.md#controlled-sentences): one claim each, the actor as subject, one term per concept. Korean keeps actors, conditions, and clause relations recoverable through particles, endings, and predicates ([Korean writing](references/korean-writing.md)); headings, cells, and summary items may be fragments. Other languages follow [multilingual writing](references/multilingual-writing.md).
+Explain the smallest complete chain the reader needs: the problem or observation, what happens, why it matters, and an example when it makes the relationship concrete. Name actual components and operations. Define unfamiliar terms at their first useful use and use the same name for the same concept. Introduce background where the next step needs it. Optional depth can be collapsed or moved, but a condition essential to the main conclusion stays visible with it.
 
-## Sharing and delivery
+## Sentences and voice
 
-Recover the latest shared copy before editing a collaborative page. Recipients must be able to open every cited source; a local path, a localhost address, or a bare filename is not a citation. Deliver the requested artifact and its editable source, making a PDF by a native route without building a web app. Inspect the destination at delivered size: figures, tables, page breaks, first view. Publish or send only when authorized, with private information matched to the audience; ask separately whether the copy would embarrass the company and the person posting it. Before a document leaves the author's machine, or when its recipients or distribution change, read [sharing and delivery](references/sharing-and-delivery.md).
+Use direct, precise language with recoverable actors and references. Prefer active voice when responsibility matters. A passive sentence is useful when the affected object is the topic or the actor is unknown. Give an instruction a clear action and put a prerequisite where the reader sees it before acting. Keep causal and contrastive clauses together when that makes their relationship easier to understand.
 
-## Checks
+Length and word counts are editing clues, not limits. Split a sentence when it overloads working memory or hides a relation; join fragments when separation obscures the reasoning. Keep grammar, established technical terms, meaningful modality, and natural syntax in the target language. Similar words may describe distinct actions: validate a schema, verify a signature, and confirm receipt need not share one verb.
 
-Check claims against inspected sources so that every sentence traces to a source, a stated assumption, or labeled background; compute arithmetic with tools, and preserve identifiers, units, populations, status, and requirement levels. Label invented examples as synthetic, and keep missing distinct from zero and association distinct from cause. Reread without the drafting conversation and repair an opening that misses the subject or result, a table carrying explanation, a figure needing tiny text or a tour, and narration or disclaimers displacing content. Also repair an alias that sends the reader elsewhere, compression that drops mechanism or a condition, and any sentence that exists only because someone asked. Run `python3 scripts/check_draft.py <file>`, and for a revision `python3 scripts/protected_diff.py <previous> <revised> --allow "<corrected heading>"`. Both flag candidates and never pass or fail a document; a flagged condition that changes how a number reads is legitimate. A rewrite from one source starts as a traced draft ([source tracing](references/source-tracing.md)). Finish when the artifact and checks are complete, reporting only material unresolved issues.
+For Korean prose or a Korean clarity repair, read the compact [Korean writing](references/korean-writing.md) guide. It preserves particles, endings, natural causal explanation, and the English field terms the reader uses. Ordinary short answers need its principles, not a full reference pass. For ambiguous English instructions, tool descriptions, status text, or a controlled-English request, read [English clarity](references/english-clarity.md). These STE-inspired methods do not impose English syntax on Korean or claim ASD dictionary compliance. Use [voice and facts](references/voice-and-facts.md) for a difficult sentence or claim-strength decision.
 
-## References
+## Verification and delivery
 
-Open only what the decision needs; public source pointers are in the repo's `docs/writing-sources.md`.
+Read the result without the drafting conversation. Can the reader recover the conclusion's reason, the mechanism, and its important conditions? Compare the revision with its source for additions, omissions, stronger claims, changed requirements, or flattened voice. For local corrections, inspect the diff for unrelated movement. For broad revisions, inspect meaning and explicitly protected content across the changed structure.
 
-- [Writing profile](references/writing-profile.md): always.
-- [Korean writing](references/korean-writing.md): any Korean document or answer.
-- [Correction cases](references/correction-cases.md), [exemplar passages](references/exemplar-passages.md): drafting or revising Korean; check a revision diff against their failure shapes; borrow the operation, never the topic.
-- [Finished examples](references/finished-examples.md), [explanation with depth](references/explanation-with-depth.md): a new or restructured explanation, comparison, or proposal.
-- [Synthetic examples](references/synthetic-examples.md): a repair or rewrite shape.
-- [Voice and facts](references/voice-and-facts.md): sentence rules for any draft; with [authoring and revision](references/authoring-and-revision.md) and [reader value](references/reader-value.md), a hard keep, rewrite, delete, or relocate call, or a deslop revision.
-- [Information design](references/information-design.md): new structure, overloaded table or figure.
-- [Measurements and figures](references/measurements-and-figures.md): quantitative meaning.
-- [Document forms](references/document-forms.md): genre depth.
-- [Document production](references/document-production.md): PDF or editable output.
-- [Source tracing](references/source-tracing.md): a rewrite from one source.
-- [Sharing and delivery](references/sharing-and-delivery.md): a document leaving the author's machine, changed recipients or distribution, publication.
-- [Multilingual writing](references/multilingual-writing.md): English, Italian, Chinese.
-- [Composition](references/composition.md): which skill owns what.
+Use bundled helpers when their signals answer a real question. Run them from this skill directory or resolve their paths from it. They use Python 3's standard library:
+
+- `python3 scripts/check_draft.py <file>` locates possible padding or dense presentation. Findings require judgment; zero findings provide no evidence that claims are useful, accurate, or clear.
+- `python3 scripts/protected_diff.py <previous> <revised> --allow "<heading>"` reports literal movement outside a local correction. It is useful for a narrow scope or a verbatim preservation requirement, not as a retention target for a broad rewrite.
+- [Source tracing](references/source-tracing.md) helps a source-bound rewrite with a risk of invented connective facts, or a requested traceable draft. It is optional for routine edits.
+
+Check affected links, numbering, and renderer syntax after structural changes. Inspect rendered files at delivery size when layout matters. For sharing or changed recipients, read [sharing and delivery](references/sharing-and-delivery.md), verify access to cited sources, and use existing authorization for publication or sending. Deliver the requested text or artifact first; report only material limitations or unresolved editorial decisions.
+
+The profile is maintained in one source file. After an authorized profile edit, use `python3 scripts/sync_profile.py <instruction-file>` to refresh the intended copy, then `--check` to verify it. Updating a repository copy does not authorize editing live global instructions.
+
+## Targeted references
+
+Open additional references only for the decision at hand:
+
+- [Exemplar passages](references/exemplar-passages.md): natural Korean mechanism, contrast, and result explanation. Borrow the operation, not the topic or register.
+- [Correction cases](references/correction-cases.md), [synthetic examples](references/synthetic-examples.md): a recurring failure or a matching repair. Supplied context is part of each example's evidence.
+- [Reader value](references/reader-value.md), [explanation with depth](references/explanation-with-depth.md): difficult selection or explanation decisions.
+- [Measurements and figures](references/measurements-and-figures.md): quantitative meaning, captions, and comparisons.
+- [Document forms](references/document-forms.md), [document production](references/document-production.md): genre requirements and editable or PDF output.
+- [Multilingual writing](references/multilingual-writing.md): locale and voice choices beyond the short language guides.
+- [Korean pattern evidence](references/korean-pattern-evidence.md): a specific repetitive pattern or maintenance of its evidence, not a routine Korean drafting dependency.
+- [Composition](references/composition.md): specialist ownership and useful combinations. Maintenance provenance is in the repository's `docs/writing-sources.md`.

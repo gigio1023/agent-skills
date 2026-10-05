@@ -171,7 +171,7 @@ Why: each sub-issue has work that can be verified separately. "Finish the migrat
 
 ## Korean Noun-Phrase Outline
 
-A task the author will do, in a Korean tracker. The title is a noun phrase naming the target and the action. Bullet items end in a noun or read `label: value`, and established English terms stay in English.
+A task the author will do, in a Korean tracker. The title is a noun phrase naming the target and the action. Parallel facts and tasks end in a noun or read `label: value`, and established English terms stay in English. Mechanisms, conditions, and causes use complete sentences when the relationship needs explanation.
 
 ```markdown
 Title: 결제 webhook 5xx 응답 시 재시도 추가
@@ -187,11 +187,19 @@ Title: 결제 webhook 5xx 응답 시 재시도 추가
 
 The link line says what the link is. A bare `참고:` followed by a URL would not.
 
-Not this, which narrates in past-tense sentences:
+The same observed condition may use a complete sentence when explaining the failure path:
+
+```markdown
+worker는 수신 서버가 503을 반환하면 재시도 없이 webhook 발송을 실패 처리한다.
+```
+
+Avoid this for proposed work because it claims the retry and metric changes are already complete:
 
 ```markdown
 수신 서버가 503을 반환했을 때 재시도를 하지 않고 실패 처리했습니다. 그래서 재시도 로직을 추가했고 metric도 넣었습니다.
 ```
+
+The defect is the unsupported completion claim, not the past-tense ending. A closing note may use past tense for a supported result and complete sentences for the conditions under which it holds.
 
 ## Overview Table And A Figure, With A Long Log Cut Instead Of Collapsed
 

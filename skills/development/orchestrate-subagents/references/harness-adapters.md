@@ -31,13 +31,15 @@ Choose the execution primitive by task shape:
 
 Treat model assignment as part of orchestration design. Choose the model and reasoning effort per subagent before spawning, then include the assignment in the packet or setup step when the harness supports it.
 
-Keep this skill harness-neutral. Prefer the current session's defaults unless the user, harness, or a companion skill gives a more specific routing policy. When a companion model-routing skill is loaded, use it for exact model names and cost preferences while this skill continues to own decomposition and synthesis mechanics.
+Keep runtime mechanics separate from model policy. For GPT workers, read `gpt6-astra-model-routing` before dispatch. It defaults to Astra and limits Sol 6.1 to very easy deterministic work. For Anthropic workers, preserve `fable5-model-routing` or another explicitly selected Anthropic policy. A task's volume or read-only status does not choose its model.
 
-General policy:
+Separate collection and judgment in the packet:
 
-- Put the strongest judgment model on framing, conflict resolution, synthesis, and final recommendation.
-- Put long-context or cheaper workers on bounded reading, inventory, extraction, and source collection when they can return compact evidence packets.
-- Keep collection with the lead when direct reading preserves decisive context or each result changes the next judgment. Delegate it when the task is truly bounded and a compact evidence packet preserves what the decision needs.
+- Mechanical collection has fixed sources or queries, prescribed operations, a fixed output shape, and a mechanical check. It returns raw results, locations, execution statuses, and missing items.
+- Research and interpretation choose sources, select decisive facts, summarize, diagnose, assess confidence, or propose follow-up. Route GPT work of this kind to Astra.
+- Keep collection with the lead when direct reading preserves decisive context or each result changes the next judgment. A compact packet alone does not make a task mechanical.
+
+If the companion GPT skill is unavailable, retain the same boundary: Astra for any semantic decision or uncertainty, Sol 6.1 only when every action and acceptance rule is already fixed. Do not silently inherit a cheaper default for judgment-bearing work.
 
 If an explicitly required model, plugin, or reasoning level is unavailable, report the affected task and continue independent authorized work. Use an equivalent only when the user's routing policy permits it; do not treat the absence of a capability as permission to replace an exact requirement. For a task with no specified model, choose from configured capabilities and report material limits.
 
@@ -46,7 +48,7 @@ If an explicitly required model, plugin, or reasoning level is unavailable, repo
 Use native subagent tools when available. Typical concepts include:
 
 - Spawn well-scoped agents for independent tasks.
-- Prefer inherited model/settings unless the user or a companion routing skill asks for a specific model, reasoning effort, or cost-saving route.
+- Resolve inherited settings against the applicable routing policy. Use supported model and effort overrides when needed, and follow current fork-mode restrictions.
 - Use explorer-style agents for read-only codebase questions.
 - Use worker-style agents for bounded implementation with disjoint ownership.
 - Wait only when the lead agent is blocked on the result.

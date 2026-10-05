@@ -96,11 +96,11 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | Skill | What it helps with |
 | --- | --- |
 | [cursor-cli-delegation](skills/productivity/cursor-cli-delegation/) | Explicitly delegate planning, research, implementation, or review through direct Cursor CLI calls with task-specific options and session follow-ups |
-| [codex-delegate](skills/development/codex-delegate/) | Delegate bounded tasks from a non-Codex host with durable runs and explicit execution boundaries |
+| [codex-delegate](skills/development/codex-delegate/) | Delegate complete tasks from a non-Codex host to Astra with durable launch, resume, cancellation, and verified handoff |
 | [cross-harness-skills](skills/development/cross-harness-skills/) | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
 | [fable5-prompting-guide](skills/development/fable5-prompting-guide/) | Write and migrate prompt stacks specifically for Claude Fable 5 and Fable 5.1 |
 | [goal-prompting](skills/development/goal-prompting/) | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts |
-| [gpt6-prompting-guide](skills/development/gpt6-prompting-guide/) | Design GPT-6 Astra and GPT-6 Sol prompts, skills, and repository instructions with focused context and explicit completion boundaries, including moves from GPT-5.6 |
+| [gpt6-prompting-guide](skills/development/gpt6-prompting-guide/) | Design GPT-6 Astra and Sol prompts, skills, and repository instructions while keeping GPT-6.1 Sol and legacy runtime contracts distinct |
 | [opus5-prompting-guide](skills/development/opus5-prompting-guide/) | Write and migrate Claude Opus 5.5 and Opus 5 prompt stacks, putting each fix in prompt text, request settings, the agent loop, or a tool |
 | [install-skill-pack](skills/development/install-skill-pack/) | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/development/skill-builder/) | Turn real workflows and preferences into personal, project-local, or shared skills; audit and improve them without publishing private evidence |
@@ -108,7 +108,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [orchestrate-subagents](skills/development/orchestrate-subagents/) | Coordinate delegated work, whether the user asked for it or the lead chose it, and synthesize its evidence |
 | [small-model-handoff](skills/development/small-model-handoff/) | Package a settled bounded step for a less capable executor |
 | [fable5-model-routing](skills/development/fable5-model-routing/) | Choose each subagent's model and effort when a Claude Fable lead delegates, in any harness with subagents, and ship the subagent definitions that make effort selectable |
-| [gpt6-astra-model-routing](skills/development/gpt6-astra-model-routing/) | Choose each subagent's model and effort when a GPT-6 Astra lead delegates, run workers on GPT-6 Sol at full effort, and reserve Astra for judgment |
+| [gpt6-astra-model-routing](skills/development/gpt6-astra-model-routing/) | Default GPT work to Astra; use GPT-6.1 Sol only for fixed mechanical collection and execution without interpretation |
 
 ### Design and Visualization
 
@@ -123,7 +123,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | Skill | What it helps with |
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
-| [copydesk](skills/productivity/copydesk/) | Write, revise, and review documents with clear structure, compact tables, focused visuals, and the explanation each genre needs, including explicit AI-slop revision and Korean clarity |
+| [copydesk](skills/productivity/copydesk/) | Write, revise, and review meaningful explanations with natural Korean and precise English, preserving facts through local corrections and broader rewrites |
 
 ### Personal and Everyday Tools
 
@@ -135,7 +135,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 ## Writing, documents, and dashboards
 
-Use `copydesk` as the document-authoring entry point in the requested language and medium. Its core covers noun-phrase headings, information selection, short cells, table and figure planning, explanation, and removal of research diaries and blanket disclaimers. Its existing name remains stable; its scope includes nontechnical and external-facing documents. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
+Use `copydesk` as the document-authoring entry point in the requested language and medium. It distinguishes new writing, local corrections, and broader rewrites, preserves evidence and meaning, and chooses prose, tables, or figures for the reader's question. Its English clarity guidance draws useful principles from STE without imposing word counts, a fixed dictionary, or English sentence rules on Korean. It also provides shared writing principles for PRs and issues; their specialist skills own structure and publication. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
 
 The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [synthetic examples](skills/productivity/copydesk/references/synthetic-examples.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public writing sources](docs/writing-sources.md) for the current task, not as a mandatory reading list.
 

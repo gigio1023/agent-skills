@@ -1,6 +1,6 @@
 # Finished Examples
 
-Use the matching sample when planning or restructuring a technical explanation, measured comparison, or proposal. Each combines the necessary prose with a focused display. All systems, events, and measurements below are independently synthetic teaching cases, not reported results. Sample headings and blocks are illustrative, not a required outline.
+Use the matching sample when planning or restructuring a technical explanation, measured comparison, or proposal. Each chooses prose and a display for its reader question; the form is an example, not a requirement for every topic. All systems, events, and measurements below are independently synthetic teaching cases, not reported results. Sample headings and blocks are illustrative, not a required outline.
 
 ## Technical explanation
 

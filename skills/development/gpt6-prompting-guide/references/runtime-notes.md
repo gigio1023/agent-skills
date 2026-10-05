@@ -1,28 +1,34 @@
 # GPT-6 Runtime Notes
 
-Verified against official OpenAI documentation and the Codex source on 2026-09-23. Recheck these settings before changing an integration. They describe the public API and Codex; other harnesses need their own documentation.
+The model, effort, and tool-calling distinctions below were checked against official OpenAI documentation on 2026-10-06. The later runtime-feature sections retain their 2026-09-23 review date; recheck them before changing an integration. Codex and the public API have separate catalogs and controls.
 
 ## Models And Effort
 
-The [Astra model page](https://developers.openai.com/api/docs/models/gpt-6-astra) lists `gpt-6-astra` with reasoning efforts `low`, `medium`, `high`, `xhigh`, and `max`. The [Sol model page](https://developers.openai.com/api/docs/models/gpt-6-sol) lists `gpt-6-sol` with `none` through `max` and a default of `medium`. Do not infer `minimal` for either model, or `none` for Astra.
+| Model | Exact ID | API effort | Tool calling |
+| --- | --- | --- | --- |
+| GPT-6 Astra | `gpt-6-astra` | `low`, `medium`, `high`, `xhigh`, `max` | Responses |
+| GPT-6.1 Sol | `gpt-6.1-sol` | `low`, `medium` (default), `high`, `xhigh`, `max` | Responses |
+| Legacy GPT-6 Sol | `gpt-6-sol` | Includes `none`; default `medium` | Responses, or Chat Completions at `none` |
 
-Codex reads its own catalog. The bundled catalog at CLI 0.156.1 lists `gpt-6-sol` with default `medium` and levels `low` through `ultra`; the 0.156.0 catalog lists only `gpt-6-astra`. A Codex `ultra` level is a harness setting, not an API effort.
+The [Sol 6.1 model page](https://developers.openai.com/api/docs/models/gpt-6.1-sol) explicitly excludes `none` and `minimal`. Do not transfer the legacy Sol tool-calling exception to Sol 6.1. The [GPT-6 migration guide](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6.1-sol) distinguishes these models and Astra.
+
+Codex reads its own catalog. The local CLI 0.159.3 bundled catalog inspected on 2026-10-06 listed Astra and Sol 6.1 with `low` through `ultra`, both with default `low`. A bundled catalog does not prove served availability or account access. Check the active surface before assigning a model, and treat `ultra` as a harness mode rather than an API effort.
 
 ## Migration Compatibility
 
-The [GPT-6 migration quickstart](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md#migration-quickstart) covers Astra, Sol, and Luna:
+The [migration quickstart](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6.1-sol#migration-quickstart) establishes these settings:
 
-- Preserve the current effective effort where the model supports it. Astra has no `none`; use `low`. Sol supports `none`. A `minimal` baseline starts at `low`.
-- Use Responses for tools. Astra supports Chat Completions but its tool calling requires Responses. Sol calls functions in Chat Completions only with `reasoning_effort: "none"`; use Responses for reasoning with tools.
-- When effort is not `none`, remove `temperature`, `top_p`, and `top_logprobs`; also remove Chat Completions `logprobs` or Responses `include: ["message.output_text.logprobs"]` entries.
-- For EU data residency, use Standard processing. Fast mode for Astra carries no latency SLA.
-- From GPT-5.5 or earlier, migrate `prompt_cache_retention` to `prompt_cache_options.ttl: "30m"` and review cache behavior and billing.
+- Preserve the effective effort where supported. Astra and Sol 6.1 have no `none`; start at `low` for a previous `none` or `minimal` baseline and verify the target workload.
+- Use Responses for tools. Astra and Sol 6.1 support Chat Completions without tools. The Chat Completions function-calling exception at `none` belongs to legacy Sol and Luna only.
+- When effort is not `none`, remove `temperature`, `top_p`, and `top_logprobs`; also remove Chat Completions `logprobs` or Responses `message.output_text.logprobs` include entries.
+- Verify processing-tier and data-residency compatibility separately when relevant to the deployment.
+- When migrating older integrations, review the current caching contract before replacing legacy cache fields.
 
-Keep these compatibility changes distinct from edits to the prose prompt. The checklist is not a complete deployment configuration.
+Keep runtime compatibility changes separate from prompt edits and routing policy. Selecting Sol 6.1 for this pack still requires the mechanical-only criteria in `gpt6-astra-model-routing`.
 
 ## Moving From GPT-5.6
 
-This pack stopped using GPT-5.6 on 2026-09-23 and routes that work to Sol. OpenAI documented GPT-5.6's prompt tendencies, such as preferring shorter prompts and compressing output under generic brevity instructions, for GPT-5.6 only; do not carry them to GPT-6 unmeasured. Start from this package's patterns and evaluate on the Sol workload.
+This pack's GPT routing now defaults to Astra. Sol 6.1 is reserved for very easy deterministic execution. OpenAI documented GPT-5.6's prompt tendencies, such as preferring shorter prompts and compressing output under generic brevity instructions, for GPT-5.6 only; do not carry them to a newer model unmeasured. Start from this package's patterns and verify changes against the target workload.
 
 [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md) keeps the API capabilities GPT-5.6 had, including Programmatic Tool Calling, multi-agent orchestration, persisted reasoning, compaction, pro mode, and prompt caching. They stay runtime settings:
 

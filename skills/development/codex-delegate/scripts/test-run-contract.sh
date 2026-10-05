@@ -16,6 +16,9 @@ cleanup() {
   rm -rf -- "$TEST_ROOT"
 }
 trap cleanup EXIT
+if [ "${CODEX_DELEGATE_KEEP_FIXTURES:-no}" = yes ]; then
+  trap 'printf "fixtures=%s\n" "$TEST_ROOT"' EXIT
+fi
 
 fail() {
   printf 'FAIL: %s\n' "$*" >&2
@@ -66,7 +69,7 @@ launch_run() {
   local run=$2
   local mode=$3
   local launch_path=$4
-  local model=${5:-gpt-6-sol}
+  local model=${5:-}
   local effort=${6:-xhigh}
   local fast_requested=${7:-no}
   local ignore_user_config=${8:-no}
@@ -74,6 +77,10 @@ launch_run() {
   local host_route=${10:-launcher-subagent}
   local host_model=${11:-claude-sonnet-5}
   local routing_reason=${12:-default}
+  local sandbox=${13:-read-only}
+  local network_access=${14:-no}
+  local model_args=()
+  [ -z "$model" ] || model_args=(--model "$model")
   local packet="$run.packet.md"
   local manifest="$run.manifest"
 
@@ -83,8 +90,9 @@ launch_run() {
     cd "$TEST_ROOT" || exit 1
     PATH=$launch_path
     export PATH
-    /bin/bash "$LAUNCHER" --workspace "$workspace" --sandbox read-only \
-      --packet "$packet" --run-dir "$run" --model "$model" --effort "$effort" \
+    /bin/bash "$LAUNCHER" --workspace "$workspace" --sandbox "$sandbox" \
+      --packet "$packet" --run-dir "$run" ${model_args[@]+"${model_args[@]}"} --effort "$effort" \
+      --network-access "$network_access" \
       --fast-requested "$fast_requested" \
       --ignore-user-config "$ignore_user_config" \
       --skip-git-repo-check "$skip_git_repo_check" \
@@ -98,12 +106,14 @@ status_of() {
 }
 
 mkdir -p "$CODEX_BIN" "$SETSID_BIN"
+ln -s "$(command -v node)" "$CODEX_BIN/node"
 cat > "$CODEX_BIN/codex" <<'EOF'
 #!/bin/bash
 output=
 model=
 effort=
 service_tier=
+network_access=inherited
 ignore_user_config=no
 skip_git_repo_check=no
 printf 'call\n' >> "$CODEX_CALL_LOG"
@@ -121,6 +131,7 @@ while [ "$#" -gt 0 ]; do
       case "$2" in
         model_reasoning_effort=*) effort=${2#*=} ;;
         service_tier=*) service_tier=${2#*=} ;;
+        sandbox_workspace_write.network_access=*) network_access=${2#*=} ;;
       esac
       shift 2
       ;;
@@ -150,6 +161,7 @@ done
 printf 'model=%s effort=%s tier=%s ignore_user_config=%s skip_git_repo_check=%s\n' \
   "$model" "$effort" "$service_tier" "$ignore_user_config" \
   "$skip_git_repo_check" >&2
+printf 'network_access=%s\n' "$network_access" >&2
 prompt=$(cat)
 mode=${prompt%%$'\n'*}
 printf '%s\n' '{"type":"thread.started","thread_id":"mock-thread"}'
@@ -203,16 +215,16 @@ grep -q '^thread=mock-thread$' "$RUN_ONE.manifest" || fail "launch manifest has 
 grep -q '^provenance=' "$RUN_ONE.manifest" || fail "launch manifest has no provenance"
 grep -q 'payload-token' "$RUN_ONE.manifest" && fail "launch manifest leaked prompt content"
 grep -q '^exit=0 handoff=ready ' "$RUN_ONE/result.txt" || fail "ready marker missing"
-grep -q 'model=gpt-6-sol effort=xhigh fast_requested=no tier=default network=no ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/result.txt" || fail "default provenance drifted"
+grep -q 'model=gpt-6-astra effort=xhigh fast_requested=no tier=default network=no ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/result.txt" || fail "default provenance drifted"
 EXPECTED_PACKET_SHA=$(openssl dgst -sha256 -r "$RUN_ONE/prompt.md" | awk '{print $1}')
 grep -q "host_route=launcher-subagent host_model=claude-sonnet-5 routing_reason=default packet_sha256=$EXPECTED_PACKET_SHA" "$RUN_ONE/result.txt" || fail "host provenance or packet hash drifted"
-grep -q 'model=gpt-6-sol effort=xhigh tier=default ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/stderr.log" || fail "default model settings did not reach codex"
+grep -q 'model=gpt-6-astra effort=xhigh tier=default ignore_user_config=no skip_git_repo_check=no' "$RUN_ONE/stderr.log" || fail "default model settings did not reach codex"
 grep -q 'payload-token-SUCCESS' "$RUN_ONE/report.md" || fail "stdin prompt did not reach report"
 [ ! -e "$RUN_ONE/final.md" ] || fail "obsolete final.md was created"
 status_of "$RUN_ONE" | grep -q '^state    DONE exit=0 handoff=ready' || fail "DONE status missing"
 pass "Perl fallback keeps every Codex channel in files"
 
-WORKSPACE_TWO="$TEST_ROOT/workspace 한글 [x] \$dollar \"quote\""
+WORKSPACE_TWO="$TEST_ROOT/workspace 한글 [x] \$dollar \"quote\" pgid=1 thread=wrong"
 RUN_TWO="$WORKSPACE_TWO/.agent-runs/codex/run with spaces"
 launch_run "$WORKSPACE_TWO" "$RUN_TWO" SUCCESS "$SETSID_BIN:$BASE_PATH" \
   > "$TEST_ROOT/launch-two.stdout" 2> "$TEST_ROOT/launch-two.stderr"
@@ -222,6 +234,7 @@ grep -Fq "workspace=$RESOLVED_WORKSPACE_TWO " "$RUN_TWO/result.txt" || fail "com
 grep -q '^exit=0 handoff=ready ' "$RUN_TWO/result.txt" || fail "setsid branch did not finish"
 [ ! -s "$TEST_ROOT/launch-two.stdout" ] || fail "setsid branch leaked stdout"
 [ ! -s "$TEST_ROOT/launch-two.stderr" ] || fail "setsid branch leaked stderr"
+grep -q '^thread=mock-thread$' "$RUN_TWO.manifest" || fail "workspace path forged thread metadata"
 pass "setsid selection preserves spaces, Unicode, quotes, and dollar signs"
 
 RUN_THREE="$TEST_ROOT/missing-run"
@@ -245,6 +258,14 @@ RUN_FIVE="$TEST_ROOT/died-run"
 launch_run "$WORKSPACE_ONE" "$RUN_FIVE" SLEEP "$BASE_PATH"
 wait_for_provenance "$RUN_FIVE"
 status_of "$RUN_FIVE" | grep -q '^state    RUNNING' || fail "live group was not RUNNING"
+if PATH="$BASE_PATH" /bin/bash "$LAUNCHER" --workspace "$WORKSPACE_ONE" \
+  --packet "$RUN_ONE.packet.md" --resume-from "$RUN_FIVE" \
+  --run-dir "$TEST_ROOT/concurrent-resume" --host-route direct-main \
+  --host-model unavailable --routing-reason resume-inherited \
+  > "$TEST_ROOT/concurrent-resume.stdout" 2> "$TEST_ROOT/concurrent-resume.stderr"; then
+  fail "active source allowed another turn"
+fi
+[ ! -e "$TEST_ROOT/concurrent-resume" ] || fail "active resume created a run"
 watch_terminal_or_death "$RUN_FIVE" &
 WATCHER=$!
 PG=$(sed -n '1s/.*pgid=\([0-9]*\).*/\1/p' "$RUN_FIVE/result.txt")
@@ -292,13 +313,13 @@ grep -q 'model=gpt-6-astra effort=xhigh fast_requested=no tier=default' "$RUN_NI
 grep -q 'model=gpt-6-astra effort=xhigh tier=default' "$RUN_NINE/stderr.log" || fail "Astra settings did not reach codex"
 grep -q 'ignore_user_config=yes skip_git_repo_check=yes' "$RUN_NINE/result.txt" || fail "explicit safety flags were not recorded"
 grep -q 'ignore_user_config=yes skip_git_repo_check=yes' "$RUN_NINE/stderr.log" || fail "explicit safety flags did not reach codex"
-pass "contextual Astra routing stays xhigh and non-Fast with explicit safety flags"
+pass "explicit config and git-check flags reach the delegated process"
 
 RUN_TEN="$TEST_ROOT/explicit-fast-run"
-launch_run "$WORKSPACE_ONE" "$RUN_TEN" SUCCESS "$BASE_PATH" gpt-6-sol xhigh yes
+launch_run "$WORKSPACE_ONE" "$RUN_TEN" SUCCESS "$BASE_PATH" gpt-6-astra xhigh yes
 wait_for_terminal "$RUN_TEN"
-grep -q 'model=gpt-6-sol effort=xhigh fast_requested=yes tier=priority' "$RUN_TEN/result.txt" || fail "Fast provenance drifted"
-grep -q 'model=gpt-6-sol effort=xhigh tier=priority' "$RUN_TEN/stderr.log" || fail "explicit Fast setting did not reach codex"
+grep -q 'model=gpt-6-astra effort=xhigh fast_requested=yes tier=priority' "$RUN_TEN/result.txt" || fail "Fast provenance drifted"
+grep -q 'model=gpt-6-astra effort=xhigh tier=priority' "$RUN_TEN/stderr.log" || fail "explicit Fast setting did not reach codex"
 pass "explicit Fast request is represented separately from effort"
 
 RUN_ELEVEN="$TEST_ROOT/invalid-fast-run"
@@ -327,7 +348,7 @@ PATH="$BASE_PATH" /bin/bash "$LAUNCHER" --workspace "$WORKSPACE_ONE" \
 wait_for_terminal "$RUN_TWELVE"
 [ ! -s "$TEST_ROOT/resumed-launch.stderr" ] || fail "resume launcher leaked stderr"
 grep -q 'thread=mock-thread resumed_from=plain-run' "$RUN_TWELVE/result.txt" || fail "resume provenance lost its source"
-grep -q 'model=gpt-6-sol effort=xhigh fast_requested=no tier=default' "$RUN_TWELVE/result.txt" || fail "resume did not inherit route"
+grep -q 'model=gpt-6-astra effort=xhigh fast_requested=no tier=default' "$RUN_TWELVE/result.txt" || fail "resume did not inherit route"
 grep -q 'ignore_user_config=no skip_git_repo_check=no' "$RUN_TWELVE/result.txt" || fail "resume did not inherit safety flags"
 grep -q 'host_route=launcher-subagent host_model=claude-sonnet-5 routing_reason=resume-inherited packet_sha256=' "$RUN_TWELVE/result.txt" || fail "resume lost current host provenance"
 grep -q '^thread=mock-thread$' "$RUN_TWELVE.manifest" || fail "resume manifest lost its thread"
@@ -360,7 +381,7 @@ pass "an existing path without matching provenance is a contract failure"
 
 RUN_FIFTEEN="$TEST_ROOT/direct-fallback-run"
 launch_run "$WORKSPACE_ONE" "$RUN_FIFTEEN" SUCCESS "$BASE_PATH" \
-  gpt-6-sol xhigh no no no direct-main unavailable manifest-delivery-failure
+  gpt-6-astra xhigh no no no direct-main unavailable manifest-delivery-failure
 wait_for_terminal "$RUN_FIFTEEN"
 grep -q 'host_route=direct-main host_model=unavailable routing_reason=manifest-delivery-failure' "$RUN_FIFTEEN/result.txt" || fail "direct fallback route was not recorded"
 pass "direct fallback through an absent preselected path records its route"
@@ -376,5 +397,77 @@ fi
 grep -q -- '--run-dir is required' "$TEST_ROOT/no-run-dir.stderr" ||
   fail "missing run path did not explain the failure"
 pass "every launch requires a main-selected absent run path"
+
+
+# Recovery must parse the typed event even after a warning and JSON whitespace.
+printf '%s\n' '{"type":"error","message":"non-fatal warning"}' \
+  '{"thread_id": "mock-thread", "type": "thread.started"}' > "$RUN_ONE/events.jsonl"
+THREAD=$(node "$RENDERER" "$RUN_ONE/events.jsonl" --thread)
+[ "$THREAD" = mock-thread ] || fail "typed thread event was not recovered"
+# Preserve a terminal legacy record without handoff metadata for report checks.
+printf 'sandbox=read-only\nexit=0\n' > "$RUN_EIGHT/result.txt"
+printf 'legacy report\n' > "$RUN_EIGHT/report.md"
+status_of "$RUN_EIGHT" | grep -q '^state    DONE' || fail "legacy report was not accepted"
+rm "$RUN_EIGHT/report.md"
+status_of "$RUN_EIGHT" | grep -q '^state    INCOMPLETE' || fail "legacy empty report was still DONE"
+pass "typed thread events and legacy handoffs retain their meaning"
+
+# Completion is based on the present captured file, including legacy terminals.
+rm "$RUN_ONE/report.md"
+status_of "$RUN_ONE" | grep -q '^state    INCOMPLETE' || fail "missing captured report was still DONE"
+printf 'sandbox=read-only\nexit=01 handoff=ready finished=2026-01-01T00:00:00Z\n' > "$RUN_EIGHT/result.txt"
+status_of "$RUN_EIGHT" | grep -q '^state    EXITED' || fail "nonzero exit 01 was read as zero"
+pass "current report presence and exact zero exit govern completion"
+
+# A source whose liveness is unknown must not start a concurrent turn.
+UNKNOWN_SOURCE="$TEST_ROOT/unknown-resume-source"
+mkdir "$UNKNOWN_SOURCE"
+printf '{"type":"thread.started","thread_id":"mock-thread"}\n' > "$UNKNOWN_SOURCE/events.jsonl"
+printf 'sandbox=read-only model=gpt-6-astra effort=xhigh\n' > "$UNKNOWN_SOURCE/result.txt"
+if PATH="$BASE_PATH" /bin/bash "$LAUNCHER" --workspace "$WORKSPACE_ONE" \
+  --packet "$PACKET_TWELVE" --resume-from "$UNKNOWN_SOURCE" \
+  --run-dir "$TEST_ROOT/unknown-resume" --host-route direct-main \
+  --host-model unavailable --routing-reason resume-inherited \
+  > "$TEST_ROOT/unknown-resume.stdout" 2> "$TEST_ROOT/unknown-resume.stderr"; then
+  fail "unknown source liveness permitted a second turn"
+fi
+[ ! -e "$TEST_ROOT/unknown-resume" ] || fail "unknown source created a run"
+pass "unknown source liveness blocks resume without changing artifacts"
+
+# A false network grant must override a permissive user configuration.
+NETWORK_RUN="$TEST_ROOT/network-denied"
+launch_run "$WORKSPACE_ONE" "$NETWORK_RUN" SUCCESS "$BASE_PATH" \
+  gpt-6-astra xhigh no no no direct-main unavailable default workspace-write no
+wait_for_terminal "$NETWORK_RUN"
+grep -q '^network_access=false$' "$NETWORK_RUN/stderr.log" || fail "network=no inherited user configuration"
+NETWORK_ALLOWED="$TEST_ROOT/network-allowed"
+launch_run "$WORKSPACE_ONE" "$NETWORK_ALLOWED" SUCCESS "$BASE_PATH" \
+  gpt-6-astra xhigh no no no direct-main unavailable user-explicit workspace-write yes
+wait_for_terminal "$NETWORK_ALLOWED"
+grep -q '^network_access=true$' "$NETWORK_ALLOWED/stderr.log" || fail "network grant did not reach CLI"
+pass "workspace-write network grants are explicit in both directions"
+
+# Stored wrappers are inspectable provenance, not a second launch API.
+CALLS_BEFORE_REPLAY=$(wc -l < "$CODEX_CALL_LOG" | tr -d ' ')
+if PATH="$BASE_PATH" /bin/bash "$NETWORK_RUN/run.sh" > "$TEST_ROOT/replay.stdout" 2> "$TEST_ROOT/replay.stderr"; then
+  fail "stored wrapper replayed a completed task"
+fi
+CALLS_AFTER_REPLAY=$(wc -l < "$CODEX_CALL_LOG" | tr -d ' ')
+[ "$CALLS_BEFORE_REPLAY" = "$CALLS_AFTER_REPLAY" ] || fail "replayed wrapper invoked Codex again"
+pass "stored wrapper refuses a second execution"
+
+# A path basename is data, even when it spells a runtime option.
+OPTION_SOURCE="$TEST_ROOT/--version"
+launch_run "$WORKSPACE_ONE" "$OPTION_SOURCE" SUCCESS "$BASE_PATH"
+wait_for_terminal "$OPTION_SOURCE"
+OPTION_RESUME="$TEST_ROOT/option-name-resume"
+PATH="$BASE_PATH" /bin/bash "$LAUNCHER" --workspace "$WORKSPACE_ONE" \
+  --packet "$RUN_ONE.packet.md" --resume-from "$OPTION_SOURCE" \
+  --run-dir "$OPTION_RESUME" --host-route direct-main \
+  --host-model unavailable --routing-reason resume-inherited \
+  > "$TEST_ROOT/option-name-resume.manifest" 2> "$TEST_ROOT/option-name-resume.stderr"
+wait_for_terminal "$OPTION_RESUME"
+grep -q ' resumed_from=--version model=' "$OPTION_RESUME/result.txt" || fail "source basename was interpreted as a runtime option"
+pass "resume basename remains data when it begins with an option prefix"
 
 printf 'PASS: %d contract scenarios\n' "$PASS"

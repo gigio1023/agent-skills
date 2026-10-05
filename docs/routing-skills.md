@@ -1,25 +1,37 @@
 # Model routing skill composition
 
-Two skills assign a model and a reasoning effort to each subagent a lead spawns. They are keyed to the lead model, not to a harness: `fable5-model-routing` applies when Claude Fable 5 or 5.1 leads, `gpt6-astra-model-routing` when GPT-6 Astra leads. Claude Code and Codex are the worked examples in their adapter references; Hermes, Cursor, and OpenCode appear there too, and a generic procedure covers any other harness with subagents.
+GPT work defaults to Astra. Sol 6.1 is reserved for very easy deterministic collection, transformation, or command execution with fixed inputs, procedure, output, and mechanical acceptance. Source selection, interpretation, diagnosis, implementation, review, and writing require Astra. Uncertain assignments stay on Astra.
 
-| Capability | Responsibility |
+| Skill | Responsibility |
 | --- | --- |
-| `fable5-model-routing` | Tier each delegated task under a Fable lead, apply the effort policy, install subagent definitions where the harness needs them, and state each subagent's resolved settings before spawning |
-| `gpt6-astra-model-routing` | The same under an Astra lead, with worker defaults and role files that run workers on GPT-6 Sol and reserve Astra for judgment |
-| `orchestrate-subagents` | Decide whether and how to decompose, write the packets, coordinate, and synthesize |
-| `small-model-handoff` | Write the bounded prompt when a pack skill dispatches to a weaker executor |
-| `codex-delegate` | Launch and own a whole Codex mission from another host; routing inside that mission belongs to the Astra skill only when Astra leads it |
+| `gpt6-astra-model-routing` | GPT model and effort selection, worker roles, and nested GPT delegation |
+| `fable5-model-routing` | Anthropic model and effort choices under a Fable lead |
+| `orchestrate-subagents` | Decomposition, ownership, coordination, and synthesis |
+| `small-model-handoff` | Fixed execution contracts for a selected mechanical or weaker executor |
+| `codex-delegate` | External Codex mission launch, authority, runtime, and evidence |
 
-The two routing skills share a core section word for word: three signals that place a task in one of four tiers, an effort policy by model class, eleven decision rules, and a dispatch statement. Their `references/source-notes.md` files carry a mirror note; change the core in both or in neither. The vocabulary they use (subagent, subagent definition, task, dispatch, route, tier) is recorded in the repository's [terminology index](../terminology.md).
+GPT routing applies inside delegated missions and under non-GPT leads whenever the worker is a GPT model. Fable routing keeps its Anthropic choices separate. The two routing packages no longer mirror a common model table. The [terminology index](../terminology.md) records shared orchestration vocabulary.
 
-## Delegation authority
+## Collection And Judgment
 
-An explicit user instruction about delegation governs: whether to delegate, how many subagents, which model, and the budget. Without one, the lead decides whether and how widely to delegate, and that initiative is expected rather than exceptional. The routing skills apply to every spawn either way. Delegation never widens authority for external writes, destructive work, or scope.
+| Packet | GPT route |
+| --- | --- |
+| Download specified URLs and return file hashes | Sol 6.1 or script |
+| Run fixed status commands and return raw output | Sol 6.1 or script |
+| Select sources or summarize a paper's limitations | Astra |
+| Diagnose a service failure | Astra |
+| Implement or review a scoped change | Astra |
 
-## Effort policy
+Sol output contains raw or mechanically transformed results, source locations, execution status, and missing items. Astra interprets that evidence and chooses the next action. Read-only status, high volume, and a compact output do not make a task mechanical.
 
-Frontier lead models vary effort by task shape. Every model below the frontier runs at `xhigh` by default, and `xhigh` is the floor; a route is lowered only by editing its subagent definition or spawn arguments with a recorded reason. Models without an effort control stay out of the default routes. The cost lever under this policy is which model does the work, not how hard the cheaper model thinks.
+## Effort And Authority
+
+Preserve an explicit user choice and the effective session effort where supported. Do not lower frontier effort merely because the model is a worker. The Codex assets default to Astra at `xhigh` for named and unnamed general workers, and Sol 6.1 at `xhigh` for `sol-clerk`. Fable assets preserve selected session effort; Sonnet and Opus retain their separate `xhigh` defaults.
+
+Actual user budgets, concurrency limits, and scope remain binding at every delegation depth. The skills do not impose an arbitrary frontier consultation count. Each dispatch states task, role, model, effort, configuration source, and whether the runtime was observed. Selecting a role or accepting a request does not prove which settings ran.
 
 ## Adoption
 
-Installing a routing skill does not change any configuration. Each skill ships its subagent definitions as assets and proposes their installation; the user approves before anything is copied into a harness's agent directory or configuration file. Model facts such as prices, effort ladders, and catalog defaults are read from the harness at install time and dated in the skill's source notes rather than hard-coded in instructions.
+Editing or installing a routing skill does not activate its role assets. Apply configuration changes only under the user's installation grant and preserve unrelated settings. Current harness schemas control role fields, override support, and fork modes. Sol 6.1 and legacy Sol have different API contracts; verify the exact model and active catalog before installation.
+
+For existing installations, replace `sol-scout` with `astra-scout`, `sol-builder` with `astra-builder`, and `fable-lean-builder` with `fable-builder`. Update references and retire the old roles within the same installation grant. The repository assets and an installed runtime are separate verification targets.

@@ -1,90 +1,53 @@
 # Prompt Packet
 
-## Contents
+The packet carries the user's intended outcome and the context missing from Codex's workspace. It can grant end-to-end judgment within a scope. Write only the structure the task needs, with sources and constraints beside the decisions they govern.
 
-- [Template](#template)
-- [Worked example](#worked-example)
-- [Review and investigation packets](#review-and-investigation-packets)
+The host finalizes the packet before launch. The launcher copies it to `prompt.md` and records its SHA-256. Follow-up instructions belong in a new packet for a new resumed turn. Never edit the original packet to make it match a changed mission.
 
-The packet is the whole mission. Codex cannot see the host conversation, so anything that lives only there — intent, constraints, decisions, taste — must be written down or it is lost. Keep the packet as short as completeness allows; point at files instead of pasting them.
+## Focused implementation example
 
-The main host finalizes this packet before dispatch. A host-side launcher subagent receives its path plus fixed launch values and must not rewrite, summarize, or reinterpret it.
-
-The packet is also where authority is stated. `--sandbox` bounds only the filesystem effects of shell commands — MCP tools, network, and web search ride on the Codex config, so name the external effects the mission may have. Repository instructions (AGENTS.md and friends) never widen what you granted. Cognitive latitude is part of the grant too: how far Codex should investigate, judge, recommend, or opine is the host's call — write it into the packet rather than leaving it implied.
-
-Choose a broad judgment grant, not an exhaustive permission table. The host may ask Codex to execute fixed decisions, decide within named bounds, or own investigation, judgment, and decisions end to end. Name the consequential choices reserved to the host; ordinary reversible choices inside scope may stay implicit. If the packet grants a decision, Codex should make it rather than returning it for ceremonial approval.
-
-Internal parallelism is task-shaped permission inside a delegated run. Allow it when independent investigation, implementation, or verification branches would benefit from isolated contexts. Keep small or dependent work sequential. Codex may choose the number and topology without asking the host for each internal dispatch. This freedom does not widen the packet's scope, sandbox, or external authority.
-
-The response contract is always file-backed. Ask Codex to put the complete report in its final response. The launcher captures that response directly as `report.md` with `-o`; the packet does not need to know the run path, and the model does not need write access merely to hand findings back. No finding, decision, caveat, or verification result may exist only in a progress event. The run directory's `report.md` is reserved for this CLI capture. Never tell Codex to write a task deliverable there. Give generated documents, patches, or other deliverables their own explicit workspace paths and ask the final response to identify them.
-
-## Template
+The following example delegates implementation judgment to Astra. The command and paths are illustrative.
 
 ```markdown
-# Mission
+Fix empty-input parsing in src/parser.py. The accepted behavior is parse("") == []. Preserve the public function signature and all other documented input behavior. Done means the focused parser suite passes and the diff contains only changes needed for this behavior.
 
-## Objective
-One sentence. Then an observable definition of done — what a reviewer could check without asking you.
+Read the repository instructions and tests/test_parser.py. Investigate and implement the fix. You may edit the parser and add a regression case for the accepted behavior; preserve unrelated changes. Run python -m pytest tests/test_parser.py -q. If fixing this requires an API change, explain the concrete dependency before crossing that boundary.
 
-## Context you cannot discover
-Decisions already made in conversation, user preferences, prior attempts, external constraints. Only what is NOT discoverable from the workspace.
-
-## Where to look
-Relevant paths, entry points, docs. "Read X before touching Y" ordering when it matters.
-
-## Scope
-In scope: ... Out of scope: ... (name the tempting-but-wrong expansions explicitly)
-
-## Judgment authority
-Choose the broad grant: execute fixed decisions; decide within named bounds; or own investigation, judgment, and decisions end to end. Name only the consequential decisions reserved to the host. Ordinary reversible choices inside scope belong to Codex unless stated otherwise.
-
-## Authority and pause conditions
-What it may run or edit, and which external effects are intended — network calls, MCP tools, credentials. When it must stop and report instead of proceeding (destructive actions, contract changes, missing information). Internal subagents: allowed when genuinely independent branches justify them. Choose their number and topology. Keep dependent steps and conflicting writes sequential; a sequential solution remains valid. Before the final handoff, inspect the root-visible child states, wait for active children or intentionally interrupt them, and state the child sweep result in the report.
-
-If the host is already running five or more Codex roots, replace the preceding grant with either `Internal subagents: disabled for this externally parallel run` or one named independent purpose and a maximum child count.
-
-## Verification
-Exact commands to run, and what output counts as passing.
-
-## Response contract
-Return the complete report as your final response, covering: ... (findings, changed files, commands run with results, deviations from this packet, anything left unverified). The launcher captures it as report.md, so do not write a separate handoff file, write a task deliverable to the run directory's report.md, or leave material results only in progress.
+This is local work. Do not publish or change dependencies. Use internal subagents only if an independent check would help; follow gpt6-astra-model-routing for model selection. Return the result, changed paths, actual check outcome, and any unresolved limitation as the final response. The CLI captures that response as report.md; place task deliverables outside the run directory.
 ```
 
-## Worked example
+## Broader mission template
 
 ```markdown
-# Mission
+# Outcome
+[Question to resolve or result to produce, with observable acceptance.]
 
-## Objective
-Fix the failing `test_parse_empty` in `tests/test_parser.py`. Done when: `pytest tests/test_parser.py` exits 0 and no other test breaks.
+# Context and sources
+[Decisions, preferences, failed attempts, or constraints available only in the host conversation. Point to discoverable sources instead of copying them.]
 
-## Context you cannot discover
-We decided in review that empty input should return `[]`, not raise. Do not change the public signature of `parse()`.
+# Ownership and limits
+[Work Codex owns, relevant workspace paths, and material exclusions. Grant investigation and judgment needed to finish. Name consequential decisions reserved to the host.]
 
-## Where to look
-`src/parser.py` (parse entry point), `tests/test_parser.py:41`.
+[Authorized external effects, credentials to use through existing access, and actual resource limits. Pause only the dependent action when authority or a consequential fact is missing. Continue useful authorized work.]
 
-## Scope
-In scope: `src/parser.py`, the one failing test's expectations if they contradict the decision above. Out of scope: refactoring the parser, touching other modules, dependency changes.
+# Internal delegation
+Use supported internal subagents when independent work benefits from isolated context. Consult gpt6-astra-model-routing before spawning. Default judgment-bearing children to Astra. Sol 6.1 requires fixed inputs, procedure, output, and mechanical acceptance. Descendants inherit this mission's limits. Integrate their evidence and settle active children before the final response.
 
-## Judgment authority
-Implement the already-decided empty-input behavior. You own ordinary reversible implementation choices inside the two-file scope.
-
-## Authority and pause conditions
-You may edit the two files above and run pytest. If the fix requires an API change, stop and report options instead. Internal subagents are allowed, but this task is small and sequential enough to handle directly unless a useful independent check emerges.
-
-## Verification
-`python -m pytest tests/test_parser.py -q` → all passing.
-
-## Response contract
-Return a concise complete report: list changed files, include the final pytest summary line, and note any deviation. The launcher captures it as report.md.
+# Evidence and handoff
+[Required checks or evidence criteria, appropriate to the outcome.]
+Return a complete final response with the conclusion, deliverable paths, material decisions, verification outcomes, and remaining limitations. Include child results and unresolved work when children were used. The launcher captures the response as report.md; this path is reserved for CLI capture.
 ```
 
-## Review and investigation packets
+Replace the internal delegation grant with a sequential-only constraint only when the user, task dependency, or runtime requires it. If delegation is allowed, the lead need not seek approval for each child inside the grant. Subagents cannot grant themselves more workspace, network, credential, or publication authority.
 
-The same shape works for missions that change nothing in the workspace. Use `read-only`: `-o` is a CLI output capture, so the model does not need workspace write authority to produce `report.md`.
+## Review and investigation
 
-- **Investigation**: objective = the question; verification = the evidence the answer must cite (paths, line numbers, command output).
-- **Review**: point at the diff or branch; response contract = findings ranked by severity, each with file:line and a concrete failure scenario. A fresh thread gives an independent perspective; resume the original thread only when continuity matters more than independence.
+For a review, identify the exact base and proposed revision. Require actionable findings with a concrete failure scenario and file location. A fresh thread provides independent context; resume a prior review when continuity serves the task.
 
-A read-only mission stays read-only on resume: reuse the original run's sandbox unless the user has since granted more. "Now apply the fix you proposed" is new authority — say so in the packet and in your reply.
+For an investigation, state the decision or question, source boundaries, and evidence needed to settle it. Codex should distinguish observations, supported conclusions, and remaining unknowns. Do not preselect the answer or demand an exhaustive source inventory without a task reason.
+
+Use `read-only` when no workspace edits are needed. CLI final-output capture still produces the report. If the follow-up authorizes edits, update both the packet and sandbox explicitly.
+
+## Resume packet
+
+State the prior run, what is now verified, what remains, and any changed authority. For an unknown outcome, inspect existing effects before redoing work. If only the final report is missing, ask for a complete final response based on existing evidence rather than replaying the task. Include exact next actions only when they are already decided; otherwise grant the judgment needed to finish.

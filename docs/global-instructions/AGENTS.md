@@ -5,39 +5,40 @@ When writing or revising a document, PR body, issue, or any text a colleague wil
 <!-- writing-profile:start -->
 # Writing Profile
 
-Standing preferences of this pack's author for documents, PR bodies, issue bodies, and messages to colleagues that the author writes or asks to have written. Apply them whenever drafting or revising such text, whether or not a skill was named; when revising another person's text, their voice and register stay, and only the meaning and structure rules apply. A current explicit request or a governing template overrides a line here. This file holds taste only; the craft rules that apply to any writer stay in SKILL.md and are not repeated here. It is the single source: the author's instruction files carry it by import or by a copy that `scripts/sync_profile.py` refreshes, and it stays within 40 lines, one line in for one line out.
+Standing preferences for documents, PR bodies, issues, and messages this author writes or asks to have written. Apply them when drafting or revising colleague-facing text. Another author's text keeps its voice and register unless a change is requested. A current explicit request or governing template takes precedence. This file holds taste; reusable craft principles live in SKILL.md. Instruction files import it or carry a copy refreshed by `scripts/sync_profile.py`.
 
 ## Reader
 
-- A colleague who knows the field and lacks this project's context. Explain the mechanism, not the discipline.
+- A colleague who knows the field and lacks this project's context. Explain the mechanism and the reason for a decision at the depth that reader needs.
 
 ## First screen
 
-- Start with the subject, the finding, or the decision. No sentence that introduces the document: purpose declaration, reading order, "읽는 기준" or "이 문서에서 하려는 일" labels, section previews, or a sentence that describes the table below. Scope lives in the title and the first line's subject; one line pointing to a sibling document is allowed in a document set. A date stays beside the table or number it bounds, never as a document-level as-of line. Inside one document there is no reading guide; a set of pages may have one overview table that says which page holds what.
-- A summary block is a heading or bold label plus short parallel items, one or two levels deep, ending in noun phrases.
-- Blocks, bullets, and notes the user wrote stay as written in every later pass. A user note left on the page is an instruction to the writer, never text for the reader.
+- Start with the subject, finding, or decision. Remove preambles that announce the document, repeat its title, or describe the visible table layout. A document set may have an overview that helps the reader choose a page. Put a date beside the result it bounds.
+- A summary block uses a short heading or bold label and parallel items. Noun phrases suit labels and compact results; use sentences when conditions or reasoning need them.
+- Preserve passages explicitly marked to stay as written. A local correction leaves unrelated prose intact. A broad revision may reshape user-authored prose while keeping its meaning and intentional omissions. A user note to the writer guides the edit and stays out of the reader's copy.
 
 ## Body
 
-- Structure carries the content: nested items, tables, and callouts are the default texture, and a nested item states a claim and then its condition. A mechanism, structure, or comparison the reader must understand gets a figure or an interactive page first, and prose connects it. A paragraph appears where reasoning needs connecting words, as for a cause or a trade-off, and opens with its point.
-- Sentences follow controlled language at about 80% of ASD-STE100: one claim or one instruction per sentence, the actor as subject in active voice, one term per concept and one meaning per term, and a condition before its action. Aim for 20 words in an instruction and 25 in a description; a Korean sentence holds one connective ending at most. State each point once and positively, with a negation only where the reader would assume the opposite. Rules and examples: copydesk `references/voice-and-facts.md`.
+- Choose prose, lists, tables, and figures for the reader's question. Use tables for comparable attributes, figures for relationships that benefit from a display, and paragraphs for connected explanation. Nest items when the hierarchy carries meaning.
+- Keep actors, actions, references, and conditions clear. Preserve natural causal and contrastive sentences; length alone is not a defect. Use consistent terms for the same concept while retaining distinctions between different concepts. Remove repeated framing and padding without dropping grammar or reasoning.
 
-## What stays and what goes
+## Content
 
-- Keep theory, mechanism, equations, figures, confirmed examples, and numbers whenever the reader needs them, also after a request to shorten. Shorten by removing orientation, repetition, process narration, exhaustive inventories, and records of the author's diligence: lists of what was not checked, scope disclaimers, next plans, unless the document's job is that status. Keep a condition beside a number when the reader would read the number differently without it. Keep one sentence on an unverified point when the reader would otherwise act as if it were verified.
-- A candidate stays a candidate and a proposal stays a proposal. State the status once, in the heading or the opening summary; body sentences, section headings, and figure labels must not contradict it (no "시작할 benchmark" for an example, no "논의 중" for the author's own proposal).
-- Name an evaluated unit by what it is and who produced it (target LLM answer, judge prediction, human reference label); an internal alias such as `v3` follows the role description and appears only for lookup.
+- Keep useful theory, mechanisms, equations, figures, confirmed examples, and numbers when shortening. Cut repetition, redundant orientation, process narration, and inventories that do not serve the reader. Keep the conditions and uncertainty needed to interpret a claim.
+- A candidate stays a candidate and a proposal stays a proposal. Establish status where readers encounter the claim; headings, body, and figure labels must agree. Do not invent team discussion or approval to remove first-person framing.
+- Name evaluated units by role and producer, such as target LLM answer, judge prediction, or human reference label. Add an internal alias only when it helps lookup.
 
 ## Form
 
-- Headings are noun phrases. Table cells hold values or short phrases; a table whose cells need widening is redesigned.
-- Field terms stay in English (judge, harness, ablation, residual stream); ordinary verbs and nouns are Korean. The register is dry and direct: no first-person framing ("I found", "내가 제안하는"), no author or date byline, no courtesy closing, and no sentence that repeats who owns the page or why it is shared. No middle dot (U+00B7) and no dash as punctuation in any body text, Korean or English; a colon splits a label, a period or a connective ending splits clauses, and a Korean connective ending is not followed by a comma. Quotations, code, and official names keep their original marks.
-- Inside a figure canvas: names and mechanism only. Counts, timestamps, sample sizes, comparison conditions, and hedges go in the caption or the adjacent prose. Figures assume an expert reader; organize or split rather than simplify.
-- Screens and figures default to light and are built to hold up in dark as well; the context decides the delivered theme: the host surface, the theme of a document's existing figures, or an explicit request. A requested PDF or print copy follows its own medium.
+- Prefer specific noun-phrase headings and concise table cells. Put extended reasoning beside the table.
+- Keep established field terms in English, such as judge, harness, ablation, and residual stream. Write ordinary verbs and nouns in natural Korean. The register is dry and direct. Remove ornamental first-person framing, bylines, courtesy closings, and self-appraisal; retain attribution or responsibility when it matters.
+- Avoid middle dots and dashes as prose punctuation. Use periods, colons, or natural clause connections. Quotations, code, official names, and notation keep their original marks. Choose Korean commas by sentence structure rather than inserting them automatically after connective endings.
+- Figure labels carry the names, operations, and quantities needed to understand the visual. Put supporting setup, timestamps, and extended qualifications in a caption or adjacent prose. Keep a condition on the canvas when readers need it to distinguish a branch or interpret a value.
+- Screens and figures default to light and should remain legible in dark contexts. Follow the host surface, an existing document's theme, or an explicit request when it sets the delivered theme. PDF and print follow their own medium.
 
 ## PR and issue
 
-- Ask which language the reviewing team reads before drafting a PR; English is the default answer, this author's company repos are Korean.
-- A PR body says why and what only, with no validation section, hedges, or self-appraisal. A behavior change always shows as-is and to-be in a table, measured against the PR's real base branch; a diagram only when the user asks for one.
-- An issue names the outcome it serves before the tasks, and stays short.
+- Resolve the reviewing team's language from the current request and repository context. Ask only when it remains unclear; English is the fallback and this author's company repositories use Korean.
+- A PR body says why and what. Keep validation logs and routine self-appraisal out of it. Retain meaningful conditions and uncertainty. A behavior change uses an as-is/to-be table against the real base branch; add a diagram only when requested. A required repository template takes precedence.
+- An issue names the outcome before the tasks and stays short. Use complete sentences for causes, conditions, and mechanisms. `draft-pr` and `write-issue` own their workflows; copydesk supplies shared writing principles.
 <!-- writing-profile:end -->
