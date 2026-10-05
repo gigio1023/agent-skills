@@ -1,6 +1,6 @@
 # PR Body Guidance
 
-Read this before writing a new body or rewriting one. A repository template is authoritative even when its headings differ from the fallback here; this file then governs only how the template's fields are filled.
+Read this before writing a new body or rewriting one. A repository template is authoritative even when its headings differ from the fallback here; this file then governs only how the template's fields are filled. Use `copydesk` for common writing and meaning preservation. This reference owns the PR-specific shape and preserves conditions or uncertainty needed to understand the change.
 
 ## Contents
 
@@ -46,7 +46,7 @@ A small change needs no headings: two or three sentences that give the why and t
 
 ## Headings In The PR Language
 
-Title, headings, and prose share the language settled with the user. Translate the two fallback headings; keep a template's headings exactly as written. Conventional prefixes such as `fix:` and `docs:`, identifiers, commands, paths, and quoted text stay as they are.
+Title, headings, and prose share the language resolved by the skill's PR Language rules. Translate the two fallback headings; keep a template's headings exactly as written. Conventional prefixes such as `fix:` and `docs:`, identifiers, commands, paths, and quoted text stay as they are.
 
 | Language | Context | Changes |
 | --- | --- | --- |
@@ -74,7 +74,7 @@ Design the grid before filling it:
 - Rows are the items, one per row, in the order the reviewer would scan them: by impact, by their order in the diff, or alphabetically when nothing else orders them.
 - Cells hold a value, an identifier, or a short phrase. A cell that wants a full sentence, a list, or a qualifying clause shows that the attribute is not tabular; keep the fact in the cell and move the point to a bullet beneath the table.
 
-Headers follow the PR language; identifiers, values, and code stay as written. A table with one data column is a list and a table with one row is a sentence; write those as such.
+Headers follow the PR language; identifiers, values, and code stay as written. Outside the required before-and-after comparison, prefer a list to a table with one data column and a sentence to a table with one row.
 
 A table that earns its place:
 
@@ -111,7 +111,7 @@ The table is the whole comparison. Do not add a diagram, figure, or Mermaid bloc
 
 The Before side is the PR's actual base branch at the merge base, read from the code there, not from an earlier draft the author passed through or from memory. When the base is not the default branch, name it once above the table.
 
-A pure refactor with no behavior change, a docs typo, or a one-line fix has nothing to compare. Say that in one sentence and skip the table.
+A typo or mechanical edit with no change to behavior, structure, defaults, or data flow may skip the table. A one-line behavior change still gets the comparison. A refactor compares the structure that changes without inventing a behavior change.
 
 ```markdown
 `integration/next` 기준입니다.
@@ -136,11 +136,11 @@ Everything else that used to earn a section, such as a tradeoff to weigh, a perf
 
 ## Cut List
 
-Sentences of these kinds add length and no information. Delete them, or replace them with the fact they were avoiding.
+Cut text that adds no information. Keep uncertainty, compatibility limits, and operating conditions when they affect the review, adoption, or interpretation of a result. Replace vague reassurance with a supported fact or a precise unknown; do not turn a possibility into a guarantee.
 
 | Pattern | Example | Instead |
 | --- | --- | --- |
-| Hedge or disclaimer | "This should not affect other modules." | Check, then either say what it affects or say nothing. |
+| Empty reassurance | "This should not affect other modules." | Supported scope or a specific uncertainty that matters to review. |
 | Self-appraisal | "Thoroughly tested and carefully reviewed." | Nothing; the checks and the diff speak. |
 | Courtesy filler | "Let me know if you'd like any changes." | Nothing. |
 | Announcement | "This PR aims to improve…" | Start with the problem. |
@@ -188,8 +188,13 @@ The nightly export failed whenever the warehouse returned a 503 during the first
 
 ## Changes
 
-- Retry the first batch with the same backoff as the rest, so a transient 503 delays the export instead of dropping it.
-- Fail the job after the retry budget is spent, with the batch index in the error.
+| Item | Before | After |
+| --- | --- | --- |
+| First-batch 503 | Immediate failure | Backoff within the retry budget |
+| Batches covered by retry | Second batch onward | All batches |
+| Failure error | No batch index | Batch index included |
+
+The job still fails when its retry budget is spent.
 ```
 
 The same change when the team reads PRs in Korean:
@@ -197,12 +202,17 @@ The same change when the team reads PRs in Korean:
 ```markdown
 ## 배경
 
-warehouse가 첫 배치에서 503을 반환하면 nightly export가 실패했습니다. retry wrapper가 첫 배치를 감싸지 않았기 때문이고, 그날 고객은 파일을 받지 못했습니다.
+warehouse가 첫 배치에서 503을 반환하면 nightly export가 실패했습니다. retry wrapper가 첫 배치를 감싸지 않아 그날 고객은 파일을 받지 못했습니다.
 
 ## 변경 사항
 
-- 첫 배치도 나머지 배치와 같은 backoff로 재시도합니다. 일시적인 503은 export를 지연시킬 뿐 중단시키지 않습니다.
-- retry 예산을 다 쓰면 배치 인덱스를 담은 에러로 작업을 실패 처리합니다.
+| 항목 | 이전 | 이후 |
+| --- | --- | --- |
+| 첫 배치의 503 | 즉시 실패 | retry 예산 안에서 backoff |
+| retry 대상 배치 | 두 번째 배치부터 | 전체 배치 |
+| 실패 에러 | 배치 인덱스 없음 | 배치 인덱스 포함 |
+
+retry 예산을 다 쓰면 작업은 실패합니다.
 ```
 
 ## Where This Shape Comes From

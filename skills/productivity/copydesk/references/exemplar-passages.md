@@ -1,6 +1,6 @@
 # Exemplar Passages
 
-These are short quotations from public Korean technical writing, each chosen for the writing operation it performs rather than for its topic. Read them when drafting Korean technical prose, to hear how a sentence names the actor, states a result with its limit, or gives a decision with its reason. They are not templates: borrow the operation, never the outline, the topic, or the blog's register.
+These are short quotations from public Korean technical writing, each chosen for the writing operation it performs rather than for its topic. Read them when drafting Korean technical prose, to hear how a sentence names the actor, states a result with its limit, or gives a decision with its reason. They are not templates: borrow the operation, never the outline, the topic, or the blog's register. Use their complete reasoning to calibrate sentence-level edits. A natural causal or contrastive sentence remains useful even when it contains several clauses.
 
 ## Mechanism: from code fact to symptom
 

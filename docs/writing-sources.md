@@ -2,6 +2,14 @@
 
 These are maintenance pointers for the pack authors, not runtime references: `copydesk` does not load this file, and it serves only when the skill's techniques are revised. The skill links CC BY-NC-ND sources rather than republishing them, and it keeps every source claim attributed. Teaching examples' invented names and numbers, whether in the skill or in a source such as the SRE example postmortem, are never copied into real documents.
 
+## English clarity integration
+
+Copydesk's [English clarity](../skills/productivity/copydesk/references/english-clarity.md) adapts selected principles from Dustin Yuchen Teng's [asd-ste100-skill](https://github.com/danyuchn/asd-ste100-skill), inspected as version 0.4.0 on 2026-10-06. The package retains the [MIT notice](../skills/productivity/copydesk/LICENSE.asd-ste100). The useful principles are explicit actors and references, consistent terminology, clear instruction conditions, and preservation of modality and technical meaning.
+
+This is an attributed synthesis. It does not import the third-party checker, automatic strict mode, hard sentence limits, or ASD's dictionary. Similar verbs can denote distinct actions, and an adjective can be part of a domain term. Copydesk therefore keeps schema validation, signature verification, receipt confirmation, and robust regression distinct. The external skill remains independent and is not modified by this integration. Official ASD compliance is outside the package's claim; a task requiring it needs the authorized standard and dictionary.
+
+The earlier percentage-of-STE policy is retired. Korean follows natural Korean grammar, and English clarity work preserves useful clauses, tense, and uncertainty. The ordinary path starts with reader purpose, semantic fidelity, and [finished examples](../skills/productivity/copydesk/references/finished-examples.md). Pattern evidence is a targeted diagnostic aid rather than a routine reading requirement.
+
 ## Close readings
 
 Use this catalog to select and closely read a public technical exemplar. The value is in the writing operation: how the author states a fact, explains a mechanism, introduces a comparison, qualifies a result, or justifies a choice. A company name or a “technical report” label does not make every sentence worth copying.

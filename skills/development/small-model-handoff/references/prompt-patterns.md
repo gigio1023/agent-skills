@@ -1,5 +1,7 @@
 # Small Model Handoff Prompt Patterns
 
+GPT Sol 6.1 packets must satisfy `gpt6-astra-model-routing` before using these patterns. The general change example below does not authorize Sol to implement code. Use Sol only for fixed collection, approved deterministic data transforms, or command execution; return raw evidence and failures to Astra for interpretation.
+
 ## Contents
 
 - Planner handoff packet
@@ -21,7 +23,8 @@ Complete this before writing the executor prompt:
 Outcome: [one observable result, artifact, or evidence packet]
 Mode: [change | run | inspect | ordered mixed phases]
 Approved basis: [decision, procedure, reproduction, or prerequisite evidence]
-Executor limits: [choices or recovery this model must not perform]
+Executor: [exact model, supported effort, and applicable routing rule]
+Executor limits: [choices or recovery this model must not perform; no semantic judgment for Sol 6.1]
 Allowed scope:
 - Files/symbols: [exclusive mutation targets, or none]
 - Commands: [exact commands and working directory, or none]
@@ -115,7 +118,7 @@ Require only fields relevant to the mode:
 - Preflight consistency result
 - Actions performed in order
 - Commands with working directory, exit status, and relevant output
-- Findings tied to named sources
+- Evidence tied to named sources; raw or mechanically transformed results for Sol 6.1
 - Created, modified, or deleted files and artifacts
 - Acceptance criteria result
 - Failed, skipped, unavailable, and unverified items
@@ -137,7 +140,7 @@ Missing decision or authority: [smallest required addition]
 Verification state: [evidence captured and not captured]
 ```
 
-## Change Example
+## Change Example For A Non-Sol Executor
 
 ```text
 Do not optimize for completing the request as broadly as possible.

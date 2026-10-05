@@ -19,7 +19,7 @@ Publish the requested work as a draft or work-in-progress PR on the forge that o
 ## Quick Start
 
 1. Preflight Git state, publication remote, forge, exact head and target repositories, provider authentication and authenticated user, base branch, and any existing PR for the current branch.
-2. Settle the PR language: the user's instruction or the repository's stated language decides; otherwise ask the user now, so the remaining steps run without another pause.
+2. Resolve the PR language from the user's instruction, repository guidance, or clear team practice. Ask only when those sources leave a consequential ambiguity.
 3. Lock the intended diff. Preserve unrelated worktree changes and meaningful existing PR content.
 4. Create a topic branch when on the base branch. Fetch the target remote and rebase only when the topic branch is behind, conflicted, or explicitly needs synchronization.
 5. Commit the intended scope, run relevant checks, and push safely. Rewrite only a clearly user-owned topic branch and use `--force-with-lease`.
@@ -55,20 +55,21 @@ Reviewers read a PR in their team's working language, so the language is the use
 
 1. The user's explicit instruction for this PR or this repository.
 2. A language the repository already states for PRs: a PR template, a contributor guide, or agent instructions that name one.
-3. Otherwise ask the user, once per repository in a session, before writing the body. Offer the language of the repository's recent PR titles and README as the suggestion. English is the answer when the user has no preference.
+3. Clear team practice in the existing PR being updated or the repository's recent PRs. Use the README as supporting context, not proof that every team reviews in that language.
+4. Ask once when the evidence is missing or conflicts. English is the default when the user has no preference; the author's company repositories use Korean unless a more specific instruction says otherwise.
 
-Do not ask again for an update to the same PR. When nobody can answer, as in an unattended run, use the repository's observed language, else English, and say in the report which rule decided. A user who wants the answer to stick records it in the repository's contributor guide or agent instructions; publishing a PR does not edit those files.
+Reuse a language already resolved for this repository in the session. When nobody can answer, as in an unattended run, apply the established repository or author default, else English, and say in the report which rule decided. A user who wants the answer to stick records it in the repository's contributor guide or agent instructions; publishing a PR does not edit those files.
 
 ## Shape The Body
 
-A body the reviewer does not read has failed. Say why the change exists and what changed, as a reviewer who did not see the work will meet it; nothing else is required. Read [references/pr-body-guidance.md](references/pr-body-guidance.md) before writing a new body or rewriting one; it holds the default shape, the headings in each language, when a table beats bullets, the cut list, and worked examples.
+A body the reviewer does not read has failed. Say why the change exists and what changed, as a reviewer who did not see the work will meet it. Apply `copydesk` for shared meaning-preservation and writing guidance when available; this skill owns PR structure, language resolution, and publication authority. Read [references/pr-body-guidance.md](references/pr-body-guidance.md) before writing a new body or rewriting one; it holds the default shape, the headings in each language, when a table beats bullets, the cut list, and worked examples.
 
 - A repository template wins: fill its headings and checklists, remove unfilled placeholders, and do not append the fallback shape to it.
 - Without a template, use `## Context` for the problem, intent, and decision, then `## Changes` for reviewer-visible outcomes, both in the PR language. A small change needs two or three sentences and no headings.
 - Structure carries the reading: short paragraphs, one bullet per outcome, and one level of nesting when items group by component or theme.
 - Use a table when several items share the same few attributes and the reviewer will compare them side by side, such as settings with their old and new defaults or endpoints with their new status. Design it before filling it: each column is one attribute named in its header, each row is one item, and a cell holds a value, an identifier, or a short phrase. A point that needs a full sentence goes in a bullet under the table, not in a cell.
 - A PR that changes behavior, structure, defaults, or data flow always gets an as-is/to-be table, with the as-is side read from the real base branch at the merge base; follow Before And After in pr-body-guidance.md. Add no diagram or figure unless the user asks for one for this PR.
-- No validation or testing section unless the template asks for one; the forge's checks and the commits are the record. No hedges, disclaimers, courtesy closings, self-appraisal, process narration, restated diff, or references to the chat.
+- No validation or testing section unless the template asks for one; the forge's checks and the commits are the record. Remove empty reassurance, generic disclaimers, courtesy closings, self-appraisal, process narration, restated diff, and references to the chat. Preserve actual uncertainty, operating conditions, compatibility limits, and known failures that change how the reviewer interprets or uses the change. State each beside the claim it qualifies.
 
 Link issues and design records without making them prerequisites for understanding the PR. Immediately before publication, compare the title and body with the final diff and update descriptions that no longer match the branch.
 

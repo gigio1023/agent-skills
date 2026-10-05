@@ -18,6 +18,7 @@
 
 import { createReadStream, readFileSync, statSync } from "node:fs";
 import { createInterface } from "node:readline";
+import { dirname } from "node:path";
 
 const MAX = 96;
 const HUGE = 2000000; // never hand a line this long to JSON.parse
@@ -77,7 +78,8 @@ function groupAlive(pgid) {
     process.kill(-pgid, 0);
     return true;
   } catch (error) {
-    return error.code === "EPERM";
+    if (error.code === "EPERM") return true;
+    return error.code === "ESRCH" ? false : null;
   }
 }
 
@@ -185,11 +187,12 @@ const args = process.argv.slice(2);
 const tailIndex = args.indexOf("--tail");
 const tail = tailIndex >= 0 ? Number(args[tailIndex + 1]) : null;
 const status = args.includes("--status");
+const threadOnly = args.includes("--thread");
 // Skip the value that belongs to --tail, so `--tail 20 events.jsonl` still
 // resolves the file rather than treating "20" as the path.
 const file = args.find((a, i) => !a.startsWith("--") && (tailIndex < 0 || i !== tailIndex + 1));
 if (!file || (tailIndex >= 0 && (!Number.isInteger(tail) || tail <= 0))) {
-  console.error("usage: render-events.mjs <events.jsonl> [--tail N | --status]");
+  console.error("usage: render-events.mjs <events.jsonl> [--tail N | --status | --thread]");
   process.exit(2);
 }
 
@@ -205,6 +208,7 @@ let streamError = null;
 const observedAgents = new Map(); // receiver thread id -> last root-visible status
 
 function emit(line) {
+  if (status || threadOnly) return;
   kept.push(shorten(line));
   if (tail && kept.length > tail) {
     kept.shift();
@@ -235,7 +239,11 @@ try {
       continue;
     }
     const item = isObject(event.item) ? event.item : null;
-    if (event.type === "thread.started" && event.thread_id) threadId = event.thread_id;
+    if (event.type === "thread.started" && typeof event.thread_id === "string" && /^[a-zA-Z0-9][a-zA-Z0-9-]{0,127}$/.test(event.thread_id)) {
+      threadId = event.thread_id;
+      if (threadOnly) break;
+    }
+    if (threadOnly) continue;
     if (event.type === "item.completed" && item?.type === "command_execution") commands += 1;
     if (event.type === "item.completed" && item?.type === "file_change") fileChanges += 1;
     if (item?.type === "collab_tool_call") {
@@ -259,14 +267,18 @@ try {
   // A run that has not written its first event yet is a normal status case;
   // for rendering there is nothing to show, so it stays fatal there.
   streamError = error.message;
+  if (threadOnly) process.exit(3);
   if (!status) {
     console.error(`cannot read ${file}: ${error.message}`);
     process.exit(1);
   }
 }
 
-if (status) {
-  const runDir = file.replace(/[/\\][^/\\]*$/, "") || ".";
+if (threadOnly) {
+  if (!threadId) process.exit(3);
+  console.log(threadId);
+} else if (status) {
+  const runDir = dirname(file);
   const result = (() => {
     try {
       return readFileSync(`${runDir}/result.txt`, "utf8").split("\n");
@@ -277,24 +289,27 @@ if (status) {
   const provenance = result[0] ?? "";
   const terminal = result.find((l) => /^(exit|cancelled|cancel_failed)=/.test(l)) ?? null;
   const handoff = (terminal?.match(/\bhandoff=(ready|incomplete)\b/) ?? [])[1] ?? null;
-  const pgid = Number((provenance.match(/\bpgid=(\d+)/) ?? [])[1]);
-  const startedAt = Date.parse((provenance.match(/\bstarted=(\S+)/) ?? [])[1] ?? "");
+  const pgid = Number((provenance.match(/.* pgid=(\d+)(?: |$)/) ?? [])[1]);
+  const startedAt = Date.parse((provenance.match(/.* started=(\S+) pgid=/) ?? [])[1] ?? "");
   const age = Number.isFinite(startedAt) ? Date.now() - startedAt : null;
   const alive = terminal ? null : groupAlive(pgid);
+  const reportStat = fileStat(`${runDir}/report.md`);
+  const reportReady = reportStat?.isFile() && reportStat.size > 0;
   const eventStat = fileStat(file);
 
   let state;
   let hint = null;
   if (terminal && terminal.startsWith("exit=")) {
     const exit = terminal.split(/\s+/)[0];
-    if (terminal.startsWith("exit=0") && handoff === "incomplete") {
+    const exitCode = Number(terminal.match(/^exit=(\d+)(?:\s|$)/)?.[1]);
+    if (exitCode === 0 && (handoff === "incomplete" || !reportReady)) {
       state = `INCOMPLETE ${exit} handoff=incomplete`;
-      hint = "codex exited cleanly but report.md is empty or missing. Inspect the last agent message, then resume for a file handoff.";
-    } else if (terminal.startsWith("exit=0")) {
+      hint = "clean exit has no usable handoff. Inspect the artifacts before resuming for a final report.";
+    } else if (exitCode === 0) {
       state = `DONE ${exit}${handoff ? ` handoff=${handoff}` : ""}`;
       hint = handoff === "ready"
-        ? "file handoff is ready. Verify the workspace yourself before trusting the report."
-        : "legacy terminal line has no handoff marker. Check report.md before trusting it.";
+        ? "file handoff is ready. Verify its material claims against the workspace and evidence."
+        : "legacy terminal line has a non-empty report. Verify its material claims before accepting it.";
     } else {
       state = `EXITED ${exit}${handoff ? ` handoff=${handoff}` : ""}`;
       hint = "codex exited non-zero. Read stderr.log and classify the failure before resuming the exact thread; do not retry automatically.";
@@ -305,7 +320,7 @@ if (status) {
     state = "RUNNING";
   } else if (alive === false) {
     state = "DIED";
-    hint = "no terminal line and the process group is gone: it was killed, not finished. The files above are whatever it had written; resume the thread rather than starting over.";
+    hint = "no terminal line and the process group is gone. Outcome is unknown; inspect effects and preserve the exact thread before deciding whether to resume.";
   } else {
     state = "UNKNOWN";
     hint = "no terminal line and no pgid to probe — this run predates the durable template, or result.txt is truncated.";

@@ -3,7 +3,7 @@ name: cross-harness-skills
 description: >
   Use when creating, reviewing, or modernizing one agent skill that must work in
   both Claude Code and Codex, especially when reconciling GPT-6 Astra
-  and Sol, Claude Fable, and Claude Opus prompting guidance, separating instructions from
+  and Sol 6.1, Claude Fable, and Claude Opus prompting guidance, separating instructions from
   harness adapters, or testing the same skill across both runtimes. NOT for a
   single-harness extension or ordinary skill creation without a portability
   requirement; use skill-builder alone.
@@ -16,7 +16,7 @@ Build one portable skill core for Claude Code and Codex without flattening their
 ## Quick Start
 
 1. Classify the request. A review-only request returns findings and does not edit files; a create, improve, or modernize request authorizes in-scope edits.
-2. Identify the intended model in each harness from the request or active configuration; do not substitute a model merely because this guide names it. Record unavailable combinations rather than treating one successful run as proof for both.
+2. Identify the exact intended model in each harness from the request and applicable routing policy; distinguish GPT-6.1 Sol from legacy GPT-6 Sol. Do not substitute a model merely because this guide names it. Record unavailable combinations rather than treating one successful run as proof for both.
 3. Read `references/model-prompting-contract.md` for the shared prompt contract and the model-specific behaviors that must not leak into domain skills.
 4. Read `references/harness-portability.md` before using a path, invocation syntax, tool name, frontmatter key, hook, subagent feature, or environment variable.
 5. Write the portable core first. Add only domain knowledge, fragile procedure, authority boundaries, evidence requirements, output preservation, and real stop or fallback rules.
@@ -54,7 +54,7 @@ Do not force this list into eight headings. Use the smallest structure that make
 
 Portable core examples:
 
-- `name` and `description` frontmatter only;
+- `name` and `description` frontmatter, with supported optional standard fields when useful;
 - forward-slash relative resource paths;
 - “read the file”, “search the repository”, or “run the bundled validator”;
 - a script invocation documented from the skill root;

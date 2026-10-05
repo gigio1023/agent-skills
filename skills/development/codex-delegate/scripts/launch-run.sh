@@ -1,5 +1,8 @@
 #!/bin/bash
 set -u
+umask 077
+
+SKILL_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 usage() {
   cat >&2 <<'EOF'
@@ -7,7 +10,7 @@ usage: launch-run.sh --workspace DIR --packet FILE --run-dir DIR (--sandbox MODE
        launch-run.sh --recover-manifest --run-dir DIR --packet FILE
 
 Options:
-  --model MODEL              new-thread default: gpt-6-sol
+  --model MODEL              new-thread default: gpt-6-astra
   --effort EFFORT            new-thread default: xhigh
   --fast-requested yes|no    new-thread default: no
   --network-access yes|no    new-thread default: no; yes requires workspace-write
@@ -36,13 +39,27 @@ packet_sha256() {
   printf '%s\n' "$hash"
 }
 
+# Scalar provenance stays one token. Paths remain quoted argv, never shell source.
+validate_token() {
+  case "$2" in
+    ''|*[!a-zA-Z0-9._:/+-]*) fail "$1 must be a nonempty metadata token" ;;
+  esac
+}
+
+read_thread() {
+  "$RUNTIME" "$SKILL_DIR/scripts/render-events.mjs" "$1/events.jsonl" --thread
+}
+
 emit_manifest() {
   local provenance thread
   provenance=$(sed -n '1p' "$RUN/result.txt")
-  thread=$(printf '%s\n' "$provenance" |
-    sed -n 's/.* thread=\([^ ]*\).*/\1/p')
-  if [ -z "$thread" ] && [ -s "$RUN/events.jsonl" ]; then
-    thread=$(sed -n '1s/.*"thread_id":"\([^"]*\)".*/\1/p' "$RUN/events.jsonl")
+  thread=
+  if [ -s "$RUN/events.jsonl" ]; then
+    thread=$(read_thread "$RUN") || thread=
+  fi
+  if [ -z "$thread" ]; then
+    thread=$(printf '%s\n' "$provenance" |
+      sed -n 's/.* pgid=[0-9]* thread=\([^ ]*\) resumed_from=.*/\1/p')
   fi
   thread=${thread:-pending}
 
@@ -116,6 +133,19 @@ done
 [ -s "$PACKET" ] || fail "packet is missing or empty: $PACKET"
 [ -n "$RUN" ] || fail "--run-dir is required"
 
+case "$RUN" in /*) ;; *) fail "--run-dir must be absolute" ;; esac
+for input in "$RUN" "$PACKET" "$WORKSPACE" "$RESUME_FROM"; do
+  case "$input" in *[[:cntrl:]]*) fail "paths must not contain control characters" ;; esac
+done
+command -v openssl >/dev/null 2>&1 || fail "openssl is required for packet hashing"
+if command -v node >/dev/null 2>&1; then
+  RUNTIME=$(command -v node)
+elif command -v bun >/dev/null 2>&1; then
+  RUNTIME=$(command -v bun)
+else
+  fail "Node.js 18+ or Bun is required for event parsing"
+fi
+
 if [ "$RECOVER_MANIFEST" = yes ]; then
   [ -d "$RUN" ] || fail "recovery run directory does not exist: $RUN"
   RUN=$(cd "$RUN" && pwd -P) || exit 64
@@ -170,11 +200,15 @@ if [ -n "$RESUME_FROM" ]; then
   [ -f "$RESUME_FROM/result.txt" ] || fail "resume source has no result.txt: $RESUME_FROM"
   [ -s "$RESUME_FROM/events.jsonl" ] || fail "resume source has no events.jsonl: $RESUME_FROM"
   ORIGINAL_PROVENANCE=$(sed -n '1p' "$RESUME_FROM/result.txt")
-  RESUME_THREAD=$(sed -n '1s/.*"thread_id":"\([^"]*\)".*/\1/p' "$RESUME_FROM/events.jsonl")
+  RESUME_THREAD=$(read_thread "$RESUME_FROM") ||
+    fail "resume source has no usable thread.started event: $RESUME_FROM"
+  validate_token "thread ID" "$RESUME_THREAD"
   [ -n "$RESUME_THREAD" ] || fail "resume source has no thread ID: $RESUME_FROM"
-  if ! grep -q '^exit=' "$RESUME_FROM/result.txt"; then
+  if ! grep -Eq '^exit=[0-9]+( |$)|^cancelled=' "$RESUME_FROM/result.txt"; then
     ORIGINAL_PG=$(printf '%s\n' "$ORIGINAL_PROVENANCE" | sed -n 's/.* pgid=\([0-9]*\).*/\1/p')
-    if [ -n "$ORIGINAL_PG" ] && kill -0 -"$ORIGINAL_PG" 2>/dev/null; then
+    case "$ORIGINAL_PG" in ''|*[!0-9]*) fail "resume source liveness is unknown: $RESUME_FROM" ;; esac
+    [ "$ORIGINAL_PG" -gt 1 ] || fail "resume source liveness is unknown: $RESUME_FROM"
+    if kill -0 -"$ORIGINAL_PG" 2>/dev/null; then
       fail "resume source is still running: $RESUME_FROM"
     fi
   fi
@@ -208,10 +242,10 @@ if [ -n "$RESUME_FROM" ]; then
       sed -n 's/.* skip_git_repo_check=\([^ ]*\).*/\1/p')
     SKIP_GIT_REPO_CHECK=${SKIP_GIT_REPO_CHECK:-no}
   fi
-  RESUMED_FROM=$(basename "$RESUME_FROM")
+  RESUMED_FROM=$("$RUNTIME" -e 'process.stdout.write(encodeURIComponent(process.argv[1]))' -- "$(basename "$RESUME_FROM")") || exit 64
 else
   [ "$SANDBOX_SET" = yes ] || fail "--sandbox is required for a new thread"
-  [ "$MODEL_SET" = yes ] || MODEL=gpt-6-sol
+  [ "$MODEL_SET" = yes ] || MODEL=gpt-6-astra
   [ "$EFFORT_SET" = yes ] || EFFORT=xhigh
   [ "$FAST_REQUESTED_SET" = yes ] || FAST_REQUESTED=no
   [ "$NETWORK_ACCESS_SET" = yes ] || NETWORK_ACCESS=no
@@ -222,6 +256,10 @@ fi
 [ -n "$SANDBOX" ] || fail "sandbox provenance is missing"
 [ -n "$MODEL" ] || fail "model must not be empty"
 [ -n "$EFFORT" ] || fail "effort must not be empty"
+validate_token model "$MODEL"
+validate_token effort "$EFFORT"
+validate_token host-model "$HOST_MODEL"
+validate_token routing-reason "$ROUTING_REASON"
 
 case "$SANDBOX" in
   read-only|workspace-write|danger-full-access) ;;
@@ -253,6 +291,11 @@ case "$SKIP_GIT_REPO_CHECK" in
   *) fail "--skip-git-repo-check must be yes or no" ;;
 esac
 
+command -v codex >/dev/null 2>&1 || fail "codex CLI is required"
+if ! command -v setsid >/dev/null 2>&1; then
+  command -v perl >/dev/null 2>&1 || fail "setsid or Perl with POSIX is required"
+  perl -MPOSIX -e 1 >/dev/null 2>&1 || fail "Perl POSIX support is unavailable"
+fi
 DIR=$(cd "$WORKSPACE" && pwd -P) || exit 64
 RUN_PARENT=$(dirname "$RUN")
 mkdir -p "$RUN_PARENT" || exit 1
@@ -264,11 +307,21 @@ cp "$PACKET" "$RUN/prompt.md" || exit 1
 PACKET_SHA256=$(packet_sha256 "$RUN/prompt.md") ||
   fail "could not hash copied packet: $RUN/prompt.md"
 
-export DIR SANDBOX MODEL EFFORT FAST_REQUESTED SERVICE_TIER NETWORK_ACCESS RUN
-export IGNORE_USER_CONFIG SKIP_GIT_REPO_CHECK RESUME_THREAD RESUMED_FROM
-export HOST_ROUTE HOST_MODEL ROUTING_REASON PACKET_SHA256
-cat > "$RUN/run.sh" <<'EOF'
-#!/bin/bash
+# Persist only fixed launch parameters, never the inherited credential environment.
+{
+  printf '#!/bin/bash\numask 077\n'
+  for key in DIR SANDBOX MODEL EFFORT FAST_REQUESTED SERVICE_TIER NETWORK_ACCESS RUN \
+    IGNORE_USER_CONFIG SKIP_GIT_REPO_CHECK RESUME_THREAD RESUMED_FROM \
+    HOST_ROUTE HOST_MODEL ROUTING_REASON PACKET_SHA256; do
+    printf '%s=%q\n' "$key" "${!key}"
+  done
+} > "$RUN/run.sh" || exit 1
+cat >> "$RUN/run.sh" <<'EOF'
+# A copied or manually replayed wrapper must not repeat external effects.
+if ! (set -o noclobber; : > "$RUN/result.txt") 2>/dev/null; then
+  printf 'run already started; recover its manifest instead\n' >&2
+  exit 64
+fi
 if [ -n "$RESUME_THREAD" ]; then
   printf 'sandbox=%s workspace=%s started=%s pgid=%s thread=%s resumed_from=%s model=%s effort=%s fast_requested=%s tier=%s network=%s ignore_user_config=%s skip_git_repo_check=%s host_route=%s host_model=%s routing_reason=%s packet_sha256=%s\n' \
     "$SANDBOX" "$DIR" "$(date -u +%FT%TZ)" "$$" "$RESUME_THREAD" \
@@ -292,8 +345,12 @@ else
   CODEX_ARGS=(exec --json -C "$DIR" --sandbox "$SANDBOX" -m "$MODEL"
     -c "model_reasoning_effort=$EFFORT" -c "service_tier=$SERVICE_TIER")
 fi
-if [ "$NETWORK_ACCESS" = yes ]; then
-  CODEX_ARGS+=(-c sandbox_workspace_write.network_access=true)
+if [ "$SANDBOX" = workspace-write ]; then
+  if [ "$NETWORK_ACCESS" = yes ]; then
+    CODEX_ARGS+=(-c sandbox_workspace_write.network_access=true)
+  else
+    CODEX_ARGS+=(-c sandbox_workspace_write.network_access=false)
+  fi
 fi
 if [ "$IGNORE_USER_CONFIG" = yes ]; then
   CODEX_ARGS+=(--ignore-user-config)
@@ -317,10 +374,10 @@ EOF
 chmod +x "$RUN/run.sh"
 
 if command -v setsid >/dev/null 2>&1; then
-  setsid -f /bin/bash "$RUN/run.sh"
+  setsid -f /bin/bash "$RUN/run.sh" </dev/null >>"$RUN/launcher.log" 2>&1
 else
   perl -e 'exit 0 if fork; use POSIX (); POSIX::setsid() or die; exec @ARGV or die' \
-    /bin/bash "$RUN/run.sh"
+    /bin/bash "$RUN/run.sh" </dev/null >>"$RUN/launcher.log" 2>&1
 fi
 
 TRIES=0
@@ -337,10 +394,11 @@ else
   TRIES=0
   while [ "$THREAD" = pending ] && [ "$TRIES" -lt 100 ]; do
     if [ -s "$RUN/events.jsonl" ]; then
-      THREAD=$(sed -n '1s/.*"thread_id":"\([^"]*\)".*/\1/p' "$RUN/events.jsonl")
+      THREAD=$(read_thread "$RUN") || THREAD=pending
       [ -n "$THREAD" ] || THREAD=pending
     fi
     TRIES=$((TRIES + 1))
+    grep -q '^exit=' "$RUN/result.txt" 2>/dev/null && break
     [ "$THREAD" != pending ] || sleep 0.05
   done
 fi

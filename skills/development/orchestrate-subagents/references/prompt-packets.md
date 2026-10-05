@@ -6,13 +6,35 @@ When the task definition already lives in a durable file, the packet carries its
 
 Write each stop condition so the worker's last message is a result or a stated blocker with what remains, never a plan for what it will do next. The harness returns that last message to the lead as the result.
 
+The research, exploration, implementation, and review packets below require semantic judgment. Use Astra when assigning them to a GPT worker. The mechanical packet is the only Sol 6.1 shape; further GPT delegation preserves the same routing rule.
+
 ## Contents
 
+- Mechanical collection packet
 - Research packet
 - Value judgment packet
 - Code exploration packet
 - Code worker packet
 - Review packet
+
+## Mechanical Collection Packet
+
+```text
+Objective: Produce <fixed output artifact> from <exact inputs>.
+
+Inputs: <specified URLs, fixed queries, paths, or command inputs>.
+Procedure: <exact commands or supplied deterministic transform>.
+Output: <raw or mechanically transformed format>.
+Acceptance: <count, hash, schema, or exact comparison>.
+Authority: <permitted effects and user resource limits>.
+
+Return the output, source locations, exit statuses, and failed or missing items.
+Do not select sources, summarize meaning, diagnose results, assess confidence,
+implement code, or choose a next action. Return an undefined result or mismatch
+to Astra with the raw evidence and completed actions.
+```
+
+Use `small-model-handoff` when this executor needs a fuller command and authority contract. Prefer a script when it already performs the fixed operation.
 
 ## Research Packet
 

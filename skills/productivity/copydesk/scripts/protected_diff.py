@@ -1,7 +1,8 @@
 """Show what changed outside the passages a revision instruction actually named.
 
-A correction that says "fix the second paragraph" or "update the numbers under
-Results" implicitly promises everything else stays put. This script makes that
+Use for a local correction such as "fix the second paragraph" or for an
+explicit requirement to preserve wording. It is not a retention target for a
+broad rewrite, whose structure and wording may change while meaning stays. This script makes that
 promise checkable: it splits both versions into blocks, marks which blocks in
 the PREVIOUS file were in scope for the named revision, and reports any
 protected block that did not survive byte-identical into REVISED -- plus

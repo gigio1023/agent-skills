@@ -46,3 +46,7 @@ Claude Opus guidance, read 2026-09-23 (Opus 5.5 keeps the Opus 5 patterns as its
 - Popularity or worker confidence as a substitute for direct evidence.
 - Automatic background skill rewriting without deliberate evaluation.
 - Pretending sequential work was parallel when the harness has no such capability.
+
+## Routing Policy Update
+
+On 2026-10-06 the owner's GPT policy changed to Astra by default, with Sol 6.1 limited to very easy deterministic collection, transformation, or command execution. `gpt6-astra-model-routing` owns that decision. The orchestration entry point, adapter, and packet examples now distinguish mechanical collection from source selection, semantic extraction, summaries, confidence assessment, diagnosis, and follow-up planning. Anthropic routes remain separate. No quality or cost comparison was run for this instruction change.
