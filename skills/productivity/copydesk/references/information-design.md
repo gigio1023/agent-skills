@@ -18,6 +18,12 @@ A restrained factual record may be excellent for an incident brief and insuffici
 
 Structure must carry meaning. Repeating “One-line summary / Definition / Why it matters” for every concept can create a verbose document made entirely of bullets. Use those elements where they do work, without repeated labels or empty nesting. Several related bullets often need one connective sentence explaining their relationship.
 
+## Section headings
+
+Use professional noun phrases that name the section's subject and analytical role. A heading such as “Model performance comparison” identifies a comparison; “Failure analysis” identifies an analysis. A full-sentence claim such as “The model performs better under load” belongs in the body under a heading such as “Performance under load.” Conversational reactions and promises to explain are not section titles.
+
+Keep the technical terms and qualifiers needed to distinguish the section. Brevity does not justify a vague label such as “Some details,” and a nominal ending alone does not make a sentence a useful heading. Read the headings together to check the argument's structure. Do not impose a fixed word count or copy a paper's section sequence onto another genre. Explicitly supplied titles and required templates retain their wording.
+
 ## Medium for understanding
 
 Choose the medium by what the reader needs to compare, follow, or infer. Prose can explain a short mechanism directly. A display helps when readers would otherwise have to hold several relationships or values in memory.

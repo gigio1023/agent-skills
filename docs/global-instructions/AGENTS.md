@@ -30,7 +30,8 @@ Standing preferences for documents, PR bodies, issues, and messages this author 
 
 ## Form
 
-- Prefer specific noun-phrase headings and concise table cells. Put extended reasoning beside the table.
+- Section headings are specific, professional noun phrases that identify the subject and the section's role, as in a research paper. Do not use conversational or polite sentence endings, full-sentence claims, or reading instructions as headings. Keep necessary technical qualifiers and put explanation in the body. An explicitly supplied title or governing template takes precedence.
+- Keep table cells concise. Put extended reasoning beside the table.
 - Keep established field terms in English, such as judge, harness, ablation, and residual stream. Write ordinary verbs and nouns in natural Korean. The register is dry and direct. Remove ornamental first-person framing, bylines, courtesy closings, and self-appraisal; retain attribution or responsibility when it matters.
 - Avoid middle dots and dashes as prose punctuation. Use periods, colons, or natural clause connections. Quotations, code, official names, and notation keep their original marks. Choose Korean commas by sentence structure rather than inserting them automatically after connective endings.
 - Figure labels carry the names, operations, and quantities needed to understand the visual. Put supporting setup, timestamps, and extended qualifications in a caption or adjacent prose. Keep a condition on the canvas when readers need it to distinguish a branch or interpret a value.
