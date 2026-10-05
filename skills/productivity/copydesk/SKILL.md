@@ -36,7 +36,7 @@ To shorten, remove redundant orientation, repeated claims, process narration, an
 
 ## Structure and explanation
 
-Open with the subject, supported finding, or decision. Organize sections around reader questions and make headings specific. Choose the form according to the relationship being explained:
+Open with the subject, supported finding, or decision. Organize sections around reader questions. Section headings are professional noun phrases that identify the subject and the section's role, as in a research paper. Keep necessary technical qualifiers, but put full-sentence claims, explanations, conversational address, and reading instructions in the body. Korean endings such as `~했네요`, `~입니다`, `~해요`, and `~살펴보겠습니다` do not belong in section headings. Follow a title explicitly required by the user or a governing template. Choose the form according to the relationship being explained:
 
 - Prose develops causes, mechanisms, interpretation, and trade-offs.
 - Lists group parallel facts or actions; ordered steps show a procedure.
@@ -58,7 +58,7 @@ For Korean prose or a Korean clarity repair, read the compact [Korean writing](r
 
 ## Verification and delivery
 
-Read the result without the drafting conversation. Can the reader recover the conclusion's reason, the mechanism, and its important conditions? Compare the revision with its source for additions, omissions, stronger claims, changed requirements, or flattened voice. For local corrections, inspect the diff for unrelated movement. For broad revisions, inspect meaning and explicitly protected content across the changed structure.
+Read the result without the drafting conversation. Can the reader recover the conclusion's reason, the mechanism, and its important conditions? Read the section headings together: they should form a professional topic outline, without conversational sentences or a narration of what the writer will explain. Compare the revision with its source for additions, omissions, stronger claims, changed requirements, or flattened voice. For local corrections, inspect the diff for unrelated movement. For broad revisions, inspect meaning and explicitly protected content across the changed structure.
 
 Use bundled helpers when their signals answer a real question. Run them from this skill directory or resolve their paths from it. They use Python 3's standard library:
 
