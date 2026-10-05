@@ -17,7 +17,7 @@ description: >
 
 Write issues that let teammates understand what the work is trying to change and act on its result. Read together, the project, parent, and issue titles should reveal the larger agenda. Each body supplies the context, concrete result, and evidence its reader needs without reconstructing the author's activity history.
 
-The rules for shape (title, body, what to leave out, language) are defaults: the user's instruction and the team's own template or convention win over them. The link check and shared-record safety run on every issue whatever the convention, and the assignee follows its rule unless the user says who.
+The rules for shape (title, body, what to leave out, language) are defaults: the user's instruction and the team's own template or convention win over them. Apply `copydesk` for shared meaning-preservation and writing guidance when available; this skill owns issue structure, tracker fields, and publication authority. The link check and shared-record safety run on every issue whatever the convention, and the assignee follows its rule unless the user says who.
 
 ## Normal Path
 
@@ -118,7 +118,7 @@ When editing, preserve status, assignee, labels, attachments, and relations unle
 
 Write in the language the team's tracker already uses, titles included. Spell terms out: an abbreviation or label coined during the session means nothing to a reader outside it. Keep the field's established English technical terms in English inside non-English text, following the team's own spelling for settled loanwords. Write dates in full, with the year.
 
-For Korean trackers, default to a noun-phrase outline (개괄식) for bodies, closing notes, and status updates: bullet items that end in a noun or read `label: value`, not past-tense narrative sentences such as "~했다". This preference covers tracker records only, and an established team convention wins.
+For Korean trackers, default to a noun-phrase outline (개괄식) for parallel facts, deliverables, and status values in bodies, closing notes, and status updates. Those items may end in a noun or read `label: value`. Explain a mechanism, condition, cause, or consequence in complete sentences when a noun phrase would hide the relationship. Preserve the actor, tense, uncertainty, and requirement level; a complete sentence is not a defect merely because it ends in "~했다". Cut activity narration that contributes no useful result. This preference covers tracker records only, and an established team convention wins.
 
 ## Tracker Specifics
 

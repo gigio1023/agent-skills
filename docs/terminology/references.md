@@ -140,3 +140,12 @@
 - Supporting passages: handoffs "allow an agent to delegate tasks to another agent" and are represented "as tools to the LLM"; the configured unit is an `Agent`.
 - Used by: the "lane" anti-pattern (absence, and "handoff" as the SDK's noun for transfer of control).
 - Inspection status: page fetched and searched.
+
+<a id="r015"></a>
+## R015: Maintainer routing revision, 2026-10-06
+
+- Repository maintainer; revision of the pack's model assignments.
+- Location: [GPT routing](../../skills/development/gpt6-astra-model-routing/SKILL.md) and [routing overview](../routing-skills.md).
+- Decision: GPT work defaults to Astra. Sol 6.1 handles only fixed mechanical work without semantic judgment. Bounded implementation, summaries, and diagnosis still require Astra. Explicit model and effort choices take precedence over package defaults; no automatic frontier-worker effort reduction.
+- Used by: dispatch, tier, and the historical effort-floor entry. Existing field names remain unchanged.
+- Inspection status: maintainer decision applied to the current package; this record makes no new claim about industry terminology or model benchmark performance.

@@ -32,7 +32,7 @@ Use this catalog to decide whether `orchestrate-subagents` is the right skill, t
 
 ## Harness-Specific Routing Hints
 
-- Codex: native subagents often inherit the main session's model and settings. Adjust model or reasoning effort only when the harness exposes that choice and the user or companion skill gives a reason.
+- Codex: native subagents often inherit the main session's model and settings. Resolve inherited settings with the applicable routing skill and the active spawn contract. GPT research, implementation, and review use Astra; only fixed mechanical packets qualify for Sol 6.1.
 - Claude Code: native subagents, tasks, agent-team features, and installed cross-harness plugins vary by setup. Use visible capabilities rather than assuming a named worker exists.
 - Companion routing skills can pin exact model preferences for a user or team. This skill should consume those preferences as policy input while staying focused on orchestration mechanics.
 

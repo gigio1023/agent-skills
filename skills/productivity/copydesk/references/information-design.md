@@ -20,13 +20,15 @@ Structure must carry meaning. Repeating “One-line summary / Definition / Why i
 
 ## Medium for understanding
 
-When the reader must understand a mechanism, a structure, or a comparison, choose the medium before writing prose. For these needs prose is the fallback and the connecting text around the display.
+Choose the medium by what the reader needs to compare, follow, or infer. Prose can explain a short mechanism directly. A display helps when readers would otherwise have to hold several relationships or values in memory.
 
-- Mechanism or structure: a figure, drawn with `technical-figure`.
-- Behavior the reader learns by changing an input or a selection: an interactive HTML page, as an artifact or with `insight-dashboard` for data.
-- Motion that still frames cannot show: an explainer video when the user asks for one; otherwise propose one.
+- Exact values or shared attributes: a compact table with an interpretation beside it.
+- Connected causes, constraints, or trade-offs: prose, with an example when useful.
+- Spatial relationships, branching flows, or interacting state changes: a diagram, using the requested format or a figure skill.
+- Quantitative patterns: a chart with clear units and comparison conditions.
+- Behavior learned by changing an input: an interactive artifact when the interaction adds understanding.
 
-The same choice applies when the user must review or understand the agent's own work. A page built for one review can be discarded after it.
+The [finished comparison](finished-examples.md#measured-comparison) needs a table and prose, not an additional chart. The [upload sequence](finished-examples.md#indexing-sequence) benefits from a diagram because timing and independent actors matter. Choose with the same judgment for a review of the agent's own work; creating an artifact is useful only when it helps that review.
 
 ## Long documents and progressive disclosure
 
@@ -81,7 +83,7 @@ Split a visual when:
 
 Keep matched panels together when the comparison depends on seeing them together. Splitting must preserve shared units, comparable scales, and the names connecting the views. An arbitrary one-panel rule can be as harmful as an overloaded canvas.
 
-Use a short noun-phrase title. Label the operations on edges and the actual measures on axes. A caption supplies the finding or interpretation condition that the visible labels do not already convey. Do not restate the figure title, every box, and its construction history. Remove redundant warnings and decorative status badges.
+Use a short noun-phrase title. Label the operations on edges and the actual measures on axes. Keep quantities and conditions in the visual when they define a branch, axis, or comparison. A caption supplies the finding and supporting interpretation conditions that the visible labels do not already convey. Do not restate the figure title, every box, and its construction history. Remove redundant warnings and decorative status badges.
 
 ## Document reading order
 

@@ -10,34 +10,29 @@ Use present tense for defined behavior and mechanisms, past tense for an observa
 
 Default to subject-centered prose in technical and shared reports. Remove “my findings,” “the author's synthesis,” and ornamental author/date introductions when page metadata or the sharing context already supplies them. An observation date, source attribution, or action owner can still change the meaning and belongs with the relevant fact. Keep required bylines in their metadata position. First-person voice is appropriate when explicitly requested, required by the destination's genre, or needed to distinguish firsthand testimony or responsibility; merely permitting it is not a reason to add a narrator.
 
-Replace governance-speak with the actor and action. Document-architecture nouns such as “single source of truth,” “authoritative document,” “단일 source,” and “권위 문서” carry the author's filing system into the prose, while the reader needs what happens and where to look: “Retry limits are defined in `retry.md`,” not “`retry.md` is the single source for retry policy.” Treat abstract nouns of process the same way: “the service owner approves the change,” not “change governance applies.”
+Replace abstract process language with the actor and action when that makes the meaning clearer: “The service owner approves the change” states a responsibility. Keep an authority relationship when the system depends on it. “The cache is not a source of truth” can distinguish a disposable copy from authoritative state; a description of a cache miss alone does not preserve that contract.
 
-## Controlled sentences
+## Clear sentences
 
-The author's documents use controlled language at about 80% of [ASD-STE100](https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf) Issue 9 (2025-01-15): its sentence and paragraph rules, without its approved-word dictionary. Rule numbers in parentheses point into that standard. The rules hold in English and Korean. Headings, table cells, labels, quotations, and code are exempt. In another person's text, their sentence style stays ([authoring and revision](authoring-and-revision.md#preserve-the-intended-voice)).
+Make the relation easy to follow. Keep a connected cause, condition, or contrast in one sentence when it reads naturally; separate unrelated claims or steps that the reader needs to perform independently. A sentence does not become unclear at a fixed word count, and a paragraph does not become clear by meeting a sentence quota.
 
-1. **One claim per sentence.** A sentence states one fact, one action, or one relation (4.1). Split at the second claim, and keep the relation as a word: so, because, then. Korean: 연결어미(`-고`, `-며`, `-는데`, `-지만`, `-어서`)는 한 문장에 하나까지 쓴다. 둘째 연결어미에서 문장을 끊고 관계는 `그래서`, `이때`, `그러나`로 잇는다.
-2. **One instruction per sentence, condition first.** Write an instruction in the imperative, with one action unless two actions occur at the same time (5.2, 5.3). A condition the reader must know first opens the sentence (5.4): "If the queue is full, stop the producer." Korean: "queue가 가득 차면 producer를 멈춘다."
-3. **The actor is the subject.** Use the active voice. Use the passive only when the actor is unknown or adds nothing and the object is the topic (3.6): "The buffer is released after the callback returns." Korean: 문단의 첫 문장과 행위자가 바뀌는 문장에는 주어를 쓴다. 같은 행위자가 이어지는 문장에서는 주어를 생략해도 된다. `~에 의해`와 `되어진다`는 능동으로 바꾼다(A-8, A-9).
-4. **One term per concept, one meaning per term.** Choose one name for a concept and repeat it (1.11, 9.4). Rotating "platform", "solution", and "engine" for one component makes the reader count components. Korean: 같은 개념은 문서 끝까지 같은 표기로 쓴다.
-5. **Short sentences.** Aim for at most 20 words in an instruction and 25 in a description (5.1, 6.3). A longer sentence is a signal to check rule 1. Korean has no word count, so the connective limit in rule 1 does this job.
-6. **One topic per paragraph.** The first sentence states the topic, and a paragraph has at most six sentences (6.5, 6.6).
-7. **At most three nouns in a row.** Unpack a longer stack with a preposition (2.1). Korean: 조사를 되살리거나 절로 푼다([명사열 풀기](korean-writing.md#명료성-기준)).
-8. **Each point once, stated positively.** Write what a thing is or does. Add a negation only when the reader would otherwise assume the negated reading. A rule stated once does not return as a warning, a summary, or an example of what not to write.
+Name an actor when responsibility or a changing subject matters. Use the passive when the actor is unknown, immaterial, or already established. Keep articles, particles, endings, and predicates that carry meaning. Unpack a noun cluster when its modifiers are ambiguous, while preserving an established technical term.
 
-Keep every word the grammar needs: articles, particles, endings, and predicates (4.2, 4.5). The rules shorten sentences; mechanism, conditions, and numbers stay.
+Use consistent names for the same entity, not a single generic word for distinct operations. In English, schema validation, signature verification, and receipt confirmation can be different actions. “Robust regression” names a statistical method rather than praising its quality. Read [English clarity](english-clarity.md) for STE-inspired instruction and terminology work; read [Korean writing](korean-writing.md) for natural Korean syntax. Neither guide makes length or a pattern count a quality gate.
 
-**English description.** Before, 47 words and four claims: "The cache layer, which is responsible for reducing load on the database, is not a source of truth, and entries may be evicted at any time by the eviction policy, so callers should always be prepared to re-fetch data from the database if a miss is encountered."
+### Meaning-preserving examples
 
-> The cache reduces database load. The eviction policy can remove a cache entry at any time. If the cache has no entry for a key, the caller reads the value from the database.
+**English description.** Original: “The cache layer, which is responsible for reducing load on the database, is not a source of truth, and entries may be evicted at any time by the eviction policy, so callers should always be prepared to re-fetch data from the database if a miss is encountered.”
 
-The defensive "not a source of truth" goes, because the third sentence states its consequence.
+> The cache reduces database load but is not a source of truth. The eviction policy may remove entries at any time, so callers should always be prepared to fetch data from the database again after a cache miss.
 
-**Korean description.** Before, 연결어미 여섯 개: "이 job은 실패하면 scheduler에 의해 재시도되는데, 재시도 횟수는 설정 파일에서 관리되고 있으며 최대 횟수에 도달하면 dead-letter queue로 이동되므로 운영자의 확인이 필요하지만 알림은 자동으로 발송되지 않는다."
+The revision keeps the authority boundary, possible eviction, and the recommendation to prepare. It does not claim that callers already implement the fallback. The causal connection remains in the second sentence because it explains why callers need that preparation.
 
-> job이 실패하면 scheduler가 job을 다시 실행한다. 최대 재시도 횟수는 설정 파일이 정한다. 재시도가 이 횟수에 이르면 scheduler가 job을 dead-letter queue로 옮긴다. 이때 알림은 가지 않는다. 그래서 운영자가 dead-letter queue를 직접 확인해야 한다.
+**Korean description.** 원문: “이 job은 실패하면 scheduler에 의해 재시도되는데, 재시도 횟수는 설정 파일에서 관리되고 있으며 최대 횟수에 도달하면 dead-letter queue로 이동되므로 운영자의 확인이 필요하지만 알림은 자동으로 발송되지 않는다.”
 
-알림이 없다는 부정은 독자가 알림을 기대할 만한 자리라 남겼다.
+> job이 실패하면 scheduler가 다시 실행한다. 재시도 횟수는 설정 파일에서 관리하며 최대 횟수에 도달한 job은 dead-letter queue로 이동한다. 운영자가 확인해야 하지만 알림은 자동으로 발송되지 않는다.
+
+재시도와 이동 조건, 운영자의 확인 필요, 자동 알림의 부재를 보존했다. 원문이 이동 주체를 명시하지 않았으므로 scheduler가 옮긴다고 추가하지 않았다. 연결어미를 세는 대신 각 조건이 어느 동작을 제한하는지 확인한다.
 
 ## Keep each author's voice in revision
 

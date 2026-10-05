@@ -24,7 +24,7 @@ Use the native delegation, task, thread, worktree, or subagent mechanism provide
 1. Restate the user's objective, decision pressure, and expected output.
 2. Decide whether parallelization is actually useful. Prefer parallel work when the task has independent sources, perspectives, files, modules, hypotheses, or independent verifications.
 3. Read `references/delegation-patterns.md` for the task type.
-4. Read `references/harness-adapters.md` and use the current harness' native delegation mechanism, model policy, and cost-routing options without hardcoding commands from another environment.
+4. Read `references/harness-adapters.md` and use the current native delegation mechanism. For GPT workers, apply `gpt6-astra-model-routing`: Astra by default, Sol 6.1 only for very easy deterministic execution. For Anthropic workers, keep the applicable Anthropic routing policy.
 5. Size the first wave deliberately. Spawn the smallest useful wave while the decomposition is still uncertain; spawn a subagent for every genuinely independent task when the split is already clear or the user asks for maximum parallelism. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, and stop condition.
 6. Prefer asynchronous updates and reuse a long-lived agent for related follow-up work when retained context is valuable. While agents run, advance a disjoint lead-agent slice instead of blocking on the slowest subagent. When a worker finishes and independent work remains queued, dispatch its next packet right away — a wave is a starting shape, not a barrier.
 7. Before reporting progress, tie each claim to a worker artifact, tool result, source, or test from the current run.
@@ -40,7 +40,7 @@ Orchestration intensity is a dial the lead keeps adjusting, not a shape chosen o
 
 Subagent count follows independent ownership, the user's budget, and the available concurrency limit. Queue excess work and reuse finished workers; do not treat a clear decomposition as unlimited spending authority. Surplus agents duplicate effort and add noise. Fewer is not safer — too few subagents serialize independent work. The right number changes with the kind of work, so decide it by planning the split, not by defaulting to a familiar count.
 
-Not every multi-call workflow needs an agent. Use a deterministic or programmatic tool path for bounded structured reduction that needs no semantic judgment between calls; keep sequential work direct when each result determines the next move.
+Not every multi-call workflow needs an agent. Use a deterministic or programmatic tool path for bounded structured reduction that needs no semantic judgment between calls. Distinguish fetching named sources from selecting sources, extracting meaningful claims, summarizing conflicts, or choosing follow-up queries. Those latter tasks require judgment, even when they are read-only or cover many inputs. Keep sequential work direct when each result determines the next move.
 
 An explicit user instruction about delegation governs: whether to delegate, how many subagents, which models, and the budget. Without one, deciding to delegate and sizing the wave are the lead's calls, and making them is expected rather than exceptional; do not stop to ask for permission the user did not ask to give. That autonomy covers the fan-out only. Delegation never grants new authority for external writes, destructive work, purchases, or material scope expansion.
 

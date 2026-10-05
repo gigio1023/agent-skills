@@ -7,6 +7,14 @@ Remove every placeholder and section that does not apply before handing off.
 - Outcome: <one observable result, artifact, or evidence packet>.
 - Mode: <change | run | inspect | ordered mixed phases>.
 
+# Executor Contract
+
+- Selected model: <exact model and supported effort from the routing decision>.
+- Applicable routing rule: <family-specific policy>.
+- For GPT Sol 6.1: fixed collection, deterministic data transformation, or command execution only. No semantic judgment, coding, summaries, diagnosis, review, or prose edits.
+- Sol acceptance: <mechanical counts, hashes, schema, or exact comparison>.
+- An undefined result returns to Astra with raw evidence and completed actions.
+
 # Approved Basis and Procedure
 
 - Basis: <approved decision, procedure, reproduction, or prerequisite evidence>.
@@ -17,7 +25,7 @@ Remove every placeholder and section that does not apply before handing off.
 
 # Execution Authority
 
-- You may decide: <only local, reversible details the executor handles reliably>.
+- You may decide: <explicitly permitted choices; none requiring semantic judgment for Sol 6.1>.
 - Permitted effects: <writes, generated artifacts, external effects, or none>.
 - Permitted retries: <count and condition, or none>.
 - You must not decide: <design, scope, recovery, or interpretation fixed by the planner>.
@@ -64,7 +72,7 @@ Stop before the affected action if current reality contradicts the packet, an un
 - Preflight consistency result
 - Actions performed in order
 - Commands, working directories, exit statuses, and relevant output
-- Evidence and findings tied to their sources
+- Evidence tied to source locations; raw or mechanically transformed results for Sol 6.1
 - Created, modified, or deleted files, artifacts, and external effects
 - Acceptance criteria result
 - Failed, skipped, unavailable, and unverified items

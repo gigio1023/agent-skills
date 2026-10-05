@@ -23,13 +23,19 @@ Use this skill when the user explicitly invokes it to build the bounded prompt, 
 
 1. Resolve every Handoff Gate field from the approved plan, named artifacts, and session grants before requesting more input from the planner.
 2. If a consequential field remains missing or contradictory, return the specific unresolved list and finish the settled parts of the prompt. Do not dispatch an incomplete packet or invent authority to fill a field.
-3. Select `change`, `run`, `inspect`, or an explicitly ordered `mixed` mode.
+3. Check the executor against the applicable routing policy, then select `change`, `run`, `inspect`, or an explicitly ordered `mixed` mode. For GPT Sol 6.1, apply the mechanical-only boundary below before drafting.
 4. Write one prompt from `assets/execution-prompt.template.md`; remove sections that do not apply instead of leaving empty placeholders.
 5. Resolve every choice the executor cannot handle reliably.
 6. Tell the executor to continue when preflight matches; the execution loop below belongs in the generated prompt and does not authorize this authoring invocation to run the task.
 7. Return the copy-ready prompt plus only the assumptions the planner must resolve before use.
 
 Read `references/prompt-patterns.md` for mode-specific scope patterns, stop reports, and examples.
+
+## GPT Executor Boundary
+
+Follow `gpt6-astra-model-routing` for GPT assignments. Sol 6.1 accepts only very easy deterministic collection, transformation, or command execution with fixed inputs, procedure, output, and mechanical acceptance. Source selection, summaries, confidence assessment, diagnosis, code implementation, review, and prose edits belong to Astra even when the scope is narrow.
+
+For a Sol packet, name exact source locations and return raw or mechanically transformed results, exit statuses, and failed items. Use `change` only for an approved deterministic data transform. A mismatch returns to Astra without interpretation or recovery. The restrictions here support a mechanical executor; they are not default instructions for Astra or a general successor.
 
 ## Handoff Gate
 
@@ -44,7 +50,7 @@ Only the delegated step needs to be settled; the whole research project need not
 | Authority | Permitted writes, side effects, retries, credentials, and external actions |
 | Procedure | Ordered actions and the choices already resolved by the planner |
 | Preservation | Contracts, state, data, formatting, or environment to keep unchanged |
-| Executor profile | Relevant limits in execution, recovery, context, or scope control |
+| Executor profile | Selected model, applicable routing rule, and task-relevant limits |
 | Evidence | Expected outputs, exit states, artifacts, diffs, or cited observations |
 | Stop conditions | Mismatches that must return to the planner |
 
@@ -61,7 +67,7 @@ A field may be satisfied by pointing at a durable plan document — the plan fil
 | `inspect` | Named sources and questions, read-only boundary, evidence format | Cited observations and explicit unknowns |
 | `mixed` | Ordered modes with a separate authority boundary for each phase | Evidence from every phase and cumulative side effects |
 
-For `run`, a failed test or check is a result, not permission to diagnose or edit. For `inspect`, no mutation is allowed unless a later phase grants it explicitly.
+For GPT Sol, questions in `inspect` must be literal fields or fixed checks, not a request to select relevant evidence or explain meaning. For `run`, a failed test or check is a result, not permission to diagnose or edit. For `inspect`, no mutation is allowed unless a later phase grants it explicitly.
 
 ## Prompt Rules
 

@@ -1,6 +1,6 @@
 # Multilingual Writing
 
-Use the relevant section when language, locale, or voice affects a drafting or revision decision. Sentence rules for every language are in [controlled sentences](voice-and-facts.md#controlled-sentences).
+Use the relevant section when language, locale, or voice affects a drafting or revision decision. Shared meaning checks are in [clear sentences](voice-and-facts.md#clear-sentences); each language keeps its natural syntax.
 
 ## Shared judgment
 
@@ -18,9 +18,11 @@ Prefer an operation to an inflated abstraction when it preserves meaning: “The
 
 Check an appended `-ing` clause if it supplies an unsupported effect or an unclear actor. State the actual relation or remove the unsupported inference. A summary belongs when it synthesizes a decision, not simply because the document has reached its end.
 
+For ambiguity in instructions, tool descriptions, or status text, use [English clarity](english-clarity.md). Preserve distinctions between technical operations even when their verbs are common synonyms elsewhere.
+
 ## Korean
 
-Korean meaning, terminology, definition by negation, and the evidence-backed Korean tells live in [Korean writing](korean-writing.md), which also carries the synthetic Korean examples. The house punctuation and the English field-term boundary are the author's preferences in [writing profile](writing-profile.md).
+Korean meaning, terminology, and synthetic examples live in [Korean writing](korean-writing.md). Specific pattern observations and their limits are optional in [Korean pattern evidence](korean-pattern-evidence.md). The house punctuation and the English field-term boundary are the author's preferences in [writing profile](writing-profile.md).
 
 ## Italian
 
@@ -42,4 +44,4 @@ Leave line-breaking, hanging punctuation, and page-edge behavior to the renderer
 
 ## Basis and reuse
 
-The authoring, revision, voice-preservation, and language guidance in this package adapts selected methods from [slop-aware-writing](https://github.com/gigio1023/slop-aware-writing/tree/0eb3b774d124302bdd9ed0fcbe184a50cde90ec3/slop-aware-writing), copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing). This synthesis selects semantic and reader-task decisions; it does not import that package's pattern-count policies. The Korean tells and the Korean clarity rules in [Korean writing](korean-writing.md) were merged from slop-aware-writing and korean-clarity at their 2026-09-21 revisions; empirical claims appear only there, with their evidence class and limits. The examples here are independently synthetic. Public technical close readings remain in the repository's `docs/writing-sources.md`.
+The authoring, revision, voice-preservation, and language guidance in this package adapts selected methods from [slop-aware-writing](https://github.com/gigio1023/slop-aware-writing/tree/0eb3b774d124302bdd9ed0fcbe184a50cde90ec3/slop-aware-writing), copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing). This synthesis selects semantic and reader-task decisions; it does not import that package's pattern-count policies. The Korean tells and the Korean clarity rules in [Korean writing](korean-writing.md) were merged from slop-aware-writing and korean-clarity at their 2026-09-21 revisions; empirical claims are retained in [Korean pattern evidence](korean-pattern-evidence.md), with their evidence class and limits. The examples here are independently synthetic. Public technical close readings remain in the repository's `docs/writing-sources.md`.

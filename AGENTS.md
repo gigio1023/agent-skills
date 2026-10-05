@@ -2,13 +2,13 @@
 
 ## Tests
 
-A test written after the code, with expected values read off that code, repeats the implementation: it passes by construction, misses the bugs it shares with the code, and breaks on every refactor. Do not write such tests unless the user asks for a specific one.
+A useful test protects a meaningful caller-visible contract and derives expected results independently from the implementation under test. Use requirements, documented contracts, independent calculations, or reproduced bugs. Copying expected values from the code merely repeats its assumptions; writing a test after the implementation does not itself make the test invalid.
 
 - Verify features end to end. Run the real entry point on real or fixed input and leave an artifact another person can rerun and compare, such as an output file, log, report, or screenshot. Give the command and the artifact path in the final message.
-- When a unit needs an isolated test, first list the ways it can fail, take expected values from the spec or a hand calculation, and only then write the code.
-- A bug fix may add one test that reproduces the bug and fails before the fix.
-- Keep or add a test only if losing it would let a security, money, data-loss, or reported-number bug ship unnoticed and no end-to-end run covers it.
-- If a refactor that keeps behavior breaks a test, the test was checking implementation. Delete it instead of rewriting it and list it in the PR.
-- Do not test constants, prompt or message strings, output formatting, internal helpers, or fakes built for the test itself.
+- Choose focused cases from plausible failures and the behavior callers depend on. Use an isolated test when it can establish a contract more directly or cover a failure path the entry-point run does not exercise.
+- For a bug fix, reproduce the failure before the fix when feasible and retain the cases needed to protect the corrected contract.
+- Public APIs, CLI behavior, parser rejection, compatibility, cancellation, and resource cleanup can warrant tests, as can security, financial, data-loss, and reported-number risks. Avoid redundant tests that add no useful regression signal.
+- Diagnose a test that fails during refactoring. Fix a behavior regression in the code; adapt stale setup or implementation-specific assertions while preserving the public contract. Remove a test only when its contract is obsolete, redundant, or has no independent value, and explain why. A failure alone is not evidence that the test should be deleted.
+- Test observable outcomes rather than internal helper layout, fakes built only for the test, or exact prompt and message wording without a specified contract. Exact values, serialized text, and formatting can be valid assertions when an API, protocol, documented CLI, or consumer depends on them.
 
-End-to-end path here: run each changed bundled script on a sample input, then discover and validate the packages with the Skills CLI. Tests that meet the keep bar: scripts that overwrite user files, such as `skills/productivity/copydesk/scripts/sync_profile.py`, and scripts that handle account data or credentials, such as `toss-portfolio-state`.
+End-to-end path here: run each changed bundled script on real or fixed input, then discover and validate the affected packages with the Skills CLI and package validators. Relevant contracts include preserving user text in `skills/productivity/copydesk/scripts/sync_profile.py`, protecting account data in `toss-portfolio-state`, and maintaining documented parsing, output, and failure behavior in bundled tools. Documentation-only edits need package and consistency checks; model trials require a separate request.

@@ -4,6 +4,8 @@ Use when choosing how much to write or change, grounding a new document, or pres
 
 ## Choose the work
 
+A local correction protects unrelated wording. A broad revision permits restructuring and rewriting within scope while preserving meaning, useful detail, intended voice, and passages explicitly protected by the user. New writing composes from the supplied facts and inspected sources. Use this distinction before deciding how small an edit should be.
+
 | Situation | Useful intervention |
 | --- | --- |
 | A new document or a substantive update needs evidence | Inspect the relevant supplied sources, code, configuration, tests, accepted decisions, or original publications; compose the explanation they support. |
@@ -22,7 +24,7 @@ Treat the current user-edited copy as the revision baseline. Compare it with the
 
 Read omission together with retention. Removing benchmark definitions, source anecdotes, or a second inventory table while retaining the mechanism and comparison condition supports prioritizing the core explanation over exhaustive reference detail. It does not establish a target percentage reduction. When the reader-facing document and a local evidence record serve different purposes, preserve the detailed record in its authorized location and keep only the detail that changes understanding or action in the reader-facing copy.
 
-A later correction narrows or overrides an earlier request. “The explanation is good” followed by “show the key figure again” approves the explanation and asks for the figure; it does not approve the previous result as a whole. A request to preserve a confirmed example and a request to restructure around it are honored separately: the example stays intact while the structure around it changes.
+A later correction updates the current scope; it may narrow an earlier request or add a specific requirement. “The explanation is good” followed by “show the key figure again” approves the explanation and asks for the figure; it does not approve the previous result as a whole. When the user asks to preserve an example verbatim, keep its wording while restructuring around it. When the request protects its substance, its facts and mechanism stay while the wording may improve.
 
 Preserve intentional omissions through conversion and regeneration. Reconcile a stale generator or source before using it to publish, and recheck a collaborative destination for intervening edits before applying changes. If a deleted passage contains a condition essential to a retained claim, keep that meaning locally with the claim rather than restoring the discarded preamble. Ask only when a real conflict of meaning or authority remains.
 
@@ -52,7 +54,7 @@ Keep change narration where change is the reader's job: changelogs, release note
 
 Compare the revised passage with its source and read it in context. Did the edit strengthen a claim, remove an exception, change ownership, reverse a relation, or flatten the intended voice? Did a shorter paragraph lose the explanation that made the conclusion credible? Did newly added context come from evidence rather than a plausible story?
 
-Diff the revision against the previous version. Confirm that untouched passages, confirmed examples, mechanism, equations, and figures are unchanged, and that no added sentence restates an instruction or a review note.
+Diff the revision against the previous version. For a local correction, check unrelated movement and the small dependent edits needed for consistency. For a broad revision, check the meaning across reordered or combined passages and compare explicitly protected content directly. Preserve the facts and relationships in useful examples, mechanisms, equations, and figures; their form may change when the scope permits. Keep instructions and review notes out of the reader-facing text.
 
 Then read the revision as if told a model wrote it. Before delivering, fix any tell the original lacked, such as a stock transition, a symmetric contrast, upgraded vocabulary, or a formulaic close, and any flattening of the author's stance, register, or recurring choices.
 

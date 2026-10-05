@@ -4,7 +4,7 @@ Read this when creating a module, writing a function whose task has more than on
 
 ## Contents
 
-- Name the pieces first
+- Optional skeleton
 - When a block becomes a function
 - Intent tests
 - Flatten before splitting
@@ -16,11 +16,11 @@ Read this when creating a module, writing a function whose task has more than on
 - What a finished function meets
 - Sources
 
-## Name the pieces first
+## Optional skeleton
 
-When creating a module, or a function whose task has more than one phase, write the skeleton before any body: a module docstring stating what the module owns and hides, then each function and class as an annotated signature with a one-sentence docstring and `...` as the body. Each docstring says what the function decides or produces for its caller. If a sentence needs "and" to join unrelated work, or the only honest name is a position such as `step_two`, `_part`, `process_data`, or `helper`, re-cut before writing any body. When a piece's intent is unclear, state the assumption in its docstring instead of absorbing the uncertainty into a longer body. Fill bodies once the skeleton reads as a complete account of the flow.
+For a new module or multi-phase task with unclear boundaries, sketch a module responsibility, annotated signatures, and short caller contracts before filling the bodies. A skeleton is a design aid, not a required intermediate artifact or a fixed generation order. Existing code may already expose the right responsibilities, and implementation may reveal a better boundary. Resolve consequential uncertainty before presenting it as a contract. Inspect vague names such as `step_two`, `_part`, `process_data`, or `helper` for a missing responsibility; a conjunction alone says nothing about cohesion.
 
-The skeleton is the module's table of contents, written before any body. For "report customers charged twice for the same invoice in a payments export", the failure is one `main()` that opens the file, parses rows, groups them, and prints, growing a section comment every twenty lines. The skeleton for the same task:
+For "report customers charged twice for the same invoice in a payments export", a skeleton can expose parsing, duplicate detection, and reporting before they accumulate inside one `main()`. One possible sketch:
 
 ```python
 """Report customers charged twice for the same invoice in a payments export."""
@@ -53,9 +53,9 @@ def main(path: Path) -> int:
     ...
 ```
 
-Reading the skeleton already answers what the module does, which values flow between the phases, where the I/O is, and which decisions are pure. Each docstring is a small test of the cut: `read_charges` had to decide what happens to a bad row, and that decision is now visible before a line of parsing exists. Bodies are filled afterwards, each within its own signature; a body that wants to reach outside its signature is the sign that the skeleton needs another function, not that the body should grow.
+Reading this skeleton reveals the values between phases, the I/O boundaries, and the pure decision. `read_charges` states how malformed input is handled. That choice must come from the task's requirements or an explicit design decision. If implementation requires hidden caller state or an awkward signature, revise the boundary or keep the cohesive sequence together.
 
-Decomposition-first generation is the one technique with measured support: studies that generate function descriptions before implementations (Parsel, FunCoder, CodeChain, self-planning) report higher correctness, and self-planning also reports higher rated readability. The structural benefit is an inference from those results and from Ousterhout's "write the comments first"; no study has measured skeleton-first instructions against function length in a production agent.
+The studies cited below (Parsel, FunCoder, CodeChain, self-planning) motivated this design aid. They do not establish that every Python change needs a skeleton pass or that a particular function boundary is correct. The package's contract is coherent responsibilities and readable data flow; skeleton-first generation is one way to reach it.
 
 ## When a block becomes a function
 
@@ -71,13 +71,13 @@ Each test tells a function that exists because of a responsibility from one that
 
 | Test | Passes when | Fails on |
 | --- | --- | --- |
-| Name | The name states what the function decides or produces: a noun phrase for a value, verb plus object for an effect, `is_` or `has_` for a predicate | `step_two`, `_process_part`, `handle_rest`, `do_validation_and_save` |
-| One sentence | The docstring's first sentence is complete and joins no unrelated actions with "and" | "Validate the input and write the report" |
+| Name | The name states what the function decides or produces: a noun phrase for a value, verb plus object for an effect, `is_` or `has_` for a predicate | `step_two`, `_process_part`, `handle_rest` |
+| Coherent contract | The summary names one responsibility and preserves its related actions, conditions, and side effects | A helper that combines independent validation and report-writing contracts without a meaningful shared responsibility |
 | Reason to change | One kind of change request would edit this function and none of its siblings | A function edited by every change |
 | Signature | The parameters are what the function decides with; the return is one named value or model, not a tuple of the caller's locals; no flag argument selects between two behaviors | `_finish(a, b, c, d, e, mode=True) -> tuple[...]` |
 | Caller | A reader of the caller, given only callee names, signatures, and docstrings, can state what the caller does, including every side effect | A callee named like a pure predicate that mutates shared state |
 | Independence | The callee's body can be understood without the caller's loop state or ordering assumptions | A helper that only works because the caller ran a previous helper |
-| Inline | Inlining the function back would not make the caller harder to read; if the body reads the same as the name, inline it | `def _clear_amount_owed(self): self.amount_owed = 0` |
+| Boundary value | The function makes its caller easier to read or isolates a meaningful contract; inline it when its name only repeats the body | `def _clear_amount_owed(self): self.amount_owed = 0` with no separate contract |
 
 ## Flatten before splitting
 
@@ -148,7 +148,7 @@ Do not introduce a new runtime import cycle to complete an extraction. If the pr
 
 ## What a finished function meets
 
-A finished function passes the intent tests and the configured Ruff rules. A complexity or statement-count finding identifies a function to re-cut by the rules above; do not answer it by moving line ranges into numbered helpers, and do not add `noqa` without a reason on the same line. The lint gate is the deterministic half of this contract: in a study of 1,650 Claude Code sessions, the odds of following a configured convention fell about 5.6% for each additional function generated, and the harness documentation calls instruction files advisory and hooks deterministic.
+A finished function satisfies the caller's contract and the configured checks. Use the intent tests to review its responsibility and readability. A complexity or statement-count finding identifies a function to inspect; do not answer it by moving line ranges into numbered helpers, and do not add `noqa` without a reason on the same line. A configured lint gate enforces its own measurable rule, not semantic cohesion or readability.
 
 ## Sources
 

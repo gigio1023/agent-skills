@@ -86,7 +86,7 @@ These revisions were resolved on the check date. Reading them does not authorize
 | Combine skills with existing tools and runbooks | Method and judgment can complement deterministic access and execution without a new framework |
 | Keep private evidence outside shared packages | Publish the method and synthetic examples, not confidential source records or identifiable disguised cases |
 | Improve, create, and merge by task boundary | Compare trigger, decision, result, and authority; overlap alone does not justify a merger |
-| Local byte or line target | A target with 2% of tolerance, not a gate; one rule in, one rule out keeps the file honest. Owner decision on 2026-09-29, after copydesk's SKILL.md crossed its 12,288-byte figure by 163 bytes (1.3%) through unrelated fixes |
+| Local byte or line target | Organization review prompt unless an explicit user requirement or verified runtime contract makes it binding. The 2026-10-06 owner-authorized audit replaces the 2026-09-29 2% tolerance and one-rule-in/one-rule-out policy with review by function, evidence, duplication, and retrieval needs |
 
 The [validation contract](validation.md) gives executable checks and coverage limits. Other pack skills may prefer two fields as a conservative authoring default; that is not a general prohibition on optional standard metadata.
 

@@ -48,6 +48,23 @@ The Skills CLI tracks installed skills by path, so an update does not rename the
 
 After this change merges, update `python-coding-standards` and remove the old global name only when the owner asks: `npx --yes skills remove --global python-docstrings --yes`.
 
+## Astra defaults and writing integration
+
+GPT work now defaults to Astra. GPT-6.1 Sol is reserved for fixed mechanical collection or execution with no semantic decisions. Source selection, summaries, diagnosis, implementation, writing, and review stay with Astra even when their scope is bounded. `codex-delegate` uses the same default and applies the routing policy to any authorized internal subagents.
+
+| Previous asset or behavior | Replacement |
+| --- | --- |
+| `sol-scout`, `sol-builder` Codex roles | `astra-scout`, `astra-builder` |
+| `sol-clerk` on GPT-6 Sol | `sol-clerk` on GPT-6.1 Sol, mechanical work only |
+| Unnamed Codex workers on Sol | Astra workers |
+| `fable-lean-builder` with reduced effort | `fable-builder` with session effort |
+| One fixed writing revision rule | New writing, local correction, or broad revision from the request |
+| STE sentence and connective limits in the writing profile | Meaning-preserving clarity with language-appropriate sentences |
+
+Changing these files does not change an active session. During an explicitly requested installation, reconcile previously copied role files with the selected role set, preserve unrelated custom definitions, and verify the actual model and effort at dispatch. A legacy role that remains installed can still pin an old model. Existing delegated runs retain their recorded model and lifecycle evidence when resumed; choose a new mission when a different lead model is needed.
+
+Copydesk incorporates useful STE-inspired English clarity principles. The external `asd-ste100` skill is neither modified nor required. Update the installed copydesk package before refreshing any user-scope writing-profile copy with `sync_profile.py`. The source profile and repository instruction template change together; publication alone does not replace the live user files.
+
 ## Publication and installation
 
 Merge the Research Credo destination first, then this change, then the Gigio source removals. The merged writer was installed and verified before the slop-aware-writing repository was archived on 2026-09-24. Review destination contents before removing source packages.

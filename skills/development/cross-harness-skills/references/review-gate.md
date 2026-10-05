@@ -4,10 +4,10 @@ Use this checklist after reading the target skill and every resource needed for 
 
 ## Package Gate
 
-- `name` and `description` are the only shared frontmatter keys.
+- `name` and `description` are present; optional standard metadata follows the documented format, and native fields have a target adapter.
 - The first description sentence distinguishes the trigger from adjacent skills.
 - `SKILL.md` contains the normal path, authority, evidence, output, and real gotchas without generic competence scaffolding.
-- Every linked path exists, references are one level deep, and long references have a contents map.
+- Required resource paths exist and the normal path makes their use clear. Reference depth and size are reviewed for retrieval cost, not treated as universal runtime limits.
 - Commands work from the documented location and do not assume a harness-only environment variable or built-in tool.
 - A script handles deterministic work, has explicit failures, and passes its documented invocation; contextual judgment remains model-native.
 

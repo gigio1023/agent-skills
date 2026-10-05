@@ -14,7 +14,7 @@
 
 **Meaning and status:** The record that configures a subagent before it runs: model, effort, tools, permissions, and instructions. The Agent SDK names the type `AgentDefinition`; Claude Code and Cursor describe it as a Markdown file with YAML frontmatter; Codex calls it a custom agent file, role, or agent type.
 
-**Use and distinctions:** Say "subagent definition" in harness-neutral prose, "agent file" when the sentence points at a path, "role" in Codex-specific text, and `agent_type` when naming the spawn argument that selects it. The routing skills ship definitions as assets named `<model>-<role>`, such as `opus-builder` and `sol-builder`, so the name shows the cost class.
+**Use and distinctions:** Say "subagent definition" in harness-neutral prose, "agent file" when the sentence points at a path, "role" in Codex-specific text, and `agent_type` when naming a supported spawn argument that selects it. The routing skills ship definitions such as `opus-builder`, `astra-builder`, and `sol-clerk`. Their configured model and effort determine the assignment; the name alone does not verify the running model.
 
 **Reference:** [R002](references.md#r002), [R004](references.md#r004), [R005](references.md#r005).
 
@@ -30,7 +30,7 @@
 
 **Meaning and status:** The act of handing a task to a subagent. Developer usage in the peer routing package AqueGen/model-routing ("Route every dispatch"); the routing skills use it for the one-line statement made before each spawn.
 
-**Use and distinctions:** "Dispatch statement" names the line `tier | agent_type | model | effort | source | runtime status`. Do not use "dispatch" for the configured record or for the standing policy.
+**Use and distinctions:** A dispatch statement identifies the delegated task, role when used, model, effort, configuration source, and observed runtime status. Its format follows the current routing skill. Do not use "dispatch" for the configured record or for the standing policy.
 
 **Reference:** [R010](references.md#r010), [R011](references.md#r011).
 
@@ -44,7 +44,7 @@
 
 ## tier
 
-**Meaning and status:** One of four difficulty classes used by the routing skills to place a delegated task: mechanical collection, bounded execution, judgment-adjacent support, judgment core. Developer usage in AqueGen/model-routing for the same idea ("Think in tiers, not model names").
+**Meaning and status:** A task-difficulty class used by a routing policy. The earlier pack policy used four classes: mechanical collection, bounded execution, judgment-adjacent support, and judgment core. Current GPT routing instead makes the presence of semantic judgment decisive. A fixed scope does not make implementation, diagnosis, or summarization mechanical. Developer usage in AqueGen/model-routing uses the same general noun ("Think in tiers, not model names").
 
 **Use and distinctions:** Reserved for difficulty. Do not use "tier" for a model class or a service tier; say "model class" and "service tier" in full.
 
@@ -60,8 +60,8 @@
 
 ## effort floor
 
-**Meaning and status:** Internal name for this pack's routing policy: every model below the frontier lead class runs at reasoning effort `xhigh` by default, and a route is lowered only per definition or spawn argument with a recorded reason. Frontier lead models vary effort by task shape. Confirmed as the maintainer's policy on 2026-09-20.
+**Meaning and status:** Historical name for the pack's 2026-09-20 rule that every below-frontier model ran at `xhigh` by default. It is not a universal current requirement. Current routing respects explicit session settings and uses the defaults in the relevant model-routing skill without automatically lowering a frontier worker's effort.
 
-**Use and distinctions:** A local policy name, not an industry term. Anthropic's cost measurements show what lowering a route would buy; they do not define the floor.
+**Use and distinctions:** A local policy name, not an industry term. Retain it when explaining the earlier policy; do not use it to override a current routing decision.
 
-**Reference:** [R011](references.md#r011).
+**Reference:** [R011](references.md#r011), [R015](references.md#r015).

@@ -1,6 +1,6 @@
 # Harness Portability
 
-Use this before adding syntax or behavior that may belong only to Claude Code or Codex. The portable package follows the stricter common contract; adapters may add user experience or enforcement without becoming required for correctness.
+Use this before adding syntax or behavior that may belong only to Claude Code or Codex. The portable package uses the documented shared contract. Optional adapters add native behavior without becoming required for the task's meaning or authority boundary.
 
 ## Contents
 
@@ -26,15 +26,15 @@ Once loaded, every line in the body consumes working context. Put the normal pat
 
 | Contract | Portable rule |
 | --- | --- |
-| Required metadata | Use only `name` and `description` in shared frontmatter |
+| Required metadata | Include `name` and `description`; check any optional standard fields against the package format and target support |
 | Name | Lowercase letters, numbers, and hyphens; maximum 64 characters |
 | Description | Front-load what and when; include an adjacent NOT-for boundary; stay within 1024 characters |
-| Body | Under 500 lines; a router-shaped body of about 8KB to 16KB is normal, and a pack's own byte target allows 2% over, checked by rule replacement rather than byte trimming |
-| References | Link each one directly from `SKILL.md`; add a contents map to long files |
+| Body | Keep the normal path together; review length for duplication and retrieval cost, not an arbitrary byte or line threshold |
+| References | Put required detail on the normal path; use conditional links and shallow navigation when useful |
 
 Codex budgets its initial skill listing and can shorten descriptions when many skills are installed. Claude Code also truncates discovery text. Put the most discriminative trigger in the first sentence; do not spend the opening on a workflow summary.
 
-Claude Code accepts optional frontmatter such as invocation control, tools, arguments, path filters, forked context, and hooks. Codex supports optional `agents/openai.yaml` policy, dependency, and interface metadata. Neither set is the portable contract. Keep shared frontmatter at the two-field intersection.
+Claude Code accepts optional frontmatter such as invocation control, tools, arguments, path filters, forked context, and hooks. Codex supports optional `agents/openai.yaml` policy, dependency, and interface metadata. These native features belong in the target adapter. The source guide in `skill-builder` owns portable format requirements; do not reject supported standard metadata merely because it is optional.
 
 ## Locations And Invocation
 

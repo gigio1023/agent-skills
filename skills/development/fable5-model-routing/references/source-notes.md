@@ -1,10 +1,12 @@
 # Source Notes
 
-Last updated: 2026-09-23.
+Policy updated 2026-10-06. Anthropic runtime and price evidence below was last checked on 2026-09-23; this policy edit does not refresh those facts.
 
-## Mirror Note
+## Policy Ownership
 
-The `Core` section of `SKILL.md` (three signals and four tiers, effort by model class, decision rules, dispatch statement) is shared word for word with `gpt6-astra-model-routing/SKILL.md`. Change both together and record the change here and there. Everything outside the core is family- or harness-specific and may diverge.
+This skill owns Anthropic model choices. `gpt6-astra-model-routing` owns GPT assignments, including GPT workers under a Fable lead. The policies are no longer mirrored. Sonnet research and Opus implementation remain Anthropic routes; GPT coding and semantic work use Astra, while Sol 6.1 is restricted to mechanical execution.
+
+The 2026-10-06 revision removes automatic frontier effort reduction and arbitrary consultation caps. `fable-builder` replaces `fable-lean-builder`, and both Fable roles inherit selected session effort. Actual user budgets remain binding. The historical policy notes below explain prior choices rather than prescribing current routes.
 
 ## Sources
 
@@ -42,7 +44,7 @@ Routing evidence outside vendor docs:
 - OpenAI Codex `Subagents`: https://learn.chatgpt.com/docs/agent-configuration/subagents (read-heavy work for subagents; role-to-model guidance for the GPT-5.6 family when read on 2026-09-20; by 2026-09-23 the page said to start most tasks with `gpt-6-sol`).
 - Community packages read for patterns: matteoscurati/delegation-kit (mirrored Claude and Codex subagent definitions with an inverted effort curve), AqueGen/model-routing (dispatch-logging hook and one-step retry rule), obra/superpowers strict-cost design spec (pre-registered failures of cheap models on judgment).
 
-## Measured Numbers Behind the Rules
+## Historical Measurements
 
 From Anthropic's cost and intelligence page, on its own benchmarks with unpublished protocols; first-party, unreplicated:
 
@@ -61,10 +63,10 @@ From Anthropic's cost and intelligence page, on its own benchmarks with unpublis
 - Prices on 2026-09-20 per million tokens, input and output: Fable 5.1 $10 and $50 with cache reads at $0.25; Opus 5 $5 and $25 with cache reads at $0.50; Sonnet 5 $2 and $10; Haiku 4.5 $1 and $5 with no effort parameter and a 200K context. Added 2026-09-23: Opus 5.5 $4 and $20 with cache reads at $0.20 and 5-minute cache writes at $5; its fast mode $8 and $40.
 - The cost page had not added Opus 5.5 measurements when rechecked on 2026-09-23. Anthropic's Opus 5.5 announcement claims about 40% lower cost than Opus 5 at default settings on typical workloads and performance at Fable 5.1's level on most work; these are launch claims, not per-task measurements comparable with the table.
 
-Guidance statements the rules rest on:
+Guidance recorded during the earlier policy review:
 
 - Effort page: `low` is for "simpler tasks that need the best speed and lowest costs, such as subagents"; `xhigh` is for long-running agentic work with token budgets in the millions.
-- Fable 5.1 page: at `low` it calls search and retrieval tools less often; at `xhigh` and `max` it may think long before a long deliverable, so run those at `high`; at `low` it is often competitive on cost per task with Opus and Sonnet at higher effort.
+- Fable 5.1 page: at `low` it calls search and retrieval tools less often; at `xhigh` and `max` it may think long before a long deliverable, so that guidance recommends `high`; at `low` it is often competitive on cost per task with Opus and Sonnet at higher effort.
 - Opus 5 page: it delegates readily and verifies its own work unprompted; instructions to use a subagent to verify cause over-verification, and the recommended delegation line says not to use subagents to verify or double-check its own work.
 - Models overview, 2026-09-23: Anthropic recommends starting with Opus 5.5 for most workloads and reaching for Fable 5.1 for demanding reasoning and long-horizon agentic work, or when evals on Opus 5.5 at higher effort still fall short. On 2026-09-20 the same page named Opus 5.
 - Opus 5.5 pages: the default effort is `medium` where Opus 5's is `high`; at a given level 5.5 thinks more per turn than Opus 5, most at `xhigh` and `max`; `xhigh` and `max` are for work where a quality gain was measured. The Opus 5 prompting patterns remain its starting point, so the delegation and over-verification guidance above still applies.
@@ -73,8 +75,8 @@ Guidance statements the rules rest on:
 ## Durable Translation
 
 - Fable can lead difficult, long-horizon work and coordinate subagents; delegate for concurrency, isolation, fresh verification, tool fit, or a measured efficiency gain, not to keep the lead's context empty.
-- Effort is the main intelligence, latency, and cost control, and level names do not transfer across models. Below the frontier the owner's policy fixes `xhigh` as the floor; the vendor numbers above show what lowering a route would buy and are kept for that decision.
-- The shipped subagent definitions exist because Claude Code sets a subagent's effort only through a definition. A skill that names efforts without shipping definitions cannot execute its own table.
+- Effort is the main intelligence, latency, and cost control, and level names do not transfer across models. Sonnet and Opus retain the owner's `xhigh` default; Fable inherits the selected session effort. The vendor numbers above are historical comparison points, not measured benefits for these routes.
+- The shipped subagent definitions exist because Claude Code sets a subagent's effort only through a definition. Explicit effort routes need compatible definitions; an omitted effort uses the documented session inheritance path.
 - Reporting must distinguish what was read from what ran. No harness in this reference reports a subagent's applied effort to the lead. In Claude Code the user can see it in `/tasks` when the definition sets `effort`; a hook records only the requested values.
 
 ## Policy History

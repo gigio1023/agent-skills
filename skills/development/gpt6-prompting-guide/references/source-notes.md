@@ -1,6 +1,6 @@
 # Source Notes
 
-Prompting sources reviewed on 2026-09-14 and re-read on 2026-09-23, when the package became the GPT-6 family guide. Runtime references were reverified on 2026-09-23.
+Prompting sources reviewed on 2026-09-14 and re-read on 2026-09-23, when the package became the GPT-6 family guide. Model identity, effort, and tool-calling migration were reverified on 2026-10-06. Other runtime references retain their 2026-09-23 review date.
 
 ## Prompting Sources
 
@@ -19,6 +19,12 @@ The article informs both the advice this skill produces and the package's own de
 | Read repository documents when the task needs them | Instruction design uses conditional links and distinguishes narrow edits from requested stack audits |
 | Revisit ask-first boundaries and redundant test encouragement | Prompt patterns reuse existing authorization and tie further checks to changed behavior or unresolved evidence |
 | Define completion before stopping | The template and persistence pattern include the requested execution, inspection, repair, and observable stopping condition |
+
+## Sol 6.1 Update
+
+Checked on 2026-10-06: [GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) and [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6.1-sol). Sol 6.1 supports `low`, `medium`, `high`, `xhigh`, and `max`, defaults to `medium` in the API, rejects `none` and `minimal`, and requires Responses for tools. Legacy `gpt-6-sol` retains a different contract.
+
+The local Codex 0.159.3 bundled catalog listed Astra and Sol 6.1 with default `low` and levels through `ultra`. This was a read-only catalog check, not a live model call or served-account access check. The routing package owns this user's narrower Sol workload policy; public model capability guidance does not define that policy.
 
 ## Runtime And Foundational Sources
 
@@ -44,6 +50,8 @@ The prompting guidance comes from behavior observed with Astra. OpenAI offers it
 The official user-over-skill guideline concerns skill guidance; it does not reverse system and developer authority or override application permissions. Likewise, a prompt clause cannot create async execution, API steering, or collaboration tools.
 
 ## Package History
+
+- 2026-10-06: added Sol 6.1 as a distinct runtime target, preserved the legacy Sol distinction, and linked the separate GPT routing policy. No model behavior comparison was run.
 
 - 2026-09-05: created as `gpt6-astra-prompting-guide`.
 - 2026-09-14: redesigned for focused context after the skills and prompts article.

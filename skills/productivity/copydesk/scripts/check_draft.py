@@ -1,7 +1,8 @@
 """Flag sentences and table cells in a Markdown draft that tend to draw editor deletions.
 
 A linter for human review, not a gate: it never rewrites text and never
-declares a document good or bad. Every hit is a candidate for human judgment.
+declares a document good or bad. Zero findings do not establish factual
+accuracy, useful content, semantic fidelity, or clear reasoning. Every hit is a candidate for human judgment.
 A condition that changes how a number should be read (a caveat, a scope
 limit, a unit note) is legitimate even when it matches status_plan -- the
 pattern only says "look here," not "cut this." Categories: self_description,
@@ -198,7 +199,7 @@ def check_long_cells(lines: list[str], max_cell: int) -> list[Finding]:
     return findings
 
 def check_first_screen_prose(lines: list[str]) -> list[Finding]:
-    """A dense paragraph right under the title makes readers commit before they know the shape of the doc."""
+    """Locate an opening paragraph worth reviewing; its length alone is not a defect."""
     pairs = scannable_lines(lines)
     h1_index = next((i for i, (_, line) in enumerate(pairs) if H1_RE.match(line)), None)
     window_start = 0 if h1_index is None else h1_index + 1

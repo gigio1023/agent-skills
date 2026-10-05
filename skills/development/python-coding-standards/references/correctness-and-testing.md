@@ -22,7 +22,7 @@ Retry only operations whose replay semantics are understood, with a bounded poli
 
 ## Checks that establish behavior
 
-Verify a change through its observable effects, by running the real entry point on fixed input. A test whose expected values are read off the code just written passes by construction and breaks on the next refactor, so do not write one.
+Verify a change through observable effects, using the real entry point and fixed input where practical. Keep or add focused tests for meaningful caller-visible contracts. Derive expected results from a requirement, documented contract, independent calculation, or reproduced bug, rather than copying the implementation under test. Test timing does not determine quality; an independently justified regression test remains useful when written after the implementation.
 
 | Changed surface | Useful check |
 | --- | --- |
@@ -33,7 +33,13 @@ Verify a change through its observable effects, by running the real entry point 
 | Resource or async lifecycle | Failure and cancellation release owned resources and preserve intended cancellation |
 | Module extraction | The same behavior through a stable caller-facing boundary, plus relevant import checks |
 
-When code being moved is insufficiently covered, run its caller-facing entry point on the same fixed input before and after the move and compare the outputs instead of leaving characterization tests behind. Add a test only when its expected values come from a spec, a hand calculation, or a reproduced bug that fails before the fix, and losing it would let a security, money, data-loss, or reported-number bug through. Prefer fakes at external dependencies over mocks that encode the helper layout. Keep fixtures deterministic and isolated; do not require a live service when a local run proves the relevant behavior. Live, paid, or state-changing integration runs need the authority applicable to that environment.
+Choose tests by the contract and plausible failure, not a fixed list of risk categories. Public API behavior, CLI exit status and output consumed by callers, parser rejection, compatibility, cancellation, and resource cleanup can warrant regression coverage, as can security, financial, data-loss, and reported-number risks. For a bug fix, reproduce the failure before the fix when feasible and retain the smallest set of cases that protects the corrected contract.
+
+When code being moved is insufficiently covered, compare its caller-facing entry point on the same fixed input before and after the move. An existing output is evidence of current behavior, not proof that the behavior is required. Keep a regression fixture when the request, documented contract, or known consumer establishes what must remain stable.
+
+A failing test during a refactor can reveal changed behavior, a stale setup, or an assertion tied to internals. Diagnose it before changing the test. Fix regressions in the code; adapt setup or assertions when the public contract is preserved. Remove a test only when its contract is obsolete or redundant, or its implementation-specific assertion has no independent value, and explain that reason. Do not delete it merely because refactoring broke it.
+
+Prefer fakes at external dependencies over mocks that encode the helper layout. Keep fixtures deterministic and isolated; do not require a live service when a local run proves the relevant behavior. Live, paid, or state-changing integration runs need the authority applicable to that environment.
 
 Tests and type checks answer different questions. An annotation does not validate a provider response, a successful import does not exercise a cleanup path, and a passing linter does not establish compatibility. Conversely, avoid new tests for prose-only, formatting-only, or trivial mechanical changes when existing checks are sufficient.
 
@@ -54,4 +60,4 @@ Checked 2026-09-29:
 - [Ruff fix safety](https://docs.astral.sh/ruff/linter/#fix-safety): fixes whose behavior may change runtime semantics.
 - [pytest good integration practices](https://docs.pytest.org/en/stable/explanation/goodpractices.html): test layout and import behavior when pytest is the selected runner.
 
-The test policy is this pack's choice: verify end to end, and add a test only when its expected values come from outside the code under change. These references do not mandate a coverage percentage or a specific test framework.
+The test policy is this pack's choice: verify observable behavior and derive test expectations independently from the code under change. The 2026-10-06 owner-authorized audit expanded the former risk-category whitelist to meaningful caller-visible contracts and replaced automatic deletion after refactoring with failure diagnosis. These references do not mandate a coverage percentage or a specific test framework.
