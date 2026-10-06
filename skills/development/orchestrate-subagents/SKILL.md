@@ -25,7 +25,7 @@ Use the native delegation, task, thread, worktree, or subagent mechanism provide
 2. Decide whether parallelization is actually useful. Prefer parallel work when the task has independent sources, perspectives, files, modules, hypotheses, or independent verifications.
 3. Read `references/delegation-patterns.md` for the task type.
 4. Read `references/harness-adapters.md` and use the current native delegation mechanism. For GPT workers, apply `gpt6-astra-model-routing`: Astra by default, Sol 6.1 only for very easy deterministic execution. For Anthropic workers, keep the applicable Anthropic routing policy.
-5. Map the work before sizing it. List each packet with the inputs it needs before it can start. Spawn the smallest useful first set while the decomposition is still uncertain. When the split is already clear or the user asks for maximum parallelism, spawn a subagent for every ready packet. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, expected duration, progress artifact, and stop condition.
+5. Map the work before sizing it. List each packet with the inputs it needs before it can start, and size packets as described under **Packet size** in the [dispatch loop](#dispatch-loop) so that no single packet sets the run's length. By default, spawn a subagent for every ready packet up to the concurrency limit. Start with a smaller probe set only when the decomposition itself is unknown, and widen to every ready packet as soon as the probe shows the split. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, expected duration, progress artifact, and stop condition.
 6. Run the [dispatch loop](#dispatch-loop) until the map is done. Dispatch each packet as soon as its own inputs exist, check live workers for stalls, and advance a disjoint lead slice while they run. Reuse a long-lived agent for related follow-up work when its retained context is valuable.
 7. Before reporting progress, tie each claim to a worker artifact, tool result, source, or test from the current run.
 8. Read results, then synthesize. Do not concatenate summaries. Use `references/synthesis-gate.md` to merge claims, evidence, confidence, conflicts, and remaining gaps.
@@ -47,6 +47,8 @@ On every event (a worker finishes, a scheduled check fires, the user writes), do
 
 Before you end a turn to wait, count the ready packets and the running workers. Dispatch the ready packets first if the limit allows.
 
+**Packet size.** The run ends when its slowest packet ends, so one oversized packet serializes the work no matter how many workers run beside it. Estimate each packet's duration when you map it. Split any packet expected to take much longer than the others by source, file, module, branch, or claim group until the estimates are close, and keep only work that truly depends on shared context in one packet. More, shorter packets also make stalls visible sooner.
+
 **Sequential chains.** Some work is a chain in which each step builds on the previous one, such as stacked branches, ordered migrations, or a rebase series. Keep only the chain's order serial and give the chain to one integrator. Take out every node that does not depend on that order and give it its own packet. Examples are a fix that can target the base branch, a standalone tool, a review of a link that is already final, or documentation that needs only names. Start the integrator when the inputs of the first links exist. Do not wait until every review finishes.
 
 **Verification lanes.** Size review and verification by independently checkable units, such as one lane per branch, module, or claim group, up to the concurrency limit. If a few reviewers cover many units, the final and slowest phase runs serially.
@@ -56,6 +58,7 @@ Before you end a turn to wait, count the ready packets and the running workers. 
 - Check the artifacts at about a third of the expected duration and again when the expected duration ends. Set the check time from the packet. A generic long fallback timer can hide a stall for an hour.
 - Judge progress by artifacts in the worker's write scope and by its running processes. Transcript and log timestamps can lag behind a worker that is still active.
 - A worker is stalled when nothing in its scope changed for a large part of its expected duration and none of its commands are running. Send it one message that asks for its result or blocker. If the next check still shows no change, stop the worker. Then dispatch a replacement packet that starts from the partial artifacts and states what is already done.
+- A worker is slow when it is still making progress but has passed its expected duration while other slots sit idle. Do not wait it out. Read its progress artifact, send it a message that narrows its scope to the part it is working on now, and dispatch new packets for the untouched remainder.
 
 ## Operating Philosophy
 
@@ -63,7 +66,7 @@ Parallel agents are not a brainstorming trick. They are context isolation, cover
 
 Orchestration intensity is a dial the lead keeps adjusting, not a shape chosen once. The same discipline covers a single scoped helper, one bounded wave, and a sustained worker pool that the lead keeps saturated by re-dispatching queued tasks as workers finish. Set the intensity from how much genuinely independent work exists, the task's stakes, and the user's budget — then revise it mid-run as results reveal more or less independence than expected.
 
-Subagent count follows independent ownership, the user's budget, and the available concurrency limit. Queue excess work and reuse finished workers; do not treat a clear decomposition as unlimited spending authority. Surplus agents duplicate effort and add noise. Fewer is not safer — too few subagents serialize independent work. The right number changes with the kind of work, so decide it by planning the split, not by defaulting to a familiar count.
+Subagent count follows independent ownership, the user's budget, and the available concurrency limit. The default is maximum useful parallelism: once the split is known, every ready packet gets a worker up to the limit, and queued packets start the moment a slot frees. Fewer is not safer; too few subagents serialize independent work, and an idle slot while packets wait is a cost. The limits on this default are real ones: an explicit user budget, packets that would duplicate each other, and work whose next step depends on the previous result. Decide the number by planning the split, not by defaulting to a familiar count.
 
 Not every multi-call workflow needs an agent. Use a deterministic or programmatic tool path for bounded structured reduction that needs no semantic judgment between calls. Distinguish fetching named sources from selecting sources, extracting meaningful claims, summarizing conflicts, or choosing follow-up queries. Those latter tasks require judgment, even when they are read-only or cover many inputs. Keep sequential work direct when each result determines the next move.
 
@@ -120,6 +123,7 @@ Stay single-agent when the task is tiny, highly sequential, privacy-sensitive wi
 - Do not force code-edit workers into overlapping files unless the user accepts merge risk or the harness provides clean worktree isolation.
 - Do not wait idly. Once agents are running, advance non-overlapping work.
 - A downstream phase whose inputs are ready can still end up waiting for one slow reviewer in the previous wave. Read readiness from each packet's own inputs, not from the wave.
+- One packet much larger than the rest sets the run's length while the other workers finish early and sit idle. Split it before dispatch, and split its remainder when it runs long.
 - A whole phase given to one worker turns parallel work into serial work, for example review plus port plus a standalone tool plus documentation in one packet. Split the phase into the chain and its independent nodes before you dispatch it.
 - A completion-only notification combined with a long fallback timer lets a stalled worker sit unnoticed. Check progress artifacts on the packet's own schedule.
 - Do not bury uncertainty. If sources conflict or evidence is thin, say so and decide whether another wave is worth the cost.
