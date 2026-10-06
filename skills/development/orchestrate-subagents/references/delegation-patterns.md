@@ -93,11 +93,13 @@ Worker packet must include:
 - Required tests or proof.
 - Reminder that other agents may be editing the repo and user changes must not be reverted.
 
+When the change is a chain such as stacked branches or ordered migrations, one integrator owns the chain. Off-chain nodes run in parallel: fixes that can target the base, standalone tools, documentation that depends only on names, and reviews of finished links. See sequential chains in `SKILL.md`.
+
 Lead synthesis:
 
 - Review diffs quickly as workers finish.
 - Integrate in dependency order.
-- Run whole-system verification after merging worker outputs.
+- Run whole-system verification after merging worker outputs. Split final verification into one lane per independently checkable unit.
 
 ## Pattern F: Adversarial Review
 
@@ -132,3 +134,5 @@ State to preserve between waves:
 For convergent work — research or judgment closing in on an answer — follow-up waves should be narrower than the first wave. If they become broader, the lead agent probably synthesized too early or framed the original task too loosely.
 
 For throughput work — independent tasks outnumbering the workers — run a sustained pool instead of discrete waves: keep a task queue, dispatch the next task the moment a worker finishes, keep every worker busy while independent work remains, and fold results in as they land instead of waiting for a full wave.
+
+Phased work (review, then rework, then final verification) is still a dependency map rather than a sequence of barriers. When a first-phase reviewer stalls, the second-phase packets that need only the other reviewers' outputs start without it. The stalled lane gets a replacement packet that the second phase can absorb later. Use the dispatch loop and liveness checks in `SKILL.md`.

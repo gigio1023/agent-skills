@@ -29,6 +29,17 @@ Claude Opus guidance, read 2026-09-23 (Opus 5.5 keeps the Opus 5 patterns as its
 - On long multi-part tasks, Opus 5.5 can end a turn with a progress update instead of a tool call. A subagent's last message is its result, so such a turn can hand the lead a plan instead of an outcome. The duty to treat an announced next step as unfinished, and the packet rule on stop conditions, follow from this; the subagent case is an inference from the documented behavior, not an observed failure.
 - Anthropic reports that small Opus 5.5 teams finish sooner when the harness appends elapsed time against a budget to each message it returns to the model, and that a tighter budget mainly keeps more agents working in parallel. That lever belongs to whoever builds the harness; a lead running inside Claude Code or Codex cannot append those lines, so this skill does not prescribe it.
 
+## Dispatch And Liveness Update
+
+2026-10-06, observed in one Claude Code session that reviewed and reworked a stack of six pull requests. The lead read only part of the references. Its run had these costs:
+
+- Five reviewers ran in parallel. One stopped making progress about an hour into the run. The lead noticed only on a 30-minute fallback wakeup, and stopped the worker about 90 minutes after its last change. The harness notifies the lead only when a worker stops, and the transcript file's timestamp did not track activity. It stayed unchanged for a different worker that was active and creating branches.
+- The rework of the lower branches needed only four of the five reviews. The lead still started it about 30 minutes after those four finished, while it waited for the stalled fifth.
+- Each rework phase went to one worker. Independent nodes ran serially inside it: two fixes that could target the base branch, a standalone CLI, and a documentation rewrite.
+- The final verification covered nine branches with two reviewers, while the session allowed ten concurrent subagents.
+
+The owner asked whether parallelism had been maximized. The lead's analysis found the existing rule "a wave is a starting shape, not a barrier" did not prevent any of these costs. It was stated at the level of waves, while the lead's decisions were per packet. The skill also had no stall detection, and the sustained-pool guidance sat in a reference that was not read. The changes put a dependency map, a worker ledger with expected durations and progress artifacts, a chain-splitting rule, unit-sized verification lanes, and stall handling on the normal path in `SKILL.md`. A replacement packet shape was added to the packet references. No model trial was run for this documentation change.
+
 ## Patterns Kept
 
 - One portable orchestration skill instead of separate harness-specific skills.

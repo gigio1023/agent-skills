@@ -6,6 +6,13 @@ When the task definition already lives in a durable file, the packet carries its
 
 Write each stop condition so the worker's last message is a result or a stated blocker with what remains, never a plan for what it will do next. The harness returns that last message to the lead as the result.
 
+Give every packet that runs longer than a few minutes an expected duration and a progress artifact, and ask the worker to write findings to its output file as it goes rather than only at the end. The lead uses the artifact to tell a working agent from a stalled one, and a replacement worker can start from what is already written. See the dispatch loop in `SKILL.md`.
+
+```text
+Expected duration: <estimate, e.g. 20 minutes>.
+Progress: Write <report path> incrementally: findings as you confirm them, then the final summary. Code changes stay in <your worktree> so the lead can see the diff grow.
+```
+
 The research, exploration, implementation, and review packets below require semantic judgment. Use Astra when assigning them to a GPT worker. The mechanical packet is the only Sol 6.1 shape; further GPT delegation preserves the same routing rule.
 
 ## Contents
@@ -16,6 +23,7 @@ The research, exploration, implementation, and review packets below require sema
 - Code exploration packet
 - Code worker packet
 - Review packet
+- Replacement packet
 
 ## Mechanical Collection Packet
 
@@ -105,6 +113,8 @@ Limits: Do not spawn subagents. Never mark a failed task as done — report the 
 
 Verification: Run <tests/checks> if available. If not run, explain why.
 
+Expected duration and progress: <estimate>; keep changes in <worktree> and notes in <report path> as you go.
+
 Output:
 - Files changed
 - Behavior changed
@@ -121,6 +131,10 @@ Objective: Review <artifact/diff/plan/research synthesis> for <risk class>.
 
 Scope: Focus on material issues. Avoid generic style comments unless they affect behavior, correctness, trust, or maintainability.
 
+Unit: <one branch, module, or claim group>. Other reviewers own the other units.
+
+Expected duration and progress: <estimate>; append each confirmed finding to <report path> when you confirm it.
+
 Output:
 - Findings ordered by severity
 - Evidence or file/source references
@@ -128,4 +142,23 @@ Output:
 - Anything you intentionally did not review
 
 Stop when: The assigned risk class has been covered deeply enough to identify material findings.
+```
+
+## Replacement Packet
+
+Use this when the lead stopped a stalled worker. The new worker starts from the stopped worker's artifacts, not from scratch and not from its transcript.
+
+```text
+Objective: Finish <original objective>. A previous worker stopped before finishing.
+
+Original packet: <path or the original packet text>.
+Already done: <artifact paths, diff location, report sections>; last observed change at <time>.
+Direction it was taking: <its last stated step, if any>. Treat it as a hint, not a decision.
+Remaining: <open items>.
+
+Verify partial work before keeping it. Keep the original output paths so downstream packets still find them.
+
+Expected duration and progress: <estimate>; write progress to <report path> as you go.
+
+Stop when: The original stop condition is met, or a concrete blocker requires authority or information outside this packet.
 ```
