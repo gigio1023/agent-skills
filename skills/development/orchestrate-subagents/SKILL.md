@@ -25,12 +25,37 @@ Use the native delegation, task, thread, worktree, or subagent mechanism provide
 2. Decide whether parallelization is actually useful. Prefer parallel work when the task has independent sources, perspectives, files, modules, hypotheses, or independent verifications.
 3. Read `references/delegation-patterns.md` for the task type.
 4. Read `references/harness-adapters.md` and use the current native delegation mechanism. For GPT workers, apply `gpt6-astra-model-routing`: Astra by default, Sol 6.1 only for very easy deterministic execution. For Anthropic workers, keep the applicable Anthropic routing policy.
-5. Size the first wave deliberately. Spawn the smallest useful wave while the decomposition is still uncertain; spawn a subagent for every genuinely independent task when the split is already clear or the user asks for maximum parallelism. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, and stop condition.
-6. Prefer asynchronous updates and reuse a long-lived agent for related follow-up work when retained context is valuable. While agents run, advance a disjoint lead-agent slice instead of blocking on the slowest subagent. When a worker finishes and independent work remains queued, dispatch its next packet right away — a wave is a starting shape, not a barrier.
+5. Map the work before sizing it. List each packet with the inputs it needs before it can start. Spawn the smallest useful first set while the decomposition is still uncertain. When the split is already clear or the user asks for maximum parallelism, spawn a subagent for every ready packet. Each subagent receives a self-contained packet: objective, scope, exclusions, output contract, evidence requirements, expected duration, progress artifact, and stop condition.
+6. Run the [dispatch loop](#dispatch-loop) until the map is done. Dispatch each packet as soon as its own inputs exist, check live workers for stalls, and advance a disjoint lead slice while they run. Reuse a long-lived agent for related follow-up work when its retained context is valuable.
 7. Before reporting progress, tie each claim to a worker artifact, tool result, source, or test from the current run.
 8. Read results, then synthesize. Do not concatenate summaries. Use `references/synthesis-gate.md` to merge claims, evidence, confidence, conflicts, and remaining gaps.
 9. If gaps remain and the user goal still needs it, launch a targeted follow-up wave. Otherwise finish with a decision, implementation, or research answer.
 10. Close completed workflow-owned subagents when their results are integrated. Preserve user tasks and worktrees unless their cleanup was explicitly authorized; ending worker execution does not authorize deleting its files.
+
+## Dispatch Loop
+
+Plan the run as a dependency map rather than as waves. Each packet names what it needs before it can start: another packet's artifact, a lead decision, or nothing. A packet whose inputs exist is ready. A wave is only the shape of the map at the start, so a ready packet never waits for an unrelated worker in the same wave.
+
+Keep a ledger of live workers. Record each worker's packet, write scope, start time, expected duration, progress artifact, and the packets that wait on its output. The expected duration is an estimate from the packet's size. Write it down so that a stall becomes visible.
+
+On every event (a worker finishes, a scheduled check fires, the user writes), do the following in order:
+
+1. Integrate finished results that unblock other packets.
+2. Dispatch every ready packet while running workers stay below the concurrency limit and the budget allows.
+3. Check each live worker against its expected duration, as described under liveness below.
+4. Take a lead slice that does not overlap any worker's write scope.
+
+Before you end a turn to wait, count the ready packets and the running workers. Dispatch the ready packets first if the limit allows.
+
+**Sequential chains.** Some work is a chain in which each step builds on the previous one, such as stacked branches, ordered migrations, or a rebase series. Keep only the chain's order serial and give the chain to one integrator. Take out every node that does not depend on that order and give it its own packet. Examples are a fix that can target the base branch, a standalone tool, a review of a link that is already final, or documentation that needs only names. Start the integrator when the inputs of the first links exist. Do not wait until every review finishes.
+
+**Verification lanes.** Size review and verification by independently checkable units, such as one lane per branch, module, or claim group, up to the concurrency limit. If a few reviewers cover many units, the final and slowest phase runs serially.
+
+**Liveness.** Many harnesses report a background worker only when it stops, so a stalled worker and a working worker look the same. Each packet therefore names a progress artifact the lead can inspect. Examples are incremental writes to the report file, a growing diff or commits in the worker's own worktree, or a short progress note. Use these checks:
+
+- Check the artifacts at about a third of the expected duration and again when the expected duration ends. Set the check time from the packet. A generic long fallback timer can hide a stall for an hour.
+- Judge progress by artifacts in the worker's write scope and by its running processes. Transcript and log timestamps can lag behind a worker that is still active.
+- A worker is stalled when nothing in its scope changed for a large part of its expected duration and none of its commands are running. Send it one message that asks for its result or blocker. If the next check still shows no change, stop the worker. Then dispatch a replacement packet that starts from the partial artifacts and states what is already done.
 
 ## Operating Philosophy
 
@@ -77,7 +102,7 @@ Stay single-agent when the task is tiny, highly sequential, privacy-sensitive wi
 - Respect the current work boundary. When a plan already assigns dependencies and ownership, use them for the current round; do not require a stage field or a fully specified project. Reconcile stale assumptions and changed evidence with the lead before dispatch. Workers may use relevant domain skills within their packet, and must return findings that invalidate the basis promptly. Running a requested plan belongs to `gigio-execute-plan`, which can draw on this skill for orchestration mechanics.
 - Design non-overlapping work. If two subagents would answer the same question, split by source, method, perspective, or output responsibility.
 - Preserve provenance. Every important claim should say where it came from and whether it is direct evidence, inference, taste, or speculation.
-- Track state explicitly. Know which agents are running, what each owns, what is blocked, and what output is expected next.
+- Track state explicitly in the [dispatch ledger](#dispatch-loop): which agents are running, what each owns, when each should finish, what shows its progress, and which packets wait on it.
 - Ground progress claims in current-run evidence. A worker saying it is done is not proof; inspect its artifact, cited source, diff, or test result.
 - Treat a worker result that announces its next step as unfinished. A subagent's last message is its result, and some models, Claude Opus 5.5 among them, can end a turn on a progress note; resume the worker with the open items instead of accepting the note.
 - Re-anchor follow-up waves. Every new wave should include what is already known and what remains uncertain, not the whole conversation dump.
@@ -94,4 +119,7 @@ Stay single-agent when the task is tiny, highly sequential, privacy-sensitive wi
 - Do not let star counts or popularity replace quality judgment. Use popularity as one weak signal, then inspect substance.
 - Do not force code-edit workers into overlapping files unless the user accepts merge risk or the harness provides clean worktree isolation.
 - Do not wait idly. Once agents are running, advance non-overlapping work.
+- A downstream phase whose inputs are ready can still end up waiting for one slow reviewer in the previous wave. Read readiness from each packet's own inputs, not from the wave.
+- A whole phase given to one worker turns parallel work into serial work, for example review plus port plus a standalone tool plus documentation in one packet. Split the phase into the chain and its independent nodes before you dispatch it.
+- A completion-only notification combined with a long fallback timer lets a stalled worker sit unnoticed. Check progress artifacts on the packet's own schedule.
 - Do not bury uncertainty. If sources conflict or evidence is thin, say so and decide whether another wave is worth the cost.

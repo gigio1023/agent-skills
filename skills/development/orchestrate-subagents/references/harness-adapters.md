@@ -11,6 +11,7 @@ This skill should work across Codex, Claude Code, Cursor, OpenCode, Antigravity,
 - Cursor
 - OpenCode
 - Antigravity
+- Liveness across harnesses
 - Fallback mode
 
 ## Universal Adapter Rule
@@ -51,7 +52,7 @@ Use native subagent tools when available. Typical concepts include:
 - Resolve inherited settings against the applicable routing policy. Use supported model and effort overrides when needed, and follow current fork-mode restrictions.
 - Use explorer-style agents for read-only codebase questions.
 - Use worker-style agents for bounded implementation with disjoint ownership.
-- Wait only when the lead agent is blocked on the result.
+- Wait only when the lead agent is blocked on the result. When the wait call accepts a timeout, set it to the packet's expected duration and check the worker's artifacts when it expires. Do not wait without a bound.
 - Close completed agents when no longer needed.
 
 Codex-specific caution: delegation does not broaden authorization. Bounded read-only exploration, in-scope implementation, and verification may be normal execution steps when the current harness policy allows them; external writes, destructive actions, and material scope expansion still require the same user authority they would require in the lead thread.
@@ -67,6 +68,8 @@ Prefer asynchronous communication for independent subagents. Reuse a long-lived 
 If the user supplies a companion routing skill, use it to choose exact models, plugins, and token-saving routes. Keep cross-harness packets small: objective, scope, exclusions, evidence contract, and stop condition. Do not dump the whole conversation unless the worker truly needs it.
 
 Claude-specific caution: skills and subagents are separate concepts. A skill can tell the lead agent how to orchestrate; it should not assume every named agent exists. A normal subagent starts with fresh context, and does not inherit a skill already invoked by the parent unless it is preloaded or invoked again. Subagents can spawn their own subagents, up to three layers below the main conversation by default (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`); say in the packet whether the worker may spawn, and remove `Agent` from its tools when it may not. Keep the packet self-contained and let the main thread own further waves; use agent teams only when the visible harness supports them and peer communication is actually needed.
+
+Claude Code liveness: a background subagent notifies the lead only when it stops, and the lead should not read the subagent's transcript file because it can overflow the lead's context. The transcript file's modification time is not a progress signal; it can stay unchanged while the worker is active. To check progress, inspect the worker's write scope (worktree diff, report file) and the process list for its commands. A scheduled wakeup, when the session offers one, can fire that check at the packet's expected duration. `SendMessage` reaches a running subagent at its next tool call, so a worker stuck inside a single call does not see the message. Stop a stalled worker with the harness's stop tool and dispatch a replacement packet.
 
 ## Cursor
 
@@ -85,6 +88,10 @@ OpenCode-specific caution: if the agent system runs in the same checkout, treat 
 Use Antigravity's native skill/task/agent mechanism when available. Treat the same orchestration policies as portable: independent subagents, bounded packets, evidence-first synthesis, follow-up waves only when needed.
 
 Antigravity-specific caution: community skill bundles can be broad and uneven. Use installed capabilities that are visible in the current harness, not what an online collection claims should exist.
+
+## Liveness Across Harnesses
+
+Each harness has its own way to show that a worker is alive, so do not take a missing notification as progress. Look for, in order: artifacts in the worker's write scope, its running processes, and a status call if the harness has one. If none of these is visible, ask for incremental output in the packet so that one becomes visible.
 
 ## Fallback Mode
 

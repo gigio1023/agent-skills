@@ -31,6 +31,7 @@ Before finalizing, ask:
 - Is there a missing stakeholder, time horizon, or risk lens?
 - Would a second wave likely change the answer enough to justify cost?
 - Is every reported progress or completion claim backed by a source, artifact, diff, command result, or test from the current run?
+- Did a ready packet wait for an unrelated worker, or did a stalled worker go unnoticed? If that cost material time, say so in the report.
 
 ## Follow-Up Wave Criteria
 
