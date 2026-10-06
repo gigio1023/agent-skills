@@ -23,6 +23,7 @@ Use this catalog to decide whether `orchestrate-subagents` is the right skill, t
 - Adversarial code review after an implementation or plan: correctness, security/safety, maintainability, performance, accessibility, and user-fit.
 - Verification while implementation continues: test runner, browser/UI checks, build/export checks, smoke tests, and regression review.
 - Migration or release planning: data model, rollout, rollback, docs, and operational risk subagents.
+- Review and rework of a stacked change series: one reviewer per link, one integrator for the rebuilt chain, parallel packets for off-chain fixes and standalone tools, and one final verification lane per rebuilt link.
 
 ## Knowledge Work And Skill Design
 
