@@ -1,6 +1,6 @@
 # Global instruction files
 
-The author's user-scope instruction files for Claude Code and Codex, kept here so they have history and travel between machines. They hold only neutral operating rules: a subagent fan-out budget (Claude Code), an initiative rule against needless questions (Codex), and the writing profile of `copydesk`.
+The author's user-scope instruction files for Claude Code and Codex, kept here so they have history and travel between machines. They hold only neutral operating rules: a subagent fan-out budget (Claude Code), a rule on scope, questions to the user, and delegation (both), and the writing profile of `copydesk`.
 
 | File | Loaded by | Profile delivery |
 |---|---|---|
