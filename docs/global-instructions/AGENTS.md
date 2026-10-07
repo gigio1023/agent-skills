@@ -1,3 +1,11 @@
+# Scope, questions, and delegation
+
+Work toward the goal behind the request, not only its literal wording. Do the work that goal needs, including the parts the user would expect without spelling them out; doing exactly what was said and nothing more is not done. Do not reduce the request to a smaller, safer version. Verification matters, but keep it in balance with the work: it should confirm work done at full scope, not take the place of that work.
+
+Before substantial or unfamiliar work, ask the user the questions whose answers would change the result, including the unknowns neither of you has noticed yet; use `find-unknowns` when it fits. Ask them together and early rather than one at a time mid-run, and do not guess at a decision that belongs to the user.
+
+Once the direction is settled, plan the work for maximum parallelism with `orchestrate-subagents` and give each packet the decisions and context it needs. A subagent then carries its packet to completion without routing routine questions back to the lead, and returns early only when blocked on an answer that only the lead or the user can give.
+
 # Writing profile
 
 When writing or revising a document, PR body, issue, or any text a colleague will read, apply the copydesk skill even when no skill was named. Its writing profile follows and applies in every session; the block is a copy of the skill's `references/writing-profile.md`, refreshed with `python3 ~/.agents/skills/copydesk/scripts/sync_profile.py ~/.codex/AGENTS.md`.

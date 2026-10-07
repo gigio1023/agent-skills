@@ -21,7 +21,7 @@ Use the native delegation, task, thread, worktree, or subagent mechanism provide
 
 ## Quick Start
 
-1. Restate the user's objective, decision pressure, and expected output.
+1. Restate the user's objective, decision pressure, and expected output. Before mapping packets, settle with the user the questions whose answers change the work, including unknowns that `find-unknowns` would surface in unfamiliar territory. Carry the answers into each packet so workers finish without routing routine questions back to the lead.
 2. Decide whether parallelization is actually useful. Prefer parallel work when the task has independent sources, perspectives, files, modules, hypotheses, or independent verifications.
 3. Read `references/delegation-patterns.md` for the task type.
 4. Read `references/harness-adapters.md` and use the current native delegation mechanism. For GPT workers, apply `gpt6-astra-model-routing`: Astra by default, Sol 6.1 only for very easy deterministic execution. For Anthropic workers, keep the applicable Anthropic routing policy.
