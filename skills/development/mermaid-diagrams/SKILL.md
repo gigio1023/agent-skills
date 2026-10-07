@@ -15,7 +15,7 @@ description: |
 
 Produce a Mermaid diagram that a human reads correctly on the first pass and that actually renders on the destination host. Readability outranks completeness: a diagram that needs study has failed even if every fact is in it.
 
-Baseline: Mermaid v11.17 syntax, written down to the version-safe subset when the destination host is older or unknown. Mermaid v12 keeps that syntax but changes the default layout, theme, and look (`references/syntax-pitfalls.md`). Keep reusable examples in English with neutral sample domains; for user artifacts, follow the requested or source language and never introduce names, incident details, or unreleased context the user did not provide.
+Baseline: Mermaid v11.17 syntax, written down to the version-safe subset when the destination host is older or unknown. Mermaid v12, which GitHub renders, keeps that syntax but changes the default layout, theme, and look (`references/syntax-pitfalls.md`). Keep reusable examples in English with neutral sample domains; for user artifacts, follow the requested or source language and never introduce names, incident details, or unreleased context the user did not provide.
 
 ## Reference Files
 
@@ -53,7 +53,7 @@ The five failures that dominate real-world broken diagrams:
 
    Render failure blocks; fix and rerun. Density warnings start a visual look, not automatic deletion. Then inspect the rendered output (or host preview) for clipping, literal `\n`, unreadable crossings, and reading order.
 
-   Validate against the requested destination, or the documented safe subset when it is unknown. After parsing and visual checks pass, finish; expand to other renderers only when another destination is required or a specific compatibility failure remains.
+   The validator renders with Mermaid 12, as GitHub does; set `MERMAID_CLI_VERSION=11.17.0` for a v11 host such as GitLab or VS Code. Validate against the requested destination, or the documented safe subset when it is unknown. After parsing and visual checks pass, finish; expand to other renderers only when another destination is required or a specific compatibility failure remains.
 
 ## Authority
 

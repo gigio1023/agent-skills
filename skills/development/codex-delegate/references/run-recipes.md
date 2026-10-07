@@ -65,7 +65,7 @@ For workspace-write, `network=no` passes `sandbox_workspace_write.network_access
 
 The launcher sets `model_reasoning_effort`, `service_tier`, and the applicable network setting. It accepts no arbitrary `-c` passthrough and no approval or sandbox bypass flag. Existing account, project, and managed policy can impose further restrictions. A rejection is evidence to diagnose, not permission to turn those restrictions off.
 
-`--ignore-user-config yes` skips `$CODEX_HOME/config.toml`; authentication still uses `CODEX_HOME`. It does not imply a clean environment or removal of project instructions. `--skip-git-repo-check yes` permits an intended non-Git working directory. Neither option installs or logs in to anything. These flag meanings were checked against CLI 0.159.3 and the [CLI reference](https://developers.openai.com/codex/cli/reference) on 2026-10-06.
+`--ignore-user-config yes` skips `$CODEX_HOME/config.toml`; authentication still uses `CODEX_HOME`. It does not imply a clean environment or removal of project instructions. `--skip-git-repo-check yes` permits an intended non-Git working directory. Neither option installs or logs in to anything. These flag meanings were checked against CLI 0.159.3 and the [CLI reference](https://learn.chatgpt.com/docs/developer-commands?surface=cli) on 2026-10-06.
 
 ## Status and events
 
@@ -90,6 +90,8 @@ The renderer streams JSONL, caps action lines, omits command output and diffs, a
 `thread.started`, `turn.*`, and `item.*` are the documented event families. `turn.failed` and a nonzero exit indicate failure. An `error` item can be a warning. `collab_tool_call` can expose root-visible child state, but the stream is not a complete census of descendant activity. Preserve the delegate's final child summary when it used subagents.
 
 A live process group and an old log timestamp do not distinguish reasoning, waiting, and a stalled process. Diagnose stderr, outstanding work, and the task's actual time limit before cancelling. Do not auto-retry from silence or fabricate success from activity.
+
+The packet's expected duration and progress artifact make a stall visible. Check the artifact at about a third of the expected duration and again when it ends. A running Codex turn cannot take a message, so when nothing in the mission's write scope or progress file has changed for a large part of the estimate and no task command is running, cancel through the procedure below. Then resume with a packet that starts from the partial artifacts and states what is already done; do not relaunch the original packet. A run that is still producing progress past its estimate is slow, not stalled; let it finish or narrow the next resumed turn.
 
 ## Observation across hosts
 

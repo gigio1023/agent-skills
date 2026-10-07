@@ -177,3 +177,18 @@ Launcher-first remains an operational default. Direct-main batches also worked w
 
 - OpenAI released `gpt-6-sol` on 2026-09-22 (API changelog). The Codex bundled catalog lists it from `rust-v0.156.1` with default effort `medium` and levels `low` through `ultra`; `rust-v0.156.0` lists only `gpt-6-astra`.
 - The installed CLI on 2026-09-23 was 0.154.0, so the default route needs a Codex update before it can run. The contract test passes with the new defaults because it uses a fake `codex` executable; no live run on `gpt-6-sol` has been made.
+
+## 2026-10-06: Default model returns to GPT-6 Astra
+
+### Decision
+
+- New runs default to `gpt-6-astra`, `xhigh`, and the standard service tier. This supersedes the 2026-09-23 Sol default; an explicit user model or effort choice still wins.
+- `gpt-6.1-sol` runs only on a user request or for a packet with fixed inputs, procedure, output, and mechanical acceptance and no semantic judgment. A small or cheaply verified task does not qualify on that ground alone.
+- Runs started on legacy `gpt-6-sol` keep their recorded provenance on resume. A follow-up that needs judgment selects Astra explicitly.
+- Direct host launch becomes the normal path. The launcher subagent, the default since 2026-08-13, remains optional for batches of fixed packets and returns only the manifest.
+- Internal Codex subagents follow `gpt6-astra-model-routing`, so judgment-bearing children also default to Astra.
+
+### Evidence
+
+- PR #99 (`19b5bbb`, merged 2026-10-05 UTC) changed the skill, its model and dispatch reference, the launcher, and the contract test together, and recorded the route change in `docs/migration.md`. Its 22 contract scenarios use a fake `codex` executable; no live model comparison was made.
+- The Codex 0.159.3 bundled catalog, read 2026-10-07, lists `gpt-6-astra` and `gpt-6.1-sol`, both with default effort `low` and levels `low` through `ultra`, and still lists legacy `gpt-6-sol`.

@@ -31,8 +31,8 @@ Comment on the code, never the developer. Google, CPython, and Kubernetes review
 
 These read as machine-generated. Avoid them even when one feels natural.
 
-- **Tables inside inline comments.** Humans write prose in line comments. Tables appear only in the review body for cross-cutting summaries, and rarely even there.
-- **Bold section labels inside short comments.** No `**Severity: HIGH**`, no `**Issue:**`, no `**Fix:**`, no `**Why it matters:**`. Wikipedia's catalog of AI-writing signs names this exact bold-header-plus-colon list pattern.
+- **Tables inside inline comments.** Line comments use the short bullet shape in [Inline Comment Shape](#inline-comment-shape), never tables. Tables appear only in the review body for cross-cutting summaries, and rarely even there.
+- **Bold section labels inside short comments.** No `**Severity: HIGH**`, no `**Issue:**`, no `**Fix:**`, no `**Why it matters:**`. Wikipedia's catalog of AI-writing signs names this exact bold-header-plus-colon list pattern. The default bullets carry no labels; their fixed order (problem, impact, fix) already tells the reader which is which.
 - **Decorative punctuation patterns.** Em-dash chains and middle dots appear in community-collected AI-tell lists (see Sources). Prefer `:` for definitions, `,` for clauses, and periods for sentence breaks.
 - **Mechanical fragment chains.** `X → Y. Z so not W.` Write sentences, not arrow-glued tokens. More than one `→` per comment is a tell.
 - **Filler lead-ins.** "Additionally", "One more thing", "Also worth noting" at the start of a comment. Wikipedia's AI-tell catalog flags "Additionally" openers specifically. Start with the fact.
@@ -45,7 +45,7 @@ A blanket ban on label prefixes would be wrong. Google's reviewer guide prescrib
 The rule: mirror the conventions visible in the repo's existing review threads (the workflow already collects them), and import nothing those threads don't use.
 
 - The repo uses `Nit:` or similar prefixes: use them for exactly that purpose.
-- The repo shows no labels: write plain prose. `Nit:` is still widely understood; anything beyond it starts to look imported.
+- The repo shows no labels: write unlabeled bullets. `Nit:` is still widely understood; anything beyond it starts to look imported.
 - Bold severity scaffolds (`**Severity: HIGH**`) are banned everywhere; none of the surveyed communities write them.
 - Severity must still be clear. Kubernetes requires reviewers to distinguish a nit from a change required for acceptance; do it with the repo's own prefixes or one triage sentence in the review body.
 
@@ -102,7 +102,7 @@ Ten real comments, each showing a shape worth copying.
 
 Patterns to copy from the set:
 
-- One claim, one to three sentences of prose, and the reasoning is part of the claim. Google's guide is explicit that brevity never excuses dropping the why.
+- One claim per comment, and the reasoning is part of the claim. Google's guide is explicit that brevity never excuses dropping the why. The quotes show register and content; this skill lays the same content out as two or three bullets (Inline Comment Shape), a pack preference adopted on 2026-09-30 because paragraph comments were hard to scan.
 - Backticks for code references. Markdown emphasis lands on the load-bearing word (*all*, *here*), never on section labels.
 - Assert what you observed; hedge only with evidence ("As far as I can tell... not run by regrtest").
 - A refusal or a question can be the entire comment.
@@ -136,19 +136,21 @@ Two more observations from the harvest:
 
 ## Inline Comment Shape
 
-The default shape, used 90% of the time:
+The default shape: two or three bullets, one sentence each, in this order.
 
 ````markdown
-{The fact or the verdict, in one sentence.} {Optional second sentence with the consequence or the evidence.} {Optional third sentence with the fix or the alternative.}
+- {The problem or the verdict.}
+- {The impact or the evidence: what breaks, for whom, under which input.}
+- {The fix or the alternative.}
 
 ```suggestion
 {optional one-liner code fix}
 ```
 ````
 
-That's the whole template. No title line. No labels beyond the repo's own conventions. No bold. No bullets unless you are genuinely listing two parallel items.
+That's the whole template. Drop the impact bullet when the problem sentence already shows the consequence, or the fix bullet when the suggestion block carries it; keep at least two. No title line. No labels beyond the repo's own conventions, and none on the bullets. No bold. A pure question, or a one-line nit in the repo's own `Nit:` style, may stay a single line.
 
-If the fix needs more than one line of code, drop the ```suggestion block and write the alternative as prose, the way Darksonn's and zooba's refusals above name the replacement path.
+If the fix needs more than one line of code, drop the ```suggestion block and name the alternative in the fix bullet, the way Darksonn's and zooba's refusals above name the replacement path.
 
 ## Slop vs Human: Side by Side
 
@@ -174,13 +176,15 @@ Tells: severity tag, bold section headers, three labeled paragraphs, methodology
 
 ### Human
 
-> `==` on the token leaks timing. Use `hmac.compare_digest` so the comparison is constant-time.
+> - `==` on the token short-circuits on the first mismatched byte.
+> - That leaks the token through response timing.
+> - Use `hmac.compare_digest` so the comparison is constant-time.
 >
 > ```suggestion
 > if not hmac.compare_digest(provided, expected):
 > ```
 
-Two sentences, suggestion block, done. This is the same shape as malfet's `checked_convert` nit above.
+Three unlabeled bullets, suggestion block, done. The slop draft carried the same three parts behind bold labels and a severity header.
 
 ### Another pair
 
@@ -194,9 +198,10 @@ Two sentences, suggestion block, done. This is the same shape as malfet's `check
 > **Fix:** Guard with `if user.profile is not None`.
 
 **Human:**
-> `user.profile` is `Optional` in the schema but we're reading `.avatar` off it directly. Will crash for users that haven't set up a profile yet.
+> - `user.profile` is `Optional` in the schema but we're reading `.avatar` off it directly.
+> - Will crash for users that haven't set up a profile yet.
 
-The fix direction is obvious from the diagnosis, no need to spell it out. If it isn't obvious, add one sentence: "Easiest fix is an `if user.profile is not None` guard."
+The fix direction is obvious from the diagnosis, so two bullets are enough. If it isn't obvious, add a third: "Easiest fix is an `if user.profile is not None` guard."
 
 ## When to Allow Voice Markers
 
@@ -283,7 +288,7 @@ Run this checklist on every drafted comment. If any line answers "yes", redraft.
 - Does it start with a filler lead-in ("Additionally", "One more thing")?
 - Does it end with a filler ask ("please take a look when you get a chance")?
 - Is there a table?
-- Are there more than 3 sentences without a code suggestion block?
+- Is it a prose paragraph instead of two or three bullets, does it run past three bullets, or does a bullet hold more than one sentence?
 - If it refuses something, is the refusal diluted by compliments or stacked hedges?
 - Does its formality or phrasing mismatch the repo's existing review threads?
 

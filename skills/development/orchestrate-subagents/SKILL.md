@@ -51,7 +51,7 @@ Before you end a turn to wait, count the ready packets and the running workers. 
 
 **Sequential chains.** Some work is a chain in which each step builds on the previous one, such as stacked branches, ordered migrations, or a rebase series. Keep only the chain's order serial and give the chain to one integrator. Take out every node that does not depend on that order and give it its own packet. Examples are a fix that can target the base branch, a standalone tool, a review of a link that is already final, or documentation that needs only names. Start the integrator when the inputs of the first links exist. Do not wait until every review finishes.
 
-**Verification lanes.** Size review and verification by independently checkable units, such as one lane per branch, module, or claim group, up to the concurrency limit. If a few reviewers cover many units, the final and slowest phase runs serially.
+**Verification packets.** Size review and verification by independently checkable units, such as one reviewer per branch, module, or claim group, up to the concurrency limit. If a few reviewers cover many units, the final and slowest phase runs serially.
 
 **Liveness.** Many harnesses report a background worker only when it stops, so a stalled worker and a working worker look the same. Each packet therefore names a progress artifact the lead can inspect. Examples are incremental writes to the report file, a growing diff or commits in the worker's own worktree, or a short progress note. Use these checks:
 

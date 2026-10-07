@@ -118,5 +118,5 @@ The WebSocket API (AsyncAPI document version 1.2.2, checked 2026-09-23) exposes 
 
 ## Known Documentation Edge Cases
 
-- `GET /api/v1/orders` supports `status=OPEN|CLOSED`; the OpenAPI 1.2.17 schema (checked 2026-09-23) lists both values, although earlier schema descriptions said `CLOSED` was not supported. The fetcher still attempts `CLOSED` and records a warning if the upstream rejects it.
+- `GET /api/v1/orders` supports `status=OPEN|CLOSED`; the OpenAPI 1.2.19 schema (checked 2026-10-07) lists both values, although earlier schema descriptions said `CLOSED` was not supported. The fetcher still attempts `CLOSED` and records a warning if the upstream rejects it.
 - Toss API responses include rate-limit headers. The fetcher runs sequentially, applies a small request delay, and retries `429` or transient server errors with `Retry-After` or exponential backoff.

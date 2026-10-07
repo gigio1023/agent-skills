@@ -1,6 +1,6 @@
 # Source Notes
 
-Policy updated 2026-10-06. Anthropic runtime and price evidence below was last checked on 2026-09-23; this policy edit does not refresh those facts.
+Policy updated 2026-10-06. Anthropic runtime and price evidence was last checked on 2026-10-07 for the Sonnet 5.5 alias move, Ultracode, the Agent tool's `effort` argument, and prices; the older dated items below keep their dates.
 
 ## Policy Ownership
 
@@ -28,6 +28,7 @@ Harness mechanics, fetched 2026-09-20:
 - Claude Code `Create custom subagents`: https://code.claude.com/docs/en/sub-agents
 - Claude Code `Model configuration`: https://code.claude.com/docs/en/model-config
 - Claude Code `Changelog` (2.1.272 to 2.1.278): https://code.claude.com/docs/en/changelog
+- Claude Code 2.1.292 local changelog, read 2026-10-07: 2.1.284 added Sonnet 5.5 as the default Sonnet on the Anthropic API ($2 and $10, cache reads $0.20); 2.1.285 made Ultracode its own `/effort` toggle that no longer forces `xhigh`; 2.1.292 added an `effort` parameter to the Agent tool. `Model configuration`, `Create custom subagents`, and `Pricing` reread the same day for the alias table, default effort (Opus 5.5 and Sonnet 5.5 at `medium`), effort levels (Sonnet 5.5 accepts `low` through `max`), and the 20-subagent and three-layer defaults.
 - Claude Code `Model configuration` and `Settings` rechecked on 2026-09-23 against 2.1.280 for alias resolution and effort resolution: https://code.claude.com/docs/en/settings-reference
 - Claude Agent SDK `Subagents`: https://code.claude.com/docs/en/agent-sdk/subagents
 - Cursor `Subagents`: https://cursor.com/docs/subagents (the old `docs/agent/subagents` path redirects; definition locations read 2026-09-23)
@@ -60,7 +61,7 @@ From Anthropic's cost and intelligence page, on its own benchmarks with unpublis
 - "Sweep effort on your current model first." On one search benchmark a single model at `low` matched an orchestrator with a Sonnet 5 worker at 29 percent lower cost.
 - Opus 5 at `low` with its failures re-run at default matched the default pass rate for half the cost, conditioned on a checker that does not pass bad work.
 - Two of twenty problems carried 43 percent of one run's spend; compare models on the hardest tenth of tasks.
-- Prices on 2026-09-20 per million tokens, input and output: Fable 5.1 $10 and $50 with cache reads at $0.25; Opus 5 $5 and $25 with cache reads at $0.50; Sonnet 5 $2 and $10; Haiku 4.5 $1 and $5 with no effort parameter and a 200K context. Added 2026-09-23: Opus 5.5 $4 and $20 with cache reads at $0.20 and 5-minute cache writes at $5; its fast mode $8 and $40.
+- Prices on 2026-09-20 per million tokens, input and output: Fable 5.1 $10 and $50 with cache reads at $0.25; Opus 5 $5 and $25 with cache reads at $0.50; Sonnet 5 $2 and $10; Haiku 4.5 $1 and $5 with no effort parameter and a 200K context. Added 2026-09-23: Opus 5.5 $4 and $20 with cache reads at $0.20 and 5-minute cache writes at $5; its fast mode $8 and $40. Added 2026-10-07: Sonnet 5.5 $2 and $10 with cache reads at $0.20.
 - The cost page had not added Opus 5.5 measurements when rechecked on 2026-09-23. Anthropic's Opus 5.5 announcement claims about 40% lower cost than Opus 5 at default settings on typical workloads and performance at Fable 5.1's level on most work; these are launch claims, not per-task measurements comparable with the table.
 
 Guidance recorded during the earlier policy review:
@@ -76,7 +77,7 @@ Guidance recorded during the earlier policy review:
 
 - Fable can lead difficult, long-horizon work and coordinate subagents; delegate for concurrency, isolation, fresh verification, tool fit, or a measured efficiency gain, not to keep the lead's context empty.
 - Effort is the main intelligence, latency, and cost control, and level names do not transfer across models. Sonnet and Opus retain the owner's `xhigh` default; Fable inherits the selected session effort. The vendor numbers above are historical comparison points, not measured benefits for these routes.
-- The shipped subagent definitions exist because Claude Code sets a subagent's effort only through a definition. Explicit effort routes need compatible definitions; an omitted effort uses the documented session inheritance path.
+- The shipped subagent definitions exist because Claude Code set a subagent's effort only through a definition until 2.1.292 added a per-spawn `effort` argument. The definitions remain the default route; the argument covers a level no installed definition carries. An omitted effort uses the documented session inheritance path.
 - Reporting must distinguish what was read from what ran. No harness in this reference reports a subagent's applied effort to the lead. In Claude Code the user can see it in `/tasks` when the definition sets `effort`; a hook records only the requested values.
 
 ## Policy History
@@ -86,11 +87,14 @@ Guidance recorded during the earlier policy review:
 - 2026-09-20: scope keyed to the lead model rather than the harness, with harness mechanics moved to adapters. Effort floor of `xhigh` for models below the frontier, adjustable per route. Subagent definitions shipped as assets, named `<model>-<role>`. The reviewer route reframed as a fresh-context specification check after the Opus 5 guidance. Packet templates and the long judgment checklist removed in favor of `orchestrate-subagents` and the dispatch statement. Vocabulary follows the repository's `terminology.md`: subagent, subagent definition, task, dispatch, route, tier; "lane" retired because no harness documentation or routing paper uses it for these senses. Measurement of any of these policies on cost or quality has not been done.
 
 - 2026-09-23 (later): the owner stopped using GPT-5.6 models. The shared core's below-frontier list names GPT-6 Sol in place of GPT-5.6 Sol, Terra, and Luna (edited in both routing skills), and the proxy-routed alternatives name GPT-6 Sol. The Hermes effort mechanism was corrected from source, the Cursor definition directories were recorded, and the Claude Code notes now cover same-family alias resolution and `/tasks`.
+- 2026-10-07: Sonnet facts refreshed after Claude Code 2.1.284 moved the `sonnet` alias to Sonnet 5.5. `sonnet-collector` and `sonnet-researcher` are described as Sonnet 5.5, the default-effort and Ultracode notes follow the current docs, and the Agent tool's `effort` argument is recorded. The `xhigh` route for Sonnet is unchanged; Sonnet 5.5 accepts `xhigh` but recalibrated its levels and defaults to `medium`, so whether `xhigh` still buys what the owner intended on Sonnet 5.5 is an open owner decision.
 - 2026-09-23: Opus facts refreshed after Claude Code 2.1.280 moved the `opus` alias to Opus 5.5. The shared core's below-frontier list names Opus 5.5 and Opus 5 (edited in both routing skills), `opus-builder` is described as Opus 5.5, the claim that Fable at `low` undercuts Opus on cache price was removed because Opus 5.5 is cheaper on every price line, and the Claude Code effort-resolution order was updated. The `xhigh` floor is unchanged; Anthropic's Opus 5.5 advice to reserve `xhigh` for measured gains is recorded above for the owner's decision.
 
 ## Not Verified
 
 - Cost per completed task for Opus 5.5 at `xhigh` against Opus 5 at `xhigh` or Fable 5.1 at `low`; neither this pack nor Anthropic's cost page has measured it.
 - Which Cursor model strings accept `effort`.
+- Whether the Agent tool's per-spawn `effort` argument overrides a definition's `effort` frontmatter; the documentation did not describe it on 2026-10-07.
+- Cost per completed task for Sonnet 5.5 at `xhigh` against Sonnet 5.5 at `medium`.
 - Which effort a proxy-routed subagent runs at; it is read from the proxy's route string, not observed.
 - The exact inheritance path for a `sonnet` or `haiku` subagent on a machine that saves `modelSettings` only for other models; the documentation says a definition without `effort` inherits the session level.

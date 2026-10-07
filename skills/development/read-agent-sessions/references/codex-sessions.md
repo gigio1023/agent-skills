@@ -1,6 +1,6 @@
 # Codex Sessions
 
-Verified against codex-cli 0.153–0.154 on this machine. The CLI and the Codex desktop app share one store, so a single lookup route covers both; a session's `session_meta.originator` says which surface created it (`"Codex Desktop"` or a CLI value).
+Verified against codex-cli 0.153–0.154 on this machine and rechecked on 2026-10-07 against codex-cli 0.159.3; Codex Desktop sessions from that day record `cli_version` 0.160.1. The CLI and the Codex desktop app share one store, so a single lookup route covers both; a session's `session_meta.originator` says which surface created it (`"Codex Desktop"` or a CLI value).
 
 ## Storage
 
@@ -8,7 +8,8 @@ Verified against codex-cli 0.153–0.154 on this machine. The CLI and the Codex 
 - Title index: `~/.codex/session_index.jsonl`, one line per update: `{"id":"<uuid>","thread_name":"<title>","updated_at":"<iso>"}`. Multiple lines per id are normal — the latest line wins. Titles are often derived from the first user message, including non-English text verbatim.
 - Prompt history: `~/.codex/history.jsonl` with `{"session_id","ts","text"}` per user prompt — useful for mapping a remembered prompt fragment to a session id.
 - Archived transcripts: `codex archive` moves a rollout to `~/.codex/archived_sessions/` with the same file-name scheme, and `codex unarchive` moves it back. A lookup by id must search both directories.
-- Thread-history store: Codex 0.154.0 also keeps `~/.codex/thread_history_1.sqlite` and ships `codex migrate-rollouts`, which moves legacy sessions into that paginated store. On 2026-09-23 new rollouts still landed in `sessions/`; if they stop appearing there, recheck this reference before relying on the JSONL route.
+- Thread-history store: Codex 0.154.0 also keeps `~/.codex/thread_history_1.sqlite` and ships `codex migrate-rollouts`, which moves legacy sessions into that paginated store. On 2026-10-07 new rollouts still landed in `sessions/`; if they stop appearing there, recheck this reference before relying on the JSONL route.
+- Store-changing commands: `codex archive` and `codex unarchive` move a rollout, and `codex delete` (0.159.3) permanently deletes a saved session by id or name. This skill only reads, so it never runs them. `codex agents` browses sessions on the shared local app-server daemon in the terminal UI; it can help a person find a session but does not print a transcript.
 - `~/Library/Application Support/Codex/` holds the app's Chromium profile and artifact runtime, not transcripts. Ignore it for reading conversations.
 
 Session id is a UUIDv7; it equals the trailing UUID of the filename and the `payload.id` of the first `session_meta` line. Subagent sessions are separate rollout files whose `session_meta` carries `parent_thread_id` (and `source` spawn info); follow them when delegated work matters.

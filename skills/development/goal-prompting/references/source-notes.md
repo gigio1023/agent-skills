@@ -1,6 +1,6 @@
 # Goal Prompting Source Notes
 
-Last reviewed: 2026-08-03. The Claude goal contract and moved sources were rechecked on 2026-09-23.
+Last reviewed: 2026-08-03. The Claude goal contract and moved sources were rechecked on 2026-09-23. The Codex goal contract was rechecked on 2026-10-07 against the four OpenAI pages below and Codex CLI 0.159.3, where `codex features list` shows `goals` as stable and enabled.
 
 ## Contents
 
@@ -13,10 +13,10 @@ Last reviewed: 2026-08-03. The Claude goal contract and moved sources were reche
 
 ## Official OpenAI Sources
 
-- [Long-running work](https://learn.chatgpt.com/docs/long-running-work) documents Codex Goal mode, the outcome/constraints/verification contract, steering, parallel chats, and unchanged permission boundaries.
+- [Long-running work](https://learn.chatgpt.com/docs/long-running-work) documents Codex Goal mode in the ChatGPT desktop app, an interactive Codex CLI session, and the IDE extension; the outcome/constraints/verification contract; `/plan` before an unclear goal; the progress row's pause, resume, edit, and clear controls; steering; parallel chats; and unchanged sandbox and approval boundaries.
 - [Prompting](https://learn.chatgpt.com/docs/prompting) distinguishes goal, context, output, and boundaries, recommends result-first prompts, and routes unsettled multi-step Codex work through plan mode before Goal mode.
 - [Codex slash commands](https://learn.chatgpt.com/docs/reference/slash-commands) documents `/goal` lifecycle commands; since the 2026-08-03 review it no longer states the objective limit, which the App Server page still gives.
-- [Codex App Server](https://learn.chatgpt.com/docs/app-server) documents persisted thread goal state, status and budget updates, usage accounting, and the same 4,000-character limit.
+- [Codex App Server](https://learn.chatgpt.com/docs/app-server) documents persisted thread goal state, status and budget updates, usage accounting, and the same 4,000-character limit; supplying a new objective replaces the goal and resets usage accounting.
 - [OpenAI `define-goal` skill](https://github.com/openai/skills/blob/main/skills/.curated/define-goal/SKILL.md) emphasizes measurable objectives, evidence, bounded scope, active-goal inspection, and explicit activation intent.
 - [Build skills](https://learn.chatgpt.com/docs/build-skills) documents the shared Agent Skills format, progressive disclosure, discovery descriptions, and instruction-first packaging used by this skill.
 
@@ -36,14 +36,13 @@ The review sampled original or materially distinct public packages rather than c
 | [OpenAI `define-goal`](https://github.com/openai/skills/tree/main/skills/.curated/define-goal) | Concise outcome, evidence, scope, and explicit goal creation | Codex goal tools only; does not explain or translate Claude Code semantics |
 | [techwolf-ai `goal-prompt`](https://github.com/techwolf-ai/ai-first-toolkit/tree/main/plugins/session-tools/skills/goal-prompt) | Compact Claude condition with transcript-demonstrable proof | Draft-only and Claude-specific |
 | [nbbaier `goal-refiner`](https://github.com/nbbaier/agent-skills/tree/main/skills/goal-refiner) | Realistic environment, false-completion checks, cleanup, and 4,000-character guard | Codex-only and can overfill bounded goals with a large fixed template |
-| [xopc `define-goal`](https://github.com/xopcai/xopc/tree/main/skills/engineering/define-goal) (link 404 on 2026-09-23) | Small rewrite of the official pattern with an objective rubric | Harness metadata and persistent-goal-only scope |
-| [zdx `define-goal`](https://github.com/tallesborges/zdx/tree/master/crates/zdx-assets/bundled_skills/define-goal) (link 404 on 2026-09-23) | Read-only shaping and honest quantitative defaults | Requires confirmation and does not support activation or cross-harness translation |
 | [dxiiren `define-goal`](https://github.com/dxiiren/python-bootcamp-projects/tree/main/.claude/skills/define-goal) | File-backed work lists, terminal statuses, and resume discipline for very large runs | Claims the evaluator re-reads the goal file, which conflicts with Anthropic's transcript-only evaluator contract; also mandates an exhaustive interview and file system |
 | [alirezarezvani `fable-goal`](https://github.com/alirezarezvani/claude-skills/tree/main/productivity/fable-goal/skills/fable-goal) | Extracts intent from rough input, verifies named resources, and avoids implementation micromanagement | Assumes broad autonomy, internet, deployment, subagents, and no questions until completion |
 | [krzemienski `goal-condition-architect`](https://github.com/krzemienski/shannon/tree/main/skills/goal-condition-architect) | Transcript-provable checks, adversarial false-completion review, and explicit bounds | Makes fixed check counts, generic anti-cheat rules, and a bound mandatory for every task |
-| [alfredolopez80 `goal-refiner`](https://github.com/alfredolopez80/codex-ralph-vault-loop/tree/main/.agents/skills/goal-refiner) (link 404 on 2026-09-23) | Quick, file-backed, and audit modes with evidence and approval gates | Generates several durable artifacts and extensive scaffolding by default for uncertain risk |
 | [win4r `goal-prompt-builder`](https://github.com/win4r/goal-prompt-builder/tree/main/goal-prompt-builder) | Project inspection, scenario-aware checks, and copy-paste output | Requires interviews, fixed sections, and token budgets while relying on undocumented internal-version assumptions |
 | [agentara `mega-goal-prompt`](https://github.com/agentara/skills/tree/main/skills/productivity/mega-goal-prompt) | Explicitly names Claude Code and Codex and gathers outcome, context, evidence, and boundaries | Treats both harnesses as one runtime and mandates a large interview-driven prompt |
+
+Three packages sampled in the 2026-08-03 review (`xopc`, `zdx`, and `alfredolopez80` variants of `define-goal` or `goal-refiner`) were dropped from the table after their links returned 404 on 2026-09-23 and again on 2026-10-07; no adopted decision depends on them alone.
 
 GitHub code search also surfaced many copies of OpenAI's skill and narrower orchestration stacks. Copy count was not treated as independent evidence. The useful consensus was measurable completion, visible proof, bounded scope, and an explicit distinction between prompt authoring and execution.
 

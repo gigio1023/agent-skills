@@ -1,6 +1,6 @@
 # 1Password CLI Usage Reference
 
-This reference is based on local `op` 2.34.1 help on macOS arm64, checked 2026-06-27. On 2026-09-23 the [1Password CLI release notes](https://app-updates.agilebits.com/product_history/CLI2) list 2.39.0 (released 2026-08-14) as the current stable; the help-derived claims below were not re-checked against 2.39.0 help. When in doubt, run `op <command> --help` because the installed CLI is the source of truth.
+This reference is based on local `op` 2.34.1 help on macOS arm64, checked 2026-06-27. On 2026-09-23 the [1Password CLI release notes](https://app-updates.agilebits.com/product_history/CLI2) list 2.39.0 (released 2026-08-14) as the current stable; the help-derived claims below were not re-checked against 2.39.0 help. On 2026-10-07 the notes list 2.40.0 (released 2026-10-01) as the current stable; it adds `op provisioning google sync` and says in `op run` help that output masking is best effort. `op` was still not installed, so local help was not re-checked. When in doubt, run `op <command> --help` because the installed CLI is the source of truth.
 
 ## Table of Contents
 
@@ -35,7 +35,7 @@ Top-level commands in local stable 2.34.1 (help checked 2026-06-27):
 | Shell integration | `op completion <shell>`, `op plugin list`, `op plugin init`, `op plugin inspect`, `op plugin run`, `op plugin clear`, `op plugin credential ...` |
 | Updates | `op update` |
 
-Local stable 2.34.1 help (checked 2026-06-27) does not expose `op environment`, and local `op run --help` does not expose `--environment`. Official docs describe 1Password Environments as a beta path that requires a beta CLI build, `2.33.0-beta.02` or later, and the stable release notes through 2.39.0 add no Environments commands (checked 2026-09-23); verify local help before using any Environment-specific command.
+Local stable 2.34.1 help (checked 2026-06-27) does not expose `op environment`, and local `op run --help` does not expose `--environment`. Official docs describe 1Password Environments as a beta path that requires a beta CLI build, `2.33.0-beta.02` or later, and the stable release notes through 2.40.0 add no Environments commands (checked 2026-10-07); verify local help before using any Environment-specific command.
 
 ## Global Flags and Environment Variables
 
@@ -210,7 +210,7 @@ Precedence:
 1. `--env-file` values override shell environment variables with the same name.
 2. If multiple env files define the same name, the last env file wins.
 
-Masking is on by default. Use `--no-masking` only when the user explicitly needs the real secret visible in output.
+Masking is on by default. It is best effort: from 2.40.0 the `op run` help states that masking on stdout and stderr does not guarantee concealment, so do not rely on it to keep a secret out of logs or chat. Use `--no-masking` only when the user explicitly needs the real secret visible in output.
 
 Official docs also describe `op run --environment <environmentID> -- <command>` for 1Password Environments beta. Do not use it on a stable build unless `op run --help` shows the flag or the user intentionally installed a supported beta build.
 

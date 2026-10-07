@@ -1,6 +1,6 @@
 ---
 name: sonnet-researcher
-description: Bounded research on Sonnet 5 at xhigh. Collect evidence against a stated coverage and source bar and return a cited summary. Not for resolving judgments the lead reserved.
+description: Bounded research on Sonnet 5.5 at xhigh. Collect evidence against a stated coverage and source bar and return a cited summary. Not for resolving judgments the lead reserved.
 model: sonnet
 effort: xhigh
 ---
