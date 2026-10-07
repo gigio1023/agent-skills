@@ -4,8 +4,8 @@ description: >
   Write, revise, or review reader-facing documents and substantive prose in any
   language: reports, guides, proposals, design docs, posts, and messages.
   Includes focused AI-slop revision, English clarity, and Korean semantic repair.
-  Provides shared meaning, voice, and author-profile principles for PRs and issues;
-  draft-pr and write-issue own their artifact structure and publication workflows.
+  Provides shared meaning, voice, and author-profile principles for PRs, issues, and Notion pages;
+  draft-pr, write-issue, and write-notion own their artifact structure and publication workflows.
   Use specialized skills for drawing figures, building dashboards, and file production.
 ---
 

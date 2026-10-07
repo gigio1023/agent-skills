@@ -4,7 +4,8 @@ Use these capabilities for the requested task. Installing them does not create a
 
 | Capability | Responsibility |
 | --- | --- |
-| `copydesk` | Own writing and revision, meaningful explanations, Korean clarity, and precise English; provide shared writing principles to PR and issue workflows |
+| `copydesk` | Own writing and revision, meaningful explanations, Korean clarity, and precise English; provide shared writing principles to PR, issue, and Notion page workflows |
+| `write-notion` | Own Notion page shape, people references, tables, figure upload, editing mechanics, and the re-fetch check; take sentence-level writing from `copydesk` |
 | `insight-dashboard` | Design a useful initial comparison and keep data definitions, selections, values, commentary, and exports consistent |
 | Official `shadcn` skill | Implement shadcn/ui using upstream project-aware guidance |
 | `share-internal-doc` | Merged into `copydesk` on 2026-09-24 as its sharing-and-delivery reference; retired from Gigio Pack |
