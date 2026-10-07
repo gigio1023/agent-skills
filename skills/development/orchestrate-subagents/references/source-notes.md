@@ -44,6 +44,10 @@ The owner asked whether parallelism had been maximized. The lead's analysis foun
 
 2026-10-06, owner decision after #101: parallelism should be at its maximum in most runs, because one slow packet often made the whole run slower than expected. Three parts of the skill still leaned the other way. The quick start told the lead to spawn the smallest useful first set, the sizing paragraph led with the cost of surplus agents, and nothing addressed a packet that was much larger than the rest or a worker that kept progressing past its estimate. The changes make every ready packet the default first dispatch, add a packet-size rule that splits oversized packets before dispatch, and add a rule that splits a slow worker's untouched remainder into new packets. Small probe sets remain for decompositions that are themselves unknown. No model trial was run for this documentation change.
 
+## Questions Before Dispatch
+
+2026-10-07, owner decision: the lead asks the user early and thoroughly, including about unknowns neither side has noticed, and settles those answers before dispatch. Workers then carry their packets without spending effort on routine questions to the lead. Quick start step 1 carries this. Delegated workers keep their full capability; the rule moves questions earlier rather than limiting what workers may decide inside a well-specified packet.
+
 ## Patterns Kept
 
 - One portable orchestration skill instead of separate harness-specific skills.
