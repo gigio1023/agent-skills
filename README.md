@@ -124,7 +124,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
 | [copydesk](skills/productivity/copydesk/) | Write, revise, and review meaningful explanations with natural Korean and precise English, preserving facts through local corrections and broader rewrites |
-| [write-notion-page](skills/productivity/write-notion-page/) | Create and revise team pages in Notion: document shape, people mentions, compact tables, figures, safe edits, and a re-fetch check after publishing |
+| [write-notion](skills/productivity/write-notion/) | Create and revise team pages in Notion: document shape, people mentions, compact tables, figures, safe edits, and a re-fetch check after publishing |
 
 ### Personal and Everyday Tools
 
@@ -137,7 +137,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 ## Writing, documents, and dashboards
 
-Use `copydesk` as the document-authoring entry point in the requested language and medium. It distinguishes new writing, local corrections, and broader rewrites, preserves evidence and meaning, and chooses prose, tables, or figures for the reader's question. Its English clarity guidance draws useful principles from STE without imposing word counts, a fixed dictionary, or English sentence rules on Korean. It also provides shared writing principles for PRs, issues, and Notion pages; their specialist skills own structure and publication, and `write-notion-page` covers Notion page layout and editing mechanics. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
+Use `copydesk` as the document-authoring entry point in the requested language and medium. It distinguishes new writing, local corrections, and broader rewrites, preserves evidence and meaning, and chooses prose, tables, or figures for the reader's question. Its English clarity guidance draws useful principles from STE without imposing word counts, a fixed dictionary, or English sentence rules on Korean. It also provides shared writing principles for PRs, issues, and Notion pages; their specialist skills own structure and publication, and `write-notion` covers Notion page layout and editing mechanics. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
 
 The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [synthetic examples](skills/productivity/copydesk/references/synthetic-examples.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public writing sources](docs/writing-sources.md) for the current task, not as a mandatory reading list.
 

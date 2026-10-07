@@ -53,5 +53,5 @@ Standing preferences for documents, PR bodies, issues, and messages this author 
 - Resolve the reviewing team's language from the current request and repository context. Ask only when it remains unclear; English is the fallback and this author's company repositories use Korean.
 - A PR body says why and what. Keep validation logs and routine self-appraisal out of it. Retain meaningful conditions and uncertainty. A behavior change uses an as-is/to-be table against the real base branch; add a diagram only when requested. A required repository template takes precedence.
 - An issue names the outcome before the tasks and stays short. Use complete sentences for causes, conditions, and mechanisms.
-- `draft-pr`, `write-issue`, and `write-notion-page` own their workflows; copydesk supplies shared writing principles.
+- `draft-pr`, `write-issue`, and `write-notion` own their workflows; copydesk supplies shared writing principles.
 <!-- writing-profile:end -->

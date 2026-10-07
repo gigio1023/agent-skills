@@ -8,7 +8,7 @@ Use when document work also involves internal sharing, a dashboard, focused lang
 | --- | --- |
 | `copydesk` | Shared meaning, voice, profile, and document craft |
 | `draft-pr`, `write-issue` | PR or issue structure, repository/tracker context, and publication workflow |
-| `write-notion-page` | Notion page shape, people references, tables, figures, editing mechanics, and the re-fetch check after publishing |
+| `write-notion` | Notion page shape, people references, tables, figures, editing mechanics, and the re-fetch check after publishing |
 | `insight-dashboard` | Quantitative comparison, informative initial view, data/filter/claim alignment, and static presentation of selected results |
 | [Official shadcn skill](https://ui.shadcn.com/docs/skills) | Maintainer-provided shadcn project and component guidance for an actual implementation |
 | `frontend-design` | Design intensity, composition, and visual/interaction review for a user-visible change |

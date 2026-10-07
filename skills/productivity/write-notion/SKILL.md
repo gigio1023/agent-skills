@@ -1,5 +1,5 @@
 ---
-name: write-notion-page
+name: write-notion
 description: >
   Use when the user asks to create, draft, restructure, or revise a team
   document as a Notion page through the Notion MCP tools: a design doc or RFC
@@ -16,7 +16,7 @@ description: >
   tasks, or documents published outside Notion (use copydesk).
 ---
 
-# Write Notion Page
+# Write Notion
 
 Publish a team document in Notion that a colleague can review from the page alone. The design or decision is on the first screen, details are one click away, people are referenced without leaking names or flooding notifications, and the stored page matches what was intended.
 

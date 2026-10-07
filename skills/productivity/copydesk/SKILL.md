@@ -5,7 +5,7 @@ description: >
   language: reports, guides, proposals, design docs, posts, and messages.
   Includes focused AI-slop revision, English clarity, and Korean semantic repair.
   Provides shared meaning, voice, and author-profile principles for PRs, issues, and Notion pages;
-  draft-pr, write-issue, and write-notion-page own their artifact structure and publication workflows.
+  draft-pr, write-issue, and write-notion own their artifact structure and publication workflows.
   Use specialized skills for drawing figures, building dashboards, and file production.
 ---
 
