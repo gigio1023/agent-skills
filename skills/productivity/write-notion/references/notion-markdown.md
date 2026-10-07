@@ -93,7 +93,7 @@ Nested bullets:
 Toggle heading with a table and an image inside it. The table's rows sit one level deeper than the table tag, and every child of the toggle is indented at least once. Table attributes default to false, so set `header-row="true"` on every table; leave `fit-page-width` unset and size the table with column widths, totaling about 700 on a default-width page (a working value, to confirm on the rendered page):
 
 ```markdown
-### Option measurements (comparison evidence) {toggle="true"}
+### Comparison evidence: option measurements {toggle="true"}
 	<table header-row="true">
 		<colgroup>
 			<col width="200">
