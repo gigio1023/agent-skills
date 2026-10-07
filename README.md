@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 29 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 30 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 For continuity across sessions, models, and agent harnesses, use [gigio-pack](https://github.com/gigio1023/gigio-pack): project intent, plans, execution, review, and handoff. This repository supplies focused capabilities for the work itself. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
@@ -32,7 +32,7 @@ npx --yes skills add 'gigio1023/agent-skills#main' \
 
 Replace the skill names and agent IDs as needed. Omit `--global` for a project-local install.
 
-Install all 29 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 30 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -77,7 +77,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 - [Software Development and Delivery](#software-development-and-delivery) (6)
 - [Agent and Harness Engineering](#agent-and-harness-engineering) (14)
 - [Design and Visualization](#design-and-visualization) (3)
-- [Writing and Language](#writing-and-language) (2)
+- [Writing and Language](#writing-and-language) (3)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (4)
 
 ### Software Development and Delivery
@@ -124,6 +124,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | --- | --- |
 | [english-prompt-review](skills/productivity/english-prompt-review/) | Rewrite English technical prompts naturally and explain important nuance in Korean |
 | [copydesk](skills/productivity/copydesk/) | Write, revise, and review meaningful explanations with natural Korean and precise English, preserving facts through local corrections and broader rewrites |
+| [write-notion-page](skills/productivity/write-notion-page/) | Create and revise team pages in Notion: document shape, people mentions, compact tables, figures, safe edits, and a re-fetch check after publishing |
 
 ### Personal and Everyday Tools
 
@@ -136,7 +137,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 ## Writing, documents, and dashboards
 
-Use `copydesk` as the document-authoring entry point in the requested language and medium. It distinguishes new writing, local corrections, and broader rewrites, preserves evidence and meaning, and chooses prose, tables, or figures for the reader's question. Its English clarity guidance draws useful principles from STE without imposing word counts, a fixed dictionary, or English sentence rules on Korean. It also provides shared writing principles for PRs and issues; their specialist skills own structure and publication. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
+Use `copydesk` as the document-authoring entry point in the requested language and medium. It distinguishes new writing, local corrections, and broader rewrites, preserves evidence and meaning, and chooses prose, tables, or figures for the reader's question. Its English clarity guidance draws useful principles from STE without imposing word counts, a fixed dictionary, or English sentence rules on Korean. It also provides shared writing principles for PRs, issues, and Notion pages; their specialist skills own structure and publication, and `write-notion-page` covers Notion page layout and editing mechanics. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
 
 The skills teach decisions through finished examples: what helps this reader understand, compare, or act; what can be deleted; and what the reader needs to interpret a claim. Consult [synthetic examples](skills/productivity/copydesk/references/synthetic-examples.md), [dashboard patterns](skills/development/insight-dashboard/references/pattern-examples.md), or the [public writing sources](docs/writing-sources.md) for the current task, not as a mandatory reading list.
 
@@ -183,4 +184,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 29 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 30 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
