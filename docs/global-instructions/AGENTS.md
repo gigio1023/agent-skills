@@ -21,7 +21,7 @@ Standing preferences for documents, PR bodies, issues, and messages this author 
 
 ## First screen
 
-- Start with the subject, finding, or decision. Remove preambles that announce the document, repeat its title, or describe the visible table layout. A document set may have an overview that helps the reader choose a page. Put a date beside the result it bounds.
+- Start with the subject, finding, or decision. Remove preambles that announce the document, repeat its title, or describe the visible table layout. Section lead-ins go too: a sentence that announces the section, says where details were put, states the source basis, or restates what a figure shows. A source stays linked at the claim it supports. A document set may have an overview that helps the reader choose a page. Put a date beside the result it bounds.
 - A summary block uses a short heading or bold label and parallel items. Noun phrases suit labels and compact results; use sentences when conditions or reasoning need them.
 - Preserve passages explicitly marked to stay as written. A local correction leaves unrelated prose intact. A broad revision may reshape user-authored prose while keeping its meaning and intentional omissions. A user note to the writer guides the edit and stays out of the reader's copy.
 
@@ -45,6 +45,8 @@ Standing preferences for documents, PR bodies, issues, and messages this author 
 - Keep table cells to a value, identifier, or short phrase, and size columns to their content where the medium allows. Put extended reasoning beside the table.
 - Keep established field terms in English, such as judge, harness, ablation, and residual stream. Do not carry over a coined local translation from an internal document when a standard term exists. Write ordinary verbs and nouns in natural Korean. The register is dry and direct. Remove ornamental first-person framing, bylines, courtesy closings, and self-appraisal; retain attribution or responsibility when it matters.
 - Avoid middle dots and dashes as prose punctuation. Use periods, colons, or natural clause connections. Quotations, code, official names, and notation keep their original marks. Choose Korean commas by sentence structure rather than inserting them automatically after connective endings.
+- Avoid parenthetical asides in prose, table cells, and figure labels. Split the sentence or use a short phrase instead. Code, identifiers, citations, official names, and notation keep their own parentheses.
+- Link an issue or pull request identifier wherever it appears, including headings and table cells, not only in a reference list.
 - Figure labels carry the names, operations, and quantities needed to understand the visual. Put supporting setup, timestamps, and extended qualifications in a caption or adjacent prose. Keep a condition on the canvas when readers need it to distinguish a branch or interpret a value.
 - Screens and figures default to light and should remain legible in dark contexts. Follow the host surface, an existing document's theme, or an explicit request when it sets the delivered theme. PDF and print follow their own medium.
 
