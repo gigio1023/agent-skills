@@ -47,7 +47,7 @@ The default design doc order is:
 1. Header callout: Status (WIP, In Review, Approved, Obsolete), Owner as a user mention, Reviewer as a role, Target, a date mention, and repository and tracker links.
 2. Summary, then Context and scope, then Goals and Non-goals. Non-goals are optional; when they are omitted, the heading is "Goals".
 3. Design, with the mechanism figure first and details after it.
-4. Threat model and limits, for a security component: in scope, out of scope with reasons, assumptions, and residual risk.
+4. Cross-cutting concerns the design changes, such as security, privacy, observability, or migration and rollback.
 5. Alternatives considered, each with its rejection reason.
 6. Test plan or pre-launch evaluation, then Milestones.
 7. Open questions, then References.
@@ -58,7 +58,7 @@ Drop a section that has nothing true to say instead of filling it with a placeho
 
 - **Summary** is nested bullets: what is being built, how it works, the scope promised by the deadline, and the key undecided item. A top-level bullet carries a short label and the claim; nested bullets carry its reason or condition.
 - **Visible:** summary, context, goals, figures, and open questions. A reader who never opens a toggle still learns what is proposed, why, and what is undecided.
-- **Under toggle headings:** measurement tables, storage, interfaces, threat model, alternatives, test plan, schedule, and references. Toggles are the default for detail on a design doc page, but the decision summary and the open questions are never toggled.
+- **Under toggle headings:** measurement tables, storage, interfaces, cross-cutting concerns, alternatives, test plan, schedule, and references. Toggles are the default for detail on a design doc page, but the decision summary and the open questions are never toggled.
 - **Undecided items:** the writing profile's rule applies; on a Notion page: the Open questions section is a visible heading near the end, each question says what it blocks, and a passage that depends on an open item points to that question once.
 
 ## Status Words
@@ -85,7 +85,7 @@ The writing profile's rule applies; on a Notion page:
 
 - Always set `<table header-row="true">`. Table attributes default to false, so without it the first row is ordinary data.
 - Put what a cell cannot hold in bullets directly under the table; a cell never holds a sentence.
-- Set column widths with `<colgroup>` and `<col width="N">`, sized to content: about 70 for a short status or verdict column, 150 to 220 for names, and 240 to 300 for short descriptions. Keep the total to about 700 on a default-width page, less inside toggles and callouts, and wider on a full-width page. These are working values; confirm them on the rendered page. When the total overflows, move a column's content into the bullets under the table.
+- Set column widths with `<colgroup>` and `<col width="N">`, sized to content: about 70 for a short status or yes/no column, 150 to 220 for names, and 240 to 300 for short descriptions. Keep the total to about 700 on a default-width page, less inside toggles and callouts, and wider on a full-width page. These are working values; confirm them on the rendered page. When the total overflows, move a column's content into the bullets under the table.
 - Leave `fit-page-width` unset; the column widths size the table.
 - Use a table to compare several items on shared attributes. One item, or content that needs sentences, belongs in bullets.
 

@@ -82,11 +82,10 @@ This design covers admission at the gateway. Billing, quota configuration, and t
 	- Internal load test on <mention-date start="2026-09-30"/>: 12 gateway instances, 400 synthetic tenants, 20k requests per second, 30 minutes per algorithm.
 	- Over-admission is the requests admitted above quota divided by the quota, in the worst one-minute window.
 	- The design proposes the token bucket. Both it and the sliding window log meet the goals, and the token bucket's memory per tenant stays constant as traffic grows.
-## Threat model and limits {toggle="true"}
-	- **In scope**: a tenant spreading requests across instances to exceed its quota. Mitigated by the shared bucket.
-	- **Out of scope**: volumetric floods below the gateway. Transferred to the edge network's protection, which absorbs them before authentication.
-	- **Assumptions**: the tenant ID is taken only from an authenticated API key; an unauthenticated request never reaches the limiter.
-	- **Residual risk**: during a Redis outage the limiter either stops enforcing or rejects all traffic, depending on the open question below.
+## Cross-cutting concerns {toggle="true"}
+	- **Security**: the tenant ID comes only from an authenticated API key, so one tenant cannot spend another tenant's tokens. Volumetric floods stay with the edge network's protection, which absorbs them before authentication.
+	- **Availability**: during a Redis outage the limiter either stops enforcing or rejects all traffic, depending on the open question below.
+	- **Observability**: the gateway exports admitted and rejected counts per tenant, so over-admission can be computed during shadow mode.
 ## Alternatives considered {toggle="true"}
 	- **Sliding window log**: the most accurate option. Rejected for this design because its memory per tenant grows with request rate, and the busiest tenants would need a larger Redis cluster.
 	- **Per-instance counters with the quota divided by instance count**: no new dependency. Rejected because autoscaling changes the instance count every few minutes, so the divided quota is wrong whenever traffic changes.
@@ -126,7 +125,7 @@ This design covers admission at the gateway. Billing, quota configuration, and t
 ## Open questions
 - **Before review**
 	- Should the limiter fail open or fail closed when Redis is unreachable?
-		- Blocks the failure behavior and the residual risk. Settled by the API platform owners against the availability target.
+		- Blocks the failure behavior and the availability concern. Settled by the API platform owners against the availability target.
 	- Is 5% over-admission in a one-minute window acceptable for billing?
 		- Settled by the billing team.
 - **During implementation**
@@ -143,7 +142,7 @@ Why it is shaped this way:
 - Each figure answers one question: when over-quota traffic arrives, and how a request is admitted. Each caption states the claim before the reading key.
 - The measurement table sits in a toggle under Design, is labeled comparison evidence, and the text says "proposes"; the header status is In Review because no selection has been approved.
 - Cells hold values and short phrases; the measuring conditions and the metric definition are bullets under the table. Column widths follow content: about 90 to 110 for numbers, about 190 to 200 for names, and 250 to 280 for short descriptions. Each table totals 640, under the working total of about 700, because both sit inside toggles.
-- The only undecided items are in Open questions. The threat model points to that question once instead of repeating a disclaimer.
+- The only undecided items are in Open questions. The availability concern points to that question once instead of repeating a disclaimer.
 - The test plan escapes `~` in a range (`3\~5 s`), and dates that readers act on, including the shadow-mode period, are date mentions.
 
 ## Open-Questions Page

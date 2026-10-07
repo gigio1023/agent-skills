@@ -31,14 +31,14 @@ A design doc earns its cost when the change has dependencies, real alternatives,
 | Context and scope | Background facts and the system boundary | Visible |
 | Goals and Non-goals | Checkable goals; optional deliberate exclusions | Visible |
 | Design | Mechanism figure, then components and behavior | Figure and overview visible; detail toggled |
-| Threat model and limits | Security boundary, threats, residual risk | Toggle |
+| Cross-cutting concerns | Security, privacy, observability, rollout | Toggle |
 | Alternatives considered | Options with advantage and rejection reason | Toggle |
 | Test plan or pre-launch evaluation | How success is judged before launch | Toggle |
 | Milestones | Checkpoints with exit conditions | Toggle |
 | Open questions | Undecided items as questions | Visible |
 | References | Evidence and related records | Toggle |
 
-Omit a section with nothing true to say. Add a section the system needs, such as migration and rollback for a change to a live interface, privacy for personal data, or observability for a service.
+Omit a section with nothing true to say, and add one the system needs that the skeleton lacks.
 
 ## Section Notes
 
@@ -62,21 +62,14 @@ Goals state what the design must achieve, with a completion condition a reviewer
 
 Open with the mechanism figure that answers "how does it work". Then explain components and their responsibilities, the data flow of a representative request or job, state and storage, interfaces, and failure behavior when a dependency is unavailable. Include only the interface and schema fragments that matter for the trade-offs and link the full definitions; copied definitions go stale. Put storage layouts, interface listings, and measurement tables under toggle headings.
 
-### Threat model and limits
+### Cross-cutting concerns
 
-For a security component, or any component that crosses a trust boundary:
+Cover only the concerns this design changes, each with how the design affects it and how that is addressed, so a reviewer from that area can check it quickly:
 
-- **Assets and trust boundaries:** what is protected and where untrusted input enters.
-- **In scope:** the threat classes the design addresses and the response to each: mitigate, eliminate, transfer, or accept.
-- **Out of scope:** the threat classes not addressed, each with the reason.
-- **Assumptions:** the conditions the protection depends on, such as an authenticated caller or an intact upstream check.
-- **Residual risk:** what remains after the mitigations, and who accepts it, by role.
-
-Write threat classes and evaluation methods. Keep reproducible attack inputs in access-controlled test fixtures and link them instead of pasting them into a widely shared page.
-
-### Components with a model or detection rules
-
-When the design includes a learned model, a classifier, or detection rules, add under the Design or Test plan toggles: the intended use and out-of-scope use; the metrics reported and why they were chosen; decision thresholds and why; the evaluation data's source, size, and labeling; and known false positives and blind spots. Every number keeps its measuring conditions: the evaluated system, data, metric, and setting.
+- **Security:** what is protected, where untrusted input enters, what is in scope and out of scope with reasons, the assumptions the protection depends on, and the remaining risk.
+- **Privacy:** the personal data collected, where it is stored, and how long it is kept.
+- **Observability:** the signals that show the system works and the alerts that show it does not.
+- **Migration and rollback:** how a change to a live interface or stored data is rolled out and reversed.
 
 ### Alternatives considered
 
@@ -84,7 +77,7 @@ For each credible option, state its advantage first and then the reason it loses
 
 ### Test plan or pre-launch evaluation
 
-How the team will know the design works before launch: the tests or evaluation, the data or traffic they run on, the signal that decides launch, and how a failure would be detected after launch. Name the release criterion, not just the activities.
+How the team will know the design works before launch: the tests or evaluation, the data or traffic they run on, the signal that decides launch, and how a failure would be detected after launch. Name the release criterion, not just the activities. When quality is measured, as for a learned model, state the metric, any decision threshold with its reason, and the evaluation data's source and size; every number keeps its measuring conditions.
 
 ### Milestones
 
