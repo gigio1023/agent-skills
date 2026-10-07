@@ -8,7 +8,8 @@ description: >
   account-state export", "Toss market context", and "read my Toss investment
   status". NOT for investment advice, portfolio decisions, automatic trading,
   broker order creation/modification/cancelation, credential storage, or
-  tax/legal conclusions; use investment-decision-support for judgment.
+  tax/legal conclusions; leave judgment to a decision-support skill when one
+  is installed.
 ---
 
 # Toss Portfolio State
@@ -35,7 +36,7 @@ bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file .e
 
    CLI flags override the explicit env file, which overrides process environment. The default origin is the official HTTPS host.
 
-5. Hand the normalized JSON to the requesting workflow. For `investment-decision-support`, treat it as a temporary personal-state input unless the user explicitly approves a durable state update.
+5. Hand the normalized JSON to the requesting workflow. When that workflow is a separately installed decision-support skill, such as the owner's private `investment-decision-support` (not part of this pack), treat the JSON as a temporary personal-state input unless the user explicitly approves a durable state update.
 
 Keep the requested mode and window or documented defaults. Refetch only for needed freshness or an unresolved required field, not to enrich a summary.
 

@@ -4,7 +4,7 @@ Use this reference when the target is Codex or when translating a goal into or o
 
 ## Current Contract
 
-Codex Goal mode attaches a persistent objective to the active chat and automatically continues work toward it. The objective becomes both the first prompt and the completion criteria. Current public guidance recommends three core elements when they apply:
+Codex Goal mode attaches a persistent objective to the active chat and automatically continues work toward it. Users start it with `/goal` in the ChatGPT desktop app, an interactive Codex CLI session, or the IDE extension. The objective becomes both the first prompt and the completion criteria. Current public guidance recommends three core elements when they apply:
 
 - outcome: the result that should exist;
 - constraints: required boundaries, compatibility needs, or approaches to avoid;
@@ -12,7 +12,7 @@ Codex Goal mode attaches a persistent objective to the active chat and automatic
 
 The objective must be non-empty and no longer than 4,000 characters. Put longer supporting detail in a file and point the objective to it. Keep the terminal outcome and decisive verification in the objective itself.
 
-Goal mode does not expand sandbox, approval, network, or tool permissions. A goal can still pause for a decision or unavailable authority.
+Goal mode does not expand sandbox, approval, network, or tool permissions. A goal can still pause for a decision or unavailable authority. In the app, a progress row pauses, resumes, edits, or clears the goal, and follow-up messages steer it while it runs. Through the App Server, a new objective replaces the goal and resets its usage accounting.
 
 ## Draft Shape
 

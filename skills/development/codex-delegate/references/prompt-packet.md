@@ -11,7 +11,7 @@ The following example delegates implementation judgment to Astra. The command an
 ```markdown
 Fix empty-input parsing in src/parser.py. The accepted behavior is parse("") == []. Preserve the public function signature and all other documented input behavior. Done means the focused parser suite passes and the diff contains only changes needed for this behavior.
 
-Read the repository instructions and tests/test_parser.py. Investigate and implement the fix. You may edit the parser and add a regression case for the accepted behavior; preserve unrelated changes. Run python -m pytest tests/test_parser.py -q. If fixing this requires an API change, explain the concrete dependency before crossing that boundary.
+Read the repository instructions and tests/test_parser.py. Investigate and implement the fix. You may edit the parser and add a regression case for the accepted behavior; preserve unrelated changes. Run python -m pytest tests/test_parser.py -q. Expected duration is about 15 minutes; keep your edits in the workspace as you go so the diff shows progress. If fixing this requires an API change, explain the concrete dependency before crossing that boundary.
 
 This is local work. Do not publish or change dependencies. Use internal subagents only if an independent check would help; follow gpt6-astra-model-routing for model selection. Return the result, changed paths, actual check outcome, and any unresolved limitation as the final response. The CLI captures that response as report.md; place task deliverables outside the run directory.
 ```
@@ -32,6 +32,9 @@ This is local work. Do not publish or change dependencies. Use internal subagent
 
 # Internal delegation
 Use supported internal subagents when independent work benefits from isolated context. Consult gpt6-astra-model-routing before spawning. Default judgment-bearing children to Astra. Sol 6.1 requires fixed inputs, procedure, output, and mechanical acceptance. Descendants inherit this mission's limits. Integrate their evidence and settle active children before the final response.
+
+# Expected duration and progress
+[Estimate from the mission's size, such as 40 minutes.] Write progress to [a workspace notes file or the deliverable path] as you go, or keep edits in the workspace so the diff grows. Do not use report.md for progress.
 
 # Evidence and handoff
 [Required checks or evidence criteria, appropriate to the outcome.]
