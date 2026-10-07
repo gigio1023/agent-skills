@@ -81,7 +81,7 @@ op run --env-file=.env -- npm test
 op inject -i config.yml.tpl -o config.yml
 ```
 
-If a command can consume the value directly, do that instead of returning it to chat. `op run` masks matching output by default; do not disable masking unless visible plaintext is explicitly required.
+If a command can consume the value directly, do that instead of returning it to chat. `op run` masks matching output by default, but masking is best effort and does not guarantee concealment; do not disable it unless visible plaintext is explicitly required.
 
 ### Create or Edit
 

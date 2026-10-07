@@ -20,6 +20,7 @@ Reviewed 2026-09-23.
 ## Observations
 
 - 2026-09-23, Claude Code 2.1.280 on macOS, observed from inside one Opus 5.5 session: the system prompt carried a `<pasted_content>` note equivalent to the official one, and the harness appended a one-line silence reminder several times during long tool-calling stretches. These are single-session observations, not documented guarantees.
+- 2026-10-07, Claude Code 2.1.292: the bundled input schema still describes wrapping pasted text in `<pasted_content>` tags. The silence reminder was not re-observed. Ultracode, the Agent tool's `effort` argument, and the default spawn depth were updated from the changelog and documentation.
 
 ## Interpretation Limits
 

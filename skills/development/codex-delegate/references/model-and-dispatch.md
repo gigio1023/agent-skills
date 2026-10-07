@@ -20,7 +20,7 @@ The launcher passes model and `model_reasoning_effort` explicitly. A resume pres
 
 New runs use `--fast-requested no`, which records `tier=default`. An explicit Fast request permits `yes`, which records `tier=priority`. The assertion records the host's authorization decision; the script cannot verify a conversation it does not receive. Resume may preserve the grant for the same mission. A legacy source with no assertion defaults to `no`.
 
-The current [configuration reference](https://developers.openai.com/codex/config-reference) describes `fast` as mapping to request tier `priority`. Requested settings in provenance are not a server receipt. Inspect CLI warnings when availability matters and report an unsupported tier rather than claiming it was applied. Service tier does not change the selected reasoning effort.
+The current [configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference) describes `fast` as mapping to request tier `priority`. Requested settings in provenance are not a server receipt. Inspect CLI warnings when availability matters and report an unsupported tier rather than claiming it was applied. Service tier does not change the selected reasoning effort.
 
 ## Internal subagents
 
@@ -50,4 +50,4 @@ A separate process session keeps Codex outside the launching command's process g
 
 Historical package checks on CLI 0.145.0 observed a detached run surviving its launching command and a SIGINT-interrupted thread retaining context on resume. Current deterministic fixtures exercise the wrapper lifecycle. Neither establishes every host's process cleanup behavior or current model performance. A host that kills all descendants or containers may require its supported durable-job mechanism.
 
-CLI help was inspected on 0.159.3 on 2026-10-06. [Non-interactive mode](https://developers.openai.com/codex/noninteractive) documents JSONL events, output capture, and explicit-session resume. The [GPT-6 instruction guidance](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) supports outcome-led prompts and conditional scaffolding; the local mission and authority contract remains this skill's responsibility.
+CLI help was inspected on 0.159.3 on 2026-10-06. [Non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode) documents JSONL events, output capture, and explicit-session resume. The [GPT-6 instruction guidance](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) supports outcome-led prompts and conditional scaffolding; the local mission and authority contract remains this skill's responsibility.

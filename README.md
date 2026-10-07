@@ -12,7 +12,7 @@ Each skill follows the [Agent Skills format](https://agentskills.io/): a `SKILL.
 
 ## Install with `npx skills`
 
-Prerequisite: Node.js 18 or newer.
+Prerequisite: Node.js 22.20 or newer, as Skills CLI 1.7 declares.
 
 Browse the pack:
 

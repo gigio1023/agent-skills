@@ -29,14 +29,16 @@ Bad examples:
 ## Inline Comment Format
 
 ````markdown
-{what is wrong and why. Name the concrete fix or alternative in prose.}
+- {The problem, in one sentence.}
+- {The impact: what breaks, for whom, or under which input, in one sentence.}
+- {The fix or alternative, in one sentence.}
 
 ```suggestion
 {code, optional}
 ```
 ````
 
-Do not add a title line. Do not use arrows or bold labels. Inline comments should usually be 1-3 sentences, plus a suggestion block only when the fix is a small line-level replacement.
+Write two or three bullets in that order, one sentence each. Drop the impact bullet when the problem sentence already shows the consequence, or the fix bullet when a suggestion block carries the fix; keep at least two bullets. The order gives each bullet its role, so do not add a title line, bold labels such as `**Issue:**`, or arrows. Add a suggestion block only when the fix is a small line-level replacement. A pure question or a one-line nit in the repo's own `Nit:` style may stay a single line.
 
 ## Review Body
 

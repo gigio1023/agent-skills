@@ -1,6 +1,6 @@
 ---
 name: sonnet-collector
-description: Mechanical collection on Sonnet 5 at xhigh. Inventory files or symbols, run a documented check and report its output, fetch named pages, or aggregate structured results. Not for judgment.
+description: Mechanical collection on Sonnet 5.5 at xhigh. Inventory files or symbols, run a documented check and report its output, fetch named pages, or aggregate structured results. Not for judgment.
 model: sonnet
 effort: xhigh
 ---

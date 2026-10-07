@@ -48,7 +48,7 @@ Escalate only on a named trigger: a second entry point or importer, a rule worth
 
 ## Manage the project with uv
 
-Use uv's project workflow for setup and dependency changes: `pyproject.toml`, `uv.lock`, `uv add`, `uv sync`, `uv run`. `pip install` and `uv pip install` are not routine setup, a shortcut, or a retry after failed resolution; an exceptional environment needs a concrete reason and a reproducible dependency record. A new project starts on CPython's current bugfix line (3.14 as of 2026-09-29), or one line older when a dependency lags; 3.12 is the syntax floor for `type` aliases and type parameters, not a baseline. Keep runtime dependencies and development groups distinct. Read [project environment](references/project-environment.md) when setting up Python, changing dependencies, or arranging groups.
+Use uv's project workflow for setup and dependency changes: `pyproject.toml`, `uv.lock`, `uv add`, `uv sync`, `uv run`. `pip install` and `uv pip install` are not routine setup, a shortcut, or a retry after failed resolution; an exceptional environment needs a concrete reason and a reproducible dependency record. A new project starts on CPython's current bugfix line (3.14 as of 2026-10-07; 3.15.0 was still at release candidate 3), or one line older when a dependency lags; 3.12 is the syntax floor for `type` aliases and type parameters, not a baseline. Keep runtime dependencies and development groups distinct. Read [project environment](references/project-environment.md) when setting up Python, changing dependencies, or arranging groups.
 
 ## Types and data boundaries
 

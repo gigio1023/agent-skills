@@ -41,7 +41,7 @@ Before each spawn, read the packet and answer three questions: can a worker judg
 ### Effort and delegation
 
 - Preserve the user's selected effort or the effective session effort for Fable workers when supported. Do not lower it merely because Fable is a subagent. The Fable role assets inherit session effort.
-- Opus 5.5, Opus 5, and Sonnet 5 retain this pack's `xhigh` default. Honor an explicit user choice and verify the actual harness support.
+- Opus 5.5, Opus 5, Sonnet 5.5, and Sonnet 5 retain this pack's `xhigh` default, although Claude Code starts Opus 5.5 and Sonnet 5.5 at `medium` when nothing sets a level. Honor an explicit user choice and verify the actual harness support.
 - Models without effort control, such as Haiku 4.5, remain explicit-request mechanical routes.
 - Runtime modes that change delegation behavior require the current harness contract; an effort name is not portable between providers.
 
@@ -59,8 +59,8 @@ The `agent_type` names are the subagent definitions in `assets/agents/`; the ada
 
 | Tier | Default route | Alternatives |
 |------|---------------|--------------|
-| Mechanical collection | `sonnet-collector`: Sonnet 5 at `xhigh` | A qualifying Sol 6.1 mechanical packet; `haiku-collector` on explicit request |
-| Bounded execution, collection or research with citations | `sonnet-researcher`: Sonnet 5 at `xhigh` | `opus-builder` |
+| Mechanical collection | `sonnet-collector`: Sonnet 5.5 at `xhigh`, through the `sonnet` alias | A qualifying Sol 6.1 mechanical packet; `haiku-collector` on explicit request |
+| Bounded execution, collection or research with citations | `sonnet-researcher`: Sonnet 5.5 at `xhigh`, through the `sonnet` alias | `opus-builder` |
 | Bounded execution, coding | `opus-builder`: Opus 5.5 at `xhigh`, through the `opus` alias | `fable-builder`: Fable at the selected session effort; GPT Astra when a GPT worker is wanted |
 | Judgment-adjacent support | `fable-reviewer`: Fable at the selected session effort | Opus 5.5 at `xhigh` when the user wants a different model on the check |
 | Judgment core | The lead | Not delegated |
