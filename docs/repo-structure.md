@@ -1,6 +1,6 @@
 # Repository Structure
 
-The README presents the bundled skills in task-oriented categories. Bundled source paths use `skills/development/` and `skills/productivity/`. The Skills CLI tracks exact source paths for updates; the explicit cross-repository moves in [migration.md](migration.md) require a source refresh. Catalog regrouping alone does not move a package.
+The README presents the bundled skills in task-oriented categories. Bundled source paths use `skills/development/` and `skills/productivity/`; packages imported from gigio-pack and research-credo use `skills/minimal/` and `skills/additional/` until a follow-up change moves the rest into those install sets. The Skills CLI tracks exact source paths for updates; the explicit cross-repository moves in [migration.md](migration.md) require a source refresh. Catalog regrouping alone does not move a package.
 
 Installation has one owner: [`npx skills`](https://github.com/vercel-labs/skills). The CLI discovers the pack, records remote-source metadata, and manages the destinations for explicitly selected agents. This repository does not carry per-harness installation adapters.
 

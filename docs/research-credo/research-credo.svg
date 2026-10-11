@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 328" width="720" height="328" role="img" aria-labelledby="title desc">
+  <title id="title">How the research-credo skills work together</title>
+  <desc id="desc">Research gathers and preserves sources for critical reading. Evidence and a chosen research direction inform the paper plan, followed by release checks on the author's draft. The journal records predictions and informs later decisions through reflection.</desc>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse" overflow="visible">
+      <path d="M1 1 L7 4 L1 7" fill="none" stroke="#0D0D0D" stroke-width="1.2"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse" overflow="visible">
+      <path d="M1 1 L7 4 L1 7" fill="none" stroke="#929591" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <style>
+    .entity { font-family: "IBM Plex Mono", Menlo, monospace; font-size: 14px; fill: #0D0D0D; text-anchor: middle; }
+    .edge { font-family: "IBM Plex Mono", Menlo, monospace; font-size: 12px; fill: #0D0D0D; text-anchor: middle; }
+    .note { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 12px; fill: #0D0D0D; }
+    .ko { font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+    .box { fill: #FFFFFF; stroke: #0D0D0D; stroke-width: 1.2; }
+    .box-accent { fill: #EAF1FE; stroke: #2E4780; stroke-width: 1.2; }
+    .box-muted { fill: #EEEEEE; stroke: #CCCCCC; stroke-width: 1.2; }
+    .flow { fill: none; stroke: #0D0D0D; stroke-width: 1.2; }
+    .flow-secondary { fill: none; stroke: #929591; stroke-width: 1.2; stroke-dasharray: 2 2; }
+  </style>
+  <rect width="720" height="328" fill="#FFFFFF"/>
+  <g id="research">
+    <rect class="box" x="24" y="24" width="168" height="64" rx="16"/>
+    <text class="entity" x="108" y="61">Research</text>
+  </g>
+  <g id="read-then-forget">
+    <rect class="box-accent" x="272" y="24" width="168" height="64" rx="16"/>
+    <text class="entity" x="356" y="61">Read critically</text>
+  </g>
+  <g id="paper-plan">
+    <rect class="box-accent" x="520" y="24" width="176" height="64" rx="16"/>
+    <text class="entity" x="608" y="61">Plan the paper</text>
+  </g>
+  <g id="journal">
+    <rect class="box" x="24" y="240" width="168" height="64" rx="16"/>
+    <text class="entity" x="108" y="277">Journal</text>
+  </g>
+  <g id="taste">
+    <rect class="box-accent" x="272" y="240" width="168" height="64" rx="16"/>
+    <text class="entity" x="356" y="277">Choose direction</text>
+  </g>
+  <g id="release">
+    <rect class="box" x="520" y="240" width="176" height="64" rx="16"/>
+    <text class="entity" x="608" y="277">Check release</text>
+  </g>
+  <g id="research-to-reading">
+    <path class="flow" d="M192 56 H271" marker-end="url(#arrow-ink)"/>
+  </g>
+  <g id="reading-to-plan">
+    <path class="flow" d="M440 56 H519" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="480" y="44">evidence</text>
+  </g>
+  <g id="taste-to-plan">
+    <path class="flow" d="M356 240 V160 H564 V89" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="460" y="150">one idea</text>
+  </g>
+  <g id="plan-to-release">
+    <path class="flow" d="M656 88 V239" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="610" y="150">author's<tspan x="610" dy="16">draft</tspan></text>
+  </g>
+  <g id="taste-to-journal">
+    <path class="flow" d="M272 258 H193" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="232" y="250">predict</text>
+  </g>
+  <g id="journal-to-taste">
+    <path class="flow-secondary" d="M192 284 H271" marker-end="url(#arrow-muted)"/>
+    <text class="edge" x="232" y="300">reflect</text>
+  </g>
+</svg>

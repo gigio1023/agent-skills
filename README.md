@@ -2,9 +2,9 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 30 specialized, reusable Agent Skills for working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 49 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
-For continuity across sessions, models, and agent harnesses, use [gigio-pack](https://github.com/gigio1023/gigio-pack): project intent, plans, execution, review, and handoff. This repository supplies focused capabilities for the work itself. Each skill can be used independently; ordinary tasks need not start a project workflow.
+The skills of [gigio-pack](https://github.com/gigio1023/gigio-pack) and [research-credo](https://github.com/gigio1023/research-credo) are being absorbed into this pack. Imported packages live under `skills/minimal/` and `skills/additional/`; the remaining packages move there in a follow-up change. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/): a `SKILL.md` plus any colocated references, scripts, and assets. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills), then update from the tracked source.
 
@@ -79,6 +79,8 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 - [Design and Visualization](#design-and-visualization) (3)
 - [Writing and Language](#writing-and-language) (3)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (4)
+- [Research and Evaluation](#research-and-evaluation) (11)
+- [Project Continuity and Discovery](#project-continuity-and-discovery) (8)
 
 ### Software Development and Delivery
 
@@ -135,6 +137,35 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [reddit-search](skills/productivity/reddit-search/) | Find Reddit threads and read full comment trees through the Arctic Shift archive, since Reddit blocks agent fetches |
 | [toss-portfolio-state](skills/development/toss-portfolio-state/) | Export a read-only Toss Invest portfolio and market-context snapshot |
 
+### Research and Evaluation
+
+| Skill | What it helps with |
+| --- | --- |
+| [literature-research](skills/minimal/literature-research/) | Read a paper for a purpose, check prior art for a claim, survey open models or datasets at pinned revisions, and preserve sources |
+| [ml-experiment](skills/minimal/ml-experiment/) | Design, run, or interpret training, adaptation, serving, or reproduction experiments and their training data |
+| [evaluation-design](skills/minimal/evaluation-design/) | Design what an eval measures: failure modes, cases and labels, code checks, judges and their validation, comparison conditions |
+| [evaluation-audit](skills/minimal/evaluation-audit/) | Give a launch, hold, or report verdict on a built eval, judge, harness, scoring change, or result |
+| [evaluation-operations](skills/minimal/evaluation-operations/) | Operate approved evaluation campaigns with durable attempt and result records |
+| [internal-source-research](skills/minimal/internal-source-research/) | Reconstruct work context from authorized internal sources |
+| [praxis-direction](skills/minimal/praxis-direction/) | Sharpen an agenda into one bet, run the failure-mode pass on a new system, or set up and audit the praxis profile |
+| [credo-taste](skills/additional/credo-taste/) | Choose a research direction, decide whether to continue, pivot, or stop, or judge whether a work result could become a paper |
+| [credo-paper-plan](skills/additional/credo-paper-plan/) | Plan the argument, claim-evidence map, closest prior work, and figures; critique a draft; plan the response to peer reviews |
+| [credo-journal](skills/additional/credo-journal/) | Record research ideas, predictions, and hindsight |
+| [credo-release](skills/additional/credo-release/) | Check a paper before submission or release |
+
+### Project Continuity and Discovery
+
+| Skill | What it helps with |
+| --- | --- |
+| [find-unknowns](skills/minimal/find-unknowns/) | Resolve consequential gaps before expensive work |
+| [deep-interview](skills/minimal/deep-interview/) | Interview when sustained requirements discovery is explicitly wanted |
+| [gigio-write-plan](skills/minimal/gigio-write-plan/) | Detail the work needed for the next decision |
+| [gigio-execute-plan](skills/minimal/gigio-execute-plan/) | Execute, interpret findings, and continue within the established grant |
+| [gigio-review-results](skills/minimal/gigio-review-results/) | Assess progress and whether the next decision is supported |
+| [session-handoff](skills/minimal/session-handoff/) | Write one file a successor executes: current state, next actions, and questions for the user |
+| [curate-terminology](skills/minimal/curate-terminology/) | Settle contested names from project, paper, and competitor usage and record them with sources |
+| [use-terminology](skills/minimal/use-terminology/) | Apply recorded terms, local names, and wording decisions |
+
 ## Writing, documents, and dashboards
 
 Use `copydesk` as the document-authoring entry point in the requested language and medium. It distinguishes new writing, local corrections, and broader rewrites, preserves evidence and meaning, and chooses prose, tables, or figures for the reader's question. Its English clarity guidance draws useful principles from STE without imposing word counts, a fixed dictionary, or English sentence rules on Korean. It also provides shared writing principles for PRs, issues, and Notion pages; their specialist skills own structure and publication, and `write-notion` covers Notion page layout and editing mechanics. Use `insight-dashboard` for analytical or operational data views and selection-dependent values and explanations. For shadcn/ui implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) directly. PDF and editable documents can use native production tools.
@@ -149,8 +180,8 @@ These repositories are independently versioned and not included when this pack i
 
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
-| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and delivery workflows | Preserve intent, plans, actual results, and handoff across sessions and harnesses |
-| [Research Credo](https://github.com/gigio1023/research-credo) | Research methods, internal source reconstruction, and evaluation operations | Investigate, experiment, train, build and review data or benchmarks, and interpret findings |
+| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and discovery workflows | Being absorbed into this pack; skills imported on 2026-10-12 from `3b206a1`, except `gigio-project-setup` |
+| [Research Credo](https://github.com/gigio1023/research-credo) | Research methods and evaluation | Being absorbed into this pack; all eleven skills imported on 2026-10-12 from `6217cd0` |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
 | [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing`, `korean-clarity` | Merged into `copydesk`; the repository was archived on 2026-09-24 and remains the MIT license source |
 | [Gigio Figures](https://github.com/gigio1023/gigio-figures) | `technical-figure`, `eli5-figure`, `drawio-diagram` | Planned figure sets for technical documents (mechanism diagrams, geometry, grids, and charts on one visual grammar, rendered and linted in light and dark), deliberately simple figures on request, and native editable draw.io authoring |
