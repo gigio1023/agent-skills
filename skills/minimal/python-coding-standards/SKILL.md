@@ -10,7 +10,7 @@ description: >
   models, explicit annotations including locals, and uv. NOT for a standalone
   formatting command, generated code unless explicitly in scope, non-Python
   documentation, or starting a plan or audit merely because Python files
-  exist; gigio-review-results owns comparison of finished work against project
+  exist; the review mode of work-plan owns comparison of finished work against project
   intent.
 ---
 

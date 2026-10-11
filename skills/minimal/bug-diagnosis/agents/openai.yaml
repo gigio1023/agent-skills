@@ -1,0 +1,3 @@
+interface:
+  display_name: "Bug Diagnosis"
+  short_description: "Find and verify the root cause of a failure"

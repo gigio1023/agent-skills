@@ -79,3 +79,18 @@ Bundled packages moved from `skills/development/` and `skills/productivity/` int
 
 The Skills CLI tracks each installed package by repository and path, so `skills update` does not follow the move. During a separately requested refresh, use `install-skill-pack` with an explicit mapping from each installed name and tracked source to its new path, install the new paths by name, verify tracked metadata and harness destinations, and only then remove packages still attributed to retired sources.
 
+## Merges, renames, and new skills on 2026-10-12
+
+| Former names | Current name | Set | Change |
+| --- | --- | --- | --- |
+| `gigio-write-plan`, `gigio-execute-plan`, `gigio-review-results`, `gigio-project-setup` | `work-plan` | minimal | Three modes, each opened only on request; project continuity moves into a conditional reference; old plan files keep working |
+| `deep-interview` | `interview` | minimal | Independent questions asked together in rounds; measurement questions become investigation items |
+| `use-terminology`, `curate-terminology` | `terminology` | minimal | Read-only lookup first, curation only for gaps, disputes, or requests |
+| `fable5-model-routing`, `gpt6-astra-model-routing` | `model-routing` | minimal | Dispatcher over two unchanged family policies; agent and role files keep their models and effort |
+| `fable5-prompting-guide`, `opus5-prompting-guide`, `gpt6-prompting-guide` | `prompting-guide` | minimal | Dispatcher over three unchanged family guides |
+| `cross-harness-skills` | `skill-builder` | minimal | Absorbed as conditional references |
+
+New in the minimal set: `design-exploration`, `idea-critique`, `design-doc`, and `bug-diagnosis`. `literature-research` gains a mechanism-map mode, and `find-unknowns` is realigned to scan broadly for what neither side has noticed, lead with its own view, and ask the consequential questions together. The writing profile's "First screen" heading is now "Opening". Concepts adapted from mattpocock/skills (MIT, `49dd158`) are rewritten and credited in each skill's source notes.
+
+Each description names its former names once, so requests that use them still route. Installed copies under the former names are not updated by `skills update`; during a requested refresh, install the current names, verify them, then remove the former names. Codex role files and agent definitions already installed from the routing skills keep working, but their text names the former routing skill until they are reinstalled.
+

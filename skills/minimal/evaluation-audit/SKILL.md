@@ -7,7 +7,7 @@ description: >
   current revisions: oracle and null passes, the served model, data and labels,
   grader errors, sampled trajectories, denominators. NOT for designing an eval
   (evaluation-design), operating runs (evaluation-operations), or finding code
-  bugs.
+  bugs (bug-diagnosis).
 ---
 
 # Evaluation Audit

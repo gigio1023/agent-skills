@@ -32,7 +32,7 @@ Choose the execution primitive by task shape:
 
 Treat model assignment as part of orchestration design. Choose the model and reasoning effort per subagent before spawning, then include the assignment in the packet or setup step when the harness supports it.
 
-Keep runtime mechanics separate from model policy. For GPT workers, read `gpt6-astra-model-routing` before dispatch. It defaults to Astra and limits Sol 6.1 to very easy deterministic work. For Anthropic workers, preserve `fable5-model-routing` or another explicitly selected Anthropic policy. A task's volume or read-only status does not choose its model.
+Keep runtime mechanics separate from model policy. For GPT workers, read the GPT policy in `model-routing` before dispatch. It defaults to Astra and limits Sol 6.1 to very easy deterministic work. For Anthropic workers, preserve the Fable policy in `model-routing` or another explicitly selected Anthropic policy. A task's volume or read-only status does not choose its model.
 
 Separate collection and judgment in the packet:
 

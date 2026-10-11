@@ -4,7 +4,7 @@ Verified against current Claude Code on this machine. CLI and desktop-app-launch
 
 ## Storage
 
-- Transcripts: `~/.claude/projects/<project-dir>/<session-uuid>.jsonl`, one JSON object per line. `<project-dir>` is the session cwd with `/` and `.` replaced by `-` (e.g. `-Users-suungho-park-git-personal-agent-skills-orch`). Reversing the dash encoding is ambiguous — read the `cwd` field from a record instead.
+- Transcripts: `~/.claude/projects/<project-dir>/<session-uuid>.jsonl`, one JSON object per line. `<project-dir>` is the session cwd with `/` and `.` replaced by `-` (e.g. `-Users-alex-code-sample-project`). Reversing the dash encoding is ambiguous — read the `cwd` field from a record instead.
 - Prompt history: `~/.claude/history.jsonl` with `{"display","timestamp","project","sessionId"}` per prompt — maps remembered fragments to session ids.
 - Desktop app metadata: `~/Library/Application Support/Claude/claude-code-sessions/<org-uuid>/<user-uuid>/local_<uuid>.json` per session, carrying `sessionId` (the `local_*` id), **`cliSessionId`** (the `.jsonl` filename uuid), `cwd`, `title`, `titleSource`, `createdAt`, `lastActivityAt`, `model`, `isArchived`. This is the best title source for desktop sessions.
 - `~/.claude/sessions/` is live IPC metadata, not transcripts. The Electron Local Storage leveldb is UI state, not a clean transcript source. claude.ai-side conversations live server-side; resume locally needs the id or URL, and local JSONL remains the reliable read source.

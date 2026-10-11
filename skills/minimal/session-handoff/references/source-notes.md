@@ -15,4 +15,4 @@ Users start a successor with the handoff path alone. A path to a Markdown file w
 
 ## Questions Borrowed From find-unknowns
 
-The Questions for the User table applies the find-unknowns mini-interview rules without requiring that skill: ask only what would change the work, never ask what inspection can settle, offer concrete options with a recommended default, and record what happens without an answer instead of treating silence as consent.
+The Questions for the User table applies the find-unknowns question rules without requiring that skill: ask only what would change the work, never ask what inspection can settle, offer concrete options with a recommended default, and record what happens without an answer instead of treating silence as consent.

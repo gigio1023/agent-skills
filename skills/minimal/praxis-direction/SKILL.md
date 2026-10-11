@@ -22,7 +22,7 @@ The gate runs on a request: the user asks for a bet, or choosing what to pursue 
 
 ## The profile
 
-Read the organization's praxis profile before asking anything it already answers. Resolve it in this order: a path named in the project's `AGENTS.md` or `PROJECT.md`; otherwise `praxis-profile.md` found by walking up from the working directory; otherwise none. State the resolved path once.
+Read the organization's praxis profile before asking anything it already answers. Resolve it in this order: a path named in the project's instruction file (`AGENTS.md` or `CLAUDE.md`) or another project record; otherwise `praxis-profile.md` found by walking up from the working directory; otherwise none. State the resolved path once.
 
 Without a profile, run the gate with the generic questions, mark the closing block `profile: none`, and offer the setup below once. Do not block on the missing file.
 
@@ -55,13 +55,13 @@ This is analysis. Do not run attacks, query production systems adversarially, or
 
 ## Set up or audit the profile
 
-Run this only when the user asks for setup or audit, or accepts the offer above. Resolve the target from a path the user names, then a path named in `AGENTS.md` or `PROJECT.md`, then `praxis-profile.md` at the workspace root. If the file exists, audit it instead of interviewing again.
+Run this only when the user asks for setup or audit, or accepts the offer above. Resolve the target from a path the user names, then a path named in the project's instruction file or another project record, then `praxis-profile.md` at the workspace root. If the file exists, audit it instead of interviewing again.
 
 Before writing, check where the file will land. Refuse a path inside an installed skill directory. If the workspace's Git remote points at a public host and the target is not ignored, say so and offer an ignored path or a private location: the profile names customers, budgets, and people. Do not edit `.gitignore` without asking.
 
 Read [references/profile-template.md](references/profile-template.md) for the fields and a synthetic example. Ask one field per turn in the template's order, skip a field the workspace's documents already answer, and cite where the answer came from. Record what the user says, not what the agent would prefer; a field the user cannot answer yet is written as `undecided` with the date. Keep the profile within about forty lines: one line per outcome, one row per tier, expert role, and dataset. Refer to people by role unless the user wants names.
 
-Write the file, then add one line naming its path to `AGENTS.md` or `PROJECT.md`, for example `Praxis profile: praxis-profile.md`, without restructuring that file. Report the path and the fields left undecided.
+Write the file, then add one line naming its path to the project's instruction file (`AGENTS.md` or `CLAUDE.md`), for example `Praxis profile: praxis-profile.md`, without restructuring that file. Report the path and the fields left undecided.
 
 On an audit, compare each field with the current facts the user or the workspace supplies and append a dated line under each changed field rather than rewriting history; the gate reads the latest line. Flag a tier, threshold, or dataset that no longer exists, and never remove past values. Setup does not run the gate, create plans, or record predictions.
 

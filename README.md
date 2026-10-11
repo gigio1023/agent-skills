@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
 
-A personal collection of 49 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 46 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 The skills of [gigio-pack](https://github.com/gigio1023/gigio-pack) and [research-credo](https://github.com/gigio1023/research-credo) are being absorbed into this pack. Packages are grouped into two install sets: `skills/minimal/` is the default install and `skills/additional/` is installed on request. A set decides availability only; each skill's description and invocation settings still decide when it runs. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
@@ -44,7 +44,7 @@ npx --yes skills add 'https://github.com/gigio1023/agent-skills/tree/main/skills
 
 Use `skills/additional` the same way for the on-request set, or name individual skills as above.
 
-Install all 49 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 46 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/agent-skills#main' \
@@ -86,13 +86,13 @@ npx --yes skills list --global
 
 The catalog is organized by the job to be done, not by the agent that runs it.
 
-- [Software Development and Delivery](#software-development-and-delivery) (6)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (14)
+- [Software Development and Delivery](#software-development-and-delivery) (7)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (10)
 - [Design and Visualization](#design-and-visualization) (3)
 - [Writing and Language](#writing-and-language) (3)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (4)
-- [Research and Evaluation](#research-and-evaluation) (11)
-- [Project Continuity and Discovery](#project-continuity-and-discovery) (8)
+- [Research and Evaluation](#research-and-evaluation) (14)
+- [Project Continuity and Discovery](#project-continuity-and-discovery) (5)
 
 ### Software Development and Delivery
 
@@ -104,6 +104,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [draft-pr](skills/minimal/draft-pr/) | minimal | Publish or update an actual pull request |
 | [write-issue](skills/minimal/write-issue/) | minimal | Write and consolidate tracker issues around useful outcomes, with enough context to act and sources readers can open |
 | [python-coding-standards](skills/minimal/python-coding-standards/) | minimal | Write, structure, and document maintainable Python: project shape, function and module boundaries, Pydantic models, uv, docstrings, and checks |
+| [bug-diagnosis](skills/minimal/bug-diagnosis/) | minimal | Find and verify the root cause of a code or system failure, with an evidence-limited path when no reproduction loop exists |
 
 ### Agent and Harness Engineering
 
@@ -111,18 +112,14 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | --- | --- | --- |
 | [cursor-cli-delegation](skills/additional/cursor-cli-delegation/) | additional | Explicitly delegate planning, research, implementation, or review through direct Cursor CLI calls with task-specific options and session follow-ups |
 | [codex-delegate](skills/additional/codex-delegate/) | additional | Delegate complete tasks from a non-Codex host to Astra with durable launch, resume, cancellation, and verified handoff |
-| [cross-harness-skills](skills/minimal/cross-harness-skills/) | minimal | Build and audit one portable skill for Claude Code and Codex while isolating harness adapters |
-| [fable5-prompting-guide](skills/minimal/fable5-prompting-guide/) | minimal | Write and migrate prompt stacks specifically for Claude Fable 5 and Fable 5.1 |
 | [goal-prompting](skills/additional/goal-prompting/) | additional | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts |
-| [gpt6-prompting-guide](skills/minimal/gpt6-prompting-guide/) | minimal | Design GPT-6 Astra and Sol prompts, skills, and repository instructions while keeping GPT-6.1 Sol and legacy runtime contracts distinct |
-| [opus5-prompting-guide](skills/minimal/opus5-prompting-guide/) | minimal | Write and migrate Claude Opus 5.5 and Opus 5 prompt stacks, putting each fix in prompt text, request settings, the agent loop, or a tool |
 | [install-skill-pack](skills/minimal/install-skill-pack/) | minimal | Review and globally install skills from a selected Git repository, branch, or commit |
-| [skill-builder](skills/minimal/skill-builder/) | minimal | Turn real workflows and preferences into personal, project-local, or shared skills; audit and improve them without publishing private evidence |
+| [skill-builder](skills/minimal/skill-builder/) | minimal | Turn real workflows and preferences into personal, project-local, or shared skills, including skills that must work across Claude Code and Codex |
 | [read-agent-sessions](skills/additional/read-agent-sessions/) | additional | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
 | [orchestrate-subagents](skills/minimal/orchestrate-subagents/) | minimal | Coordinate delegated work, whether the user asked for it or the lead chose it, and synthesize its evidence |
+| [model-routing](skills/minimal/model-routing/) | minimal | Choose each subagent's model and effort from the routing policy of its model family, Fable or GPT |
+| [prompting-guide](skills/minimal/prompting-guide/) | minimal | Write, review, and migrate prompts, skills, and agent instructions for Claude Fable, Claude Opus, or GPT-6, loading only that family's guide |
 | [small-model-handoff](skills/additional/small-model-handoff/) | additional | Package a settled bounded step for a less capable executor |
-| [fable5-model-routing](skills/minimal/fable5-model-routing/) | minimal | Choose each subagent's model and effort when a Claude Fable lead delegates, in any harness with subagents, and ship the subagent definitions that make effort selectable |
-| [gpt6-astra-model-routing](skills/minimal/gpt6-astra-model-routing/) | minimal | Default GPT work to Astra; use GPT-6.1 Sol only for fixed mechanical collection and execution without interpretation |
 
 ### Design and Visualization
 
@@ -153,7 +150,10 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 | Skill | Set | What it helps with |
 | --- | --- | --- |
-| [literature-research](skills/minimal/literature-research/) | minimal | Read a paper for a purpose, check prior art for a claim, survey open models or datasets at pinned revisions, and preserve sources |
+| [design-exploration](skills/minimal/design-exploration/) | minimal | Open the design space for a model- or agent-based system before designing: a root such as the threat model or research question, mechanism material, hunches, and concepts that differ in their bet |
+| [idea-critique](skills/minimal/idea-critique/) | minimal | Steelman and attack one stated idea, then name the measurement that would decide it |
+| [design-doc](skills/minimal/design-doc/) | minimal | Write or update a design document with fixed interfaces, a test-or-eval verification split, a decision log, and an experiment queue |
+| [literature-research](skills/minimal/literature-research/) | minimal | Read a paper for a purpose, check prior art for a claim, survey open models or datasets at pinned revisions, map the mechanisms that address a problem, and preserve sources |
 | [ml-experiment](skills/minimal/ml-experiment/) | minimal | Design, run, or interpret training, adaptation, serving, or reproduction experiments and their training data |
 | [evaluation-design](skills/minimal/evaluation-design/) | minimal | Design what an eval measures: failure modes, cases and labels, code checks, judges and their validation, comparison conditions |
 | [evaluation-audit](skills/minimal/evaluation-audit/) | minimal | Give a launch, hold, or report verdict on a built eval, judge, harness, scoring change, or result |
@@ -169,14 +169,11 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 | Skill | Set | What it helps with |
 | --- | --- | --- |
-| [find-unknowns](skills/minimal/find-unknowns/) | minimal | Resolve consequential gaps before expensive work |
-| [deep-interview](skills/minimal/deep-interview/) | minimal | Interview when sustained requirements discovery is explicitly wanted |
-| [gigio-write-plan](skills/minimal/gigio-write-plan/) | minimal | Detail the work needed for the next decision |
-| [gigio-execute-plan](skills/minimal/gigio-execute-plan/) | minimal | Execute, interpret findings, and continue within the established grant |
-| [gigio-review-results](skills/minimal/gigio-review-results/) | minimal | Assess progress and whether the next decision is supported |
+| [find-unknowns](skills/minimal/find-unknowns/) | minimal | Scan broadly for what neither side has noticed, lead with a view, and ask the consequential questions together, in any domain |
+| [interview](skills/minimal/interview/) | minimal | Interview in batched question rounds until the next action is clear |
+| [work-plan](skills/minimal/work-plan/) | minimal | Write, execute, or review a plan through the next decision, each mode on request |
 | [session-handoff](skills/minimal/session-handoff/) | minimal | Write one file a successor executes: current state, next actions, and questions for the user |
-| [curate-terminology](skills/minimal/curate-terminology/) | minimal | Settle contested names from project, paper, and competitor usage and record them with sources |
-| [use-terminology](skills/minimal/use-terminology/) | minimal | Apply recorded terms, local names, and wording decisions |
+| [terminology](skills/minimal/terminology/) | minimal | Apply a project's recorded terms, and settle contested names from project, paper, and competitor usage |
 
 ## Writing, documents, and dashboards
 
@@ -227,4 +224,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 30 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 46 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
