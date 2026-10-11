@@ -1,3 +1,5 @@
+> Imported on 2026-10-12 as a source record. Current rules live in the repository root `AGENTS.md` and in the skills, and [docs/migration.md](../migration.md) maps the skill names used here to current ones. This file explains why older rules existed and does not govern work in this repository.
+
 # Research credo
 
 Guidance for work in this repository, and an optional source to adapt into a research project's instructions when the user requests setup. Installing skills alone does not activate every method or journal habit. Project preferences and records belong with the project, outside installed skill packages.

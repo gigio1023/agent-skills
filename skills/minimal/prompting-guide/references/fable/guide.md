@@ -8,12 +8,12 @@ Build prompts that give Claude Fable a clear reason, outcome, boundary, and evid
 2. Define the observable outcome, why it matters, relevant context, authority boundary, evidence, output, and completion criteria.
 3. For an existing prompt, inspect available traces or checks. Separate an observed failure from a suspected prompt cause; runtime availability alone does not authorize comparison runs.
 4. Remove repeated rules, exhaustive behavior lists, stale thinking-budget instructions, aggressive tool triggers, anti-formatting and hold-your-findings rules written for chattier models, and scaffolding for behavior Fable already performs reliably.
-5. Add brief, direct clauses only for real gaps. Use `references/fable/prompt-patterns.md` for long-run, tool, memory, and communication patterns. Use `assets/fable/prompt.template.md` for a new complex prompt.
+5. Add brief, direct clauses only for real gaps. Use [prompt patterns](prompt-patterns.md) for long-run, tool, memory, and communication patterns. Use [the prompt template](../../assets/fable/prompt.template.md) for a new complex prompt.
 6. Put effort, thinking display, timeout, fallback, compaction, history handling, and tool setup in the API or harness rather than pretending they are prompt instructions.
 7. Validate the requested artifact. When model evaluation is requested, test the same cases at the intended effort and compare outcome correctness, evidence, scope control, latency, tokens, and cost.
 8. Deliver the prompt, required runtime settings, and concise rationale. Request evidence and decisions, never a transcript of private reasoning.
 
-Read `references/fable/source-notes.md` when maintaining model-specific claims or API behavior.
+Read [source notes](source-notes.md) when maintaining model-specific claims or API behavior.
 
 ## Core Prompt Shape
 
@@ -83,7 +83,7 @@ The application must handle `stop_reason: "refusal"`, including fallback and use
 
 ## Fable 5.1 Shifts
 
-Each shift has a clause in `references/fable/prompt-patterns.md`. Delete conflicting legacy rules before adding one.
+Each shift has a clause in [prompt patterns](prompt-patterns.md). Delete conflicting legacy rules before adding one.
 
 - **Fewer progress updates during tool runs.** First make the runtime request them (`thinking.display: "updates"`), then remove hold-your-findings lines, then ask for an opening line, brief updates, and a standalone recap.
 - **One tool call per turn** in loops where the next reads are implied. Send the one-sentence batching nudge fresh each turn as a turn-scoped system message.
@@ -112,9 +112,9 @@ For a new prompt, return the final prompt plus the runtime settings and tools it
 
 | File | Read when | Content |
 | --- | --- | --- |
-| `references/fable/prompt-patterns.md` | Writing or revising a non-trivial Fable prompt | Prompt clauses, long-run scaffolding, Fable 5.1 shifts, runtime controls, migration, and failure patterns |
-| `references/fable/source-notes.md` | Maintaining model-specific claims | Official Anthropic sources, Fable 5.1 deltas, and durable translations |
-| `assets/fable/prompt.template.md` | Starting a new complex prompt | Compact fill-in prompt skeleton |
+| [prompt-patterns.md](prompt-patterns.md) | Writing or revising a non-trivial Fable prompt | Prompt clauses, long-run scaffolding, Fable 5.1 shifts, runtime controls, migration, and failure patterns |
+| [source-notes.md](source-notes.md) | Maintaining model-specific claims | Official Anthropic sources, Fable 5.1 deltas, and durable translations |
+| [prompt.template.md](../../assets/fable/prompt.template.md) | Starting a new complex prompt | Compact fill-in prompt skeleton |
 
 ## Gotchas
 

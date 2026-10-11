@@ -8,7 +8,7 @@ Keep `codex-delegate` an instruction-driven bridge from Claude Code, Cursor, and
 
 ### Evidence inspected
 
-- OpenAI Codex source at `/Users/gigio/git/codex`, commit `fe01054a28fa4bd04716d9ceadb410f2443a50ce`
+- OpenAI Codex source in a local clone, commit `fe01054a28fa4bd04716d9ceadb410f2443a50ce`
 - Installed CLI: `codex-cli 0.145.0`
 - Core agent registry, status channels, completion mailbox, app-server protocol, TUI agent feed, and `codex exec --json` event projection
 

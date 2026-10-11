@@ -98,4 +98,4 @@ Report the symptom as reported, the cause and its evidence, the hypotheses elimi
 
 ## Source
 
-The feedback-loop, reproduction-rate, ranked-hypothesis, and tagged-instrumentation ideas are adapted from the `diagnosing-bugs` skill in [mattpocock/skills](https://github.com/mattpocock/skills/tree/49dd158/skills/engineering/diagnosing-bugs) at commit 49dd158 (MIT) and rewritten here. This version replaces that skill's rule against hypotheses before a deterministic loop exists with an evidence-limited path, and it follows each project's test policy instead of requiring a regression test.
+The feedback-loop, reproduction-rate, ranked-hypothesis, and tagged-instrumentation ideas are adapted from the `diagnosing-bugs` skill in [mattpocock/skills](https://github.com/mattpocock/skills/tree/49dd158/skills/engineering/diagnosing-bugs) at commit 49dd158 (MIT License, Copyright (c) 2026 Matt Pocock) and rewritten here. This version replaces that skill's rule against hypotheses before a deterministic loop exists with an evidence-limited path, and it follows each project's test policy instead of requiring a regression test.

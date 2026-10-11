@@ -42,7 +42,7 @@ implement code, or choose a next action. Return an undefined result or mismatch
 to Astra with the raw evidence and completed actions.
 ```
 
-Use `small-model-handoff` when this executor needs a fuller command and authority contract. Prefer a script when it already performs the fixed operation.
+When this executor needs a fuller command and authority contract, use `small-model-handoff` if it is installed; otherwise write the exact commands, allowed paths, stop conditions, and return format into the packet directly. Prefer a script when it already performs the fixed operation.
 
 ## Research Packet
 

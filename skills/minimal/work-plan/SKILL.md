@@ -1,11 +1,12 @@
 ---
 name: work-plan
 description: >
-  Use only when the user explicitly asks for one of three things: to write or
-  revise a plan file for chosen work ("write a plan file for this", "revise
-  the plan"); to execute or continue a plan file or a named part of it ("run
-  the plan", "continue the plan", a plan path, a task ID); or to review
-  project work against its intent ("review this against the plan"). Plans
+  Use only when the user explicitly asks for one of four things: to write or
+  revise a plan file for chosen work ("write a plan file for this"); to
+  execute or continue a plan file or a named part ("run the plan", "continue
+  the plan", a plan path, a task ID); to review project work against its
+  intent ("review this against the plan"); or to record or audit a project's
+  durable context, such as PROJECT.md and its instruction links. Plans
   through the next decision for research, experiments, datasets, documents,
   and implementation, advances work within the user's direction and resource
   limits, and reinspects results. Formerly gigio-write-plan,
@@ -13,8 +14,7 @@ description: >
   starting because a plan file exists or work looks large, automatic
   end-of-task review, ordinary task tracking, discovery before the goal is
   clear (find-unknowns, interview), session transfer files (session-handoff),
-  design documents (design-doc), or worktree isolation alone
-  (git-worktree-setup).
+  design documents (design-doc), or worktree isolation (git-worktree-setup).
 ---
 
 # Work Plan
@@ -28,6 +28,7 @@ A plan file carries chosen work across sessions: the user's goal and limits, wha
 | Write or revise a plan; names `gigio-write-plan` | write | [references/write.md](references/write.md) |
 | Execute or continue a plan or a named part; names `gigio-execute-plan` | execute | [references/execute.md](references/execute.md) |
 | Review work against its intent; names `gigio-review-results` | review | [references/review.md](references/review.md) |
+| Record or audit durable project context without planning; names `gigio-project-setup` | context | [references/project-context.md](references/project-context.md) |
 
 Load only the reference for the requested mode. A request for two modes, such as "plan this and run it", runs them in order under the same grant without asking for the second half again. Finishing one mode does not open the next: a planning request ends at the plan, and a finished round does not start a review, a commit, or a publication.
 
@@ -48,4 +49,4 @@ Read [references/project-context.md](references/project-context.md) when the wor
 
 ## Neighbors
 
-Use `find-unknowns` for a bounded discovery pass or option map before the goal is clear, and `interview` when the user wants sustained questioning. `design-doc` owns research and system design documents; a plan that serves a design links it instead of copying it. `session-handoff` writes a transfer file a successor executes; the plan file stays the durable record of the work. `orchestrate-subagents` carries dispatch defaults for parallel workers, `git-worktree-setup` isolates implementation checkouts, and `small-model-handoff`, when installed, bounds a weaker executor on an approved plan.
+Use `find-unknowns` to surface the problems, goals, and constraints neither side has noticed before the goal is clear, and `interview` when the user wants sustained questioning. `design-doc` owns research and system design documents; a plan that serves a design links it instead of copying it. `session-handoff` writes a transfer file a successor executes; the plan file stays the durable record of the work. `orchestrate-subagents` carries dispatch defaults for parallel workers, `git-worktree-setup` isolates implementation checkouts, and `small-model-handoff`, when installed, bounds a weaker executor on an approved plan.

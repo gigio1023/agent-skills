@@ -3,7 +3,7 @@ name: idea-critique
 description: >
   Steelman and attack one stated idea, hunch, or design claim, name the
   cheapest measurement that would decide it, and record its status as
-  supported, contradicted, or unmeasured. Use when the user asks to poke holes
+  supported, contradicted, inconclusive, or unmeasured. Use when the user asks to poke holes
   in an idea, steelman it, or play devil's advocate, asks "will this work?" or
   "is this idea any good?", says "이거 될까", "반박해봐", or "약점 찾아줘", or
   when design exploration hands over a stated hunch. NOT for a broad unknowns
@@ -47,7 +47,7 @@ When the idea concerns a defense or an attack method, write the attacks in metho
 
 ## Deciding measurement
 
-Name the measurement whose outcome differs depending on whether the steelman or the strongest attack is right. A test for which both sides predict the same result decides nothing, however cheap it is. Specify what is measured, on which data, against which baseline or control, the result that would count as support, and the result that would count as contradiction. Write those predictions before anything runs, so the outcome cannot be reinterpreted afterward. Some tests can only contradict: showing that the failures the idea targets are common proves there is room for a gain, not that the idea delivers it. Say so when that is the case.
+Name the measurement whose outcome differs depending on whether the steelman or the strongest attack is right. A test for which both sides predict the same result decides nothing, however cheap it is. Specify what is measured, on which data, against which baseline or control, the result that would count as support, and the result that would count as contradiction. Write those predictions before anything runs, so the outcome cannot be reinterpreted afterward. State both against the measurement's uncertainty, such as seed spread or a confidence interval: contradiction means the result rules out the effect the claim needs, not merely that the effect was not detected, and a result between the two predictions is inconclusive. Some tests can only contradict: showing that the failures the idea targets are common proves there is room for a gain, not that the idea delivers it. Say so when that is the case.
 
 Prefer the cheapest test that discriminates, looking in this order: evidence the effort already has (run logs, failure samples, earlier results) reread with the new question; a small probe, ablation, or slice analysis; an evaluation on an existing set; then new training or data collection. Give a rough cost. When the decisive test is too expensive, name the cheaper test that would move confidence and what it cannot settle.
 
@@ -58,10 +58,11 @@ Reading existing results is part of the critique. Running new experiments needs 
 Give a status, not a verdict:
 
 - **supported:** a measurement or source at the claim's conditions matches the support prediction.
-- **contradicted:** a measurement or source at the claim's conditions matches the contradiction prediction.
+- **contradicted:** a measurement or source at the claim's conditions matches the contradiction prediction, so its uncertainty excludes the effect the claim needs.
+- **inconclusive:** a measurement at the claim's conditions exists, but its uncertainty covers both predictions. Name what would separate them, such as more seeds, a larger slice, or a stronger baseline.
 - **unmeasured:** no evidence yet at the claim's conditions. This is the normal status of a fresh hunch; argument alone leaves an idea unmeasured however strong it is.
 
-Supported and contradicted cite the evidence location: a file path, a run identifier, or a paper with its section. Evidence from a different model, dataset, or scale moves the steelman or the attack, not the status. Give no overall score, probability, or go or no-go call; the study above found LLM evaluation of ideas unreliable, and the choice belongs to the user.
+Supported, contradicted, and inconclusive cite the evidence location: a file path, a run identifier, or a paper with its section. Evidence from a different model, dataset, or scale moves the steelman or the attack, not the status. Give no overall score, probability, or go or no-go call; the study above found LLM evaluation of ideas unreliable, and the choice belongs to the user.
 
 When the effort the idea belongs to already keeps a critique record, such as a critique file in its research folder or the decision log of a design document, append one dated entry in that record's existing format with the claim as tested, the status, the evidence location, the deciding measurement with its predictions, and the attacks still open. A later status is a new entry; earlier entries stay. Otherwise answer in chat, and create a record file only when the user asks.
 
@@ -82,7 +83,7 @@ Steelman: mechanism; supporting points, each labeled
 Attacks: ordered by impact; each labeled, with the observation that would rule it out
 Closest prior work: the delta, with the check's search date and location
 Deciding measurement: the test; support if ...; contradiction if ...; rough cost
-Status: supported | contradicted | unmeasured; evidence location or none; record location if appended
+Status: supported | contradicted | inconclusive | unmeasured; evidence location or none; record location if appended
 ```
 
 Read [the worked example](references/example.md) when the depth or shape of a full critique is unclear.

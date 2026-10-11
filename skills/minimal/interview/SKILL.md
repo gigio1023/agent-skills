@@ -27,9 +27,9 @@ Turn incomplete intent into a user-approved Interview Brief. Interview first; do
    - **Sparse context:** open with a round on the root decisions.
    - **Rich context:** open with an inverted interview. Give a numbered synthesis of confirmed facts, inferred assumptions, unresolved ambiguities, and human-only decisions; the human-only decisions on the frontier form the first round, and the user may correct any numbered item.
    - **Brownfield work:** inspect relevant code and docs first, and cite the evidence that makes each question a real decision.
-4. Map the open decisions as a tree in which each decision hangs off the decisions it depends on. The frontier is every open decision whose prerequisites are settled.
+4. Map the open decisions as a tree in which each decision hangs off the decisions it depends on. The frontier holds the open decisions that no other open decision blocks.
 5. Route every uncertainty before asking: inspect discoverable facts, record empirical questions as investigation items, and ask the user only for judgment.
-6. Ask the frontier as one numbered round and wait. Record the answers, recompute the frontier, and ask the next round.
+6. Ask the frontier as one numbered round and wait for the answers. Fold them into the tree, find the decisions they unblocked, and ask those as the next round.
 7. Pressure-test at least one material answer with an example, assumption, failure scenario, counterexample, or tradeoff.
 8. Close when the next authorized action is determined. Restate the intended outcome in one sentence and ask the user to confirm or correct it, unless they already accepted that same outcome and the material decisions have not changed.
 9. After confirmation, produce the Interview Brief from [the template](assets/interview-brief.template.md). Return it in chat by default; write a file only when the user asks for one.
@@ -48,7 +48,7 @@ When the work type itself is unclear, ask it in the first round together with th
 
 ## Question Rounds
 
-A round contains every frontier question that is consequential: a different answer would change the outcome, scope, verification, or next action. Polish and wording preferences stay out. A question whose answer depends on another question that is still open belongs to a later round, even when it feels urgent; asking it now makes the user answer a hypothetical.
+A round contains every frontier question that is consequential: a different answer would change the outcome, scope, verification, or next action. Polish and wording preferences stay out. A question that hangs on another open question waits for a later round, even when it feels urgent; asking it now makes the user answer a hypothetical.
 
 Write each question so it can be answered in a word:
 
@@ -63,7 +63,7 @@ The user may answer all of the round, part of it, or reply with a blanket agreem
 
 Between rounds, recap in a few lines what the answers settled, restating a material free-text answer when compression could change its meaning. Put any contradiction with an earlier answer into the next round as a question. Then recompute the frontier: settled decisions unblock their dependents and can make other branches moot.
 
-A fact lookup that takes time blocks only the questions downstream of it; ask the rest of the frontier now. Delegate a broad lookup to a subagent when the harness supports it.
+A slow fact lookup holds back only the questions that need its result; the rest of the frontier goes out now. Delegate a broad lookup to a subagent when the harness supports it.
 
 Ask one question per turn only when the user explicitly asks for a slow or serial interview. Then take the highest-impact frontier question each turn and keep the same per-question shape. A host's structured question tool may carry a round; when the round does not fit the tool, use plain chat rather than dropping questions or turning the round serial.
 

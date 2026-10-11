@@ -189,7 +189,7 @@ These repositories are independently versioned and not included when this pack i
 
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
-| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and discovery workflows | Being absorbed into this pack; skills imported on 2026-10-12 from `3b206a1`, except `gigio-project-setup` |
+| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and discovery workflows | Being absorbed into this pack; skills imported on 2026-10-12 from `3b206a1`; `gigio-project-setup` was not imported, and its duty moved into `work-plan` |
 | [Research Credo](https://github.com/gigio1023/research-credo) | Research methods and evaluation | Being absorbed into this pack; all eleven skills imported on 2026-10-12 from `6217cd0` |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
 | [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing`, `korean-clarity` | Merged into `copydesk`; the repository was archived on 2026-09-24 and remains the MIT license source |
@@ -224,4 +224,4 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 46 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how the two model-routing skills divide work with the orchestration skills.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 46 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how `model-routing` divides work with the orchestration skills.

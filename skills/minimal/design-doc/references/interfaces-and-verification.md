@@ -17,8 +17,8 @@ Read this when writing the Interfaces and seams or Verification split sections, 
 
 Use these terms the same way throughout the document so a reviewer can tell which slot each part fills.
 
-- **Module:** anything with an interface and an implementation, at any scale: a function, a service, or a model-backed component together with its wrappers.
-- **Interface:** everything a caller must know to use the module correctly: types, invariants, ordering, error modes, latency and cost budgets, and, for a learned component, the meaning of its output.
+- **Module:** a unit that callers use through an interface while its implementation stays behind it, at any scale: a function, a service, or a model-backed component together with its wrappers.
+- **Interface:** what a caller has to know to use the module without surprises: types, invariants, ordering, error modes, latency and cost budgets, and, for a learned component, the meaning of its output.
 - **Seam:** the place where behavior can change without editing the callers. The interface lives at the seam, and where to place it is a design decision of its own.
 - **Adapter:** a concrete implementation that fills a seam. The word names a role, not a size: a fine-tuned model, a rule baseline, and an in-memory fake can all be adapters of one interface.
 - **Depth:** how much behavior callers get per unit of interface they must learn. A deep module hides much behind a small interface; a shallow one makes callers learn nearly as much as it contains.
@@ -87,4 +87,4 @@ The 150 ms budget is not a row: it is a goal measured on the target hardware, an
 
 ## Source Note
 
-The vocabulary of modules, interfaces, seams, adapters, and depth, the deletion test, the rule that one adapter makes a hypothetical seam and two make a real one, and the interface as the test surface are adapted from the `codebase-design` skill in [mattpocock/skills at 49dd158](https://github.com/mattpocock/skills/tree/49dd158/skills/engineering/codebase-design) (MIT), which credits the seam to Michael Feathers and deep modules to John Ousterhout. The ideas are rewritten here, not copied. This skill extends them to learned and judging components: the second adapter as an evaluation baseline, output meaning and operating point as part of the interface, agent tools behind their own seams, and evaluation crossing the same seam as tests.
+The vocabulary of modules, interfaces, seams, adapters, and depth, the deletion test, the rule that one adapter makes a hypothetical seam and two make a real one, and the interface as the test surface are adapted from the `codebase-design` skill in [mattpocock/skills at 49dd158](https://github.com/mattpocock/skills/tree/49dd158/skills/engineering/codebase-design) (MIT License, Copyright (c) 2026 Matt Pocock), which credits the seam to Michael Feathers and deep modules to John Ousterhout. The ideas are rewritten here, not copied. This skill extends them to learned and judging components: the second adapter as an evaluation baseline, output meaning and operating point as part of the interface, agent tools behind their own seams, and evaluation crossing the same seam as tests.

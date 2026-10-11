@@ -15,7 +15,7 @@ Useful questions are behavioral. Does a scoring rule order hard synthetic cases 
 - Keep state in memory unless persistence is the question; a scratch store then gets a name that says to delete it.
 - Make it run with one command, and show the full relevant state after each step so the user sees what changed.
 - Skip polish: no tests, abstractions, or error handling beyond what running it needs.
-- For a defensive module or an attack agent, exercise the design on synthetic cases in a local sandbox. Do not query real systems adversarially or embed concrete adversarial inputs, and keep the record in methodology language.
+- For a defensive module or an attack agent, exercise the design on synthetic cases in a local sandbox, and do not query real systems adversarially. When the question needs adversarial fixtures, load them from the project's access-controlled evidence storage instead of embedding them in the prototype source, and keep the record in methodology language.
 
 ## After
 
@@ -23,4 +23,4 @@ Record the answer in the exploration record: the question, what was observed, an
 
 ## Source
 
-These rules adapt the `prototype` skill in [mattpocock/skills at 49dd158](https://github.com/mattpocock/skills/tree/49dd158/skills/engineering/prototype) (MIT), rewritten for design exploration. This version keeps its discipline of a stated question, throwaway labeling, one-command runs, and visible state. It drops the UI-variant branch and the step that lifts validated logic into the real module, since here a prototype answers a design question and never enters the system.
+These rules adapt the `prototype` skill in [mattpocock/skills at 49dd158](https://github.com/mattpocock/skills/tree/49dd158/skills/engineering/prototype) (MIT License, Copyright (c) 2026 Matt Pocock), rewritten for design exploration. This version keeps its discipline of a stated question, throwaway labeling, one-command runs, and visible state. It drops the UI-variant branch and the step that lifts validated logic into the real module, since here a prototype answers a design question and never enters the system.

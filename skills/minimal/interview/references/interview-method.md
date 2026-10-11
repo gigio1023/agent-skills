@@ -61,7 +61,7 @@ Build the tree from open decisions, not from a topic outline. A decision is a ch
 For each round:
 
 1. Drop decisions already answered by the conversation, repository, or earlier rounds.
-2. Mark each remaining decision's prerequisites. The frontier is every decision whose prerequisites are settled.
+2. Mark what each remaining decision waits on. Decisions that wait on nothing still open form the frontier.
 3. Move facts to inspection and empirical questions to the investigation list.
 4. Keep the consequential frontier decisions and order them by impact.
 5. Ask the round and wait.
@@ -70,7 +70,7 @@ After the answers, settled decisions unblock their children and can make whole b
 
 A pending fact lookup removes only its downstream decisions from the frontier. The tree stays internal; show the user the round and, when useful, which later questions an answer unlocks ("Q1 decides whether Q4 and Q5 come up at all").
 
-Source note: the design-tree and frontier framing is adapted from the `grilling` skill in [mattpocock/skills at 49dd158](https://github.com/mattpocock/skills/tree/49dd158/skills/productivity/grilling) (MIT), rewritten here; the [harness source notes](harness-source-notes.md) record what this skill changed.
+Source note: the design-tree and frontier framing is adapted from the `grilling` skill in [mattpocock/skills at 49dd158](https://github.com/mattpocock/skills/tree/49dd158/skills/productivity/grilling) (MIT License, Copyright (c) 2026 Matt Pocock), rewritten here; the [harness source notes](harness-source-notes.md) record what this skill changed.
 
 ## 4. Ambiguity Ledger
 

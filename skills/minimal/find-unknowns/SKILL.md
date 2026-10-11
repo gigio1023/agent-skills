@@ -11,7 +11,7 @@ description: >
   throwaway variants, or a launch brief. Scans broadly with field knowledge
   for hidden goals, constraints, failure modes, and assumptions, leads with
   its own view, and asks the consequential questions together and early. NOT
-  for well-specified or small tasks, sustained interviewing (use interview,
+  for well-specified or small tasks unless asked, sustained interviewing (use interview,
   formerly deep-interview), attacking one stated idea (use idea-critique),
   research-grounded technical design exploration (use design-exploration), or
   packaging session state (use session-handoff).
@@ -79,7 +79,7 @@ The pass is complete when the user has your view, the findings that change the r
 
 ## Scope and Optional Tools
 
-Skip the pass for small or mechanical edits, well-specified work, and requests to proceed without discussion. When a domain-specific skill owns the task, follow it and apply this pass to what it does not cover.
+Skip an unrequested pass for small or mechanical edits, well-specified work, and requests to proceed without discussion. An explicit request for blind spots runs the pass even on specified work, since a specification does not establish that its assumptions hold. When a domain-specific skill owns the task, follow it and apply this pass to what it does not cover.
 
 Read [discovery tools](references/discovery-tools.md) when the scan shows that the dominant unknown is one direct questions handle poorly: an unsettled direction (option map), taste the user can recognize but not describe (throwaway variants), a want best shown by an existing example (reference request), or dependent choices that need a short follow-up exchange (mini-interview). The same file covers the comprehension check, which runs only when the user cannot verify the result directly and wants one.
 

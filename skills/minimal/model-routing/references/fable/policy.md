@@ -10,7 +10,7 @@ Assign a model and a reasoning effort to every subagent a Claude Fable lead spaw
 
 Read the lead's identity from what the harness states. If it cannot be established, treat the session as non-Fable.
 
-This policy does not decide whether to delegate; `orchestrate-subagents` and the lead's own judgment do. An explicit user instruction about delegation, such as not delegating, a cap, or a model, overrides the tier table; without one, delegating on the lead's own judgment is expected. It also does not write the worker's prompt; `small-model-handoff` does that for a weaker executor when a pack skill calls it.
+This policy does not decide whether to delegate; `orchestrate-subagents` and the lead's own judgment do. An explicit user instruction about delegation, such as not delegating, a cap, or a model, overrides the tier table; without one, delegating on the lead's own judgment is expected. It also does not write the worker's prompt; the lead writes it, using `small-model-handoff` for a weaker executor when that skill is installed.
 
 ## Anthropic Routing
 

@@ -33,7 +33,7 @@ Number entries in order and never reuse a number. Give each a short noun-phrase 
 - **Evidence:** each kind the decision rests on, with its location.
 - **Reverse if:** the observation that would change the decision and the direction it would move.
 - **Prediction and Hindsight:** for a decision that is a bet on an unmeasured result.
-- **Critique:** a dated line per critique from `idea-critique`, with its status (supported, contradicted, or unmeasured), its deciding measurement as a queue ID, and the attacks still open. A later critique adds a line; earlier lines stay. An open attack that names a checkable observation can become the reversal condition.
+- **Critique:** a dated line per critique from `idea-critique`, with its status (supported, contradicted, inconclusive, or unmeasured), its deciding measurement as a queue ID, and the attacks still open. A later critique adds a line; earlier lines stay. An open attack that names a checkable observation can become the reversal condition.
 - **Supersedes:** the earlier entry this one replaces, if any.
 
 ## Evidence Kinds

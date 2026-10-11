@@ -44,7 +44,7 @@ Read the run evidence and prior results that exist: evaluation reports, error an
 
 Apply the find-unknowns lens to the root and the limits, as a lens inside this work rather than a separate pass with its own brief. Settle what inspection can settle now, carry what needs a measurement into the concepts' experiments, and keep what only the user can decide for a question round.
 
-Ask consequential questions together and early. Each says why it changes the exploration, gives concrete options, and offers a recommended default. When the root itself is unclear, ask those questions in one round before gathering mechanisms; otherwise hold questions for the intuition turn. Never ask for a fact that inspection or search can settle, and do not ask the user to decide what only a measurement can answer.
+Ask consequential questions together and early. Each says why it changes the exploration, gives concrete options, and offers a recommended default. Before gathering mechanisms, ask in one round every question whose answer changes which axes or mechanisms are worth gathering: an unclear root, and constraints such as available labels, latency or cost limits, the deployment population, or the research budget. Hold for the intuition turn only the questions the gathered material would help the user answer. Never ask for a fact that inspection or search can settle, and do not ask the user to decide what only a measurement can answer.
 
 ## Gather mechanism material
 
@@ -60,7 +60,7 @@ Before proposing concepts, give the user material to think with and ask for thei
 - conflicts: results that cannot both hold as stated, with the condition that might reconcile them;
 - unexplained gaps: a limit without a known cause, an axis without a mechanism, a combination nobody has tried.
 
-Separate evidence, inference, and speculation. Then ask, in the same round as any open questions from the unknowns lens, whether the user has a hunch about where the answer lies. A hunch is the user's; do not write the agent's conjectures into it. Send a stated hunch to idea-critique and keep the status it returns (supported, contradicted, or unmeasured) beside the hunch. A user with no hunch, or one who asks to skip ahead, goes straight to concepts.
+Separate evidence, inference, and speculation. Then ask, in the same round as any open questions from the unknowns lens, whether the user has a hunch about where the answer lies. A hunch is the user's; do not write the agent's conjectures into it. Send a stated hunch to idea-critique and keep the status it returns (supported, contradicted, inconclusive, or unmeasured) beside the hunch. A user with no hunch, or one who asks to skip ahead, goes straight to concepts.
 
 ## Diverge into concepts
 
@@ -79,7 +79,7 @@ Present the concepts side by side with their trade-offs and no winner. When the 
 
 A runnable throwaway prototype is allowed when it answers a design question faster than argument, such as whether a scoring rule orders hard synthetic cases as a concept assumes or whether an agent loop recovers from a failed step. Read [throwaway prototypes](references/throwaway-prototype.md) before proposing or building one.
 
-Threat models, attack-agent concepts, and their records stay in methodology language: boundary, objective category, metric, judge, environment, and budget. Do not write reproducible attack procedures or concrete adversarial inputs into concepts, prototypes, or records; point to the preserved source instead.
+Threat models, attack-agent concepts, and their records stay in methodology language: boundary, objective category, metric, judge, environment, and budget. Keep reproducible attack procedures and concrete adversarial inputs out of concepts and exploration records, which later sessions load automatically, and point to the preserved source instead. A prototype that needs adversarial fixtures uses ones held in the project's access-controlled evidence storage, or new synthetic ones the user authorizes and stores there, under the records rule in `evaluation-design`'s red-team reference.
 
 ## Close the exploration
 

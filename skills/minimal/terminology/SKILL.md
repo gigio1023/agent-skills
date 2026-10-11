@@ -71,7 +71,7 @@ Write records in the project being worked on. After adopting or changing a name,
 
 ## Project instruction snippet
 
-A skill description does not load this skill on every task; the project's instruction file does. If none of the project's instruction files carries this snippet, add it to the one its harnesses read, such as `AGENTS.md` or `CLAUDE.md`. When that file is outside the task's write scope, return the snippet as a proposal.
+A skill description does not load this skill on every task; the project's instruction file does. Lookup never edits instruction files. During curation, or when the user asks to set up terminology for the project, add this snippet to the instruction file the project's harnesses read, such as `AGENTS.md` or `CLAUDE.md`, if none carries it yet. When that file is outside the task's write scope, return the snippet as a proposal.
 
 ```markdown
 ## Terminology

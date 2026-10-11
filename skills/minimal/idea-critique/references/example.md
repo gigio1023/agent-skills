@@ -24,7 +24,7 @@ The user writes: "I think if the agent writes a full plan before its first actio
 **Deciding measurement:**
 
 - First, label 50 failed long-task trajectories from `runs/baseline-v3/` by cause: drift, grounding, timeout, or other. About two hours of reading and no compute. Contradiction if drift causes under a tenth of failures: with 78% of long tasks failing, fixing every drift failure would then raise success by under eight points. This pass cannot support the claim; drift causing at least a third of failures only shows room for a gain of up to 26 points.
-- If the labels leave room, run the plan arm against the equal-token control on the long-task split with three seeds each, about one accelerator-day. Support if the plan arm beats the control by ten points or more and by more than the seed spread; contradiction if it does not beat the control by more than the seed spread. The comparison conditions and budget go to `evaluation-design`.
+- If the labels leave room, run the plan arm against the equal-token control on the long-task split with three seeds each, about one accelerator-day. Support if the plan arm beats the control by ten points or more and by more than the seed spread; contradiction if the gain is under three points and the seed spread is small enough to rule out a ten-point gain; anything between is inconclusive and calls for more seeds before a decision. The comparison conditions and budget go to `evaluation-design`.
 
 **Status:** unmeasured. No evidence yet at the claim's conditions; `runs/baseline-v3/summary.md` shows that long tasks fail, not why. The effort keeps no critique record, so the critique stays in chat.
 

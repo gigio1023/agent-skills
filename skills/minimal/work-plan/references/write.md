@@ -6,7 +6,7 @@ Create a plan a later session can use to make the next useful advance. Keep the 
 
 Read the intent the work answers to: whatever the user or project already maintains, such as instruction files, a design or research document, a brief, a parent plan, or a project record. Read current user instructions and relevant results. Identify the next decision or desired result and why it matters.
 
-Recover facts before asking questions. Settle the questions whose answers would change the plan before detailing work, including consequential unknowns nobody has noticed yet, and ask them together rather than one at a time. Use `find-unknowns` when a bounded discovery pass or option map fits, and `interview` only when the user wants sustained questioning. Open empirical questions can be the work itself.
+Recover facts before asking questions. Settle the questions whose answers would change the plan before detailing work, including consequential unknowns nobody has noticed yet, and ask them together rather than one at a time. Use `find-unknowns` when the search for what neither side has noticed needs its own pass, and `interview` only when the user wants sustained questioning. Open empirical questions can be the work itself.
 
 Preserve accepted goals and limits in recognizable user wording. Label a planner's new proposal only where it could change intent or authority, and keep the label until the user accepts or changes it. An unanswered question is not approval, but sufficient existing direction does not need another confirmation.
 
