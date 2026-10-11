@@ -18,6 +18,7 @@ Use the English names and contextual meanings recorded here in the pack's skills
 | dispatch | The act of handing a task to a subagent; the accompanying statement identifies the task, role, model, effort, configuration source, and observed runtime status. | [R010](docs/terminology/references.md#r010), [R011](docs/terminology/references.md#r011), [R015](docs/terminology/references.md#r015) |
 | route | A standing assignment of a class of work to a model at an effort. Say "assignment" for one spawn's decision. The routing literature's word. | [R008](docs/terminology/references.md#r008), [R009](docs/terminology/references.md#r009) |
 | tier | A task-difficulty class used by a routing policy. Its categories depend on that policy; a bounded task can still require judgment. Say model class or service tier for those separate concepts. | [R010](docs/terminology/references.md#r010), [R011](docs/terminology/references.md#r011), [R015](docs/terminology/references.md#r015) |
+| install set | One of this pack's two package directories: `minimal` holds skills installed by default, `additional` holds skills installed on request. Describes availability only; invocation stays with each skill's description and settings. Not a tier. | [R016](docs/terminology/references.md#r016) |
 | role | Codex's noun for a named subagent configuration: the `[agents.<name>]` table and the role files under `agents/`. Use it in Codex-specific text. | [R004](docs/terminology/references.md#r004) |
 
 ## Index

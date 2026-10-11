@@ -145,7 +145,16 @@
 ## R015: Maintainer routing revision, 2026-10-06
 
 - Repository maintainer; revision of the pack's model assignments.
-- Location: [GPT routing](../../skills/development/gpt6-astra-model-routing/SKILL.md) and [routing overview](../routing-skills.md).
+- Location: [GPT routing](../../skills/minimal/gpt6-astra-model-routing/SKILL.md) and [routing overview](../routing-skills.md).
 - Decision: GPT work defaults to Astra. Sol 6.1 handles only fixed mechanical work without semantic judgment. Bounded implementation, summaries, and diagnosis still require Astra. Explicit model and effort choices take precedence over package defaults; no automatic frontier-worker effort reduction.
 - Used by: dispatch, tier, and the historical effort-floor entry. Existing field names remain unchanged.
 - Inspection status: maintainer decision applied to the current package; this record makes no new claim about industry terminology or model benchmark performance.
+
+<a id="r016"></a>
+## R016: Maintainer layout decision, 2026-10-12
+
+- Repository maintainer; decision to group bundled packages by install set instead of by source category.
+- Location: [repository structure](../repo-structure.md) and the `skills/minimal/` and `skills/additional/` directories.
+- Decision: the default install is the minimal set; the additional set is installed on request. The set names describe availability, not invocation. "Tier" stays reserved for routing difficulty.
+- Used by: install set.
+- Inspection status: maintainer decision; this record makes no claim about industry terminology.
