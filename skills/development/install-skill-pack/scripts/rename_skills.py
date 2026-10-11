@@ -166,13 +166,13 @@ def main(argv: list[str]) -> int:
     except (ValueError, json.JSONDecodeError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
-    if not renames:
-        print(json.dumps({"source": source_key, "renames": {}, "written": [], "unchanged": sorted(args.skill or packages)}, indent=2))
+    selection = args.skill or sorted(packages)
+    unknown = sorted(name for name in selection if name not in packages)
+    if not renames and not unknown:
+        print(json.dumps({"source": source_key, "renames": {}, "written": [], "unchanged": selection}, indent=2))
         return 0
     missing = sorted(old for old in renames if old not in packages)
     clashes = sorted(new for old, new in renames.items() if new in packages and new not in renames)
-    selection = args.skill or sorted(packages)
-    unknown = sorted(name for name in selection if name not in packages)
     if missing or clashes or unknown:
         print(f"error: renamed skill not in source: {missing}; new name already in source: {clashes}; unknown selection: {unknown}", file=sys.stderr)
         return 2
