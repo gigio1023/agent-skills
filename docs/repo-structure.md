@@ -1,6 +1,6 @@
 # Repository Structure
 
-The README presents the bundled skills in task-oriented categories. Bundled source paths use `skills/development/` and `skills/productivity/`; packages imported from gigio-pack and research-credo use `skills/minimal/` and `skills/additional/` until a follow-up change moves the rest into those install sets. The Skills CLI tracks exact source paths for updates; the explicit cross-repository moves in [migration.md](migration.md) require a source refresh. Catalog regrouping alone does not move a package.
+The README presents the bundled skills in task-oriented categories. Bundled source paths use two install sets: `skills/minimal/` holds the skills installed by default, and `skills/additional/` holds the skills installed on request. A set describes availability only; each skill's description and invocation settings still decide when it runs. The Skills CLI tracks exact source paths for updates; the explicit cross-repository moves in [migration.md](migration.md) require a source refresh. Catalog regrouping alone does not move a package.
 
 Installation has one owner: [`npx skills`](https://github.com/vercel-labs/skills). The CLI discovers the pack, records remote-source metadata, and manages the destinations for explicitly selected agents. This repository does not carry per-harness installation adapters.
 
@@ -18,7 +18,7 @@ flowchart LR
 
   subgraph repo ["agent-skills repository"]
     IDX["README catalog<br/>task categories"]
-    SRC["Stable skill sources<br/>development · productivity"]
+    SRC["Stable skill sources<br/>minimal · additional"]
   end
 
   CLI["npx skills<br/>add · list · update"]
@@ -52,6 +52,6 @@ Color key: blue is the packaged source, green is the installation and update pat
 ## Boundaries
 
 - `README.md` owns discovery, task categories, installation, and update guidance.
-- `skills/<source-category>/<skill-name>/` owns each bundled skill and its colocated references, scripts, and assets.
+- `skills/<install-set>/<skill-name>/` owns each bundled skill and its colocated references, scripts, and assets.
 - `npx skills` owns agent selection, installation destinations, lock metadata, and on-demand updates.
 - Related standalone and external repositories are linked for discovery but are not copied into this pack.

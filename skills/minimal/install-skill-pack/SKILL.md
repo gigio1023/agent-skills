@@ -75,6 +75,8 @@ If installation returns an uncertain result, inspect canonical content and agent
 
 ## Selecting Skills
 
+A repository can group packages into directories that stand for an install set, such as `skills/minimal/` for the default install. When the user asks for a set, list the package names under that directory in the reviewed checkout and pass each as `--skill`; keep `install_source` as the repository source so the tracked metadata points at the remote. A set only decides availability; each skill's own description and invocation settings still decide when it runs.
+
 Add one `--skill <frontmatter-name>` argument per requested package to the standard command. Use `--skill '*'` only for an explicitly requested complete pack, after reviewing every package. If a name is absent, stop; do not silently switch revisions, repositories, or local checkouts.
 
 ## Revisions And Updates
@@ -101,7 +103,7 @@ It can fetch unreviewed sources outside the current repository. State that scope
 
 ## Validation
 
-Before publishing this skill, validate the package and confirm repository discovery. Run the active `skill-builder` validator against `skills/development/install-skill-pack`, then run:
+Before publishing this skill, validate the package and confirm repository discovery. Run the active `skill-builder` validator against `skills/minimal/install-skill-pack`, then run:
 
 ```bash
 npx --yes "skills@$skills_cli_version" add . --list --full-depth

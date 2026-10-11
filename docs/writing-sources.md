@@ -4,11 +4,11 @@ These are maintenance pointers for the pack authors, not runtime references: `co
 
 ## English clarity integration
 
-Copydesk's [English clarity](../skills/productivity/copydesk/references/english-clarity.md) adapts selected principles from Dustin Yuchen Teng's [asd-ste100-skill](https://github.com/danyuchn/asd-ste100-skill), inspected as version 0.4.0 on 2026-10-06. The package retains the [MIT notice](../skills/productivity/copydesk/LICENSE.asd-ste100). The useful principles are explicit actors and references, consistent terminology, clear instruction conditions, and preservation of modality and technical meaning.
+Copydesk's [English clarity](../skills/minimal/copydesk/references/english-clarity.md) adapts selected principles from Dustin Yuchen Teng's [asd-ste100-skill](https://github.com/danyuchn/asd-ste100-skill), inspected as version 0.4.0 on 2026-10-06. The package retains the [MIT notice](../skills/minimal/copydesk/LICENSE.asd-ste100). The useful principles are explicit actors and references, consistent terminology, clear instruction conditions, and preservation of modality and technical meaning.
 
 This is an attributed synthesis. It does not import the third-party checker, automatic strict mode, hard sentence limits, or ASD's dictionary. Similar verbs can denote distinct actions, and an adjective can be part of a domain term. Copydesk therefore keeps schema validation, signature verification, receipt confirmation, and robust regression distinct. The external skill remains independent and is not modified by this integration. Official ASD compliance is outside the package's claim; a task requiring it needs the authorized standard and dictionary.
 
-The earlier percentage-of-STE policy is retired. Korean follows natural Korean grammar, and English clarity work preserves useful clauses, tense, and uncertainty. The ordinary path starts with reader purpose, semantic fidelity, and [finished examples](../skills/productivity/copydesk/references/finished-examples.md). Pattern evidence is a targeted diagnostic aid rather than a routine reading requirement.
+The earlier percentage-of-STE policy is retired. Korean follows natural Korean grammar, and English clarity work preserves useful clauses, tense, and uncertainty. The ordinary path starts with reader purpose, semantic fidelity, and [finished examples](../skills/minimal/copydesk/references/finished-examples.md). Pattern evidence is a targeted diagnostic aid rather than a routine reading requirement.
 
 ## Close readings
 
@@ -112,7 +112,7 @@ The earlier collection also informs these choices:
 - **Chart composition and text:** [IBM Carbon dashboards](https://carbondesignsystem.com/data-visualization/dashboards), [Datawrapper on text](https://datawrapper.de/blog/text-in-data-visualizations), and [Wilke on making a point](https://clauswilke.com/dataviz/telling-a-story.html) inform reading order, useful detail, and complementary titles, labels, annotations, and prose.
 - **Direct language:** [Microsoft's style tips](https://learn.microsoft.com/en-us/style-guide/top-10-tips-style-voice) and [Vercel's writing guidelines](https://github.com/vercel-labs/writing-guidelines) inform concrete wording and efficient editing. Apply the destination's language and register; preserve facts and natural Korean relations.
 - **Interface execution:** [Vercel's interface guidelines](https://vercel.com/design/guidelines), [official shadcn skills](https://ui.shadcn.com/docs/skills), and [shadcn MCP](https://ui.shadcn.com/docs/mcp) inform usable state and project-aware implementation. Use the official skill directly; component documentation remains authoritative for APIs.
-- **Document rendering:** [Typst](https://typst.app/docs/), [Quarto](https://quarto.org/docs/output-formats/pdf-basics.html), and [Pandoc](https://pandoc.org/MANUAL.html#creating-a-pdf) inform the native and conversion routes in [document production](../skills/productivity/copydesk/references/document-production.md). Select the renderer by the recipient workflow and existing source.
+- **Document rendering:** [Typst](https://typst.app/docs/), [Quarto](https://quarto.org/docs/output-formats/pdf-basics.html), and [Pandoc](https://pandoc.org/MANUAL.html#creating-a-pdf) inform the native and conversion routes in [document production](../skills/minimal/copydesk/references/document-production.md). Select the renderer by the recipient workflow and existing source.
 
 Use each source for the property actually inspected. A saved text supports a textual reading; a diagram's layout or an interaction's effect requires the corresponding visual or behavioral inspection. Borrow the explanatory technique in original wording while preserving the actual project's evidence and current API.
 
@@ -122,7 +122,7 @@ Prefer a primary method paper, specification, design proposal, decision record, 
 
 ## Example library
 
-Use this library to find a public work close to the current reader task. The entries identify a passage and an original adaptation, not a prescribed template. Choose the relevant example, read its passage, and apply the technique to the actual project evidence. The skill's [synthetic examples](../skills/productivity/copydesk/references/synthetic-examples.md) hold finished synthetic rewrites; the [close readings](#close-readings) above hold the original technical foundations.
+Use this library to find a public work close to the current reader task. The entries identify a passage and an original adaptation, not a prescribed template. Choose the relevant example, read its passage, and apply the technique to the actual project evidence. The skill's [synthetic examples](../skills/minimal/copydesk/references/synthetic-examples.md) hold finished synthetic rewrites; the [close readings](#close-readings) above hold the original technical foundations.
 
 These are text and information-structure reading pointers. Inspect the actual figure or control before treating its visual meaning or behavior as evidence. Historical proposals, archived editions, and demos remain historical sources; current implementation claims require current documentation. Operational data-view examples are maintained in `insight-dashboard`.
 
