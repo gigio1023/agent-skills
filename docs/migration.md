@@ -92,5 +92,7 @@ The Skills CLI tracks each installed package by repository and path, so `skills 
 
 New in the minimal set: `design-exploration`, `idea-critique`, `design-doc`, and `bug-diagnosis`. `literature-research` gains a mechanism-map mode, and `find-unknowns` is realigned to scan broadly for what neither side has noticed, lead with its own view, and ask the consequential questions together. The writing profile's "First screen" heading is now "Opening". Concepts adapted from mattpocock/skills (`49dd158`, MIT License, Copyright (c) 2026 Matt Pocock) are rewritten and credited in each skill's source notes.
 
+The repository was renamed from `gigio1023/agent-skills` to `gigio1023/gigio-skills` on the same day. GitHub redirects the old URL, but packages installed from it keep the old source in the Skills CLI lock until they are reinstalled from the new name.
+
 Each description names its former names once, so requests that use them still route. Installed copies under the former names are not updated by `skills update`; during a requested refresh, install the current names, verify them, then remove the former names. Codex role files and agent definitions already installed from the routing skills keep working, but their text names the former routing skill until they are reinstalled.
 

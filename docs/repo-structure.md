@@ -13,10 +13,10 @@ config:
     edgeLabelBackground: "#f8fafc"
 ---
 flowchart LR
-  accTitle: agent-skills catalog, source, and installation boundaries
+  accTitle: gigio-skills catalog, source, and installation boundaries
   accDescr: The README groups skills by task. Stable source paths flow through the Skills CLI into selected agents, while standalone repositories are referenced only.
 
-  subgraph repo ["agent-skills repository"]
+  subgraph repo ["gigio-skills repository"]
     IDX["README catalog<br/>task categories"]
     SRC["Stable skill sources<br/>minimal · additional"]
   end

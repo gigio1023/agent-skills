@@ -1,6 +1,6 @@
-# Agent Skills
+# Gigio Skills
 
-[![skills.sh](https://skills.sh/b/gigio1023/agent-skills)](https://skills.sh/gigio1023/agent-skills)
+[![skills.sh](https://skills.sh/b/gigio1023/gigio-skills)](https://skills.sh/gigio1023/gigio-skills)
 
 A personal collection of 46 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
@@ -17,13 +17,13 @@ Prerequisite: Node.js 22.20 or newer, as Skills CLI 1.7 declares.
 Browse the pack:
 
 ```bash
-npx --yes skills add 'gigio1023/agent-skills#main' --list
+npx --yes skills add 'gigio1023/gigio-skills#main' --list
 ```
 
 Install selected skills globally for the agents you use:
 
 ```bash
-npx --yes skills add 'gigio1023/agent-skills#main' \
+npx --yes skills add 'gigio1023/gigio-skills#main' \
   --skill mermaid-diagrams skill-builder \
   --agent codex claude-code \
   --global \
@@ -35,7 +35,7 @@ Replace the skill names and agent IDs as needed. Omit `--global` for a project-l
 Install the minimal set, the pack's default install, for a deliberate set of agents. The URL path selects the set, and the quoted wildcard selects every package in it:
 
 ```bash
-npx --yes skills add 'https://github.com/gigio1023/agent-skills/tree/main/skills/minimal' \
+npx --yes skills add 'https://github.com/gigio1023/gigio-skills/tree/main/skills/minimal' \
   --skill '*' \
   --agent codex claude-code cursor \
   --global \
@@ -47,7 +47,7 @@ Use `skills/additional` the same way for the on-request set, or name individual 
 Install all 46 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
-npx --yes skills add 'gigio1023/agent-skills#main' \
+npx --yes skills add 'gigio1023/gigio-skills#main' \
   --skill '*' \
   --agent codex claude-code cursor \
   --global \
@@ -225,3 +225,7 @@ npx --yes skills add . --list
 ```
 
 Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 46 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how `model-routing` divides work with the orchestration skills.
+
+## License
+
+MIT, see [LICENSE](LICENSE). Files that carry their own license notice, such as those in `skills/minimal/copydesk/`, keep its terms, and ideas adapted from other projects are credited in each skill's source notes.

@@ -45,7 +45,7 @@ Add `--path <file>` when the journal is not at the default location; without it 
 
 ## Monthly review
 
-Inputs: the user's list of long-horizon efforts in flight or parked, and the journal read with `--older-than 90` first; predictions with no matching hindsight are raised first. Ask one question per turn:
+Inputs: the user's list of long-horizon efforts in flight or parked, and the journal read with `--older-than 90` first; predictions with no matching hindsight are raised first. Ask in two rounds: questions 1, 2, and 4 together, then 3 for the efforts that survived, with 5. Ask one question per turn only when the user asks for that.
 
 1. Which one or two of these could be great? The essay expects one or two a year; the rest are practice.
 2. For each effort: is the core still working, does the best-case conclusion still matter, has anything more important appeared? Kill or park what fails; name what is salvaged.

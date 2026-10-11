@@ -67,7 +67,7 @@ These revisions were resolved on the check date. Reading them does not authorize
 
 | Rule | Classification and rationale |
 | --- | --- |
-| Remove 8KB warning | Unsourced heuristic introduced in [agent-skills PR 4](https://github.com/gigio1023/agent-skills/pull/4) |
+| Remove 8KB warning | Unsourced heuristic introduced in [PR 4](https://github.com/gigio1023/gigio-skills/pull/4) |
 | File above 500 lines | Organization advisory, not format failure |
 | Long reference without contents map | Advisory; headings/search hints can suffice |
 | Cross-links between references | Valid; broken direct links fail, auxiliary paths need context review |
