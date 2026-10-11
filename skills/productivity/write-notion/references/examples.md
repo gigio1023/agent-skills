@@ -46,7 +46,7 @@ This design covers admission at the gateway. Billing, quota configuration, and t
 ### Interfaces and storage {toggle="true"}
 	- Key per tenant: `rl:<tenant-id>`, holding the token count and the last refill time, with a TTL of two refill periods.
 	- The quota source stays the existing tenant configuration service; the gateway caches it for 60 seconds.
-### Option measurements (comparison evidence) {toggle="true"}
+### Comparison evidence: option measurements {toggle="true"}
 	<table header-row="true">
 		<colgroup>
 			<col width="190">
@@ -193,7 +193,7 @@ After the edit:
 ```markdown
 ## Design
 - The design proposes a token-bucket rate limiter. The option measurements are comparison evidence against the main alternative, the sliding window log.
-### Option measurements (comparison evidence) {toggle="true"}
+### Comparison evidence: option measurements {toggle="true"}
 	<table header-row="true">
 		<colgroup>
 			<col width="200">

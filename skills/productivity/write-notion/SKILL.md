@@ -61,6 +61,11 @@ Drop a section that has nothing true to say instead of filling it with a placeho
 - **Under toggle headings:** measurement tables, storage, interfaces, cross-cutting concerns, alternatives, test plan, schedule, and references. Toggles are the default for detail on a design doc page, but the decision summary and the open questions are never toggled.
 - **Undecided items:** the writing profile's rule applies; on a Notion page: the Open questions section is a visible heading near the end, each question says what it blocks, and a passage that depends on an open item points to that question once.
 
+## Voice
+
+- **Korean pages** default to short 합니다체 bullets in the voice the author uses with teammates, not noun-ending fragments. Write dates in prose as M/D within the year, such as 10/16, and use a date mention for a date that readers act on. A team page's existing convention wins.
+- **Parentheses and identifiers:** the writing profile's rules apply; on a Notion page: the parentheses rule covers the labels inside uploaded figures too, so a label change means re-rendering and re-uploading the figure in the same edit. The linking rule covers the header callout and toggle headings.
+
 ## Status Words
 
 The writing profile's rule applies; on a Notion page: status appears in the header callout's Status field, headings, body, table cells, and figure labels, and all of them must agree. Put "comparison evidence" in the heading of an option measurement table. Set Approved only when the reviewer role approved. When the owner decides, say where the decision was made, such as the design review on a date mention, and update every place the status appears, including re-rendering an affected figure, in the same edit.
@@ -122,7 +127,8 @@ After every structural edit, wait for any asynchronous write to finish, fetch th
 6. Decision status matches the owner's decisions everywhere it appears.
 7. Terms in text, tables, and figure labels match; check the rendered labels of the images you uploaded.
 8. Prose and punctuation follow the writing profile that `copydesk` applies.
-9. Links open for the page's readers: no paths on the author's machine and no private scratch files.
+9. No parenthetical asides remain outside code, identifiers, citations, and official names, including the labels of uploaded figures. Every tracker identifier is a link where it appears.
+10. Links open for the page's readers: no paths on the author's machine and no private scratch files.
 
 Fix failures and fetch again. A simple text edit that changed no structure needs no extra fetch.
 
