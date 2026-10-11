@@ -50,6 +50,14 @@
 
 **Reference:** [R010](references.md#r010), [R011](references.md#r011).
 
+## install set
+
+**Meaning and status:** One of this pack's two package directories. `skills/minimal/` holds the skills installed by default; `skills/additional/` holds the skills installed on request. A local name chosen by the maintainer on 2026-10-12.
+
+**Use and distinctions:** Describes availability only. Whether and when a skill runs is still decided by its description and invocation settings, so a skill in the minimal set may still open only on an explicit request. Do not call a set a "tier"; that word is reserved for routing difficulty.
+
+**Reference:** [R016](references.md#r016).
+
 ## role
 
 **Meaning and status:** Codex's noun for a named subagent configuration: a `[agents.<name>]` table with a `config_file`, or a standalone role file under `agents/` that carries `name`, `description`, `developer_instructions`, and any `config.toml` key such as `model` and `model_reasoning_effort`. Source-specific to Codex.

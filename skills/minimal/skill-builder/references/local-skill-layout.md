@@ -2,7 +2,7 @@
 
 ## Source Of Truth
 
-Honor the selected repository or private project scope. In this repository, edit the selected checkout under skills/<category>/<skill-name>; the categories are development/ and productivity/. Elsewhere follow the owning project's discoverable skill layout. Reuse existing conventions, read applicable project instructions, and preserve unrelated changes. A project-local skill does not need migration into a public or global pack to be useful.
+Honor the selected repository or private project scope. In this repository, edit the selected checkout under skills/<install-set>/<skill-name>; the install sets are minimal/ (installed by default) and additional/ (installed on request). Elsewhere follow the owning project's discoverable skill layout. Reuse existing conventions, read applicable project instructions, and preserve unrelated changes. A project-local skill does not need migration into a public or global pack to be useful.
 
 Update catalogs when adding, removing, renaming, or changing advertised scope. Do not rewrite unrelated catalog entries to standardize wording.
 

@@ -72,3 +72,10 @@ Merge the Research Credo destination first, then this change, then the Gigio sou
 Publishing PRs does not install them. During a separately requested refresh, use `install-skill-pack` to select the available destination revision, add the moved names, and verify tracked repository/path metadata and the intended harness destinations. A same-name installed directory alone does not prove migration; old source metadata cannot follow a moved path automatically. Preserve customizations, avoid duplicate names, and never uninstall first or hand-edit installer locks.
 
 The writer is `copydesk`, renamed from `technical-report-writing` on 2026-09-24 (reinstall under the new name and remove the old package); `share-internal-doc` was merged into it on 2026-09-24 as `references/sharing-and-delivery.md` and retired from Gigio Pack. `slop-aware-writing` and `korean-clarity` are merged into the writer; their repository was archived on 2026-09-24 and remains the MIT license source. See [writing composition](writing-skills.md).
+
+## Install sets on 2026-10-12
+
+Bundled packages moved from `skills/development/` and `skills/productivity/` into two install sets. `skills/minimal/` holds the default install and `skills/additional/` the on-request install. The packages imported from Gigio Pack (`3b206a1`) and Research Credo (`6217cd0`) on the same day were placed directly into these sets; `gigio-project-setup` was not imported.
+
+The Skills CLI tracks each installed package by repository and path, so `skills update` does not follow the move. During a separately requested refresh, use `install-skill-pack` with an explicit mapping from each installed name and tracked source to its new path, install the new paths by name, verify tracked metadata and harness destinations, and only then remove packages still attributed to retired sources.
+

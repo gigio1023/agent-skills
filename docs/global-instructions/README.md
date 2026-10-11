@@ -18,7 +18,7 @@ Run from the repository root of a clone that stays in place. Cowork sessions ski
 
 ## When the writing profile changes
 
-The profile's single source is `skills/productivity/copydesk/references/writing-profile.md`. After it changes and the skill is reinstalled, refresh the Codex copy and commit:
+The profile's single source is `skills/minimal/copydesk/references/writing-profile.md`. After it changes and the skill is reinstalled, refresh the Codex copy and commit:
 
 ```bash
 python3 ~/.agents/skills/copydesk/scripts/sync_profile.py docs/global-instructions/AGENTS.md
