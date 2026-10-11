@@ -5,8 +5,10 @@ description: >
   repository or revision with the Skills CLI for the standard Claude Code,
   Hermes Agent, OpenCode, Cursor, Codex, GitHub Copilot, ZCode, OpenClaw, and
   Grok targets. Reviews packages and verifies revision identity, installed
-  content, symlinks, and discovery. Global is the default; a project-local
-  install runs only on an explicit request. NOT for unpublished local changes,
+  content, symlinks, and discovery. Resolves skill name collisions with a
+  recorded prefix rename that every later refresh reapplies. Global is the
+  default; a project-local install runs only on an explicit request. NOT for
+  unpublished local changes,
   unscoped all-agent installs, or silently changing unrelated global skills.
 ---
 
@@ -38,6 +40,8 @@ Review the source directly. Third-party scans are optional; a missing scanner re
 
 6. Read and apply [`references/source-review.md`](references/source-review.md). Record concise observable evidence for each selected skill: files inspected, intended capability, commands and external access, material findings, and a `pass` or `block` decision.
 
+   Then resolve names. Compare the selected names with installed global skills from other sources and with the target harnesses' built-in commands. When the renames file `~/.agents/skill-pack-renames.json` has an entry for this source, or a collision needs one, read and apply [`references/renames.md`](references/renames.md): the user decides which side takes a prefix, and `scripts/rename_skills.py` writes the renamed and rewritten packages. Review that output as part of this step.
+
 7. Immediately before a default-branch or named-branch installation, use the revision reference to confirm the remote still points to `reviewed_sha`. If it changed, discard the checkout and repeat the review against the new snapshot. An exact commit is immutable once the checkout and full ID match.
 
 8. Install with the resolved CLI version, passing every target agent and skill explicitly. The standard target IDs are deliberately repeated; append named extras and omit only explicit user exclusions:
@@ -61,9 +65,11 @@ Review the source directly. Third-party scans are optional; a missing scanner re
 
    Default mode leaves `install_source` bare, so the CLI follows the remote's default branch without assuming `main` or `master`. Commit mode uses the reviewed local checkout because remote `#ref` does not reliably accept a raw commit ID. Omit `--copy`: the verified normal path uses the CLI's default canonical-copy plus agent-symlink mode.
 
-9. Inspect `skills list --global --agent <id> --json` for every target. Require each name and canonical path; for a detected harness, also require its display name in `agents`. An absent universal harness can be canonical-ready without appearing there, so verify it from the install summary and report runtime discovery as unavailable rather than creating its config directory. Compare canonical files and non-universal links per the CLI-usage reference. Content, link, or detected-harness discovery failures leave the install unverified.
+   When step 6 wrote renamed packages, run the same command twice: once with `install_source` for the packages the script listed as `unchanged`, and once with the script's output directory as the source for the packages it listed as `written`, by their new names.
 
-10. Remove the disposable checkout only after content and discovery verification pass.
+9. Inspect `skills list --global --agent <id> --json` for every target, using the installed names. Require each name and canonical path; for a detected harness, also require its display name in `agents`. An absent universal harness can be canonical-ready without appearing there, so verify it from the install summary and report runtime discovery as unavailable rather than creating its config directory. Compare canonical files and non-universal links per the CLI-usage reference. Content, link, or detected-harness discovery failures leave the install unverified.
+
+10. Remove the disposable checkout and any renamed output only after content and discovery verification pass. Then complete the rename record and any old-name removal as the renames reference describes.
 
 If installation returns an uncertain result, inspect canonical content and agent-facing links before rerunning it. Preserve the reviewed revision and selection while diagnosing; an unavailable universal harness does not justify another install or a new configuration directory.
 
@@ -74,6 +80,7 @@ Add one `--skill <frontmatter-name>` argument per requested package to the stand
 ## Revisions And Updates
 
 - Bare sources and named branches follow their remote and require review again after a commit change. Exact commits reinstall through the detached checkout; the CLI cannot update that temporary local source from the remote.
+- Renamed packages also install from a temporary local source, so `skills update` skips them as a local path. Refresh a source that has a renames entry by running this skill on that source again; the entry reapplies the prefix and rewrites invocations that upstream added since.
 
 Only an explicit request to update every tracked global skill authorizes:
 
@@ -102,4 +109,4 @@ npx --yes "skills@$skills_cli_version" add . --list --full-depth
 
 ## Output
 
-Report the resolved Skills CLI version, repository source, revision mode, reviewed commit, selected agents and skills, source-review decision, canonical content comparison, link topology, and each harness's discovery or canonical- ready status. Name any explicit standard-target exclusion. For an exact commit, also state that automatic remote updates are unavailable and the pinned workflow must be rerun. If blocked, identify the observable finding, affected file or command, and whether the risk is inherent to the requested capability or unexplained.
+Report the resolved Skills CLI version, repository source, revision mode, reviewed commit, selected agents and skills, source-review decision, canonical content comparison, link topology, and each harness's discovery or canonical- ready status. Name any explicit standard-target exclusion. For a source with renames, list each old and new name, the packages installed from the renamed output, and the mentions the script left for review. For an exact commit, also state that automatic remote updates are unavailable and the pinned workflow must be rerun. If blocked, identify the observable finding, affected file or command, and whether the risk is inherent to the requested capability or unexplained.
