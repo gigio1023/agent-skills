@@ -4,7 +4,7 @@
 
 A personal collection of 46 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
-The skills of [gigio-pack](https://github.com/gigio1023/gigio-pack) and [research-credo](https://github.com/gigio1023/research-credo) are being absorbed into this pack. Packages are grouped into two install sets: `skills/minimal/` is the default install and `skills/additional/` is installed on request. A set decides availability only; each skill's description and invocation settings still decide when it runs. Each skill can be used independently; ordinary tasks need not start a project workflow.
+The skills of [gigio-pack](https://github.com/gigio1023/gigio-pack) and [research-credo](https://github.com/gigio1023/research-credo) were absorbed into this pack on 2026-10-12, and both repositories are archived. Packages are grouped into two install sets: `skills/minimal/` is the default install and `skills/additional/` is installed on request. A set decides availability only; each skill's description and invocation settings still decide when it runs. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/): a `SKILL.md` plus any colocated references, scripts, and assets. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills), then update from the tracked source.
 
@@ -189,8 +189,8 @@ These repositories are independently versioned and not included when this pack i
 
 | Repository | Included skills | What it adds |
 | --- | --- | --- |
-| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and discovery workflows | Being absorbed into this pack; skills imported on 2026-10-12 from `3b206a1`; `gigio-project-setup` was not imported, and its duty moved into `work-plan` |
-| [Research Credo](https://github.com/gigio1023/research-credo) | Research methods and evaluation | Being absorbed into this pack; all eleven skills imported on 2026-10-12 from `6217cd0` |
+| [Gigio Pack](https://github.com/gigio1023/gigio-pack) | Project continuity and discovery workflows | Absorbed into this pack and archived on 2026-10-12; skills imported from `3b206a1`; `gigio-project-setup` was not imported, and its duty moved into `work-plan` |
+| [Research Credo](https://github.com/gigio1023/research-credo) | Research methods and evaluation | Absorbed into this pack and archived on 2026-10-12; all eleven skills imported from `6217cd0` |
 | [Astro Dev](https://github.com/gigio1023/astro-dev-skill) | `astro-dev` | Version-aware Astro implementation and migration guidance with focused checks for current framework conventions |
 | [Slop-Aware Writing](https://github.com/gigio1023/slop-aware-writing) | `slop-aware-writing`, `korean-clarity` | Merged into `copydesk`; the repository was archived on 2026-09-24 and remains the MIT license source |
 | [Gigio Figures](https://github.com/gigio1023/gigio-figures) | `technical-figure`, `eli5-figure`, `drawio-diagram` | Planned figure sets for technical documents (mechanism diagrams, geometry, grids, and charts on one visual grammar, rendered and linted in light and dark), deliberately simple figures on request, and native editable draw.io authoring |
