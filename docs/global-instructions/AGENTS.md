@@ -19,9 +19,9 @@ Standing preferences for documents, PR bodies, issues, and messages this author 
 
 - A colleague who knows the field and lacks this project's context. Explain the mechanism and the reason for a decision at the depth that reader needs.
 
-## First screen
+## Opening
 
-- Start with the subject, finding, or decision. Remove preambles that announce the document, repeat its title, or describe the visible table layout. Section lead-ins go too: a sentence that announces the section, says where details were put, states the source basis, or restates what a figure shows. A source stays linked at the claim it supports. A document set may have an overview that helps the reader choose a page. Put a date beside the result it bounds.
+- Open the document with its subject, finding, or decision. Remove preambles that announce the document, repeat its title, or describe the visible table layout. Section lead-ins go too: a sentence that announces the section, says where details were put, states the source basis, or restates what a figure shows. A source stays linked at the claim it supports. A document set may have an overview that helps the reader choose a page. Put a date beside the result it bounds.
 - A summary block uses a short heading or bold label and parallel items. Noun phrases suit labels and compact results; use sentences when conditions or reasoning need them.
 - Preserve passages explicitly marked to stay as written. A local correction leaves unrelated prose intact. A broad revision may reshape user-authored prose while keeping its meaning and intentional omissions. A user note to the writer guides the edit and stays out of the reader's copy.
 

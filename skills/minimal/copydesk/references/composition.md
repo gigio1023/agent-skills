@@ -14,6 +14,8 @@ Use when document work also involves internal sharing, a dashboard, focused lang
 | `frontend-design` | Design intensity, composition, and visual/interaction review for a user-visible change |
 | `share-internal-doc`, `slop-aware-writing`, `korean-clarity` | Merged into this skill: [sharing and delivery](sharing-and-delivery.md), [authoring and revision](authoring-and-revision.md) under the [MIT notice](../LICENSE.slop-aware-writing), and [Korean writing](korean-writing.md) |
 
+`insight-dashboard`, `frontend-design`, and the paper skills belong to the additional install set and are used when installed. Without them this writer still covers the document's content, structure, and a native production route.
+
 Use this writer as the authoring entry point for a document and for its sharing; a request that names `share-internal-doc` is served here. Carry the reader brief and explicit editorial preferences through once, then run the recipient and delivery checks. The author's standing preferences live in [writing profile](writing-profile.md). Missing companions do not remove accuracy, privacy, or established user preferences.
 
 ## Useful combinations

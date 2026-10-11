@@ -32,7 +32,7 @@ writer 판본을 설치하기 전에 후보와 설치본의 실제 행동을 같
 
 세 층으로 잰다. 한 층만으로 판단하지 않는다.
 
-1. **자동 표시**: `check_draft.py`의 self_description, status_plan, order_narration, negation_definition, long_cell, first_screen_prose 건수. 후보 문장 표시일 뿐 합격 판정이 아니다.
+1. **자동 표시**: `check_draft.py`의 self_description, status_plan, order_narration, negation_definition, long_cell, opening_prose 건수. 후보 문장 표시일 뿐 합격 판정이 아니다.
 2. **요청 밖 변경**: `protected_diff.py`로 교정 단계마다 지시 범위 밖에서 바뀌거나 사라진 블록 수, 그림과 수식과 표의 삭제 수, 교정 1에서 유지하라고 한 절의 byte 단위 보존.
 3. **익명 채점**: [rubric.md](rubric.md)의 교정 추적 항목 a~h.
 

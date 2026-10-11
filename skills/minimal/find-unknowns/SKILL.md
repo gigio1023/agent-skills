@@ -1,79 +1,95 @@
 ---
 name: find-unknowns
 description: >
-  Use when the user starts substantial work in territory they don't know well:
-  a new project, research direction, investment or money-management strategy,
-  career or life plan, product or game idea, or an unfamiliar part of a
-  codebase, with no spec, plan, or reference yet; or when they ask for an
-  unknowns pass, blind spot pass, option map, throwaway variants, or a launch
-  brief. Uses bounded, adaptive discovery, compresses what
-  was learned into a launch brief, and, when the user cannot test the result
-  directly, explains consequential decisions and offers a comprehension check.
-  NOT for well-specified or small tasks, multi-round
-  Socratic discovery (use deep-interview), final decision synthesis (left to
-  the agent's own judgment), or packaging session state (use session-handoff).
+  Use when the user starts substantial work in territory they don't know well
+  (a new project, research direction, investment or money-management
+  strategy, career or life plan, product or game idea, or an unfamiliar part
+  of a codebase) with no spec, plan, or reference yet, or asks, at the start
+  or partway through other work, what they are missing: "what am I missing",
+  "what haven't I considered", "blind spots", "consider things I didn't think
+  of", "내가 고려 못한 점", "놓친 거 없어?", an unknowns pass, an option map,
+  throwaway variants, or a launch brief. Scans broadly with field knowledge
+  for hidden goals, constraints, failure modes, and assumptions, leads with
+  its own view, and asks the consequential questions together and early. NOT
+  for well-specified or small tasks unless asked, sustained interviewing (use interview,
+  formerly deep-interview), attacking one stated idea (use idea-critique),
+  research-grounded technical design exploration (use design-exploration), or
+  packaging session state (use session-handoff).
 ---
 
 # Find Unknowns
 
-Surface consequential unknowns before expensive work starts. Begin with the cheapest useful technique and adapt to what it reveals within the same objective and authorized resources. Finish with a launch brief, then continue any next action the user has already authorized. A brief does not create new authority.
+Find what neither the user nor you have noticed yet: the hidden problems, goals, constraints, and considerations that would change the result. Work from the assumption that at least one consequential unknown exists, and look for it with the field's breadth of cases and expert practice rather than only the material in view. Then give your own view first, ask the user the consequential questions together and early, and carry on with the work already authorized.
 
-## Quick Start
+The pass applies to any subject, technical or not. It runs either as a separate pass before work starts or as a lens inside other work, such as a plan, a design, a review, or delegated work. Inside other work, put the result where that work keeps its findings and open questions instead of producing a separate document.
 
-1. Establish the starting point. Inspect available files, repository context, and prior artifacts before asking for facts. If the user's familiarity with the domain is unclear, make the brief self-contained. Ask only when familiarity changes a material decision or the useful discovery technique.
-2. Choose a technique for the consequential unknown:
+## Method
 
-   | Dominant unknown | Signal | Technique |
-   | --- | --- | --- |
-   | Unknown unknowns | New domain; doesn't know what to ask or what "good" looks like | Blindspot brief |
-   | Unsettled scope or direction | "Something in this area"; competing ways to attack | Option map |
-   | Unknown knowns (taste) | "I'll know it when I see it" | Throwaway variants |
-   | Known unknowns | Nameable open questions | Mini-interview |
-   | Inexpressible want | Can't describe it, but an example exists somewhere | Reference request |
+### 1. Inspect before asking
 
-3. Use the result to decide whether another short technique or check would change the next decision. Switch or combine techniques within the same objective and grant without a new approval. Ask before changing direction, exceeding resources or access, taking a new external action, or starting a long new activity unless already authorized.
-4. Identify evidence that can verify the result and the consequences the user needs to understand. Use that to order the next useful work.
-5. Compress the useful findings and open decisions into a launch brief. Adapt [the template](assets/launch-brief.template.md) when it helps; its headings and tables are optional.
+Read what is available before forming questions: the conversation, named files and artifacts, the repository or data involved, prior decisions, and the sources the request points to. A fact that inspection or a quick search can settle is your job, never a question. Note what the request takes for granted and what it leaves unsaid; the scan starts from those gaps.
 
-Keep discovery proportional to the decision. Choose enough questions, examples, or artifacts to expose meaningful differences, and stop when another small check would no longer change the next action. If the remaining work needs sustained interviewing or a substantial investigation, describe that need without silently expanding the pass.
+### 2. Scan broadly with field knowledge
 
-## Running Each Technique Well
+Name the field and the class of effort the work belongs to, then reason from how efforts of that class usually go:
 
-**Blindspot brief.** Teach what changes the user's choices for this task: how the domain works, how experts judge results, relevant failure points and prior art, and missing vocabulary. Ground the explanation in the user's starting point. Suggest a revised prompt when it would make the next request more precise.
+- Recall how comparable efforts went, including how they failed and what they cost.
+- Ask what an experienced practitioner in this field checks first, which pitfalls are standard, and which terms of art a practitioner would use that the request does not.
+- Run a premortem: assume the result later failed or disappointed, and name the most plausible reasons.
+- List the assumptions behind the request and behind your own reading of it, and ask what changes if each one is false.
 
-**Option map.** Inspect relevant code, files, or sources before proposing directions. Compare materially different options by the tradeoffs that affect the decision, including cost and the unknown each resolves. Keep the set small enough to compare without omitting a consequential alternative. Capture the user's accepted and rejected options as scope decisions in their words.
+When the field is unfamiliar to you or the stakes are high, search for comparable cases, practitioner guidance, standards, or rules where search is available and within the task's authority.
 
-**Throwaway variants.** Make concrete alternatives that expose the uncertain choice, such as mockups, strawman documents, or sample plans. Label them as throwaway and label synthetic data. Choose a comparison format the user can judge easily; polish and production wiring add little to this decision. Save artifacts only within the task's file authority. Capture preferences the user's reactions actually establish. If comparison criteria remain unclear, use a short explanation or reference comparison to establish them.
+Sweep every dimension below before concluding that nothing consequential is hidden. Dismiss a dimension quickly when it plainly does not apply, but do not skip one because the request looks narrow or the first checks came back clean. Most of the sweep is reasoning from field knowledge and costs little; spend inspection and search where cost, irreversibility, or unfamiliarity is high.
 
-**Mini-interview.** Ask only questions whose answers could change the next work or a costly decision. Give concrete options and a recommended default when useful. Never ask for a fact available through inspection or search. Separate user choices from empirical uncertainty: a cheap authorized check can resolve the latter; an experiment needing new resources belongs in the next bounded work proposal. "I don't know" leaves an open item with a decide-later rule, never consent. When user-only choices need sustained conversation, offer `deep-interview` and let the user choose that expansion.
+- **Goal:** what the user is actually trying to achieve, what success means and who judges it, and what would make a correct-looking result useless.
+- **Hidden constraints:** rules, deadlines, budgets, access, compatibility, policies, and norms the request does not state.
+- **Affected people:** who else uses, approves, maintains, pays for, or bears the consequences of the result, and whose incentives differ from the user's.
+- **Failure and worst case:** how the work goes wrong, how bad the worst plausible outcome is, and how comparable efforts failed.
+- **Cost, irreversibility, and timing:** what is expensive or impossible to undo, which windows or deadlines apply, and where the order of steps matters.
+- **Second-order effects:** what the result changes downstream and what it makes harder later.
+- **Shared assumptions:** what both the user and you take for granted, and what evidence would contradict it.
+- **Practitioner's first checks:** the checks and quality bars someone experienced in the field applies before anything else.
 
-**Reference request.** Reuse an available example before asking for another. Prefer inspectable source for code and a concrete artifact for other domains, such as a portfolio, paper, video, contract, or finished game. Explain the transferable features. Distinguish observed features and proposed choices from decisions the user has made.
+The dimensions guide the sweep. They are not an output template.
 
-## How The Result Gets Verified
+### 3. Sort each finding
 
-**Directly testable work.** Identify tests, builds, renders, source checks, or measured outcomes that can establish the result. Order work around the uncertainties most likely to change the next decision while respecting real dependencies.
+Keep only findings that could change the result, then sort each one:
 
-**Work the user cannot test directly.** Explain the evidence, consequences, and unresolved decisions behind a strategy or recommendation. Put consequential uncertainty before costly commitments. Offer a scenario-based comprehension check when useful or requested. Understanding does not establish factual correctness or replace permission or professional review. An optional comprehension check does not block an already-authorized action.
+- **Resolve by looking:** inspection, search, or a quick read settles it. Do it now and report the answer.
+- **Needs a measurement or trial:** only new evidence settles it. Propose the cheapest check that would, such as a sample, a small run, a quote, or a prototype. Run it now when it is cheap and within the current grant; otherwise list it as an investigation item with what its result would change. It is not a question for the user.
+- **User's decision:** it turns on a goal, preference, priority, risk tolerance, or authority that only the user holds. Ask it.
 
-Keep consequential findings and changed decisions in the project's existing records when record maintenance is authorized. Record the evidence, what changed, and any condition for revisiting it. A discovery pass does not require a new notes file or a fixed deviation format.
+### 4. Lead with your view
 
-## When Not To Run This
+Open with what you think matters most and why: your read of the situation, the finding most likely to change the result, and the direction you would take. Then give the few other findings that matter, each with its evidence or reasoning, and what you resolved by looking. Scan broadly and present briefly: show the findings that change the result, not an inventory of what you checked, so that an unneeded pass costs the user one paragraph to skip. Explain how the field works only as far as a finding needs it, and define any term of art you introduce when the user's familiarity is unclear.
 
-- A domain-specific skill that covers the territory wins over these generic techniques; run the pass only for sub-areas it does not cover.
-- Sustained multi-round discovery the user explicitly wants belongs to `deep-interview`, not this pass.
-- When the unknowns are already resolved and only a difficult judgment call remains, that is decision synthesis, not an unknowns pass.
-- Skip entirely for small or mechanical edits, well-specified work, or when the user says "just do it."
+### 5. Ask the consequential questions together and early
 
-## Launch Brief
+Ask every user decision in one batch, before the work it affects, with the hardest to reverse first. Give each question why its answer changes the result, concrete options, and a recommended default worded so that agreeing is easy.
 
-The brief carries what the next action needs: the objective and limits, relevant starting point, confirmed decisions with rationale, findings with evidence, consequential open items, and the next useful action with its acceptance criteria. Use the format that makes those facts clear. Return it in chat by default; write a file when the user asks. Preparing for a possible new session alone does not authorize a file.
+An unanswered question stays open with a decide-later rule: the point by which it must be decided and what happens until then, such as proceeding with the default on reversible parts or holding the parts that depend on it. Silence or "I don't know" is never consent to a consequential or irreversible step. Ask a question that depends on an earlier answer in a later round, once its premise is settled. When the user's choices need sustained back-and-forth, offer `interview` and let the user choose it.
 
-Continue the next action when it is already authorized. If the user requests a plan file, use `gigio-write-plan` and the existing brief without another discovery round. If the user requests durable project setup, use `gigio-project-setup`. A missing PROJECT.md does not trigger setup, and accepting a brief does not require either skill.
+### 6. Continue authorized work
 
-Plan only far enough to reach the next useful decision. Unresolved empirical questions can be the work; unresolved user choices block only the work that depends on them.
+The pass informs the work and does not block it. Continue the authorized work that does not depend on open answers, and hold only the parts that do. The pass grants no new authority: ask before changing direction, exceeding resources or access, taking a new external action, or starting a long new activity.
+
+The pass is complete when the user has your view, the findings that change the result with their evidence, the checks you ran or propose, and one batch of questions with defaults, and the authorized work is moving.
+
+## Scope and Optional Tools
+
+Skip an unrequested pass for small or mechanical edits, well-specified work, and requests to proceed without discussion. An explicit request for blind spots runs the pass even on specified work, since a specification does not establish that its assumptions hold. When a domain-specific skill owns the task, follow it and apply this pass to what it does not cover.
+
+Read [discovery tools](references/discovery-tools.md) when the scan shows that the dominant unknown is one direct questions handle poorly: an unsettled direction (option map), taste the user can recognize but not describe (throwaway variants), a want best shown by an existing example (reference request), or dependent choices that need a short follow-up exchange (mini-interview). The same file covers the comprehension check, which runs only when the user cannot verify the result directly and wants one.
+
+## Results and Records
+
+Return the result in chat by default. Write a launch brief only when the user asks for one or the work is being handed to another session, agent, or plan; adapt [the template](assets/launch-brief.template.md) and drop the parts that do not apply. When the user asks for a plan, use `work-plan` with these findings instead of another discovery round. To transfer the session itself, use `session-handoff`. Record findings in a file or in the project's existing records only when the user asks or the task already maintains them.
 
 ## Gotchas
 
-- Do not let a blindspot brief become an unanchored lecture; every section must change how the user would prompt this task.
-- Do not polish throwaway variants or wire them into real systems.
-- Do not convert your recommended defaults into user decisions; unanswered items stay open.
+- **Narrowing while scanning.** A request that looks well defined invites stopping after a few clean checks, and the unnoticed unknown usually sits in a dimension nobody looked at. Finish the sweep, quickly where a dimension plainly does not apply.
+- **Teaching instead of finding.** A tour of how the field works reads as useful but changes nothing. Each finding names what it changes in this work.
+- **Presenting the inventory.** Listing every dimension checked buries the one finding that matters. Report the scan's results, not its coverage.
+- **Defaults becoming decisions.** A recommended default the user did not accept stays an open item with its decide-later rule.

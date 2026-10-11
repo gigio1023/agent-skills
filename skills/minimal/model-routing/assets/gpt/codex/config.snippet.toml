@@ -1,0 +1,11 @@
+# Merge into the requested user or project Codex configuration only under an installation grant.
+# Explicit worker defaults use Astra. Preserve unrelated configuration and any user-selected effort.
+# Check the active catalog and tool contract before applying these settings.
+
+[agents]
+default_subagent_model = "gpt-6-astra"
+default_subagent_reasoning_effort = "xhigh"
+
+# Role assets live in assets/gpt/codex/agents/. Install them into the supported agent directory.
+# Role selection is available only when the active spawn surface exposes it.
+# Use a compatible role or explicit spawn to honor a different user-selected effort.

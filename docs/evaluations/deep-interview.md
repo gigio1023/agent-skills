@@ -1,3 +1,5 @@
+> Historical evaluation of `deep-interview`'s one-question-per-turn contract. On 2026-10-12 the skill became `interview`, which asks independent questions together in rounds; this verdict has not been re-measured for that contract.
+
 # Deep Interview Evaluation
 
 - Date: 2026-07-10

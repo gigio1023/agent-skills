@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import Any
 
 API_ROOT: str = "https://arctic-shift.photon-reddit.com/api"
-USER_AGENT: str = "reddit-search-skill/1.0 (personal lookup; +https://github.com/gigio1023/agent-skills)"
+USER_AGENT: str = "reddit-search-skill/1.0 (personal lookup; +https://github.com/gigio1023/gigio-skills)"
 MIN_INTERVAL_SECONDS: float = 1.5
 TIMEOUT_RETRY_WAIT_SECONDS: float = 3.0
 MAX_RATE_LIMIT_WAIT_SECONDS: float = 60.0

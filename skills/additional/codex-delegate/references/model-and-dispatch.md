@@ -24,7 +24,7 @@ The current [configuration reference](https://learn.chatgpt.com/docs/config-file
 
 ## Internal subagents
 
-An Astra delegate uses the sibling `gpt6-astra-model-routing` skill for available roles, model settings, and host-specific overrides. Mission work is eligible for useful internal delegation. The former mission exclusion does not apply.
+An Astra delegate uses the GPT policy of the sibling `model-routing` skill for available roles, model settings, and host-specific overrides. Mission work is eligible for useful internal delegation. The former mission exclusion does not apply.
 
 - Default every judgment-bearing child to Astra, including unnamed and nested workers.
 - Use Sol 6.1 only for fixed execution with mechanical acceptance and no semantic decisions.

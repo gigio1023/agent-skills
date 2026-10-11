@@ -18,7 +18,7 @@ description: >
 
 # Write Notion
 
-Publish a team document in Notion that a colleague can review from the page alone. The design or decision is on the first screen, details are one click away, people are referenced without leaking names or flooding notifications, and the stored page matches what was intended.
+Publish a team document in Notion that a colleague can review from the page alone. The design or decision is at the top of the page, details are one click away, people are referenced without leaking names or flooding notifications, and the stored page matches what was intended.
 
 This is a publication workflow skill, in the way `write-issue` is for trackers. It owns the document shape, the Notion page layout, people references, tables, figures, the Notion Markdown editing mechanics, and post-publish verification. It is not a style skill: `copydesk` owns sentence-level writing (meaning preservation, claim strength, voice, and the author's writing profile) and applies to every paragraph, bullet, caption, and table cell. `technical-figure`, or the project's own figure tool, draws the figures; this skill decides which figures the page needs and uploads them. Tracker issues and pull requests stay with `write-issue` and `draft-pr`; the page links to them.
 
@@ -41,6 +41,8 @@ Without a working Notion connection, deliver the page as Notion Markdown and say
 ## Shape Before Writing
 
 Decide the genre first, because it decides the sections. A new module, service, or feature uses a design doc (also called an RFC). One consequential choice uses a short decision record. A question list, when the user asks for one or it outgrows the design doc's Open questions section, is its own short page grouped by when each question must be answered: before review, during implementation, or out of scope. Group by person only when asked. A guide, report, or runbook takes its structure from `copydesk`'s document forms; this skill still handles its Notion layout.
+
+The `design-doc` skill owns a design doc's sections and their content rules: interfaces and seams, the verification split, the decision log, and the experiment queue. This skill maps those sections onto the Notion page layout, decides what stays visible and what goes under toggles, and publishes and verifies the page. Use the order below when the document has no `design-doc` structure yet.
 
 The default design doc order is:
 
