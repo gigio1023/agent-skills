@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 268" width="720" height="268" role="img" aria-labelledby="title desc">
+  <title id="title">Where find-unknowns sends final decision synthesis</title>
+  <desc id="desc">Before, the NOT-for clause in the find-unknowns description sends final decision synthesis to fable5-model-routing, which only chooses model and effort. After, the clause names no skill and leaves final decision synthesis to the agent's own judgment.</desc>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse" overflow="visible">
+      <path d="M1 1 L7 4 L1 7" fill="none" stroke="#CCCCCC" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <style>
+    .entity { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 14px; fill: #FFFFFF; text-anchor: middle; }
+    .sub { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 12px; fill: #CCCCCC; text-anchor: middle; }
+    .label { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; fill: #FFFFFF; text-anchor: middle; }
+    .edge { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 12px; fill: #CCCCCC; text-anchor: middle; }
+    .panel { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 13px; fill: #929591; letter-spacing: 0.04em; }
+    .box { fill: #0D0D0D; stroke: #CCCCCC; stroke-width: 1.2; }
+    .box-hot { fill: #804126; stroke: #FF9365; stroke-width: 1.2; }
+    .box-open { fill: #0D0D0D; stroke: #929591; stroke-width: 1.2; stroke-dasharray: 4 3; }
+    .flow { fill: none; stroke: #CCCCCC; stroke-width: 1.2; }
+  </style>
+  <rect width="720" height="268" fill="#0D0D0D"/>
+
+  <text class="panel" x="24" y="36">BEFORE (main)</text>
+  <g id="before-find-unknowns">
+    <rect class="box" x="24" y="56" width="176" height="64" rx="16"/>
+    <text class="entity" x="112" y="84">find-unknowns</text>
+    <text class="sub" x="112" y="103">description</text>
+  </g>
+  <g id="before-fable5-model-routing">
+    <rect class="box-hot" x="470" y="56" width="226" height="64" rx="16"/>
+    <text class="entity" x="583" y="84">fable5-model-routing</text>
+    <text class="sub" x="583" y="103">chooses model and effort only</text>
+  </g>
+  <g id="before-exclusion">
+    <path class="flow" d="M200 88 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="335" y="80">NOT for: final decision synthesis</text>
+  </g>
+
+  <text class="panel" x="24" y="160">AFTER</text>
+  <g id="after-find-unknowns">
+    <rect class="box" x="24" y="180" width="176" height="64" rx="16"/>
+    <text class="entity" x="112" y="208">find-unknowns</text>
+    <text class="sub" x="112" y="227">description</text>
+  </g>
+  <g id="after-own-judgment">
+    <rect class="box-open" x="470" y="180" width="226" height="64" rx="16"/>
+    <text class="label" x="583" y="208">agent's own judgment</text>
+    <text class="sub" x="583" y="227">no skill named</text>
+  </g>
+  <g id="after-exclusion">
+    <path class="flow" d="M200 212 H469" marker-end="url(#arrow-ink)"/>
+    <text class="edge" x="335" y="204">NOT for: final decision synthesis</text>
+  </g>
+</svg>
