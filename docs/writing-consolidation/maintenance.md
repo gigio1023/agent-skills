@@ -6,8 +6,8 @@ Copydesk는 독자의 이해와 의미 보존을 개선하는 지침을 유지�
 
 | 원본 | 책임 | 적용 |
 | --- | --- | --- |
-| [Writing profile](../../skills/productivity/copydesk/references/writing-profile.md) | 저자의 문체와 표현 선호 | 지시 파일의 import 또는 동기화된 복사본 |
-| [SKILL.md](../../skills/productivity/copydesk/SKILL.md)와 참조 | 독자, 수정 범위, 의미 보존, 구조, 검토 방법 | 현재 작업에 필요한 지침과 참조 |
+| [Writing profile](../../skills/minimal/copydesk/references/writing-profile.md) | 저자의 문체와 표현 선호 | 지시 파일의 import 또는 동기화된 복사본 |
+| [SKILL.md](../../skills/minimal/copydesk/SKILL.md)와 참조 | 독자, 수정 범위, 의미 보존, 구조, 검토 방법 | 현재 작업에 필요한 지침과 참조 |
 
 Profile은 한 원본에서 관리한다. 배포용 지시 파일과 갱신 방법은 [global instructions](../global-instructions/README.md)에 있다. 저장소의 원본과 복사본을 고치는 일과 실제 전역 설치는 별도 범위다. 현재 요청과 문서의 필수 template이 profile보다 우선하며 다른 저자의 글은 요청된 범위 안에서 고친다.
 
@@ -15,7 +15,7 @@ Profile은 한 원본에서 관리한다. 배포용 지시 파일과 갱신 방�
 
 - **기능과 근거:** 지침이 바꾸는 판단이나 결과를 설명한다. 명시적인 선호나 충분히 이해한 실제 사례 하나도 근거가 될 수 있다. 반복 실패, source 충돌, 검증 결과가 있으면 함께 사용하되 비교 시험을 모든 변경의 진입 조건으로 삼지 않는다.
 - **내용과 배치:** 필요한 의미와 절차는 보존하고 중복, 불필요한 금지, 사용되지 않는 우회 규칙은 줄인다. Profile 행 수, SKILL.md 바이트 수, one-in-one-out을 제한으로 두지 않는다. 길어지면 언제 읽어야 하는지를 기준으로 참조를 나눈다.
-- **사례와 이력:** [교정 사례](../../skills/productivity/copydesk/references/correction-cases.md)는 해당 실패를 설명할 때 갱신한다. 유효한 옛 사례는 유지하며 주기나 사례 수를 맞추려고 교체하지 않는다. 새 사실이 필요한 예시는 함께 제공된 근거를 명시한다.
+- **사례와 이력:** [교정 사례](../../skills/minimal/copydesk/references/correction-cases.md)는 해당 실패를 설명할 때 갱신한다. 유효한 옛 사례는 유지하며 주기나 사례 수를 맞추려고 교체하지 않는다. 새 사실이 필요한 예시는 함께 제공된 근거를 명시한다.
 - **검증:** 변경된 package의 링크와 형식을 확인한다. Script나 template이 바뀌면 관련된 실제 입력 또는 고정 입력으로 동작을 확인한다. 글쓰기 품질은 의미, 조건, 설명의 연결을 읽어 판단한다. Model 비교는 요청된 경우 실행하며 정적 검사나 checker의 finding 수를 행동 개선의 증거로 쓰지 않는다.
 
 [Findings](findings.md)와 [비교 시험 harness](harness/README.md)는 통합 당시의 진단과 선택적 비교 방법을 보존한다. 그 기록의 규칙 수나 과거 판정은 현행 skill을 덮어쓰지 않는다.
@@ -31,8 +31,8 @@ Profile은 한 원본에서 관리한다. 배포용 지시 파일과 갱신 방�
 
 이 절은 당시 결정의 기록이다. STE 적용 비율, 문장 수치 제한, figure 우선 규칙은 2026-10-06에 폐기했다.
 
-- 문장 규칙으로 ASD-STE100 Issue 9(2025-01-15)의 문장과 문단 규칙을 약 80% 강도로 들였다. 승인 어휘 사전은 들이지 않았다. 근거는 소유자 요청이다. profile은 "남기는 것" 두 줄을 한 줄로 합치고 그 자리에 문장 규칙 한 줄을 넣어 37줄을 유지했다. 당시 규칙과 예시는 `references/voice-and-facts.md`의 Controlled sentences 절에 있었다. 현재 지침과 의미를 보존한 예시는 [Clear sentences](../../skills/productivity/copydesk/references/voice-and-facts.md#clear-sentences)에 있다.
-- 독자가 mechanism, 구조, 비교를 이해해야 하면 산문보다 figure나 interactive page를 먼저 고른다. 현재 [Medium for understanding](../../skills/productivity/copydesk/references/information-design.md#medium-for-understanding)은 독자의 질문에 따라 산문, 표, 그림을 선택한다.
+- 문장 규칙으로 ASD-STE100 Issue 9(2025-01-15)의 문장과 문단 규칙을 약 80% 강도로 들였다. 승인 어휘 사전은 들이지 않았다. 근거는 소유자 요청이다. profile은 "남기는 것" 두 줄을 한 줄로 합치고 그 자리에 문장 규칙 한 줄을 넣어 37줄을 유지했다. 당시 규칙과 예시는 `references/voice-and-facts.md`의 Controlled sentences 절에 있었다. 현재 지침과 의미를 보존한 예시는 [Clear sentences](../../skills/minimal/copydesk/references/voice-and-facts.md#clear-sentences)에 있다.
+- 독자가 mechanism, 구조, 비교를 이해해야 하면 산문보다 figure나 interactive page를 먼저 고른다. 현재 [Medium for understanding](../../skills/minimal/copydesk/references/information-design.md#medium-for-understanding)은 독자의 질문에 따라 산문, 표, 그림을 선택한다.
 - 늘어난 바이트는 다른 파일과 겹치는 문장을 지워 갚았다. 패키지 전체는 112바이트 줄었다.
 
 ## 2026-09-29의 변경: 크기와 교체 제한 폐기

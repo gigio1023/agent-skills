@@ -12,17 +12,17 @@ description: >
 
 # Praxis: Direction
 
-Outcome: the user can state one bet in their own words: the organizational outcome it serves, the number that will move, the intervention, the first cheap test, the resources it may spend, and the observation that ends it. The agent asks one question per turn, uses the organization's profile for what only the organization knows, and stops when the bet is articulated. It does not run experiments, spend money, or hand down a verdict.
+Outcome: the user can state one bet in their own words: the organizational outcome it serves, the number that will move, the intervention, the first cheap test, the resources it may spend, and the observation that ends it. The agent asks the open questions in rounds, uses the organization's profile for what only the organization knows, and stops when the bet is articulated. It does not run experiments, spend money, or hand down a verdict.
 
 ## Scope
 
 Use when a research direction is decided inside an organization and the result is a product, customer, or capability decision rather than a paper. A direction usually arrives as an agenda: "improve X capability", "we should look into Y", "the team needs Z". An agenda names an area; a bet names a number, an intervention, and a cost. This skill turns the first into the second.
 
-The gate runs on a request: the user asks for a bet, or choosing what to pursue is itself the task. An agenda or a new model release mentioned in passing is not that request. Do not reopen a settled bet or turn ordinary implementation into an interview. For a paper-direction decision use credo-taste; both have a gate, but they answer to different readers.
+The gate runs on a request: the user asks for a bet, or choosing what to pursue is itself the task. An agenda or a new model release mentioned in passing is not that request. Do not reopen a settled bet or turn ordinary implementation into an interview. For a paper-direction decision use credo-taste when it is installed; both have a gate, but they answer to different readers.
 
 ## The profile
 
-Read the organization's praxis profile before asking anything it already answers. Resolve it in this order: a path named in the project's `AGENTS.md` or `PROJECT.md`; otherwise `praxis-profile.md` found by walking up from the working directory; otherwise none. State the resolved path once.
+Read the organization's praxis profile before asking anything it already answers. Resolve it in this order: a path named in the project's instruction file (`AGENTS.md` or `CLAUDE.md`) or another project record; otherwise `praxis-profile.md` found by walking up from the working directory; otherwise none. State the resolved path once.
 
 Without a profile, run the gate with the generic questions, mark the closing block `profile: none`, and offer the setup below once. Do not block on the missing file.
 
@@ -30,7 +30,7 @@ The profile is the organization's data. The gate only reads it; setup and audit 
 
 ## The gate
 
-Ask in order, one per turn, skipping what the user or the profile has already answered. Stop early when an answer settles the bet.
+Skip what the user or the profile has already answered. Ask the remaining questions whose prerequisites are settled together in one round, each with why it matters and a recommended default; a question that depends on an open answer, such as the operational definition before the outcome is named, waits for the next round. Ask one question per turn only when the user asks for that. Stop early when the answers settle the bet.
 
 1. **Outcome.** Which organizational outcome changes if this works: a decision someone makes, a deliverable a customer receives, a claim the company can make? Name the person or the deliverable. If nothing changes, this is an agenda, not a bet; ask what the agenda is standing in for.
 2. **Operational definition.** Which task family, measured by which evaluation the organization accepts as evidence, at what number today, and what number would count as success? Until the unit of measurement is fixed, "capability" is not a noun. If the number today is unknown, measuring it is the first bet.
@@ -39,7 +39,7 @@ Ask in order, one per turn, skipping what the user or the profile has already an
 5. **In-house assets.** Which one question, put to which expert in the profile, would change the plan most? Which internal data applies, and what does its size support: an evaluation set first when the count is small, a few-shot pool next, a training seed only when the count and the license allow it?
 6. **Deliverable and kill condition.** What form does the result take, in how many weeks, and what observation ends the bet early?
 
-Stop rules: stop when the user can state the bet; stop after about six questions without convergence and summarize what is and is not settled; if the user answers "I don't know" twice in a row, propose the cheapest measurement that would answer the open question and stop.
+Stop rules: stop when the user can state the bet; stop after about two rounds without convergence and summarize what is and is not settled; if the user answers "I don't know" to two questions in a row, propose the cheapest measurement that would answer the open question and stop.
 
 No scores or weighted rubrics. If asked for one, give the reasons in prose instead.
 
@@ -55,13 +55,13 @@ This is analysis. Do not run attacks, query production systems adversarially, or
 
 ## Set up or audit the profile
 
-Run this only when the user asks for setup or audit, or accepts the offer above. Resolve the target from a path the user names, then a path named in `AGENTS.md` or `PROJECT.md`, then `praxis-profile.md` at the workspace root. If the file exists, audit it instead of interviewing again.
+Run this only when the user asks for setup or audit, or accepts the offer above. Resolve the target from a path the user names, then a path named in the project's instruction file or another project record, then `praxis-profile.md` at the workspace root. If the file exists, audit it instead of interviewing again.
 
 Before writing, check where the file will land. Refuse a path inside an installed skill directory. If the workspace's Git remote points at a public host and the target is not ignored, say so and offer an ignored path or a private location: the profile names customers, budgets, and people. Do not edit `.gitignore` without asking.
 
-Read [references/profile-template.md](references/profile-template.md) for the fields and a synthetic example. Ask one field per turn in the template's order, skip a field the workspace's documents already answer, and cite where the answer came from. Record what the user says, not what the agent would prefer; a field the user cannot answer yet is written as `undecided` with the date. Keep the profile within about forty lines: one line per outcome, one row per tier, expert role, and dataset. Refer to people by role unless the user wants names.
+Read [references/profile-template.md](references/profile-template.md) for the fields and a synthetic example. Fill the fields the workspace's documents already answer and cite where each answer came from, then ask the remaining fields together in one round. Record what the user says, not what the agent would prefer; a field the user cannot answer yet is written as `undecided` with the date. Keep the profile within about forty lines: one line per outcome, one row per tier, expert role, and dataset. Refer to people by role unless the user wants names.
 
-Write the file, then add one line naming its path to `AGENTS.md` or `PROJECT.md`, for example `Praxis profile: praxis-profile.md`, without restructuring that file. Report the path and the fields left undecided.
+Write the file, then add one line naming its path to the project's instruction file (`AGENTS.md` or `CLAUDE.md`), for example `Praxis profile: praxis-profile.md`, without restructuring that file. Report the path and the fields left undecided.
 
 On an audit, compare each field with the current facts the user or the workspace supplies and append a dated line under each changed field rather than rewriting history; the gate reads the latest line. Flag a tier, threshold, or dataset that no longer exists, and never remove past values. Setup does not run the gate, create plans, or record predictions.
 

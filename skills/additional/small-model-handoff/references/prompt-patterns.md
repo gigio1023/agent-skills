@@ -1,6 +1,6 @@
 # Small Model Handoff Prompt Patterns
 
-GPT Sol 6.1 packets must satisfy `gpt6-astra-model-routing` before using these patterns. The general change example below does not authorize Sol to implement code. Use Sol only for fixed collection, approved deterministic data transforms, or command execution; return raw evidence and failures to Astra for interpretation.
+GPT Sol 6.1 packets must satisfy the GPT policy in `model-routing` before using these patterns. The general change example below does not authorize Sol to implement code. Use Sol only for fixed collection, approved deterministic data transforms, or command execution; return raw evidence and failures to Astra for interpretation.
 
 ## Contents
 

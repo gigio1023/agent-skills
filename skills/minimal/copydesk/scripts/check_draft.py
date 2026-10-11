@@ -6,7 +6,7 @@ accuracy, useful content, semantic fidelity, or clear reasoning. Every hit is a 
 A condition that changes how a number should be read (a caveat, a scope
 limit, a unit note) is legitimate even when it matches status_plan -- the
 pattern only says "look here," not "cut this." Categories: self_description,
-status_plan, order_narration, negation_definition, long_cell, first_screen_prose.
+status_plan, order_narration, negation_definition, long_cell, opening_prose.
 """
 
 from __future__ import annotations
@@ -18,10 +18,10 @@ import sys
 from dataclasses import dataclass, field
 
 MAX_TEXT_LEN = 120  # trim point for reported sentences/cells
-FIRST_SCREEN_LINE_WINDOW = 12  # how many opening lines count as "first screen"
+OPENING_LINE_WINDOW = 12  # how many non-empty lines after the title count as the opening
 CATEGORY_ORDER = [
     "self_description", "status_plan", "order_narration",
-    "negation_definition", "long_cell", "first_screen_prose",
+    "negation_definition", "long_cell", "opening_prose",
 ]
 # "대신하지 못한다" states a real limit, not a negation-of-identity claim -- never flag it.
 NEGATION_SAFE_PHRASE = "대신하지 못한다"
@@ -198,26 +198,26 @@ def check_long_cells(lines: list[str], max_cell: int) -> list[Finding]:
             col += len(part) + 1
     return findings
 
-def check_first_screen_prose(lines: list[str]) -> list[Finding]:
+def check_opening_prose(lines: list[str]) -> list[Finding]:
     """Locate an opening paragraph worth reviewing; its length alone is not a defect."""
     pairs = scannable_lines(lines)
     h1_index = next((i for i, (_, line) in enumerate(pairs) if H1_RE.match(line)), None)
     window_start = 0 if h1_index is None else h1_index + 1
     non_empty = [p for p in pairs[window_start:] if p[1].strip() != ""]
-    window = non_empty[:FIRST_SCREEN_LINE_WINDOW]
+    window = non_empty[:OPENING_LINE_WINDOW]
     if not window:
         return []
     window_line_nos = {ln for ln, _ in window}
     blocks = group_blocks([p for p in pairs if min(window_line_nos) <= p[0] <= max(window_line_nos)])
     for block in blocks:
         if block.kind == "prose" and len(split_sentences(block)) > 2:
-            return [Finding(block.start_line, 1, "first_screen_prose", trim(block.lines[0][1].strip()))]
+            return [Finding(block.start_line, 1, "opening_prose", trim(block.lines[0][1].strip()))]
     return []
 
 def analyze(text: str, max_cell: int) -> list[Finding]:
     lines = text.splitlines()
     blocks = group_blocks(scannable_lines(lines))
-    findings = check_sentence_categories(blocks) + check_long_cells(lines, max_cell) + check_first_screen_prose(lines)
+    findings = check_sentence_categories(blocks) + check_long_cells(lines, max_cell) + check_opening_prose(lines)
     findings.sort(key=lambda f: (f.line, f.col))
     return findings
 

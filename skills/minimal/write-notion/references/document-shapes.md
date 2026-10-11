@@ -22,6 +22,8 @@ Read this when choosing a genre and section order, or when checking whether a se
 
 A design doc earns its cost when the change has dependencies, real alternatives, or effects on other teams. When implementing would take less time than writing the document, or when the document would only be an implementation manual with no trade-offs, skip it or write a one-to-three-page mini design doc focused on the decision that matters.
 
+When the content comes from `design-doc`, keep its sections and map them onto this page layout; its verification split fills the test plan and its threat model fills the security section. The skeleton below is for design docs written directly in Notion.
+
 ## Design Doc Skeleton
 
 | Section | Purpose | Placement |

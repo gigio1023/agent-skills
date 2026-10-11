@@ -33,7 +33,7 @@ Read `references/prompt-patterns.md` for mode-specific scope patterns, stop repo
 
 ## GPT Executor Boundary
 
-Follow `gpt6-astra-model-routing` for GPT assignments. Sol 6.1 accepts only very easy deterministic collection, transformation, or command execution with fixed inputs, procedure, output, and mechanical acceptance. Source selection, summaries, confidence assessment, diagnosis, code implementation, review, and prose edits belong to Astra even when the scope is narrow.
+Follow the GPT policy in `model-routing` for GPT assignments. Sol 6.1 accepts only very easy deterministic collection, transformation, or command execution with fixed inputs, procedure, output, and mechanical acceptance. Source selection, summaries, confidence assessment, diagnosis, code implementation, review, and prose edits belong to Astra even when the scope is narrow.
 
 For a Sol packet, name exact source locations and return raw or mechanically transformed results, exit statuses, and failed items. Use `change` only for an approved deterministic data transform. A mismatch returns to Astra without interpretation or recovery. The restrictions here support a mechanical executor; they are not default instructions for Astra or a general successor.
 

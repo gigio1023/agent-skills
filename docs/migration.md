@@ -1,6 +1,6 @@
 # Package ownership and source migration
 
-Agent Skills provides harness, prompting, installation, delegation, coding, and artifact-production methods. [Gigio Pack](https://github.com/gigio1023/gigio-pack) retains project purpose, current understanding, constraints, adaptive plans, and continuity. [Research Credo](https://github.com/gigio1023/research-credo) owns research methods and operations. These remain separate repositories.
+Since 2026-10-12 this repository is the single pack: [Gigio Pack](https://github.com/gigio1023/gigio-pack) and [Research Credo](https://github.com/gigio1023/research-credo) were imported and their skills merged here (see [the 2026-10-12 mapping](#merges-renames-and-new-skills-on-2026-10-12)). The sections below record earlier moves between the three repositories in date order, and their ownership statements describe the arrangement at that time.
 
 ## Incoming from Gigio Pack
 
@@ -75,7 +75,24 @@ The writer is `copydesk`, renamed from `technical-report-writing` on 2026-09-24 
 
 ## Install sets on 2026-10-12
 
-Bundled packages moved from `skills/development/` and `skills/productivity/` into two install sets. `skills/minimal/` holds the default install and `skills/additional/` the on-request install. The packages imported from Gigio Pack (`3b206a1`) and Research Credo (`6217cd0`) on the same day were placed directly into these sets; `gigio-project-setup` was not imported.
+Bundled packages moved from `skills/development/` and `skills/productivity/` into two install sets. `skills/minimal/` holds the default install and `skills/additional/` the on-request install. The packages imported from Gigio Pack (`3b206a1`) and Research Credo (`6217cd0`) on the same day were placed directly into these sets. `gigio-project-setup` was not imported as a package; its duty moved into `work-plan` in the merge below.
 
 The Skills CLI tracks each installed package by repository and path, so `skills update` does not follow the move. During a separately requested refresh, use `install-skill-pack` with an explicit mapping from each installed name and tracked source to its new path, install the new paths by name, verify tracked metadata and harness destinations, and only then remove packages still attributed to retired sources.
+
+## Merges, renames, and new skills on 2026-10-12
+
+| Former names | Current name | Set | Change |
+| --- | --- | --- | --- |
+| `gigio-write-plan`, `gigio-execute-plan`, `gigio-review-results`, `gigio-project-setup` | `work-plan` | minimal | Write, execute, review, and project-context modes, each opened only on request; old plan files keep working |
+| `deep-interview` | `interview` | minimal | Independent questions asked together in rounds; measurement questions become investigation items |
+| `use-terminology`, `curate-terminology` | `terminology` | minimal | Read-only lookup first, curation only for gaps, disputes, or requests |
+| `fable5-model-routing`, `gpt6-astra-model-routing` | `model-routing` | minimal | Dispatcher over two unchanged family policies; agent and role files keep their models and effort |
+| `fable5-prompting-guide`, `opus5-prompting-guide`, `gpt6-prompting-guide` | `prompting-guide` | minimal | Dispatcher over three unchanged family guides |
+| `cross-harness-skills` | `skill-builder` | minimal | Absorbed as conditional references |
+
+New in the minimal set: `design-exploration`, `idea-critique`, `design-doc`, and `bug-diagnosis`. `literature-research` gains a mechanism-map mode, and `find-unknowns` is realigned to scan broadly for what neither side has noticed, lead with its own view, and ask the consequential questions together. The writing profile's "First screen" heading is now "Opening". Concepts adapted from mattpocock/skills (`49dd158`, MIT License, Copyright (c) 2026 Matt Pocock) are rewritten and credited in each skill's source notes.
+
+The repository was renamed from `gigio1023/agent-skills` to `gigio1023/gigio-skills` on the same day. GitHub redirects the old URL, but packages installed from it keep the old source in the Skills CLI lock until they are reinstalled from the new name.
+
+Each description names its former names once, so requests that use them still route. Installed copies under the former names are not updated by `skills update`; during a requested refresh, install the current names, verify them, then remove the former names. Codex role files and agent definitions already installed from the routing skills keep working, but their text names the former routing skill until they are reinstalled.
 

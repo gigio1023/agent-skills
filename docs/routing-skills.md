@@ -4,8 +4,7 @@ GPT work defaults to Astra. Sol 6.1 is reserved for very easy deterministic coll
 
 | Skill | Responsibility |
 | --- | --- |
-| `gpt6-astra-model-routing` | GPT model and effort selection, worker roles, and nested GPT delegation |
-| `fable5-model-routing` | Anthropic model and effort choices under a Fable lead |
+| `model-routing` | Dispatcher that loads one family's policy: the GPT policy for GPT model and effort selection, worker roles, and nested GPT delegation; the Fable policy for Anthropic model and effort choices under a Fable lead. Formerly `gpt6-astra-model-routing` and `fable5-model-routing` |
 | `orchestrate-subagents` | Decomposition, ownership, coordination, and synthesis |
 | `small-model-handoff` | Fixed execution contracts for a selected mechanical or weaker executor |
 | `codex-delegate` | External Codex mission launch, authority, runtime, and evidence |

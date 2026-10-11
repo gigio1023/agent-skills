@@ -1,0 +1,39 @@
+# Write Mode
+
+Create a plan a later session can use to make the next useful advance. Keep the overall direction visible; detail the next analysis, experiment, review, or implementation whose result changes the next decision. Do not manufacture a complete sequence when later steps depend on findings.
+
+## Establish the basis
+
+Read the intent the work answers to: whatever the user or project already maintains, such as instruction files, a design or research document, a brief, a parent plan, or a project record. Read current user instructions and relevant results. Identify the next decision or desired result and why it matters.
+
+Recover facts before asking questions. Settle the questions whose answers would change the plan before detailing work, including consequential unknowns nobody has noticed yet, and ask them together rather than one at a time. Use `find-unknowns` when the search for what neither side has noticed needs its own pass, and `interview` only when the user wants sustained questioning. Open empirical questions can be the work itself.
+
+Preserve accepted goals and limits in recognizable user wording. Label a planner's new proposal only where it could change intent or authority, and keep the label until the user accepts or changes it. An unanswered question is not approval, but sufficient existing direction does not need another confirmation.
+
+When the work spans repositories or sessions and no maintained document carries the project's lasting context, read [project-context.md](project-context.md) before writing the plan.
+
+## Detail the next work
+
+Use [the plan template](../assets/plan-template.md) under the user's chosen root, defaulting to `.plans/<topic>.md`. The root can be a research workspace, a vault, or several repositories. Follow its established storage and visibility policy; do not silently add a Git exclusion or a competing tracking system.
+
+Bound the current round by the next decision. State the question, relevant known facts, important assumptions, selected action, expected information, how to assess the result, and when to reconsider. Later possibilities can remain short alternatives or open questions rather than scheduled tasks.
+
+A result can justify proceeding, reject an explanation, reveal insufficient information, or require a change in direction. Make that distinction visible before execution, so a negative or inconclusive result is recognizable as an outcome rather than a defect. Do not demand a predicted finding, code output, or pass/fail command when the work calls for judgment.
+
+For implementation, dependencies and checks may be known in advance. For research, record dependencies that are real now. Use task IDs when actions need separate ownership, and preserve existing IDs. Stage numbers are optional scheduling aids.
+
+Before simultaneous execution, partition shared writes: name the paths, output locations, or shared resources each parallel action writes, and which live jobs it owns. Do this for the work about to run in parallel, not for every future finding. A read-only comparison can name its sources and result location; it needs no artificial edit. A run names its inputs, resource limits, and existing output records. Do not copy code bodies, raw logs, or an entire literature collection into a plan.
+
+## Carry authority and continuity
+
+Record existing grants for targets, data, compute, budget, publication, and consequential actions. Fast follow-up checks within the same question and permitted resources may be chosen during execution. Ask before a direction change or a long new activity, such as work expected to take two to three days or more, unless that exact activity was already authorized. Short duration alone does not authorize paid services, private-data transfer, or a new external write. Apply tighter project limits when present, and consider cost and disruption as well as elapsed time.
+
+Link the source records and versions whose change would invalidate this round: a commit, a dataset revision, a model checkpoint, a document version, or observed live state may be appropriate. Do not require hashes or rerunning every historical check when they cannot affect the current action.
+
+Use existing experiment and research records. The plan coordinates work and decisions; it is not the only permissible place for state.
+
+## Deliver
+
+Provide the saved path, the first useful action, and any material proposed intent awaiting a decision. A planning-only request ends at the plan. If execution was requested too, continue in execute mode under the same grant.
+
+When revising a plan, preserve earlier results and the reason for a changed action while updating upcoming work. The next session should see the current plan immediately without reconstructing it from an append-only history.

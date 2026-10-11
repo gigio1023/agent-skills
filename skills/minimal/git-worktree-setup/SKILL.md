@@ -2,7 +2,7 @@
 name: git-worktree-setup
 description: >
   Use when implementation should be isolated from the current checkout, a plan
-  calls for a separate branch workspace such as `gigio-execute-plan` isolating
+  calls for a separate branch workspace such as `work-plan` execution isolating
   parallel workers, or worktree state must be detected before editing. Reuses
   existing isolation or creates a worktree through the harness or Git. NOT for
   merely listing worktrees, deleting them, or publishing a finished branch.

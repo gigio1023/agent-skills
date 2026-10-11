@@ -36,7 +36,7 @@ The OWASP Top 10 for LLM applications, OWASP agentic guidance, NIST AI RMF, and 
 
 ## Records
 
-Write the design and its results in methodology language: the boundary, objective category, metric, judging criterion, environment, budget, and outcome counts. Keep reproducible procedure, concrete adversarial inputs, bypass detail, and raw harmful outputs out of automatically loaded files (memory, plans, handoffs, README first screens, skill files). Hold them in access-controlled evidence storage under the project's records policy, and keep the findings themselves complete there.
+Write the design and its results in methodology language: the boundary, objective category, metric, judging criterion, environment, budget, and outcome counts. Keep reproducible procedure, concrete adversarial inputs, bypass detail, and raw harmful outputs out of automatically loaded files (memory, plans, handoffs, README openings, skill files). Hold them in access-controlled evidence storage under the project's records policy, and keep the findings themselves complete there.
 
 ## Synthetic example
 

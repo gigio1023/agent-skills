@@ -1,9 +1,7 @@
 ---
 name: skill-builder
 description: >
-  Create, improve, or audit reusable agent skills from real work and user
-  preferences. Use for skill instructions, resources, packaging, or model and
-  harness adaptation, not ordinary project documents or one-off task prompts.
+  Create, improve, or audit reusable agent skills from real work and user preferences: skill instructions, descriptions, resources, scripts, packaging, validation, and model or harness adaptation, including one skill that must work in both Claude Code and Codex or another harness (formerly cross-harness-skills). NOT for ordinary project documents, one-off task prompts, or system prompts and agent instruction files written for one target model (prompting-guide).
 ---
 
 # Skill Builder
@@ -56,7 +54,7 @@ Descriptions drive discovery: lead with concrete tasks and natural user phrases.
 
 Capture observed gotchas as the condition, tempting mistake, and correction. Put critical exceptions on the normal path if the agent would not know to look for them. Do not invent failures to fill a Gotchas heading.
 
-Use [frontier audit](references/frontier-model-audit.md) for model migration. For target-specific instruction design, apply the available matching prompting guide and consult its primary sources when the claim needs refreshing. Loading a guide does not select a model or require importing all of its advice.
+Use [frontier audit](references/frontier-model-audit.md) for model migration. For target-specific instruction design, apply the `prompting-guide` skill when installed, using the guide for the target model family, and consult its primary sources when the claim needs refreshing. Loading a guide does not select a model or require importing all of its advice.
 
 ## Keep Detail Retrievable
 
@@ -80,7 +78,7 @@ For integration-dependent workflows, teach how to discover the required plugin, 
 
 Design helper inputs, outputs, and errors to expose useful choices. Keep exact syntax and invariants where required; avoid examples that arbitrarily constrain otherwise valid approaches.
 
-When a shared package needs harness-specific adapter decisions, use cross-harness-skills if available. This package's source guide owns portable format rules; adapter guidance supplies runtime differences, not universal two-field, byte-size, or reference-depth limits. Keep authority boundaries in the body even when the host offers invocation controls.
+When one package must work in more than one harness, such as Claude Code and Codex, read [cross-harness authoring](references/cross-harness.md). This package's source guide owns portable format rules; the cross-harness references supply runtime and model differences, not universal two-field, byte-size, or reference-depth limits. Keep authority boundaries in the body even when the host offers invocation controls.
 
 State non-obvious network, write, credential, persistence, or cleanup effects. Reuse session grants. Store mutable user data outside replaceable package files. Use hooks and delegation only when supported and useful for the requested task.
 

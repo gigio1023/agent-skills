@@ -10,7 +10,7 @@ Do not silently substitute an explicitly required unavailable model, effort, or 
 
 ## Model choice
 
-A model routing skill owns the exact model and effort for each subagent. Apply `gpt6-astra-model-routing` to GPT workers, including under a lead from another model family, and the relevant routing skill to other workers. Reuse an applicable policy already loaded. If that policy is unavailable, keep judgment with the current authorized lead rather than inventing a lower-cost route. User requirements, source-handling restrictions, and harness policy still govern available routes.
+A model routing skill owns the exact model and effort for each subagent. Apply the GPT policy in `model-routing` to GPT workers, including under a lead from another model family, and the relevant routing skill to other workers. Reuse an applicable policy already loaded. If that policy is unavailable, keep judgment with the current authorized lead rather than inventing a lower-cost route. User requirements, source-handling restrictions, and harness policy still govern available routes.
 
 Classify the actual work before routing. Source selection, relevance decisions, summaries, critical reading, contradiction resolution, diagnosis, and recommendations all require judgment. A bounded slice, large batch, or read-only operation does not make that work mechanical. Keep these tasks on the routing policy's judgment route.
 

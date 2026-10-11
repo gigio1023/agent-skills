@@ -7,7 +7,7 @@ Use when choosing an authoring/rendering route, producing a PDF, or delivering a
 | Reader/workflow need | Starting choice | Why / what to check |
 | --- | --- | --- |
 | A new print-first report with deliberate typography | Typst source → PDF | Native pagination, tables, figures, equations, citations; check font availability and inspect the compiled PDF |
-| A paper, publication template, or complex existing mathematical manuscript | Existing LaTeX template with its documented engine | Preserve class, packages, references, and venue rules; use `credo-paper-plan` or release tooling only when their research-paper task actually applies |
+| A paper, publication template, or complex existing mathematical manuscript | Existing LaTeX template with its documented engine | Preserve class, packages, references, and venue rules; use `credo-paper-plan` or release tooling, when installed, only when their research-paper task actually applies |
 | Repeated analysis whose code, figures, and text must stay together | Quarto with the appropriate PDF engine | Reuse the project's computation and cache policy; verify executed outputs and render to the requested formats |
 | Colleagues will edit in Word or use tracked changes | DOCX, with a reference template when available | Use document styles, real tables and headings; export with Word or LibreOffice and check the exported PDF |
 | A maintained Markdown source needs publication in several formats | Pandoc with an explicit PDF engine and reference styling | Conversion is not typesetting: inspect unsupported blocks, tables, cross-references, and citations |
@@ -57,7 +57,7 @@ Check expected sections, final text, calculations, tables, sources, and figures 
 
 Exercise a representative long-text or multipage case when changing a template. A compiler returning success does not show that the layout remains readable. If accessibility, PDF/A, or another conformance level is requested, use the corresponding validator; ordinary rendering and text extraction are not conformance certification.
 
-Use available `docx`, `pdf`, and `pdf-page-count` skills for their concrete operations, and `technical-figure` for requested figures and charts. Deliver the requested file and editable source, not merely instructions to run an exporter. Include renderer or setup details in the artifact when its reader needs them to establish identity, reproduce, audit, or act. Otherwise keep material delivery information in the delivery note and omit routine build narration.
+Use available `docx`, `pdf`, and `pdf-page-count` skills for their concrete operations, and `technical-figure`, when installed, for requested figures and charts. Deliver the requested file and editable source, not merely instructions to run an exporter. Include renderer or setup details in the artifact when its reader needs them to establish identity, reproduce, audit, or act. Otherwise keep material delivery information in the delivery note and omit routine build narration.
 
 ## Primary documentation
 

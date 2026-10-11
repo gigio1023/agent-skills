@@ -1,3 +1,5 @@
+> Imported on 2026-10-12 as a source record. Current rules live in the repository root `AGENTS.md` and in the skills, and [docs/migration.md](../migration.md) maps the skill names used here to current ones. This file explains why older rules existed and does not govern work in this repository.
+
 # Gigio Pack repository guidance
 
 Maintain the project-context and adaptive-work skills described in README.md. Current principles are in docs/principles.md; current load-bearing rules are in docs/rule-ledger.md. Historical decisions retain provenance but do not override later user-approved changes.

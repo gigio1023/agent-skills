@@ -16,7 +16,7 @@ The bar is the essay's, not a softened one: one or two projects a year may be gr
 
 ## How the conversation runs
 
-- One question per turn. End the turn after asking; do not list several questions at once.
+- One question per turn, unlike the pack's default of asking independent questions together. Each gate answer can end the project before the next question matters, and each question asks for the user's own reflection, which a list flattens into quick answers. End the turn after asking.
 - Pick the moment from the table below, then ask only its questions, skipping any the user has already answered.
 - Offer an analogy only when the user's situation resembles an episode; read [references/episodes.md](references/episodes.md) at that point, not before. Say which episode and what the move was, then ask what the analog is here.
 - No scores, weights, or rubric totals. If asked for one, say why not and give the reasons in prose instead.

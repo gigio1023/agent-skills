@@ -9,7 +9,7 @@ description: >
   of an existing handoff file or says to continue from one: that asks you to
   carry out the file's task, not to write or improve a handoff. NOT for
   bounding a weaker executor on an approved plan (small-model-handoff),
-  writing or executing plans (gigio-write-plan, gigio-execute-plan), or
+  writing or executing plans (work-plan), or
   reading another session's transcript (read-agent-sessions). Never activate
   because a session has grown long or context is running low.
 ---
@@ -27,7 +27,7 @@ This request authorizes reading what the handoff needs and writing the file, not
 3. The user's current explicit words decide intent and scope; live files, version control, and fresh tool output decide status. Quote the user's decisive sentences verbatim with their date. Point to paths, commands, and commits instead of pasting them, and leave out secrets.
 4. Subagents, background jobs, pending tool calls, and in-session grants end with this session. Record what each left on disk, and list as still running only handles the successor can check from outside, with the checking command. Record the origin harness and session id so `read-agent-sessions`, where installed, can recover the transcript.
 5. Ask only about unknowns that would change the work and that only the user can settle, each with its consequence, concrete options with a recommended default, and what to do if unanswered. A fact that inspection or a cheap check can settle goes into Next Actions instead.
-6. If a plan in `.plans/` or a PROJECT.md governs the work, point to it by path, carry only what it lacks, and name `gigio-execute-plan` when continuing means executing it.
+6. If a plan in `.plans/` or another project record governs the work, point to it by path, carry only what it lacks, and name `work-plan` when continuing means executing it.
 
 The file is ready when a reader with nothing else can run the first action, sees evidence for each completed claim, and knows what to ask the user.
 
