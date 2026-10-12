@@ -10,6 +10,10 @@ Once the direction is settled, plan the work for maximum parallelism with `orche
 
 When `install-skill-pack` installs or refreshes skills and the request names no agents, target these: claude-code, hermes-agent, opencode, cursor, codex, github-copilot, zcode, openclaw, grok.
 
+# Code and tests
+
+Before writing code or adding tests in any language, follow the `coding-standards` skill. By default verify with real runs and evaluation instead of new tests.
+
 # Writing profile
 
 When writing or revising a document, PR body, issue, or any text a colleague will read, apply the copydesk skill even when no skill was named. Its writing profile follows and applies in every session; the block is a copy of the skill's `references/writing-profile.md`, refreshed with `python3 ~/.agents/skills/copydesk/scripts/sync_profile.py ~/.codex/AGENTS.md`.

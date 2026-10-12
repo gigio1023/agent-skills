@@ -2,8 +2,9 @@
 name: codex-delegate
 description: >
   Delegate a scoped task from Claude Code, Cursor, or another non-Codex host to
-  Codex CLI when the user explicitly names codex-delegate; also resume, inspect,
-  or cancel those runs. Defaults to GPT-6 Astra with xhigh effort and standard
+  Codex CLI when the user explicitly names codex-delegate or asks for work to
+  run in Codex, such as "review this with Codex" through review-panel; also
+  resume, inspect, or cancel those runs. Defaults to GPT-6 Astra with xhigh effort and standard
   service tier. Preserves a durable run, explicit authority, file handoff, and
   host verification; allows useful internal subagents under the mission grant.
   NOT for launching from inside Codex, mere mentions of GPT or Codex, or

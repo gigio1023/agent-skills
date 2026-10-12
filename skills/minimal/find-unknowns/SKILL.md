@@ -1,27 +1,16 @@
 ---
 name: find-unknowns
 description: >
-  Use when the user starts substantial work in territory they don't know well
-  (a new project, research direction, investment or money-management
-  strategy, career or life plan, product or game idea, or an unfamiliar part
-  of a codebase) with no spec, plan, or reference yet, or asks, at the start
-  or partway through other work, what they are missing: "what am I missing",
-  "what haven't I considered", "blind spots", "consider things I didn't think
-  of", "내가 고려 못한 점", "놓친 거 없어?", an unknowns pass, an option map,
-  throwaway variants, or a launch brief. Scans broadly with field knowledge
-  for hidden goals, constraints, failure modes, and assumptions, leads with
-  its own view, and asks the consequential questions together and early. NOT
-  for well-specified or small tasks unless asked, sustained interviewing (use interview,
-  formerly deep-interview), attacking one stated idea (use idea-critique),
-  research-grounded technical design exploration (use design-exploration), or
-  packaging session state (use session-handoff).
+  Run a quick standalone blind-spot pass for what the user has not considered: hidden goals, constraints, failure modes, assumptions, and what is achievable. Use when the user starts substantial work in unfamiliar territory (a new project, research direction, investment or money-management strategy, career or life plan, product or game idea, or an unfamiliar part of a codebase) with no spec, plan, or reference yet, or asks at any point what they are missing: "what am I missing", "what haven't I considered", "blind spots", "내가 고려 못한 점", "놓친 거 없어?", an unknowns pass, an option map, throwaway variants, or a launch brief. Leads with its own view and asks the consequential questions together and early; design-exploration and interview apply it as a lens. NOT for well-specified or small tasks unless asked, sustained questioning (interview, which runs this pass internally), attacking one stated idea (idea-critique), technical design exploration (design-exploration), or packaging session state (session-handoff).
 ---
 
 # Find Unknowns
 
-Find what neither the user nor you have noticed yet: the hidden problems, goals, constraints, and considerations that would change the result. Work from the assumption that at least one consequential unknown exists, and look for it with the field's breadth of cases and expert practice rather than only the material in view. Then give your own view first, ask the user the consequential questions together and early, and carry on with the work already authorized.
+Find what neither the user nor you have noticed yet: the hidden problems, goals, constraints, and considerations that would change the result, and what is achievable that the user may not know about. Work from the assumption that at least one consequential unknown exists, and look for it with the field's breadth of cases and expert practice rather than only the material in view. Then give your own view first, ask the user the consequential questions together and early, and carry on with the work already authorized.
 
-The pass applies to any subject, technical or not. It runs either as a separate pass before work starts or as a lens inside other work, such as a plan, a design, a review, or delegated work. Inside other work, put the result where that work keeps its findings and open questions instead of producing a separate document.
+The pass applies to any subject, technical or not. It runs either as a quick standalone pass the user asks for, without an interview, or as a lens inside other work, such as a plan, a design, a review, or delegated work; `design-exploration` and `interview` apply it this way. Inside other work, put the result where that work keeps its findings and open questions instead of producing a separate document. `interview` runs this lens before its first round and again when answers open new territory, so a user who wants sustained questioning until something is clear should use `interview` rather than repeated passes.
+
+In the four-quadrant terms this pass follows: known knowns are what the user has told you; known unknowns are what the user knows they have not worked out; unknown knowns are criteria so obvious to the user that they would never write them down, though they recognize them on sight; unknown unknowns are what the user has not considered at all, including what is achievable. The pass targets unknown unknowns, on your side as well as the user's. The known unknowns it meets become questions or investigation items, and an unknown known is shown rather than asked, with the recognition tools in [discovery tools](references/discovery-tools.md).
 
 ## Method
 
@@ -50,6 +39,7 @@ Sweep every dimension below before concluding that nothing consequential is hidd
 - **Second-order effects:** what the result changes downstream and what it makes harder later.
 - **Shared assumptions:** what both the user and you take for granted, and what evidence would contradict it.
 - **Practitioner's first checks:** the checks and quality bars someone experienced in the field applies before anything else.
+- **What is achievable:** options, tools, or results the user may not know exist, and limits that put an expected result out of reach.
 
 The dimensions guide the sweep. They are not an output template.
 
@@ -79,9 +69,9 @@ The pass is complete when the user has your view, the findings that change the r
 
 ## Scope and Optional Tools
 
-Skip an unrequested pass for small or mechanical edits, well-specified work, and requests to proceed without discussion. An explicit request for blind spots runs the pass even on specified work, since a specification does not establish that its assumptions hold. When a domain-specific skill owns the task, follow it and apply this pass to what it does not cover.
+Skip an unrequested pass for small or mechanical edits, well-specified work, and requests to proceed without discussion. An explicit request for blind spots runs the pass even on specified work, since a specification does not establish that its assumptions hold. A request to be interviewed or questioned until something is clear belongs to `interview`, which applies this pass inside its rounds. When a domain-specific skill owns the task, follow it and apply this pass to what it does not cover.
 
-Read [discovery tools](references/discovery-tools.md) when the scan shows that the dominant unknown is one direct questions handle poorly: an unsettled direction (option map), taste the user can recognize but not describe (throwaway variants), a want best shown by an existing example (reference request), or dependent choices that need a short follow-up exchange (mini-interview). The same file covers the comprehension check, which runs only when the user cannot verify the result directly and wants one.
+Read [discovery tools](references/discovery-tools.md) when the scan shows that the dominant unknown is one direct questions handle poorly: an unsettled direction (option map), an unknown known the user can recognize but not describe (throwaway variants or a reference request), or dependent choices that need a short follow-up exchange (mini-interview). The same file covers the comprehension check, which runs only when the user cannot verify the result directly and wants one.
 
 ## Results and Records
 
@@ -93,3 +83,7 @@ Return the result in chat by default. Write a launch brief only when the user as
 - **Teaching instead of finding.** A tour of how the field works reads as useful but changes nothing. Each finding names what it changes in this work.
 - **Presenting the inventory.** Listing every dimension checked buries the one finding that matters. Report the scan's results, not its coverage.
 - **Defaults becoming decisions.** A recommended default the user did not accept stays an open item with its decide-later rule.
+
+## Source
+
+The four kinds of unknowns, the blind-spot pass for unknown unknowns, and the option maps, variants, and references for unknown knowns adapt Thariq Shihipar, ["A field guide to Claude Fable 5: Finding your unknowns"](https://claude.com/resources/articles/a-field-guide-to-claude-fable-finding-your-unknowns) (Anthropic, 2026-07-06), rewritten here. This version leads with its own view, and where the article interviews one question at a time, it asks the consequential questions together in one batch.

@@ -6,8 +6,9 @@ description: >
   or reaches a customer. Checks each readiness claim against artifacts at
   current revisions: oracle and null passes, the served model, data and labels,
   grader errors, sampled trajectories, denominators. NOT for designing an eval
-  (evaluation-design), operating runs (evaluation-operations), or finding code
-  bugs (bug-diagnosis).
+  (evaluation-design), operating a multi-run campaign (evaluation-operations),
+  load or capacity test results (load-testing), or finding code bugs
+  (bug-diagnosis).
 ---
 
 # Evaluation Audit
@@ -50,7 +51,7 @@ Cover the areas the audited artifact touches; a scoring change needs no case-set
 
 - **Task design**: each case can be both passed and failed with the affordances given, labels and their origin are correct, nothing leaks the answer, and coverage runs in both directions.
 - **Harness**: infrastructure errors and model failures land in separate records; truncation is visible; trials are isolated and deterministic; the served model is the one requested; configuration matches production; trajectories are saved.
-- **Metrics hygiene**: tokens and cost come from recorded usage, latency from the right boundaries, and judge cost is kept apart.
+- **Metrics hygiene**: tokens and cost come from recorded usage, latency from the right boundaries, and judge cost is kept apart. Latency or throughput from an unloaded eval run is not presented as performance or capacity under load, which needs a load test (load-testing).
 - **Grader**: rewards outcomes over paths and, for agents, the end state; is neither too rigid nor too lenient; resists cheating; uses ground truth the system cannot reach; has its failures spot-checked; is deterministic or has measured variance.
 - **Judge evidence**: validation results against independent reference labels exist for this judge identity (model snapshot, prompt, rubric, sampling), format sensitivity was tested, and re-validation triggers are stated. Producing new labels or agreement measurements is evaluation-design work.
 - **Detectability**: the noise floor is below the smallest decision-relevant difference, the mechanism under study is actually wired, and the headline recomputes from raw rows.

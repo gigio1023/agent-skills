@@ -10,7 +10,7 @@ Read this when building a design doc page, an open-questions page, or correcting
 
 ## Design Doc Page
 
-The page title, set through `properties.title`, is "Rate limiter for the public API gateway". The content:
+The page follows the fallback order in [document shapes](document-shapes.md#design-doc-sections-on-the-page); a design doc from `design-doc` lands in the same places, with its verification split as the test plan, a threat model or operating boundary under Cross-cutting concerns, and an experiment queue after Open questions. The page title, set through `properties.title`, is "Rate limiter for the public API gateway". The content:
 
 ```markdown
 <callout icon="icons/document_gray" color="gray_bg">
@@ -43,7 +43,9 @@ This design covers admission at the gateway. Billing, quota configuration, and t
 - The gateway calls the limiter after authentication, so the tenant ID comes from the verified API key.
 - One server-side script refills and takes a token atomically, so concurrent instances cannot both spend the last token.
 - A rejected request gets status 429 with a `Retry-After` header computed from the refill rate.
-### Interfaces and storage {toggle="true"}
+### Interfaces and seams {toggle="true"}
+	- Fixed interface: `admit(tenant_id) -> Admit | Reject(retry_after)`, called by the gateway after authentication.
+	- Adapters: the Redis token bucket in production, and an in-memory token bucket for tests and local runs.
 	- Key per tenant: `rl:<tenant-id>`, holding the token count and the last refill time, with a TTL of two refill periods.
 	- The quota source stays the existing tenant configuration service; the gateway caches it for 60 seconds.
 ### Comparison evidence: option measurements {toggle="true"}
@@ -86,13 +88,16 @@ This design covers admission at the gateway. Billing, quota configuration, and t
 	- **Security**: the tenant ID comes only from an authenticated API key, so one tenant cannot spend another tenant's tokens. Volumetric floods stay with the edge network's protection, which absorbs them before authentication.
 	- **Availability**: during a Redis outage the limiter either stops enforcing or rejects all traffic, depending on the open question below.
 	- **Observability**: the gateway exports admitted and rejected counts per tenant, so over-admission can be computed during shadow mode.
+## Test plan {toggle="true"}
+	- **Real run**: the gateway replays a fixed request trace against a Redis container and records the admitted and rejected counts and each 429 with its `Retry-After` value.
+	- **Contract test**: concurrent `admit` calls never spend the same last token, for both adapters, because a break passes an ordinary run unnoticed and over-admits every tenant.
+	- **Measured**: over-admission and added latency, which depend on real traffic.
+		- Shadow mode first: the limiter records decisions without enforcing them, and over-admission is computed from the access logs.
+		- Failure injection: a Redis failover, which takes 3\~5 s in staging, must not raise p99 above 2 ms after recovery.
+	- Launch criterion: two weeks of shadow mode with over-admission under 5% and no tenant rejected below its quota.
 ## Alternatives considered {toggle="true"}
 	- **Sliding window log**: the most accurate option. Rejected for this design because its memory per tenant grows with request rate, and the busiest tenants would need a larger Redis cluster.
 	- **Per-instance counters with the quota divided by instance count**: no new dependency. Rejected because autoscaling changes the instance count every few minutes, so the divided quota is wrong whenever traffic changes.
-## Test plan {toggle="true"}
-	- Shadow mode first: the limiter records decisions without enforcing them, and over-admission is computed from the access logs.
-	- Failure injection: a Redis failover, which takes 3\~5 s in staging, must not raise p99 above 2 ms after recovery.
-	- Launch criterion: two weeks of shadow mode with over-admission under 5% and no tenant rejected below its quota.
 ## Milestones {toggle="true"}
 	<table header-row="true">
 		<colgroup>
@@ -131,6 +136,10 @@ This design covers admission at the gateway. Billing, quota configuration, and t
 - **During implementation**
 	- Does the script stay under 1 ms at p99 at the 40k requests per second peak?
 		- Settled by the peak-traffic load test.
+## Decision log {toggle="true"}
+	- **Token bucket in the existing Redis cluster**: Proposed.
+		- Evidence: measurement, the internal load test on <mention-date start="2026-09-30"/>.
+		- Reverses if shadow mode shows over-admission above 5%, or the script exceeds 1 ms at p99 at the 40k requests per second peak.
 ## References {toggle="true"}
 	- [Load test results, 2026-09-30](https://dashboards.example.com/gateway/rate-limit-load-test): the source of every number in the comparison table.
 	- [Redis cluster capacity runbook](https://docs.example.com/runbooks/redis-capacity): the memory headroom behind the sliding window rejection.
@@ -143,6 +152,8 @@ Why it is shaped this way:
 - The measurement table sits in a toggle under Design, is labeled comparison evidence, and the text says "proposes"; the header status is In Review because no selection has been approved.
 - Cells hold values and short phrases; the measuring conditions and the metric definition are bullets under the table. Column widths follow content: about 90 to 110 for numbers, about 190 to 200 for names, and 250 to 280 for short descriptions. Each table totals 640, under the working total of about 700, because both sit inside toggles.
 - The only undecided items are in Open questions. The availability concern points to that question once instead of repeating a disclaimer.
+- The decision log keeps the token bucket Proposed with its evidence and the condition that would reverse it, so the log, the header status, and the word "proposes" in Design agree.
+- The test plan is a verification split: it separates what a real run and the one contract test settle from what only real traffic can show, and names the launch criterion.
 - The test plan escapes `~` in a range (`3\~5 s`), and dates that readers act on, including the shadow-mode period, are date mentions.
 
 ## Open-Questions Page

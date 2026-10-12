@@ -1,7 +1,7 @@
 ---
 name: copydesk
 description: >
-  Write, revise, or review reader-facing documents and substantive prose in any language: reports, guides, proposals, posts, and messages. Includes focused AI-slop revision, English clarity, and Korean semantic repair. Provides shared meaning, voice, and author-profile principles for PRs, issues, Notion pages, and the prose of design docs; draft-pr, write-issue, and write-notion own their artifact structure and publication workflows. NOT for choosing a design document's sections and design content, which belong to design-doc. Use specialized skills for drawing figures, building dashboards, and file production.
+  Write, revise, or review reader-facing documents and substantive prose in any language: reports, guides, proposals, delivery briefs, posts, and messages. Includes focused AI-slop revision, English clarity, and Korean semantic repair. Provides shared meaning, voice, and author-profile principles for PRs, issues, Notion pages, and the prose of design docs; draft-pr, write-issue, and write-notion own their artifact structure and publication workflows. NOT for choosing a design document's sections and design content, which belong to design-doc. Use specialized skills for drawing figures, building dashboards, and file production.
 ---
 
 # Copydesk
@@ -73,7 +73,7 @@ Open additional references only for the decision at hand:
 - [Correction cases](references/correction-cases.md), [synthetic examples](references/synthetic-examples.md): a recurring failure or a matching repair. Supplied context is part of each example's evidence.
 - [Reader value](references/reader-value.md), [explanation with depth](references/explanation-with-depth.md): difficult selection or explanation decisions.
 - [Measurements and figures](references/measurements-and-figures.md): quantitative meaning, captions, and comparisons.
-- [Document forms](references/document-forms.md), [document production](references/document-production.md): genre requirements and editable or PDF output.
+- [Document forms](references/document-forms.md), [document production](references/document-production.md): genre requirements, including the delivery brief for customer- or deadline-bound work, and editable or PDF output.
 - [Multilingual writing](references/multilingual-writing.md): locale and voice choices beyond the short language guides.
 - [Korean pattern evidence](references/korean-pattern-evidence.md): a specific repetitive pattern or maintenance of its evidence, not a routine Korean drafting dependency.
 - [Composition](references/composition.md): specialist ownership and useful combinations. Maintenance provenance is in [writing sources](https://github.com/gigio1023/gigio-skills/blob/main/docs/writing-sources.md).

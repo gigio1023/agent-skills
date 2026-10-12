@@ -12,7 +12,7 @@ Estimate duration and resource demand from representative throughput when availa
 
 ## Preserve and recover
 
-Identify the live job and its owned output before resuming. A model checkpoint alone may lack optimizer, scheduler, scaler, RNG, or data-progress state. Establish what the saved state actually supports; label a restart or approximate continuation accurately.
+Identify the live job and its owned output before resuming. This reference decides what one run's saved state supports; when the run belongs to a sweep or ablation campaign, evaluation-operations keeps the campaign's attempts, ownership, priorities, and resume or rerun decisions. A model checkpoint alone may lack optimizer, scheduler, scaler, RNG, or data-progress state. Establish what the saved state actually supports; label a restart or approximate continuation accurately.
 
 Do not overwrite another run's outputs, silently switch revisions, or restart because a session lost its handle. Preserve the project's checkpoint retention and privacy rules. Store credentials in their configured mechanism, not experiment records.
 

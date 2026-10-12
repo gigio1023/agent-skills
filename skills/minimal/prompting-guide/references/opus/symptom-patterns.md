@@ -189,7 +189,7 @@ Asked for frontend work without design direction, 5.5 falls back on a few defaul
 Build a one-page portfolio in plain HTML and CSS with placeholder content. Avoid a cream or off-white background, italic accent words inside headlines, numbered section labels like 01/02/03, monospace label text, and pill-shaped buttons.
 ```
 
-The list counters defaults; it is not a design direction. Real design decisions belong to the project's direction or to `frontend-design` when installed.
+The list counters defaults; it is not a design direction. Real design decisions belong to the project's direction or to `frontend-design`.
 
 ## Carried From Opus 5
 

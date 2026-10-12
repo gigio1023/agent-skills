@@ -1,10 +1,10 @@
 # Finding Unknowns Workflow — Design Record
 
-Written 2026-07-11. Status on 2026-07-11: Tier 0 deployed; the `unknowns-pass` skill was built in this repository at `skills/productivity/unknowns-pass/`. Update 2026-09-23: that package no longer exists here; the workflow shipped as `find-unknowns` in Gigio Pack, and several skills this record names were later renamed or retired. Update 2026-10-12: `find-unknowns` is back in this repository at `skills/minimal/find-unknowns/`, realigned to scan broadly for what neither side has noticed and to lead with its own view; the `grilling` and `prototype` ideas this record defers were later adapted into `interview` and `design-exploration`. This document records the investigation, decisions, and rationale behind absorbing Thariq Shihipar's "Finding your unknowns" article into a personal workflow. Kept as the design record; current behavior is in `skills/minimal/find-unknowns/`.
+Written 2026-07-11. Status on 2026-07-11: Tier 0 deployed; the `unknowns-pass` skill was built in this repository at `skills/productivity/unknowns-pass/`. Update 2026-09-23: that package no longer exists here; the workflow shipped as `find-unknowns` in Gigio Pack, and several skills this record names were later renamed or retired. Update 2026-10-12: `find-unknowns` is back in this repository at `skills/minimal/find-unknowns/`, realigned to scan broadly for what neither side has noticed and to lead with its own view; the `grilling` and `prototype` ideas this record defers were later adapted into `interview` and `design-exploration`. This document records the investigation, decisions, and rationale behind absorbing Thariq Shihipar's "Finding your unknowns" article into a personal workflow. Kept as the design record; current behavior is in `skills/minimal/find-unknowns/`. Later on 2026-10-12, `interview` took on all four kinds of unknowns (the user's starting point, a blind-spot scan that opens the first round, recognition questions for unknown knowns, rescans between rounds); `find-unknowns` stays the quick standalone pass and the lens that `interview` and `design-exploration` apply.
 
 ## 1. Origin and Problem Statement
 
-Source: [A field guide to Claude Fable 5: Finding your unknowns](https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns) (official Anthropic blog, 2026-07-06, published alongside the AI Engineer World's Fair keynote). The gap between the map (prompts, specs, mental model) and the territory (the actual codebase, real-world constraints) is what the article calls unknowns, and it argues that work quality is now bottlenecked not by the model but by the user's ability to clarify those unknowns. Eight patterns across three phases:
+Source: [A field guide to Claude Fable 5: Finding your unknowns](https://claude.com/resources/articles/a-field-guide-to-claude-fable-finding-your-unknowns) (official Anthropic blog, 2026-07-06, published alongside the AI Engineer World's Fair keynote). The gap between the map (prompts, specs, mental model) and the territory (the actual codebase, real-world constraints) is what the article calls unknowns, and it argues that work quality is now bottlenecked not by the model but by the user's ability to clarify those unknowns. Eight patterns across three phases:
 
 - Pre-implementation: blind spot pass / brainstorm / prototype / interview / reference / implementation plan
 - During implementation: implementation notes (recording deviations)
@@ -128,6 +128,6 @@ Remaining actions:
 
 ## Reference Links
 
-- Source article: https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns
+- Source article: https://claude.com/resources/articles/a-field-guide-to-claude-fable-finding-your-unknowns
 - Steering guide: https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more
 - External prior art: https://github.com/Neeeophytee/finding-unknowns-skills , https://github.com/bozhouDev/finding-unknowns-skills , https://github.com/tankadoko/unknowns-field-guide-skill , https://github.com/dkamm/pr-quiz

@@ -5,6 +5,7 @@ Choose a reader situation, then inspect the relevant public work. The finished s
 ## Contents
 
 - [Choose a configuration](#choose-a-configuration)
+- [Rank candidates on a fixed comparison](#rank-candidates-on-a-fixed-comparison)
 - [Find an operational exception](#find-an-operational-exception)
 - [Review a week](#review-a-week)
 - [Explain a metric](#explain-a-metric)
@@ -24,6 +25,28 @@ Choose a reader situation, then inspect the relevant public work. The finished s
 **Check:** change the run or subgroup so that the original ranking no longer holds. The headline and comparison must change with it. Keep a single replay distinct from evidence of general superiority.
 
 **Read:** LLVM Compile-Time Tracker and rustc performance data below for configuration, comparison reference, and detail beneath an aggregate; PEP 703 for measurement conditions.
+
+## Rank candidates on a fixed comparison
+
+**Reader task:** choose among candidates ranked on the same cases, and see which rank differences the evidence actually supports.
+
+**Finished view, synthetic:** a leaderboard ranks five question-answering pipelines by judged answer accuracy, with p95 latency beside it. Each row carries a comparability tag: harness version, judge, case-set version, and scored cases over the case set. Only rows whose tag matches the reference tag (harness 2.1, judge J1, case set v3, all 400 cases scored) receive a rank; the others appear below a divider, unranked, with the mismatched field marked.
+
+| Rank | Candidate | Accuracy, higher is better | p95 latency, lower is better | Tag |
+| --- | --- | --- | --- | --- |
+| 1 | A | 78.0% (312/400) | 820 ms | 2.1, J1, v3, 400/400 |
+| 1 | B | 78.0% (312/400) | 610 ms | 2.1, J1, v3, 400/400 |
+| 3 | C | 75.5% (302/400) | not recorded | 2.1, J1, v3, 400/400 |
+| unranked | D | 76.3% (296/388) | 540 ms | 2.1, J1, v3, 388/400 |
+| unranked | E | 80.0% (288/360) | 700 ms | 2.1, J2, v2, 360/360 |
+
+The heading states that A and B tie on accuracy and that B has the lower p95 latency; it does not name a single winner. D stays unranked because its 12 unscored cases leave its full-set accuracy anywhere from 74.0% (296/400) to 77.0% (308/400): below A and B either way, but on either side of C. E's higher number comes from a different judge and case set, so it cannot enter this ranking. C's missing latency reads "not recorded" and sorts after measured rows in either direction, never as 0 ms. Each metric header states its direction, and the marker for the better value follows that direction, so a low latency and a high accuracy read alike. With 400 cases, the 2.5-point gap between B and C may sit within run-to-run variation; when [intervals or observed variation](data-and-comparison.md#preserve-what-makes-the-comparison-fair) do not separate adjacent rows, show them as unseparated rather than ordered.
+
+**Build:** derive each tag from run metadata rather than typing it, and compare it field by field with the reference tag. Compute ranks from raw values with a stated tie rule (tied rows share a rank and the next rank is skipped); break a tie only by a rule printed with the table. Recompute ranks, denominators, tags, and the heading from the same filtered rows. Sorting by a lower-is-better metric reverses the order, not the meaning of the better marker.
+
+**Check:** filter to a subgroup and confirm that the ranking claim still holds or changes with it. On the 120 multi-hop questions, C answers 88 (73.3%), A 84 (70.0%), and B 81 (67.5%), so the subgroup heading must name C rather than repeat the overall tie. A candidate like D becomes rankable in a subgroup only when none of its unscored cases fall inside it, under the same tag rule. Confirm that tied rows stay tied after re-sorting, that a missing cell never sorts as zero, and that an independent recalculation of two ranks and the tie matches the table.
+
+**Read:** Wikimedia Topviews below for a ranked table that shows its exclusions beside the result; LLVM Compile-Time Tracker and rustc performance data for a retained measurement configuration and visible missing-data treatment.
 
 ## Find an operational exception
 
@@ -143,4 +166,4 @@ Each entry is a reading pointer and original adaptation. Text or a dashboard mod
 - [Google SRE's fictional postmortem example](https://sre.google/sre-book/example-postmortem/): separate impact, trigger, recovery, and corrective action; use actual evidence in a real operational view.
 - [Datawrapper on chart text](https://datawrapper.de/blog/text-in-data-visualizations), [Wilke on making a point](https://clauswilke.com/dataviz/telling-a-story.html), and [IBM Carbon dashboards](https://carbondesignsystem.com/data-visualization/dashboards): choose a useful comparison and make text, visual hierarchy, and detail work together.
 
-For document-level information selection and prose, use `copydesk` when available. For shadcn component behavior, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available or consult the official component documentation. Match techniques to the current reader task instead of importing a brand skin or fixed template.
+For document-level information selection and prose, use `copydesk`. For shadcn component behavior, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available or consult the official component documentation. Match techniques to the current reader task instead of importing a brand skin or fixed template.

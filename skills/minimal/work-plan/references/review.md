@@ -6,13 +6,13 @@ Judge work against the user's purpose and actual findings, not only the original
 
 Read the user's goal, project direction, current plan, accepted changes, and actual results. Inspect the underlying sources, data, configurations, run records, or artifacts that support the claims; worker reports and run summaries are claims to verify. Distinguish the current result from an older attempt and an approved change from an agent proposal.
 
-Prefer an independent reader when one is available. An explicit user choice about delegation governs; without one, the lead decides whether to start that reader. If this session did the work, do not present its inspection as independent review. Provide the useful review possible now and identify any consequential gap in independence without a blanket refusal.
+Prefer an independent reader when one is available; `review-panel` runs separate reviewers and judges their findings by evidence. An explicit user choice about delegation governs; without one, the lead decides whether to start that reader. If this session did the work, do not present its inspection as independent review. Provide the useful review possible now and identify any consequential gap in independence without a blanket refusal.
 
 ## Check what the work establishes
 
 Assess the result at the level the work needs:
 
-- **Implementation:** does the changed behavior serve the objective, and do relevant tests cover it?
+- **Implementation:** does the changed behavior serve the objective, and does a real run on fixed input or a test the project keeps show it?
 - **Research or experiment:** what explanations does the result support or rule out, are comparisons meaningful, and what remains unresolved?
 - **Data or benchmark:** do actual cases, labels, splits, metrics, and scoring behavior support the intended use?
 - **Document or decision:** can the reader understand and assess the conclusion with the available explanation and sources?

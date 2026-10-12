@@ -22,6 +22,8 @@ A result can justify proceeding, reject an explanation, reveal insufficient info
 
 For implementation, dependencies and checks may be known in advance. For research, record dependencies that are real now. Use task IDs when actions need separate ownership, and preserve existing IDs. Stage numbers are optional scheduling aids.
 
+For delivery work, the default ordering is unchanged: first the work whose result informs the next decision. When integration risk dominates, because the open question is whether the parts connect at all rather than how well any one performs, one option is to run early the simplest path that crosses every seam end to end, sometimes called a walking skeleton, with stand-ins where real parts are not ready: a rule in place of a model, for example, so that the request, the module call, the verdict, the response, and the metric each run once. Later rounds replace the stand-ins one at a time and rerun the same path. Offer it beside other orderings, such as building the riskiest component first or measuring a candidate model before wiring it in; it is never a required first round.
+
 Before simultaneous execution, partition shared writes: name the paths, output locations, or shared resources each parallel action writes, and which live jobs it owns. Do this for the work about to run in parallel, not for every future finding. A read-only comparison can name its sources and result location; it needs no artificial edit. A run names its inputs, resource limits, and existing output records. Do not copy code bodies, raw logs, or an entire literature collection into a plan.
 
 ## Carry authority and continuity

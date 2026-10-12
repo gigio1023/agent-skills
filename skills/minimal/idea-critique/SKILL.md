@@ -51,7 +51,7 @@ Name the measurement whose outcome differs depending on whether the steelman or 
 
 Prefer the cheapest test that discriminates, looking in this order: evidence the effort already has (run logs, failure samples, earlier results) reread with the new question; a small probe, ablation, or slice analysis; an evaluation on an existing set; then new training or data collection. Give a rough cost. When the decisive test is too expensive, name the cheaper test that would move confidence and what it cannot settle.
 
-Reading existing results is part of the critique. Running new experiments needs the user's request. Their design and execution belong to `ml-experiment` for training and serving comparisons and to `evaluation-design` for what an evaluation measures, its comparison conditions, and how it is judged.
+Reading existing results is part of the critique. Running new experiments needs the user's request. Their design and execution belong to `ml-experiment` for training and serving comparisons, to `evaluation-design` for what an evaluation measures, its comparison conditions, and how it is judged, and to `load-testing` for latency, throughput, or capacity under load.
 
 ## Status and record
 

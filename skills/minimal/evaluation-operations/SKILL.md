@@ -2,16 +2,21 @@
 name: evaluation-operations
 description: >
   Operate, resume, monitor, or reconstruct the evidence-backed state of a
-  multi-run evaluation campaign. Use when approved evaluation work spans runs
-  or sessions and its live progress, durable attempts, priorities, or results
-  must stay accurate. NOT for designing what an evaluation measures or its
-  cases (evaluation-design), a verdict on a built eval or its result
-  (evaluation-audit), generic code review, or a one-off evaluation run.
+  multi-run campaign, whether its runs are evaluations or training and
+  ablation runs: durable attempts, resume and rerun decisions, ownership,
+  priorities, and results. Use when approved work spans runs or sessions and
+  its live progress or results must stay accurate, as in "where is the
+  campaign", "resume the sweep", "which ablation runs finished",
+  "캠페인 상태 확인해줘", or "ablation 이어서 돌려줘". NOT for designing what an
+  evaluation measures or its cases (evaluation-design), designing a training
+  comparison or readying and recovering a single run (ml-experiment), a
+  verdict on a built eval or its result (evaluation-audit), load or capacity
+  tests (load-testing), generic code review, or a one-off evaluation run.
 ---
 
 # Evaluation Operations
 
-Maintain factual operational control of an evaluation campaign: preserve what happened, keep already approved work moving when requested, and report only what current evidence establishes. This skill supplies the working method. The project supplies its runner, scheduler, manifests, registries, and deterministic checks; do not replace them with a new campaign framework, controller, daemon, schema, or parallel spreadsheet.
+Maintain factual operational control of a multi-run campaign, whether its runs are evaluations or training and ablation runs: preserve what happened, keep already approved work moving when requested, and report only what current evidence establishes. Designing the comparison a sweep runs (its factors, baselines, and seeds) and deciding whether one run is ready or recoverable from its saved state belong to ml-experiment; designing what an evaluation measures belongs to evaluation-design. This skill supplies the working method. The project supplies its runner, scheduler, manifests, registries, and deterministic checks; do not replace them with a new campaign framework, controller, daemon, schema, or parallel spreadsheet.
 
 ## Select the authority mode
 
@@ -29,7 +34,7 @@ Keep private inputs, results, and source maps outside this package and within th
 
 Before drawing a conclusion or taking an action, find the available project-defined records or explicit coordination that establish campaign scope, priorities, durable attempts and results, raw outputs, live runtime state, and applicable budget, resource, ownership, and validation rules. A project may use a manifest or queue, but a simple approved campaign may instead use a verified single owner and a small task record. Read [project binding](references/project-binding.md) when those sources are not already clear, disagree, or must be reconstructed.
 
-Do not invent a universal record shape or make a second registry. If an authorized operation needs its first durable task or attempt record, create the smallest record supported by the project's normal location and practice, not a new framework or parallel spreadsheet. A file location, configuration, launch request, or local synthetic fixture is evidence of preparation or possible provenance, not proof that inference ran or a result was validated. If the project has no source or coordination for a fact needed to act, identify the smallest missing source or authority rather than filling it in from an assumption.
+Do not invent a universal record shape or make a second registry. If an authorized operation needs its first durable task or attempt record, create the smallest record supported by the project's normal location and practice, not a new framework or parallel spreadsheet. A file location, configuration, launch request, or local synthetic fixture is evidence of preparation or possible provenance, not proof that inference or training ran or a result was validated. If the project has no source or coordination for a fact needed to act, identify the smallest missing source or authority rather than filling it in from an assumption.
 
 ## Reconcile facts, not optimistic labels
 
@@ -42,7 +47,7 @@ Keep these facts distinct even if a local project displays them under one status
 - scoring completion;
 - validation and comparability.
 
-They can overlap or pipeline and do not require a new shared enum. A launch being accepted, queued, or prepared is not completed inference. A completed inference is not necessarily scored. A score is not necessarily validated or comparable. Treat a null, missing, or unreadable value as unknown unless the project's own contract says otherwise; it is never zero by default.
+A training or ablation run has the same separation: a launched job, a finished training process, a saved checkpoint that loads, an evaluated checkpoint, and a comparable result are different facts. They can overlap or pipeline and do not require a new shared enum. A launch being accepted, queued, or prepared is not completed inference. A completed inference is not necessarily scored. A score is not necessarily validated or comparable. Treat a null, missing, or unreadable value as unknown unless the project's own contract says otherwise; it is never zero by default.
 
 Use the project's deterministic checks where available, and describe precisely which fact each check establishes. Do not call a static source inspection, a hypothetical command, or a fixture-backed local check a real execution result.
 
@@ -50,7 +55,7 @@ For a campaign whose cases try to elicit unwanted behavior, read [adversarial ru
 
 ## Preserve identity, attempts, and result lineage
 
-For each observed attempt, retain enough project-defined provenance to distinguish the actual provider or target, model identity and revision, runtime, prompt or configuration, data and evaluation unit, case and repeat, and scorer. Record values actually observed. Mark an unpinned alias as mutable, distinguish it from an exact revision, and leave an unavailable revision unknown rather than fabricating one.
+For each observed attempt, retain enough project-defined provenance to distinguish the actual provider or target, model identity and revision, runtime, prompt or configuration, data and evaluation unit, case and repeat, and scorer. For a training run this also covers the base checkpoint and its revision, the code revision, the training configuration and seed, the data version, and the checkpoints the run produced. Record values actually observed. Mark an unpinned alias as mutable, distinguish it from an exact revision, and leave an unavailable revision unknown rather than fabricating one.
 
 Keep historical attempts, including incomplete, failed, and excluded work, with their reasons, raw-output lineage, denominators, and conditions under the project's retention and access rules. Preservation is not indefinite permission to retain private raw content. Do not overwrite an earlier score when rescoring. Create or request the project's linked derived result so the new scorer version and input lineage point back to the original raw attempt while permitted earlier records remain inspectable. Mark expired or unavailable evidence and its effect on verification honestly; do not silently delete records or recreate missing evidence. Read [attempts, results, and rescoring](references/attempts-and-result-lineage.md) when reconstructing provenance, judging sufficiency, or choosing among resume, rescore, and rerun.
 
@@ -67,6 +72,8 @@ Use the following decision rules rather than treating every unfinished item alik
 - **Resume** an existing attempt only when current evidence supports that it remains the correct owned execution and its inputs, configuration, and limits still match the approved campaign.
 - **Rescore** only when sufficient raw output and required input lineage exist, the intended data and label boundary are correct, and the requested scorer is authorized. Preserve the earlier result as described above.
 - **Rerun** only when the raw output is absent or unusable under the project's rules, or the approved campaign explicitly requires a new execution. First rule out an existing live attempt and confirm the new work remains inside the approved scope.
+
+For training and ablation runs the same rules apply to their own objects. Resuming continues an owned run from a checkpoint only when its saved state supports continuation; what a checkpoint supports (optimizer, scheduler, RNG, and data-progress state) is a single-run question answered with ml-experiment's training and recovery guidance. Re-evaluating a saved checkpoint under an authorized evaluation is the rescore case: it creates a linked derived result and leaves the training attempt as it was. Retraining is the rerun case, justified only when no usable checkpoint exists or the approved sweep calls for a fresh run, such as an added seed.
 
 Read [operational modes](references/operational-modes.md) before taking an action when authority, recovery, queue ownership, or monitoring behavior is ambiguous.
 

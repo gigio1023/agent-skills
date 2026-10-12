@@ -22,12 +22,13 @@ Item-level checks per audit area, paraphrased from Anthropic's eval health check
 - Retries back off and are recorded per row; a pass only on retry counts as a fail by default; each case has a wall-clock ceiling.
 - The model named in each response is the model requested, and system prompt, tools, version, sampling, and scaffold match production through the real entry point.
 - Full trajectories per case, with grader inputs and outputs, are saved; repetitions report variance; case set, grader, and dependencies are versioned together.
-- An oracle passes and a null output (empty, constant, majority class) fails through the whole pipeline.
+- An oracle passes and a null output (empty, constant, majority class) fails through the whole pipeline, judged on the eval as a whole: a criterion that only prohibits something may pass a null, but a null that scores well overall points to a one-sided case set or metric.
 
 ## Metrics hygiene (Anthropic)
 
 - Tokens come from the response's usage record, cost from those tokens at the served model's rates, and judge cost is recorded apart.
 - Cache share is comparable across variants; latency covers the final successful request; agents get a per-call breakdown.
+- Latency and throughput recorded in an eval run are unloaded and are not reported as serving performance or capacity; those claims need a load test (load-testing).
 
 ## Grader (Anthropic, Inspect)
 
@@ -42,7 +43,7 @@ Item-level checks per audit area, paraphrased from Anthropic's eval health check
 
 - Agreement with independent human labels, per class (true positive and true negative rates), not raw accuracy. Defaults: about 90 percent on clear cases (Anthropic); each rate above 90 percent as the target and 80 percent as the floor (Hamel).
 - Few-shot examples come from a training split; the reported rates come from a held-out test split used once (Hamel).
-- Empty output, "I don't know", and a confident answer to another question all fail (Anthropic).
+- Empty output, "I don't know", and a confident answer to another question get the verdict the rubric requires (probes from Anthropic). All three fail a criterion that rewards a correct or complete answer. Under a criterion that only prohibits something, such as disclosing personal data or producing harmful output, the expected verdict follows the rubric and an empty output passes. When both completion and a prohibition matter, they are scored as separate criteria rather than one verdict.
 - Position, verbosity, self-preference, and label-deference controls are in place (Anthropic).
 - Agreement is bound to one identity (model snapshot, prompt, rubric, sampling). A change to any of them, or a shift in the scored population, triggers re-validation (PyRIT).
 - Equivalent answers in different formats get the same verdict.

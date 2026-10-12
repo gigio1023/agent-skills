@@ -50,6 +50,7 @@ Number entries in order and never reuse a number. Give each a short noun-phrase 
 - A measurement keeps its conditions. A result from a different model revision, data population, or serving mode is evidence about that configuration; say so when it differs from the design's. When a launch rests on an evaluation result, record whether `evaluation-audit` has checked it.
 - A rationale the agent proposed is a hunch until evidence arrives. The owner's acceptance changes the status, not the evidence kind.
 - A constraint is recorded as the owner or source states it. If its firmness is unclear, that is an open question for the owner.
+- A delivery date is a constraint entry of its own, such as "D2. Batch scoring endpoint delivered by 2026-11-30", with the source that set it and the role that can move it. Its reversal condition is the date or the scope promised by it changing, and decisions that trade quality or scope for the date cite it.
 
 ## Reversal Conditions
 
@@ -93,6 +94,7 @@ Route by what the item needs:
 
 - `ml-experiment`: training, fine-tuning, and weight-adaptation comparisons, serving or inference configuration comparisons, reproductions, and training data.
 - `evaluation-design`: what an evaluation measures, its cases and labels, its checks and judges, and adversarial evaluation scope.
+- `load-testing`: latency, throughput, and capacity under load.
 - Both, evaluation first, when candidates must be compared and no accepted evaluation exists for the behavior.
 
 A question that reading can settle is not an experiment; it stays an open question settled with `literature-research`. The receiving skill applies its own authorization and spend gates, and a queue entry authorizes no run.
@@ -122,7 +124,7 @@ Decision log before measurement:
 | ID | Bet | Changes | Owner skill | Status | Result |
 | --- | --- | --- | --- | --- | --- |
 | E1 | Candidate beats incumbent on paraphrased spam | D4 | evaluation-design | Designed | None yet |
-| E2 | Candidate meets 150 ms at p95 on target hardware | D4, Goal 2 | ml-experiment | Queued | None yet |
+| E2 | Candidate meets 150 ms at p95 on target hardware | D4, Goal 2 | load-testing | Queued | None yet |
 
 E1's result arrives. On the held-out month (4,800 spam messages, candidate revision r3, incumbent revision r12), recall at the incumbent's false-positive rate is 0.4 points higher overall, with a 95% interval of -0.2 to 0.9, and 2.1 points higher on the paraphrased slice (610 messages, interval 0.4 to 3.8).
 

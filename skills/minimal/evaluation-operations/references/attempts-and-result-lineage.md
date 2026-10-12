@@ -4,7 +4,7 @@ Read this reference when reconstructing a campaign, reporting a result, or decid
 
 ## Identify the thing being compared
 
-Use the project’s available provenance to distinguish an actual attempted configuration from a label that may later change. Capture, when applicable, the provider or target, model identity, exact revision or mutable alias, runtime, prompt or configuration, data version and evaluation unit, case and repeat, raw-output origin, scorer identity and version, and validation policy or label boundary.
+Use the project’s available provenance to distinguish an actual attempted configuration from a label that may later change. Capture, when applicable, the provider or target, model identity, exact revision or mutable alias, runtime, prompt or configuration, data version and evaluation unit, case and repeat, raw-output origin, scorer identity and version, and validation policy or label boundary. For a training or ablation run, capture the base checkpoint and its revision, the code revision, the training configuration and seed, the data version, and each checkpoint the run produced with the step it was saved at; an evaluation of one of those checkpoints records which checkpoint it read.
 
 An exact revision is evidence only when the project records it as fixed. A mutable alias remains a mutable alias even if it currently resolves to a known target. Do not guess a missing revision, data version, scorer version, or runtime from a familiar name. State it as unknown and describe how that limits comparison.
 
@@ -25,6 +25,8 @@ Do not call a score validated or comparable merely because it exists. Check that
 ## Choose recovery from evidence
 
 Resume when the same owned execution is credibly live or recoverable and its approved inputs and limits remain correct. Rescore when sufficient raw output is available and the requested scoring operation is both correct and authorized. Rerun only when raw evidence is unavailable or unusable under the project’s policy, or when an approved campaign explicitly needs new execution.
+
+In a training or ablation sweep, a checkpoint plays the part of raw output. Resume from it only when its saved state supports continuation, and label an approximate continuation as such; ml-experiment's training and recovery guidance covers what a checkpoint supports. Re-evaluating a saved checkpoint is a derived result linked to the training attempt, not a new training attempt. Retrain only when no usable checkpoint exists or the approved sweep asks for a fresh run, and keep the earlier attempt with its reason.
 
 Before a rerun, reconcile live state, durable attempt history, and raw outputs. An unavailable handle or stale process reference leaves the state uncertain; it does not prove that the work ended. Avoid blind retries, especially for non-idempotent operations. Stop after repeated deterministic failure and report the smallest correction, input, or authority needed to proceed.
 

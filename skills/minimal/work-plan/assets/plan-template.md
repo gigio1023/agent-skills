@@ -39,6 +39,10 @@ First action for a fresh session: <one concrete action>.
 
 Fill during execution: what was actually done, what the result supports, what it does not settle when relevant, and the next selected action or proposal. Link underlying output or inspected sources. Code changes and successful commands are not required for a valid finding.
 
+## Implementation notes
+
+For implementation work; omit otherwise. Deviations: each departure an edge case forced, with what the plan said, what was done instead, and why it was the conservative choice. A departure that changes direction goes to the user instead of this list. A separate notes file beside the plan works too when this section links it.
+
 ## Changes to the plan
 
 Keep a concise history of consequential changes: previous action or assumption, observed reason, new action, and any user decision. Keep upcoming work current; preserve earlier results.
