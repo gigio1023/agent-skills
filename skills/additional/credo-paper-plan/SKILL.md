@@ -5,7 +5,7 @@ description: "Plan or critique a research paper's argument: the idea, reader, cl
 
 # Paper Plan
 
-Produce an argument the author can draft from, or critique a draft against its intended argument. Adapted from the writing sections of Carlini's research essay; background episodes come from the credo-taste package when it is installed. Read an episode only when using it; the plan does not depend on them.
+Produce an argument the author can draft from, or critique a draft against its intended argument. Adapted from the writing sections of Carlini's [research essay](https://nicholas.carlini.com/writing/2026/how-to-win-a-best-paper-award.html); background episodes come from the credo-taste package when it is installed. Read an episode only when using it; the plan does not depend on them.
 
 Scope: a paper, or a section of one, whose argument the author will defend to reviewers, at any distance from its deadline. A report, design document, or product write-up is a document task for the writing skill, not a paper plan.
 
@@ -29,6 +29,6 @@ Read a draft against the intended reader and argument. Identify concrete mismatc
 
 For a pre-submission critique, get the strongest rejection argument from a reader who sees only the draft files, not the agent's summary or the conversation: a fresh subagent where the harness offers one, otherwise a reread of the files alone. The reader commits to one argument a reviewer could reject the paper on; then each of its points is marked answered by the current text, partly answered, or unresolved. When an advocate and a skeptic disagree, report the crux the introduction must win instead of averaging them. No scores.
 
-For reviews of a submitted paper, read [peer-review response](references/peer-review-response.md) and plan the response from it. Whether to revise, resubmit, or stop belongs to credo-taste.
+For reviews of a submitted paper, read [peer-review response](references/peer-review-response.md) and plan the response from it. Whether to revise, resubmit, or stop belongs to credo-taste, when installed; otherwise leave that decision to the author.
 
 Return the useful outline, storyboard, or critique. Stop at planning when that is the request. If the user also asks for drafting, continue within that authorization, using `copydesk` when available for production; the skill's ownership of planning does not reserve all prose for the human. Submission checks belong to `credo-release`.

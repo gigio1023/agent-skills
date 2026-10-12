@@ -102,4 +102,4 @@ When returning direct command text, count characters if it is near the target's 
 - “Work autonomously and never ask” can suppress necessary approval or blocker handling. Define the decisions the agent may make and the conditions that require escalation.
 - Mandatory budgets, universal test bans, fixed check counts, and exhaustive templates create fake rigor when the task does not need them.
 - Do not invent project commands, available tools, deployment targets, audience stakes, or production access to make a prompt look complete.
-- General model prompting belongs in the model-specific prompting guides. This skill owns goal-mode contracts and handoffs.
+- General model prompting belongs in `prompting-guide`, when installed. This skill owns goal-mode contracts and handoffs.

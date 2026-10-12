@@ -10,27 +10,29 @@ description: >
   this Notion page". A publication workflow skill: chooses the document shape,
   page layout, people mentions, tables, and figures, edits Notion Markdown
   safely, and verifies the stored page. copydesk owns sentence-level writing;
-  technical-figure draws the figures. NOT for quick chat answers, Notion
-  database administration, saving chat or meeting content as notes, meeting
-  pre-reads, research synthesis across existing pages, turning a spec into
-  tasks, or documents published outside Notion (use copydesk).
+  technical-figure, when installed, draws the figures. NOT for quick chat
+  answers, Notion database administration, saving chat or meeting content as
+  notes, meeting pre-reads, research synthesis across existing pages, turning
+  a spec into tasks, or documents published outside Notion (use copydesk).
 ---
 
 # Write Notion
 
 Publish a team document in Notion that a colleague can review from the page alone. The design or decision is at the top of the page, details are one click away, people are referenced without leaking names or flooding notifications, and the stored page matches what was intended.
 
-This is a publication workflow skill, in the way `write-issue` is for trackers. It owns the document shape, the Notion page layout, people references, tables, figures, the Notion Markdown editing mechanics, and post-publish verification. It is not a style skill: `copydesk` owns sentence-level writing (meaning preservation, claim strength, voice, and the author's writing profile) and applies to every paragraph, bullet, caption, and table cell. `technical-figure`, or the project's own figure tool, draws the figures; this skill decides which figures the page needs and uploads them. Tracker issues and pull requests stay with `write-issue` and `draft-pr`; the page links to them.
+This is a publication workflow skill, in the way `write-issue` is for trackers. It owns the document shape, the Notion page layout, people references, tables, figures, the Notion Markdown editing mechanics, and post-publish verification. It is not a style skill: `copydesk` owns sentence-level writing (meaning preservation, claim strength, voice, and the author's writing profile) and applies to every paragraph, bullet, caption, and table cell. This skill decides which figures the page needs and uploads them. Tracker issues and pull requests stay with `write-issue` and `draft-pr`; the page links to them.
+
+Prerequisites: `copydesk` from this pack supplies the base writing rules through its writing profile, and each section below that builds on the profile states the essential base rule before its Notion-specific part, so the skill still works when `copydesk` is absent. Figures come from `technical-figure` (gigio-figures repository) when installed, or the project's figure tool; otherwise the page gets no figure or a simple text diagram.
 
 Not for: an answer that belongs in chat, database schema, view, or property administration, saving chat or meeting content as notes, meeting pre-reads and agendas, research synthesis across existing pages, turning a spec into tasks, or a document delivered as a file or on another platform.
 
-The user's instruction and a team template or existing page convention win over the layout defaults below. The people rules and the verification pass apply whatever the convention.
+The user's instruction and a team template or existing page convention win over the layout defaults below. The people and mention rules and [verification](#verification) checks 1 to 7 and 10 apply whatever the convention. Checks 8 and 9 carry the writing profile, so they apply only when that profile governs and the page has no differing convention.
 
 ## Normal Path
 
 1. Read before writing. Fetch the target page or the destination parent, a few sibling pages, and any template the team uses, and match their language and conventions. Check who can read the destination (a teamspace, the whole workspace, or a page published to the web); keep secrets, credentials, personal data, and customer-confidential text out, and apply `copydesk`'s sharing-and-delivery reference for a wider audience. Read the source material the page will rest on: code, measurements, meeting records, tracker items. Read the Notion enhanced Markdown specification once per session when the client exposes it. [Notion Markdown mechanics](references/notion-markdown.md) covers the tools, exact syntax, and failure modes.
 2. Choose the shape before drafting: the genre, the section order, and what stays visible versus what goes under toggles. [Document shapes](references/document-shapes.md) gives the design doc skeleton, the open-questions page, and the decision record.
-3. Draft the content with `copydesk`. Resolve the few people mentions the page needs, and render and upload its figures.
+3. Draft the content with `copydesk` when installed, otherwise with the base rules stated in the sections below. Resolve the few people mentions the page needs, and render and upload its figures.
 4. Decide whether to show the draft first. Show the complete draft and wait when the user asked for a draft, the page belongs to someone else and editing it was not authorized, the destination is a guess, the edit would delete child pages or databases, or a mention could notify someone other than the owner the user named. Otherwise the request is the grant; add no second confirmation. With no destination named for a new page, create a private draft page and say that it is private.
 5. Write with `notion-create-pages` for a new page or `notion-update-page` for an existing one, using the smallest edit that does the job.
 6. Verify the stored page with the checks in [Verification](#verification) and fix what fails.
@@ -61,20 +63,20 @@ Drop a section that has nothing true to say instead of filling it with a placeho
 - **Summary** is nested bullets: what is being built, how it works, the scope promised by the deadline, and the key undecided item. A top-level bullet carries a short label and the claim; nested bullets carry its reason or condition.
 - **Visible:** summary, context, goals, figures, and open questions. A reader who never opens a toggle still learns what is proposed, why, and what is undecided.
 - **Under toggle headings:** measurement tables, storage, interfaces, cross-cutting concerns, alternatives, test plan, schedule, and references. Toggles are the default for detail on a design doc page, but the decision summary and the open questions are never toggled.
-- **Undecided items:** the writing profile's rule applies; on a Notion page: the Open questions section is a visible heading near the end, each question says what it blocks, and a passage that depends on an open item points to that question once.
+- **Undecided items:** gather undecided decisions as questions in one open-questions section instead of scattering disclaimers through the body. On a Notion page, the Open questions section is a visible heading near the end, each question says what it blocks, and a passage that depends on an open item points to that question once.
 
 ## Voice
 
-- **Korean pages** default to short 합니다체 bullets in the voice the author uses with teammates, not noun-ending fragments. Write dates in prose as M/D within the year, such as 10/16, and use a date mention for a date that readers act on. A team page's existing convention wins.
-- **Parentheses and identifiers:** the writing profile's rules apply; on a Notion page: the parentheses rule covers the labels inside uploaded figures too, so a label change means re-rendering and re-uploading the figure in the same edit. The linking rule covers the header callout and toggle headings.
+- **Korean pages** default to short 합니다체 bullets in the voice the author uses with teammates, not noun-ending fragments. Write dates in prose as M/D within the year, such as 11/3, and use a date mention for a date that readers act on. A team page's existing convention wins.
+- **Parentheses and identifiers:** when the writing profile governs and the page has no differing convention, avoid parenthetical asides in prose, headings, table cells, and figure labels, while code, identifiers, citations, and official names keep their own parentheses, and link every tracker identifier wherever it appears. On a Notion page, the parentheses rule covers the labels inside uploaded figures too, so a label change means re-rendering and re-uploading the figure in the same edit, and the linking rule covers the header callout and toggle headings.
 
 ## Status Words
 
-The writing profile's rule applies; on a Notion page: status appears in the header callout's Status field, headings, body, table cells, and figure labels, and all of them must agree. Put "comparison evidence" in the heading of an option measurement table. Set Approved only when the reviewer role approved. When the owner decides, say where the decision was made, such as the design review on a date mention, and update every place the status appears, including re-rendering an affected figure, in the same edit.
+A candidate stays a candidate and a proposal stays a proposal, and measured results of options are comparison evidence until the owner selects one. On a Notion page, status appears in the header callout's Status field, headings, body, table cells, and figure labels, and all of them must agree. Put "comparison evidence" in the heading of an option measurement table. Set Approved only when the reviewer role approved. When the owner decides, say where the decision was made, such as the design review on a date mention, and update every place the status appears, including re-rendering an affected figure, in the same edit.
 
 ## People
 
-The writing profile's rule applies; on a Notion page:
+Refer to roles, teams, or sources instead of naming people. On a Notion page:
 
 - Identify a person who must be named, such as the owner or the directly responsible person, with a user mention found through `notion-get-users`, never `@Name` or a plain-text name.
 - Mentions can notify, and names travel with exports and search. Mention as few people as possible, usually only the owner. Never list many mentions; a review audience is a role or a team, such as the repository's CODEOWNERS.
@@ -84,11 +86,11 @@ The writing profile's rule applies; on a Notion page:
 
 ## Terms
 
-The writing profile's rule applies; on a Notion page: one term per concept across text, tables, and figure labels. When a term changes, re-render and re-upload the affected figures in the same edit, because an uploaded image does not change with the text.
+Prefer established field terms over coined local translations, and use one term per concept. On a Notion page, that term holds across text, tables, and figure labels. When a term changes, re-render and re-upload the affected figures in the same edit, because an uploaded image does not change with the text.
 
 ## Tables
 
-The writing profile's rule applies; on a Notion page:
+Keep table cells to a value, identifier, or short phrase, size columns to their content, and put reasoning beside the table. On a Notion page:
 
 - Always set `<table header-row="true">`. Table attributes default to false, so without it the first row is ordinary data.
 - Put what a cell cannot hold in bullets directly under the table; a cell never holds a sentence.
@@ -99,7 +101,7 @@ The writing profile's rule applies; on a Notion page:
 ## Figures
 
 - Make one figure per question the reader has, such as how the mechanism works or when requests arrive. The mechanism figure opens the Design section.
-- Draw with `technical-figure` or the project's figure tool, and deliver a light-theme PNG.
+- Draw with `technical-figure` when installed or the project's figure tool, and deliver a light-theme PNG. Without either, leave the figure out or use a simple text diagram.
 - Upload with `notion-create-file-upload`, send one multipart POST of the file to the returned upload URL with the returned headers, and embed it with the `markdown_source` or `suggested_markdown` the upload returns, adding the caption. Write `![caption](file-upload://<upload-id>)` by hand only when neither is returned. The exact steps are in [Notion Markdown mechanics](references/notion-markdown.md#upload-a-figure).
 - The upload needs a shell with network access, such as `curl`. Without one, give the PNG to the user and report that the figure is not attached; do not leave a path in the page.
 - Write the caption as the claim first, then the reading key.
@@ -114,7 +116,7 @@ The fragile points, with exact syntax in [Notion Markdown mechanics](references/
 - Before a whole-body replace on a page with open discussions (check with `notion-fetch` and `include_discussions: true`), tell the user that comment anchors may not survive and ask.
 - In `replace_content`, keep every fetched tag that carries a `url` or `src` exactly as fetched: page, database, folder, synced block, custom block, and files, including `notion-file-block://` image sources. Removing a child page tag `<page url="...">Title</page>` deletes or moves the child page. Set every column ratio when the page has columns, and leave a meeting-notes transcript untouched. Never pass `allow_deleting_content: true` without the user's confirmation, and never replace a body from a truncated fetch.
 - A toggle heading is `## Title {toggle="true"}` with tab-indented children; tables and images inside a toggle are indented too.
-- Escape `~` in ranges (`10/07\~10/09`), `<` and `>` in comparisons (`p99 \< 2 ms`), and `$` in prices (`\$40`). Mentions are `<mention-user url="user://<user-id>"/>`, `<mention-date start="YYYY-MM-DD"/>`, and `<mention-page url="..."/>`.
+- Escape `~` in ranges (`11/02\~11/04`), `<` and `>` in comparisons (`p99 \< 2 ms`), and `$` in prices (`\$40`). Mentions are `<mention-user url="user://<user-id>"/>`, `<mention-date start="YYYY-MM-DD"/>`, and `<mention-page url="..."/>`.
 - Change the page title and database properties with `update_properties`, separately from content.
 
 ## Verification
@@ -128,8 +130,8 @@ After every structural edit, wait for any asynchronous write to finish, fetch th
 5. Numbers match their sources, including unit, population, and measurement conditions.
 6. Decision status matches the owner's decisions everywhere it appears.
 7. Terms in text, tables, and figure labels match; check the rendered labels of the images you uploaded.
-8. Prose and punctuation follow the writing profile that `copydesk` applies.
-9. No parenthetical asides remain outside code, identifiers, citations, and official names, including the labels of uploaded figures. Every tracker identifier is a link where it appears.
+8. When the writing profile governs and the page has no differing convention, prose and punctuation follow the profile that `copydesk` applies.
+9. Under the same condition, no parenthetical asides remain outside code, identifiers, citations, and official names, including the labels of uploaded figures, and every tracker identifier is a link where it appears.
 10. Links open for the page's readers: no paths on the author's machine and no private scratch files.
 
 Fix failures and fetch again. A simple text edit that changed no structure needs no extra fetch.

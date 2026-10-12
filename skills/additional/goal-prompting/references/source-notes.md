@@ -48,7 +48,7 @@ GitHub code search also surfaced many copies of OpenAI's skill and narrower orch
 
 ## Adopted Design Decisions
 
-- One portable skill supports explain, draft, review, translation, and explicit activation. This matches the user's need for advice in either harness and handoff text from either harness to the other.
+- One portable skill supports explain, draft, review, translation, and explicit activation. Users often need advice in either harness and handoff text from either harness to the other.
 - `goal-prompting` is broader and more durable than `define-goal`, which implies creation only and collides with OpenAI's narrower skill.
 - The shared core uses outcome, context, verification, constraints, scope, and stop or escalation as optional fields rather than a mandatory template.
 - Direct goal payloads remain below 4,000 characters for both current targets.

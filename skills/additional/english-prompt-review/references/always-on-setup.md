@@ -5,7 +5,7 @@ This skill can review a prompt in a separate pass, delegated to a subagent, but 
 ## Portable Policy
 
 ```text
-For each substantive English task request, start the requested work without waiting. In parallel when an independent-review capability is available, load the english-prompt-review skill and produce its compact coaching packet. Otherwise, run the same review after the work is complete. Put the task result first, then append the skill's English prompt coach section. Preserve the user's meaning and do not expose private reasoning. Skip the section for a short, already-natural command unless a rewrite would teach a materially better way to express the request.
+For each substantive English task request, start the requested work without waiting. In parallel when an independent-review capability is available, load the english-prompt-review skill and produce its compact coaching packet. Otherwise, run the same review after the work is complete. Put the task result first, then append the skill's English prompt coach section; for an already-natural request, that section is the single line "Natural and clear as written." Preserve the user's meaning and do not expose private reasoning.
 ```
 
 Place the policy in the tool's always-loaded instruction or rule file, then make sure the installed skill directory is discoverable to that tool. Keep the policy outside `SKILL.md`: automatic loading and background execution are harness features, not portable skill semantics.
@@ -27,7 +27,7 @@ After enabling the policy, send a substantive English task request and confirm:
 1. the primary task starts without a language-review clarification;
 2. the final response contains one whole-prompt rewrite, not token-level edits;
 3. the rewrite, key expressions, and contrast examples remain in English;
-4. Korean guidance explains meaning boundaries without translating the complete rewrite;
+4. guidance in the user's native language (Korean by default) explains meaning boundaries without translating the complete rewrite;
 5. material ambiguity produces English choices instead of a guessed meaning;
 6. technical names and constraints remain unchanged; and
 7. disabling the policy removes the coaching block without changing task work.

@@ -2,6 +2,8 @@
 
 Patterns for Claude Fable 5 and Claude Fable 5.1. Clauses marked *5.1* address behaviors that changed in Fable 5.1; they are harmless on Fable 5.
 
+Blocks followed by a "Quoted verbatim from Anthropic" line reproduce Anthropic's published wording exactly so it can be pasted unchanged. That quoted text remains Anthropic's and is not covered by this repository's MIT license. The other blocks are this pack's own templates.
+
 ## Contents
 
 - Prompt contract
@@ -60,6 +62,8 @@ Before ending your turn, check your last paragraph. If it is a plan, an analysis
 Before running a command that changes system state (such as restarts, deletes, or config edits), check that the evidence actually supports that specific action. A signal that pattern-matches to a known failure may have a different cause.
 ```
 
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
+
 Use the autonomous clause only for workflows where the user will not be present to answer mid-run. It can make the model less likely to ask about genuinely ambiguous requests, so check that trade-off. If the product needs specific confirmations, list them in a sentence after the opening. Interactive sessions can use a lighter pause rule.
 
 ## Scope and Authority
@@ -86,11 +90,15 @@ If a question comes up partway, first do everything that doesn't depend on the a
 Keep changes to what the request needs. Something else you notice worth doing — cleanup or documentation the task didn't call for, a change to a file the task didn't require — is a suggestion to make at the end, not a change to make; actions clearly beyond what the ask implies, and risky or destructive ones, still need the user's go-ahead.
 ```
 
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
+
 Changes and tests (*5.1*). Cuts unrequested additions and committed test files with no measured change in task success:
 
 ```text
 If, while working or testing, you find a pre-existing bug, a performance concern, or behavior the task doesn't mention, don't fix, optimize or extend it in this change unless the requested behavior cannot work without it; report it as a follow-up in your summary. Where the task is ambiguous, implement the reading its wording and the surrounding code most directly support, state that assumption in your summary, and don't build for the other readings as well. Verify your work however you like; scratch scripts and quick checks need not be kept. Commit tests only where the task asks for them or this repository already keeps tests for this kind of change, sized like the neighboring test files — roughly one focused test per stated behavior — and don't turn scratch checks into additional permanent test files. This is about extras only: implement every behavior the task asks for, completely.
 ```
+
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
 
 Pause rule:
 
@@ -112,11 +120,15 @@ Progress updates (*5.1*). Fable 5.1 narrates less during long tool-calling turns
 Before you start, say in a line what you're about to do; brief updates while you work help the user follow along. Close with a short recap that stands on its own — what you found, what you did, and what's next — so a reader who only sees the last message has the full picture.
 ```
 
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
+
 If the UI collapses or hides tool output, tell the model each turn (turn-scoped system message), or it may run commands to "show" output the user never sees:
 
 ```text
 Only you see that command's output — the user's terminal shows at most a few lines of it. If the user needs to read any of it, put it in your reply.
 ```
+
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
 
 The harness should provide long timeouts, streaming, asynchronous monitoring, and resumability. Do not solve runtime timeouts with more prompt text.
 
@@ -133,6 +145,8 @@ Batching nudge (*5.1*). In coding and computer-use loops where the next independ
 ```text
 First privately list what you need next; then request every item that doesn't depend on another's result in this one response.
 ```
+
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
 
 Deliver it as a turn-scoped system message (`role: "system"`, `clear_at: "next_user_message"`, beta) so the model reads only the newest copy; without the beta, put it in a text block after the `tool_result` blocks in the same user message. Append a fresh copy each turn and leave earlier copies untouched.
 
@@ -174,6 +188,8 @@ Client-side compaction summary (*5.1*). Server-side compaction already does this
 Summarize the transcript inside <summary></summary> tags. Include relevant information in the summary such that this conversation will be continued by a new context window without needing to redo work or be reprovided with relevant constraints or context. Be sure to preserve: (1) any difficulties or problems that came up, and how they were handled or resolved; (2) any possibilities, options, or approaches that were raised, tried, or set aside, and why; (3) anything that was asked for, decided, agreed, ruled out, or established as a preference, constraint, or boundary — stated exactly; (4) exactly where things stand now — what has been covered, settled, or completed so far; (5) anything still open, unresolved, promised, or expected to happen next; (6) specific details that would be hard to reconstruct — names, numbers, dates, exact wording, links or references — kept exactly. Be complete on these even at the cost of length; keep everything else concise. Weight the two voices differently: keep what the user said, asked for, shared, or established carefully and close to their own words; your own explanations and reasoning can be condensed much further, to what they concluded or produced — as long as nothing in the six items above is dropped. Do not call any tools while writing this summary; respond with text only.
 ```
 
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
+
 Cache reads on Fable 5.1 cost a quarter of the Fable 5 rate, so compacting early to save cost may no longer be the right trade; experiment with later compaction points.
 
 For long documents, place source material before the query. Wrap multiple documents and metadata in clear XML tags such as `<documents>`, `<document>`, `<source>`, and `<document_content>`. Ask the model to cite or quote the relevant passages before synthesizing when traceability matters.
@@ -196,11 +212,15 @@ Writing density (*5.1*). Where prose runs long and dense, define the anti-patter
 Mannered prose substitutes metaphor and flourish for direct statement. Instead of "a parameter worth varying," the mannered writer produces "a dial worth turning." Instead of "this point still matters," they write "this point earns its keep." The phrases exist to display the writer, not to convey the idea, and readers can tell. That is why mannered prose irritates: it makes the reader work harder so the writer can perform. It is also imprecise. Metaphors drag in connotations the writer did not choose and cannot control. The fix is to say what you mean. When a literal phrase is available, use it.
 ```
 
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
+
 Formatting in chat (*5.1*). Fable 5.1 uses bold, headers, and lists less than earlier models. Replace anti-formatting rules with a rule that says when structure is appropriate:
 
 ```text
 Use lists and bullet points when asked to, or when the content is multifaceted enough that they help with clarity. If the person explicitly requests minimal formatting, always format your responses without bullet points, headers, lists, or bold emphasis, as requested. In conversational, personal, or emotional exchanges, keep to plain prose.
 ```
+
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
 
 Quoting retrieved sources (*5.1*). When summarizing documents, Fable 5.1 more often reproduces source passages without marking them as quotations. Add one complete `<example>` to the system prompt: the user's request, a response that conveys each source in the assistant's own indirect speech with at most one short marked quotation, and a `<rationale>` sentence explaining why it is correct. Write tool calls in the example as templated output such as `[web_search: ...]`, using your tool's name.
 
@@ -212,11 +232,15 @@ Search at low effort (*5.1*). At `low`, Fable 5.1 calls search and retrieval too
 When a query centers on a name you do not confidently recognize, or recognize from a fast-moving area like AI models and developer tools where the landscape shifts within months, the name itself is the thing to verify: search before answering, and include the name as the user wrote it in at least one query alongside any reformulations. This holds even when you have some background on it — partial background is exactly what makes an out-of-date answer sound authoritative, so familiarity is not a reason to skip the search.
 ```
 
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
+
 Targeted edits (*5.1*). Fable 5.1 rewrites whole files for small changes more often than Fable 5. Append to the system prompt or first user message:
 
 ```text
 The number of tokens used to edit files is best minimized, all else being equal. Therefore, when it will not affect the end result, try to surgically edit a file rather than rewrite the entire thing.
 ```
+
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
 
 Long outputs at `xhigh` and `max` (*5.1*). Prefer `high` for long deliverables. If you run higher, set `max_tokens` for thinking plus reply and append this to the user message with the real value:
 
@@ -225,6 +249,8 @@ Everything produced in one reply, including any reasoning or drafting done befor
 
 Instead, when the person has asked for a long or effort-intensive deliverable such as a multi-section document, a large table or dataset, or a complete code file, spend extra effort on understanding the request, checking the inputs the answer depends on, settling the structure and other difficult decisions, and otherwise using the reasoning space to reason and the output space to write an output. Usually it is not needed to draft an output multiple times.
 ```
+
+Quoted verbatim from Anthropic's [Prompting Claude Fable 5.1][fable-5-1].
 
 Safeguard false positives. Ask "Are there any bugs in this program?" rather than "Does this program compile without errors?"; give context or documentation for lesser-known languages; remove tools that return base64-encoded data into the model's context. Finding vulnerabilities in source code is permitted. A blocked request still returns `stop_reason: "refusal"`, so keep the fallback in place.
 
@@ -292,3 +318,5 @@ Include a difficult case near the top of the workload range. Simple tests alone 
 | Refusal on benign coding work | Compile-check phrasing, unknown language, base64 tool output | Rephrase, add language context, remove base64 tools; keep fallback |
 | Slow routine task | Effort too high or prompt too heavy | Lower effort and remove stale scaffolding |
 | Cross-session drift | No durable state artifact | Pair compaction with maintained memory or handoff state |
+
+[fable-5-1]: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1

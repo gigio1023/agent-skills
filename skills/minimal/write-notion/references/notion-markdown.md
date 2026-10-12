@@ -70,7 +70,7 @@ Change the title of a page outside a database with `properties: {"title": "New t
 
 ## Syntax
 
-Indent children with tab characters. Outside code, escape these characters with a backslash when they are literal: the backslash itself, `*`, `~`, the backtick, `$`, `[`, `]`, `<`, `>`, `{`, `}`, `|`, and `^`. The common cases are `~` in a range (`10/07\~10/09`, `3\~5 ms`), `<` or `>` in a comparison (`p99 \< 2 ms`), and `$` in a price (`\$40`). Code spans and code blocks are literal and need no escaping.
+Indent children with tab characters. Outside code, escape these characters with a backslash when they are literal: the backslash itself, `*`, `~`, the backtick, `$`, `[`, `]`, `<`, `>`, `{`, `}`, `|`, and `^`. The common cases are `~` in a range (`11/02\~11/04`, `3\~5 ms`), `<` or `>` in a comparison (`p99 \< 2 ms`), and `$` in a price (`\$40`). Code spans and code blocks are literal and need no escaping.
 
 Header callout, with each field as its own indented line:
 

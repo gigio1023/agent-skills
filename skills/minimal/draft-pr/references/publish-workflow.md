@@ -36,7 +36,7 @@ Use the row matching the selected publication remote. Bind every provider comman
 | Remote | Adapter and preflight |
 | --- | --- |
 | GitHub or GitHub Enterprise | Require `gh`, run `gh auth status --hostname <host>`, set `implementer_login="$(gh api user --hostname <host> --jq '.login')"`, and pass the exact target repository with `--repo` or `-R`. Stop if authentication or repository resolution fails. |
-| Forgejo | Require `fj`, run `fj version`, authenticate with `fj -H <host> whoami`, and bind PR commands to the exact host plus target repository. Confirm the installed version's live help exposes every command used below. Stop before Git mutation when `fj` is missing or unauthenticated. |
+| Forgejo | Require `fj`, run `fj version`, authenticate with `fj -H <host> whoami`, set `implementer_login` to the login that `whoami` reports, and bind PR commands to the exact host plus target repository. Confirm the installed version's live help exposes every command used below. Stop before Git mutation when `fj` is missing or unauthenticated. |
 | Gitea-compatible private forge | Use its documented API, authenticated browser, or an already-configured compatible CLI. Verify capabilities against that instance instead of assuming Forgejo parity. |
 | Plain Git server or unknown forge | No PR adapter is established. Stop before mutation. Use commit-and-push only when the user asked for a push without a PR. |
 

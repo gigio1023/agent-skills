@@ -1,6 +1,6 @@
 # Artifact and author checklist
 
-Adapted from Carlini's [Research Paper Release Checklist](https://nicholas.carlini.com/writing/2022/paper-release-checklist.html) (2022-01-30). These items are outside the bundled text scanner. Inspect those supported by available tools; reserve author confirmation for human-only decisions or evidence the agent cannot access. Items a program can check (TODO markers, merge-conflict markers, doubled words, `..` and `??`, blind author names, abstract macros, commented-out acknowledgments, build-log words) are run by the script in the Source checks step; see coverage.md. Keep project-specific additions in an authorized project checklist.
+Adapted from Carlini's [Research Paper Release Checklist](https://nicholas.carlini.com/writing/2022/paper-release-checklist.html) (2022-01-30). These items are outside the bundled text scanner. Inspect those supported by available tools; reserve author confirmation for human-only decisions or evidence the agent cannot access. Items a program can check (TODO markers, merge-conflict markers, doubled words, `..` and `??`, blind author names, abstract macros, commented-out acknowledgments, build-log errors and warnings) are run by the script in the Source checks step; see coverage.md. Keep project-specific additions in an authorized project checklist.
 
 ## Every release
 

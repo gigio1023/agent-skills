@@ -1,6 +1,6 @@
 # Global instruction files
 
-The author's user-scope instruction files for Claude Code and Codex, kept here so they have history and travel between machines. They hold only neutral operating rules: a subagent fan-out budget (Claude Code), a rule on scope, questions to the user, and delegation (Codex), and the writing profile of `copydesk`.
+The author's user-scope instruction files for Claude Code and Codex, kept here so they have history and travel between machines. They hold only neutral operating rules: a subagent fan-out budget (Claude Code), a rule on scope, questions to the user, and delegation (Codex), the default agent targets for skill installs, and the writing profile of `copydesk`. Anyone adopting the pack can copy them as a starting point and replace the parts that are personal taste.
 
 | File | Loaded by | Profile delivery |
 |---|---|---|
@@ -14,7 +14,7 @@ ln -sf "$(pwd)/docs/global-instructions/CLAUDE.md" ~/.claude/CLAUDE.md
 ln -sf "$(pwd)/docs/global-instructions/AGENTS.md" ~/.codex/AGENTS.md
 ```
 
-Run from the repository root of a clone that stays in place. Cowork sessions skip a symlinked `~/.claude/CLAUDE.md`; on a machine that uses Cowork, copy the file instead of linking it.
+Run from the repository root of a clone that stays in place. As observed on 2026-09-24, Cowork sessions skip a symlinked `~/.claude/CLAUDE.md`; on a machine that uses Cowork, copy the file instead of linking it.
 
 ## When the writing profile changes
 

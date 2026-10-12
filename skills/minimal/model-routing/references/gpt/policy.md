@@ -2,7 +2,7 @@
 
 Use GPT-6 Astra for GPT work by default. GPT-6.1 Sol is an exception for very easy, deterministic bulk collection, transformation, or status-command execution that requires no semantic judgment. Ambiguous tasks stay on Astra.
 
-This is the owner's operating policy, not a claim that Sol cannot perform more complex work. It applies to GPT workers under any lead, at every permitted delegation depth, and inside missions launched through `codex-delegate`. Anthropic choices remain with the [Fable routing policy](../fable/policy.md).
+This is this pack's default routing policy, not a claim that Sol cannot perform more complex work; a user's explicit model choice or their own routing policy overrides it. It applies to GPT workers under any lead, at every permitted delegation depth, and inside missions launched through `codex-delegate`. Anthropic choices remain with the [Fable routing policy](../fable/policy.md).
 
 ## Routing Decision
 

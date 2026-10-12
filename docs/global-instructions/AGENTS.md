@@ -6,6 +6,10 @@ Before substantial or unfamiliar work, ask the user the questions whose answers 
 
 Once the direction is settled, plan the work for maximum parallelism with `orchestrate-subagents` and give each packet the decisions and context it needs. A subagent then carries its packet to completion without routing routine questions back to the lead, and returns early only when blocked on an answer that only the lead or the user can give.
 
+# Skill installs
+
+When `install-skill-pack` installs or refreshes skills and the request names no agents, target these: claude-code, hermes-agent, opencode, cursor, codex, github-copilot, zcode, openclaw, grok.
+
 # Writing profile
 
 When writing or revising a document, PR body, issue, or any text a colleague will read, apply the copydesk skill even when no skill was named. Its writing profile follows and applies in every session; the block is a copy of the skill's `references/writing-profile.md`, refreshed with `python3 ~/.agents/skills/copydesk/scripts/sync_profile.py ~/.codex/AGENTS.md`.
@@ -13,7 +17,7 @@ When writing or revising a document, PR body, issue, or any text a colleague wil
 <!-- writing-profile:start -->
 # Writing Profile
 
-Standing preferences for documents, PR bodies, issues, and messages this author writes or asks to have written. Apply them when drafting or revising colleague-facing text. Another author's text keeps its voice and register unless a change is requested. A current explicit request or governing template takes precedence. This file holds taste; reusable craft principles live in SKILL.md. Instruction files import it or carry a copy refreshed by `scripts/sync_profile.py`.
+Standing preferences for documents, PR bodies, issues, and messages written or revised with copydesk. This pack ships its maintainer's preferences as the default profile; a user who wants other defaults edits or replaces this file, or points their instruction file at their own profile. Apply the active profile when drafting or revising colleague-facing text. Text by another author keeps its voice and register unless a change is requested. A current explicit request or governing template takes precedence. This file holds taste; the craft principles in SKILL.md apply whichever profile is active. Instruction files import it or carry a copy refreshed by `scripts/sync_profile.py`.
 
 ## Reader
 
@@ -52,7 +56,7 @@ Standing preferences for documents, PR bodies, issues, and messages this author 
 
 ## PR and issue
 
-- Resolve the reviewing team's language from the current request and repository context. Ask only when it remains unclear; English is the fallback.
+- Resolve the reviewing team's language from the current request and repository context, such as the language of recent PRs and issues. Ask only when it remains unclear; English is the fallback.
 - A PR body says why and what. Keep validation logs and routine self-appraisal out of it. Retain meaningful conditions and uncertainty. A behavior change uses an as-is/to-be table against the real base branch; add a diagram only when requested. A required repository template takes precedence.
 - An issue names the outcome before the tasks and stays short. Use complete sentences for causes, conditions, and mechanisms.
 - `draft-pr`, `write-issue`, and `write-notion` own their workflows; copydesk supplies shared writing principles.

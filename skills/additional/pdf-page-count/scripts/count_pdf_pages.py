@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Print the page count of a PDF. Exit 0 with one integer on stdout, 2 when no backend can count it.
+
+Needs Python 3.7 or newer. Tries pypdf when importable, then pdfinfo, then macOS mdls.
+"""
+from __future__ import annotations
+
 import argparse
 import re
 import subprocess

@@ -41,6 +41,14 @@ class TestProtectedDiff(unittest.TestCase):
         self.assertIn("CHANGED OUTSIDE ALLOWED SCOPE (0)", report)
         self.assertIn("ADDED OUTSIDE ALLOWED SCOPE (0)", report)
 
+    def test_allowed_heading_line_belongs_to_its_own_scope(self) -> None:
+        # Regression: the heading line was attributed to the previous section, so renaming
+        # "## Results" under --allow "Results" was reported as out of scope.
+        revised = self.previous.replace("## Results\n", "## Results and limits\n")
+        report = build_report(self.previous, revised, ["Results"], [])
+        self.assertIn("CHANGED OUTSIDE ALLOWED SCOPE (0)", report)
+        self.assertIn("ADDED OUTSIDE ALLOWED SCOPE (0)", report)
+
     def test_added_block_outside_scope_is_reported(self) -> None:
         # Appending a heading plus a paragraph adds two new blocks, both outside any allowed scope.
         revised = self.previous + "\n## New Section\n\nA brand new block outside any scope.\n"

@@ -13,7 +13,7 @@ Expected duration: <estimate, e.g. 20 minutes>.
 Progress: Write <report path> incrementally: findings as you confirm them, then the final summary. Code changes stay in <your worktree> so the lead can see the diff grow.
 ```
 
-The research, exploration, implementation, and review packets below require semantic judgment. Use Astra when assigning them to a GPT worker. The mechanical packet is the only Sol 6.1 shape; further GPT delegation preserves the same routing rule.
+The research, exploration, implementation, and review packets below require semantic judgment, so route them to a model that the routing policy assigns to judgment-bearing work. The mechanical packet is the only shape for a route reserved for fixed execution. Choose model and effort with `model-routing` when it is installed, otherwise with the user's routing policy or the harness defaults, and carry the same routing rule into further delegation.
 
 ## Contents
 
@@ -39,7 +39,7 @@ Authority: <permitted effects and user resource limits>.
 Return the output, source locations, exit statuses, and failed or missing items.
 Do not select sources, summarize meaning, diagnose results, assess confidence,
 implement code, or choose a next action. Return an undefined result or mismatch
-to Astra with the raw evidence and completed actions.
+to the lead with the raw evidence and completed actions.
 ```
 
 When this executor needs a fuller command and authority contract, use `small-model-handoff` if it is installed; otherwise write the exact commands, allowed paths, stop conditions, and return format into the packet directly. Prefer a script when it already performs the fixed operation.

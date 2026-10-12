@@ -38,9 +38,10 @@ The script reads the source's entry from the renames file; `--rename OLD=NEW` ad
 - the renamed package's frontmatter `name` and folder;
 - a slash command, `/old`, not part of a path or URL;
 - a tool call, ``Skill tool with "old"`` or with backticks or single quotes;
-- a reference, ``the `old` skill``.
+- a reference, ``the `old` skill``;
+- an exact backticked name, `` `old` ``, which in prose such as ``run `old` first`` names that skill.
 
-Its JSON summary lists `written` packages (renamed, or rewritten because they invoke an old name), `unchanged` packages, each changed line, and `review` lines that quote an old name in another way. Read every changed line and every review line. A review line is usually a label, a path, or an ordinary word and stays as written; when one does point at the renamed skill, edit that line in the output and include it in the source review. The script exits with status 2 when an old name is absent from the source, a new name already belongs to another package in the source, a selected name is unknown, or the output directory is not empty.
+Its JSON summary lists `written` packages (renamed, or rewritten because they invoke or reference an old name), `unchanged` packages, each changed line, and `review` lines that quote an old name in another way. Read every changed line and every review line. A backticked skill name in prose is usually a reference to that skill and should carry the new name; if a changed line used the backticked name for something else, such as a literal value or an unrelated identifier, restore it in the output. Judge the remaining review lines, which quote an old name another way, case by case: edit a line that points at the renamed skill and leave a label or ordinary word as written. When such an edit falls in a package listed as `unchanged`, copy that package into `<out>/skills/<name>` first and install it with the `written` packages. Include every manual edit in the source review. The script exits with status 2 when an old name is absent from the source, a new name already belongs to another package in the source, a selected name is unknown, or the output directory is not empty.
 
 ## Installing And Recording
 

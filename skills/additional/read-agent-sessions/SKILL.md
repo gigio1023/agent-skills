@@ -15,17 +15,19 @@ description: >
 
 # Read Agent Sessions
 
-Turn a loose session reference — an id prefix, a title someone remembers, or a fragment of a prompt — into a verified handoff another agent can act on. All four harnesses keep complete transcripts on this machine, so the work is resolution and faithful extraction, never reconstruction from memory. The skill applies regardless of which agent runs it; loading it grants no write access to any session store.
+Turn a loose session reference — an id prefix, a title someone remembers, or a fragment of a prompt — into a verified handoff another agent can act on. All four harnesses keep complete transcripts on the machine where the session ran, so the work is resolution and faithful extraction, never reconstruction from memory. The skill applies regardless of which agent runs it; loading it grants no write access to any session store.
 
 ## Quick Start
 
 1. Identify the deliverable: locate a session, extract a conversation, or produce a takeover summary. Preserve the requester's harness if named, and their intended consumer — another agent, the user, or both.
 2. Identify the harness before touching storage. The identifier often decides it: a `sess_` prefix means Zcode, `YYYYMMDD_HHMMSS_<hex>` means Hermes, and a bare UUID is Codex or Claude Code and needs the requester's intent or both stores searched.
 3. Use the resolution map below to choose the lookup route. Treat a match as a hypothesis until the file or row is opened and its first records confirm the expected conversation.
-4. Follow the identified harness's reference before extracting. Each store has its own schema, duplicate-content traps, and subagent linkage; the recipes there were verified against real data on this machine.
+4. Follow the identified harness's reference before extracting. Each store has its own schema, duplicate-content traps, and subagent linkage; the recipes there were verified against real stores on the author's macOS machine at the versions and dates each reference states, so confirm them against the store in front of you.
 5. Extract the human-readable conversation: real user turns and assistant text, skipping tool plumbing, system-injected context, and reasoning blocks. Follow subagent or child sessions when the main transcript delegates work the requester cares about.
 6. Verify the summary against the extracted records before reporting. Dates, paths, decisions, and quoted claims in the handoff must appear in the transcript; a plausible summary that outruns its evidence is a failure, not a shortcut.
 7. Deliver the handoff with its provenance: harness, session id, project path, time range, the resolution chain (which identifier matched which file, via which index), and any gaps such as encrypted reasoning or missing titles.
+
+Prerequisites: `jq` for the JSONL recipes, and the `sqlite3` CLI with JSON1 (`json_extract`) and FTS5 (`messages_fts`) for the SQLite recipes. When a tool is missing, do not install it without the user's approval; read the same files with a short Python standard-library script instead (`json` line by line for JSONL, the `sqlite3` module with a `file:...?mode=ro` URI for databases), and fall back from FTS5 to `LIKE` filters if that build lacks it.
 
 References, one per harness:
 
@@ -54,7 +56,7 @@ When a requested action exceeds reading — resuming a session in its own harnes
 
 ### Inspect The Actual Store, Not The Documentation Of It
 
-Session formats drift between harness versions, and this machine already diverges from the widely documented defaults — Claude Code here has no `summary`-type records, Hermes keeps its transcripts in `state.db` rather than the directory named `sessions/`. When a store does not match its reference, inspect the real schema (`.schema`, or the first lines of a JSONL) and adapt the extraction; report the divergence rather than forcing the documented shape. Treat each reference's caveats as the verified boundary of what was confirmed here, not as universal claims.
+Session formats drift between harness versions and platforms, and the stores the references were verified on already diverged from the widely documented defaults: that Claude Code store had no `summary`-type records, and Hermes kept its transcripts in `state.db` rather than the directory named `sessions/`. When a store does not match its reference, inspect the real schema (`.schema`, or the first lines of a JSONL) and adapt the extraction; report the divergence rather than forcing the documented shape. Treat each reference's caveats as the boundary of what was confirmed on the author's machine, not as universal claims.
 
 ### Make The Handoff Verifiable
 
@@ -62,7 +64,12 @@ A takeover summary is only as good as its traceability. Include the session id a
 
 Subagent sessions are part of the record: Codex child rollouts link through `parent_thread_id`, Zcode subagents carry `sess_subagent_agent_` ids with `parent_id`, and Claude Code marks them `isSidechain: true`. Note when delegated work was followed and when it was skipped as out of scope.
 
-Sessions can contain secrets the original conversation handled. Summarize their effect when the task requires it, but never copy credentials into a handoff verbatim.
+Sessions can contain secrets the original conversation handled. Summarize their effect when the task requires it, but never copy credentials into a handoff verbatim. The rest of a transcript needs a boundary too:
+
+- Write extract files only where the requester names. Otherwise keep them in a local temporary directory and report their location.
+- Give the receiving agent the minimum summary the task needs, not the raw transcript.
+- Do not send raw transcript text to another model provider, repository, or shared document without the user's direction.
+- Summarize third parties' personal details and confidential work content only as far as the handoff requires.
 
 ## Output
 

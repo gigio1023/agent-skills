@@ -1,6 +1,6 @@
 # Hermes Sessions
 
-Verified by direct query against this machine's database. Hermes Agent is a Python harness (`~/.local/bin/hermes`); the canonical store is SQLite.
+Verified by direct query on the author's macOS machine on 2026-09-12, with the CLI note revised on 2026-09-23 (Hermes version not recorded). Hermes Agent is a Python harness (installed there at `~/.local/bin/hermes`); the canonical store is SQLite.
 
 ## Storage
 
@@ -9,7 +9,7 @@ Verified by direct query against this machine's database. Hermes Agent is a Pyth
 
 ## Session identity
 
-- Id format: `YYYYMMDD_HHMMSS_<6-hex>` (start-time based), e.g. `20260910_231100_9b57d3`.
+- Id format: `YYYYMMDD_HHMMSS_<6-hex>` (start-time based), e.g. `20260101_120000_a1b2c3`.
 - `sessions` columns: `id`, `title` (often NULL; when set, a human/auto title), `display_name`, `source` (`cli`/`tui`/`desktop`/`discord`/`subagent`/`tool`/cron names), `started_at`/`ended_at` (unix REAL), `message_count`, `cwd`, `model`, `parent_session_id`, `archived`/`pinned`/`hidden`.
 
 ## Resolving an identifier

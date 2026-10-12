@@ -4,24 +4,26 @@ description: >
   Use when a user wants an English task prompt reviewed or quietly coached while
   the requested work continues, especially for software engineering, AI
   research, and game-development work. Rewrites the complete request in clear,
-  natural technical English, explains nuance and ambiguity in precise Korean,
-  and keeps key expressions and contrasts in English. NOT for translating
-  non-English text, proofreading prose word by word, or changing the user's
-  task requirements.
+  natural technical English, explains nuance and ambiguity in the user's native
+  language (Korean by default), and keeps key expressions and contrasts in
+  English. NOT for translating non-English text, proofreading prose word by
+  word, or changing the user's task requirements.
 ---
 
 # English Prompt Review
 
 Help a user develop the habit of expressing technical work naturally in English without making the task harder to execute. Preserve the user's actual request; the coaching pass is a review, not a reinterpretation or a new requirement.
 
+The native language below is the language the user's instructions name for explanations, else the language of their non-English messages; when neither shows it, use Korean, this pack's default, which the user's own instructions can change. The rewrite, recommended expressions, and contrasts stay in English whatever the native language is.
+
 ## Quick Path
 
 1. Read the whole English request before judging individual words. Identify the outcome, relevant context, constraints, authority, and evidence of done.
 2. Start or continue the requested work immediately. Do not make the user wait for a language review.
 3. Re-express the request as one natural, direct prompt. Preserve the priority, scope, uncertainty, and level of urgency. Prefer the way an experienced practitioner would ask for the work, not a literal translation of the original syntax.
-4. Explain up to three high-value changes in precise Korean, while keeping the recommended expressions, alternatives, and contrast examples in English.
-5. If an ambiguous phrase could change task scope or technical meaning, do not select one interpretation. Explain the distinction in Korean and show each possible meaning as an English clause or prompt variant.
-6. Return the coaching result after the task result. If the request is already concise and natural, say so briefly instead of inventing edits.
+4. Explain up to three high-value changes precisely in the native language, while keeping the recommended expressions, alternatives, and contrast examples in English.
+5. If an ambiguous phrase could change task scope or technical meaning, do not select one interpretation. Explain the distinction in the native language and show each possible meaning as an English clause or prompt variant.
+6. Return the coaching result after the task result. If the request is already concise and natural, the coaching section is the single line `Natural and clear as written.` instead of invented edits.
 
 ## Coaching Contract
 
@@ -39,16 +41,16 @@ Treat the prompt as a small piece of working communication. Use a clear subject 
 
 Prefer a plain, idiomatic request over either of these extremes:
 
-- literal Korean-to-English phrasing;
+- literal translation from the user's native language;
 - inflated consultant or specification language when the user is simply asking an agent to do work.
 
 Do not produce a line-by-line grammar lesson, a redline, a score, or a list of every small article and preposition change unless the user explicitly asks for that level of correction.
 
 ### Split the Languages Deliberately
 
-Keep the rewritten prompt, recommended expressions, contrast phrases, and reuse examples in English. Use Korean only to explain why a change matters, where an English expression's meaning begins and ends, or how an ambiguity would change the task.
+Keep the rewritten prompt, recommended expressions, contrast phrases, and reuse examples in English. Use the native language only to explain why a change matters, where an English expression's meaning begins and ends, or how an ambiguity would change the task.
 
-Never place a full Korean translation directly under the rewrite. A Korean gloss alone can create recognition without command of the English expression. Tie each Korean explanation to the exact English phrase and, when a distinction is subtle, add an English contrast or example such as `locate the failure` versus `identify the root cause`.
+Never place a full native-language translation directly under the rewrite. A native-language gloss alone can create recognition without command of the English expression. Tie each native-language explanation to the exact English phrase and, when a distinction is subtle, add an English contrast or example such as `locate the failure` versus `identify the root cause`.
 
 ### Use Domain Language Carefully
 
@@ -86,7 +88,9 @@ Put the task result first. Then use this compact section only when coaching is e
   - <의미 B>: `<English clause or prompt variant>`
 ```
 
-For a prompt that needs no material rewrite, use `Natural and clear as written.` Do not praise mechanically, restate the task result, translate the full rewrite into Korean, or make the user compare near-identical versions. Offer one best rewrite unless a real ambiguity requires distinct English variants.
+The template shows the Korean default. For another native language, write the two guidance headings, their conditions, and the explanations in that language.
+
+For a prompt that needs no material rewrite, the section under its heading is the single line `Natural and clear as written.` in every mode that shows coaching. Do not praise mechanically, restate the task result, translate the full rewrite into the native language, or make the user compare near-identical versions. Offer one best rewrite unless a real ambiguity requires distinct English variants.
 
 ## Authority and Privacy
 
@@ -103,7 +107,7 @@ Before returning a rewrite, compare it with the original request:
 - the prompt has one clear main request rather than a word-for-word gloss;
 - non-sensitive identifiers, commands, API names, and quoted content are unchanged, while secret values use stable typed placeholders;
 - key expressions and all alternatives remain in English;
-- Korean guidance explains semantic boundaries without translating the complete prompt or substituting for the English wording;
+- native-language guidance explains semantic boundaries without translating the complete prompt or substituting for the English wording;
 - a material ambiguity is exposed as English alternatives rather than guessed;
 - any terminology note improves a real distinction rather than adding jargon.
 
@@ -111,7 +115,7 @@ Use [evaluation-cases.md](references/evaluation-cases.md) to test changes to thi
 
 ## Gotchas
 
-- "Native" does not mean more formal, longer, or more idiomatic at the cost of the user's meaning.
+- Native-sounding English does not mean more formal, longer, or more idiomatic at the cost of the user's meaning.
 - Do not correct fragmentary command prompts such as `run the tests` unless a rewrite would genuinely help the user learn a more useful expression.
 - Do not turn a domain term into a prescribed implementation. For example, `root cause` describes a diagnosis goal; it does not authorize code changes.
-- Do not let a fluent Korean explanation stand alone as proof of understanding; anchor it to an English expression, contrast, or reuse example.
+- Do not let a fluent native-language explanation stand alone as proof of understanding; anchor it to an English expression, contrast, or reuse example.

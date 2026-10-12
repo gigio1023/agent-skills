@@ -136,7 +136,7 @@ The corner heading names both dimensions, and each row states the requirement as
 
 **Before:** “Run the classifier on review-set-r3. This is our gold-standard dataset.”
 
-**After:** “Evaluate the classifier on the labeled support-ticket dataset (internal ID: `review-set-r3`). Labels come from a mix of human review and automated rules.”
+**After:** “Evaluate the classifier on the labeled support-ticket dataset, internal ID `review-set-r3`. Labels come from a mix of human review and automated rules.”
 
 The source establishes mixed label origins, not a validation process. The edit states the role and keeps the lookup ID without claiming that every label was validated. Use “labeled dataset” afterward, and omit the ID when readers will not look it up.
 
@@ -233,6 +233,6 @@ Keep this definition when it differs from what the intended audience would assum
 
 **Before:** “재시도 안정성 확보 및 처리 일관성 보장.”
 
-**After:** “워커는 출력을 모두 저장한 뒤에 batch 처리 완료 응답(ack)을 보낸다. 재시도하면 이미 저장된 출력이 남아 있을 수 있으므로 같은 batch를 다시 써도 결과가 달라지지 않아야 한다.”
+**After:** “워커는 출력을 모두 저장한 뒤에 batch 처리 완료 응답인 ack를 보낸다. 재시도하면 이미 저장된 출력이 남아 있을 수 있으므로 같은 batch를 다시 써도 결과가 달라지지 않아야 한다.”
 
 The rewrite uses the supplied behavior to explain who acts and in what order, then states the supplied consistency requirement. It uses Korean verbs for ordinary actions. Without those facts, revise the goal as a goal or ask for the missing mechanism; do not turn the short phrase into an implementation claim.

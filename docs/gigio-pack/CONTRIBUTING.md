@@ -1,6 +1,8 @@
+> Imported on 2026-10-12 as a source record. Current rules live in the repository root `AGENTS.md` and in the skills, and [docs/migration.md](../migration.md) maps the skill names used here to current ones. This file explains why older rules existed and does not govern work in this repository.
+
 # Contributing
 
-Gigio Pack owns durable project context and adaptive work. Read README.md, AGENTS.md, docs/principles.md, and the current docs/rule-ledger.md before changing a load-bearing rule.
+Gigio Pack owns durable project context and adaptive work. Read README.md, AGENTS.source.md, docs/principles.md, and the current docs/rule-ledger.md before changing a load-bearing rule.
 
 ## Layout and writing
 

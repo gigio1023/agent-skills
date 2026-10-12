@@ -2,15 +2,15 @@
 
 Run the helper; do not load it as model instructions. It requires Python 3.10+ and PyYAML (verified with 6.0.3). The Bash command delegates to the Python entry point. Dependencies are never installed automatically.
 
-From the package root:
+From this skill's directory:
 
 ```bash
-bash scripts/validate_skill.sh .
-bash scripts/smoke_test.sh
+bash scripts/validate_skill.sh <path-to-target-package>
 # With an authorized isolated dependency environment:
-uv run --with PyYAML==6.0.3 bash scripts/validate_skill.sh .
-uv run --with PyYAML==6.0.3 bash scripts/smoke_test.sh
+uv run --with PyYAML==6.0.3 bash scripts/validate_skill.sh <path-to-target-package>
 ```
+
+`bash scripts/smoke_test.sh` (or `uv run --with PyYAML==6.0.3 bash scripts/smoke_test.sh`) tests the validator itself and then validates skill-builder; it does not check the target package.
 
 Use SKILL_BUILDER_PYTHON to select an existing Python environment. The Python entry point takes a package directory and optional --target claude-code. The default target is portable. These profiles are scoped static checks, not complete host implementations or a replacement for live discovery.
 
@@ -27,8 +27,8 @@ Errors return 1. Missing dependencies or invalid CLI use return 2. Otherwise ret
 ## Advisories
 
 - A SKILL.md file over 500 lines, a long reference without a contents map, native/unknown metadata, and experimental allowed-tools.
-- Unfinished-looking markers or machine-specific paths in prose.
-- Private-reasoning terminology requiring human review; prohibitions also match.
+- Unfinished-looking markers or machine-specific paths in SKILL.md prose.
+- Private-reasoning terminology in SKILL.md requiring human review; prohibitions also match.
 - Missing code-span resources or links inside supporting Markdown: these may describe generated outputs, optional downloads, or a vendored source's layout. Inspect the context and fix actual execution defects; do not silently dismiss the warning or require every optional dependency just to validate a package.
 
 There is no 8KB warning, token estimate, required Gotchas section, or rejection of intentional reference cross-links. Optional metadata is not itself an error.

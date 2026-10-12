@@ -1,12 +1,12 @@
 # Claude Code Sessions
 
-Verified against current Claude Code on this machine. CLI and desktop-app-launched sessions write to the same store; desktop sessions show `"entrypoint":"claude-desktop"` in their records.
+Verified on the author's macOS machine: store layout and record schema on 2026-09-12 (Claude Code version not recorded), CLI notes on Claude Code 2.1.280 (2026-09-23) and 2.1.292 (2026-10-07). CLI and desktop-app-launched sessions write to the same store; desktop sessions show `"entrypoint":"claude-desktop"` in their records.
 
 ## Storage
 
 - Transcripts: `~/.claude/projects/<project-dir>/<session-uuid>.jsonl`, one JSON object per line. `<project-dir>` is the session cwd with `/` and `.` replaced by `-` (e.g. `-Users-alex-code-sample-project`). Reversing the dash encoding is ambiguous — read the `cwd` field from a record instead.
 - Prompt history: `~/.claude/history.jsonl` with `{"display","timestamp","project","sessionId"}` per prompt — maps remembered fragments to session ids.
-- Desktop app metadata: `~/Library/Application Support/Claude/claude-code-sessions/<org-uuid>/<user-uuid>/local_<uuid>.json` per session, carrying `sessionId` (the `local_*` id), **`cliSessionId`** (the `.jsonl` filename uuid), `cwd`, `title`, `titleSource`, `createdAt`, `lastActivityAt`, `model`, `isArchived`. This is the best title source for desktop sessions.
+- Desktop app metadata (macOS path; the location on other platforms was not checked): `~/Library/Application Support/Claude/claude-code-sessions/<org-uuid>/<user-uuid>/local_<uuid>.json` per session, carrying `sessionId` (the `local_*` id), **`cliSessionId`** (the `.jsonl` filename uuid), `cwd`, `title`, `titleSource`, `createdAt`, `lastActivityAt`, `model`, `isArchived`. This is the best title source for desktop sessions.
 - `~/.claude/sessions/` is live IPC metadata, not transcripts. The Electron Local Storage leveldb is UI state, not a clean transcript source. claude.ai-side conversations live server-side; resume locally needs the id or URL, and local JSONL remains the reliable read source.
 
 ## Resolving an identifier
@@ -14,7 +14,7 @@ Verified against current Claude Code on this machine. CLI and desktop-app-launch
 - Session id (uuid): `ls ~/.claude/projects/*/<uuid>.jsonl`
 - Title: `grep -l 'custom-title.*<title>' ~/.claude/projects/*/*.jsonl` (the `custom-title` record appears as the first line of a session file), or grep the desktop metadata `"title"` and follow `cliSessionId`.
 - Prompt fragment: `grep -F "<fragment>" ~/.claude/history.jsonl` for the session id.
-- The widely documented `"type":"summary"` records did not exist in this machine's store; do not rely on them.
+- The widely documented `"type":"summary"` records did not exist in the store checked on the author's machine; do not rely on them.
 
 ## Record schema
 
@@ -30,13 +30,14 @@ jq -r '
   select(.type=="user" or .type=="assistant")
   | select(.isSidechain != true)
   | .timestamp as $t
+  | (.type | ascii_upcase) as $r
   | .message.content
-  | if type=="string" then "[\($t)] USER: \(.)"
-    else (.[] | select(.type=="text") | "[\($t)] ASSISTANT: \(.text)")
+  | if type=="string" then "[\($t)] \($r): \(.)"
+    else (.[] | select(.type=="text") | "[\($t)] \($r): \(.text)")
     end' ~/.claude/projects/<dir>/<uuid>.jsonl
 ```
 
-For human turns only, additionally filter user records on `.origin.kind=="human"`. Some sessions have a sibling `<session-uuid>/` directory next to the `.jsonl` holding subagent/worker data.
+The label comes from the record's `type`, so a user record whose `message.content` is an array of text blocks still prints as USER; `tool_result` blocks are dropped by the `text` filter. For human turns only, additionally filter user records on `.origin.kind=="human"`. Some sessions have a sibling `<session-uuid>/` directory next to the `.jsonl` holding subagent/worker data.
 
 ## CLI notes
 

@@ -24,11 +24,11 @@ The [migration quickstart](https://developers.openai.com/api/docs/guides/latest-
 - Verify processing-tier and data-residency compatibility separately when relevant to the deployment.
 - When migrating older integrations, review the current caching contract before replacing legacy cache fields.
 
-Keep runtime compatibility changes separate from prompt edits and routing policy. Selecting Sol 6.1 for this pack still requires the mechanical-only criteria in the GPT policy of `model-routing`.
+Keep runtime compatibility changes separate from prompt edits and routing policy. Whether Sol 6.1 fits a workload is a routing decision; the `model-routing` skill's default policy, when installed, limits it to mechanical work.
 
 ## Moving From GPT-5.6
 
-This pack's GPT routing now defaults to Astra. Sol 6.1 is reserved for very easy deterministic execution. OpenAI documented GPT-5.6's prompt tendencies, such as preferring shorter prompts and compressing output under generic brevity instructions, for GPT-5.6 only; do not carry them to a newer model unmeasured. Start from this package's patterns and verify changes against the target workload.
+The `model-routing` skill's default policy, when installed, routes GPT work to Astra and reserves Sol 6.1 for very easy deterministic execution. OpenAI documented GPT-5.6's prompt tendencies, such as preferring shorter prompts and compressing output under generic brevity instructions, for GPT-5.6 only; do not carry them to a newer model unmeasured. Start from this package's patterns and verify changes against the target workload.
 
 [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md) keeps the API capabilities GPT-5.6 had, including Programmatic Tool Calling, multi-agent orchestration, persisted reasoning, compaction, pro mode, and prompt caching. They stay runtime settings:
 

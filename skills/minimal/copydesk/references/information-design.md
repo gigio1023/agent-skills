@@ -75,7 +75,7 @@ The finished table should not need a paragraph explaining that the “Problem”
 
 Before drawing, identify the reader's question, the entities or quantities needed, the relationship to show, and the intended reading order. These choices determine what to omit or split.
 
-The first figure shows the document's own subject and its relationships. A figure of general prerequisites, such as a generic Transformer block in a guide to refusal directions, is background for the point of need and cannot serve as the overview. Numbers, arrows, and legend indicate one reading order.
+The first figure shows the document's own subject and its relationships. A figure of general prerequisites, such as a generic sensor-array wiring diagram in a guide to removing the common component from multichannel sensor readings, is background for the point of need and cannot serve as the overview. Numbers, arrows, and legend indicate one reading order.
 
 A process diagram shows operations and state transitions. A component view shows responsibilities and interfaces. A chart shows a quantitative comparison or pattern. A timeline shows change over time. Combining these is justified only when the combination directly answers the same question.
 

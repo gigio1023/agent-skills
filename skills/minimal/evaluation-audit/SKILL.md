@@ -34,8 +34,8 @@ Row verdicts are holds, fails, or unverified. Unverified is not failed: keep a d
 
 The audit is read-only on project records. Design documents, configs, case sets, labels, result files, and campaign records stay as they are.
 
-- Cheap probes inside the always-on tier may proceed without asking: a handful of cases end to end, an oracle run and a null run on a few cases, a served-model check on a smoke case. Keep their outputs out of the project's result records and note the revision they ran on.
-- A costlier probe (a full pass, a model auditor over every case, paid accelerators, a fresh judge validation round) becomes a condition to clear, listed with one sentence predicting what it would show. Run it only on request. When the project has a praxis profile, its compute ladder defines the tiers.
+- Cheap probes inside the always-on tier (resources already running at no added cost) may proceed without asking: a handful of cases end to end, an oracle run and a null run on a few cases, a served-model check on a smoke case. Keep their outputs out of the project's result records and note the revision they ran on.
+- A costlier probe (a full pass, a model auditor over every case, paid accelerators, a fresh judge validation round) becomes a condition to clear, listed with one sentence predicting what it would show. Run it only on request. When the project has a praxis profile (the profile `praxis-direction` sets up, when installed), its compute ladder defines the tiers; without a profile, the always-on tier is the resources the user already approved for this work.
 - Never repair the eval while auditing it. A fix goes back to evaluation-design or to the artifact's owner as the condition to clear, stated as the smallest change that would clear it. An auditor that certifies its own patch grades its own work, the failure a separate audit exists to prevent.
 
 ## Read the artifacts, not the claims
@@ -65,7 +65,7 @@ A change to a scorer, metric, answer extraction, verdict parsing, or code that c
 
 ## Release mode
 
-Use release mode when a result will reach a customer or another external reader; credo-release is its paper counterpart. On top of the checks above, a report verdict requires:
+Use release mode when a result will reach a customer or another external reader; credo-release, when installed, is its paper counterpart. On top of the checks above, a report verdict requires:
 
 - a comparability tag on each number: harness or tool version, judge identity, case set version, and denominator, since numbers compare only under the same tag;
 - the caveats that could mislead, stated before the result;

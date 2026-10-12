@@ -115,7 +115,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [goal-prompting](skills/additional/goal-prompting/) | additional | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts |
 | [install-skill-pack](skills/minimal/install-skill-pack/) | minimal | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/minimal/skill-builder/) | minimal | Turn real workflows and preferences into personal, project-local, or shared skills, including skills that must work across Claude Code and Codex |
-| [read-agent-sessions](skills/additional/read-agent-sessions/) | additional | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on this machine and summarize them for another agent |
+| [read-agent-sessions](skills/additional/read-agent-sessions/) | additional | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on the local machine and summarize them for another agent |
 | [orchestrate-subagents](skills/minimal/orchestrate-subagents/) | minimal | Coordinate delegated work, whether the user asked for it or the lead chose it, and synthesize its evidence |
 | [model-routing](skills/minimal/model-routing/) | minimal | Choose each subagent's model and effort from the routing policy of its model family, Fable or GPT |
 | [prompting-guide](skills/minimal/prompting-guide/) | minimal | Write, review, and migrate prompts, skills, and agent instructions for Claude Fable, Claude Opus, or GPT-6, loading only that family's guide |
@@ -133,7 +133,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 
 | Skill | Set | What it helps with |
 | --- | --- | --- |
-| [english-prompt-review](skills/additional/english-prompt-review/) | additional | Rewrite English technical prompts naturally and explain important nuance in Korean |
+| [english-prompt-review](skills/additional/english-prompt-review/) | additional | Rewrite English technical prompts naturally and explain important nuance in the user's native language, Korean by default |
 | [copydesk](skills/minimal/copydesk/) | minimal | Write, revise, and review meaningful explanations with natural Korean and precise English, preserving facts through local corrections and broader rewrites |
 | [write-notion](skills/minimal/write-notion/) | minimal | Create and revise team pages in Notion: document shape, people mentions, compact tables, figures, safe edits, and a re-fetch check after publishing |
 
@@ -160,9 +160,9 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [evaluation-operations](skills/minimal/evaluation-operations/) | minimal | Operate approved evaluation campaigns with durable attempt and result records |
 | [internal-source-research](skills/minimal/internal-source-research/) | minimal | Reconstruct work context from authorized internal sources |
 | [praxis-direction](skills/minimal/praxis-direction/) | minimal | Sharpen an agenda into one bet, run the failure-mode pass on a new system, or set up and audit the praxis profile |
-| [credo-taste](skills/additional/credo-taste/) | additional | Choose a research direction, decide whether to continue, pivot, or stop, or judge whether a work result could become a paper |
+| [credo-taste](skills/additional/credo-taste/) | additional | Choose a research direction, decide whether to continue, pivot, or stop, or judge whether a work result could become a paper; invoked by name |
 | [credo-paper-plan](skills/additional/credo-paper-plan/) | additional | Plan the argument, claim-evidence map, closest prior work, and figures; critique a draft; plan the response to peer reviews |
-| [credo-journal](skills/additional/credo-journal/) | additional | Record research ideas, predictions, and hindsight |
+| [credo-journal](skills/additional/credo-journal/) | additional | Record research ideas, predictions, and hindsight; invoked by name |
 | [credo-release](skills/additional/credo-release/) | additional | Check a paper before submission or release |
 
 ### Project Continuity and Discovery
@@ -216,7 +216,7 @@ npx --yes skills find
 
 Keep Markdown prose in natural paragraphs without fixed-column hard wrapping; use editor soft wrap for display. Follow [skill-builder](skills/minimal/skill-builder/SKILL.md) when authoring or maintaining a skill.
 
-This repository is a multi-skill pack. The canonical source for each bundled skill is `skills/<source-category>/<skill-name>/`.
+This repository is a multi-skill pack. The canonical source for each bundled skill is `skills/<install-set>/<skill-name>/`, where the install set is `minimal` or `additional`.
 
 Inspect a checkout without creating an update-tracked install:
 
@@ -224,8 +224,8 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 46 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how `model-routing` divides work with the orchestration skills.
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 46 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how `model-routing` divides work with the orchestration skills. The reasons behind `codex-delegate`'s design are kept in [its decision log](docs/codex-delegate-decision-log.md).
 
 ## License
 
-MIT, see [LICENSE](LICENSE). Files that carry their own license notice, such as those in `skills/minimal/copydesk/`, keep its terms, and ideas adapted from other projects are credited in each skill's source notes.
+MIT, see [LICENSE](LICENSE). Files that carry their own license notice, such as those in `skills/minimal/copydesk/`, keep its terms, and ideas adapted from other projects are credited in each skill's source notes. Prompt clauses quoted from Anthropic's documentation in `skills/minimal/prompting-guide/references/fable/` are marked and linked there; they remain Anthropic's and are not covered by this license.

@@ -102,7 +102,7 @@ Ten real comments, each showing a shape worth copying.
 
 Patterns to copy from the set:
 
-- One claim per comment, and the reasoning is part of the claim. Google's guide is explicit that brevity never excuses dropping the why. The quotes show register and content; this skill lays the same content out as two or three bullets (Inline Comment Shape), a pack preference adopted on 2026-09-30 because paragraph comments were hard to scan.
+- One claim per comment, and the reasoning is part of the claim. Google's guide is explicit that brevity never excuses dropping the why. The quotes show register and content; this skill lays the same content out as two or three bullets (Inline Comment Shape), this pack's default because paragraph comments are hard to scan. A user instruction or the repository's contribution guidelines override it.
 - Backticks for code references. Markdown emphasis lands on the load-bearing word (*all*, *here*), never on section labels.
 - Assert what you observed; hedge only with evidence ("As far as I can tell... not run by regrtest").
 - A refusal or a question can be the entire comment.
@@ -148,7 +148,7 @@ The default shape: two or three bullets, one sentence each, in this order.
 ```
 ````
 
-That's the whole template. Drop the impact bullet when the problem sentence already shows the consequence, or the fix bullet when the suggestion block carries it; keep at least two. No title line. No labels beyond the repo's own conventions, and none on the bullets. No bold. A pure question, or a one-line nit in the repo's own `Nit:` style, may stay a single line.
+That's the whole template, and it is this pack's default: a user instruction or the repository's contribution guidelines override it. Drop the impact bullet when the problem sentence already shows the consequence, or the fix bullet when the suggestion block carries it; keep at least two. No title line. No labels beyond the repo's own conventions, and none on the bullets. No bold. A pure question, or a one-line nit in the repo's own `Nit:` style, may stay a single line.
 
 If the fix needs more than one line of code, drop the ```suggestion block and name the alternative in the fix bullet, the way Darksonn's and zooba's refusals above name the replacement path.
 
@@ -233,7 +233,7 @@ If you don't have any of those, leave the body empty. An empty body next to four
 
 ### Case Study: Same Body, Two Drafts
 
-A synthetic before/after modeled on a real review cycle.
+A synthetic before/after.
 
 **Slop (draft):**
 
@@ -288,7 +288,7 @@ Run this checklist on every drafted comment. If any line answers "yes", redraft.
 - Does it start with a filler lead-in ("Additionally", "One more thing")?
 - Does it end with a filler ask ("please take a look when you get a chance")?
 - Is there a table?
-- Is it a prose paragraph instead of two or three bullets, does it run past three bullets, or does a bullet hold more than one sentence?
+- Unless a user instruction or the repository's contribution guidelines set another shape, is it a prose paragraph instead of two or three bullets, does it run past three bullets, or does a bullet hold more than one sentence?
 - If it refuses something, is the refusal diluted by compliments or stacked hedges?
 - Does its formality or phrasing mismatch the repo's existing review threads?
 

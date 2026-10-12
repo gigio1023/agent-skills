@@ -5,7 +5,9 @@ description: >
   components, pages, layout, styling, responsive behavior, forms, data views,
   interface states, motion, accessibility, visual assets, and UI review.
   Includes user-visible frontend bug fixes. NOT for backend-only work or
-  frontend configuration and data changes with no interface effect.
+  frontend configuration and data changes with no interface effect. NOT for
+  data dashboards or interactive analysis reports (insight-dashboard, when
+  installed) or technical figures (technical-figure, when installed).
 ---
 
 # Frontend Design

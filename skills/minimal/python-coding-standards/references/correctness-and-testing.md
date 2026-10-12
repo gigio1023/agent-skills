@@ -45,7 +45,7 @@ Tests and type checks answer different questions. An annotation does not validat
 
 ## Use configured checks
 
-Discover commands from project instructions, CI, and tool configuration. Use `uv run` with the appropriate declared groups in uv-managed projects. Keep one configured formatter and the repository's selected type-checking strategy; do not migrate checkers or impose a new strict-mode configuration as a side effect. New and changed declarations require explicit types, including locals and SDK objects; inferred-type acceptance by a checker is insufficient. Broader changes to untouched code remain scoped to the request.
+Discover commands from project instructions, CI, and tool configuration. Use `uv run` with the appropriate declared groups in uv-managed projects. Keep one configured formatter and the repository's selected type-checking strategy; do not migrate checkers or impose a new strict-mode configuration as a side effect. New and changed declarations require explicit types, including locals and SDK objects, unless the touched module in a repository the user does not own consistently follows another convention; inferred-type acceptance by a checker is insufficient. Broader changes to untouched code remain scoped to the request.
 
 Run the smallest set that covers the changed surface, including repository-required checks. Broaden when a shared API or dependency warrants it. Report a missing prerequisite or a pre-existing failure distinctly from a passing result. Do not apply unsafe lint fixes automatically, weaken a check to obtain a pass, or repeat unchanged successful checks without a new reason.
 
@@ -60,4 +60,4 @@ Checked 2026-09-29:
 - [Ruff fix safety](https://docs.astral.sh/ruff/linter/#fix-safety): fixes whose behavior may change runtime semantics.
 - [pytest good integration practices](https://docs.pytest.org/en/stable/explanation/goodpractices.html): test layout and import behavior when pytest is the selected runner.
 
-The test policy is this pack's choice: verify observable behavior and derive test expectations independently from the code under change. The 2026-10-06 owner-authorized audit expanded the former risk-category whitelist to meaningful caller-visible contracts and replaced automatic deletion after refactoring with failure diagnosis. These references do not mandate a coverage percentage or a specific test framework.
+The test policy is this pack's choice: verify observable behavior and derive test expectations independently from the code under change. These references do not mandate a coverage percentage or a specific test framework.

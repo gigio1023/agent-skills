@@ -1,6 +1,6 @@
 # Document Forms
 
-Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. When that form is unfamiliar, read a real technical exemplar; public source pointers are kept in the repository's docs/writing-sources.md.
+Use when choosing or revising a document's structure. Begin with the reader's task, genre, and governing template. When that form is unfamiliar, read a real technical exemplar; public source pointers are kept in [writing sources](https://github.com/gigio1023/gigio-skills/blob/main/docs/writing-sources.md).
 
 Use the shared noun-phrase heading, compact-cell, and focused-visual defaults across these forms. Vary the explanation and reading order by purpose. A factual record's brevity is not a reason to omit mechanisms from a guide or reasons from a proposal. [Information design](information-design.md) covers the choice between paragraphs, lists, tables, and visuals.
 
@@ -35,6 +35,8 @@ Explain why the selected workload represents the intended use and where it does 
 End with the supported engineering implication or next discriminating test, not a ceremonial summary. If a recommendation is requested, make it and name the observation that would reverse it. [MapReduce](https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/) separates programming model, implementation, configuration, and experiments; [Circuit Tracing](https://transformer-circuits.pub/2025/attribution-graphs/methods.html) separates the proxy model, validation, and method-specific failures.
 
 ## Design proposal, RFC, or enhancement proposal
+
+For the design of a module or system, the `design-doc` skill, when installed, owns the document's sections and design content, and this skill writes its prose. The guidance below covers other proposals, and design documents when `design-doc` is not installed.
 
 The reader needs to assess a change before treating it as implementation fact. State the current behavior or constraint, the proposed behavior, and why the change is needed. Explain the mechanism in enough detail to reveal its trade-offs: responsibilities, interfaces, state, data flow, compatibility, and failure behavior as applicable.
 

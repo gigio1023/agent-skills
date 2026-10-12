@@ -1,6 +1,6 @@
 # English Clarity
 
-Use for English instructions, tool descriptions, error and status text, or prose whose actor, condition, or terminology is easy to misread. The goal is a precise reading with the source's meaning intact. The author's dry register applies where requested; another writer's voice remains part of a revision.
+Use for English instructions, tool descriptions, error and status text, or prose whose actor, condition, or terminology is easy to misread. The goal is a precise reading with the source's meaning intact. The writing profile's dry register applies where requested; another writer's voice remains part of a revision.
 
 ## Interpretation before wording
 

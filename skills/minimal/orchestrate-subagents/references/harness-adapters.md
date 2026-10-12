@@ -32,15 +32,15 @@ Choose the execution primitive by task shape:
 
 Treat model assignment as part of orchestration design. Choose the model and reasoning effort per subagent before spawning, then include the assignment in the packet or setup step when the harness supports it.
 
-Keep runtime mechanics separate from model policy. For GPT workers, read the GPT policy in `model-routing` before dispatch. It defaults to Astra and limits Sol 6.1 to very easy deterministic work. For Anthropic workers, preserve the Fable policy in `model-routing` or another explicitly selected Anthropic policy. A task's volume or read-only status does not choose its model.
+Keep runtime mechanics separate from model policy. Choose each worker's model and effort with `model-routing` when it is installed, otherwise with the user's routing policy or the harness defaults. A task's volume or read-only status does not choose its model.
 
 Separate collection and judgment in the packet:
 
 - Mechanical collection has fixed sources or queries, prescribed operations, a fixed output shape, and a mechanical check. It returns raw results, locations, execution statuses, and missing items.
-- Research and interpretation choose sources, select decisive facts, summarize, diagnose, assess confidence, or propose follow-up. Route GPT work of this kind to Astra.
+- Research and interpretation choose sources, select decisive facts, summarize, diagnose, assess confidence, or propose follow-up. Route this work to a model that the routing policy assigns to judgment-bearing work.
 - Keep collection with the lead when direct reading preserves decisive context or each result changes the next judgment. A compact packet alone does not make a task mechanical.
 
-If the companion GPT skill is unavailable, retain the same boundary: Astra for any semantic decision or uncertainty, Sol 6.1 only when every action and acceptance rule is already fixed. Do not silently inherit a cheaper default for judgment-bearing work.
+Whatever the routing source, retain the same boundary: a route reserved for mechanical execution takes a packet only when every action and acceptance rule is already fixed, and any semantic decision or uncertainty goes to a judgment-capable route. Do not silently inherit a cheaper default for judgment-bearing work.
 
 If an explicitly required model, plugin, or reasoning level is unavailable, report the affected task and continue independent authorized work. Use an equivalent only when the user's routing policy permits it; do not treat the absence of a capability as permission to replace an exact requirement. For a task with no specified model, choose from configured capabilities and report material limits.
 
@@ -60,6 +60,8 @@ Codex-specific caution: delegation does not broaden authorization. Bounded read-
 Current Codex surfaces may delegate when the user asks or when an applicable skill or repository instruction requests it. Treat that as availability, not a reason to spawn workers before the independence and cost test passes.
 
 ## Claude Code
+
+The spawn-depth facts below were checked on 2026-09-23, and the liveness facts were observed in use on 2026-10-06 without a recorded Claude Code version. The current fan-out and spawn-depth defaults, with their check date and version, are under Caps and related settings in the Fable harness adapters reference of `model-routing`. Recheck these facts when Claude Code changes.
 
 Use Claude Code's native subagents, tasks, or agent-team features when present. Prefer filesystem-backed instructions, explicit agent roles, and fresh-context workers for isolated tasks. For team-style workflows, keep handoff artifacts small and reviewable: spec, task, evidence, review result.
 

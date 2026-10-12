@@ -1,3 +1,5 @@
+> Imported on 2026-10-12 as a source record. Current rules live in the repository root `AGENTS.md` and in the skills, and [docs/migration.md](../migration.md) maps the skill names used here to current ones. This file explains why older rules existed and does not govern work in this repository.
+
 # Research method migration
 
 `internal-source-research` and `evaluation-operations` move from [agent-skills](https://github.com/gigio1023/agent-skills) to this repository without renaming their skill handles. Their reference resources move with them.

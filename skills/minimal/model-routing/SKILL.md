@@ -4,15 +4,15 @@ description: >
   Choose each subagent's model and reasoning effort and state the resolved
   settings before spawning: every time a Claude Fable 5 or 5.1 lead delegates
   in any harness with subagents (Claude Code, Cursor, and Hermes are
-  examples), and for GPT work and subagents in any harness, including inside
-  codex-delegate missions (GPT-6 Astra by default, GPT-6.1 Sol only for very
-  easy deterministic execution). Also use to install or maintain the shipped
-  subagent definitions, GPT worker defaults, and Codex role files, or, when
-  asked, to bring Fable in as a judge under another lead. Loads only the
-  routing policy of the model family it applies to (formerly
-  fable5-model-routing and gpt6-astra-model-routing). NOT for deciding whether
-  to delegate (orchestrate-subagents) or launching an external mission
-  (codex-delegate).
+  examples), and whenever a GPT-6 lead spawns subagents or a GPT worker is
+  assigned, in any harness, including inside codex-delegate missions (GPT-6
+  Astra by default, GPT-6.1 Sol only for very easy deterministic execution).
+  Also use to install or maintain the shipped subagent definitions, GPT
+  worker defaults, and Codex role files, or, when asked, to bring Fable in as
+  a judge under another lead. Loads only the routing policy of the model
+  family it applies to (formerly fable5-model-routing and
+  gpt6-astra-model-routing). NOT for deciding whether to delegate
+  (orchestrate-subagents) or launching an external mission (codex-delegate).
 ---
 
 # Model Routing

@@ -105,7 +105,7 @@ Classify the needed information before composing a question.
 | Human decision | Ask | Priority, policy, scope, acceptable failure |
 | Mixed | State facts, then ask the decision | Existing retry behavior plus desired new rule |
 
-An investigation item records the question, what would settle it (the measurement, trial, or experiment and its rough cost), the decisions waiting on it, the route (`ml-experiment`, `evaluation-design`, or the experiment queue of the plan or design document (`design-doc`)), and the user's rule for each plausible outcome when they gave one.
+An investigation item records the question, what would settle it (the measurement, trial, or experiment and its rough cost), the decisions waiting on it, the route (`ml-experiment`, `evaluation-design`, a next action in the plan (`work-plan`), or the experiment queue of the design document (`design-doc`)), and the user's rule for each plausible outcome when they gave one.
 
 Descriptive evidence never decides a prescriptive question by itself. Existing code can show the current pattern; only the user or delegated authority decides whether that pattern should continue.
 
@@ -187,7 +187,7 @@ Ready does not require an empty frontier. Branches the next action does not touc
 
 ### Investigation item capture
 
-> Whether the nightly batch finishes inside the maintenance window is a measurement, not a decision, so I am listing it as an investigation item: a timed run on a copy of last month's data, routed to the plan's experiment queue. Your rule if it overruns was to split the batch by region.
+> Whether the nightly batch finishes inside the maintenance window is a measurement, not a decision, so I am listing it as an investigation item: a timed run on a copy of last month's data, routed to the plan as a next action. Your rule if it overruns was to split the batch by region.
 
 ### Final confirmation
 

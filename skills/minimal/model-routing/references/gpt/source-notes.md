@@ -2,7 +2,7 @@
 
 ## Policy And Evidence
 
-The owner changed the GPT operating policy on 2026-10-06: Astra handles judgment-bearing work by default, and Sol 6.1 handles only very easy deterministic execution. This is a user preference. OpenAI's broader recommendations for Sol do not establish or override this narrower operating policy.
+This pack's GPT routing policy changed on 2026-10-06: Astra handles judgment-bearing work by default, and Sol 6.1 handles only very easy deterministic execution. It is a default that the user's own routing policy overrides. OpenAI's broader recommendations for Sol do not establish or override this narrower operating policy.
 
 This policy owns GPT model selection. The Fable policy in `references/fable/` owns Anthropic choices. They share delegation concepts, but their policies are not mirrored text. Orchestration owns decomposition and synthesis, and each harness adapter owns the supported control mechanism.
 

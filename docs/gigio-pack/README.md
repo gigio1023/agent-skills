@@ -1,4 +1,4 @@
-> Imported on 2026-10-12 from [gigio-pack](https://github.com/gigio1023/gigio-pack) at `3b206a1`. Its skills now live under `skills/minimal/` and `skills/additional/` in this repository; the skill links below point at the original repository layout. This copy is kept as the source record.
+> Imported on 2026-10-12 from [gigio-pack](https://github.com/gigio1023/gigio-pack) at `3b206a1`. Its skills now live under `skills/minimal/` and `skills/additional/` in this repository; the skill links below point at the original repository at that commit. This copy is kept as the source record.
 
 # Gigio Pack
 
@@ -20,15 +20,15 @@ An early discovery pass can combine short techniques within the same objective a
 
 | Skill | Responsibility |
 | --- | --- |
-| [gigio-project-setup](skills/gigio-project-setup/) | Establish or audit purpose, direction, constraints, current understanding, and source locations |
-| [gigio-write-plan](skills/gigio-write-plan/) | Detail the work needed for the next decision |
-| [gigio-execute-plan](skills/gigio-execute-plan/) | Execute, interpret findings, and continue within the established grant |
-| [gigio-review-results](skills/gigio-review-results/) | Assess progress and whether the next decision is supported |
-| [find-unknowns](skills/find-unknowns/) | Resolve consequential gaps before expensive work |
-| [deep-interview](skills/deep-interview/) | Interview when sustained requirements discovery is explicitly wanted |
-| [session-handoff](skills/session-handoff/) | Write one file a successor executes: current state, next actions, and questions for the user |
-| [curate-terminology](skills/curate-terminology/) | Settle contested names from project, paper, and competitor usage and record them with sources |
-| [use-terminology](skills/use-terminology/) | Apply recorded terms, local names, and wording decisions |
+| [gigio-project-setup](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/gigio-project-setup) | Establish or audit purpose, direction, constraints, current understanding, and source locations |
+| [gigio-write-plan](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/gigio-write-plan) | Detail the work needed for the next decision |
+| [gigio-execute-plan](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/gigio-execute-plan) | Execute, interpret findings, and continue within the established grant |
+| [gigio-review-results](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/gigio-review-results) | Assess progress and whether the next decision is supported |
+| [find-unknowns](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/find-unknowns) | Resolve consequential gaps before expensive work |
+| [deep-interview](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/deep-interview) | Interview when sustained requirements discovery is explicitly wanted |
+| [session-handoff](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/session-handoff) | Write one file a successor executes: current state, next actions, and questions for the user |
+| [curate-terminology](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/curate-terminology) | Settle contested names from project, paper, and competitor usage and record them with sources |
+| [use-terminology](https://github.com/gigio1023/gigio-pack/tree/3b206a1/skills/use-terminology) | Apply recorded terms, local names, and wording decisions |
 
 ## Related capabilities
 
@@ -37,6 +37,8 @@ An early discovery pass can combine short techniques within the same objective a
 The repository split separates responsibility without prescribing a fixed sequence. Relevant companions are used when available; missing optional tooling does not require another framework or an unrequested install.
 
 ## Install
+
+Historical; install from gigio-skills instead (see the [root README](../../README.md)).
 
 Install selected skills, or this pack's nine skills, for the intended agents:
 

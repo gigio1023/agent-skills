@@ -1,3 +1,5 @@
+> Imported on 2026-10-12 as a source record. Current rules live in the repository root `AGENTS.md` and in the skills, and [docs/migration.md](../migration.md) maps the skill names used here to current ones. This file explains why older rules existed and does not govern work in this repository.
+
 # Repository Responsibilities and Migration
 
 The migration completed on 2026-09-17 and keeps the three repositories independent. Gigio maintains project context; agent-skills maintains reusable execution and production capabilities; research-credo maintains research methods.

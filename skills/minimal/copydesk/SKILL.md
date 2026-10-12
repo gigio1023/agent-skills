@@ -1,12 +1,7 @@
 ---
 name: copydesk
 description: >
-  Write, revise, or review reader-facing documents and substantive prose in any
-  language: reports, guides, proposals, design docs, posts, and messages.
-  Includes focused AI-slop revision, English clarity, and Korean semantic repair.
-  Provides shared meaning, voice, and author-profile principles for PRs, issues, and Notion pages;
-  draft-pr, write-issue, and write-notion own their artifact structure and publication workflows.
-  Use specialized skills for drawing figures, building dashboards, and file production.
+  Write, revise, or review reader-facing documents and substantive prose in any language: reports, guides, proposals, posts, and messages. Includes focused AI-slop revision, English clarity, and Korean semantic repair. Provides shared meaning, voice, and author-profile principles for PRs, issues, Notion pages, and the prose of design docs; draft-pr, write-issue, and write-notion own their artifact structure and publication workflows. NOT for choosing a design document's sections and design content, which belong to design-doc. Use specialized skills for drawing figures, building dashboards, and file production.
 ---
 
 # Copydesk
@@ -15,7 +10,7 @@ Write for the reader's task. Select the facts and relationships they need, expla
 
 ## Scope and baseline
 
-Infer the reader, purpose, sources, language, medium, and requested intervention from the current request and artifact. Ask only about missing information that changes meaning or authority. Read the [writing profile](references/writing-profile.md) for the author's standing preferences; reuse it when already present in the session. A current request or governing template takes precedence. Another author's text keeps its own voice unless a different voice was requested.
+Infer the reader, purpose, sources, language, medium, and requested intervention from the current request and artifact. Ask only about missing information that changes meaning or authority. Read the [writing profile](references/writing-profile.md) for the active standing preferences; reuse it when already present in the session. The pack ships its maintainer's profile as the default: a user edits or replaces that file, or points their instruction file at their own profile, and the craft rules in this file apply either way. A current request or governing template takes precedence. Another author's text keeps its own voice unless a different voice was requested.
 
 | Work | Editing scope |
 | --- | --- |
@@ -81,4 +76,4 @@ Open additional references only for the decision at hand:
 - [Document forms](references/document-forms.md), [document production](references/document-production.md): genre requirements and editable or PDF output.
 - [Multilingual writing](references/multilingual-writing.md): locale and voice choices beyond the short language guides.
 - [Korean pattern evidence](references/korean-pattern-evidence.md): a specific repetitive pattern or maintenance of its evidence, not a routine Korean drafting dependency.
-- [Composition](references/composition.md): specialist ownership and useful combinations. Maintenance provenance is in the repository's `docs/writing-sources.md`.
+- [Composition](references/composition.md): specialist ownership and useful combinations. Maintenance provenance is in [writing sources](https://github.com/gigio1023/gigio-skills/blob/main/docs/writing-sources.md).

@@ -56,9 +56,9 @@ Reviewers read a PR in their team's working language, so the language is the use
 1. The user's explicit instruction for this PR or this repository.
 2. A language the repository already states for PRs: a PR template, a contributor guide, or agent instructions that name one.
 3. Clear team practice in the existing PR being updated or the repository's recent PRs. Use the README as supporting context, not proof that every team reviews in that language.
-4. Ask once when the evidence is missing or conflicts. English is the default when the user has no preference.
+4. Ask once when the evidence is missing or conflicts. Without any preference, use English. A user can set a standing default, for example one language per organization, in their own instruction files; apply it when present.
 
-Reuse a language already resolved for this repository in the session. When nobody can answer, as in an unattended run, apply the established repository or author default, else English, and say in the report which rule decided. A user who wants the answer to stick records it in the repository's contributor guide or agent instructions; publishing a PR does not edit those files.
+Reuse a language already resolved for this repository in the session. When nobody can answer, as in an unattended run, apply the established repository default or the user's recorded default, else English, and say in the report which rule decided. A user who wants the answer to stick records it in the repository's contributor guide or agent instructions; publishing a PR does not edit those files.
 
 ## Shape The Body
 

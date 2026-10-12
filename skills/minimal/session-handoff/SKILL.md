@@ -18,11 +18,11 @@ description: >
 
 Write one file that a successor given only its path recognizes as its task and starts executing. If you were handed a handoff file instead, you are the successor: do its task and leave the file alone.
 
-This request authorizes reading what the handoff needs and writing the file, nothing more. Grants the user gave for the task are recorded for the successor, not used here.
+This request authorizes reading what the handoff needs, writing the file, and the local Git exclude entry in step 1, nothing more. Grants the user gave for the task are recorded for the successor, not used here.
 
 ## Writing the File
 
-1. Write to `.handoff/<YYYY-MM-DD>-<HHMM>-<task-slug>.md` at the project root, in local time with a short ASCII kebab-case slug. For several repositories, use their common root and label each.
+1. Write to `.handoff/<YYYY-MM-DD>-<HHMM>-<task-slug>.md` at the project root, in local time with a short ASCII kebab-case slug. For several repositories, use their common root and label each. The file carries quoted user words, session ids, absolute paths, and grants, so keep it out of version control: before writing, run `git check-ignore -q .handoff/` from that root. Exit 0 (already ignored) or 128 (no repository) needs nothing more. On exit 1, append `.handoff/` to the local exclude file at `git rev-parse --git-path info/exclude`, which is never committed, and mention it in the delivery; if that file cannot be written, tell the user the handoff will be visible to Git before writing it.
 2. Fill `assets/handoff.template.md`. Keep its bold opening instruction word for word and delete rows with nothing to say.
 3. The user's current explicit words decide intent and scope; live files, version control, and fresh tool output decide status. Quote the user's decisive sentences verbatim with their date. Point to paths, commands, and commits instead of pasting them, and leave out secrets.
 4. Subagents, background jobs, pending tool calls, and in-session grants end with this session. Record what each left on disk, and list as still running only handles the successor can check from outside, with the checking command. Record the origin harness and session id so `read-agent-sessions`, where installed, can recover the transcript.
@@ -37,4 +37,4 @@ The newest `.handoff/` file with the task's slug is current. Keep its still-vali
 
 ## Delivery
 
-Report the path, the recorded status, and the first action. Read `references/source-notes.md` only when maintaining this skill.
+Report the path, the recorded status, the first action, and any exclude entry added. Read `references/source-notes.md` only when maintaining this skill.

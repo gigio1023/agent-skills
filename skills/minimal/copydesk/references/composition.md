@@ -8,6 +8,7 @@ Use when document work also involves internal sharing, a dashboard, focused lang
 | --- | --- |
 | `copydesk` | Shared meaning, voice, profile, and document craft |
 | `draft-pr`, `write-issue` | PR or issue structure, repository/tracker context, and publication workflow |
+| `design-doc` | A module or system design document's sections and design content; copydesk writes the prose in each section |
 | `write-notion` | Notion page shape, people references, tables, figures, editing mechanics, and the re-fetch check after publishing |
 | `insight-dashboard` | Quantitative comparison, informative initial view, data/filter/claim alignment, and static presentation of selected results |
 | [Official shadcn skill](https://ui.shadcn.com/docs/skills) | Maintainer-provided shadcn project and component guidance for an actual implementation |
@@ -16,7 +17,7 @@ Use when document work also involves internal sharing, a dashboard, focused lang
 
 `insight-dashboard`, `frontend-design`, and the paper skills belong to the additional install set and are used when installed. Without them this writer still covers the document's content, structure, and a native production route.
 
-Use this writer as the authoring entry point for a document and for its sharing; a request that names `share-internal-doc` is served here. Carry the reader brief and explicit editorial preferences through once, then run the recipient and delivery checks. The author's standing preferences live in [writing profile](writing-profile.md). Missing companions do not remove accuracy, privacy, or established user preferences.
+Use this writer as the authoring entry point for a document and for its sharing; a request that names `share-internal-doc` is served here. Carry the reader brief and explicit editorial preferences through once, then run the recipient and delivery checks. Standing preferences live in the [writing profile](writing-profile.md), which this pack ships as a default that a user can edit or replace. Missing companions do not remove accuracy, privacy, or established user preferences.
 
 ## Useful combinations
 
