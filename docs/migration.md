@@ -94,7 +94,7 @@ New in the minimal set: `design-exploration`, `idea-critique`, `design-doc`, and
 
 The repository was renamed from `gigio1023/agent-skills` to `gigio1023/gigio-skills` on the same day. GitHub redirects the old URL, but packages installed from it keep the old source in the Skills CLI lock until they are reinstalled from the new name.
 
-Each description names its former names once, so requests that use them still route. Installed copies under the former names are not updated by `skills update`; during a requested refresh, install the current names, verify them, then remove the former names. Codex role files and agent definitions already installed from the routing skills keep working, but their text names the former routing skill until they are reinstalled.
+Descriptions named their former names until 2026-10-12; since then former names live only in this document, and a request that uses one is routed by the tables here. Installed copies under the former names are not updated by `skills update`; during a requested refresh, install the current names, verify them, then remove the former names. Codex role files and agent definitions already installed from the routing skills keep working, but their text names the former routing skill until they are reinstalled.
 
 ## Coding standards, review, and load testing on 2026-10-12
 
@@ -106,3 +106,13 @@ Each description names its former names once, so requests that use them still ro
 | None | `load-testing` | Load and capacity tests of services and model endpoints |
 
 `interview` now applies the unknowns lens inside an interview (the user's current understanding, a first-round blind-spot scan, tacit criteria shown as options), while `find-unknowns` stays the quick standalone pass. During a requested refresh, install the current names, verify them, then remove `python-coding-standards`.
+
+## Listing budget and goal prompts on 2026-10-12
+
+| Former name or text | Current | Change |
+| --- | --- | --- |
+| `goal-prompting` in additional | `prompting-guide/references/goal-mode/` | Goal mode guidance is a reference the prompting guide loads on request; the package is removed |
+| "Formerly …" clauses in descriptions | This document | Former names left the descriptions |
+| Ten descriptions over 1,000 characters or carrying former names | Shortened under the description rule in `AGENTS.md` | What the skill does, the phrases that call it, and a NOT clause |
+
+Claude Code lists skills within about 1% of the model's context window and Codex within 2%. When the listing overflows, Claude Code drops the descriptions of the least-used skills and Codex shortens descriptions and then omits skills. The pack's descriptions totaled 31,483 characters across 48 skills before this change. During a requested refresh, reinstall the changed skills, verify them, then remove `goal-prompting`.

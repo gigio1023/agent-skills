@@ -1,16 +1,7 @@
 ---
 name: terminology
 description: >
-  Look up and apply a project's recorded terms, local names, and wording
-  decisions, and settle which name the project uses when names compete. Use
-  when working in a project that has a terminology.md index, when the user asks
-  what a term means or which name to use, or when a new, contested, or misused
-  term comes up, a recorded entry is wrong or stale, the user corrects or bans
-  a wording, or a company-local name is unconfirmed. Settling a name surveys
-  established projects, papers, and competitor products, adopts one standard
-  name, and records it in the project glossary with sources. Formerly
-  use-terminology and curate-terminology. NOT for adding undisputed field
-  terms, or for sentence style and claim strength in documents (copydesk).
+  Look up and apply a project's recorded terms, local names, and wording decisions, and settle which name the project uses when names compete. Use when working in a project with a terminology.md index, when the user asks what a term means or which name to use, when a new, contested, or misused term comes up, or when the user corrects or bans a wording: "what do we call this", "which name should we use", "이 용어 뭐라고 써", "용어 정리해줘". Settling a name surveys established projects, papers, and products and records the choice with sources. NOT for adding undisputed field terms, or for sentence style and claim strength in documents (copydesk).
 ---
 
 # Terminology

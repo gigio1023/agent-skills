@@ -1,20 +1,7 @@
 ---
 name: write-notion
 description: >
-  Use when the user asks to create, draft, restructure, or revise a team
-  document as a Notion page through the Notion MCP tools: a design doc or RFC
-  for a new module or feature, a delivery brief, an open-questions page, a
-  short decision record, or any team page whose layout, tables, mentions, or
-  figures need work. Phrases include "write the design doc in Notion", "put
-  this RFC on our Notion", "Notion에 설계 문서 써줘", "노션 페이지 고쳐줘", and "fix
-  the tables on this Notion page". A publication workflow skill: chooses the
-  genre, page layout, mentions, tables, and figures, edits Notion Markdown
-  safely, and verifies the stored page. design-doc, when installed, supplies
-  a design doc's sections; copydesk owns the prose; technical-figure, when
-  installed, draws the figures. NOT for quick chat answers, Notion database
-  administration, saving chat or meeting content as notes, meeting pre-reads,
-  research synthesis across existing pages, turning a spec into tasks, or
-  documents published outside Notion (use copydesk or design-doc).
+  Use when the user asks to create, draft, restructure, or revise a team document as a Notion page through the Notion MCP tools: a design doc or RFC, a delivery brief, an open-questions page, a decision record, or any team page whose layout, tables, mentions, or figures need work: "write the design doc in Notion", "put this RFC on our Notion", "Notion에 설계 문서 써줘", "노션 페이지 고쳐줘", "fix the tables on this Notion page". design-doc supplies a design doc's sections, copydesk owns the prose, and technical-figure, when installed, draws the figures. NOT for quick chat answers, Notion database administration, saving chat or meeting content as notes, meeting pre-reads, research synthesis across pages, turning a spec into tasks, or documents published outside Notion (copydesk, design-doc).
 ---
 
 # Write Notion

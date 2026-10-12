@@ -49,7 +49,7 @@ GitHub code search also surfaced many copies of OpenAI's skill and narrower orch
 ## Adopted Design Decisions
 
 - One portable skill supports explain, draft, review, translation, and explicit activation. Users often need advice in either harness and handoff text from either harness to the other.
-- `goal-prompting` is broader and more durable than `define-goal`, which implies creation only and collides with OpenAI's narrower skill.
+- This guidance is broader than OpenAI's `define-goal` skill, which implies creation only. It shipped as the `goal-prompting` skill until 2026-10-12 and now lives in this reference of `prompting-guide`.
 - The shared core uses outcome, context, verification, constraints, scope, and stop or escalation as optional fields rather than a mandatory template.
 - Direct goal payloads remain below 4,000 characters for both current targets.
 - Long detail may live in a file, but completion evidence must still be surfaced in the conversation. A file is context, not evaluator-visible proof.

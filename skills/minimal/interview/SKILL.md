@@ -1,7 +1,7 @@
 ---
 name: interview
 description: >
-  Interview or grill the user until an idea, plan, product, system change, research direction, workflow, or decision is clear enough to plan or hand off. Use when the user asks to be interviewed or questioned, or wants a sustained discovery process: "interview me", "grill me", "grill me on this plan", "ask me questions until this is clear", "인터뷰해줘", "질문하면서 정리해줘". Grounds on context and the user's starting point, surfaces unknown unknowns in the first round with its own view, shows options or references for tacit criteria the user recognizes but cannot describe, asks the independent consequential questions together in rounds with recommended defaults, and ends with a user-approved Interview Brief. Formerly deep-interview. NOT for a quick standalone blind-spot pass (find-unknowns), attacking one stated idea (idea-critique), writing a plan (work-plan), job-interview rehearsal, surveys, therapy or clinical intake, a single clarifying question, or summarizing material without asking questions.
+  Interview or grill the user until an idea, plan, system change, research direction, workflow, or decision is clear enough to plan or hand off, ending in a user-approved Interview Brief. Use when the user asks to be interviewed or questioned: "interview me", "grill me", "grill me on this plan", "ask me questions until this is clear", "인터뷰해줘", "질문하면서 정리해줘". NOT for a quick blind-spot pass (find-unknowns), attacking one stated idea (idea-critique), writing a plan (work-plan), job-interview rehearsal, surveys, therapy or clinical intake, a single clarifying question, or summarizing material without asking questions.
 ---
 
 # Interview
@@ -85,7 +85,7 @@ Ask one question per turn only when the user explicitly asks for a slow or seria
 
 Classify what each open item needs before it becomes a question:
 
-- **Discoverable fact** (current behavior, file contents, configuration, a documented limit) is the agent's job. Inspect or search, and research the web only when a current external fact materially affects the decision and the runtime permits it; never ask the user.
+- **Discoverable fact** (current behavior, file contents, configuration, a documented limit) is the agent's job. Inspect or search, and research the web only when a current external fact materially affects the decision and the runtime permits it; never ask the user. A fact that lives in the team's own records, such as a tracker, chat, wiki, or repository history, is reconstructed with `internal-source-research` when installed, within the sources the user has authorized.
 - **Empirical question** (anything answered only by a measurement, trial, benchmark, or experiment) is not a decision for the user. Record it as an investigation item with what would settle it and which decision waits on it, and route it to `ml-experiment` for training, fine-tuning, or inference comparisons, to `evaluation-design` when it needs a measurement of model or system quality, to `load-testing` for latency, throughput, or capacity under load, or to a next action in the plan (`work-plan`) or the experiment queue of the design document (`design-doc`). A cheap check that is already authorized and possible in the session can simply be run.
 - **Human decision** (goal, priority, scope, policy, acceptable risk, ownership, tradeoff) is asked. When it turns on a criterion the user can only recognize, it is asked by showing options or references.
 

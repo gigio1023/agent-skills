@@ -2,13 +2,13 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/gigio-skills)](https://skills.sh/gigio1023/gigio-skills)
 
-A personal collection of 48 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
+A personal collection of 47 specialized, reusable Agent Skills for research and evaluation, project continuity, working with agent harnesses, development and delivery, designing interfaces, writing clearly, and handling a few everyday workflows.
 
 The skills of two earlier personal packs, gigio-pack and research-credo, were absorbed into this pack on 2026-10-12; both repositories are archived and private, and [package migration](docs/migration.md) maps their former names. Packages are grouped into two install sets: `skills/minimal/` is the default install and `skills/additional/` is installed on request. The minimal set reflects the maintainer's recurring work; choose sets and skills by your own. A set decides availability only; each skill's description and invocation settings still decide when it runs. Each skill can be used independently; ordinary tasks need not start a project workflow.
 
 Each skill follows the [Agent Skills format](https://agentskills.io/): a `SKILL.md` plus any colocated references, scripts, and assets. Install only what you need with [`npx skills`](https://github.com/vercel-labs/skills), then update from the tracked source.
 
-[Catalog](#skill-catalog) · [Install](#install-with-npx-skills) · [Update](#keep-skills-up-to-date) · [Related repositories](#related-skill-repositories) · [Local development](#local-development)
+[Where to start](#where-to-start) · [Catalog](#skill-catalog) · [Install](#install-with-npx-skills) · [Update](#keep-skills-up-to-date) · [Related repositories](#related-skill-repositories) · [Local development](#local-development)
 
 ## Install with `npx skills`
 
@@ -44,7 +44,7 @@ npx --yes skills add 'https://github.com/gigio1023/gigio-skills/tree/main/skills
 
 Use `skills/additional` the same way for the on-request set, or name individual skills as above.
 
-Install all 48 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
+Install all 47 skills for a deliberate set of agents. Quote the wildcard so the shell does not expand it:
 
 ```bash
 npx --yes skills add 'gigio1023/gigio-skills#main' \
@@ -82,12 +82,30 @@ Updates refresh only already tracked skills. Rerun an `add` command to install n
 npx --yes skills list --global
 ```
 
+## Where to start
+
+This table is for a reader choosing what to install or to invoke by name. An agent picks a skill from its description, so the table adds nothing to the listing an agent reads.
+
+| Kind of work | Start with | Then |
+| --- | --- | --- |
+| Deciding a research or product direction | `praxis-direction` for an organization's bet; `credo-taste`, by name, for a paper | `interview`, `design-exploration` |
+| Clarifying what you want before planning | `interview`; `find-unknowns` for a quick blind-spot pass | `work-plan`, `design-doc` |
+| Finding how to build a module or system with no design yet, including one that must hold against an adversary or is itself the attacker | `design-exploration` | `idea-critique`, `design-doc` |
+| Turning a chosen concept into a design | `design-doc` | `work-plan`, `coding-standards` |
+| Writing or changing code | `coding-standards` | `review-panel`, `draft-pr`, `commit-and-push` |
+| Training, adapting, or comparing models | `ml-experiment` | `evaluation-design`, `evaluation-operations` |
+| Measuring a model's or system's quality | `evaluation-design` | `evaluation-operations`, `evaluation-audit`, `insight-dashboard` |
+| Capacity under load, or a failure in a running system | `load-testing`, `bug-diagnosis` | `design-doc` when the fix changes a design |
+| Reporting: a document, Notion page, issue, or pull request | `copydesk`, `write-notion`, `write-issue`, `draft-pr` | `review-panel` |
+| Working with agents: delegation, prompts, skills | `orchestrate-subagents`, `model-routing`, `prompting-guide`, `skill-builder` | `codex-delegate`, `small-model-handoff` |
+| Continuing or handing off work | `work-plan` in execute mode, `session-handoff` | `read-agent-sessions` |
+
 ## Skill catalog
 
 The catalog is organized by the job to be done, not by the agent that runs it.
 
-- [Software Development and Delivery](#software-development-and-delivery) (8)
-- [Agent and Harness Engineering](#agent-and-harness-engineering) (11)
+- [Software Development and Delivery](#software-development-and-delivery) (9)
+- [Agent and Harness Engineering](#agent-and-harness-engineering) (9)
 - [Design and Visualization](#design-and-visualization) (3)
 - [Writing and Language](#writing-and-language) (3)
 - [Personal and Everyday Tools](#personal-and-everyday-tools) (4)
@@ -106,6 +124,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [coding-standards](skills/minimal/coding-standards/) | minimal | Write, structure, verify, and test code in any language: domain-first directories, small files, typed domain models, design-doc and agent-loop implementation, and few contract tests written without seeing the code; Python reference with uv, StrEnum, and Pydantic |
 | [load-testing](skills/minimal/load-testing/) | minimal | Design, run, and interpret load and capacity tests of a service or model endpoint, from workload model to saturation point |
 | [bug-diagnosis](skills/minimal/bug-diagnosis/) | minimal | Find and verify the root cause of a code or system failure, with an evidence-limited path when no reproduction loop exists |
+| [review-panel](skills/minimal/review-panel/) | minimal | Review code, designs, documents, evaluations, or processes with separate reviewers, usually from different model families, and judge each finding by evidence |
 
 ### Agent and Harness Engineering
 
@@ -113,15 +132,13 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | --- | --- | --- |
 | [cursor-cli-delegation](skills/additional/cursor-cli-delegation/) | additional | Explicitly delegate planning, research, implementation, or review through direct Cursor CLI calls with task-specific options and session follow-ups |
 | [codex-delegate](skills/additional/codex-delegate/) | additional | Delegate complete tasks from a non-Codex host to Astra with durable launch, resume, cancellation, and verified handoff |
-| [goal-prompting](skills/additional/goal-prompting/) | additional | Explain, draft, review, translate, and hand off verifiable Codex and Claude Code goal prompts |
 | [install-skill-pack](skills/minimal/install-skill-pack/) | minimal | Review and globally install skills from a selected Git repository, branch, or commit |
 | [skill-builder](skills/minimal/skill-builder/) | minimal | Turn real workflows and preferences into personal, project-local, or shared skills, including skills that must work across Claude Code and Codex |
 | [read-agent-sessions](skills/additional/read-agent-sessions/) | additional | Locate and read stored Codex, Claude Code, Zcode, or Hermes sessions on the local machine and summarize them for another agent |
 | [orchestrate-subagents](skills/minimal/orchestrate-subagents/) | minimal | Coordinate delegated work, whether the user asked for it or the lead chose it, and synthesize its evidence |
 | [model-routing](skills/minimal/model-routing/) | minimal | Choose each subagent's model and effort from the routing policy of its model family, Fable or GPT |
-| [prompting-guide](skills/minimal/prompting-guide/) | minimal | Write, review, and migrate prompts, skills, and agent instructions for Claude Fable, Claude Opus, or GPT-6, loading only that family's guide |
+| [prompting-guide](skills/minimal/prompting-guide/) | minimal | Write, review, and migrate prompts, skills, agent instructions, and Codex or Claude Code goal prompts for Claude Fable, Claude Opus, or GPT-6, loading only that family's guide |
 | [small-model-handoff](skills/additional/small-model-handoff/) | additional | Package a settled bounded step for a less capable executor |
-| [review-panel](skills/minimal/review-panel/) | minimal | Review code, designs, documents, evaluations, or processes with separate reviewers, usually from different model families, and judge each finding by evidence |
 
 ### Design and Visualization
 
@@ -160,7 +177,7 @@ The catalog is organized by the job to be done, not by the agent that runs it.
 | [evaluation-design](skills/minimal/evaluation-design/) | minimal | Design what an eval measures: failure modes, cases and labels, code checks, judges and their validation, comparison conditions |
 | [evaluation-audit](skills/minimal/evaluation-audit/) | minimal | Give a launch, hold, or report verdict on a built eval, judge, harness, scoring change, or result |
 | [evaluation-operations](skills/minimal/evaluation-operations/) | minimal | Operate approved multi-run campaigns of evaluation, training, or ablation runs with durable attempt and result records |
-| [internal-source-research](skills/minimal/internal-source-research/) | minimal | Reconstruct work context from authorized internal sources |
+| [internal-source-research](skills/minimal/internal-source-research/) | minimal | Reconstruct what a team decided and did from its own Notion, Slack, GitHub, or Linear records, read-only, with citations readers can open |
 | [praxis-direction](skills/minimal/praxis-direction/) | minimal | Sharpen an agenda into one bet, run the failure-mode pass on a new system, or set up and audit the praxis profile |
 | [credo-taste](skills/additional/credo-taste/) | additional | Choose a research direction, decide whether to continue, pivot, or stop, or judge whether a work result could become a paper; invoked by name |
 | [credo-paper-plan](skills/additional/credo-paper-plan/) | additional | Plan the argument, claim-evidence map, closest prior work, and figures; critique a draft; plan the response to peer reviews |
@@ -226,7 +243,7 @@ Inspect a checkout without creating an update-tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 48 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how `model-routing` divides work with the orchestration skills. The reasons behind `codex-delegate`'s design are kept in [its decision log](docs/codex-delegate-decision-log.md).
+Before publishing a change, verify that each `SKILL.md` name matches its folder, every referenced path exists, the README entry still points to the correct skill, and the local listing discovers the expected 47 unique names. See [package migration](docs/migration.md) for source moves and coordinated installation. See [Repository Structure](docs/repo-structure.md) for the catalog, storage, and installation boundaries. Vocabulary decisions for the pack's prose live in [terminology.md](terminology.md), and [docs/routing-skills.md](docs/routing-skills.md) describes how `model-routing` divides work with the orchestration skills. The reasons behind `codex-delegate`'s design are kept in [its decision log](docs/codex-delegate-decision-log.md).
 
 ## License
 

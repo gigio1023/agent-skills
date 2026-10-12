@@ -1,10 +1,7 @@
 ---
 name: internal-source-research
 description: >
-  Reconstruct a scoped internal work context from authorized, read-only Notion,
-  Slack, GitHub, Linear, or comparable sources. Use when a user needs a
-  defensible view of workstreams, decisions, chronology, contradictions, or
-  next work. NOT for a single connector lookup or a report-formatting task.
+  Reconstruct what happened and what was decided from a team's own records: Notion, Slack, GitHub, Linear, or comparable sources, read-only and within authorized scope, with citations another authorized reader can open. Use when a design, plan, interview, or decision needs the team's existing record: "what did we decide about this", "find the history of this feature", "reconstruct the context before I plan", "사내 기록 찾아줘", "이거 어떻게 결정됐었지", "관련 논의 정리해줘". NOT for a single lookup in one tool, formatting the result as a report (copydesk), public papers and repositories (literature-research), or writing a tracker issue (write-issue).
 ---
 
 # Internal Source Research

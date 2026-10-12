@@ -1,7 +1,7 @@
 ---
 name: coding-standards
 description: >
-  Write, structure, refactor, or review code in any language: directory and module layout, function boundaries, domain models and types, ports and adapters, implementing from a design document or an agent loop, verifying through real runs, and deciding whether and how to write tests. Use for "how should I structure this", "split this module", "add type hints", "model this domain", "does this need tests", "write tests for this", "구조 잡아줘", "리팩토링해줘", "타입 힌트 달아줘", "테스트 짜줘", or docstring and comment work on source code ("docstring 추가", "주석 보강", "문서화해줘"). Python has the first detailed reference (uv, StrEnum, Pydantic, typed locals). Formerly python-coding-standards. NOT for a formal multi-reviewer review (review-panel), writing a design document (design-doc), frontend visual design (frontend-design, when installed), load or capacity testing (load-testing), a standalone formatting command, prose documentation outside source code (copydesk), or comparing finished work against project intent (work-plan review mode).
+  Write, structure, refactor, or review code in any language: directory and module layout, domain models and types, ports and adapters, implementing from a design document or an agent loop, verifying through real runs, and deciding whether and how to write tests. Use for "how should I structure this", "split this module", "add type hints", "model this domain", "does this need tests", "write tests for this", "구조 잡아줘", "리팩토링해줘", "타입 힌트 달아줘", "테스트 짜줘", "docstring 추가", "주석 보강". NOT for a multi-reviewer review (review-panel), a design document (design-doc), frontend visual design (frontend-design), load or capacity testing (load-testing), or prose outside source code (copydesk).
 ---
 
 # Coding Standards

@@ -14,7 +14,7 @@ Source: [A field guide to Claude Fable 5: Finding your unknowns](https://claude.
 
 **The user's pain**: the techniques are skipped every time not out of ignorance but out of tedium. The cost is immediate (annoying questions) while the reward arrives later and probabilistically — an asymmetry willpower cannot beat. Result: massive token consumption with low-quality output.
 
-**Diagnosis**: what's missing is not technique but initiation. At the time of the audit the active environment was entirely pull-only — all 34 installed skills required explicit invocation, all 7 hooks were Orca telemetry (no context injection), no global `~/.claude/CLAUDE.md`, and `~/.codex/AGENTS.md` existed but was zero bytes.
+**Diagnosis**: what's missing is not technique but initiation. At the time of the audit the active environment was entirely pull-only — all 34 installed skills required explicit invocation, all 7 hooks were telemetry only (no context injection), no global `~/.claude/CLAUDE.md`, and `~/.codex/AGENTS.md` existed but was zero bytes.
 
 ## 2. Investigation Summary (as of 2026-07-11)
 

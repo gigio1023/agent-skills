@@ -1,7 +1,7 @@
 ---
 name: prompting-guide
 description: >
-  Write, review, simplify, debug, or migrate system prompts, agent instructions, CLAUDE.md, AGENTS.md, skills, subagent definitions, tool descriptions, or long-run prompt stacks for a specific target model: Claude Fable 5 or Fable 5.1 (also Mythos 5 and 5.1), Claude Opus 5 or Opus 5.5 including Opus 5 to 5.5 migration, or GPT-6 Astra or GPT-6.1 Sol including migration from legacy GPT-6 Sol or GPT-5.6. Loads only the target family's guide. Formerly fable5-prompting-guide, opus5-prompting-guide, and gpt6-prompting-guide. NOT for choosing a model or effort for a run or subagent (model-routing), API code migration or general API setup, or skill packaging without a target model (skill-builder).
+  Write, review, simplify, debug, or migrate system prompts, agent instructions, CLAUDE.md, AGENTS.md, skills, subagent definitions, tool descriptions, or long-run prompt stacks for a specific target model: Claude Fable 5 or 5.1 (also Mythos), Claude Opus 5 or 5.5, or GPT-6 Astra or GPT-6.1 Sol, including migration between versions. Also explains, drafts, reviews, or translates a Codex Goal mode or Claude Code /goal prompt. Use for "write the system prompt for Opus", "review this CLAUDE.md for Fable", "migrate this prompt to GPT-6", "goal prompt 써줘", "프롬프트 고쳐줘". NOT for choosing a model or effort for a run or subagent (model-routing), API code migration or general API setup, or skill packaging without a target model (skill-builder).
 ---
 
 # Prompting Guide
@@ -15,6 +15,8 @@ Each supported model family has its own guide. Identify the family that will run
 | GPT-6 Astra or GPT-6.1 Sol, including migration from legacy GPT-6 Sol or GPT-5.6 | [GPT guide](references/gpt/guide.md) |
 
 The target is the model that will execute the prompt, not the model doing the editing. Take it from the request, a model ID in the integration or configuration, a `model` field in the agent or skill definition, or the host's documented default. Ask only when it cannot be determined and the answer changes the advice.
+
+For a Codex Goal mode or Claude Code `/goal` prompt, whether to explain, draft, review, translate between the two harnesses, or activate one, read the [Goal mode guide](references/goal-mode/guide.md) together with the target family's guide. It carries the goal contract, the harness differences that change how a goal is written or judged, and the activation rules.
 
 When an artifact will run on more than one family, such as a skill shared by Claude Code and Codex, apply each family's guide to that family's behavior and keep the clauses distinguishable. When migrating from one family to another, follow the target family's guide; the source family's guide only helps identify scaffolding written for the old model.
 

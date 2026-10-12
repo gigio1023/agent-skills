@@ -1,7 +1,7 @@
 ---
 name: skill-builder
 description: >
-  Create, improve, or audit reusable agent skills from real work and user preferences: skill instructions, descriptions, resources, scripts, packaging, validation, and model or harness adaptation, including one skill that must work in both Claude Code and Codex or another harness (formerly cross-harness-skills). NOT for ordinary project documents, one-off task prompts, or system prompts and agent instruction files written for one target model (prompting-guide).
+  Create, improve, or audit reusable agent skills from real work and user preferences: skill instructions, descriptions, resources, scripts, packaging, validation, and model or harness adaptation, including one skill that must work in both Claude Code and Codex. Use for "make this a skill", "improve this skill's description", "audit the skill pack", "skill 만들어줘", "이거 skill로 빼줘". NOT for ordinary project documents, one-off task prompts, or system prompts and agent instruction files written for one target model (prompting-guide).
 ---
 
 # Skill Builder

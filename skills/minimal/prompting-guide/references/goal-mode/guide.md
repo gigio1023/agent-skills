@@ -1,27 +1,20 @@
----
-name: goal-prompting
-description: >
-  Use when the user explicitly wants a Codex Goal mode or Claude Code /goal
-  prompt explained, drafted, reviewed, translated, set, or handed to the other
-  harness. NOT for ordinary objectives, acceptance criteria, task prompts,
-  implementation plans, or autonomous work without explicit Goal mode intent.
----
+# Goal Mode Prompts
 
-# Goal Prompting
+Read this with the target family's guide when the user wants a Codex Goal mode or Claude Code `/goal` prompt explained, drafted, reviewed, translated, set, or handed to the other harness. It is not for ordinary objectives, acceptance criteria, task prompts, implementation plans, or autonomous work without explicit Goal mode intent. This reference absorbed the former `goal-prompting` skill on 2026-10-12.
 
 Turn intent into a goal prompt that the named harness can pursue and judge honestly. Support advice, drafting, review, cross-harness translation, and explicit activation without forcing one workflow on every request.
 
 ## Quick Path
 
 1. Identify the requested mode: explain, draft, review, translate, or activate. Do not turn a request for guidance or copy into a running goal.
-2. Identify the target harness. Read [references/codex-goals.md](references/codex-goals.md) for Codex and [references/claude-goals.md](references/claude-goals.md) for Claude Code. When translating, read both.
+2. Identify the target harness. Read [codex-goals.md](codex-goals.md) for Codex and [claude-goals.md](claude-goals.md) for Claude Code. When translating, read both.
 3. Inspect safely available context before asking for facts: repository instructions, plans, tests, scripts, issues, logs, or the supplied draft. Ask one concise question only when the missing answer changes the outcome or completion evidence materially. Continue drafting the settled parts while that answer is pending; do not invent a verification command or activate an unresolved goal to avoid asking.
 4. Decide whether goal mode fits. Use it for substantial work with a closed, verifiable end state. Recommend a normal prompt, plan, automation, or human review gate when that is the better control surface.
-5. Write the smallest contract that preserves the outcome, evidence, material boundaries, and real stop conditions. Keep a direct goal payload below the target's documented limit. For domain-specific proof or a file-backed contract, read [references/goal-patterns.md](references/goal-patterns.md).
+5. Write the smallest contract that preserves the outcome, evidence, material boundaries, and real stop conditions. Keep a direct goal payload below the target's documented limit. For domain-specific proof or a file-backed contract, read [goal-patterns.md](goal-patterns.md).
 6. Audit the draft for false completion, unverified assumptions, impossible checks, hidden side effects, and target-specific evaluator blind spots.
 7. Return the requested artifact. Activate it only when the user explicitly asked to set or start the goal and the current session exposes an agent-callable goal-state capability.
 
-For the dated official sources and reviewed community patterns behind these rules, read [references/source-notes.md](references/source-notes.md).
+For the dated official sources and reviewed community patterns behind these rules, read [source-notes.md](source-notes.md).
 
 ## Goal Fit
 
@@ -99,7 +92,7 @@ When returning direct command text, count characters if it is near the target's 
 ## Gotchas
 
 - A referenced file is not automatically visible to a separate evaluator.
-- “Work autonomously and never ask” can suppress necessary approval or blocker handling. Define the decisions the agent may make and the conditions that require escalation.
+- "Work autonomously and never ask" can suppress necessary approval or blocker handling. Define the decisions the agent may make and the conditions that require escalation.
 - Mandatory budgets, universal test bans, fixed check counts, and exhaustive templates create fake rigor when the task does not need them.
 - Do not invent project commands, available tools, deployment targets, audience stakes, or production access to make a prompt look complete.
-- General model prompting belongs in `prompting-guide`, when installed. This skill owns goal-mode contracts and handoffs.
+- The family guide owns general prompting for the target model; this reference owns goal-mode contracts and handoffs.
