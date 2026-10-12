@@ -44,6 +44,8 @@ Avoid placeholder-only labels, disabling submission without an explanation, and 
 
 Purpose: turn data into a decision.
 
+`insight-dashboard` decides the comparison, metrics, denominators, selection behavior, and explanatory text. This section covers the interface that carries them.
+
 Design for:
 
 - A reading order of current state, meaningful change, cause, and available action.

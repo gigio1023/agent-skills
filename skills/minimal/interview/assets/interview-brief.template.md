@@ -58,6 +58,14 @@
 | --- | --- | --- | --- |
 | [item] | [owner] | [impact] | [when, by whom, or under which condition it gets decided] |
 
+## Unknowns Still Open
+
+[Optional. Keep when grouping what remains by kind helps the next reader. Known unknowns are the investigation and open items above.]
+
+- Unknown knowns still to be recognized: [criterion the user would recognize on sight but has not yet chosen; what to show next (options, reference, or variant); what it blocks]
+- Unknown unknowns scanned: [territory and dimensions the blind-spot scan covered, including territory opened by answers]
+- Coverage limits: [territory not scanned and why; what would warrant a rescan]
+
 ## Next Authorized Step
 
 [The next action a successor may take without expanding scope.]

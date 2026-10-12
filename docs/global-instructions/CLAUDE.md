@@ -17,6 +17,10 @@ two layers below the main conversation.
 
 When `install-skill-pack` installs or refreshes skills and the request names no agents, target these: claude-code, hermes-agent, opencode, cursor, codex, github-copilot, zcode, openclaw, grok.
 
+# Code and tests
+
+Before writing code or adding tests in any language, follow the `coding-standards` skill. By default verify with real runs and evaluation instead of new tests.
+
 # Writing profile
 
 When writing or revising a document, PR body, issue, or any text a colleague will read, apply the copydesk skill even when no skill was named. Its writing profile is imported below and applies in every session.

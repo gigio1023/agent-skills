@@ -3,26 +3,27 @@ name: write-notion
 description: >
   Use when the user asks to create, draft, restructure, or revise a team
   document as a Notion page through the Notion MCP tools: a design doc or RFC
-  for a new module or feature, an open-questions page, a short decision record,
-  or any team page whose layout, tables, mentions, or figures need work.
-  Phrases include "write the design doc in Notion", "put this RFC on our
-  Notion", "Notion에 설계 문서 써줘", "노션 페이지 고쳐줘", and "fix the tables on
-  this Notion page". A publication workflow skill: chooses the document shape,
-  page layout, people mentions, tables, and figures, edits Notion Markdown
-  safely, and verifies the stored page. copydesk owns sentence-level writing;
-  technical-figure, when installed, draws the figures. NOT for quick chat
-  answers, Notion database administration, saving chat or meeting content as
-  notes, meeting pre-reads, research synthesis across existing pages, turning
-  a spec into tasks, or documents published outside Notion (use copydesk).
+  for a new module or feature, a delivery brief, an open-questions page, a
+  short decision record, or any team page whose layout, tables, mentions, or
+  figures need work. Phrases include "write the design doc in Notion", "put
+  this RFC on our Notion", "Notion에 설계 문서 써줘", "노션 페이지 고쳐줘", and "fix
+  the tables on this Notion page". A publication workflow skill: chooses the
+  genre, page layout, mentions, tables, and figures, edits Notion Markdown
+  safely, and verifies the stored page. design-doc, when installed, supplies
+  a design doc's sections; copydesk owns the prose; technical-figure, when
+  installed, draws the figures. NOT for quick chat answers, Notion database
+  administration, saving chat or meeting content as notes, meeting pre-reads,
+  research synthesis across existing pages, turning a spec into tasks, or
+  documents published outside Notion (use copydesk or design-doc).
 ---
 
 # Write Notion
 
 Publish a team document in Notion that a colleague can review from the page alone. The design or decision is at the top of the page, details are one click away, people are referenced without leaking names or flooding notifications, and the stored page matches what was intended.
 
-This is a publication workflow skill, in the way `write-issue` is for trackers. It owns the document shape, the Notion page layout, people references, tables, figures, the Notion Markdown editing mechanics, and post-publish verification. It is not a style skill: `copydesk` owns sentence-level writing (meaning preservation, claim strength, voice, and the author's writing profile) and applies to every paragraph, bullet, caption, and table cell. This skill decides which figures the page needs and uploads them. Tracker issues and pull requests stay with `write-issue` and `draft-pr`; the page links to them.
+This is a publication workflow skill, in the way `write-issue` is for trackers. It owns the genre choice, the Notion page layout and its toggles, people references, tables, figures, the Notion Markdown editing mechanics, publication, and post-publish verification. A design doc's sections and their content rules belong to `design-doc` when installed, whatever the destination. It is not a style skill: `copydesk` owns sentence-level writing (meaning preservation, claim strength, voice, and the author's writing profile) and applies to every paragraph, bullet, caption, and table cell. This skill decides which figures the page needs and uploads them. Tracker issues and pull requests stay with `write-issue` and `draft-pr`; the page links to them.
 
-Prerequisites: `copydesk` from this pack supplies the base writing rules through its writing profile, and each section below that builds on the profile states the essential base rule before its Notion-specific part, so the skill still works when `copydesk` is absent. Figures come from `technical-figure` (gigio-figures repository) when installed, or the project's figure tool; otherwise the page gets no figure or a simple text diagram.
+Prerequisites: `copydesk` from this pack supplies the base writing rules through its writing profile, and each section below that builds on the profile states the essential base rule before its Notion-specific part, so the skill still works when `copydesk` is absent. `design-doc` from this pack supplies a design doc's sections; without it, the fallback order in [Shape Before Writing](#shape-before-writing) keeps the essential sections. Figures come from `technical-figure` (gigio-figures repository) when installed, or the project's figure tool; otherwise the page gets no figure or a simple text diagram.
 
 Not for: an answer that belongs in chat, database schema, view, or property administration, saving chat or meeting content as notes, meeting pre-reads and agendas, research synthesis across existing pages, turning a spec into tasks, or a document delivered as a file or on another platform.
 
@@ -31,8 +32,8 @@ The user's instruction and a team template or existing page convention win over 
 ## Normal Path
 
 1. Read before writing. Fetch the target page or the destination parent, a few sibling pages, and any template the team uses, and match their language and conventions. Check who can read the destination (a teamspace, the whole workspace, or a page published to the web); keep secrets, credentials, personal data, and customer-confidential text out, and apply `copydesk`'s sharing-and-delivery reference for a wider audience. Read the source material the page will rest on: code, measurements, meeting records, tracker items. Read the Notion enhanced Markdown specification once per session when the client exposes it. [Notion Markdown mechanics](references/notion-markdown.md) covers the tools, exact syntax, and failure modes.
-2. Choose the shape before drafting: the genre, the section order, and what stays visible versus what goes under toggles. [Document shapes](references/document-shapes.md) gives the design doc skeleton, the open-questions page, and the decision record.
-3. Draft the content with `copydesk` when installed, otherwise with the base rules stated in the sections below. Resolve the few people mentions the page needs, and render and upload its figures.
+2. Choose the shape before drafting: the genre, the section order, and what stays visible versus what goes under toggles. [Document shapes](references/document-shapes.md) gives the placement of `design-doc` sections, the fallback design doc skeleton, the delivery brief layout, the open-questions page, and the decision record.
+3. Draft the content. A design doc takes its sections and their content from `design-doc` when installed; the prose comes from `copydesk` when installed, otherwise from the base rules stated in the sections below. Resolve the few people mentions the page needs, and render and upload its figures.
 4. Decide whether to show the draft first. Show the complete draft and wait when the user asked for a draft, the page belongs to someone else and editing it was not authorized, the destination is a guess, the edit would delete child pages or databases, or a mention could notify someone other than the owner the user named. Otherwise the request is the grant; add no second confirmation. With no destination named for a new page, create a private draft page and say that it is private.
 5. Write with `notion-create-pages` for a new page or `notion-update-page` for an existing one, using the smallest edit that does the job.
 6. Verify the stored page with the checks in [Verification](#verification) and fix what fails.
@@ -42,27 +43,27 @@ Without a working Notion connection, deliver the page as Notion Markdown and say
 
 ## Shape Before Writing
 
-Decide the genre first, because it decides the sections. A new module, service, or feature uses a design doc (also called an RFC). One consequential choice uses a short decision record. A question list, when the user asks for one or it outgrows the design doc's Open questions section, is its own short page grouped by when each question must be answered: before review, during implementation, or out of scope. Group by person only when asked. A guide, report, or runbook takes its structure from `copydesk`'s document forms; this skill still handles its Notion layout.
+Decide the genre first, because it decides the sections. A new module, service, or feature uses a design doc (also called an RFC). Customer- or deadline-bound product work that needs its outcome, promise, deadline, and acceptance on one page uses a delivery brief, which takes its sections from `copydesk`'s delivery brief form and its layout from this skill; it links to the design doc and the plan and never replaces the design doc. One consequential choice uses a short decision record. A question list, when the user asks for one or it outgrows the design doc's Open questions section, is its own short page grouped by when each question must be answered: before review, during implementation, or out of scope. Group by person only when asked. A guide, report, or runbook takes its structure from `copydesk`'s document forms; this skill still handles its Notion layout.
 
-The `design-doc` skill owns a design doc's sections and their content rules: interfaces and seams, the verification split, the decision log, and the experiment queue. This skill maps those sections onto the Notion page layout, decides what stays visible and what goes under toggles, and publishes and verifies the page. Use the order below when the document has no `design-doc` structure yet.
+A design doc's sections and their content rules come from `design-doc` when installed, whether the page is drafted for Notion or moved there from elsewhere: interfaces and seams, the threat model or operating boundary, the verification split, open questions, the experiment queue, and the decision log. This skill decides where each of those sections sits on the page, which stay visible and which go under toggles, and who is mentioned, then publishes the page and reads it back. Do not replace `design-doc`'s sections with the order below.
 
-The default design doc order is:
+When `design-doc` is not installed, use this fallback order. It keeps the essentials a reviewer needs: the fixed interfaces and their seams, how each part is verified, the open questions, and a decision log.
 
 1. Header callout: Status (WIP, In Review, Approved, Obsolete), Owner as a user mention, Reviewer as a role, Target, a date mention, and repository and tracker links.
 2. Summary, then Context and scope, then Goals and Non-goals. Non-goals are optional; when they are omitted, the heading is "Goals".
-3. Design, with the mechanism figure first and details after it.
-4. Cross-cutting concerns the design changes, such as security, privacy, observability, or migration and rollback.
-5. Alternatives considered, each with its rejection reason.
-6. Test plan or pre-launch evaluation, then Milestones.
-7. Open questions, then References.
+3. Design, with the mechanism figure first and details after it, then Interfaces and seams: the fixed interfaces and the swappable adapters behind each.
+4. Cross-cutting concerns the design changes, such as security, privacy, observability, or migration and rollback. For a system that is itself the attacker, such as a red-teaming agent or a fuzzing service, the security concern is an operating boundary: authorized targets, budgets, containment, and a never-do list.
+5. Test plan, written as a verification split: each component, whether a real run on fixed input, a contract test for an essential contract with its reason, or evaluation verifies it, where that lives, and the launch criterion.
+6. Alternatives considered, each with its rejection reason, then Milestones.
+7. Open questions, then Decision log, then References.
 
-Drop a section that has nothing true to say instead of filling it with a placeholder. Section purposes, size guidance, and the shapes of the other genres are in [document shapes](references/document-shapes.md).
+Drop a section that has nothing true to say instead of filling it with a placeholder, except Interfaces and seams, Test plan, Open questions, and Decision log, which stay even when short. Section purposes, size guidance, the placement of `design-doc` sections, and the shapes of the other genres are in [document shapes](references/document-shapes.md).
 
 ## Page Layout
 
 - **Summary** is nested bullets: what is being built, how it works, the scope promised by the deadline, and the key undecided item. A top-level bullet carries a short label and the claim; nested bullets carry its reason or condition.
 - **Visible:** summary, context, goals, figures, and open questions. A reader who never opens a toggle still learns what is proposed, why, and what is undecided.
-- **Under toggle headings:** measurement tables, storage, interfaces, cross-cutting concerns, alternatives, test plan, schedule, and references. Toggles are the default for detail on a design doc page, but the decision summary and the open questions are never toggled.
+- **Under toggle headings:** measurement tables, storage, interfaces and seams, cross-cutting concerns including a threat model or operating boundary, the test plan or verification split, alternatives, schedule, the experiment queue, the decision log, and references. Toggles are the default for detail on a design doc page, but the decision summary and the open questions are never toggled.
 - **Undecided items:** gather undecided decisions as questions in one open-questions section instead of scattering disclaimers through the body. On a Notion page, the Open questions section is a visible heading near the end, each question says what it blocks, and a passage that depends on an open item points to that question once.
 
 ## Voice
@@ -145,6 +146,6 @@ Report in the user's language. Lead with the page link and the action completed.
 | File | Read it when |
 | --- | --- |
 | [references/notion-markdown.md](references/notion-markdown.md) | Before any create or edit: tools, exact syntax, uploads, mentions, failure modes |
-| [references/document-shapes.md](references/document-shapes.md) | Choosing a genre, section order, or what a section must contain |
+| [references/document-shapes.md](references/document-shapes.md) | Choosing a genre, placing `design-doc` sections, using the fallback section order, or laying out a delivery brief |
 | [references/examples.md](references/examples.md) | Building a design doc page, an open-questions page, or correcting an existing page |
 | [references/sources.md](references/sources.md) | A rule is questioned or being changed: public sources and local choices |

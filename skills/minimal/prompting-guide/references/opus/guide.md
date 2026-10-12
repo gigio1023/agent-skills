@@ -55,4 +55,4 @@ State what was checked statically and which behavior is untested. Model trials a
 
 ## Neighboring Skills
 
-The Fable guide (`references/fable/guide.md`) owns Fable and Mythos targets. The two model lines changed in different directions, so do not port a clause between them unmeasured. `frontend-design`, when installed, owns frontend design decisions; this guide covers only the Opus 5.5 default-style tendency. `skill-builder` owns making one skill portable across harnesses.
+The Fable guide (`references/fable/guide.md`) owns Fable and Mythos targets. The two model lines changed in different directions, so do not port a clause between them unmeasured. `frontend-design` owns frontend design decisions; this guide covers only the Opus 5.5 default-style tendency. `skill-builder` owns making one skill portable across harnesses.

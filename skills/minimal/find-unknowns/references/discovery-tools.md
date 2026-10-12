@@ -1,12 +1,12 @@
 # Discovery Tools
 
-These tools serve the pass when the scan shows a kind of unknown that a direct question handles poorly. Use one, combine several, or switch between them within the same objective and grant. None of them is a required step, and none replaces the scan, your view, or the batched questions.
+These tools serve the pass when the scan shows a kind of unknown that a direct question handles poorly. Use one, combine several, or switch between them within the same objective and grant. None of them is a required step, and none replaces the scan, your view, or the batched questions. Option maps, throwaway variants, and reference requests also serve unknown knowns: criteria so obvious to the user that they would never write them down, which they recognize when they see them but cannot describe in advance.
 
 | Dominant unknown | Signal | Tool |
 | --- | --- | --- |
 | Unsettled direction or scope | Several materially different ways to attack the goal | Option map |
-| Taste | The user can judge a result but cannot describe it in advance | Throwaway variants |
-| A want best shown, not told | A comparable example exists somewhere | Reference request |
+| Unknown known: taste | The user can judge a result but cannot describe it in advance | Throwaway variants |
+| Unknown known: a want best shown | A comparable example exists, in the repository or elsewhere | Reference request |
 | Dependent choices | The first answers open follow-up decisions | Mini-interview |
 
 ## Option Map
@@ -19,7 +19,7 @@ Make a few concrete alternatives that differ on the uncertain choice, such as mo
 
 ## Reference Request
 
-Reuse an example already available before asking for another. Prefer inspectable source for code and a concrete artifact elsewhere, such as a portfolio, paper, recording, contract, or finished product. Name the features that transfer, and keep three things apart: what you observed in the reference, what you propose to borrow, and what the user has decided.
+Reuse an example already available before asking for another. Prefer inspectable source for code, the best reference there because it carries details nobody would think to state; elsewhere prefer a concrete artifact, such as a portfolio, paper, recording, contract, or finished product. Name the features that transfer, and keep three things apart: what you observed in the reference, what you propose to borrow, and what the user has decided.
 
 ## Mini-Interview
 

@@ -10,8 +10,9 @@ description: >
   evidence-limited diagnosis with stated confidence. NOT for defining expected
   behavior or a quality criterion (evaluation-design), a stochastic model or
   data comparison (ml-experiment), whether a result can be trusted
-  (evaluation-audit), or a failing or stalled evaluation campaign run
-  (evaluation-operations).
+  (evaluation-audit), a failing or stalled run in an evaluation or training
+  campaign (evaluation-operations), or measuring capacity under load
+  (load-testing).
 ---
 
 # Bug Diagnosis
@@ -25,7 +26,8 @@ This skill looks for a defect in code, configuration, data flow, or environment.
 - Expected behavior or a quality criterion is not yet defined, as in "is this output good enough?": `evaluation-design`.
 - The answer is a rate or a comparison across stochastic samples, models, prompts, or data, such as whether a change makes a model fail less often: `ml-experiment`.
 - The question is whether a result, score, or benchmark number can be trusted: `evaluation-audit`.
-- A run in an evaluation campaign failed or stalled: `evaluation-operations`, which owns campaign status and diagnosis. When that work isolates a defect in harness or pipeline code and the user asks for the fix, this skill can take the defect.
+- The question is how much load the service sustains or where latency bends as load rises, rather than why: `load-testing`. When a load test finds a limit whose cause is unknown, the cause comes here with its step table.
+- A run in an evaluation, training, or ablation campaign failed or stalled: `evaluation-operations`, which owns campaign status and diagnosis. When that work isolates a defect in harness or pipeline code and the user asks for the fix, this skill can take the defect.
 
 A single agent or model failure still belongs here when the question is mechanical: a truncated tool result, a parser that drops a field, a timeout, a retry that resends stale state. Ask whether the answer is a mechanism to find or a rate to estimate.
 

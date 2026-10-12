@@ -5,9 +5,10 @@ description: >
   measures: failure modes, cases and labels, code checks and validated judges,
   comparison conditions with execution budgets, and the smallest difference
   the decision needs. NOT for a verdict on a built eval (evaluation-audit),
-  operating runs (evaluation-operations), benchmark surveys
-  (literature-research), choosing eval tooling, or harness code that leaves
-  the measurement unchanged.
+  operating a multi-run campaign (evaluation-operations), training data or a
+  training comparison (ml-experiment), latency or capacity under load
+  (load-testing), benchmark surveys (literature-research), choosing eval
+  tooling, or harness code that leaves the measurement unchanged.
 ---
 
 # Evaluation Design
@@ -34,7 +35,7 @@ Read real outputs of the system under test before fixing failure categories. A d
 - Treat model-generated labels and cases as candidates until the review the decision requires establishes them, and record who or what produced each label.
 - Preserve disagreement: an ambiguous item stays marked with its competing labels instead of being forced into a clean label.
 
-Read [cases and labels](references/cases-and-labels.md) when building or revising a case set, writing a label definition, or choosing a split. Training data for a model under adaptation belongs to ml-experiment.
+Read [cases and labels](references/cases-and-labels.md) when building or revising a case set, writing a label definition, or choosing a split. Training data for a model under adaptation belongs to ml-experiment; a corpus that serves both evaluation and training keeps the split rules of both.
 
 ## Code checks before model judges
 
@@ -49,13 +50,13 @@ Fix and record everything that affects the claim:
 - the requested model revision and the model that actually served each request, read from the response;
 - system and user prompts, tools and scaffold, decoding settings, and the information available to the system;
 - the execution budget in turns, tokens, and wall time, since budget exhaustion is an outcome and a different budget is a different comparison;
-- cost and latency as measured conditions: tokens from the provider's usage records, judge cost apart from target cost, latency from the final successful request.
+- cost and latency as measured conditions: tokens from the provider's usage records, judge cost apart from target cost, latency from the final successful request. An eval run is unloaded, so its latency compares conditions within the eval and is not evidence of latency or throughput under concurrent load, which load-testing measures.
 
 When the decision concerns a deployed system, call its real entry point with its production configuration; a reimplemented call measures something else. Put the noise floor next to the smallest decision-relevant difference before the full pass, and budget repetitions and cases together when sizing the set. If the noise floor exceeds the difference, say so with the numbers and offer more repetitions, more cases, a paired design, or a more sensitive metric.
 
 ## Building on request
 
-Implement the agreed cases, checks, judges, and aggregation in the project's runner. While building, run an oracle (reference answers or a known-good variant, which should pass) and a null (empty output, a constant answer, or the majority class, which should fail) through the full pipeline, plus hand-worked boundary, invalid, and missing outputs through the actual scoring path. Keep each probe's raw output where evaluation-audit can read it and state what each established; a mock response validates scorer logic, not target performance. Return a built instrument with its probe results, never a readiness verdict.
+Implement the agreed cases, checks, judges, and aggregation in the project's runner. While building, run an oracle (reference answers or a known-good variant, which should pass) and a null (empty output, a constant answer, or the majority class, which should fail the eval as a whole, though a criterion that only prohibits something may pass it) through the full pipeline, plus hand-worked boundary, invalid, and missing outputs through the actual scoring path. Keep each probe's raw output where evaluation-audit can read it and state what each established; a mock response validates scorer logic, not target performance. Return a built instrument with its probe results, never a readiness verdict.
 
 ## Adversarial evaluations
 

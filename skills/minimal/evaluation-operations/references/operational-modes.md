@@ -20,7 +20,9 @@ Resume an existing item when it is still the correct owned attempt and live or r
 
 Rescore only when raw output is sufficient, the intended data, configuration, labels, scorer, and input lineage are correct, and the scoring operation is authorized. Store the outcome as a linked derived result; do not overwrite the prior score.
 
-Rerun only after evidence shows raw output is absent or unusable under the project’s rules, or an approved campaign requires a new execution. Confirm that no existing live attempt would duplicate it and that the replacement remains within all approved limits. Never infer gold-label isolation from an output shape; verify the project’s stated separation and access controls before making that claim.
+Rerun only after evidence shows raw output is absent or unusable under the project’s rules, or an approved campaign requires a new execution. Confirm that no existing live attempt would duplicate it and that the replacement remains within all approved limits.
+
+For a training or ablation sweep, read checkpoint for raw output: resume from a checkpoint whose saved state supports it, re-evaluate a saved checkpoint as a linked derived result, and retrain only when no usable checkpoint exists or the approved sweep asks for a fresh run. See [attempts, results, and rescoring](attempts-and-result-lineage.md). Never infer gold-label isolation from an output shape; verify the project’s stated separation and access controls before making that claim.
 
 ## Monitoring or sustain work
 

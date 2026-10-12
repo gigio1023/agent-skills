@@ -14,11 +14,17 @@ Resolve discrepancies that can be checked. Preserve unrelated work. An unavailab
 
 ## Execute and interpret
 
-Perform the next analysis, experiment, review, or implementation. Use the relevant specialist's method: research, evaluation, and experiment skills for research questions, data, runs, and measurement (`evaluation-operations` owns the run state of a multi-run evaluation campaign), and development skills for implementation and harness tools. Load only the capability needed now. Do not prohibit a worker from reading relevant skills or sources.
+Perform the next analysis, experiment, review, or implementation. Use the relevant specialist's method: research, evaluation, and experiment skills for research questions, data, runs, and measurement (`evaluation-operations` owns the run state of a multi-run evaluation campaign), and development skills for implementation and harness tools (`coding-standards` for writing, structuring, and verifying code). Load only the capability needed now. Do not prohibit a worker from reading relevant skills or sources.
 
 Check the actual result rather than accepting a worker's completion claim. Record the finding and what it changes. A negative result, an excluded explanation, or a supported statement that available data cannot distinguish alternatives can complete an investigation. An input-format check does not establish that a model evaluation ran, and an inconclusive comparison does not establish equivalence.
 
 Within the same question and permitted resources, perform quick diagnostics or follow-up work without asking for every small choice. Update the current plan and project understanding so the next session inherits the revised state. Keep earlier results and the reason for a changed action.
+
+## Keep implementation notes
+
+During implementation, keep implementation notes in the plan or in a file beside it that the plan links, with a Deviations list. When an edge case forces leaving the plan, such as an input the plan did not anticipate, an interface that differs from what the plan assumed, or a check that cannot run as written, choose the conservative option and continue: the one easiest to reverse, touching least outside the task, and staying inside existing grants. Record each deviation with what the plan said, what was done instead, and why, so the next session and a later review see it without reconstructing it from the diff.
+
+A deviation that changes direction, meaning the goal, question, success criterion, or consequential scope, is not a note: raise it with the user as the next section describes and pause the work that depends on it.
 
 ## Raise direction problems promptly
 
@@ -36,7 +42,7 @@ Use `git-worktree-setup` for requested implementation isolation and `small-model
 
 ## Verify progress and continue
 
-Match verification to the claim. Use tests for implemented behavior, actual logs and outputs for run completion, source inspection for a review finding, and justified comparison for an interpretation. A read-only review needs no changed source file. A command exit code is not a substitute for interpreting its output.
+Match verification to the claim. Use a run of the real entry point on fixed input, plus the tests the project keeps, for implemented behavior, actual logs and outputs for run completion, source inspection for a review finding, and justified comparison for an interpretation. A read-only review needs no changed source file. A command exit code is not a substitute for interpreting its output.
 
 Keep execution failures distinct from unwelcome research results. Retry only after a concrete correction or new information makes it useful, within remaining limits. Repeated identical failure calls for diagnosis or stopping, not spending the budget unchanged. Do not change the question merely to obtain a passing result.
 
@@ -44,4 +50,8 @@ Update existing records proportionally: what happened, what was learned, the sou
 
 Continue in-scope work until the requested outcome, decision point, limit, or real blocker is reached. When requested, use review mode for review and the appropriate publication skill, such as `commit-and-push` or `draft-pr`, for delivery. Do not commit, publish, install, or start another workstream simply because a round finished.
 
-Finish with the result, its support, any material unresolved question, and the next useful action. The whole project is not complete merely because the current round is complete.
+Finish with the result, its support, any material unresolved question, the deviations recorded this round, and the next useful action. The whole project is not complete merely because the current round is complete.
+
+## Source note
+
+Keeping implementation notes that record deviations from the plan while the work runs is adapted from Thariq Shihipar, ["A field guide to Claude Fable 5: Finding your unknowns"](https://claude.com/resources/articles/a-field-guide-to-claude-fable-finding-your-unknowns) (Anthropic, 2026-07-06). The practice is rewritten here, not copied.

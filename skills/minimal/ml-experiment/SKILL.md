@@ -5,8 +5,9 @@ description: >
   weight-adaptation comparison, an inference or serving configuration
   comparison at pinned revisions, a reproduction, or the training data it
   needs. NOT for what an eval measures or its cases (evaluation-design), a
-  verdict on a built eval (evaluation-audit), operating approved runs
-  (evaluation-operations), or literature (literature-research).
+  verdict on a built eval (evaluation-audit), operating a multi-run
+  campaign's state (evaluation-operations), latency, throughput, or capacity
+  under load (load-testing), or literature (literature-research).
 ---
 
 # ML Experiment
@@ -29,7 +30,7 @@ State which alternatives the next observation could distinguish and how the answ
 
 With little compute, iterate at the smallest model and data scale at which the phenomenon still appears, and say when a result may not transfer to full scale. With little data, spend it on evaluation before training: a few hundred labelled examples usually buy a credible measurement and rarely a credible fine-tune.
 
-For requested execution, inspect the actual runner, checkpoint, preprocessing, split, objective, optimizer, schedule, compute allocation, and result records the experiment depends on, following the framework's version-specific documentation. Before an expensive run, use an authorized small check that data reach the intended computation, losses and gradients behave plausibly, checkpoints save and load, and the measurements can be recovered; a smoke test establishes readiness only. Keep enough identity to tie results to their inputs and configurations, preserve unsuccessful attempts, and inspect live state before restarting.
+For requested execution, inspect the actual runner, checkpoint, preprocessing, split, objective, optimizer, schedule, compute allocation, and result records the experiment depends on, following the framework's version-specific documentation. Before an expensive run, use an authorized small check that data reach the intended computation, losses and gradients behave plausibly, checkpoints save and load, and the measurements can be recovered; a smoke test establishes readiness only. Keep enough identity to tie results to their inputs and configurations, preserve unsuccessful attempts, and inspect live state before restarting. When the runs form a sweep or ablation campaign that spans runs or sessions, evaluation-operations keeps its attempts, ownership, priorities, and resume or rerun decisions; this skill designs the comparison and decides whether a single run is ready or recoverable.
 
 Read [design and interpretation](references/design-and-interpretation.md) for baselines, interactions, variance, or inconclusive outcomes, and [training and recovery](references/training-and-recovery.md) for execution decisions.
 
@@ -42,11 +43,11 @@ Recover the target task, intended population, unit of observation, source materi
 - Relate sampling weights and coverage to the target population. Convenience sources, oversampling, and synthetic examples change the distribution the model learns; distinguish construction counts from deployment prevalence.
 - Treat label noise as a measured quantity, not an assumption. A model-generated label is a candidate until the required review establishes it, and preserving disagreement is better than forcing uncertain items into a clean label.
 
-Pair structural checks with content review sampled across relevant groups and failure modes; a reviewed sample is not proof that every record is correct. Read [construction and review](references/construction-and-review.md) for sampling, annotation, splitting, or lineage decisions. Evaluation case sets and the review of evaluation labels are designed in evaluation-design, not here.
+Pair structural checks with content review sampled across relevant groups and failure modes; a reviewed sample is not proof that every record is correct. Read [construction and review](references/construction-and-review.md) for sampling, annotation, splitting, generated data, or lineage decisions. Evaluation case sets and the review of evaluation labels are designed in evaluation-design, not here; a corpus that serves both evaluation and training keeps the split rules of both.
 
 ## Serving and inference comparisons
 
-A number is only attributable to the configuration and mode that produced it. Before freezing a serving setup for a full campaign, establish what you are actually comparing.
+A number is only attributable to the configuration and mode that produced it. Before freezing a serving setup for a full campaign, establish what you are actually comparing. These comparisons choose a configuration by what it produces: outcome class, quality, and the effect of a mode. Latency, throughput, and error rate under concurrent load are a load test's measurement (load-testing); timings from an unloaded comparison run are not capacity or performance evidence.
 
 - Pin revisions. The model, tokenizer, serving engine, and quantization each have a version; a mutable alias can resolve to a different checkpoint between runs, so record the resolved revision, not the alias.
 - Treat a mode switch as a first-class variable. Reasoning on or off, a thinking budget, a tool-use mode, or a decoding preset can move the result as much as the model choice, so vary it deliberately and report which mode each number came from.
@@ -72,6 +73,7 @@ For a weight-adaptation or capability-preserving comparison, read [model adaptat
 
 - evaluation-design decides what an evaluation measures: its failure modes, case set, code checks, judges and their validation, and comparison conditions.
 - evaluation-audit gives a launch, hold, or report verdict on a built evaluation, benchmark, judge, harness, scoring change, or result.
-- evaluation-operations dispatches, resumes, or tracks an approved multi-run campaign.
+- evaluation-operations keeps the evidence-backed state of an approved multi-run campaign, evaluation runs or training and ablation runs alike: attempts, ownership, priorities, resume and rerun decisions, and results.
+- load-testing measures latency, throughput, errors, and capacity of a serving endpoint under load.
 
 Read [sources](references/sources.md) when maintaining this package.

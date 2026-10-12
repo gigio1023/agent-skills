@@ -1,18 +1,14 @@
 ---
 name: frontend-design
 description: >
-  Use for frontend work that can change what users perceive or operate:
-  components, pages, layout, styling, responsive behavior, forms, data views,
-  interface states, motion, accessibility, visual assets, and UI review.
-  Includes user-visible frontend bug fixes. NOT for backend-only work or
-  frontend configuration and data changes with no interface effect. NOT for
-  data dashboards or interactive analysis reports (insight-dashboard, when
-  installed) or technical figures (technical-figure, when installed).
+  Use for frontend work that can change what users perceive or operate: components, pages, layout, styling, responsive behavior, forms, data views and the interface of a dashboard or analysis report, interface states, motion, accessibility, visual assets, and UI review. Includes user-visible frontend bug fixes. Phrases include "build this page", "fix this layout", "review this UI", "화면 만들어줘", and "UI 고쳐줘". NOT for backend-only work or frontend configuration and data changes with no interface effect. NOT for deciding what a dashboard or analysis report compares, its metrics, denominators, selection behavior, and explanatory text (insight-dashboard), or technical figures (technical-figure, when installed).
 ---
 
 # Frontend Design
 
 Route user-visible frontend work through the smallest design path that protects the product, then verify the affected interface honestly.
+
+For a data dashboard or analysis report, `insight-dashboard` decides what the view compares, its metrics and denominators, how selections change the results, and its explanatory text; this skill builds and reviews the interface that carries those decisions. Use both when building or redesigning one. An interface-only change to an existing dashboard, such as a restyle, a responsive fix, or a state bug, needs only this skill unless it changes a value, ranking, or sentence the reader sees.
 
 ## Route Before Loading References
 

@@ -28,6 +28,8 @@ Review disagreement for a definition problem, missing context, or true ambiguity
 
 Set the split boundary by the unit of intended generalization: source, entity, conversation, task family, or time. Split before data-dependent augmentation, or keep source-group identity so descendants cannot cross the boundary. Check exact and near-duplicates across it, and review borderline matches rather than trusting one similarity threshold. Cases used to tune the system, its prompt, or a judge are no longer independent of that tuning, so report on cases that were not. Document actual access, since a name like test or gold does not show isolation.
 
+A corpus that also supplies training data keeps the training-side rules as well: no item that reaches an evaluation split is trained on, checked by exact and near-duplicate matching in both directions, and generated training items follow the same fix-the-generator rule as generated cases. ml-experiment's reference on training data construction and review holds those rules; partition the evaluation side first and record each item's assignment.
+
 ## Versions
 
 Give cases stable identifiers, record the reason for each changed label, exclusion, or transform, and version the case set and its grader together, since scores from before and after a grader change are not comparable. Check both the loader's output and representative original records: a structural check finds missing fields, while semantic review decides whether a case and its label fit the task. A case set may later serve as a standing regression suite or be refreshed from production traces; that lifecycle follows project practice.

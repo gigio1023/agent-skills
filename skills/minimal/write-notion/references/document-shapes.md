@@ -1,12 +1,13 @@
 # Document Shapes
 
-Read this when choosing a genre and section order, or when checking whether a section earns its place. Section names are defaults: a team template or an established page convention wins. Sentence-level writing belongs to `copydesk`, whose document-forms reference also explains how design proposals, decision records, reports, and runbooks reason; this file covers which sections a Notion page carries and where they sit. The public sources behind each choice are in [sources](sources.md).
+Read this when choosing a genre and section order, placing a design doc's sections on a page, or checking whether a section earns its place. Section names are defaults: a team template or an established page convention wins. A design doc's sections and their content belong to `design-doc` when installed, and sentence-level writing belongs to `copydesk`, whose document-forms reference also explains how design proposals, delivery briefs, decision records, reports, and runbooks reason; this file covers where sections sit on a Notion page and gives the fallback design doc skeleton for when `design-doc` is absent. The public sources behind each choice are in [sources](sources.md).
 
 ## Contents
 
 - Choose the genre
-- Design doc skeleton
+- Design doc sections on the page
 - Section notes
+- Delivery brief
 - Open-questions page
 - Decision record
 - Page lifecycle
@@ -15,16 +16,19 @@ Read this when choosing a genre and section order, or when checking whether a se
 
 | Situation | Shape |
 | --- | --- |
-| New module, service, or feature before implementation | Design doc (RFC) |
+| New module, service, or feature before implementation | Design doc (RFC), sections from `design-doc` when installed |
+| Customer- or deadline-bound product work: outcome, promise, deadline, acceptance | Delivery brief: `copydesk` delivery brief form, with this skill's Notion layout |
 | Questions that block a design or its review | Open-questions page |
 | One consequential choice, made or about to be made | Decision record |
 | Guide, report, runbook, or explanation of an existing system | `copydesk` document forms, with this skill's Notion layout |
 
-A design doc earns its cost when the change has dependencies, real alternatives, or effects on other teams. When implementing would take less time than writing the document, or when the document would only be an implementation manual with no trade-offs, skip it or write a one-to-three-page mini design doc focused on the decision that matters.
+A design doc earns its cost when the change has dependencies, real alternatives, or effects on other teams. When implementing would take less time than writing the document, or when the document would only be an implementation manual with no trade-offs, skip it or write a one-to-three-page mini design doc focused on the decision that matters. `design-doc` defines the mini design doc's sections; without it, use the header callout, Summary, Design with Interfaces and seams, Test plan, Open questions, and Decision log.
 
-When the content comes from `design-doc`, keep its sections and map them onto this page layout; its verification split fills the test plan and its threat model fills the security section. The skeleton below is for design docs written directly in Notion.
+## Design Doc Sections On The Page
 
-## Design Doc Skeleton
+With `design-doc` installed, it decides which sections exist and what each contains, whether the page is drafted for Notion or moved there from a file. Keep its sections and their names, and place them with the table below: its Status fills the header callout, its Verification split (real-run checks, contract tests for essential contracts with their reasons, and evaluation) fills the test plan, its Threat model or Operating boundary fills the security section under Cross-cutting concerns, its Experiment queue sits in a toggle after Open questions, and its other sections map by name. A section that `design-doc` omits stays omitted on the page.
+
+Without `design-doc`, the table is the fallback skeleton. It keeps the essentials of a reviewable design: the fixed interfaces and their seams, a test plan written as a verification split, the open questions, and a decision log, with an operating boundary in place of the threat model when the system is itself the attacker.
 
 | Section | Purpose | Placement |
 | --- | --- | --- |
@@ -33,16 +37,21 @@ When the content comes from `design-doc`, keep its sections and map them onto th
 | Context and scope | Background facts and the system boundary | Visible |
 | Goals and Non-goals | Checkable goals; optional deliberate exclusions | Visible |
 | Design | Mechanism figure, then components and behavior | Figure and overview visible; detail toggled |
-| Cross-cutting concerns | Security, privacy, observability, rollout | Toggle |
+| Interfaces and seams | Fixed interfaces and the adapters behind each | Toggle |
+| Cross-cutting concerns | Threat model, or operating boundary for a system that attacks; privacy, observability, rollout | Toggle |
+| Test plan | Verification split: real run, contract test, or evaluation per component; launch criterion | Toggle |
 | Alternatives considered | Options with advantage and rejection reason | Toggle |
-| Test plan or pre-launch evaluation | How success is judged before launch | Toggle |
 | Milestones | Checkpoints with exit conditions | Toggle |
 | Open questions | Undecided items as questions | Visible |
+| Experiment queue | Unmeasured bets, from `design-doc` only | Toggle |
+| Decision log | Decisions with evidence and reversal conditions | Toggle |
 | References | Evidence and related records | Toggle |
 
-Omit a section with nothing true to say, and add one the system needs that the skeleton lacks.
+Omit a section with nothing true to say, except Interfaces and seams, Test plan, Open questions, and Decision log, which stay even when short. Add a section the system needs that the skeleton lacks.
 
 ## Section Notes
+
+With `design-doc` installed, its rules govern what each section contains; use these notes only for page details such as the header callout fields, date mentions, and references that open for the page's readers. Without it, these notes are the content rules for the fallback skeleton.
 
 ### Header callout
 
@@ -62,13 +71,18 @@ Goals state what the design must achieve, with a completion condition a reviewer
 
 ### Design
 
-Open with the mechanism figure that answers "how does it work". Then explain components and their responsibilities, the data flow of a representative request or job, state and storage, interfaces, and failure behavior when a dependency is unavailable. Include only the interface and schema fragments that matter for the trade-offs and link the full definitions; copied definitions go stale. Put storage layouts, interface listings, and measurement tables under toggle headings.
+Open with the mechanism figure that answers "how does it work". Then explain components and their responsibilities, the data flow of a representative request or job, state and storage, and failure behavior when a dependency is unavailable. Include only the schema fragments that matter for the trade-offs and link the full definitions; copied definitions go stale. Put storage layouts and measurement tables under toggle headings.
+
+### Interfaces and seams
+
+State which interfaces are fixed and which implementations are swappable adapters behind them. Put a seam where something actually varies; a component with one implementation is plain code. A learned or judging component sits behind a fixed interface, usually with a baseline, the incumbent, or a fake for tests as its second adapter. The interface includes the output's meaning and its failure behavior, because callers depend on both. Include only the signature fragments that matter for the trade-offs and link the full definitions.
 
 ### Cross-cutting concerns
 
 Cover only the concerns this design changes, each with how the design affects it and how that is addressed, so a reviewer from that area can check it quickly:
 
 - **Security:** what is protected, where untrusted input enters, what is in scope and out of scope with reasons, the assumptions the protection depends on, and the remaining risk.
+- **Operating boundary:** for a system that is itself the attacker, such as a red-teaming agent, an automated security-testing harness, or a fuzzing service, this takes the threat model's place. State the authorized targets and the authorization each rests on, budgets per target and what happens when one runs out, containment and how a run is stopped, a never-do list, how run evidence is stored and redacted, and the role that approves widening any limit. Name the code outside the model that enforces each limit. Write it in methodology language: objective categories, environments, and limits, never attack procedures or concrete inputs.
 - **Privacy:** the personal data collected, where it is stored, and how long it is kept.
 - **Observability:** the signals that show the system works and the alerts that show it does not.
 - **Migration and rollback:** how a change to a live interface or stored data is rolled out and reversed.
@@ -77,9 +91,9 @@ Cover only the concerns this design changes, each with how the design affects it
 
 For each credible option, state its advantage first and then the reason it loses under this design's goals. Include the status quo when it is a real option. Keep abandoned ideas with their reasons instead of deleting them, so reviewers do not reopen them. Measured results of the options are comparison evidence; the chosen option is "proposed" until the owner decides.
 
-### Test plan or pre-launch evaluation
+### Test plan
 
-How the team will know the design works before launch: the tests or evaluation, the data or traffic they run on, the signal that decides launch, and how a failure would be detected after launch. Name the release criterion, not just the activities. When quality is measured, as for a learned model, state the metric, any decision threshold with its reason, and the evaluation data's source and size; every number keeps its measuring conditions.
+Write the test plan as a verification split. Put each component on one side, name what verifies it, and say where that lives. A deterministic part, where a rule decides whether an output is correct, is verified by a real run of its entry point on fixed input that leaves the input, the command, and the output for someone else to rerun. A contract test is kept for an essential contract, one whose break a real run would miss and that would be costly or felt outside the module, such as the interface every adapter at a seam must honor; mark each essential contract with its reason, and record any further tests the project's documented policy or CI requires, with that source. A judging or learned part, where correctness is a judgment over a distribution, is verified by evaluation, and a property that only shows under real traffic, such as latency at peak, is measured. A short table holds the component, its side, what verifies it, where that lives, and its status. Then name the launch criterion, not just the activities, and how a failure would be detected after launch. When quality is measured, as for a learned model, state the metric, any decision threshold with its reason, and the evaluation data's source and size; every number keeps its measuring conditions.
 
 ### Milestones
 
@@ -89,9 +103,24 @@ A short table of checkpoints with a target date mention and an exit condition ea
 
 Each item is a question that ends with a question mark, grouped by when it must be answered: before review, during implementation, or out of scope for this design. A nested bullet says what the question blocks and what evidence or which role settles it. When a question is answered, move the answer into the body, update the status words, and remove the question.
 
+### Decision log
+
+One entry per decision: its status (Proposed, Accepted, or Superseded by a later entry), the kind of evidence it rests on (literature, measurement, constraint, or a hunch labeled as one), where that evidence lives, and the observable condition that would reverse it. An option the owner has not accepted stays Proposed here and in the header status. Supersede an accepted entry with a new one instead of rewriting it.
+
 ### References
 
 One line per item: what it is, when it was produced, and why a reviewer would open it. Do not attach author names to internal evidence such as measurements, meeting records, or drafts; published works keep their standard citation. Every link opens for the page's readers.
+
+## Delivery Brief
+
+A delivery brief tells the people who deliver, accept, and decide what is promised by a deadline and how acceptance will be judged. Its sections and their content come from `copydesk`'s delivery brief form. Without `copydesk`, use the outcome and whose decision it serves, the relevant workflow, the promised behavior and explicit exclusions, priorities and the deadline, the acceptance evidence and who accepts, open decisions, and links to the design doc and the plan. It is not a product requirements spec or a set of user stories, and it never replaces the design doc.
+
+On a Notion page:
+
+- **Header callout:** Status, Owner as a user mention, the accepting role, the deadline as a date mention, and links to the design doc and the plan, as page mentions when they live in Notion.
+- **Visible:** the outcome and the decision it serves, a short statement of the workflow, the promised behavior with its exclusions, priorities, acceptance, and open decisions. A reader who opens no toggle knows what is promised, by when, and how it will be accepted.
+- **Under toggles:** workflow detail, supporting measurements, and references.
+- **Length:** one or two screens. Design detail stays in the design doc and tasks stay in the plan or tracker; the brief links to them instead of restating them.
 
 ## Open-Questions Page
 
@@ -118,4 +147,4 @@ Do not rewrite an accepted record to fit a later decision. Mark it superseded an
 
 ## Page Lifecycle
 
-Update the design doc while the design changes, until it ships. When a review settles an item, change the body, header status, summary, open questions, and any affected figure together. After launch, set the status and link later amendments or decision records from the page rather than letting them pile up unlinked.
+Update the design doc while the design changes, until it ships. When a review settles an item, change the body, header status, summary, open questions, decision log, and any affected figure together. After launch, set the status and link later amendments or decision records from the page rather than letting them pile up unlinked.

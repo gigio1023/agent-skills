@@ -1,19 +1,14 @@
 ---
 name: insight-dashboard
 description: >
-  Use when creating or redesigning a data dashboard, interactive analysis report,
-  operational view, or static dashboard for print. Designs useful comparisons,
-  explanatory text, data exploration, and selection-consistent results. NOT for
-  generic forms or landing pages, ordinary prose documents, component styling
-  or general UI implementation (frontend-design, when installed), or static
-  figures (technical-figure, when installed).
+  Use when creating or redesigning a data dashboard, leaderboard, interactive analysis report, operational view, or static dashboard for print. Decides what the view compares, its metrics and denominators, how selections and filters change values and rankings, and its explanatory text, so results stay selection-consistent. Phrases include "build a dashboard for these results", "make a leaderboard", "대시보드 만들어줘", and "리더보드 만들어줘". NOT for generic forms or landing pages, ordinary prose documents, interface work that changes no comparison, metric, or explanatory text, such as restyling components or fixing a layout (frontend-design), or static figures (technical-figure, when installed).
 ---
 
 # Insight Dashboard
 
 Build a data view that helps the reader answer a recurring question or choose an action. Make the useful comparison visible in the initial view, then provide a clear path to the details that explain it. Let data and the reader's task determine the layout.
 
-This skill decides the comparison, the text, and how selections change the results; `frontend-design`, when installed, or the project's UI stack builds the interface.
+This skill decides what the view compares, its metrics and denominators, how selections change the results, and its explanatory text. `frontend-design` builds and reviews the interface that carries those decisions in the project's UI stack: components, layout, states, responsive behavior, and accessibility. Use both when building or redesigning a view; an interface-only change that alters no value, ranking, or sentence the reader sees needs only `frontend-design`.
 
 Preserve the project's data model, terminology, and requested medium. Inspect supplied data before choosing claims. Use authorized real results; mark development fixtures as synthetic. If a missing input prevents the main comparison, identify that input and build only the supported views. Review requests return findings rather than changing the application.
 
@@ -24,6 +19,7 @@ Preserve the project's data model, terminology, and requested medium. Inspect su
 - **Monitor:** prioritize affected services, severity, freshness, and the next operational action. Keep severity separate from investigation status; distinguish unavailable telemetry from healthy service.
 - **Review periodically:** connect previous actions to current measures and the next proposed action. Associate human commentary with its period and evidence. Add explanations where judgment matters rather than requiring a comment on every card.
 - **Answer a small recurring question:** show the answer and the useful next link. A current-version page can be complete without a KPI grid or trend chart.
+- **Rank candidates:** rank only rows measured under the same comparison, show each row's comparability, and keep the ranking claim true under the reader's filters. The [ranking pattern](references/pattern-examples.md#rank-candidates-on-a-fixed-comparison) covers ties, missing cells, and metrics with opposite directions.
 
 ## Compose the comparison
 
@@ -39,10 +35,10 @@ In a **synthetic service comparison**, a successful-request median alone may fav
 ## Load the detail that changes a decision
 
 - [Data and comparison](references/data-and-comparison.md): denominators, aggregation, uncertainty, chart selection, and worked arithmetic.
-- [Pattern examples](references/pattern-examples.md): task-matched public dashboards, actionable adaptations, and finished synthetic view specifications.
+- [Pattern examples](references/pattern-examples.md): task-matched public dashboards, actionable adaptations, and finished synthetic view specifications, including a leaderboard.
 - [Interaction and static delivery](references/interaction-and-static.md): selection changes, asynchronous updates, URL sharing, error states, and print.
 
-For document-level information selection, prose, and internal sharing, use `copydesk` when available. For a shadcn implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available; otherwise consult the official component documentation. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
+For document-level information selection, prose, and internal sharing, use `copydesk`. For a shadcn implementation, use the [official shadcn skill](https://ui.shadcn.com/docs/skills) when available; otherwise consult the official component documentation. These companions contribute to this artifact; they do not restart intake. Without them, retain supported claims, accessible interaction, sufficient comparison conditions, and recipient-appropriate sources.
 
 For print-first output, use a native document-production route. Web and PDF can share data and calculations while using different layouts. In the static view, expose the selected comparisons and labels that the reader otherwise accesses through tabs or hover.
 

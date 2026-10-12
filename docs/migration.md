@@ -96,3 +96,13 @@ The repository was renamed from `gigio1023/agent-skills` to `gigio1023/gigio-ski
 
 Each description names its former names once, so requests that use them still route. Installed copies under the former names are not updated by `skills update`; during a requested refresh, install the current names, verify them, then remove the former names. Codex role files and agent definitions already installed from the routing skills keep working, but their text names the former routing skill until they are reinstalled.
 
+## Coding standards, review, and load testing on 2026-10-12
+
+| Former name or set | Current name or set | Change |
+| --- | --- | --- |
+| `python-coding-standards` | `coding-standards` | Language-agnostic code and test principles; Python moves to `references/python/` |
+| `insight-dashboard`, `frontend-design` in additional | minimal | Report and dashboard front ends are recurring work |
+| None | `review-panel` | Separate reviewers, usually from different model families, with findings judged by evidence |
+| None | `load-testing` | Load and capacity tests of services and model endpoints |
+
+`interview` now applies the unknowns lens inside an interview (the user's current understanding, a first-round blind-spot scan, tacit criteria shown as options), while `find-unknowns` stays the quick standalone pass. During a requested refresh, install the current names, verify them, then remove `python-coding-standards`.

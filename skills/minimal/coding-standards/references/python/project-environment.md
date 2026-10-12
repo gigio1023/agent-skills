@@ -1,4 +1,4 @@
-# Project Environment
+# Python Project Environment
 
 Read this when setting up Python, changing dependencies, or arranging local and CI commands. Prefer uv project management; this is not a pip-based installation recipe.
 

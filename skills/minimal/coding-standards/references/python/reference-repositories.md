@@ -1,6 +1,6 @@
-# Reference Repositories
+# Python Reference Repositories
 
-Read this when a rule in this skill needs its evidence, when deciding whether a large function or module has a precedent, or when refreshing the thresholds. Nine widely used Python packages were cloned and measured on 2026-09-29; the function and module rules in [functions and modules](functions-and-modules.md) rest on these numbers. Measured figures come from `ast`-based scripts and Ruff 0.16.5; quoted lines were read in the clone at the commit listed.
+Read this when a rule in this skill needs its evidence, when deciding whether a large function or module has a precedent, or when refreshing the thresholds. Nine widely used Python packages were cloned and measured on 2026-09-29; the function and module rules in [functions and modules](../functions-and-modules.md) and [Python functions and modules](functions-and-modules.md) rest on these numbers. Measured figures come from `ast`-based scripts and Ruff 0.16.5; quoted lines were read in the clone at the commit listed.
 
 ## Contents
 

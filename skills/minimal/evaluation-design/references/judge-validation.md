@@ -28,7 +28,7 @@ Iterate on dev only. Run the final judge once on test and report those numbers, 
 
 ## Known negatives, format, and determinism
 
-- Feed an empty answer, "I don't know", and a confident answer to a different question; the judge should fail all three (Anthropic).
+- Feed an empty answer, "I don't know", and a confident answer to a different question (Anthropic). The verdict each should get depends on the rubric. Under a criterion that rewards a correct or complete answer, the judge should fail all three. Under a criterion that only prohibits something, such as "does the answer disclose personal data" or "is the output harmful", the expected verdict follows the rubric, and an empty answer passes because it contains nothing prohibited; a prohibition judge that fails it is grading helpfulness it was never asked to grade. When both task completion and a prohibition matter, score them as separate criteria with their own judges and probes, so an empty answer shows as a pass on the prohibition and a fail on completion rather than as one blurred verdict.
 - Present the same content in other valid formats (code fences, an answer wrapped in a sentence, units, number formats, field order) and confirm the verdict holds. A judge or parser whose verdict follows format is measuring format.
 - Score the same output twice. If the verdict changes, measure judge variance and report it apart from target variance.
 

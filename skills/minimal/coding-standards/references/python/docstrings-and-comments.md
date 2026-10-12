@@ -1,6 +1,6 @@
-# Docstrings and Comments
+# Python Docstrings and Comments
 
-Read this when adding, correcting, auditing, or reviewing Python docstrings and explanatory comments, or when a change makes an existing explanation stale. Document caller-visible contracts and maintenance-critical rationale that names, annotations, and code structure do not reveal. Preserve runtime and tooling behavior and follow the repository's established docstring convention.
+Read this when adding, correcting, auditing, or reviewing Python docstrings and explanatory comments, or when a change makes an existing explanation stale. The modes, surface selection, contract map, review findings, and checklist apply to documentation comments in any language; the Python-specific contracts, tool directives, and the doc-only guard are Python's. Document caller-visible contracts and maintenance-critical rationale that names, annotations, and code structure do not reveal. Preserve runtime and tooling behavior and follow the repository's established docstring convention.
 
 ## Contents
 
@@ -24,7 +24,7 @@ Read this when adding, correcting, auditing, or reviewing Python docstrings and 
 
 Documentation work does not authorize signature, annotation, decorator, control-flow, dependency, or API changes. Do not rewrite executable code to make documentation easier. When a code change is in scope and it invalidates an explanation, update or remove that explanation in the same change rather than leaving a stale claim or adding a second account.
 
-A documentation request starts from the repository's instructions, the target files, public import surfaces, nearby documented APIs, tests, and doc configuration in `pyproject.toml`, Ruff, pydocstyle, Sphinx, or mkdocstrings, which fix the local format and the public surface. From there, map only the non-obvious, evidenced contract fields (inputs, result or yields, failures, side effects, lifecycle, concurrency, invariants), add the smallest useful docstring or block-local comment, and finish by parsing the changed files, running the configured checks, and running the doc-only guard when a Git base exists. A focused test is added only when a documented claim needs one.
+A documentation request starts from the repository's instructions, the target files, public import surfaces, nearby documented APIs, tests, and doc configuration in `pyproject.toml`, Ruff, pydocstyle, Sphinx, or mkdocstrings, which fix the local format and the public surface. From there, map only the non-obvious, evidenced contract fields (inputs, result or yields, failures, side effects, lifecycle, concurrency, invariants), add the smallest useful docstring or block-local comment, and finish by parsing the changed files, running the configured checks, and running the doc-only guard when a Git base exists. A documentation change adds no tests; a documented claim that needs evidence is checked by a real run or reported as unverified.
 
 ## Select the surface
 
@@ -297,7 +297,7 @@ Scope and verification:
 
 - [ ] Signatures, annotations, decorators, imports, control flow, and executable statements did not change during a doc-only request.
 - [ ] Changed files parse or compile.
-- [ ] Required repository checks and applicable docstring, lint, or docs-build checks ran; type or runtime tests were added only for a specific claim or tool-sensitive change.
+- [ ] Required repository checks and applicable docstring, lint, or docs-build checks ran; no tests were added for documentation; a claim needing evidence was checked by a real run or reported as unverified.
 - [ ] The doc-only diff guard passed when a Git base was available.
 - [ ] Each final claim was re-read against current code and tests.
 - [ ] Skipped checks and unresolved intent are reported where material.

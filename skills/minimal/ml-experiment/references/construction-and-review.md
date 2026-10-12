@@ -1,12 +1,14 @@
 # Training Data Construction and Review
 
-This reference covers data a training recipe consumes. Evaluation case sets and the review of evaluation labels are designed in evaluation-design, not here.
+This reference covers data a training recipe consumes. Evaluation case sets and the review of evaluation labels are designed in evaluation-design, not here; its reference on eval cases and labels holds the evaluation-side rules a shared corpus also has to keep.
 
 ## Population and selection
 
 Name what one item represents and what the training set should let the model generalize to. A user's sessions, a document's excerpts, and independently collected documents have different dependence, and counts should follow the chosen unit.
 
 Describe actual source coverage and meaningful missing populations. Sampling weights and oversampling change the distribution the model learns, so distinguish construction counts from deployment prevalence when they differ. Keep synthetic material identified, with its generation and review scope when relevant. A generator's diversity claim is not measured coverage.
+
+When review of generated training items finds a defect, such as a wrong label pattern, a template artifact, or a topic the generator keeps repeating, repair the generator (its prompt, template, or filter) and regenerate or refilter the affected output by the same rule. Editing only the items the review happened to sample leaves the same defect in every unreviewed item the generator made alongside them.
 
 ## Annotation
 
@@ -21,6 +23,8 @@ An adjudicated label can be an approved training decision without being unquesti
 Set the split boundary according to the unit of intended generalization: entity, source, conversation, time, or another relevant unit. Fit preprocessing, selection, and imputation only on the information permitted for that split. Check whether near-duplicates or shared sources create shortcuts across the boundary.
 
 The boundary that matters most for training data is contamination with evaluation material. Use exact hashes for identical bytes or records and an appropriate similarity method for near-duplicates, and check training data against the evaluation set in both directions. Review borderline matches rather than treating a single similarity threshold as fact. Split before data-dependent augmentation, or retain source-group identity so descendants cannot cross the boundary. Overlap between training and evaluation inflates every later number and cannot be undone after the run.
+
+A corpus that serves both evaluation and training keeps the split rules of both. On the evaluation side, evaluation-design's reference on eval cases and labels splits by the unit of generalization and keeps cases that tuned the system or its judge apart from cases that report the result. On the training side, nothing that reaches an evaluation split may be trained on. Draw the evaluation partition by the unit of generalization first, train only on what remains, and record each item's assignment so a later reuse of the corpus cannot cross the boundary.
 
 ## Target formatting
 

@@ -1,4 +1,4 @@
-# Types and Enums
+# Python Types and Enums
 
 Read this when defining types, integrating a typed SDK, selecting a data representation, replacing string constants, or changing enum values. Apply the 3.12+ syntax floor without silently breaking an existing support requirement; the version policy for new projects is in [project environment](project-environment.md).
 
@@ -76,7 +76,7 @@ At output, emit the defined value through `.value` or a serializer whose behavio
 
 ## Compatibility changes
 
-Before replacing an enum implementation or value, inspect API payloads, database mappings, configuration, event consumers, generated schemas, and existing fixtures that depend on it. Preserve old accepted values until the requested migration defines how readers and writers move. Where a transition accepts legacy spellings, keep acceptance aliases separate from the canonical output and test both. A Python enum alias alone does not define a producer/consumer rollout or database migration.
+Before replacing an enum implementation or value, inspect API payloads, database mappings, configuration, event consumers, generated schemas, and existing fixtures that depend on it. Preserve old accepted values until the requested migration defines how readers and writers move. Where a transition accepts legacy spellings, keep acceptance aliases separate from the canonical output and check both on fixed input; a persisted value set is an essential contract when stored data depends on it. A Python enum alias alone does not define a producer/consumer rollout or database migration.
 
 Distinguish `from enum import StrEnum` from `from strenum import StrEnum`. The third-party package's base `StrEnum` preserves member-name case for `auto()`, while the standard-library class lowercases it. Do not replace the import without checking actual values. For Python below 3.11, preserve the repository's existing approach; an explicit `class Status(str, Enum)` can represent string values, but its `str()` and formatting behavior are not automatically identical to standard-library `StrEnum`.
 

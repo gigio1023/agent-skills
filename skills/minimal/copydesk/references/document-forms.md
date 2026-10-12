@@ -4,6 +4,20 @@ Use when choosing or revising a document's structure. Begin with the reader's ta
 
 Use the shared noun-phrase heading, compact-cell, and focused-visual defaults across these forms. Vary the explanation and reading order by purpose. A factual record's brevity is not a reason to omit mechanisms from a guide or reasons from a proposal. [Information design](information-design.md) covers the choice between paragraphs, lists, tables, and visuals.
 
+## Contents
+
+- [Guide or explanation for a new reader](#guide-or-explanation-for-a-new-reader)
+- [Decision memo or proposal](#decision-memo-or-proposal)
+- [Post, essay, or personal account](#post-essay-or-personal-account)
+- [Technical report or experiment report](#technical-report-or-experiment-report)
+- [Design proposal, RFC, or enhancement proposal](#design-proposal-rfc-or-enhancement-proposal)
+- [Delivery brief](#delivery-brief)
+- [Architecture or mechanism explanation](#architecture-or-mechanism-explanation)
+- [Architecture decision record](#architecture-decision-record)
+- [Incident report or postmortem](#incident-report-or-postmortem)
+- [Periodic review or progress report](#periodic-review-or-progress-report)
+- [Project overview, reference, or runbook](#project-overview-reference-or-runbook)
+
 ## Guide or explanation for a new reader
 
 Start with the task or concrete problem that makes the subject useful. Give the reader enough context to follow the first example, then introduce the concept or distinction needed for the next step. A beginner may need a familiar term explained; an experienced reader may need only its nonstandard local meaning.
@@ -47,6 +61,22 @@ Compare plausible alternatives against the same important constraints. Include t
 A compatibility note belongs beside the changed interface, with migration or rollback steps where someone must act. Use separate non-goals only when they prevent a likely consequential misunderstanding or a governing template requires them. Do not enumerate everything the proposal does not attempt. A short project proposal does not inherit Kubernetes' release governance, approval gates, or every production-readiness question; use the relevant technical questions without importing an unrelated organization.
 
 Keep unresolved questions that affect the design, with the evidence or decision needed to resolve them. A list of speculative future features is not an unresolved-questions section. Preserve proposal status, decision history, and supersession when the project uses them; a merged document is not automatically an implemented feature.
+
+## Delivery brief
+
+Use a delivery brief for customer- or deadline-bound product work, when the people who build, accept, and decide need one short page that says what will be delivered, by when, and how acceptance will be judged. It is not a product requirements spec or a set of user stories, and it never replaces the design document: the brief states the promise, and the design document, written with `design-doc` when installed, states how the system meets it. The brief links the technical design and the plan instead of restating them.
+
+Give each part only the length its content needs:
+
+- **Outcome and decision:** what changes for the user or customer when the work lands, and whose decision it serves, by role.
+- **Workflow:** the part of the user's workflow the work touches, as it runs now and as it will run.
+- **Promised behavior and exclusions:** behavior someone can observe and check at acceptance, and the explicit exclusions a reader would otherwise assume are included.
+- **Priorities and deadline:** which promised behavior comes first if time runs short, and the deadline with the commitment it is tied to.
+- **Acceptance:** the evidence that shows each promise is met, such as a run on named data, an evaluation result with its conditions, or a walkthrough of the workflow, and the role that accepts it.
+- **Open decisions:** undecided items as questions, each with what it blocks and who settles it.
+- **Links:** the technical design document and the plan or tracker project.
+
+Write promised behavior as what the user can observe, not as implementation tasks. A behavior whose feasibility rests on an unmeasured bet stays an open decision until a measurement or the accepting role settles it. When the design, a measurement, or the deadline changes what can be delivered, update the promise, exclusions, priorities, and open decisions together. For a learned or judged component, acceptance names the metric, the data it is measured on, and the conditions, not a bare number.
 
 ## Architecture or mechanism explanation
 
