@@ -1,6 +1,6 @@
 # Package ownership and source migration
 
-Since 2026-10-12 this repository is the single pack: [Gigio Pack](https://github.com/gigio1023/gigio-pack) and [Research Credo](https://github.com/gigio1023/research-credo) were imported, their skills merged here, and both repositories archived (see [the 2026-10-12 mapping](#merges-renames-and-new-skills-on-2026-10-12)). The sections below record earlier moves between the three repositories in date order, and their ownership statements describe the arrangement at that time.
+Since 2026-10-12 this repository is the single pack: Gigio Pack and Research Credo were imported, their skills merged here, and both repositories archived (see [the 2026-10-12 mapping](#merges-renames-and-new-skills-on-2026-10-12)). The sections below record earlier moves between the three repositories in date order, and their ownership statements describe the arrangement at that time.
 
 ## Incoming from Gigio Pack
 

@@ -1,4 +1,4 @@
-> Imported on 2026-10-12 from [research-credo](https://github.com/gigio1023/research-credo) at `6217cd0`. Its skills now live under `skills/minimal/` and `skills/additional/` in this repository; the skill links below point at the original repository at that commit. This copy is kept as the source record. This repository, including the imported skills, is [MIT-licensed](../../LICENSE).
+> Imported on 2026-10-12 from research-credo at `6217cd0`. Its skills now live under `skills/minimal/` and `skills/additional/` in this repository; the skill links below point at the skill in this repository that now carries each package's duty; the original repository is archived and private. This copy is kept as the source record. This repository, including the imported skills, is [MIT-licensed](../../LICENSE).
 
 # Research Credo
 
@@ -10,10 +10,10 @@ Only for work aimed at a paper or a publishable research claim, at the essay's b
 
 | Skill | Use it to |
 | --- | --- |
-| [credo-taste](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/credo-taste) | Choose a research direction, decide whether to continue, pivot, or stop, or judge whether a work result could become a paper |
-| [credo-paper-plan](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/credo-paper-plan) | Plan the argument, claim-evidence map, closest prior work, and figures; critique a draft; plan the response to peer reviews |
-| [credo-journal](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/credo-journal) | Record research ideas, predictions, and hindsight |
-| [credo-release](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/credo-release) | Check a paper before submission or release |
+| [credo-taste](../../skills/additional/credo-taste/) | Choose a research direction, decide whether to continue, pivot, or stop, or judge whether a work result could become a paper |
+| [credo-paper-plan](../../skills/additional/credo-paper-plan/) | Plan the argument, claim-evidence map, closest prior work, and figures; critique a draft; plan the response to peer reviews |
+| [credo-journal](../../skills/additional/credo-journal/) | Record research ideas, predictions, and hindsight |
+| [credo-release](../../skills/additional/credo-release/) | Check a paper before submission or release |
 
 Paper claims need evidence appropriate to their type. Abstracts state specific quantitative, theoretical, or qualitative contributions and preserve the assumptions and uncertainty that affect their meaning.
 
@@ -23,11 +23,11 @@ Everyday research and evaluation work, meant to be selected in ordinary tasks, s
 
 | Skill | Use it to |
 | --- | --- |
-| [literature-research](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/literature-research) | Read a paper for a purpose, check prior art for a claim, survey open models or datasets at pinned revisions, and preserve sources |
-| [ml-experiment](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/ml-experiment) | Design, run, or interpret training, adaptation, serving, or reproduction experiments and their training data |
-| [evaluation-design](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/evaluation-design) | Design what an eval measures: failure modes, cases and labels, code checks, judges and their validation, comparison conditions |
-| [evaluation-audit](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/evaluation-audit) | Give a launch, hold, or report verdict on a built eval, judge, harness, scoring change, or result, including results bound for a customer |
-| [evaluation-operations](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/evaluation-operations) | Operate approved evaluation campaigns with durable attempt and result records |
+| [literature-research](../../skills/minimal/literature-research/) | Read a paper for a purpose, check prior art for a claim, survey open models or datasets at pinned revisions, and preserve sources |
+| [ml-experiment](../../skills/minimal/ml-experiment/) | Design, run, or interpret training, adaptation, serving, or reproduction experiments and their training data |
+| [evaluation-design](../../skills/minimal/evaluation-design/) | Design what an eval measures: failure modes, cases and labels, code checks, judges and their validation, comparison conditions |
+| [evaluation-audit](../../skills/minimal/evaluation-audit/) | Give a launch, hold, or report verdict on a built eval, judge, harness, scoring change, or result, including results bound for a customer |
+| [evaluation-operations](../../skills/minimal/evaluation-operations/) | Operate approved evaluation campaigns with durable attempt and result records |
 
 | Request | Owner |
 | --- | --- |
@@ -46,10 +46,10 @@ Adversarial evaluation lives in references inside the evaluation skills rather t
 
 | Skill | Use it to |
 | --- | --- |
-| [praxis-direction](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/praxis-direction) | Sharpen an agenda into one bet, run the failure-mode pass on a new system, or set up and audit the praxis profile |
-| [internal-source-research](https://github.com/gigio1023/research-credo/tree/6217cd0/skills/internal-source-research) | Reconstruct work context from authorized internal sources |
+| [praxis-direction](../../skills/minimal/praxis-direction/) | Sharpen an agenda into one bet, run the failure-mode pass on a new system, or set up and audit the praxis profile |
+| [internal-source-research](../../skills/minimal/internal-source-research/) | Reconstruct work context from authorized internal sources |
 
-The organization track runs when someone asks for it. Its skills are public and generic; what only the organization knows lives in a one-page `praxis-profile.md` in the organization's own workspace, written and read by praxis-direction. The [template](https://github.com/gigio1023/research-credo/blob/6217cd0/skills/praxis-direction/references/profile-template.md) shows the fields with a synthetic example. Nothing from a real organization belongs in this repository.
+The organization track runs when someone asks for it. Its skills are public and generic; what only the organization knows lives in a one-page `praxis-profile.md` in the organization's own workspace, written and read by praxis-direction. The [template](../../skills/minimal/praxis-direction/references/profile-template.md) shows the fields with a synthetic example. Nothing from a real organization belongs in this repository.
 
 Internal research distinguishes mechanical retrieval from source selection, critical reading, and synthesis. The active routing policy owns model and effort choices. Delegation preserves the task's source, provider, and external-action boundaries.
 
@@ -73,7 +73,7 @@ npx --yes skills remove credo-experiment credo-dataset credo-evaluation \
 
 ## Repository boundaries
 
-[Gigio Pack](https://github.com/gigio1023/gigio-pack) owns project purpose, current understanding, constraints, adaptive plans, and continuity across repositories and sessions. [Agent Skills](https://github.com/gigio1023/agent-skills) owns harness operation, prompting, installation, delegation, coding helpers, and artifact production. Research Credo owns research and evaluation methods.
+Gigio Pack owns project purpose, current understanding, constraints, adaptive plans, and continuity across repositories and sessions. [Agent Skills](https://github.com/gigio1023/agent-skills) owns harness operation, prompting, installation, delegation, coding helpers, and artifact production. Research Credo owns research and evaluation methods.
 
 [Migration](migration.md) records the incoming packages, the restructure into eleven skills, and the coordinated publication and installation sequence. The earlier [six-skill diagram](research-credo.svg) is a historical view of the initial collection.
 
