@@ -1,20 +1,7 @@
 ---
 name: work-plan
 description: >
-  Use only when the user explicitly asks for one of four things: to write or
-  revise a plan file for chosen work ("write a plan file for this"); to
-  execute or continue a plan file or a named part ("run the plan", "continue
-  the plan", a plan path, a task ID); to review project work against its
-  intent ("review this against the plan"); or to record or audit a project's
-  durable context, such as PROJECT.md and its instruction links. Plans
-  through the next decision for research, experiments, datasets, documents,
-  and implementation, advances work within the user's direction and resource
-  limits, and reinspects results. Formerly gigio-write-plan,
-  gigio-execute-plan, gigio-review-results, and gigio-project-setup. NOT for
-  starting because a plan file exists or work looks large, automatic
-  end-of-task review, ordinary task tracking, discovery before the goal is
-  clear (find-unknowns, interview), session transfer files (session-handoff),
-  design documents (design-doc), or worktree isolation (git-worktree-setup).
+  Use only when the user explicitly asks to write or revise a plan file for chosen work, to execute or continue a plan file or a named part, to review project work against its intent, or to record or audit a project's durable context such as PROJECT.md: "write a plan file for this", "run the plan", "continue the plan", "review this against the plan", "계획 파일 써줘", "계획 이어서 해줘", "계획대로 됐는지 봐줘". Plans through the next decision for research, experiments, datasets, documents, and implementation. NOT for starting because a plan file exists or work looks large, automatic end-of-task review, ordinary task tracking, discovery before the goal is clear (find-unknowns, interview), session transfer files (session-handoff), design documents (design-doc), or worktree isolation (git-worktree-setup).
 ---
 
 # Work Plan
