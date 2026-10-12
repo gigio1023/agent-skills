@@ -2,7 +2,7 @@
 
 Use this file when current official documentation mentions a feature that may not exist in the installed local stable CLI, or when the user asks about adjacent 1Password developer features.
 
-Checked against official docs on 2026-06-27 and local `op` 2.34.1 help on macOS arm64. On 2026-09-23 the CLI release notes list 2.39.0 (released 2026-08-14) as the current stable, and Environments commands still ship only in beta builds; `op` was not installed, so the local-help column was not re-checked against 2.39.0 help. The MCP Server row was re-checked against the official docs on 2026-09-23. On 2026-10-07 the release notes list 2.40.0 (released 2026-10-01) as the current stable; it adds `op provisioning google sync`, notes that `op run` masking is best effort, and still adds no Environments commands.
+Provenance: checked against official docs and `op` 2.34.1 help on 2026-06-27, with the MCP Server row re-checked against the official docs on 2026-09-23, and against the CLI release notes through 2.40.0 (released 2026-10-01) on 2026-10-07. Through 2.40.0, Environments commands ship only in beta builds; 2.40.0 adds `op provisioning google sync` and notes that `op run` masking is best effort. The local-help column reflects 2.34.1; re-check current `op <command> --help` before relying on a flag.
 
 ## Local Stable vs Official Docs
 

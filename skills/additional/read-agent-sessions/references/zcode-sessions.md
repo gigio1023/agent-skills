@@ -1,6 +1,6 @@
 # Zcode Sessions
 
-Verified by direct query against this machine's database. All conversational data lives in SQLite; there is no JSONL store.
+Verified by direct query on the author's macOS machine on 2026-09-12, with the rollout note added on 2026-09-23 (Zcode version not recorded). All conversational data lives in SQLite; there is no JSONL store.
 
 ## Storage
 

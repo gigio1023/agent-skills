@@ -50,7 +50,7 @@
 
 | Question | What would settle it | Decisions waiting on it | Route | Rule per outcome |
 | --- | --- | --- | --- | --- |
-| [empirical question] | [measurement, trial, or experiment] | [decisions] | [ml-experiment / evaluation-design / plan or design-doc experiment queue] | [user's rule, if given] |
+| [empirical question] | [measurement, trial, or experiment] | [decisions] | [ml-experiment / evaluation-design / work-plan next action / design-doc experiment queue] | [user's rule, if given] |
 
 ## Open or Decide-Later Items
 

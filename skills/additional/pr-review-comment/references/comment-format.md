@@ -12,13 +12,13 @@ This file covers structural anti-patterns and comment shape. For voice, register
 - Methodology descriptions: review tool names, cross-validation process
 - Cross-references between body and inline comments
 - Severity summary tables in the review body
-- Greetings, compliments, requests, softening phrases
+- Filler greetings, generic compliments, filler asks, and softened refusals. Specific praise of the change and genuinely softened questions are allowed; see `voice-and-tone.md` (The First-Order Rule, Hard Bans, Review Body).
 
 ## Tone
 
 Write only the review item itself. Nothing else. Comment on the code, never the developer.
 
-State what the issue is, why it matters, and how to fix it. No greetings. No filler compliments. No evidence-free hedging. No apologies. No filler.
+State what the issue is, why it matters, and how to fix it. No filler greetings. No filler compliments. No evidence-free hedging. No apologies. No filler.
 
 Bad examples:
 - "Could you take a look when you get a chance?" (unnecessary request phrasing)
@@ -38,7 +38,7 @@ Bad examples:
 ```
 ````
 
-Write two or three bullets in that order, one sentence each. Drop the impact bullet when the problem sentence already shows the consequence, or the fix bullet when a suggestion block carries the fix; keep at least two bullets. The order gives each bullet its role, so do not add a title line, bold labels such as `**Issue:**`, or arrows. Add a suggestion block only when the fix is a small line-level replacement. A pure question or a one-line nit in the repo's own `Nit:` style may stay a single line.
+Write two or three bullets in that order, one sentence each; that shape is this pack's default, and a user instruction or the repository's contribution guidelines override it. Drop the impact bullet when the problem sentence already shows the consequence, or the fix bullet when a suggestion block carries the fix; keep at least two bullets. The order gives each bullet its role, so do not add a title line, bold labels such as `**Issue:**`, or arrows. Add a suggestion block only when the fix is a small line-level replacement. A pure question or a one-line nit in the repo's own `Nit:` style may stay a single line.
 
 ## Review Body
 

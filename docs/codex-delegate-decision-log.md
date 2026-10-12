@@ -1,3 +1,5 @@
+> Decision record for the `codex-delegate` skill, kept for the reasons behind its current design. Dated entries describe the tools and evidence at that time; the skill itself is the current contract.
+
 # Codex Delegate Decision Log
 
 ## 2026-07-29: Subagent observability boundary
@@ -59,7 +61,7 @@ Judge each candidate by installation burden, macOS/Linux portability, detached s
 
 | Candidate | What it adds | Why it is not the default |
 | --- | --- | --- |
-| tmux | Detached survival, named sessions, retained pane exit code and signal, manual attach | Adds a PTY and session cleanup, is not installed by default on this Mac, and still cannot detect a hang |
+| tmux | Detached survival, named sessions, retained pane exit code and signal, manual attach | Adds a PTY and session cleanup, is not installed by default on the test machine, and still cannot detect a hang |
 | GNU Screen | Detached survival and logs; already present on macOS | macOS ships an old version, exact exit-state querying is weak, and the existing result file is still required |
 | Task Spooler (`ts`/`tsp`) | Job IDs, per-user queue, slots, status, output, exit code, wait, and process-group cancellation | It is a small manager with a per-user server, has low adoption, has a `ts` name collision on Homebrew, and defaults to one slot |
 | GNU Parallel | Parallel batches and an exit-bearing job log | The foreground orchestrator must still survive; it cannot reconnect to a live job |
@@ -122,7 +124,7 @@ The actual GNU branch was also exercised in the locally available Linux containe
 
 - Cursor Agent discovered the project-local candidate from `.agents/skills`, launched the documented detached script, and verified a ready report.
 - Claude Code first selected the stale global skill with the same name instead of the project symlink. That run used the old foreground and duplicate-file contract. An isolated temporary Claude plugin namespace then loaded the candidate correctly and passed the same test.
-- The stale global copy remains untouched. Before normal Claude Code use, sync or replace `~/.agents/skills/codex-delegate` with the accepted canonical package; do not assume a same-name project symlink wins discovery.
+- The stale global copy was left untouched during the test. A same-name project symlink does not reliably win discovery over a global install, so a global copy has to be synced or replaced with the accepted package before normal use.
 
 ## 2026-08-12: Model and dispatch policy refresh
 
@@ -139,11 +141,11 @@ The actual GNU branch was also exercised in the locally available Linux containe
 
 ### Evidence
 
-The local Codex 0.147.0 model registry lists `priority` as Fast for both Sol and Terra and lists `xhigh` for both models. This Mac's `~/.codex/config.toml` sets `service_tier = "default"`, so the launcher passes `default` explicitly to prevent a global Fast preference from leaking into a delegation.
+The local Codex 0.147.0 model registry lists `priority` as Fast for both Sol and Terra and lists `xhigh` for both models. The test machine's Codex configuration set `service_tier = "default"`, so the launcher passes `default` explicitly to prevent a global Fast preference from leaking into a delegation.
 
-The Terra usage audit deduplicated 460 retained native Codex sessions and found 108 with `originator=codex_exec` between 2026-07-10 and 2026-08-12. Of those, 62 sessions issued 210 actual internal `spawn_agent` calls. Only 13 native threads could be joined unambiguously to retained Claude launch output: six from main-host traces and seven from host-subagent traces, so that split is evidence of both patterns rather than a population ratio.
+An audit of the maintainer's retained Codex sessions found internal `spawn_agent` calls in roughly half of the `codex_exec` sessions. Only a small number of native threads could be joined unambiguously to retained host launch output, from both main-host and host-subagent traces, so that split is evidence of both patterns rather than a population ratio.
 
-The retained Maccheroni run artifacts provide a narrower complete sample: 29 `result.txt` files and all 29 end in `exit=0 handoff=ready`. They record 26 Sol and three Terra runs; 20 xhigh, eight high, and one max effort; and five legacy priority/Fast runs versus 24 default/non-Fast runs. The strongest main-host trace successfully managed groups of three and four plus an explicit resume. The strongest host-side launcher trace started three five-run campaigns whose 15 roots all completed, but the launcher-subagent transcripts ended before the roots and did not receive a reliable completion handoff. A broader directory pass found one Sonnet launcher that started a production-like Sol run and one Sonnet synthetic end-to-end success. In the production-like case, Codex finished ready but the launcher transcript ended while waiting. The main host recovered the run later.
+Retained run artifacts from one personal project give a narrower complete sample: every result file ends in `exit=0 handoff=ready`, and the runs mix Sol and Terra, several efforts, and both service tiers. The strongest main-host trace successfully managed groups of three and four plus an explicit resume. The strongest host-side launcher trace started three five-run campaigns whose 15 roots all completed, but the launcher-subagent transcripts ended before the roots and did not receive a reliable completion handoff. A broader directory pass found one Sonnet launcher that started a production-like Sol run and one Sonnet synthetic end-to-end success. In the production-like case, Codex finished ready but the launcher transcript ended while waiting. The main host recovered the run later.
 
 ### Follow-up
 

@@ -31,6 +31,7 @@ Before each spawn, read the packet and answer three questions: can a worker judg
 
 - Preserve the user's selected effort or the effective session effort for Fable workers when supported. Do not lower it merely because Fable is a subagent. The Fable role assets inherit session effort.
 - Opus 5.5, Opus 5, Sonnet 5.5, and Sonnet 5 retain this pack's `xhigh` default, although Claude Code starts Opus 5.5 and Sonnet 5.5 at `medium` when nothing sets a level. Honor an explicit user choice and verify the actual harness support.
+- The effort floor is this pack's `xhigh` default for below-frontier Anthropic routes such as these; it is adjustable per route, and a model without effort control cannot honor it.
 - Models without effort control, such as Haiku 4.5, remain explicit-request mechanical routes.
 - Runtime modes that change delegation behavior require the current harness contract; an effort name is not portable between providers.
 

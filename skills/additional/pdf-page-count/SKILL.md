@@ -5,7 +5,7 @@ description: >
   meets an exact/minimum/maximum page limit, or the numeric page-count result
   for another workflow. Triggers on "PDF pages", "page count", "몇 페이지",
   and "분량 제한 확인". NOT for creating, editing, rendering, or visually
-  reviewing a PDF; use the PDF skill for those tasks.
+  reviewing a PDF; use a PDF skill, when installed, for those tasks.
 ---
 
 # PDF Page Count
@@ -20,6 +20,8 @@ Return the PDF's numeric page count and, when a limit was supplied, an explicit 
    ```bash
    python3 scripts/count_pdf_pages.py <path-to-pdf>
    ```
+
+   The script needs Python 3.7 or newer (the macOS system `python3` works) and one of the counting backends listed under Gotchas.
 
 3. Treat exit code `0` plus a single integer on stdout as success. Exit code `2` means none of the available backends could determine the count; report the dependency/error message instead of guessing.
 4. Compare the integer to the user's rule:
@@ -39,5 +41,5 @@ If another task changed the source document, count the rebuilt output PDF, not t
 
 - Do not infer pages from filename, file size, source-document pagination, or a viewer thumbnail count.
 - Encrypted or malformed PDFs may fail every backend. Surface the failure; do not report zero pages.
-- The script tries `pypdf`, `pdfinfo`, then macOS `mdls`. If no backend works, install `pypdf` or provide `pdfinfo` rather than rewriting the script during the counting task.
+- The script tries `pypdf`, `pdfinfo`, then macOS `mdls`. If no backend works, report that; installing `pypdf` or `pdfinfo` needs the user's go-ahead. Do not rewrite the script during the counting task.
 - A request to check a limit does not authorize layout compression or content cuts. Offer or perform PDF editing only when asked.

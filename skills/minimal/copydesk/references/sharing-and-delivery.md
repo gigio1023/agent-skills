@@ -1,6 +1,6 @@
 # Sharing and Delivery
 
-Use for publication, a change of audience, or a shared revision that changes sensitive content. Reuse known recipients, access, and authorization from the session. The checks below guide the writer; routine sharing does not require a questionnaire or a fresh approval when the user has already authorized it. The internal examples reflect this author's shared-report preferences, not a universal rule for every genre.
+Use for publication, a change of audience, or a shared revision that changes sensitive content. Reuse known recipients, access, and authorization from the session. The checks below guide the writer; routine sharing does not require a questionnaire or a fresh approval when the user has already authorized it. The internal examples reflect this pack's default shared-report preferences, not a universal rule for every genre.
 
 ## Latest shared copy
 
@@ -27,7 +27,7 @@ Assess company and personal exposure separately using the actual audience and co
 1. Company exposure: private customer details, unresolved security information, unpublished deals, competitor remarks, and confidential coordinates whose disclosure is unnecessary or unauthorized.
 2. Personal exposure: personnel information, unsupported judgments about named colleagues, private motives, and incidental working records that do not belong with these recipients.
 
-For internal sharing the author narrowed an over-eager pass: internal key names were fine, and the substance to tighten was claims whose scope or date was stated more strongly than the record supports (a founding month written as fact when only a quarter was confirmed). Genuine past failures are not deleted because they may have been fixed since.
+For internal sharing, internal key names can stay. Tighten claims whose scope or date is stated more strongly than the record supports, such as a month written as fact when only the quarter is confirmed. Genuine past failures are not deleted because they may have been fixed since.
 
 ### People
 
@@ -51,7 +51,7 @@ Return findings to their original source so the document is not the judge ("지�
 
 ### Depersonalize
 
-- Second-person address and "about my role" framing ("<이름>님께 제안된", "<이름>님의 역할은") become role language: "신규 입사자", "AI Engineer".
+- Second-person address and "about my role" framing ("<이름>님께 제안된", "<이름>님의 역할은") become role language: "검토 담당자", "운영 담당 엔지니어".
 - Wall-clock timestamps that reveal when the author worked become relative gaps; a sentence naming the specific small models used becomes a role description. Generalize; do not leave a hole.
 - Session narration ("복구했다", "헤드리스", "폴백", "빌드 스크립트") moves to a methods appendix in the reader's language, or goes.
 - Statements that assume the conversation ("이번 주", "오늘 푸시", "1차 리포트 대비") become statements verifiable inside the document.

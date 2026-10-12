@@ -1,6 +1,6 @@
 # Tenets
 
-These apply to consequential research-direction decisions; see each skill's Scope. Your own position on each tenet, and where you depart from it, belongs in the owner settings of your project's `AGENTS.md`, not in this file: this file is replaced on reinstall.
+These apply to consequential research-direction decisions; see each skill's Scope. Your own position on each tenet, and where you depart from it, belongs in a section of your project's instruction file (for example `AGENTS.md`), not in this file: this file is replaced on reinstall.
 
 Paraphrased from Nicholas Carlini's writing, mainly [How to win a best paper award](https://nicholas.carlini.com/writing/2026/how-to-win-a-best-paper-award.html) (2026-03-09). Section names in parentheses point to that post unless another source is given. Read the originals; these lines are pointers, not replacements.
 
@@ -57,7 +57,7 @@ T11 adapts the source's demand for specificity to quantitative, theoretical, and
 
 ## Choices the source leaves to you
 
-Record your answers in the owner settings of your project's `AGENTS.md`: whether the paper title truly does not matter; whether one reader (Carlini) or several audiences (editor, reviewer, field) is the right target; how hard to timebox; what your comparative advantage is (T6).
+Record your answers in a section of your project's instruction file (for example `AGENTS.md`): whether the paper title truly does not matter; whether one reader (Carlini) or several audiences (editor, reviewer, field) is the right target; how hard to timebox; what your comparative advantage is (T6).
 
 ## Sources
 

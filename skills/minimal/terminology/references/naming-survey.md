@@ -12,7 +12,7 @@ Pick sources the project's readers would recognize: wide adoption, sustained mai
 
 ## Source quality
 
-AI-generated derivative prose, such as synthetic tutorials, automated paper summaries, and content-farm explainers, is not an authority for a name, even on a familiar platform. Follow its links to a primary source or skip it. AI-tooling projects get extra scrutiny: coined labels in documentation such as that of `opencodex` or `oh my claude code` are not adopted without support from established sources or the implementation. A compound label that maps to no concrete behavior, a renamed ordinary operation, or a circular definition disqualifies the passage. Authorship is not judged from style alone.
+AI-generated derivative prose, such as synthetic tutorials, automated paper summaries, and content-farm explainers, is not an authority for a name, even on a familiar platform. Follow its links to a primary source or skip it. AI-tooling projects get extra scrutiny: a label coined in their documentation is not adopted without support from established sources or the implementation. A compound label that maps to no concrete behavior, a renamed ordinary operation, or a circular definition disqualifies the passage. Authorship is not judged from style alone.
 
 ## Reading
 

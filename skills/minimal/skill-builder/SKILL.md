@@ -96,17 +96,18 @@ Model evaluations are opt-in by this package's workflow policy. Check a changed 
 
 Before requested publication, inventory the intended staged, unstaged, and untracked files; an ordinary diff omits untracked resources. Review the complete intended content, attachments, and history for personal and confidential information, including Git author/committer identities and emails, commit messages, logs, filenames, and URLs. Preserve intentional public attribution. Use synthetic examples that retain the relevant decision; changing a name alone may leave the source identifiable. Structural validation and secret-pattern scans do not establish that a package is safe to publish. Read the [publication privacy guidance](references/workflow-extraction.md#keep-confidential-work-out-of-public-packages) when preparing a public package or handling information already committed; a later redaction commit does not remove earlier exposure.
 
-The validator requires Python 3.10+ and PyYAML (verified with 6.0.3). From the package root, with those dependencies available:
+The validator requires Python 3.10+ and PyYAML (verified with 6.0.3). With those dependencies available, validate the authored package from this skill's directory:
 
 ```bash
-bash scripts/validate_skill.sh .
-bash scripts/smoke_test.sh
+bash scripts/validate_skill.sh <path-to-target-package>
 ```
+
+`bash scripts/smoke_test.sh` tests the validator itself: it runs the validator's regression test and then validates skill-builder. Run it after changing the validator; it does not check the target package.
 
 Missing dependencies produce setup instructions, not automatic installation. When dependency fetching is authorized, an isolated alternative is:
 
 ```bash
-uv run --with PyYAML==6.0.3 bash scripts/validate_skill.sh .
+uv run --with PyYAML==6.0.3 bash scripts/validate_skill.sh <path-to-target-package>
 uv run --with PyYAML==6.0.3 bash scripts/smoke_test.sh
 ```
 

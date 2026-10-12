@@ -8,6 +8,11 @@ the PREVIOUS file were in scope for the named revision, and reports any
 protected block that did not survive byte-identical into REVISED -- plus
 anything new that showed up outside the named scope. It never rewrites either
 file and always exits 0; it is evidence for the writer to read, not a gate.
+
+A heading line belongs to its own section, so --allow "Results" also covers an
+edit to the "## Results" line. An --allow-lines range without a prefix applies
+to the same line numbers in both files; prefix it with "previous:" or
+"revised:" when the edit shifts line numbers.
 """
 
 from __future__ import annotations
@@ -48,7 +53,10 @@ def classify(first_line: str, whole_text: str) -> str:
 
 
 def split_blocks(text: str) -> list[Block]:
-    """Blank lines separate blocks, except a fenced code block stays one block despite internal blank lines."""
+    """Blank lines separate blocks, except a fenced code block stays one block despite internal blank lines.
+
+    Each block records the heading that governs it; a heading block governs itself.
+    """
     lines = text.splitlines()
     n = len(lines)
     blocks: list[Block] = []
@@ -76,16 +84,24 @@ def split_blocks(text: str) -> list[Block]:
         block_lines = lines[start : end + 1]
         block_text = "\n".join(block_lines)
         kind = classify(block_lines[0], block_text)
-        heading_for_block = current_heading
-        blocks.append(Block(start + 1, end + 1, block_text, kind, heading_for_block))
         if kind == "heading":
             current_heading = block_lines[0].lstrip(HEADING_RE_PREFIX).strip()
+        blocks.append(Block(start + 1, end + 1, block_text, kind, current_heading))
     return blocks
 
 
-def parse_line_range(spec: str) -> tuple[int, int]:
-    a, _, b = spec.partition("-")
-    return int(a), int(b or a)
+LINE_RANGE_SIDES = ("previous", "revised")
+
+
+def parse_line_range(spec: str) -> tuple[str, int, int]:
+    """Parse "A-B", "previous:A-B", or "revised:A-B"; an unprefixed range applies to both files."""
+    side, sep, numbers = spec.partition(":")
+    if not sep:
+        side, numbers = "both", spec
+    elif side not in LINE_RANGE_SIDES:
+        raise argparse.ArgumentTypeError(f"unknown file prefix {side!r}; use previous: or revised:")
+    a, _, b = numbers.partition("-")
+    return side, int(a), int(b or a)
 
 
 def is_allowed(block: Block, allow_terms: list[str], allow_ranges: list[tuple[int, int]]) -> bool:
@@ -120,7 +136,11 @@ def build_report(
     revised_text: str,
     allow_terms: list[str],
     allow_ranges: list[tuple[int, int]],
+    revised_ranges: list[tuple[int, int]] | None = None,
 ) -> str:
+    """allow_ranges are line numbers in PREVIOUS; revised_ranges are line numbers in REVISED and default to allow_ranges."""
+    if revised_ranges is None:
+        revised_ranges = allow_ranges
     prev_blocks = split_blocks(previous_text)
     rev_blocks = split_blocks(revised_text)
     rev_texts = {b.text for b in rev_blocks}
@@ -130,7 +150,7 @@ def build_report(
     changed = [b for b in protected if b.text not in rev_texts]
 
     added_candidates = [b for b in rev_blocks if b.text not in prev_texts]
-    added = [b for b in added_candidates if not is_allowed(b, allow_terms, allow_ranges)]
+    added = [b for b in added_candidates if not is_allowed(b, allow_terms, revised_ranges)]
 
     removed = [b for b in prev_blocks if b.text not in rev_texts]
     removed_counts: dict[str, int] = {}
@@ -182,14 +202,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="append",
         default=[],
         metavar="HEADING_TEXT",
-        help="heading text (case-insensitive substring) whose blocks are in scope; repeatable",
+        help="heading text (case-insensitive substring) whose section, heading line included, is in scope; repeatable",
     )
     parser.add_argument(
         "--allow-lines",
         action="append",
         default=[],
-        metavar="A-B",
-        help="line range (in the PREVIOUS/REVISED file it applies to) that is in scope; repeatable",
+        type=parse_line_range,
+        metavar="[previous:|revised:]A-B",
+        help=(
+            "line range that is in scope; repeatable. Without a prefix the same numbers apply to both files: "
+            "PREVIOUS blocks overlapping A-B are not protected and new REVISED blocks overlapping A-B are not "
+            "reported as added. Use previous:A-B and revised:C-D when the edit changes the line count."
+        ),
     )
     return parser.parse_args(argv)
 
@@ -200,8 +225,9 @@ def main(argv: list[str] | None = None) -> int:
         previous_text = f.read()
     with open(args.revised, encoding="utf-8") as f:
         revised_text = f.read()
-    allow_ranges = [parse_line_range(spec) for spec in args.allow_lines]
-    report = build_report(previous_text, revised_text, args.allow, allow_ranges)
+    previous_ranges = [(lo, hi) for side, lo, hi in args.allow_lines if side != "revised"]
+    revised_ranges = [(lo, hi) for side, lo, hi in args.allow_lines if side != "previous"]
+    report = build_report(previous_text, revised_text, args.allow, previous_ranges, revised_ranges)
     print(report)
     return 0  # evidence for the writer to read, not a gate
 

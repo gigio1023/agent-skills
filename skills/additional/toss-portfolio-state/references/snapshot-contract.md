@@ -93,7 +93,7 @@ Full market context additionally calls orderbook, trades, candles, rankings, mar
 
 ## Snapshot Schema
 
-The output object is named `toss_portfolio_snapshot` and uses this top-level field set:
+The output object is named `toss_portfolio_snapshot`. The fetcher emits exactly these top-level fields:
 
 ```json
 {
@@ -103,6 +103,7 @@ The output object is named `toss_portfolio_snapshot` and uses this top-level fie
   "api": {},
   "account": {},
   "read_only_endpoints_called": [],
+  "mutating_endpoints_blocked": [],
   "buying_power": {},
   "sellable_quantities": [],
   "commissions": [],
@@ -120,15 +121,35 @@ The output object is named `toss_portfolio_snapshot` and uses this top-level fie
 }
 ```
 
+Nested fields the fetcher defines:
+
+- `api`: `base_url`, `openapi_version`, `official_sources[]`, `market_context_mode`.
+- `account`: `alias`, `account_count`, `selected_type`, `account_no_masked`.
+- `read_only_endpoints_called[]` and `mutating_endpoints_blocked[]`: `METHOD /path` strings. The second list records the order and conditional-order write endpoints the fetcher refuses to call.
+- `buying_power`: `KRW`, `USD`.
+- `sellable_quantities[]`: `symbol`, `sellable_quantity`.
+- `market_calendar`: `KR`, `US`.
+- `holdings_overview`: `total_purchase_amount`, `market_value`, `profit_loss`, `daily_profit_loss`.
+- `holdings[]`: `symbol`, `name`, `market_country`, `currency`, `quantity`, `average_purchase_price`, `last_price`, `purchase_amount`, `market_value`, `market_value_after_cost`, `profit_loss`, `profit_loss_after_cost`, `profit_loss_rate_pct`, `profit_loss_rate_after_cost_pct`, `daily_profit_loss`, `daily_profit_loss_rate_pct`, `commission`, `tax`.
+- `open_orders`: `count`, `orders[]`.
+- `open_orders.orders[]` and `recent_closed_orders[]`: `ordered_at`, `canceled_at`, `symbol`, `side`, `status`, `order_type`, `time_in_force`, `currency`, `price`, `quantity`, `order_amount`, `filled_quantity`, `average_filled_price`, `filled_amount`, `commission`, `tax`, `filled_at`, `settlement_date`.
+- `closed_orders_window`: `from`, `to`, `count`, `filled_count`, `buy_count`, `sell_count`.
+- `conditional_orders`: `open_count`, `closed_count`, `recent_closed_count`, `open[]`, `recent_closed[]`.
+- `conditional_orders.open[]` and `conditional_orders.recent_closed[]`: `type`, `status`, `symbol`, `market`, `quantity`, `order_type`, `expire_date`, `created_at`, `first`, `second`. Each of `first` and `second` is `null` or holds `type`, `status`, `trigger_price`, `target_profit_rate`, `order_price`.
+- `market_context`: `mode` and `symbols[]` always. `basic` and `full` add `stock_info`, `stock_warnings`, `prices`, `price_limits`, and `market_indicators` (`symbols`, `prices`). `full` also adds `orderbooks`, `trades`, `candles`, `rankings`, and `market_indicators.candles` and `market_indicators.investor_trading`.
+- `source_provenance[]`: `source`, `retrieved_at_utc`, `freshness`, `redaction`, `trust_boundary`.
+- `warnings[]`: strings.
+
+`commissions`, `exchange_rate`, `market_calendar.KR` and `market_calendar.US`, and the per-symbol and per-ranking payloads inside `market_context` carry the broker's result objects as returned, so their inner fields follow the Toss API schema rather than this contract. The fetcher still redacts any key that names a token, secret, authorization, account number, or order ID in those objects, and removes known credential, token, account-number, and order-ID values from every string.
+
 Field rules:
 
-- `account.account_no_masked` may show a short masked prefix/suffix but never the raw account number.
+- `account.account_no_masked` shows only the last four characters after `***`, such as `***1234`, and never the raw account number. An account number of six or fewer characters is reported as `configured`.
 - Money and quantity values remain strings to avoid decimal precision loss.
 - `holdings[].symbol`, `name`, `market_country`, `currency`, `quantity`, `average_purchase_price`, `last_price`, `market_value`, `market_value_after_cost`, `profit_loss_after_cost`, and `profit_loss_rate_pct` are the portable holding fields.
-- `recent_closed_orders[]` omits broker order IDs and keeps only timestamp, symbol, side, status, currency, quantity, filled quantity, average filled price, filled amount, commission, tax, and settlement date.
-- `open_orders.orders[]` follows the same redaction rule and is included because open orders can block personal action readiness.
-- `conditional_orders.open[]` and `conditional_orders.recent_closed[]` omit conditional order IDs, client order IDs, triggered order IDs, and raw API envelopes. They may include normalized trigger prices, target rates, status, quantity, and expiry because those are personal state.
-- `market_context` may be `none`, `basic`, or `full`; full mode can be larger and should not be written durably without user approval.
+- Order entries omit broker order IDs. Open orders are included because they can block personal action readiness.
+- Conditional order entries omit conditional order IDs, client order IDs, triggered order IDs, and raw API envelopes. Their trigger prices, target rates, status, quantity, and expiry stay because those are personal state.
+- `market_context.mode` is `none`, `basic`, or `full`; full mode can be larger and should not be written durably without user approval.
 - `warnings[]` records missing optional endpoints, schema drift, empty accounts, stale windows, or fields that should block downstream judgment.
 
 ## Freshness And Provenance

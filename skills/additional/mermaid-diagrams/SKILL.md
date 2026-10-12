@@ -7,8 +7,9 @@ description: |
   diagrams, architecture diagrams, diagram refactors, and readability fixes:
   type selection, reader-first layout, parser-safe syntax, palettes and
   dark-mode-safe styling, renderer compatibility, density control, and render
-  validation. NOT for figures delivered as images in documents or posts (use
-  technical-figure) or draw.io native XML authoring (use drawio-diagram).
+  validation. NOT for figures delivered as images in documents or posts, or
+  draw.io native XML authoring (technical-figure or drawio-diagram from the
+  gigio-figures repository, when installed).
 ---
 
 # Mermaid Diagrams
@@ -52,6 +53,8 @@ The five failures that dominate real-world broken diagrams:
    ```
 
    Render failure blocks; fix and rerun. Density warnings start a visual look, not automatic deletion. Then inspect the rendered output (or host preview) for clipping, literal `\n`, unreadable crossings, and reading order.
+
+   The render script needs Node 22.13+ for mermaid-cli 12 (`renderer-compat.md`) and downloads mermaid-cli and a headless Chromium through `npx -y` on its first run; without Node, network access, or that download, report the syntax review and the visual check as separate claims and state that the render did not run.
 
    The validator renders with Mermaid 12, as GitHub does; set `MERMAID_CLI_VERSION=11.17.0` for a v11 host such as GitLab or VS Code. Validate against the requested destination, or the documented safe subset when it is unknown. After parsing and visual checks pass, finish; expand to other renderers only when another destination is required or a specific compatibility failure remains.
 

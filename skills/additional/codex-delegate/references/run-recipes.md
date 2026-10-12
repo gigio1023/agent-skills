@@ -158,7 +158,7 @@ A local exclusion does not change repository policy and does not stop non-Git di
 
 ## Contract fixture
 
-From the skill root:
+Run these from the skill root with `node` on `PATH`. The contract test calls Node.js directly, so Bun alone does not run it.
 
 ```bash
 CODEX_DELEGATE_KEEP_FIXTURES=yes bash scripts/test-run-contract.sh

@@ -15,12 +15,19 @@ from pathlib import Path
 CONFLICT = re.compile(r"^(<<<<<<<|=======|>>>>>>>)")
 TODO = re.compile(r"\b(TODO|FIXME|XXX)\b")
 TODO_MACRO = re.compile(r"\\(todo|fixme)\b")
+# The macro name being defined, e.g. \renewcommand{\todo}[1]{} (the disabled form) or \def\todo#1{}.
+TODO_DEFINITION = re.compile(r"\\(?:(?:(?:re)?new|provide)command\*?\s*\{?\s*|def\s*)\\(?:todo|fixme)\b")
 WORD = re.compile(r"[A-Za-z][A-Za-z'-]*")
 INPUT = re.compile(r"\\(?:input|include)\{([^}]+)\}")
 TITLE = re.compile(r"\\title(?:\[[^\]]*\])?\{(.*?)\}", re.S)
 ABSTRACT = re.compile(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", re.S)
 DOUBLE_DOT = re.compile(r"(?<!\.)\.\.(?!\.)")
-LOG_WORDS = re.compile(r"\b(error|warning|undefined|missing)\b", re.I)
+# LaTeX log forms: "! ..." errors, "file:line: ..." errors under -file-line-error,
+# "LaTeX/Package/Class ... Warning:" and "pdfTeX warning" lines, "Missing character:" font notices.
+LOG_ERROR = re.compile(r"^!\s|^\S+\.\w+:\d+:\s")
+LOG_WARNING = re.compile(r"\b(?:LaTeX|Package|Class)\b[^:]{0,40} Warning:|\bpdfTeX warning\b|^Missing character:")
+LOG_UNDEFINED_REF = re.compile(r"\b(?:Reference|Citation)\b.*\bundefined\b|\bundefined (?:references|citations)\b", re.I)
+LOG_BANNER = re.compile(r"^(?:Package|File|Document Class):\s")
 ACK = re.compile(r"acknowledg", re.I)
 
 
@@ -82,7 +89,7 @@ def check(root: Path, blind: bool, authors: list[str]) -> tuple[list[tuple[str, 
                 continue
             if TODO.search(code):
                 findings.append(("error", f"{rel}:{n}", "TODO/FIXME/XXX text"))
-            if TODO_MACRO.search(code):
+            if TODO_MACRO.search(TODO_DEFINITION.sub("", code)):
                 findings.append(("error", f"{rel}:{n}", "author note macro (\\todo)"))
             words = WORD.findall(code)
             for a, b in zip(words, words[1:]):
@@ -100,13 +107,23 @@ def check(root: Path, blind: bool, authors: list[str]) -> tuple[list[tuple[str, 
 
 
 def scan_log(log: Path) -> list[tuple[str, str, str]]:
-    """Report build-log lines containing error, warning, undefined, or missing."""
+    """Report LaTeX error lines, warning lines, and missing-character notices from a build log.
+
+    Errors and undefined references or citations are errors; other warnings are warnings.
+    Package, File, and Document Class banner lines are skipped even when their description
+    mentions errors or warnings (for example the infwarerr package banner).
+    """
     out: list[tuple[str, str, str]] = []
     for n, line in enumerate(log.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
-        words = {w.lower() for w in LOG_WORDS.findall(line)}
-        if words:
-            sev = "error" if words & {"error", "undefined"} else "warning"
-            out.append((sev, f"{log}:{n}", f"build log: {line.strip()[:160]}"))
+        if LOG_BANNER.match(line):
+            continue
+        if LOG_ERROR.search(line):
+            sev = "error"
+        elif LOG_WARNING.search(line):
+            sev = "error" if LOG_UNDEFINED_REF.search(line) else "warning"
+        else:
+            continue
+        out.append((sev, f"{log}:{n}", f"build log: {line.strip()[:160]}"))
     return out
 
 
@@ -115,7 +132,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("root", help="root .tex file")
     ap.add_argument("--blind", action="store_true", help="fail if any --author name appears in the text")
     ap.add_argument("--author", action="append", default=[], help="author name to search for with --blind (repeatable)")
-    ap.add_argument("--log", help="LaTeX build log to scan for error/warning/undefined/missing")
+    ap.add_argument("--log", help="LaTeX build log to scan for error, warning, and missing-character lines")
     args = ap.parse_args(argv)
     root = Path(args.root)
     if not root.is_file():

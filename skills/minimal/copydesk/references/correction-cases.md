@@ -1,74 +1,74 @@
 # 교정 사례
 
-이 사례들은 사용자가 한국어 기술 문서에서 반복해서 고친 문장 유형을 실제 교정 기록에서 뽑아 합성으로 다시 쓴 것이며, 사용자 발화 인용만 원문이다. 비슷한 교정 문제가 있을 때 해당 사례만 읽는다. 아래 추가 근거는 각 합성 입력의 일부이며 실패한 문장만으로 추론할 수 있는 사실이 아니다. 원문만 받은 교정에서는 그 근거를 지어내지 않는다.
+아래 사례는 한국어 기술 문서에서 반복되는 교정 유형을 보여 주는 합성 사례다. 계기는 요청의 요지를 옮긴 것이며 실제 대화의 인용이 아니다. 비슷한 교정 문제가 있을 때 해당 사례만 읽는다. 아래 추가 근거는 각 합성 입력의 일부이며 실패한 문장만으로 추론할 수 있는 사실이 아니다. 원문만 받은 교정에서는 그 근거를 지어내지 않는다.
 
 ### 삭제된 읽기 안내의 재생
 
-**계기**: 사용자가 읽는 길과 학습 목표를 직접 지운 뒤 "기초 이론은 Collapse하고, 펴서 볼 수 있도록 가이드"를 요청했다.
+**계기**: 사용자가 읽는 길과 학습 목표를 직접 지운 뒤, 기초 이론은 접어 두고 필요한 독자가 펼쳐 볼 수 있게 해 달라고 요청했다.
 
-**실패한 문장**: "기초 읽기: vector projection이 낯설면 기초 1부터, Transformer 구조가 궁금하면 기초 2~4를 펼쳐 본다." toggle 제목은 "처음 읽는다면 여기부터".
+**실패한 문장**: "기초 읽기: 선형대수가 낯설면 기초 1부터, 센서 신호 용어가 궁금하면 기초 2~4를 펼쳐 본다." toggle 제목은 "처음 읽는다면 여기부터".
 
-**합성 입력의 추가 근거**: 설명 대상에는 residual stream에 쓰는 `o_proj`, `down_proj`와 refusal direction 제거 방법이 이미 포함돼 있다.
+**합성 입력의 추가 근거**: 설명 대상에는 채널별 reading을 시점마다 하나의 vector로 모으는 방식과 projection으로 공통 성분을 지우는 방법이 이미 포함돼 있다.
 
-**고친 문장**: toggle 제목 "Residual stream에 쓰는 행렬". 첫 문장: "Attention과 FFN의 출력은 `o_proj`와 `down_proj`를 거쳐 residual stream에 더해지므로, refusal direction을 지우려면 이 두 행렬의 weight를 편집한다."
+**고친 문장**: toggle 제목 "채널 reading의 vector 표현". 첫 문장: "채널 $C$개의 reading을 시점마다 길이 $C$인 vector로 모으면 모든 채널에 함께 실리는 drift는 $\mathbf{1}$ 방향의 성분이 되므로, 공통 성분을 지우려면 이 방향으로의 projection을 뺀다."
 
 **판정**: 접힌 절의 제목과 첫 문장이 내용을 말하게 하고, 언제 펼칠지 안내하는 문장은 어느 자리에도 다시 쓰지 않는다.
 
 ### 지시문의 본문 이식
 
-**계기**: "최신인게 가장 위에", "pr 항상 as-is, to-be를 명확하게".
+**계기**: 사용자가 표를 최신 항목이 위로 오게 정렬하고, PR 본문에서 as-is와 to-be를 분명히 나눠 달라고 했다.
 
-**실패한 문장**: "Source artifact의 기록 날짜 기준 최신순이다." "이 PR은 as-is와 to-be를 명확히 구분해 설명한다."
+**실패한 문장**: "Release 표는 배포 날짜 기준 최신순이다." "이 PR은 as-is와 to-be를 명확히 구분해 설명한다."
 
-**합성 입력의 추가 근거**: 합성 diff에서 기존 구현은 judge 호출이 실패한 row를 건너뛰며 변경 구현은 `unscorable`로 기록해 별도 집계한다.
+**합성 입력의 추가 근거**: 합성 diff에서 기존 구현은 환율 조회가 실패한 invoice를 건너뛰며 변경 구현은 `pending_rate`로 기록해 별도 집계한다.
 
-**고친 문장**: 표를 날짜 내림차순으로 둔다. PR 본문: "As-is: judge 호출이 실패하면 그 row를 건너뛴다. To-be: 실패한 row를 `unscorable`로 기록하고 집계에서 따로 센다."
+**고친 문장**: 표를 날짜 내림차순으로 둔다. PR 본문: "As-is: 환율 조회가 실패하면 그 invoice를 건너뛴다. To-be: 실패한 invoice를 `pending_rate`로 기록하고 월간 집계에서 따로 센다."
 
 **판정**: 사용자 지시는 문서를 바꾸는 작업으로 실행하고, 지시 내용을 설명하는 문장은 만들지 않는다.
 
 ### 검토 단서의 본문 유입
 
-**계기**: subagent 검토의 표본 수 단서가 3분 뒤 본문 callout이 됐고, 사용자는 "이런류의 문장은 아예 쓰지말고 제거"라고 했다.
+**계기**: subagent 검토가 남긴 표본 수 단서가 몇 분 뒤 본문 callout이 됐고, 사용자는 이런 유형의 문장은 쓰지 말고 지워 달라고 했다.
 
-**실패한 문장**: "Stored result row를 independent sample이나 verified label로 세지 않는다."
+**실패한 문장**: "저장된 측정 row를 독립 표본이나 검증된 결과로 세지 않는다."
 
-**합성 입력의 추가 근거**: 합성 결과표에는 target LLM answer 8건과 judge configuration 12개의 모든 조합이 기록돼 있다.
+**합성 입력의 추가 근거**: 합성 결과표에는 검색 query 8개와 index configuration 12개의 모든 조합이 기록돼 있다.
 
-**고친 문장**: "Result row 96개는 target LLM answer 8건을 judge configuration 12개로 각각 채점한 결과다."
+**고친 문장**: "측정 row 96개는 검색 query 8개를 index configuration 12개에서 각각 실행한 결과다."
 
 **판정**: 검토 단서는 수치를 점검할 이유로만 쓰고, 본문에는 그 수치가 무엇과 무엇의 곱인지 쓴다.
 
 ### 부정형 정의로 대신한 설명
 
-**계기**: "설명한 척"이라는 지적 뒤 추가된 문단을 두고 "하나도 영양가 없어".
+**계기**: 설명하는 척만 한다는 지적 뒤에 문단이 추가됐고, 사용자는 그 문단에서 독자가 얻는 정보가 없다고 했다.
 
-**실패한 문장**: "평가 대상은 response를 생성한 model이 아니라 그 response를 채점하는 judge다. Label 자체에 대한 독립 검토는 남아 있다."
+**실패한 문장**: "평가 대상은 메시지를 보낸 계정이 아니라 그 메시지를 분류하는 classifier다. Label 자체에 대한 독립 검토는 남아 있다."
 
-**합성 입력의 추가 근거**: 합성 설계에는 같은 target LLM answer를 여러 judge configuration으로 채점하고 reference label과 비교한다는 절차, agreement와 false-safe 사례 출력이 있다. Reference label의 독립 검토는 아직 끝나지 않았다.
+**합성 입력의 추가 근거**: 합성 설계에는 같은 메시지 묶음을 여러 classifier configuration으로 분류하고 moderator label과 비교한다는 절차, agreement와 놓친 spam 사례 출력이 있다. Moderator label의 독립 검토는 아직 끝나지 않았다.
 
-**고친 문장**: "Judge meta-evaluation은 같은 target LLM answer를 여러 judge configuration에 채점시키고, 각 judge prediction을 reference label과 비교한다. 결과는 configuration별 agreement와 label이 `harmful`인데 prediction이 `safe`인 사례 목록이다. Reference label의 독립 검토는 아직 끝나지 않았다."
+**고친 문장**: "Spam classifier 평가는 같은 메시지 묶음을 여러 classifier configuration으로 분류하고, 각 classifier prediction을 moderator label과 비교한다. 결과는 configuration별 agreement와 label이 `spam`인데 prediction이 `ham`인 사례 목록이다. Moderator label의 독립 검토는 아직 끝나지 않았다."
 
 **판정**: 입력, 판정, 출력을 설명한다. Label의 검토 상태처럼 결과 해석을 바꾸는 조건은 남긴다. 독자의 이해나 행동에 영향을 주지 않는 검토 과정만 덜어낸다.
 
 ### 생산자 없는 명칭
 
-**계기**: "뭐에 대한 response인데? llm의 단건 응답? 최종 응답? 혹은 tool calling 한번?", "대체 뭐에 대한 judge이고 뭐에 대한 rubric".
+**계기**: 사용자가 비교하는 결과가 메시지 하나에 대한 것인지 대화 thread 전체에 대한 것인지, 그리고 rubric이 누구의 무엇을 판정하는 기준인지 되물었다.
 
-**실패한 문장**: "실제 response와 기존 judge output을 비교한다. v3 자료로 rubric v3를 검증한다."
+**실패한 문장**: "실제 판정과 기존 model output을 비교한다. rev-b 자료로 rubric rev-b를 검증한다."
 
-**합성 입력의 추가 근거**: 합성 데이터 명세에는 single-turn target LLM answer, reference label, harmfulness judge prediction, rubric revision `rev-b`가 구분돼 있다.
+**합성 입력의 추가 근거**: 합성 데이터 명세에는 개별 메시지마다 붙은 moderator label, spam classifier prediction, moderator labeling rubric의 revision `rev-b`가 구분돼 있다.
 
-**고친 문장**: "Target LLM의 single-turn answer마다 붙은 reference label을 harmfulness judge의 prediction과 비교한다. 판정 기준은 harmfulness judge rubric이며 내부 revision `rev-b`는 조회용으로 병기한다."
+**고친 문장**: "개별 메시지마다 붙은 moderator label을 spam classifier의 prediction과 비교한다. 판정 기준은 moderator labeling rubric이며 내부 revision `rev-b`는 조회용으로 병기한다."
 
 **판정**: 명칭에 평가 단위, 생산자, 역할을 넣고 version은 뒤에 붙는 조회용 식별자로 둔다.
 
 ### 예시의 확정 대상 승격
 
-**계기**: "CVEBench와 AgentDojo는 예시야. 마치 이거 두개를 타겟하는것처럼 하지말아줘".
+**계기**: 사용자가 pgbench와 sysbench는 예시일 뿐이며 이 둘을 목표로 정한 것처럼 쓰지 말라고 했다.
 
-**실패한 문장**: 절 제목 "시작할 benchmark", 본문 "CVE-Bench와 AgentDojo를 먼저 실행하며 evaluation harness를 구축한다."
+**실패한 문장**: 절 제목 "시작할 benchmark", 본문 "pgbench와 sysbench를 먼저 실행하며 측정 환경을 구축한다."
 
-**고친 문장**: "CVE-Bench와 AgentDojo는 harness 검증에 사용할 수 있는 benchmark 예시다."
+**고친 문장**: "pgbench와 sysbench는 측정 환경 검증에 쓸 수 있는 benchmark 예시다."
 
 **판정**: 예시라는 지위를 복원하고 절 제목과 그림 label도 맞춘다. 사용자가 주지 않은 선정 기준이나 실행 순서는 추가하지 않는다.
 
@@ -76,68 +76,68 @@
 
 **계기**: 사용자가 자기 제안이라고 밝힌 문서에서 작성자 표현을 지우라고 했다.
 
-**실패한 문장**: 첫 판 "1부. 내가 제안하는 평가", 다음 판 "평가 방향은 팀 내에서 논의 중이며 아직 확정되지 않았다."
+**실패한 문장**: 첫 판 "1부. 내가 제안하는 cache 실험", 다음 판 "Cache 정책은 팀 내에서 논의 중이며 아직 확정되지 않았다."
 
-**합성 입력의 추가 근거**: 합성 제안의 내용은 scaffold와 task set을 고정한 model 비교이며 task 성공률과 호출 비용을 기록한다. 팀의 논의나 승인은 주어지지 않았다.
+**합성 입력의 추가 근거**: 합성 제안의 내용은 workload와 서버 구성을 고정한 cache eviction 정책 비교이며 hit rate와 p99 latency를 기록한다. 팀의 논의나 승인은 주어지지 않았다.
 
-**고친 문장**: 절 제목 "Agent safety 평가 설계 제안". 본문: "첫 비교는 agent scaffold를 고정하고 model만 바꾼다. 같은 task set에서 task 성공률과 호출 비용을 기록한다."
+**고친 문장**: 절 제목 "Cache eviction 정책 비교 실험 제안". 본문: "첫 비교는 workload와 서버 구성을 고정하고 eviction 정책만 바꾼다. 같은 request trace에서 hit rate와 p99 latency를 기록한다."
 
 **판정**: 제안 지위는 제목이나 metadata에서 한 번 밝히고, 본문은 제안 내용을 평서문으로 쓰며 없는 논의를 만들지 않는다.
 
 ### 축약 요청 뒤 mechanism 삭제
 
-**계기**: "이론 설명은 좋긴한데 너무 길어" 뒤 figure와 수식의 대부분이 사라졌고, 사용자는 "상세한 figure나 이론 설명들이 너무 많이 덜어진거 같은데 이런것들은 유지"라고 했다.
+**계기**: 이론 설명이 너무 길다는 요청 뒤 figure와 수식의 대부분이 사라졌고, 사용자는 상세한 figure와 이론 설명은 유지해 달라고 했다.
 
-**실패한 문장**: "Refusal direction은 harmful prompt와 harmless prompt의 activation 차이다. 이 방향을 weight에서 제거하면 거부가 줄어든다."
+**실패한 문장**: "공통 성분은 모든 채널에 함께 실리는 drift다. 이 성분을 reading에서 빼면 drift가 줄어든다."
 
-**합성 입력의 추가 근거**: 보존 요청의 대상인 기존 설명에 평균 activation의 차이를 정규화하는 정의와 weight projection 수식이 들어 있다.
+**합성 입력의 추가 근거**: 보존 요청의 대상인 기존 설명에 채널 평균으로 공통 성분을 정의하는 식과 projection 행렬 수식이 들어 있다.
 
-**고친 문장**: "Layer $l$에서 harmful prompt의 평균 activation $\mu^{+}$에서 harmless prompt의 평균 $\mu^{-}$를 빼고 정규화해 $\hat r$을 얻는다. Residual stream에 쓰는 행렬마다 $W \leftarrow W - \hat r \hat r^{\top} W$를 적용하면 어떤 입력에서도 그 행렬의 출력에 $\hat r$ 성분이 남지 않는다."
+**고친 문장**: "시점 $t$의 채널 reading vector $x_t \in \mathbb{R}^{C}$에서 공통 성분은 채널 평균 $\bar x_t = \frac{1}{C}\mathbf{1}^{\top} x_t$이다. $P = I - \frac{1}{C}\mathbf{1}\mathbf{1}^{\top}$을 적용해 $\tilde x_t = P x_t$를 얻으면 어느 시점에서도 $\tilde x_t$의 채널 평균이 0이 되어 모든 채널에 함께 실린 성분이 남지 않는다."
 
 **판정**: 축약 요청에는 읽기 안내, 반복, 과정 서술, 망라 목록을 지우고 mechanism, 수식, 주제 그림, 확정된 예시는 남긴 뒤 직전 판본과 diff해 확인한다.
 
 ### 주제와 무관한 첫 그림
 
-**계기**: "너무 기초라서 사실 refusal research와는 좀 관련없어보여".
+**계기**: 사용자가 첫 그림이 너무 기초적이어서 문서 주제와 관련이 없어 보인다고 했다.
 
-**실패한 문장**: "그림 1. Transformer block의 attention, FFN, residual 연결"
+**실패한 문장**: "그림 1. 센서 배열의 채널 배치와 ADC 신호 경로"
 
-**합성 입력의 추가 근거**: 합성 문서의 주제는 activation 차이에서 refusal direction을 추출하고 write 행렬을 편집한 뒤 refusal rate와 일반 benchmark 점수를 원본과 비교하는 방법이다.
+**합성 입력의 추가 근거**: 합성 문서의 주제는 채널 평균으로 공통 성분을 추정하고 projection으로 지운 뒤, 남은 drift와 이상 탐지 recall을 원본 reading과 비교하는 방법이다.
 
-**고친 문장**: "그림 1. Refusal direction의 추출, 제거, 평가. Harmful과 harmless prompt의 activation 차이로 방향을 구하고, write 행렬에서 그 성분을 지운 뒤, refusal rate와 일반 benchmark 점수를 원본 model과 비교한다."
+**고친 문장**: "그림 1. 공통 성분의 추정, 제거, 평가. 채널 평균으로 공통 성분을 구하고, projection으로 그 성분을 지운 뒤, 남은 drift와 이상 탐지 recall을 원본 reading과 비교한다."
 
 **판정**: 첫 그림에는 문서 주제의 관계를 그리고, 선행 지식 그림은 그것이 필요한 절의 접힌 영역으로 옮긴다.
 
 ### 면피 문구로 채운 상태 열
 
-**계기**: "자산 규모와 상태 테이블에서 상태는 필요없어. 이것보단 규모만 정확하게".
+**계기**: 자산의 규모와 상태를 함께 보인 표에서 사용자가 상태 열은 필요 없고 규모만 정확하게 써 달라고 했다.
 
-**실패한 문장**: 상태 열의 "Label review 필요", "기록 있음; acceptance criterion 없음".
+**실패한 문장**: 상태 열의 "Label 검토 필요", "기록 있음; 완료 기준 없음".
 
-**합성 입력의 추가 근거**: 합성 자산 목록의 수량은 target LLM answer 120건, harmfulness label 120개, agent task 40개, state-based verifier 36개다.
+**합성 입력의 추가 근거**: 합성 자산 목록의 수량은 support ticket 2,340건, intent label 2,340개, replay script 64개, 응답 비교 check 58개다.
 
-**고친 문장**: 규모 열만 남긴다: "Target LLM answer 120건, harmfulness label 120개", "Agent task 40개, state-based verifier 36개".
+**고친 문장**: 규모 열만 남긴다: "Support ticket 2,340건, intent label 2,340개", "Replay script 64개, 응답 비교 check 58개".
 
 **판정**: 상태 열은 값이 독자의 다음 행동을 바꿀 때만 두고, 규모는 단위가 붙은 개수로 쓴다.
 
 ### 수량의 수식화와 checkbox
 
-**계기**: "억지로 만든 수식(v3에 대한 n 설명)은 제거해줘 너무 이상해".
+**계기**: 사용자가 표본 크기를 억지로 수식으로 만든 부분이 어색하다며 지워 달라고 했다.
 
-**실패한 문장**: display 수식 "$$n_{\mathrm{rev\text{-}b}} = 150$$", 완료 조건 "- [ ] 모든 run에 model, prompt, environment, scorer revision이 기록돼 있다."
+**실패한 문장**: display 수식 "$$n_{\mathrm{rev\text{-}c}} = 412$$", 완료 조건 "- [ ] 모든 replay run에 script, ticket snapshot, 환경, 비교 기준 revision이 기록돼 있다."
 
-**고친 문장**: "Reference label set(내부 revision `rev-b`)은 150건이다. 완료 기준: 모든 run에 model, prompt, environment, scorer revision을 기록한다."
+**고친 문장**: "Intent label 검수 표본은 412건이며 내부 revision은 `rev-c`다. 완료 기준: 모든 replay run에 script, ticket snapshot, 환경, 비교 기준 revision을 기록한다."
 
 **판정**: 수식은 계산이나 관계를 보일 때, checkbox는 독자가 실제로 체크할 때만 쓰고, 수량과 기준은 평서문으로 쓴다.
 
 ### 보이는 배열을 읊는 문장
 
-**계기**: "어차피 테이블에서 암묵적으로 이런게 표현되어 있고", "이런게 '불필요하게 작성된 문장'이라고".
+**계기**: 사용자가 표에 이미 드러나는 배열을 설명하는 문장은 불필요하게 쓴 문장이라고 지적했다.
 
 **실패한 문장**: "아래 표는 사건 경과를 시간순으로 정리한 것이다. 마지막 열이 핵심이다."
 
-**합성 입력의 추가 근거**: 합성 사건표에는 14:05의 CI token 악용 게시, 14:40의 token 폐기, 그 사이 배포된 악성 version 두 개가 기록돼 있다.
+**합성 입력의 추가 근거**: 합성 사건표에는 14:05에 시작해 orders table의 쓰기를 잠근 index 재구축, 14:40의 재구축 중단, 그 사이 timeout된 주문 쓰기 요청 1,200건이 기록돼 있다.
 
-**고친 문장**: "탈취된 CI token으로 14:05에 package가 게시됐고, 14:40에 token을 폐기하기까지 35분 동안 악성 version 두 개가 배포됐다."
+**고친 문장**: "14:05에 시작한 index 재구축이 orders table의 쓰기를 막았고, 14:40에 재구축을 중단하기까지 35분 동안 주문 쓰기 요청 1,200건이 timeout됐다."
 
 **판정**: 표 위 문장에는 표에서 바로 읽히지 않는 결론을 쓰고, 표의 배열과 열을 설명하는 문장은 지운다.

@@ -1,6 +1,6 @@
 # Evaluation Cases
 
-Use these cases to compare a baseline with this skill or to check an always-on integration. The expected rewrites are examples, not exact strings; preserve the meaning and constraints shown in the input.
+Use these cases to compare a baseline with this skill or to check an always-on integration. The expected rewrites are examples, not exact strings; preserve the meaning and constraints shown in the input. The cases assume Korean, the default native language; for another native language, read Korean below as that language.
 
 ## Contents
 
@@ -85,7 +85,7 @@ Use these cases to compare a baseline with this skill or to check an always-on i
 **Pass criteria**
 
 - Starts the task.
-- In quiet or always-on mode, skips the coaching block because no material rewrite improves the request.
+- In always-on or on-request mode, the coaching section is the single line `Natural and clear as written.` because no material rewrite improves the request; quiet mode shows no coaching.
 
 ### 7. Non-English input
 

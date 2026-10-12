@@ -1420,7 +1420,7 @@ function maskAccountNo(accountNo: string) {
   if (accountNo.length <= 6) {
     return "configured";
   }
-  return `${accountNo.slice(0, 3)}***${accountNo.slice(-3)}`;
+  return `***${accountNo.slice(-4)}`;
 }
 
 function lastNDaysKst(days: number) {
@@ -1787,7 +1787,7 @@ function runSelfTest() {
   }) as JsonRecord;
 
   assert(snapshot.snapshot_type === "toss_portfolio_snapshot", "snapshot type");
-  assert(optionalRecord(snapshot.account)?.account_no_masked === "FIX***UNT", "account mask");
+  assert(optionalRecord(snapshot.account)?.account_no_masked === "***OUNT", "account mask");
   assert(arrayValue(snapshot.holdings, "holdings").length === 1, "holding export");
   assert(arrayValue(snapshot.recent_closed_orders, "recent_closed_orders").length === 1, "order export");
   assert(JSON.stringify(snapshot).includes("open_orders"), "open orders export");

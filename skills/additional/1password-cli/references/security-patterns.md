@@ -69,7 +69,7 @@ For local macOS, desktop app integration is usually the best auth mode:
 - App integration authorization is per account. A new terminal/tab may prompt again, inactivity can require reauthorization, and locking the 1Password app revokes prior authorization.
 - On macOS, 1Password CLI uses app-mediated IPC and biometric/system authorization; do not try to bypass this with session-token handling.
 
-Goal for agent work: after the user approves one 1Password authorization prompt, keep work inside the same effective terminal session for the next short work window. Do this by choosing one of two patterns before touching real vault data:
+Goal for agent work: after the user approves one 1Password authorization prompt, keep work inside the same effective terminal session for the next short work window. Do this by choosing one of these patterns before touching real vault data:
 
 1. One-shot batch: run a single `op` command and pipe the JSON into local analysis.
 
@@ -79,6 +79,8 @@ op item list --format json | jq '...all grouping, filtering, and reporting...'
 
 2. Persistent PTY: start one interactive shell and send every follow-up `op` command through that same session. Use this when the task genuinely needs multiple `op` calls such as list, targeted item detail, then edit or verify.
 
+3. One script invocation: when the harness has no persistent PTY and every tool call starts a fresh shell, write the dependent calls (list, write, then a metadata check) into one script and run it once, so later calls never wait on a new shell. If the task cannot be planned as one script, for example because the user must choose between list results first, tell the user up front that each call may prompt.
+
 Avoid the pattern that causes prompt storms: `op whoami` in one shell, `op item list` in another, then another `op item list` for a slightly different `jq` query. Fetch once and reuse the data in the same process or session.
 
 Before starting a multi-step agent-run 1Password task:
@@ -86,7 +88,7 @@ Before starting a multi-step agent-run 1Password task:
 - Say that the work will use one authorization window.
 - Plan the needed `op` calls up front.
 - Prefer `op --format json` once, then local filtering.
-- If more data is needed, keep using the same PTY session rather than opening a fresh shell.
+- If more data is needed, keep using the same PTY session or extend the script rather than opening a fresh shell.
 - Stop and reassess if the user sees a second unexpected authorization prompt.
 
 Troubleshooting steps:
@@ -96,7 +98,7 @@ Troubleshooting steps:
 3. Retry `op whoami` directly.
 4. If multiple accounts exist, use `op account list` and select with `--account`.
 
-Do not add tmux instructions. This skill is for local macOS use, not an OpenClaw persistent gateway session.
+Do not route `op` through tmux or a detached session to avoid authorization prompts.
 
 ## Manual Sign-In Fallback
 

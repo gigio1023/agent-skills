@@ -22,7 +22,7 @@ For ambiguity in instructions, tool descriptions, or status text, use [English c
 
 ## Korean
 
-Korean meaning, terminology, and synthetic examples live in [Korean writing](korean-writing.md). Specific pattern observations and their limits are optional in [Korean pattern evidence](korean-pattern-evidence.md). The house punctuation and the English field-term boundary are the author's preferences in [writing profile](writing-profile.md).
+Korean meaning, terminology, and synthetic examples live in [Korean writing](korean-writing.md). Specific pattern observations and their limits are optional in [Korean pattern evidence](korean-pattern-evidence.md). The house punctuation and the English field-term boundary are profile preferences in the [writing profile](writing-profile.md), which this pack ships as a default that a user can edit or replace.
 
 ## Italian
 
@@ -44,4 +44,4 @@ Leave line-breaking, hanging punctuation, and page-edge behavior to the renderer
 
 ## Basis and reuse
 
-The authoring, revision, voice-preservation, and language guidance in this package adapts selected methods from [slop-aware-writing](https://github.com/gigio1023/slop-aware-writing/tree/0eb3b774d124302bdd9ed0fcbe184a50cde90ec3/slop-aware-writing), copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing). This synthesis selects semantic and reader-task decisions; it does not import that package's pattern-count policies. The Korean tells and the Korean clarity rules in [Korean writing](korean-writing.md) were merged from slop-aware-writing and korean-clarity at their 2026-09-21 revisions; empirical claims are retained in [Korean pattern evidence](korean-pattern-evidence.md), with their evidence class and limits. The examples here are independently synthetic. Public technical close readings remain in the repository's `docs/writing-sources.md`.
+The authoring, revision, voice-preservation, and language guidance in this package adapts selected methods from [slop-aware-writing](https://github.com/gigio1023/slop-aware-writing/tree/0eb3b774d124302bdd9ed0fcbe184a50cde90ec3/slop-aware-writing), copyright 2026 gigio1023, under the [MIT notice](../LICENSE.slop-aware-writing). This synthesis selects semantic and reader-task decisions; it does not import that package's pattern-count policies. The Korean tells and the Korean clarity rules in [Korean writing](korean-writing.md) were merged from slop-aware-writing and korean-clarity at their 2026-09-21 revisions; empirical claims are retained in [Korean pattern evidence](korean-pattern-evidence.md), with their evidence class and limits. The examples here are independently synthetic. Public technical close readings remain in [writing sources](https://github.com/gigio1023/gigio-skills/blob/main/docs/writing-sources.md).

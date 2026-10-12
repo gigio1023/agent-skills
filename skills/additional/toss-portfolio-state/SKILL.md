@@ -20,23 +20,27 @@ Collect a read-only Toss Invest OpenAPI snapshot as a normalized `toss_portfolio
 
 1. Read `references/snapshot-contract.md` before mapping fields or changing the script.
 2. Confirm from the requested outcome that the task is read-only. If it includes orders, transfers, automatic rebalancing, or live execution, state the boundary and stop before loading credentials.
-3. Prefer the configured home-server route when Toss restricts API access to that public IP. Read `references/remote-access.md`, then run the bundled Bun transport from the active skill directory:
+3. Check prerequisites. Both scripts need Bun on this device (verified with 1.4.2). The direct route needs Toss Invest OpenAPI credentials (`TOSS_INVEST_API_KEY` and `TOSS_INVEST_SECRET_KEY`) in an env file the user names or in the process environment. The remote route needs `ssh` on this device and the credentials on the remote host at the fixed paths in `references/remote-access.md`. If Bun is missing, return a blocker that points to the official Bun install instructions; installing it needs the user's approval. Never store secrets, tokens, raw account numbers, or raw broker responses in the skill directory.
+4. Choose the route and run the transport bundled with the active skill directory:
 
-```bash
-bun --no-env-file --no-install scripts/remote_portfolio_snapshot.ts fetch --market-context basic --orders-days 30 --recent-orders-limit 40
-```
+   - If `~/.config/toss-portfolio-state/remote.json` exists (or the file named by `TOSS_PORTFOLIO_REMOTE_CONFIG`), a remote route is configured: a host the user controls, such as a home server, whose public IP Toss accepts. Read `references/remote-access.md` and run:
 
-   If the device is not configured, run the reference's one-time setup only after the user approves local SSH key and config changes. Do not create a per-device wrapper binary or fall back to a local Toss request.
+     ```bash
+     bun --no-env-file --no-install scripts/remote_portfolio_snapshot.ts fetch --market-context basic --orders-days 30 --recent-orders-limit 40
+     ```
 
-4. Use the direct fetcher only when the user explicitly chooses a local route whose egress IP is authorized. Load credentials only from process environment or a user-specified env file. Never store secrets, tokens, raw account numbers, or raw broker responses in the skill directory. Use `--no-env-file` so Bun does not auto-load an ambient `.env`; pass the intended file explicitly:
+   - If no remote route is configured and the user's Toss API key accepts requests only from a registered IP that this device does not have, offer the one-time remote setup in `references/remote-access.md`. Run it only after the user approves the local SSH key and config changes.
+   - Otherwise, run the direct fetcher with an explicit env file that the user names. Load credentials only from that file or the process environment, and keep `--no-env-file` so Bun does not auto-load an ambient `.env`:
 
-```bash
-bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file .env --market-context basic --orders-days 30 --recent-orders-limit 40
-```
+     ```bash
+     bun --no-env-file --no-install scripts/fetch_portfolio_snapshot.ts --env-file <env-file> --market-context basic --orders-days 30 --recent-orders-limit 40
+     ```
 
-   CLI flags override the explicit env file, which overrides process environment. The default origin is the official HTTPS host.
+     CLI flags override the explicit env file, which overrides process environment. The default origin is the official HTTPS host.
 
-5. Hand the normalized JSON to the requesting workflow. When that workflow is a separately installed decision-support skill, such as the owner's private `investment-decision-support` (not part of this pack), treat the JSON as a temporary personal-state input unless the user explicitly approves a durable state update.
+   When a configured remote route fails, return its blocker. Never fall back silently to a local request, because this device's public IP may not be registered with Toss; run the direct fetcher instead only when the user explicitly chooses it.
+
+5. Hand the normalized JSON to the requesting workflow. When a separately installed decision-support skill consumes it, treat the JSON as a temporary personal-state input unless the user explicitly approves a durable state update.
 
 Keep the requested mode and window or documented defaults. Refetch only for needed freshness or an unresolved required field, not to enrich a summary.
 
@@ -58,7 +62,7 @@ Secret handling:
 
 ### 3. Normalization
 
-Produce one normalized object using the closed field set, redaction rules, and external-data trust boundary in `references/snapshot-contract.md`. Preserve timestamps, provenance, and warnings even when a downstream consumer asks for a shorter summary. Never guess after schema drift; return a blocker when missing meaning is decisive.
+Produce one normalized object using the documented field set, redaction rules, and external-data trust boundary in `references/snapshot-contract.md`. Preserve timestamps, provenance, and warnings even when a downstream consumer asks for a shorter summary. Never guess after schema drift; return a blocker when missing meaning is decisive.
 
 ### 4. Handoff
 
@@ -67,6 +71,8 @@ When another skill needs personal portfolio state, pass the normalized snapshot 
 - Account state can block personal action readiness but cannot prove a market thesis.
 - Recent orders can flag behavior risk but do not form a complete tax-lot ledger.
 - Toss quote or last-price fields are broker snapshot data; current market tape still needs independent source freshness checks.
+
+The snapshot is personal financial data. Keep it in the session or a private location the user approves. Never commit it to a repository, and do not paste it into shared channels or third-party services unless the user asks.
 
 ## Reference Files
 
@@ -103,7 +109,7 @@ Validate the package and inspect for secrets. For changed scripts, invocations, 
 - Do not print or persist bearer tokens, raw account numbers, client secrets, or raw API envelopes. Mask account numbers and omit order IDs, conditional order IDs, client order IDs, and triggered order IDs.
 - API requests reject redirects, including redirects from the approved origin. HTTP errors report only the status; arbitrary upstream error messages, codes, request IDs, and JSON parser excerpts are intentionally omitted. Known credential, token, account-number, and order-ID values are also removed from error and warning strings.
 - Do not use `bunx` for the bundled fetcher. `bunx` is for package executables; this skill ships a local Bun script.
-- Do not install a client-wide `toss-home-snapshot` wrapper. Resolve and run the transport bundled with the active skill so updates move with the package.
+- Do not install a separate wrapper command on the client; run the transport bundled with the active skill.
 - Do not copy SSH private keys between devices. The setup route creates one key per device and only authorizes its public key on the home server.
 - Do not treat the snapshot as current-market research. A broker snapshot may be stale, delayed, session-specific, or incomplete for market-tape purposes.
 - Do not infer tax lots from recent closed orders alone. Treat tax-sensitive decisions as needing human or separate state confirmation.

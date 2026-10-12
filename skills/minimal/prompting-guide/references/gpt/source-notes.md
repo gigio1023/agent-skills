@@ -24,7 +24,7 @@ The article informs both the advice this skill produces and the package's own de
 
 Checked on 2026-10-06: [GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) and [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model?model=gpt-6.1-sol). Sol 6.1 supports `low`, `medium`, `high`, `xhigh`, and `max`, defaults to `medium` in the API, rejects `none` and `minimal`, and requires Responses for tools. Legacy `gpt-6-sol` retains a different contract.
 
-The local Codex 0.159.3 bundled catalog listed Astra and Sol 6.1 with default `low` and levels through `ultra`. This was a read-only catalog check, not a live model call or served-account access check. The routing package owns this user's narrower Sol workload policy; public model capability guidance does not define that policy.
+The local Codex 0.159.3 bundled catalog listed Astra and Sol 6.1 with default `low` and levels through `ultra`. This was a read-only catalog check, not a live model call or served-account access check. Which workloads go to Sol 6.1 is a routing decision that the `model-routing` skill's default policy, when installed, makes; public model capability guidance does not define that policy.
 
 ## Runtime And Foundational Sources
 
@@ -56,7 +56,7 @@ The official user-over-skill guideline concerns skill guidance; it does not reve
 
 - 2026-09-05: created as `gpt6-astra-prompting-guide`.
 - 2026-09-14: redesigned for focused context after the skills and prompts article.
-- 2026-09-23: renamed `gpt6-prompting-guide` and extended to GPT-6 Sol after the owner stopped using GPT-5.6 models. `gpt56-sol-prompting-guide` was removed rather than converted, because OpenAI publishes one prompting guide for the GPT-6 family and its GPT-5.6 behavioral claims do not transfer; the API capabilities GPT-6 keeps from GPT-5.6 moved to the runtime notes.
+- 2026-09-23: renamed `gpt6-prompting-guide` and extended to GPT-6 Sol, replacing GPT-5.6 coverage. `gpt56-sol-prompting-guide` was removed rather than converted, because OpenAI publishes one prompting guide for the GPT-6 family and its GPT-5.6 behavioral claims do not transfer; the API capabilities GPT-6 keeps from GPT-5.6 moved to the runtime notes.
 
 ## Maintenance
 

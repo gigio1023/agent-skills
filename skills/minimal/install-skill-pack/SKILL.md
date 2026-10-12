@@ -2,13 +2,12 @@
 name: install-skill-pack
 description: >
   Use when installing or refreshing skills globally from a user-selected Git
-  repository or revision with the Skills CLI for the standard Claude Code,
-  Hermes Agent, OpenCode, Cursor, Codex, GitHub Copilot, ZCode, OpenClaw, and
-  Grok targets. Reviews packages and verifies revision identity, installed
-  content, symlinks, and discovery. Resolves skill name collisions with a
-  recorded prefix rename that every later refresh reapplies. Global is the
-  default; a project-local install runs only on an explicit request. NOT for
-  unpublished local changes,
+  repository or revision with the Skills CLI for Claude Code, Codex, Cursor,
+  and other Skills CLI targets. Reviews packages and verifies revision
+  identity, installed content, symlinks, and discovery for the selected
+  targets. Resolves skill name collisions with a recorded prefix rename that
+  every later refresh reapplies. Global is the default; a project-local
+  install runs only on an explicit request. NOT for unpublished local changes,
   unscoped all-agent installs, or silently changing unrelated global skills.
 ---
 
@@ -16,13 +15,15 @@ description: >
 
 Install reviewed skills from the user's Git repository. The default path passes the bare source to the CLI and follows the remote's default branch. Branch and commit pins are optional.
 
-Install globally by default; run a project-local install only when the user explicitly requests one. Use the nine-agent standard set unless the user explicitly excludes a member. Add named extras without the broad `--all` option. Let the CLI manage the canonical global package and agent-facing links.
+Install globally by default; run a project-local install only when the user explicitly requests one. Select the target agents in this order: the agents the user names for this install; otherwise a default agent list the user has recorded in their instruction files; otherwise the harnesses the CLI detects on this host, confirmed once with the user before installing. Pass each target as an explicit `--agent`. Never use the broad `--all` option or omit `--agent`: without it the CLI picks targets itself and, when it detects no harness, installs to every agent it knows. Let the CLI manage the canonical global package and agent-facing links.
 
 Review the source directly. Third-party scans are optional; a missing scanner result is neither a pass nor a blocker.
 
 ## Quick Path
 
-1. Resolve the repository source and selected skill names. Accept GitHub shorthand, a full repository URL, or another cloneable Git URL. Read [`references/skills-cli-usage.md`](references/skills-cli-usage.md) for the standard target IDs, current CLI contract, symlink mode, and per-agent verification. Resolve names from the current request and already-established session scope, including a skill just published for installation. If that leaves the selection unclear, list the repository's skills first; install every package only when the user explicitly requested the complete pack.
+1. Check prerequisites: Node with npm and npx at the version the resolved Skills CLI release declares (releases 1.5.23 through 1.7.1 require Node 22.20.0 or later), `git`, `python3` for the rename script, and network access to the repository host and the npm registry. If a tool is missing or too old, stop and report it rather than installing it.
+
+   Resolve the repository source and selected skill names. Accept GitHub shorthand, a full repository URL, or another cloneable Git URL. Read [`references/skills-cli-usage.md`](references/skills-cli-usage.md) for target selection and detection, the current CLI contract, symlink mode, and per-agent verification. Resolve names from the current request and already-established session scope, including a skill just published for installation. If that leaves the selection unclear, list the repository's skills first; install every package only when the user explicitly requested the complete pack.
 
 2. Select one revision mode:
 
@@ -32,7 +33,7 @@ Review the source directly. Third-party scans are optional; a missing scanner re
 
    Branch and commit inputs are mutually exclusive. Preserve the user's source form for the CLI. Normalize it separately for Git review; for example, clone `owner/repo` through `https://github.com/owner/repo.git`. Read and apply [`references/revision-selection.md`](references/revision-selection.md) to prepare `install_source`, `reviewed_sha`, and the review checkout.
 
-3. Resolve npm's current stable `skills@latest` version once per operation and verify its version and live interface through the CLI-usage reference. Stop if the version is malformed, the reported version differs, or a standard target ID is unsupported. An npm policy such as `min-release-age` may refuse a young release with an error that reads like a missing version; step down to the newest release the policy allows instead of bypassing the policy. Executing the npm CLI is a separate package-manager trust boundary; reviewing a skill repository does not establish the CLI publisher's integrity.
+3. Resolve npm's current stable `skills@latest` version once per operation and verify its version and live interface through the CLI-usage reference. Then resolve the target agents as that reference describes; a detected list needs the user's one confirmation before step 8. Stop if the version is malformed, the reported version differs, or a selected target ID is unsupported. An npm policy such as `min-release-age` may refuse a young release with an error that reads like a missing version; step down to the newest release the policy allows instead of bypassing the policy. Executing the npm CLI is a separate package-manager trust boundary; reviewing a skill repository does not establish the CLI publisher's integrity.
 
 4. Prepare the disposable checkout through the selected revision path. Record the checked-out commit as `reviewed_sha`. Stop if the source cannot be mapped to one repository, the branch is absent, the commit is unreachable, or the exact requested commit differs from the checkout.
 
@@ -44,30 +45,23 @@ Review the source directly. Third-party scans are optional; a missing scanner re
 
 7. Immediately before a default-branch or named-branch installation, use the revision reference to confirm the remote still points to `reviewed_sha`. If it changed, discard the checkout and repeat the review against the new snapshot. An exact commit is immutable once the checkout and full ID match.
 
-8. Install with the resolved CLI version, passing every target agent and skill explicitly. The standard target IDs are deliberately repeated; append named extras and omit only explicit user exclusions:
+8. Install with the resolved CLI version, passing every selected target agent and skill explicitly, one `--agent` per target:
 
    ```bash
    npx --yes "skills@$skills_cli_version" add \
      "$install_source" \
      --global \
-     --agent claude-code \
-     --agent hermes-agent \
-     --agent opencode \
-     --agent cursor \
-     --agent codex \
-     --agent github-copilot \
-     --agent zcode \
-     --agent openclaw \
-     --agent grok \
+     --agent <agent-id> \
+     --agent <agent-id> \
      --skill <skill-name> \
      --yes
    ```
 
-   Default mode leaves `install_source` bare, so the CLI follows the remote's default branch without assuming `main` or `master`. Commit mode uses the reviewed local checkout because remote `#ref` does not reliably accept a raw commit ID. Omit `--copy`: the verified normal path uses the CLI's default canonical-copy plus agent-symlink mode.
+   Default mode leaves `install_source` bare, so the CLI follows the remote's default branch without assuming `main` or `master`. Commit mode uses the reviewed local checkout because remote `#ref` does not reliably accept a raw commit ID. Omit `--copy`: the verified normal path uses the CLI's default canonical-copy plus agent-symlink mode. Targets that all share one skills directory get copy mode anyway; the CLI-usage reference says how to verify that case.
 
    When step 6 wrote renamed packages, run the same command twice: once with `install_source` for the packages the script listed as `unchanged`, and once with the script's output directory as the source for the packages it listed as `written`, by their new names.
 
-9. Inspect `skills list --global --agent <id> --json` for every target, using the installed names. Require each name and canonical path; for a detected harness, also require its display name in `agents`. An absent universal harness can be canonical-ready without appearing there, so verify it from the install summary and report runtime discovery as unavailable rather than creating its config directory. Compare canonical files and non-universal links per the CLI-usage reference. Content, link, or detected-harness discovery failures leave the install unverified.
+9. Inspect `skills list --global --agent <id> --json` for every selected target, using the installed names. Require each name and canonical path; for a detected harness, also require its display name in `agents`. An absent universal harness can be canonical-ready without appearing there, so verify it from the install summary and report runtime discovery as unavailable rather than creating its config directory. Compare canonical files and non-universal links per the CLI-usage reference. Content, link, or detected-harness discovery failures leave the install unverified.
 
 10. Remove the disposable checkout and any renamed output only after content and discovery verification pass. Then complete the rename record and any old-name removal as the renames reference describes.
 
@@ -77,7 +71,7 @@ If installation returns an uncertain result, inspect canonical content and agent
 
 A repository can group packages into directories that stand for an install set, such as `skills/minimal/` for the default install. When the user asks for a set, list the package names under that directory in the reviewed checkout and pass each as `--skill`; keep `install_source` as the repository source so the tracked metadata points at the remote. A set only decides availability; each skill's own description and invocation settings still decide when it runs.
 
-Add one `--skill <frontmatter-name>` argument per requested package to the standard command. Use `--skill '*'` only for an explicitly requested complete pack, after reviewing every package. If a name is absent, stop; do not silently switch revisions, repositories, or local checkouts.
+Add one `--skill <frontmatter-name>` argument per requested package to the install command. Use `--skill '*'` only for an explicitly requested complete pack, after reviewing every package. If a name is absent, stop; do not silently switch revisions, repositories, or local checkouts.
 
 ## Revisions And Updates
 
@@ -103,7 +97,7 @@ It can fetch unreviewed sources outside the current repository. State that scope
 
 ## Validation
 
-Before publishing this skill, validate the package and confirm repository discovery. Run the active `skill-builder` validator against `skills/minimal/install-skill-pack`, then run:
+Maintainer note for the repository that ships this skill, not part of an installation: before publishing a change to this skill, validate the package and confirm repository discovery. Run the active `skill-builder` validator against `skills/minimal/install-skill-pack`, then run:
 
 ```bash
 npx --yes "skills@$skills_cli_version" add . --list --full-depth
@@ -111,4 +105,4 @@ npx --yes "skills@$skills_cli_version" add . --list --full-depth
 
 ## Output
 
-Report the resolved Skills CLI version, repository source, revision mode, reviewed commit, selected agents and skills, source-review decision, canonical content comparison, link topology, and each harness's discovery or canonical- ready status. Name any explicit standard-target exclusion. For a source with renames, list each old and new name, the packages installed from the renamed output, and the mentions the script left for review. For an exact commit, also state that automatic remote updates are unavailable and the pinned workflow must be rerun. If blocked, identify the observable finding, affected file or command, and whether the risk is inherent to the requested capability or unexplained.
+Report the resolved Skills CLI version, repository source, revision mode, reviewed commit, selected agents and skills, source-review decision, canonical content comparison, link topology, and each selected harness's discovery or canonical-ready status. Name the rule that selected the target agents: named by the user, a recorded default list, or detected and confirmed. For a source with renames, list each old and new name, the packages installed from the renamed output, and the mentions the script left for review. For an exact commit, also state that automatic remote updates are unavailable and the pinned workflow must be rerun. If blocked, identify the observable finding, affected file or command, and whether the risk is inherent to the requested capability or unexplained.

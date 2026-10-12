@@ -27,10 +27,14 @@ const SSH_CONFIG_DIR = join(SSH_DIR, "config.d");
 const SSH_MANAGED_PATH = join(SSH_CONFIG_DIR, "toss-portfolio-state.conf");
 const DEFAULT_ALIAS = "toss-home-api";
 const DEFAULT_KEY_PATH = join(SSH_DIR, "id_ed25519_toss_portfolio_state");
-const REMOTE_SCRIPT_DIR = ".local/share/toss-portfolio-state/scripts";
+// Fixed paths on the home server, relative to the SSH user's home directory.
+const REMOTE_BUN = ".bun/bin/bun";
+const REMOTE_STATE_DIR = ".local/share/toss-portfolio-state";
+const REMOTE_SCRIPT_DIR = `${REMOTE_STATE_DIR}/scripts`;
 const REMOTE_FETCHER = `${REMOTE_SCRIPT_DIR}/fetch_portfolio_snapshot.ts`;
 const REMOTE_TRANSPORT = `${REMOTE_SCRIPT_DIR}/remote_portfolio_snapshot.ts`;
 const REMOTE_ENV_FILE = ".config/toss-invest/openapi.env";
+const REMOTE_PREREQUISITES = `the home server needs Bun at ~/${REMOTE_BUN} and Toss credentials at ~/${REMOTE_ENV_FILE} with no group or other access; scripts deploy to ~/${REMOTE_SCRIPT_DIR}`;
 
 const BOOLEAN_FETCH_FLAGS = new Set(["--help", "-h", "--self-test", "--print-api-coverage"]);
 const VALUE_FETCH_FLAGS = new Set([
@@ -275,10 +279,10 @@ async function deployRemoteScripts(config: RemoteConfig): Promise<void> {
     "ssh",
     "-T",
     config.alias,
-    'set -eu; test -x "$HOME/.bun/bin/bun"; test -f "$HOME/.config/toss-invest/openapi.env"; mkdir -p "$HOME/.local/share/toss-portfolio-state/scripts"; chmod 700 "$HOME/.local/share/toss-portfolio-state" "$HOME/.local/share/toss-portfolio-state/scripts"',
+    `set -eu; test -x "$HOME/${REMOTE_BUN}"; test -f "$HOME/${REMOTE_ENV_FILE}"; mkdir -p "$HOME/${REMOTE_SCRIPT_DIR}"; chmod 700 "$HOME/${REMOTE_STATE_DIR}" "$HOME/${REMOTE_SCRIPT_DIR}"`,
   ]);
   if (prepare.exitCode !== 0) {
-    throw new Error(`home server is missing Bun, its Toss env file, or the target directory: ${prepare.stderr.trim()}`);
+    throw new Error(`home server prerequisites are not met; ${REMOTE_PREREQUISITES}: ${prepare.stderr.trim()}`);
   }
 
   const localDirectory = import.meta.dir;
@@ -290,7 +294,7 @@ async function deployRemoteScripts(config: RemoteConfig): Promise<void> {
     if (copy.exitCode !== 0) throw new Error(`failed to upload ${file}: ${copy.stderr.trim()}`);
   }
 
-  const installCommand = `set -eu; install -m 600 "$HOME/${REMOTE_FETCHER}.new-${process.pid}" "$HOME/${REMOTE_FETCHER}"; install -m 600 "$HOME/${REMOTE_TRANSPORT}.new-${process.pid}" "$HOME/${REMOTE_TRANSPORT}"; rm -f "$HOME/${REMOTE_FETCHER}.new-${process.pid}" "$HOME/${REMOTE_TRANSPORT}.new-${process.pid}"; "$HOME/.bun/bin/bun" --no-env-file --no-install "$HOME/${REMOTE_TRANSPORT}" --self-test`;
+  const installCommand = `set -eu; install -m 600 "$HOME/${REMOTE_FETCHER}.new-${process.pid}" "$HOME/${REMOTE_FETCHER}"; install -m 600 "$HOME/${REMOTE_TRANSPORT}.new-${process.pid}" "$HOME/${REMOTE_TRANSPORT}"; rm -f "$HOME/${REMOTE_FETCHER}.new-${process.pid}" "$HOME/${REMOTE_TRANSPORT}.new-${process.pid}"; "$HOME/${REMOTE_BUN}" --no-env-file --no-install "$HOME/${REMOTE_TRANSPORT}" --self-test`;
   const installResult = await runCapture(["ssh", "-T", config.alias, installCommand]);
   if (installResult.exitCode !== 0) {
     throw new Error(`remote script install or self-test failed: ${installResult.stderr.trim()}`);
@@ -361,8 +365,11 @@ async function fetchViaRemote(args: string[]): Promise<void> {
     throw new Error(`remote setup is missing; run the setup command first (${configPath()})`);
   }
   const payload = encodeArgs(args);
-  const remoteCommand = `"$HOME/.bun/bin/bun" --no-env-file --no-install "$HOME/${REMOTE_TRANSPORT}" remote-run ${payload}`;
+  const remoteCommand = `"$HOME/${REMOTE_BUN}" --no-env-file --no-install "$HOME/${REMOTE_TRANSPORT}" remote-run ${payload}`;
   const exitCode = await runInteractive(["ssh", "-T", config.alias, remoteCommand]);
+  if (exitCode === 127) {
+    throw new Error(`home server could not start the transport (exit code 127); ${REMOTE_PREREQUISITES}; re-run setup after fixing; no local fallback was attempted`);
+  }
   if (exitCode !== 0) {
     throw new Error(`home-server snapshot failed with exit code ${exitCode}; no local fallback was attempted`);
   }
@@ -372,9 +379,12 @@ async function runRemote(payload: string): Promise<void> {
   const args = decodeArgs(payload);
   const envPath = join(homedir(), REMOTE_ENV_FILE);
   const fetcherPath = join(import.meta.dir, "fetch_portfolio_snapshot.ts");
+  if (!existsSync(envPath)) {
+    throw new Error(`remote Toss env file not found at ~/${REMOTE_ENV_FILE}; this path is fixed`);
+  }
   const envStat = await stat(envPath);
   if ((envStat.mode & 0o077) !== 0) {
-    throw new Error("remote Toss env file permissions must not grant group or other access");
+    throw new Error(`remote Toss env file at ~/${REMOTE_ENV_FILE} must not grant group or other access`);
   }
   const exitCode = await runInteractive([
     process.execPath,
@@ -389,7 +399,7 @@ async function runRemote(payload: string): Promise<void> {
 }
 
 function selfTest(): void {
-  const fixture = ["--market-context", "basic", "--orders-days", "30", "--symbols", "000660,NBIS"];
+  const fixture = ["--market-context", "basic", "--orders-days", "30", "--symbols", "TESTKR,TESTUS"];
   const decoded = decodeArgs(encodeArgs(fixture));
   if (JSON.stringify(decoded) !== JSON.stringify(fixture)) throw new Error("argument round trip failed");
   for (const forbidden of FORBIDDEN_FETCH_FLAGS) {

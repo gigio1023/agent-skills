@@ -45,4 +45,6 @@ The home server must already have:
 - Toss credentials at `~/.config/toss-invest/openapi.env` with no group or other permissions;
 - outbound HTTPS access to the official Toss Invest OpenAPI host.
 
+These paths are fixed in the transport, relative to the SSH user's home directory; no configuration field changes them. Setup deploys the scripts to `~/.local/share/toss-portfolio-state/scripts/`. When a prerequisite is missing, the error names the expected path.
+
 The setup command never copies credentials from the client. If the server, Tailscale, SSH authentication, Bun runtime, or remote env file is unavailable, return a blocker. Never fall back to a client-local Toss request because its public IP may not be registered.

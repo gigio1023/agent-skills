@@ -95,6 +95,7 @@ Each inline draft uses this closed schema:
 }
 ```
 
+- `expected_head_sha` is local to the draft: it records the head each target was resolved against. Strip it from every comment when building the payload in phase 7.
 - Added or current lines use `RIGHT`; deleted lines use `LEFT`.
 - Omit `start_line` and `start_side` for a single-line comment.
 - Every target must exist in the collected diff. Never guess a line number: a finding without a verified diff target goes to the review body when it materially affects the PR; otherwise discard or file separately.
@@ -112,13 +113,17 @@ Show one approval packet:
 - final review body, including why any finding is not inline
 - discarded, `already-raised`, and `needs-context` candidates with reasons
 
-Do not post until the user approves this exact packet. `REQUEST_CHANGES` is not available on the reviewer's own PR.
+Do not post until the user approves this exact packet. GitHub refuses both `REQUEST_CHANGES` and `APPROVE` on the reviewer's own PR; use `COMMENT` there.
 
 An unchanged packet already approved in this session needs no second approval. If permission is still missing, identify this exact-payload rule and present the completed packet; continue read-only validation while awaiting the answer.
 
 ### 7. Recheck, Post, And Read Back
 
-Immediately before posting, fetch the current head SHA. If it differs from `expected_head_sha`, stop, recollect the diff, and revalidate every target. If it matches, preserve the freeze by setting the approved payload's top-level `commit_id` to exactly `expected_head_sha`. `commit_id` is not a field inside an individual inline comment.
+Immediately before posting, fetch the current head SHA. If it differs from `expected_head_sha`, stop, recollect the diff, and revalidate every target. If it matches, preserve the freeze by setting the approved payload's top-level `commit_id` to exactly `expected_head_sha`. `commit_id` is not a field inside an individual inline comment, and `expected_head_sha` does not appear in the payload at all. The final payload has this shape (`?` marks fields present only for multi-line comments):
+
+```text
+{commit_id, event, body, comments: [{path, side, line, start_side?, start_line?, body}]}
+```
 
 Write the approved JSON to a temporary file with the harness file-edit mechanism. Before posting, verify that the serialized top-level `commit_id` still equals `expected_head_sha`, then post in one call:
 

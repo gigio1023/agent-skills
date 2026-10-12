@@ -1,13 +1,13 @@
 # Model and Dispatch
 
-GPT-6 Astra owns delegated work that requires investigation, interpretation, design, implementation judgment, review, or synthesis. This is the pack owner's routing policy, not a claim that CLI availability or model quality was established for every account.
+GPT-6 Astra owns delegated work that requires investigation, interpretation, design, implementation judgment, review, or synthesis. This is this pack's default routing policy, not a claim that CLI availability or model quality was established for every account; a user's explicit model choice or their own routing policy overrides it.
 
 ## Selection
 
 | Work | Default model | Effort |
 | --- | --- | --- |
 | Judgment-bearing or ambiguous mission | `gpt-6-astra` | `xhigh` |
-| Fixed procedure with mechanical acceptance | `gpt-6.1-sol`, when deliberately selected | Task-appropriate supported value |
+| Fixed procedure with mechanical acceptance | `gpt-6.1-sol`, when deliberately selected | `xhigh` |
 | Explicit user model or effort choice | User selection | User selection |
 
 A mechanical packet fixes the inputs, procedure, output, and acceptance. Running an already selected command and returning its exit code can fit. Choosing commands, selecting decisive evidence, interpreting failures, reviewing code, and implementing a fix require judgment. Short tasks can still require Astra.
@@ -24,7 +24,7 @@ The current [configuration reference](https://learn.chatgpt.com/docs/config-file
 
 ## Internal subagents
 
-An Astra delegate uses the GPT policy of the sibling `model-routing` skill for available roles, model settings, and host-specific overrides. Mission work is eligible for useful internal delegation. The former mission exclusion does not apply.
+An Astra delegate uses the GPT policy of the sibling `model-routing` skill for available roles, model settings, and host-specific overrides. Mission work is eligible for useful internal delegation.
 
 - Default every judgment-bearing child to Astra, including unnamed and nested workers.
 - Use Sol 6.1 only for fixed execution with mechanical acceptance and no semantic decisions.

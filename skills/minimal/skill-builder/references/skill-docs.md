@@ -87,11 +87,11 @@ These revisions were resolved on the check date. Reading them does not authorize
 | Keep private evidence outside shared packages | Publish the method and synthetic examples, not confidential source records or identifiable disguised cases |
 | Improve, create, and merge by task boundary | Compare trigger, decision, result, and authority; overlap alone does not justify a merger |
 | Cross-harness authoring as a conditional reference | Portable Claude Code and Codex guidance, formerly a separate skill, loads only when a package targets more than one harness (2026-10-12). This source guide, the validator contract, and the authoring patterns stay authoritative where they overlap |
-| Local byte or line target | Organization review prompt unless an explicit user requirement or verified runtime contract makes it binding. The 2026-10-06 owner-authorized audit replaces the 2026-09-29 2% tolerance and one-rule-in/one-rule-out policy with review by function, evidence, duplication, and retrieval needs |
+| Local byte or line target | Organization review prompt unless an explicit user requirement or verified runtime contract makes it binding. A 2026-10-06 pack audit replaced the 2026-09-29 2% tolerance and one-rule-in/one-rule-out policy with review by function, evidence, duplication, and retrieval needs |
 
 The [validation contract](validation.md) gives executable checks and coverage limits. Other pack skills may prefer two fields as a conservative authoring default; that is not a general prohibition on optional standard metadata.
 
-The workflow-extraction rules are local authoring choices grounded in maintenance experience and the owner's requested use of personal skills. They are not attributed to the Astra article as format requirements or benchmark results. Their [working reference](workflow-extraction.md) deliberately contains no private source records.
+The workflow-extraction rules are local authoring choices grounded in maintenance experience and this pack's support for personal skills. They are not attributed to the Astra article as format requirements or benchmark results. Their [working reference](workflow-extraction.md) deliberately contains no private source records.
 
 ## Freshness
 

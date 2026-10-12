@@ -1,6 +1,6 @@
 # 1Password CLI Usage Reference
 
-This reference is based on local `op` 2.34.1 help on macOS arm64, checked 2026-06-27. On 2026-09-23 the [1Password CLI release notes](https://app-updates.agilebits.com/product_history/CLI2) list 2.39.0 (released 2026-08-14) as the current stable; the help-derived claims below were not re-checked against 2.39.0 help. On 2026-10-07 the notes list 2.40.0 (released 2026-10-01) as the current stable; it adds `op provisioning google sync` and says in `op run` help that output masking is best effort. `op` was still not installed, so local help was not re-checked. When in doubt, run `op <command> --help` because the installed CLI is the source of truth.
+Provenance: the command map was checked against `op` 2.34.1 help on 2026-06-27 and against the [1Password CLI release notes](https://app-updates.agilebits.com/product_history/CLI2) through 2.40.0 (released 2026-10-01) on 2026-10-07. Those notes add `op provisioning google sync` in 2.40.0 and say that `op run` output masking is best effort; help for releases after 2.34.1 was not compared flag by flag. Re-check current `op <command> --help` before relying on a flag, because the installed CLI is the source of truth.
 
 ## Table of Contents
 

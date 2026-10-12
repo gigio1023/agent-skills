@@ -4,12 +4,16 @@ description: >
   Use when creating or redesigning a data dashboard, interactive analysis report,
   operational view, or static dashboard for print. Designs useful comparisons,
   explanatory text, data exploration, and selection-consistent results. NOT for
-  generic forms or landing pages, or ordinary prose documents.
+  generic forms or landing pages, ordinary prose documents, component styling
+  or general UI implementation (frontend-design, when installed), or static
+  figures (technical-figure, when installed).
 ---
 
 # Insight Dashboard
 
 Build a data view that helps the reader answer a recurring question or choose an action. Make the useful comparison visible in the initial view, then provide a clear path to the details that explain it. Let data and the reader's task determine the layout.
+
+This skill decides the comparison, the text, and how selections change the results; `frontend-design`, when installed, or the project's UI stack builds the interface.
 
 Preserve the project's data model, terminology, and requested medium. Inspect supplied data before choosing claims. Use authorized real results; mark development fixtures as synthetic. If a missing input prevents the main comparison, identify that input and build only the supported views. Review requests return findings rather than changing the application.
 

@@ -343,7 +343,7 @@ writer 인용 약어: `W:SKILL`(SKILL.md), `W:wp`(references/writing-profile.md)
 
 | id | 위치 | 규칙 | 종류 | 근거 등급 | 중복 | 비고 |
 |---|---|---|---|---|---|---|
-| L-001 | :3-9 | "LEGACY/FROZEN (v2) ... Do not extend this block. New Korean response rules belong in korean-clarity" | meta | | | `clear-writing:core v2` marker 식별용. ~/.claude/CLAUDE.md와 ~/.codex/AGENTS.md(빈 파일)에 marker 없음, opencode AGENTS.md는 없음 |
+| L-001 | :3-9 | "LEGACY/FROZEN (v2) ... Do not extend this block. New Korean response rules belong in korean-clarity" | meta | | | `clear-writing:core v2` marker 식별용. 설치된 전역 지시 파일에 marker 없음 |
 | L-002 | :22 | 1. 연결어미 뒤 불필요한 쉼표 금지, 인용과 의미 구분 구두점 보존 | craft | [AI] KatFish (:52) | S-120 | |
 | L-003 | :23 | 2. 쉼표를 아낀다. 절이 길어지면 문장을 끊는다 | craft | | S-121 | 현행 E-1'(S-122) 연결 권고와 방향 반대 |
 | L-004 | :24 | 3. 이중피동, "~에 의해" 피동 금지 | craft | [KO] | S-127, S-128 | 현행은 맥락 판정 |
@@ -583,7 +583,7 @@ style overlay(태그 없음): B-1, B-2, C-1, C-4, C-5, C-7, C-9, C-10, D-1~D-6, 
 
 ### 은퇴 시 끊기는 의존
 
-- slop-aware-writing 이름 참조: korean-clarity SKILL.md:61, share-internal-doc SKILL.md:23(D-005)와 references/sources.md:67, W:comp:14, W:mw:59(MIT 출처 표기와 `LICENSE.slop-aware-writing`), agent-skills `docs/writing-skills.md:11, :26`, `docs/migration.md:34`, `README.md:153`. README에 따르면 korean-clarity도 `gigio1023/slop-aware-writing` 저장소에서 배포되므로 저장소를 은퇴하면 korean-clarity 설치 출처가 먼저 끊긴다. standalone "용어 봐줘" 경로(S-223~S-242)는 use-terminology:24가 일부만 대신한다. `clear-writing:core v2` marker는 ~/.claude/CLAUDE.md와 ~/.codex/AGENTS.md에 없다.
-- korean-clarity 이름 참조: slop SKILL.md:48(S-018), core-rules.md:3, :9, W:mw:23, W:comp:15, `docs/writing-skills.md:12`, `README.md:153`. `korean-clarity:core v3` marker도 두 파일에 없다. 은퇴하면 채팅 답변 적용 범위(K-004)가 writer에 없어 함께 사라진다.
+- slop-aware-writing 이름 참조: korean-clarity SKILL.md:61, share-internal-doc SKILL.md:23(D-005)와 references/sources.md:67, W:comp:14, W:mw:59(MIT 출처 표기와 `LICENSE.slop-aware-writing`), agent-skills `docs/writing-skills.md:11, :26`, `docs/migration.md:34`, `README.md:153`. README에 따르면 korean-clarity도 `gigio1023/slop-aware-writing` 저장소에서 배포되므로 저장소를 은퇴하면 korean-clarity 설치 출처가 먼저 끊긴다. standalone "용어 봐줘" 경로(S-223~S-242)는 use-terminology:24가 일부만 대신한다. `clear-writing:core v2` marker는 설치된 전역 지시 파일에 없다.
+- korean-clarity 이름 참조: slop SKILL.md:48(S-018), core-rules.md:3, :9, W:mw:23, W:comp:15, `docs/writing-skills.md:12`, `README.md:153`. `korean-clarity:core v3` marker도 설치된 전역 지시 파일에 없다. 은퇴하면 채팅 답변 적용 범위(K-004)가 writer에 없어 함께 사라진다.
 - use-terminology가 필요로 하는 것: curate-terminology(기록 쓰기, 회사 용어 질문, 출처 조사), 프로젝트 루트 `terminology.md`, `docs/terminology/`, `docs/terminology/references.md`, 두 스킬을 부르는 프로젝트 지시문(project-wiring.md, gigio-project-setup SKILL.md:37). curate는 공개를 draft-pr에 맡긴다(T-026).
 - 그 밖: write-issue:91이 share-internal-doc을, :65가 technical-diagram을 부른다. D-003은 writer의 normal-path 기본값을 전제하지만 W:wp가 SKILL.md에 링크되지 않아 연결이 비어 있다.

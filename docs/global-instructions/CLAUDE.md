@@ -9,9 +9,13 @@ rarely worth it: each layer multiplies token spend across the whole tree, and
 each layer adds another round of summarization between the evidence and the
 answer that reaches the user.
 
-Hard limits enforced by the harness, for planning purposes: 10 concurrent
-subagents per session, and nesting stops two layers below the main
-conversation.
+Hard limits enforced by the harness as observed in Claude Code on 2026-09-24,
+for planning purposes: 10 concurrent subagents per session, and nesting stops
+two layers below the main conversation.
+
+# Skill installs
+
+When `install-skill-pack` installs or refreshes skills and the request names no agents, target these: claude-code, hermes-agent, opencode, cursor, codex, github-copilot, zcode, openclaw, grok.
 
 # Writing profile
 

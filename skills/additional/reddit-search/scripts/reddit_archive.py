@@ -11,7 +11,8 @@ Standard library only: skill helpers run with a bare ``python3`` and no install
 step, so API records stay as parsed JSON mappings rather than Pydantic models.
 
 Exit codes: 0 success, 2 bad arguments or rejected parameters, 3 archive query
-timeout after one retry, 4 rate limited, 5 network failure.
+timeout after one retry, 4 rate limited, 5 network failure or a response body
+that is not JSON (for example an outage or maintenance page).
 """
 
 from __future__ import annotations
@@ -101,7 +102,11 @@ def call_api(path: str, params: dict[str, str | int]) -> Any:
         except (urllib.error.URLError, TimeoutError) as error:
             raise ArchiveError(f"network failure reaching archive: {error}", 5)
         _last_request_at = time.monotonic()
-        payload: Json = json.loads(body)
+        try:
+            payload: Json = json.loads(body)
+        except json.JSONDecodeError as error:
+            snippet: str = " ".join(body[:120].split())
+            raise ArchiveError(f"archive returned a non-JSON response ({error.msg}): {snippet!r}", 5) from error
         message: str | None = payload.get("error")
         if message:
             if _is_timeout(message) and attempt == 1:

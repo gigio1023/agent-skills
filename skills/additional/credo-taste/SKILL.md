@@ -1,6 +1,6 @@
 ---
 name: credo-taste
-description: "For work aimed at a paper or a publishable research claim, think through the direction one question at a time: which problem is worth pursuing, whether to start or continue a project (best-case conclusion, one idea, months ahead, riskiest sub-problem, continue / kill / pivot), and how to read a rejection. Use when the user names credo-taste or asks whether a paper-bound research direction is worth it. Reasons in prose, no scores. NOT for tickets, bugs, product evaluations, routine execution of a settled task, for planning paper text (credo-paper-plan), for reading a paper (literature-research), or for a direction decided inside an organization and the failure-mode pass on a new system (praxis-direction)."
+description: "Invoke by name (`/credo-taste`, or the user naming credo-taste); it does not trigger on its own. For work aimed at a paper or a publishable research claim, think through the direction one question at a time: which problem is worth pursuing, whether to start or continue a project (best-case conclusion, one idea, months ahead, riskiest sub-problem, continue / kill / pivot), and how to read a rejection. Reasons in prose, no scores. NOT for tickets, bugs, product evaluations, routine execution of a settled task, for planning paper text (credo-paper-plan), for reading a paper (literature-research), or for a direction decided inside an organization and the failure-mode pass on a new system (praxis-direction)."
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ Outcome: the user states, in their own words, what they will do and why, after b
 
 ## Scope
 
-Use only when both hold: the work is aimed at a paper or a publishable research claim, and the value of the direction is still uncertain. A ticket, a bug, a customer deadline, a product evaluation, or this week's task is not in scope, even when it involves a model, a benchmark, or the word research; do that work well with the work-track skills and move on. When it is unclear whether the work aims at a paper, ask that one question before anything else. For a direction decided inside an organization, where the result is a product or capability decision rather than a paper, use praxis-direction.
+Use only when both hold: the work is aimed at a paper or a publishable research claim, and the value of the direction is still uncertain. A ticket, a bug, a customer deadline, a product evaluation, or this week's task is not in scope, even when it involves a model, a benchmark, or the word research; do that work well with the work-track skills (for example `ml-experiment`, `evaluation-design`, `work-plan`, and `praxis-direction`) and move on. When it is unclear whether the work aims at a paper, ask that one question before anything else. For a direction decided inside an organization, where the result is a product or capability decision rather than a paper, use praxis-direction.
 
 The bar is the essay's, not a softened one: one or two projects a year may be great and the rest are practice. Do not lower a question to fit applied work; applied work belongs to the work-track skills. Do not reopen a settled question. Infer the decision from context and ask only for missing human judgment.
 

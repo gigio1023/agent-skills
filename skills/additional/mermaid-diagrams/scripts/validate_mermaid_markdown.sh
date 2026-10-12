@@ -16,7 +16,7 @@ if [[ ! -f "$md_file" ]]; then
   exit 2
 fi
 
-if ! rg -q '^```mermaid' "$md_file"; then
+if ! grep -Eq -e '^```mermaid' -- "$md_file"; then
   echo "MERMAID_VALIDATE_OK blocks=0 rendered=0 note=no_mermaid_block"
   exit 0
 fi
@@ -33,7 +33,7 @@ validate_output="$(npx -y "@mermaid-js/mermaid-cli@$cli_version" \
 validate_code=$?
 set -e
 
-block_count="$(rg -c '^```mermaid' "$md_file")"
+block_count="$(grep -Ec -e '^```mermaid' -- "$md_file")"
 
 if [[ $validate_code -ne 0 ]]; then
   echo "MERMAID_VALIDATE_FAIL blocks=$block_count cli=$cli_version" >&2

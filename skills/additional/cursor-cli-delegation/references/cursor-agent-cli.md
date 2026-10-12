@@ -22,36 +22,38 @@ for candidate in agent cursor-agent; do
   cursor_cli=$candidate
   break
 done
-"$cursor_cli" --version
-"$cursor_cli" status
-"$cursor_cli" --help
-"$cursor_cli" models
+if [ -z "$cursor_cli" ]; then
+  echo 'Cursor CLI missing: neither agent nor cursor-agent reports a Cursor version' >&2
+else
+  "$cursor_cli" --version
+  "$cursor_cli" status
+  "$cursor_cli" --help
+  "$cursor_cli" models
+fi
 ```
 
-Cursor's version string is a dated build such as `2026.09.08-6caf4ff`. If neither name reports one, stop and say which executable answered instead; do not launch a different vendor's CLI with Cursor flags.
+Cursor's version string is a dated build such as `2026.09.08-6caf4ff`. If neither name reports one, the snippet reports the CLI as missing; stop and say which executable answered instead, if any. Do not launch a different vendor's CLI with Cursor flags.
 
-Stop if the executable, authentication, requested model, or necessary capability is unavailable. Installation, login, configuration changes, and model substitutions need authorization. Preserve relevant version/model evidence privately; status output may include account details.
+Stop if the executable, authentication, a user-named model, or necessary capability is unavailable. Installation, login, configuration changes, and model substitutions need authorization. Preserve relevant version/model evidence privately; status output may include account details.
 
-Default parent ID: `cursor-grok-4.6-xhigh-fast`. The locally observed listing and initialization label was `Cursor Grok 4.6 Extra High Fast`. An exact user-requested ID overrides this default. Verify the ID with the live account listing; do not repair malformed identifiers or silently route planning/judgment to another model. The listed xhigh profile selects the default effort; do not invent a separate thinking flag. Request-specific profiles or native overrides must be supported by current CLI evidence.
+Default parent model: the account's default. Omit `--model` unless the user names a model. Pass an exact user-requested ID with `--model` after verifying it in the live account listing; do not repair malformed identifiers or silently route planning/judgment to another model. A listed ID can carry its effort profile: for example, the listing checked on 2026-09-09 offered `cursor-grok-4.6-xhigh-fast`, labeled `Cursor Grok 4.6 Extra High Fast`, whose `xhigh` suffix selects the effort. Do not invent a separate thinking flag. Request-specific profiles or native overrides must be supported by current CLI evidence.
 
-This default governs the external Cursor parent, not the calling harness or every internal child. Leave child selection to Cursor unless the user imposes a policy; then verify the exposed controls and returned evidence, and name unsupported requirements.
+This choice governs the external Cursor parent, not the calling harness or every internal child. Leave child selection to Cursor unless the user imposes a policy; then verify the exposed controls and returned evidence, and name unsupported requirements.
 
 ## Direct Invocation
 
 Use native CLI commands, not a bundled launcher. A command-execution API that accepts an argument array avoids shell interpolation. When using a shell, quote each dynamic argument and never evaluate prompt content as code.
 
-The following is a POSIX-shell headless example. Set `workspace` to the existing authorized workspace and `packet_path` to a secret-free UTF-8 task file outside the skill package. Short tasks may use a directly quoted prompt instead; a file is not mandatory.
+The following is a POSIX-shell headless example for a task without edit authority, such as research or review: read-only `ask` mode, the account's default model, and no `--yolo`. Set `workspace` to the existing authorized workspace and `packet_path` to a secret-free UTF-8 task file outside the skill package. Short tasks may use a directly quoted prompt instead; a file is not mandatory.
 
 ```bash
-model='cursor-grok-4.6-xhigh-fast'
 workspace='/absolute/path/to/existing-workspace'
 packet_path='/absolute/private/path/task.txt'
 packet="$(<"$packet_path")"
 "$cursor_cli" --print \
-  --model "$model" \
+  --mode ask \
   --workspace "$workspace" \
   --output-format stream-json \
-  --yolo \
   -- "$packet"
 ```
 
@@ -61,14 +63,15 @@ Adapt the invocation using current CLI help and task authority:
 
 | Need | Native choice |
 | --- | --- |
-| Different parent model | Replace `--model` with the verified exact requested ID |
-| Narrower approvals | Omit `--yolo`; an approval block is not permission to bypass it |
-| Explicit read-only or planning mode | Use the supported `--mode ask` or `--mode plan` |
+| Planning without edit authority | Replace `--mode ask` with `--mode plan` |
+| Granted edit work, including requested commands | Replace `--mode ask` with `--yolo` (general agent mode) |
+| Narrower approvals for edit work | Drop `--mode ask` and leave out `--yolo`; an approval block is not permission to bypass it |
+| User-named parent model | Add `--model "$model"` with the verified exact ID |
 | Related continuation | Add `--resume "$session_id"` with the actual returned ID |
 | Another output or interaction style | Select a supported format or interactive mode when the host can drive it; adjust completion evidence accordingly |
 | Additional native capability | Check current help, prerequisites, and effects; use it directly when authorized |
 
-These are examples, not an exhaustive list or a new CLI abstraction. Keep general mode when no special mode was requested. Preserve sandbox configuration; do not add `--sandbox disabled`, extra workspace roots, blanket MCP approval, or workspace creation as incidental launch fixes.
+These are examples, not an exhaustive list or a new CLI abstraction. Use general agent mode only for granted edit work. If a read-only run stops on an approval it needs, report that rather than adding `--yolo`. Preserve sandbox configuration; do not add `--sandbox disabled`, extra workspace roots, blanket MCP approval, or workspace creation as incidental launch fixes.
 
 The observed help describes `--yolo` as an alias of `--force` (“Run Everything”). Treat it as broad unattended command/tool approval. The task's actual authority and the host's stricter policies still apply.
 
@@ -80,14 +83,13 @@ Preserve stdout and stderr using the host's capture facility. When persistent fi
 
 For other supported interaction/output styles, use their documented completion and session surfaces. Do not infer success merely because a terminal marker from a different format is absent or because the CLI printed a plausible answer. Separate transport completion from the requested artifact's acceptance.
 
-For a related follow-up, set `session_id` from the actual prior run, prepare the new instruction, and reuse the model/workspace choices as appropriate:
+For a related follow-up, set `session_id` from the actual prior run, prepare the new instruction, and reuse the mode, approval, model, and workspace choices of that run unless the task's authority changed:
 
 ```bash
 "$cursor_cli" --print \
-  --model "$model" \
+  --mode ask \
   --workspace "$workspace" \
   --output-format stream-json \
-  --yolo \
   --resume "$session_id" \
   -- "$followup"
 ```
@@ -102,9 +104,9 @@ Cancel through a verified live process handle scoped to this invocation. Do not 
 
 ## Maintenance Evidence
 
-Local syntax and model listing were checked on 2026-09-09. Initial preflight reported `2026.09.02-c22c1a3`; a later probe reported `2026.09.08-6caf4ff`. No install/update command was invoked, and the cause/timing of that transition was not established. Treat these as dated observations, not a guarantee of current CLI availability.
+Local syntax and model listing were checked on 2026-09-09. Installed help checked on 2026-10-12 lists `--mode` with the choices `plan` (read-only planning, no edits) and `ask` (read-only Q&A). Initial preflight reported `2026.09.02-c22c1a3`; a later probe reported `2026.09.08-6caf4ff`. No install/update command was invoked, and the cause/timing of that transition was not established. Treat these as dated observations, not a guarantee of current CLI availability.
 
-An earlier Python-assisted transport smoke used the exact default, YOLO, an empty temporary workspace, and a no-tools/no-writes task. Fresh and same-session runs succeeded without workspace changes. That helper has been removed; this evidence does not establish execution of the current direct-shell examples or behavior across calling harnesses. Sandbox configuration was already disabled during the earlier smoke, so it establishes no sandbox-enforcement claim.
+An earlier Python-assisted transport smoke used the model ID `cursor-grok-4.6-xhigh-fast`, YOLO, an empty temporary workspace, and a no-tools/no-writes task. Fresh and same-session runs succeeded without workspace changes. That helper has been removed; this evidence does not establish execution of the current direct-shell examples or behavior across calling harnesses. Sandbox configuration was already disabled during the earlier smoke, so it establishes no sandbox-enforcement claim.
 
 Recheck installed help and the relevant official surface when changing syntax, permission rules, or stream handling:
 

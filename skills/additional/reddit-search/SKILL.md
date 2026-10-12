@@ -21,9 +21,9 @@ Checked 2026-10-07; [access checks](references/access-checks.md) records what ea
 `scripts/reddit_archive.py` needs only `python3` (3.10+) and network access to `arctic-shift.photon-reddit.com`. Run it from this skill's directory:
 
 ```bash
-python3 scripts/reddit_archive.py posts --sub LocalLLaMA --query "vllm fp8"          # newest first, last year
-python3 scripts/reddit_archive.py posts --sub LocalLLaMA --query "vllm fp8" --by-score --limit 10
-python3 scripts/reddit_archive.py posts --sub LocalLLaMA --title "Gemma 4 vs Qwen" --after 2026-03-01 --before 2026-06-01
+python3 scripts/reddit_archive.py posts --sub LocalLLaMA --query "llama.cpp vulkan"   # newest first, last year
+python3 scripts/reddit_archive.py posts --sub LocalLLaMA --query "llama.cpp vulkan" --by-score --limit 10
+python3 scripts/reddit_archive.py posts --sub LocalLLaMA --title "best coding model" --after 2026-03-01 --before 2026-06-01
 python3 scripts/reddit_archive.py thread https://www.reddit.com/r/LocalLLaMA/comments/1wfdtm7/
 python3 scripts/reddit_archive.py comments --sub LocalLLaMA --body "arctic shift" --after 6m
 python3 scripts/reddit_archive.py subs localll
@@ -31,9 +31,9 @@ python3 scripts/reddit_archive.py subs localll
 
 - `posts` needs `--sub` or `--author`. `--query` matches title and body, `--title` only the title, and every word must appear. Keyword searches default to the last year and narrow to three months if the archive times out; pass `--after`/`--before` (`2026-03-01`, or an offset such as `2year`, `6m` for months, `2d`) for another period, or `--all-time`.
 - Results come newest first. `--by-score` ranks the newest 100 matches by score and prints the dates they span; in a busy subreddit that can be a few weeks, so set `--before` or a narrower period to rank older threads.
-- `thread` accepts a URL, `redd.it` link, `t3_` fullname, or id. It prints the post and the top comments by score with a few replies each, and writes the whole tree to a Markdown file whose `[n]` indices match the preview. Grep or read that file with an offset instead of printing it all.
+- `thread` accepts a URL, `redd.it` link, `t3_` fullname, or id. It prints the post and the top comments by score with a few replies each, and writes the archived tree to a Markdown file whose `[n]` indices match the preview. Grep or read that file with an offset instead of printing it all. The file holds at most `--max-comments` comments (default 3000); the archive returns comments beyond that limit as collapsed `more` stubs, which the helper skips. Its header compares `comments archived` (comments written to the file) with `comments reported` (Reddit's count); when archived sits well below reported, the file is not the whole thread, so raise `--max-comments` or say which part was read.
 - `--json` and `--width` are global options and go before the subcommand. `--json` prints the raw archive records.
-- Exit codes: 2 rejected arguments or unknown post, 3 archive timeout after one retry, 4 rate limited (stop and tell the user), 5 network failure.
+- Exit codes: 2 rejected arguments or unknown post, 3 archive timeout after one retry, 4 rate limited (stop and tell the user), 5 network failure or a response that is not JSON (an outage or maintenance page; retry later rather than in a loop).
 - On exit 3, narrow the period, use fewer or rarer words, or drop the keywords: `posts --sub <sub> --after <date> --before <date> --limit 100` lists every post in the period without a keyword index, and you match titles yourself. Keyword post search can time out even over a few days of a small subreddit while date listings and comment search still answer.
 
 ## Workflow

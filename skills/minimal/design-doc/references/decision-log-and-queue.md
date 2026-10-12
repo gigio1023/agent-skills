@@ -21,7 +21,7 @@ Number entries in order and never reuse a number. Give each a short noun-phrase 
 ### D4. Language-model candidate behind the existing Verdict interface
 
 - Status: Proposed, 2026-03-02
-- Evidence: hunch, from reading the incumbent's misses in a February sample; literature, [paraphrase-robustness study](link), shown on a different message domain
+- Evidence: hunch, from reading the incumbent's misses in a February sample; literature, a paraphrase-robustness study (citation), shown on a different message domain
 - Reverse if: in E1, the candidate's spam recall at the incumbent's false-positive rate is within 1 point of the incumbent's on the held-out month
 - Prediction, 2026-03-02: recall rises 3 to 6 points on paraphrased spam and changes little elsewhere
 - Critique, 2026-02-27: unmeasured; deciding measurement is E1; open attack: paraphrased spam may be too rare in deployment for any gain to matter

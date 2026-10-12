@@ -7,11 +7,12 @@ Usage:
 
 The renames file maps a normalized source (``github.com/owner/repo``) to ``{"old": "new"}``.
 A renamed package gets the new frontmatter ``name`` and folder. Every package in the
-selection is also scanned for unambiguous invocations of an old name (``/old``,
-``Skill tool with "old"``, and ``the `old` skill``) and rewritten. Packages that change
-are copied under ``<dir>/skills/<name>``; the rest are listed as unchanged so they can
-install from the remote source. Other quoted mentions of an old name are reported for
-review and left as written. A JSON summary goes to stdout.
+selection is also scanned for references to an old name (``/old``,
+``Skill tool with "old"``, ``the `old` skill``, and an exact backticked ``old``) and
+rewritten. Packages that change are copied under ``<dir>/skills/<name>``; the rest are
+listed as unchanged so they can install from the remote source. Other quoted mentions
+of an old name are reported for review and left as written. A JSON summary goes to
+stdout.
 """
 from __future__ import annotations
 
@@ -74,6 +75,7 @@ def invocation_patterns(old: str, new: str) -> list[tuple[re.Pattern[str], str]]
         (re.compile(rf"(?<![\w./-])/{name}(?![\w/-])"), f"/{new}"),
         (re.compile(rf"(Skill tool with\s+)([\"'`]){name}\2"), rf"\g<1>\g<2>{new}\g<2>"),
         (re.compile(rf"([\"'`]){name}\1(\s+skill\b)"), rf"\g<1>{new}\g<1>\g<2>"),
+        (re.compile(rf"(?<!`)`{name}`(?!`)"), f"`{new}`"),
     ]
 
 

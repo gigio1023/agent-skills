@@ -1,6 +1,6 @@
 # Finding Unknowns Workflow — Design Record
 
-Written 2026-07-11. Status on 2026-07-11: Tier 0 deployed; the `unknowns-pass` skill was built in this repository at `skills/productivity/unknowns-pass/`. Update 2026-09-23: that package no longer exists here; the workflow shipped as `find-unknowns` in [Gigio Pack](https://github.com/gigio1023/gigio-pack), and several skills this record names were later renamed or retired. Update 2026-10-12: `find-unknowns` is back in this repository at `skills/minimal/find-unknowns/`, realigned to scan broadly for what neither side has noticed and to lead with its own view; the `grilling` and `prototype` ideas this record defers were later adapted into `interview` and `design-exploration`. This document records the investigation, decisions, and rationale behind absorbing Tariq Shihipar's "Finding your unknowns" article into a personal workflow. An agent in a future session should be able to pick up the work from this document alone.
+Written 2026-07-11. Status on 2026-07-11: Tier 0 deployed; the `unknowns-pass` skill was built in this repository at `skills/productivity/unknowns-pass/`. Update 2026-09-23: that package no longer exists here; the workflow shipped as `find-unknowns` in [Gigio Pack](https://github.com/gigio1023/gigio-pack), and several skills this record names were later renamed or retired. Update 2026-10-12: `find-unknowns` is back in this repository at `skills/minimal/find-unknowns/`, realigned to scan broadly for what neither side has noticed and to lead with its own view; the `grilling` and `prototype` ideas this record defers were later adapted into `interview` and `design-exploration`. This document records the investigation, decisions, and rationale behind absorbing Thariq Shihipar's "Finding your unknowns" article into a personal workflow. Kept as the design record; current behavior is in `skills/minimal/find-unknowns/`.
 
 ## 1. Origin and Problem Statement
 
@@ -30,7 +30,7 @@ Source: [A field guide to Claude Fable 5: Finding your unknowns](https://claude.
 
 Pre-merge quiz prior art: dkamm/pr-quiz (207 stars, predates the article, dormant), sphinx-ci (7 stars), Gater (commercial). Verdict: 1:1 ports are already taken and the niche is crowded but shallow (built, then abandoned). Nothing is mature enough to adopt — if building, build our own, and only with a real difference.
 
-### Local harness assets (~/git/harness)
+### Locally cloned harness repositories
 
 - **Superpowers** (252k stars): the only genuine push precedent. A SessionStart hook force-injects skill guidance into every session, and its brainstorming skill enforces "HARD-GATE" (that repository's own term: no implementation before approval, no exceptions). Maximal process — a bad fit for this user. Only the push pattern was borrowed.
 - **everything-claude-code `intent-driven-development`**: the best engineering quality in the set. Reconnaissance first, depth scaled to risk, "does not block implementation by default," an AC `[revised]` protocol during implementation. Its output is acceptance criteria, orthogonal to unknowns discovery — a complement, not an overlap. Adoption candidate if high-risk changes become frequent.
@@ -66,7 +66,7 @@ Layer 2  domain skill sets (open set)             ← promoted only when a domai
 
 - **Layer 0 — push line**: global instructions in every harness. When a large/ambiguous/unfamiliar request arrives without a spec, plan, or reference, propose the single cheapest technique before executing. Five techniques: blindspot brief / option map (divergent brainstorm) / throwaway variants (taste) / mini-interview (≤7 questions, options plus a recommendation, hardest-to-reverse first) / reference request. Rules: never ask for discoverable facts, confirm the starting point once, effort limits (≤7 questions, ≤3 variants, ≤1 artifact), route to domain skill sets first, compress into a launch brief. During work keep a deviation log (4 fields); after work in an unfamiliar domain offer explainer+quiz. NOT for: small edits, well-specified work, "just do it."
 - **Layer 1 — unknowns-pass (built)**: the push line owns initiation, so the skill owns execution guidance only — a table classifying the dominant unknown (technique selection), how to run each of the five techniques well, the verification split (executable vs comprehension-checked), the launch brief template, and scenario-based quiz question structure. Location: `skills/productivity/unknowns-pass/`.
-- **Layer 2 — domain skill sets**: the existing one is games (game-direction → production → review); a partial one is investment (toss-portfolio-state + fable5-judgment); general deep discovery is deep-interview (explicit invocation only). **Promotion rule**: when a domain (a) recurs and (b) the generic techniques prove insufficient for it, promote it to a dedicated skill set. Finding: `investment-decision-support` exists only in the owner's private vault, so since 2026-10-07 `toss-portfolio-state` names it only as an optional, separately installed consumer. It is a natural candidate name if the investment skill set is promoted. A research skill set (working name research-direction) is also a promotion candidate.
+- **Layer 2 — domain skill sets**: the existing one is games (game-direction → production → review); a partial one is investment (toss-portfolio-state + fable5-judgment); general deep discovery is deep-interview (explicit invocation only). **Promotion rule**: when a domain (a) recurs and (b) the generic techniques prove insufficient for it, promote it to a dedicated skill set. Finding: no investment decision-support skill is published with this pack, so `toss-portfolio-state` hands its output only to an optional, separately installed consumer. A research skill set (working name research-direction) is also a promotion candidate.
 
 ## 5. What Is Deployed (Tier 0 v2, 2026-07-11)
 
@@ -77,10 +77,10 @@ Single canonical source plus symlinks/mirror:
 ├── ~/.claude/CLAUDE.md        → symlink (Claude Code)
 ├── ~/.codex/AGENTS.md         → symlink (Codex; the previous empty file was
 │                                 backed up as AGENTS.md.bak-empty)
-└── Cursor User Rule           → mirror (id 16793847; Cursor does not read
-                                  global rules from files, so it is registered
-                                  via the cursor-app-control MCP cursor_dialog
-                                  tool. Re-sync after editing the canonical file)
+└── Cursor User Rule           → mirror (Cursor does not read global rules
+                                  from files, so the rule is registered in
+                                  Cursor's settings; re-sync it after editing
+                                  the canonical file)
 ```
 
 v1 → v2 changes (reflecting the user profile): scope widened from code to all substantial work; brainstorm (option map) separated from taste variants, taking the techniques from 4 to 5; "hardest-to-reverse decisions first" added to the priorities; domain routing added; the notes file generalized to `decision-log.md` for non-code work; post-work comprehension check (explainer+quiz) added.
@@ -103,19 +103,19 @@ Known risks and responses:
 | adopting Superpowers | No implementation before approval, and maximal process throughout — the opposite of this user's temperament |
 | adopting any external pack | Nothing is mature (§2). Even the most popular one is a week-old personal repository |
 
-## 7. Decision History and Next Actions
+## 7. Decision History and Next Actions (2026-07-11)
 
 Decisions confirmed in the 2026-07-11 interview (deep-interview):
 
 - **Dropped the observation period; build now**: the original plan was "observe for 1–2 weeks, then decide," but a missed trigger is invisible — you have to notice that the line should have fired to record that it didn't — so manual observation was self-contradictory. The user chose to build immediately.
-- **One skill with a verification split**: splitting into an engineering skill and a non-engineering skill would duplicate most of the body. A single `unknowns-pass` keeps Tariq's lifecycle (techniques before, notes during, a check after) and only diverges on plan ordering, the notes file, and the final check depending on how the result is verified (executable vs comprehension-checked). Non-engineering domains (investment, research, career, life planning, money management) are absorbed through trigger vocabulary in the description and the in-body split, not separate skill sets.
+- **One skill with a verification split**: splitting into an engineering skill and a non-engineering skill would duplicate most of the body. A single `unknowns-pass` keeps Thariq's lifecycle (techniques before, notes during, a check after) and only diverges on plan ordering, the notes file, and the final check depending on how the result is verified (executable vs comprehension-checked). Non-engineering domains (investment, research, career, life planning, money management) are absorbed through trigger vocabulary in the description and the in-body split, not separate skill sets.
 - **The push line stays generic**: it does not name a specific skill (avoiding Cursor re-sync burden and coupling). The skill is discovered through its description triggers.
 - **Distribution path**: build in this repository → merge to main → install via the install-skill-pack procedure.
 
 Remaining actions:
 
 1. **Domain skill set promotion**: if a domain (research, investment, ...) recurs and the generic techniques prove insufficient, evaluate promotion per the rule in §4.
-2. **When editing the canonical file**: edit `~/.agents/AGENTS.md` → re-sync the Cursor user rule (cursor_dialog update, id 16793847). The symlinked harnesses update automatically.
+2. **When editing the canonical file**: edit the canonical global instruction file, then re-sync the Cursor user rule. The symlinked harnesses update automatically.
 
 ## 8. Usage Scenarios (examples — this list does not bound the scope)
 

@@ -6,8 +6,8 @@ description: >
   references, `op read`, `op run`, `op inject`, service accounts, shell
   plugins, or SSH-key fields. Triggers on 1Password, `op`, vaults, items, OTP,
   CLI login, env-file secrets, 1Password shell plugins, or API tokens and SSH
-  keys stored in 1Password. NOT for generic password advice, OpenClaw gateway/tmux auth flows,
-  or silently replacing a CLI request with MCP, Connect, or Environments.
+  keys stored in 1Password. NOT for generic password advice or silently
+  replacing a CLI request with MCP, Connect, or Environments.
 ---
 
 # 1Password CLI
@@ -27,7 +27,7 @@ If documentation and local help disagree, follow local help and report the misma
 ## Quick Start
 
 1. Classify the request as metadata lookup, secret consumption, a mutating operation, or setup/troubleshooting.
-2. Plan the required `op` calls before accessing real vault data. Use one batched call when possible; otherwise keep every call in one persistent PTY shell so one macOS app authorization window covers the task.
+2. Plan the required `op` calls before accessing real vault data. Use one batched call when possible; otherwise keep every call in one persistent PTY shell so one macOS app authorization window covers the task. In a harness without a persistent PTY, run the dependent calls (list, write, metadata check) in one script invocation; if that is not possible, tell the user up front that each call may prompt.
 3. Check authentication with `op whoami`. When multiple accounts exist, use `--account <account>` or set `OP_ACCOUNT` for that command.
 4. Choose the least-revealing route:
    - Metadata: `op vault list`, `op item list`, `op item get`.
@@ -48,8 +48,9 @@ Use one of these execution shapes before the first real data call:
 
 - One-shot batch: fetch JSON once, then filter or group locally with `jq`.
 - Persistent PTY: authenticate once, then run every follow-up `op` command in that same shell.
+- One script: when the harness has no persistent PTY, put the dependent calls (list, write, metadata check) in one script and run it once. If that is not possible either, tell the user before the first call that each call may prompt.
 
-If a second unexpected prompt appears, stop opening fresh shells and switch to one of those shapes. Do not use tmux to work around macOS app integration.
+If a second unexpected prompt appears, stop opening fresh shells and switch to one of those shapes. Do not route `op` through tmux or a detached session to avoid authorization prompts.
 
 Manual sign-in is a fallback when app integration is unavailable:
 
@@ -121,4 +122,4 @@ Prefer the 1Password SSH Agent for normal Git/SSH use so private keys are not ex
 - `op item get` is for item details; use `op read` for one secret field.
 - Shell expansion needed after `op run` belongs inside a subprocess, for example `op run -- sh -c 'command "$VAR"'`.
 - Same-user processes may be able to inspect environment variables. `op run` avoids durable plaintext but is not a complete boundary against local process inspection.
-- If authentication cannot connect, ask the user to unlock the app and confirm CLI integration, then retry directly in the same PTY session.
+- If authentication cannot connect, ask the user to unlock the app and confirm CLI integration, then retry directly in the same PTY session or script.
