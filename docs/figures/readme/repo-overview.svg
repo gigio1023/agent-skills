@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 504" data-figure="technical-figure">
+<text class="tp" x="24" y="34">(a)</text>
+<g data-id="repo"><rect class="container" x="56" y="20" width="288" height="300"/><text class="t mono" x="72" y="44">gigio-skills</text></g>
+<g data-id="minimal"><rect class="box blue focus" x="72" y="60" width="256" height="52"/><text class="t mono" x="88" y="76.5" dominant-baseline="central">skills/minimal/</text><text class="t2" x="88" y="95.5" dominant-baseline="central">32 skills, default install</text></g>
+<g data-id="additional"><rect class="box" x="72" y="124" width="256" height="52"/><text class="t mono" x="88" y="140.5" dominant-baseline="central">skills/additional/</text><text class="t2" x="88" y="159.5" dominant-baseline="central">15 skills, on request</text></g>
+<g data-id="docs"><rect class="box ghost" x="72" y="188" width="256" height="52"/><text class="t mono ghost" x="88" y="204.5" dominant-baseline="central">docs/</text><text class="t2" x="88" y="223.5" dominant-baseline="central">migration map, design records</text></g>
+<g data-id="agents-md"><rect class="box ghost" x="72" y="252" width="256" height="52"/><text class="t mono ghost" x="88" y="268.5" dominant-baseline="central">AGENTS.md</text><text class="t2" x="88" y="287.5" dominant-baseline="central">authoring rules</text></g>
+<g data-id="cli"><rect class="box" x="400" y="104" width="136" height="52"/><text class="t" x="416" y="120.5" dominant-baseline="central">npx skills</text><text class="t2" x="416" y="139.5" dominant-baseline="central">add, update, list</text></g>
+<path class="edge emph blue" data-id="e-min" d="M328 86H356Q364 86 364 94V116Q364 124 372 124H400" data-arrow="end"/>
+<path class="edge" data-id="e-add" d="M328 150H358Q364 150 364 144V142Q364 136 370 136H400" data-arrow="end"/>
+<g data-id="targets"><rect class="container" x="568" y="20" width="136" height="232"/><text class="micro" x="584" y="44">YOUR AGENTS</text></g>
+<g data-id="ag-claude"><rect class="box" x="584" y="60" width="104" height="32"/><text class="t" x="636.0" y="76.0" text-anchor="middle" dominant-baseline="central">Claude Code</text></g>
+<g data-id="ag-codex"><rect class="box" x="584" y="108" width="104" height="32"/><text class="t" x="636.0" y="124.0" text-anchor="middle" dominant-baseline="central">Codex</text></g>
+<g data-id="ag-cursor"><rect class="box" x="584" y="156" width="104" height="32"/><text class="t" x="636.0" y="172.0" text-anchor="middle" dominant-baseline="central">Cursor</text></g>
+<g data-id="ag-others"><rect class="box ghost" x="584" y="204" width="104" height="32"/><text class="t ghost" x="636.0" y="220.0" text-anchor="middle" dominant-baseline="central">others</text></g>
+<g data-id="e-install"><circle class="dot" cx="552" cy="130"/><path class="edge" d="M536 130H552"/><path class="edge" d="M552 130V82Q552 76 558 76H584" data-arrow="end"/><path class="edge" d="M552 130Q552 124 558 124H584" data-arrow="end"/><path class="edge" d="M552 130V166Q552 172 558 172H584" data-arrow="end"/><path class="edge" d="M552 130V214Q552 220 558 220H584" data-arrow="end"/></g>
+<text class="ta" x="468" y="184" text-anchor="middle">--agent, --global</text>
+<path class="guide" d="M24 344H696"/>
+<text class="tp" x="24" y="382">(b)</text>
+<g data-id="pkg"><rect class="container" x="56" y="364" width="648" height="124"/><text class="t mono" x="72" y="388">skills/minimal/copydesk/</text><text class="t2" x="688" y="388" text-anchor="end">one skill = one folder</text></g>
+<g data-id="pkg-skill-md"><rect class="box focus" x="72" y="412" width="160" height="56"/><text class="t mono" x="88" y="430.5" dominant-baseline="central">SKILL.md</text><text class="t2" x="88" y="449.5" dominant-baseline="central">when to run, how</text></g>
+<g data-id="pkg-references"><rect class="box" x="248" y="412" width="160" height="56"/><text class="t mono" x="264" y="430.5" dominant-baseline="central">references/</text><text class="t2" x="264" y="449.5" dominant-baseline="central">read per decision</text></g>
+<g data-id="pkg-scripts"><rect class="box" x="424" y="412" width="120" height="56"/><text class="t mono" x="440" y="430.5" dominant-baseline="central">scripts/</text><text class="t2" x="440" y="449.5" dominant-baseline="central">bundled tools</text></g>
+<g data-id="pkg-assets"><rect class="box" x="560" y="412" width="128" height="56"/><text class="t mono" x="576" y="430.5" dominant-baseline="central">assets/</text><text class="t2" x="576" y="449.5" dominant-baseline="central">templates</text></g>
+</svg>
