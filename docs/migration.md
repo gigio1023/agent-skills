@@ -124,3 +124,7 @@ Claude Code lists skills within about 1% of the model's context window and Codex
 | None | `vuln-report` in additional | Vulnerability reports, advisories, and their evidence packages, with rules sourced from a survey of published reports, maintainer policies, and record formats |
 
 `copydesk` keeps general writing; `vuln-report` owns report structure, evidence, severity and range decisions, and disclosure for security findings. It sits in the additional set because the minimal-set test in `AGENTS.md` asks whether a kind of the maintainer's work recurs without an owner, and that has not been asserted for security reporting. Install it by name when needed.
+
+## Zcode CLI on 2026-10-14
+
+`zcode-cli` joins the additional install set. It owns official Zcode CLI discovery, model and reasoning selection, task execution, and session continuation. `read-agent-sessions` continues to own reading stored conversations for another agent. The new package uses the runtime catalog rather than fixing every task to one provider or model. Publication does not install the skill or change Zcode authentication.
