@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" data-figure="technical-figure">
+<g data-id="head"><text class="micro" x="24" y="38">ADDITIONAL SET</text><text class="t mono" x="216" y="38">skills/additional/</text><text class="t2" x="696" y="38" text-anchor="end">15 skills, installed on request</text></g>
+<path class="guide" d="M24 56H696"/>
+<g data-id="cat-0"><text class="t" x="24" y="94.0" dominant-baseline="central">Research and evaluation</text><text class="t2" x="24" y="114.0" dominant-baseline="central">4 skills</text></g>
+<g data-id="credo-taste"><rect class="box" x="216.0" y="80.0" width="116.4" height="28"/><text class="t mono" x="274.2" y="94.0" text-anchor="middle" dominant-baseline="central">credo-taste</text></g>
+<g data-id="credo-paper-plan"><rect class="box" x="340.4" y="80.0" width="158.4" height="28"/><text class="t mono" x="419.6" y="94.0" text-anchor="middle" dominant-baseline="central">credo-paper-plan</text></g>
+<g data-id="credo-journal"><rect class="box" x="506.8" y="80.0" width="133.2" height="28"/><text class="t mono" x="573.4" y="94.0" text-anchor="middle" dominant-baseline="central">credo-journal</text></g>
+<g data-id="credo-release"><rect class="box" x="216.0" y="116.0" width="133.2" height="28"/><text class="t mono" x="282.6" y="130.0" text-anchor="middle" dominant-baseline="central">credo-release</text></g>
+<path class="guide" d="M24 156.0H696"/>
+<g data-id="cat-1"><text class="t" x="24" y="182.0" dominant-baseline="central">Development and delivery</text><text class="t2" x="24" y="202.0" dominant-baseline="central">1 skill</text></g>
+<g data-id="pr-review-comment"><rect class="box" x="216.0" y="168.0" width="166.8" height="28"/><text class="t mono" x="299.4" y="182.0" text-anchor="middle" dominant-baseline="central">pr-review-comment</text></g>
+<path class="guide" d="M24 220.0H696"/>
+<g data-id="cat-2"><text class="t" x="24" y="246.0" dominant-baseline="central">Writing and language</text><text class="t2" x="24" y="266.0" dominant-baseline="central">1 skill</text></g>
+<g data-id="english-prompt-review"><rect class="box" x="216.0" y="232.0" width="200.4" height="28"/><text class="t mono" x="316.2" y="246.0" text-anchor="middle" dominant-baseline="central">english-prompt-review</text></g>
+<path class="guide" d="M24 284.0H696"/>
+<g data-id="cat-3"><text class="t" x="24" y="310.0" dominant-baseline="central">Design and visualization</text><text class="t2" x="24" y="330.0" dominant-baseline="central">1 skill</text></g>
+<g data-id="mermaid-diagrams"><rect class="box" x="216.0" y="296.0" width="158.4" height="28"/><text class="t mono" x="295.2" y="310.0" text-anchor="middle" dominant-baseline="central">mermaid-diagrams</text></g>
+<path class="guide" d="M24 348.0H696"/>
+<g data-id="cat-4"><text class="t" x="24" y="374.0" dominant-baseline="central">Agents and harnesses</text><text class="t2" x="24" y="394.0" dominant-baseline="central">4 skills</text></g>
+<g data-id="codex-delegate"><rect class="box" x="216.0" y="360.0" width="141.6" height="28"/><text class="t mono" x="286.8" y="374.0" text-anchor="middle" dominant-baseline="central">codex-delegate</text></g>
+<g data-id="cursor-cli-delegation"><rect class="box" x="365.6" y="360.0" width="200.4" height="28"/><text class="t mono" x="465.8" y="374.0" text-anchor="middle" dominant-baseline="central">cursor-cli-delegation</text></g>
+<g data-id="small-model-handoff"><rect class="box" x="216.0" y="396.0" width="183.6" height="28"/><text class="t mono" x="307.8" y="410.0" text-anchor="middle" dominant-baseline="central">small-model-handoff</text></g>
+<g data-id="read-agent-sessions"><rect class="box" x="407.6" y="396.0" width="183.6" height="28"/><text class="t mono" x="499.4" y="410.0" text-anchor="middle" dominant-baseline="central">read-agent-sessions</text></g>
+<path class="guide" d="M24 436.0H696"/>
+<g data-id="cat-5"><text class="t" x="24" y="462.0" dominant-baseline="central">Personal tools</text><text class="t2" x="24" y="482.0" dominant-baseline="central">4 skills</text></g>
+<g data-id="1password-cli"><rect class="box" x="216.0" y="448.0" width="133.2" height="28"/><text class="t mono" x="282.6" y="462.0" text-anchor="middle" dominant-baseline="central">1password-cli</text></g>
+<g data-id="pdf-page-count"><rect class="box" x="357.2" y="448.0" width="141.6" height="28"/><text class="t mono" x="428.0" y="462.0" text-anchor="middle" dominant-baseline="central">pdf-page-count</text></g>
+<g data-id="reddit-search"><rect class="box" x="506.8" y="448.0" width="133.2" height="28"/><text class="t mono" x="573.4" y="462.0" text-anchor="middle" dominant-baseline="central">reddit-search</text></g>
+<g data-id="toss-portfolio-state"><rect class="box" x="216.0" y="484.0" width="192.0" height="28"/><text class="t mono" x="312.0" y="498.0" text-anchor="middle" dominant-baseline="central">toss-portfolio-state</text></g>
+</svg>

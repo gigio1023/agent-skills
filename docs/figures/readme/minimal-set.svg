@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 708" data-figure="technical-figure">
+<g data-id="head"><text class="micro" x="24" y="38">MINIMAL SET</text><text class="t mono" x="216" y="38">skills/minimal/</text><text class="t2" x="696" y="38" text-anchor="end">32 skills, installed by default</text></g>
+<path class="guide" d="M24 56H696"/>
+<g data-id="cat-0"><text class="t" x="24" y="94.0" dominant-baseline="central">Research and evaluation</text><text class="t2" x="24" y="114.0" dominant-baseline="central">10 skills</text></g>
+<g data-id="praxis-direction"><rect class="box blue" x="216.0" y="80.0" width="158.4" height="28"/><text class="t mono" x="295.2" y="94.0" text-anchor="middle" dominant-baseline="central">praxis-direction</text></g>
+<g data-id="design-exploration"><rect class="box blue" x="382.4" y="80.0" width="175.2" height="28"/><text class="t mono" x="470.0" y="94.0" text-anchor="middle" dominant-baseline="central">design-exploration</text></g>
+<g data-id="idea-critique"><rect class="box blue" x="216.0" y="116.0" width="133.2" height="28"/><text class="t mono" x="282.6" y="130.0" text-anchor="middle" dominant-baseline="central">idea-critique</text></g>
+<g data-id="design-doc"><rect class="box blue" x="357.2" y="116.0" width="108.0" height="28"/><text class="t mono" x="411.2" y="130.0" text-anchor="middle" dominant-baseline="central">design-doc</text></g>
+<g data-id="literature-research"><rect class="box blue" x="473.2" y="116.0" width="183.6" height="28"/><text class="t mono" x="565.0" y="130.0" text-anchor="middle" dominant-baseline="central">literature-research</text></g>
+<g data-id="internal-source-research"><rect class="box blue" x="216.0" y="152.0" width="225.6" height="28"/><text class="t mono" x="328.8" y="166.0" text-anchor="middle" dominant-baseline="central">internal-source-research</text></g>
+<g data-id="ml-experiment"><rect class="box blue" x="449.6" y="152.0" width="133.2" height="28"/><text class="t mono" x="516.2" y="166.0" text-anchor="middle" dominant-baseline="central">ml-experiment</text></g>
+<g data-id="evaluation-design"><rect class="box blue" x="216.0" y="188.0" width="166.8" height="28"/><text class="t mono" x="299.4" y="202.0" text-anchor="middle" dominant-baseline="central">evaluation-design</text></g>
+<g data-id="evaluation-operations"><rect class="box blue" x="390.8" y="188.0" width="200.4" height="28"/><text class="t mono" x="491.0" y="202.0" text-anchor="middle" dominant-baseline="central">evaluation-operations</text></g>
+<g data-id="evaluation-audit"><rect class="box blue" x="216.0" y="224.0" width="158.4" height="28"/><text class="t mono" x="295.2" y="238.0" text-anchor="middle" dominant-baseline="central">evaluation-audit</text></g>
+<path class="guide" d="M24 264.0H696"/>
+<g data-id="cat-1"><text class="t" x="24" y="290.0" dominant-baseline="central">Project continuity</text><text class="t2" x="24" y="310.0" dominant-baseline="central">5 skills</text></g>
+<g data-id="find-unknowns"><rect class="box blue" x="216.0" y="276.0" width="133.2" height="28"/><text class="t mono" x="282.6" y="290.0" text-anchor="middle" dominant-baseline="central">find-unknowns</text></g>
+<g data-id="interview"><rect class="box blue" x="357.2" y="276.0" width="99.6" height="28"/><text class="t mono" x="407.0" y="290.0" text-anchor="middle" dominant-baseline="central">interview</text></g>
+<g data-id="work-plan"><rect class="box blue" x="464.8" y="276.0" width="99.6" height="28"/><text class="t mono" x="514.6" y="290.0" text-anchor="middle" dominant-baseline="central">work-plan</text></g>
+<g data-id="session-handoff"><rect class="box blue" x="216.0" y="312.0" width="150.0" height="28"/><text class="t mono" x="291.0" y="326.0" text-anchor="middle" dominant-baseline="central">session-handoff</text></g>
+<g data-id="terminology"><rect class="box blue" x="374.0" y="312.0" width="116.4" height="28"/><text class="t mono" x="432.2" y="326.0" text-anchor="middle" dominant-baseline="central">terminology</text></g>
+<path class="guide" d="M24 352.0H696"/>
+<g data-id="cat-2"><text class="t" x="24" y="378.0" dominant-baseline="central">Development and delivery</text><text class="t2" x="24" y="398.0" dominant-baseline="central">8 skills</text></g>
+<g data-id="coding-standards"><rect class="box blue" x="216.0" y="364.0" width="158.4" height="28"/><text class="t mono" x="295.2" y="378.0" text-anchor="middle" dominant-baseline="central">coding-standards</text></g>
+<g data-id="bug-diagnosis"><rect class="box blue" x="382.4" y="364.0" width="133.2" height="28"/><text class="t mono" x="449.0" y="378.0" text-anchor="middle" dominant-baseline="central">bug-diagnosis</text></g>
+<g data-id="load-testing"><rect class="box blue" x="523.6" y="364.0" width="124.8" height="28"/><text class="t mono" x="586.0" y="378.0" text-anchor="middle" dominant-baseline="central">load-testing</text></g>
+<g data-id="review-panel"><rect class="box blue" x="216.0" y="400.0" width="124.8" height="28"/><text class="t mono" x="278.4" y="414.0" text-anchor="middle" dominant-baseline="central">review-panel</text></g>
+<g data-id="git-worktree-setup"><rect class="box blue" x="348.8" y="400.0" width="175.2" height="28"/><text class="t mono" x="436.4" y="414.0" text-anchor="middle" dominant-baseline="central">git-worktree-setup</text></g>
+<g data-id="commit-and-push"><rect class="box blue" x="532.0" y="400.0" width="150.0" height="28"/><text class="t mono" x="607.0" y="414.0" text-anchor="middle" dominant-baseline="central">commit-and-push</text></g>
+<g data-id="draft-pr"><rect class="box blue" x="216.0" y="436.0" width="91.2" height="28"/><text class="t mono" x="261.6" y="450.0" text-anchor="middle" dominant-baseline="central">draft-pr</text></g>
+<g data-id="write-issue"><rect class="box blue" x="315.2" y="436.0" width="116.4" height="28"/><text class="t mono" x="373.4" y="450.0" text-anchor="middle" dominant-baseline="central">write-issue</text></g>
+<path class="guide" d="M24 476.0H696"/>
+<g data-id="cat-3"><text class="t" x="24" y="502.0" dominant-baseline="central">Writing and language</text><text class="t2" x="24" y="522.0" dominant-baseline="central">2 skills</text></g>
+<g data-id="copydesk"><rect class="box blue" x="216.0" y="488.0" width="91.2" height="28"/><text class="t mono" x="261.6" y="502.0" text-anchor="middle" dominant-baseline="central">copydesk</text></g>
+<g data-id="write-notion"><rect class="box blue" x="315.2" y="488.0" width="124.8" height="28"/><text class="t mono" x="377.6" y="502.0" text-anchor="middle" dominant-baseline="central">write-notion</text></g>
+<path class="guide" d="M24 540.0H696"/>
+<g data-id="cat-4"><text class="t" x="24" y="566.0" dominant-baseline="central">Design and visualization</text><text class="t2" x="24" y="586.0" dominant-baseline="central">2 skills</text></g>
+<g data-id="frontend-design"><rect class="box blue" x="216.0" y="552.0" width="150.0" height="28"/><text class="t mono" x="291.0" y="566.0" text-anchor="middle" dominant-baseline="central">frontend-design</text></g>
+<g data-id="insight-dashboard"><rect class="box blue" x="374.0" y="552.0" width="166.8" height="28"/><text class="t mono" x="457.4" y="566.0" text-anchor="middle" dominant-baseline="central">insight-dashboard</text></g>
+<path class="guide" d="M24 604.0H696"/>
+<g data-id="cat-5"><text class="t" x="24" y="630.0" dominant-baseline="central">Agents and harnesses</text><text class="t2" x="24" y="650.0" dominant-baseline="central">5 skills</text></g>
+<g data-id="orchestrate-subagents"><rect class="box blue" x="216.0" y="616.0" width="200.4" height="28"/><text class="t mono" x="316.2" y="630.0" text-anchor="middle" dominant-baseline="central">orchestrate-subagents</text></g>
+<g data-id="model-routing"><rect class="box blue" x="424.4" y="616.0" width="133.2" height="28"/><text class="t mono" x="491.0" y="630.0" text-anchor="middle" dominant-baseline="central">model-routing</text></g>
+<g data-id="prompting-guide"><rect class="box blue" x="216.0" y="652.0" width="150.0" height="28"/><text class="t mono" x="291.0" y="666.0" text-anchor="middle" dominant-baseline="central">prompting-guide</text></g>
+<g data-id="skill-builder"><rect class="box blue" x="374.0" y="652.0" width="133.2" height="28"/><text class="t mono" x="440.6" y="666.0" text-anchor="middle" dominant-baseline="central">skill-builder</text></g>
+<g data-id="install-skill-pack"><rect class="box blue" x="515.2" y="652.0" width="175.2" height="28"/><text class="t mono" x="602.8" y="666.0" text-anchor="middle" dominant-baseline="central">install-skill-pack</text></g>
+</svg>
