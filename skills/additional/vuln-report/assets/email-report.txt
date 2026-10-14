@@ -1,0 +1,62 @@
+Skeleton for a report to a security email alias. Plain text, about 72 columns.
+Replace every <...>, delete these guidance lines, and follow the
+project's policy where it differs (some want no attachments, no
+Markdown). Summary, Versions, Reproduction, and Impact are the core;
+cut the rest where the policy asks for a short report.
+
+Subject: <component>: <flaw class> in <product> <tested version>
+
+Summary
+
+  <The component> <does what wrong> when <condition>, so <attacker with
+  what access> can <demonstrated result>. Tested on <version, commit>.
+  <Whether the default configuration is affected.>
+
+Versions
+
+  Tested: <exact versions and commits, OS, runtime>
+  Code unchanged since: <tag>, checked by <method>, not executed
+  Affected range, estimated: <range>; unknown below <version>
+
+Conditions
+
+  - <attacker privilege>
+  - <configuration or option, and whether it is the default>
+  - <victim action or deployment, if any>
+
+Reproduction
+
+  1. <setup step, as which identity>
+  2. <attack step, as which identity>
+
+     <exact command or request>
+
+  Expected: <correct behavior>
+  Observed: <actual behavior>
+  Control: <the same step through the normal path is refused>
+
+  <If the policy discourages attachments: say a reproducer and logs are
+  available on request. Otherwise list each attached file and its SHA-256.>
+
+Impact
+
+  <Demonstrated capability, one or two sentences. What is not affected.
+  Any undemonstrated chain in its own sentence with its condition.>
+
+Suggested fix
+
+  <Root fix in a few sentences; patch inline or attached, against
+  <commit>, with a Fixes: tag where the project uses one, and how it
+  was tested. A proposal.>
+
+Tooling
+
+  <What tools or AI did, and what you ran, read, and verified.>
+
+Disclosure
+
+  <Disclosure timeline you follow or propose, and any time constraints.>
+  <Known exploitation, or none known. Who else has the details.>
+
+<Name, how you want to be credited, and that you can answer questions and
+re-run tests.>

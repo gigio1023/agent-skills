@@ -2,11 +2,11 @@
 
 [![skills.sh](https://skills.sh/b/gigio1023/gigio-skills)](https://skills.sh/gigio1023/gigio-skills)
 
-47 reusable [Agent Skills](https://agentskills.io/) for research and evaluation, software delivery, writing, and work with coding agents such as Claude Code, Codex, and Cursor. The skills live in two install sets: the **minimal set** is the default install, and the **additional set** is installed on request. [`npx skills`](https://github.com/vercel-labs/skills) copies the skills you choose into the agents you choose.
+48 reusable [Agent Skills](https://agentskills.io/) for research and evaluation, software delivery, writing, and work with coding agents such as Claude Code, Codex, and Cursor. The skills live in two install sets: the **minimal set** is the default install, and the **additional set** is installed on request. [`npx skills`](https://github.com/vercel-labs/skills) copies the skills you choose into the agents you choose.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/readme/repo-overview.dark.png">
-  <img src="docs/figures/readme/repo-overview.light.png" width="720" alt="The gigio-skills repository holds skills/minimal with 32 skills installed by default, skills/additional with 15 skills installed on request, docs, and AGENTS.md. npx skills installs the chosen skills into Claude Code, Codex, Cursor, and other agents. Each skill is one folder with SKILL.md and optional references, scripts, and assets.">
+  <img src="docs/figures/readme/repo-overview.light.png" width="720" alt="The gigio-skills repository holds skills/minimal with 32 skills installed by default, skills/additional with 16 skills installed on request, docs, and AGENTS.md. npx skills installs the chosen skills into Claude Code, Codex, Cursor, and other agents. Each skill is one folder with SKILL.md and optional references, scripts, and assets.">
 </picture>
 
 A skill is one folder. `SKILL.md` holds the description an agent reads to decide when to run the skill, plus its instructions; `references/`, `scripts/`, and `assets/` are loaded only for the decision that needs them. Each skill works on its own, so an ordinary task does not have to start a project workflow.
@@ -21,7 +21,7 @@ A skill is one folder. `SKILL.md` holds the description an agent reads to decide
 </picture>
 
 - **Minimal set** `skills/minimal/`: 32 skills that cover the maintainer's recurring work. A minimal skill never requires an additional or external skill; it may mention one "when installed".
-- **Additional set** `skills/additional/`: 15 skills for the paper track, by-name workflows, harness-specific delegation, and personal tools.
+- **Additional set** `skills/additional/`: 16 skills for the paper track, vulnerability reporting, by-name workflows, harness-specific delegation, and personal tools.
 - **A set decides availability only.** Once installed, each skill's description and invocation settings decide when it runs. The minimal set reflects the maintainer's work, so choose sets and skills by your own.
 
 <picture>
@@ -31,7 +31,7 @@ A skill is one folder. `SKILL.md` holds the description an agent reads to decide
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/readme/additional-set.dark.png">
-  <img src="docs/figures/readme/additional-set.light.png" width="720" alt="The 15 additional skills by kind of work. Research and evaluation: credo-taste, credo-paper-plan, credo-journal, credo-release. Development and delivery: pr-review-comment. Writing and language: english-prompt-review. Design and visualization: mermaid-diagrams. Agents and harnesses: codex-delegate, cursor-cli-delegation, small-model-handoff, read-agent-sessions. Personal tools: 1password-cli, pdf-page-count, reddit-search, toss-portfolio-state.">
+  <img src="docs/figures/readme/additional-set.light.png" width="720" alt="The 16 additional skills by kind of work. Research and evaluation: credo-taste, credo-paper-plan, credo-journal, credo-release. Development and delivery: pr-review-comment. Writing and language: english-prompt-review, vuln-report. Design and visualization: mermaid-diagrams. Agents and harnesses: codex-delegate, cursor-cli-delegation, small-model-handoff, read-agent-sessions. Personal tools: 1password-cli, pdf-page-count, reddit-search, toss-portfolio-state.">
 </picture>
 
 ## Install
@@ -45,7 +45,7 @@ npx --yes skills add 'https://github.com/gigio1023/gigio-skills/tree/main/skills
   --skill '*' --agent claude-code codex cursor --global --yes
 ```
 
-Use `skills/additional` in the same URL for the additional set, or `'gigio1023/gigio-skills#main'` for all 47 skills. Quote the `'*'` so the shell does not expand it.
+Use `skills/additional` in the same URL for the additional set, or `'gigio1023/gigio-skills#main'` for all 48 skills. Quote the `'*'` so the shell does not expand it.
 
 Install selected skills by name:
 
@@ -139,13 +139,14 @@ Grouped by kind of work, in the same order as the figures above. Open a group to
 </details>
 
 <details>
-<summary><b>Writing and language</b>: 2 minimal, 1 additional</summary>
+<summary><b>Writing and language</b>: 2 minimal, 2 additional</summary>
 
 | Skill | Set | Use it to |
 | --- | --- | --- |
 | [copydesk](skills/minimal/copydesk/) | minimal | Write, revise, and review documents in natural Korean and precise English; the entry point for any reader-facing text |
 | [write-notion](skills/minimal/write-notion/) | minimal | Create and revise team pages in Notion with layout, mentions, tables, and figures |
 | [english-prompt-review](skills/additional/english-prompt-review/) | additional | Rewrite an English prompt naturally and explain nuance in your native language |
+| [vuln-report](skills/additional/vuln-report/) | additional | Write and check vulnerability reports, advisories, and evidence packages for each disclosure venue |
 
 `copydesk` supplies the shared writing principles that `draft-pr`, `write-issue`, and `write-notion` apply. See its [synthetic examples](skills/minimal/copydesk/references/synthetic-examples.md), [sharing and delivery](skills/minimal/copydesk/references/sharing-and-delivery.md) reference, and the [public writing sources](docs/writing-sources.md).
 
@@ -215,7 +216,7 @@ Inspect a checkout without creating a tracked install:
 npx --yes skills add . --list
 ```
 
-Before publishing, check that each `SKILL.md` name matches its folder, every referenced path exists, the catalog points to the right skill, and the listing finds 47 unique names.
+Before publishing, check that each `SKILL.md` name matches its folder, every referenced path exists, the catalog points to the right skill, and the listing finds 48 unique names.
 
 | Topic | Document |
 | --- | --- |

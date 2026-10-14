@@ -1,0 +1,47 @@
+Skeleton for a public post to oss-security or a similar list. Send only after
+the fix is released and the agreed date has passed. Plain text, about 72
+columns. Replace every <...> and delete these guidance lines.
+
+Subject: <CVE-ID>: <product>: <flaw class> in <component>
+
+Summary
+=======
+
+<Product> <versions> <has what flaw> in <component>, triggered by
+<condition>. <Attacker> can <result>. The default configuration <is / is
+not> affected. Fixed in <version> (<commit or release link>).
+
+Affected versions
+=================
+
+- <range as intervals, with the introducing commit if known>
+- Tested on: <exact targets, kept separate from the range>
+- Not affected: <versions, platforms, or modes, with the reason>
+
+Details
+=======
+
+<Mechanism, with code references pinned to the vulnerable release. One
+subsection per issue if there are several, each with its fix reference.>
+
+Patches and mitigation
+======================
+
+<Fixed versions and commits. Any workaround and its trade-off.>
+
+Not investigated
+================
+
+<What remains uncertain or was not tested.>
+
+Acknowledgments
+===============
+
+<Maintainers, coordinators, and anyone else, in prose.>
+
+Timeline
+========
+
+<YYYY-MM-DD>: <actor> <reported / acknowledged / fixed / released>.
+<YYYY-MM-DD>: <actor> <event>.
+<YYYY-MM-DD>: Coordinated release.

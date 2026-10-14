@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" data-figure="technical-figure">
-<g data-id="head"><text class="micro" x="24" y="38">ADDITIONAL SET</text><text class="t mono" x="216" y="38">skills/additional/</text><text class="t2" x="696" y="38" text-anchor="end">15 skills, installed on request</text></g>
+<g data-id="head"><text class="micro" x="24" y="38">ADDITIONAL SET</text><text class="t mono" x="216" y="38">skills/additional/</text><text class="t2" x="696" y="38" text-anchor="end">16 skills, installed on request</text></g>
 <path class="guide" d="M24 56H696"/>
 <g data-id="cat-0"><text class="t" x="24" y="94.0" dominant-baseline="central">Research and evaluation</text><text class="t2" x="24" y="114.0" dominant-baseline="central">4 skills</text></g>
 <g data-id="credo-taste"><rect class="box" x="216.0" y="80.0" width="116.4" height="28"/><text class="t mono" x="274.2" y="94.0" text-anchor="middle" dominant-baseline="central">credo-taste</text></g>
@@ -10,8 +10,9 @@
 <g data-id="cat-1"><text class="t" x="24" y="182.0" dominant-baseline="central">Development and delivery</text><text class="t2" x="24" y="202.0" dominant-baseline="central">1 skill</text></g>
 <g data-id="pr-review-comment"><rect class="box" x="216.0" y="168.0" width="166.8" height="28"/><text class="t mono" x="299.4" y="182.0" text-anchor="middle" dominant-baseline="central">pr-review-comment</text></g>
 <path class="guide" d="M24 220.0H696"/>
-<g data-id="cat-2"><text class="t" x="24" y="246.0" dominant-baseline="central">Writing and language</text><text class="t2" x="24" y="266.0" dominant-baseline="central">1 skill</text></g>
+<g data-id="cat-2"><text class="t" x="24" y="246.0" dominant-baseline="central">Writing and language</text><text class="t2" x="24" y="266.0" dominant-baseline="central">2 skills</text></g>
 <g data-id="english-prompt-review"><rect class="box" x="216.0" y="232.0" width="200.4" height="28"/><text class="t mono" x="316.2" y="246.0" text-anchor="middle" dominant-baseline="central">english-prompt-review</text></g>
+<g data-id="vuln-report"><rect class="box" x="424.4" y="232.0" width="116.4" height="28"/><text class="t mono" x="482.6" y="246.0" text-anchor="middle" dominant-baseline="central">vuln-report</text></g>
 <path class="guide" d="M24 284.0H696"/>
 <g data-id="cat-3"><text class="t" x="24" y="310.0" dominant-baseline="central">Design and visualization</text><text class="t2" x="24" y="330.0" dominant-baseline="central">1 skill</text></g>
 <g data-id="mermaid-diagrams"><rect class="box" x="216.0" y="296.0" width="158.4" height="28"/><text class="t mono" x="295.2" y="310.0" text-anchor="middle" dominant-baseline="central">mermaid-diagrams</text></g>

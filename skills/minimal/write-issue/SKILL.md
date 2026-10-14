@@ -110,7 +110,7 @@ Leave the assignee empty when ownership is ambiguous: the work belongs to anothe
 
 ## Shared-Record Safety
 
-Creating or editing an issue notifies people and may sync to chat, email, and search, where a later edit does not recall it. Keep secrets, credentials, personal data, and customer-confidential text out, and link the access-controlled source instead. Check the sharing boundary before writing: a public repository and a private workspace are different audiences.
+Creating or editing an issue notifies people and may sync to chat, email, and search, where a later edit does not recall it. Keep secrets, credentials, personal data, and customer-confidential text out, and link the access-controlled source instead. Check the sharing boundary before writing: a public repository and a private workspace are different audiences. An unfixed vulnerability goes to the project's private reporting channel rather than a public issue, through `vuln-report` when installed.
 
 When editing, preserve status, assignee, labels, attachments, and relations unless asked to change them. Send only the fields being changed, prefer a partial body edit over replacing the whole body, and watch for fields that replace a whole set. Do not close, reassign, re-prioritize, or re-label other people's issues as a side effect.
 

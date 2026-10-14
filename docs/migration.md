@@ -116,3 +116,11 @@ Descriptions named their former names until 2026-10-12; since then former names 
 | Ten descriptions over 1,000 characters or carrying former names | Shortened under the description rule in `AGENTS.md` | What the skill does, the phrases that call it, and a NOT clause |
 
 Claude Code lists skills within about 1% of the model's context window and Codex within 2%. When the listing overflows, Claude Code drops the descriptions of the least-used skills and Codex shortens descriptions and then omits skills. The pack's descriptions totaled 31,483 characters across 48 skills before this change. During a requested refresh, reinstall the changed skills, verify them, then remove `goal-prompting`.
+
+## Vulnerability reporting on 2026-10-14
+
+| Former name or set | Current name or set | Change |
+| --- | --- | --- |
+| None | `vuln-report` in additional | Vulnerability reports, advisories, and their evidence packages, with rules sourced from a survey of published reports, maintainer policies, and record formats |
+
+`copydesk` keeps general writing; `vuln-report` owns report structure, evidence, severity and range decisions, and disclosure for security findings. It sits in the additional set because the minimal-set test in `AGENTS.md` asks whether a kind of the maintainer's work recurs without an owner, and that has not been asserted for security reporting. Install it by name when needed.
