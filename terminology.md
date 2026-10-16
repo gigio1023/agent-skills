@@ -26,3 +26,8 @@ Use the English names and contextual meanings recorded here in the pack's skills
 - [Detailed terms](docs/terminology/terms.md)
 - [Anti-patterns](docs/terminology/anti-patterns.md)
 - [References](docs/terminology/references.md)
+
+## Integration references
+
+- [Zcode API-key providers](skills/additional/zcode-cli/references/cli-contract.md#supplied-api-keys): Coding Plan and standard API templates, private profiles, and provider admission.
+- [Zcode model selection and reasoning options](skills/additional/zcode-cli/references/cli-contract.md#model-selection): native field names and the distinction between permission mode and reasoning level.

@@ -2,7 +2,7 @@
 <text class="tp" x="24" y="34">(a)</text>
 <g data-id="repo"><rect class="container" x="56" y="20" width="288" height="300"/><text class="t mono" x="72" y="44">gigio-skills</text></g>
 <g data-id="minimal"><rect class="box blue focus" x="72" y="60" width="256" height="52"/><text class="t mono" x="88" y="76.5" dominant-baseline="central">skills/minimal/</text><text class="t2" x="88" y="95.5" dominant-baseline="central">32 skills, default install</text></g>
-<g data-id="additional"><rect class="box" x="72" y="124" width="256" height="52"/><text class="t mono" x="88" y="140.5" dominant-baseline="central">skills/additional/</text><text class="t2" x="88" y="159.5" dominant-baseline="central">16 skills, on request</text></g>
+<g data-id="additional"><rect class="box" x="72" y="124" width="256" height="52"/><text class="t mono" x="88" y="140.5" dominant-baseline="central">skills/additional/</text><text class="t2" x="88" y="159.5" dominant-baseline="central">17 skills, on request</text></g>
 <g data-id="docs"><rect class="box ghost" x="72" y="188" width="256" height="52"/><text class="t mono ghost" x="88" y="204.5" dominant-baseline="central">docs/</text><text class="t2" x="88" y="223.5" dominant-baseline="central">migration map, design records</text></g>
 <g data-id="agents-md"><rect class="box ghost" x="72" y="252" width="256" height="52"/><text class="t mono ghost" x="88" y="268.5" dominant-baseline="central">AGENTS.md</text><text class="t2" x="88" y="287.5" dominant-baseline="central">authoring rules</text></g>
 <g data-id="cli"><rect class="box" x="400" y="104" width="136" height="52"/><text class="t" x="416" y="120.5" dominant-baseline="central">npx skills</text><text class="t2" x="416" y="139.5" dominant-baseline="central">add, update, list</text></g>

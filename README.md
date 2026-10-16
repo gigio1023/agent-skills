@@ -6,7 +6,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/readme/repo-overview.dark.png">
-  <img src="docs/figures/readme/repo-overview.light.png" width="720" alt="The gigio-skills repository holds skills/minimal with 32 skills installed by default, skills/additional with 16 skills installed on request, docs, and AGENTS.md. npx skills installs the chosen skills into Claude Code, Codex, Cursor, and other agents. Each skill is one folder with SKILL.md and optional references, scripts, and assets.">
+  <img src="docs/figures/readme/repo-overview.light.png" width="720" alt="The gigio-skills repository holds skills/minimal with 32 skills installed by default, skills/additional with 17 skills installed on request, docs, and AGENTS.md. npx skills installs the chosen skills into Claude Code, Codex, Cursor, and other agents. Each skill is one folder with SKILL.md and optional references, scripts, and assets.">
 </picture>
 
 A skill is one folder. `SKILL.md` holds the description an agent reads to decide when to run the skill, plus its instructions; `references/`, `scripts/`, and `assets/` are loaded only for the decision that needs them. Each skill works on its own, so an ordinary task does not have to start a project workflow.
@@ -21,7 +21,7 @@ A skill is one folder. `SKILL.md` holds the description an agent reads to decide
 </picture>
 
 - **Minimal set** `skills/minimal/`: 32 skills that cover the maintainer's recurring work. A minimal skill never requires an additional or external skill; it may mention one "when installed".
-- **Additional set** `skills/additional/`: 16 skills for the paper track, vulnerability reporting, by-name workflows, harness-specific delegation, and personal tools.
+- **Additional set** `skills/additional/`: 17 skills for the paper track, vulnerability reporting, by-name workflows, harness-specific delegation, and personal tools.
 - **A set decides availability only.** Once installed, each skill's description and invocation settings decide when it runs. The minimal set reflects the maintainer's work, so choose sets and skills by your own.
 
 <picture>
@@ -31,7 +31,7 @@ A skill is one folder. `SKILL.md` holds the description an agent reads to decide
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/readme/additional-set.dark.png">
-  <img src="docs/figures/readme/additional-set.light.png" width="720" alt="The 16 additional skills by kind of work. Research and evaluation: credo-taste, credo-paper-plan, credo-journal, credo-release. Development and delivery: pr-review-comment. Writing and language: english-prompt-review, vuln-report. Design and visualization: mermaid-diagrams. Agents and harnesses: codex-delegate, cursor-cli-delegation, small-model-handoff, read-agent-sessions. Personal tools: 1password-cli, pdf-page-count, reddit-search, toss-portfolio-state.">
+  <img src="docs/figures/readme/additional-set.light.png" width="720" alt="The 17 additional skills by kind of work. Research and evaluation: credo-taste, credo-paper-plan, credo-journal, credo-release. Development and delivery: pr-review-comment. Writing and language: english-prompt-review, vuln-report. Design and visualization: mermaid-diagrams. Agents and harnesses: codex-delegate, cursor-cli-delegation, zcode-cli, small-model-handoff, read-agent-sessions. Personal tools: 1password-cli, pdf-page-count, reddit-search, toss-portfolio-state.">
 </picture>
 
 ## Install
@@ -45,7 +45,7 @@ npx --yes skills add 'https://github.com/gigio1023/gigio-skills/tree/main/skills
   --skill '*' --agent claude-code codex cursor --global --yes
 ```
 
-Use `skills/additional` in the same URL for the additional set, or `'gigio1023/gigio-skills#main'` for all 48 skills. Quote the `'*'` so the shell does not expand it.
+Use `skills/additional` in the same URL for the additional set, or `'gigio1023/gigio-skills#main'` for all 49 skills. Quote the `'*'` so the shell does not expand it.
 
 Install selected skills by name:
 
@@ -164,7 +164,7 @@ Grouped by kind of work, in the same order as the figures above. Open a group to
 </details>
 
 <details>
-<summary><b>Agents and harnesses</b>: 5 minimal, 4 additional</summary>
+<summary><b>Agents and harnesses</b>: 5 minimal, 5 additional</summary>
 
 | Skill | Set | Use it to |
 | --- | --- | --- |
@@ -175,6 +175,7 @@ Grouped by kind of work, in the same order as the figures above. Open a group to
 | [install-skill-pack](skills/minimal/install-skill-pack/) | minimal | Review and globally install skills from a chosen repository and revision |
 | [codex-delegate](skills/additional/codex-delegate/) | additional | Delegate a whole task from a non-Codex host to Codex with durable launch, resume, and handoff |
 | [cursor-cli-delegation](skills/additional/cursor-cli-delegation/) | additional | Delegate planning, implementation, or review through Cursor CLI |
+| [zcode-cli](skills/additional/zcode-cli/) | additional | Configure API-key access, select a Zcode model and reasoning options, run a task, and resume its session |
 | [small-model-handoff](skills/additional/small-model-handoff/) | additional | Package a settled step for a less capable executor; invoked by name |
 | [read-agent-sessions](skills/additional/read-agent-sessions/) | additional | Find and read stored Codex, Claude Code, Zcode, or Hermes sessions for another agent |
 

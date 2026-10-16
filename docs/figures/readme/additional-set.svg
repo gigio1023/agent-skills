@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" data-figure="technical-figure">
-<g data-id="head"><text class="micro" x="24" y="38">ADDITIONAL SET</text><text class="t mono" x="216" y="38">skills/additional/</text><text class="t2" x="696" y="38" text-anchor="end">16 skills, installed on request</text></g>
+<g data-id="head"><text class="micro" x="24" y="38">ADDITIONAL SET</text><text class="t mono" x="216" y="38">skills/additional/</text><text class="t2" x="696" y="38" text-anchor="end">17 skills, installed on request</text></g>
 <path class="guide" d="M24 56H696"/>
 <g data-id="cat-0"><text class="t" x="24" y="94.0" dominant-baseline="central">Research and evaluation</text><text class="t2" x="24" y="114.0" dominant-baseline="central">4 skills</text></g>
 <g data-id="credo-taste"><rect class="box" x="216.0" y="80.0" width="116.4" height="28"/><text class="t mono" x="274.2" y="94.0" text-anchor="middle" dominant-baseline="central">credo-taste</text></g>
@@ -17,9 +17,10 @@
 <g data-id="cat-3"><text class="t" x="24" y="310.0" dominant-baseline="central">Design and visualization</text><text class="t2" x="24" y="330.0" dominant-baseline="central">1 skill</text></g>
 <g data-id="mermaid-diagrams"><rect class="box" x="216.0" y="296.0" width="158.4" height="28"/><text class="t mono" x="295.2" y="310.0" text-anchor="middle" dominant-baseline="central">mermaid-diagrams</text></g>
 <path class="guide" d="M24 348.0H696"/>
-<g data-id="cat-4"><text class="t" x="24" y="374.0" dominant-baseline="central">Agents and harnesses</text><text class="t2" x="24" y="394.0" dominant-baseline="central">4 skills</text></g>
+<g data-id="cat-4"><text class="t" x="24" y="374.0" dominant-baseline="central">Agents and harnesses</text><text class="t2" x="24" y="394.0" dominant-baseline="central">5 skills</text></g>
 <g data-id="codex-delegate"><rect class="box" x="216.0" y="360.0" width="141.6" height="28"/><text class="t mono" x="286.8" y="374.0" text-anchor="middle" dominant-baseline="central">codex-delegate</text></g>
 <g data-id="cursor-cli-delegation"><rect class="box" x="365.6" y="360.0" width="200.4" height="28"/><text class="t mono" x="465.8" y="374.0" text-anchor="middle" dominant-baseline="central">cursor-cli-delegation</text></g>
+<g data-id="zcode-cli"><rect class="box" x="574.0" y="360.0" width="107.2" height="28"/><text class="t mono" x="627.6" y="374.0" text-anchor="middle" dominant-baseline="central">zcode-cli</text></g>
 <g data-id="small-model-handoff"><rect class="box" x="216.0" y="396.0" width="183.6" height="28"/><text class="t mono" x="307.8" y="410.0" text-anchor="middle" dominant-baseline="central">small-model-handoff</text></g>
 <g data-id="read-agent-sessions"><rect class="box" x="407.6" y="396.0" width="183.6" height="28"/><text class="t mono" x="499.4" y="410.0" text-anchor="middle" dominant-baseline="central">read-agent-sessions</text></g>
 <path class="guide" d="M24 436.0H696"/>
