@@ -12,6 +12,7 @@ Checked on 2026-10-14 against CLI `0.16.9` bundled with ZCode Desktop `3.15.1`, 
 - [First-call verification](#first-call-verification)
 - [Model selection](#model-selection)
 - [Task execution and permissions](#task-execution-and-permissions)
+- [Usage limits](#usage-limits)
 - [Failure interpretation](#failure-interpretation)
 
 ## Runtime discovery
@@ -61,7 +62,7 @@ Use the existing authentication first. When the task includes login setup, the i
 # Add --no-browser only when the user will open the printed authorization URL.
 ```
 
-The TUI also exposes `/login`. Let the user complete normal browser authorization, then refresh the model catalog. A Desktop connection and a standalone CLI's usable provider catalog must be checked separately. Do not log out, change providers, copy credentials from the app, or rewrite a shared default merely to retry an unavailable model.
+The TUI also exposes `/login`. Let the user complete normal browser authorization, then refresh the model catalog. A Desktop connection and a standalone CLI's usable provider catalog must be checked separately. Do not log out, change providers, copy credentials from the app, or rewrite a shared default merely to retry an unavailable model. CLI `login` writes the account credentials that ZCode Desktop also uses (`~/.zcode/v2/credentials.json`). In the checked run, Desktop's existing token was rejected right after a CLI login and the app needed a new sign-in, so on a machine where Desktop is signed in, run CLI tasks through an API-key profile instead of a second login.
 
 ### Supplied API keys
 
@@ -226,6 +227,22 @@ The installed `--prompt` default is `yolo`, so always specify the mode. Keep dyn
 
 Use `--attach <path>` only for authorized files; it can be repeated. `--continue` resumes the latest session for the directory, while `--resume` names one explicitly. Preserve process tracking and the exact returned session ID for follow-ups. Inspect the JSON result and errors rather than assuming that selecting `--json` establishes successful generation. The CLI and TUI may persist session data even during a task that does not edit project files.
 
+## Usage limits
+
+Coding Plan usage is metered in credits against a rolling 5-hour limit and a weekly limit. The [plan overview](https://docs.z.ai/devpack/overview), checked on 2026-10-16, lists:
+
+| Plan | 5-hour credits | Weekly credits |
+| --- | --- | --- |
+| Lite | 2,000 | 10,000 |
+| Pro | 12,000 | 60,000 |
+| Max | 28,000 | 140,000 |
+
+Model credits are (input tokens × input multiplier + cached input tokens × cached input multiplier + output tokens × output multiplier) / 10,000. The listed GLM-5.3 multipliers are 6.9, 1.7, and 24, and GLM-5.3-Flash's are 2.3, 0.56, and 8. Off-peak usage is charged at 50%; peak hours are Monday to Friday, 14:00 to 18:00 UTC+8. Recheck the page before quoting these numbers, and ask for the user's plan rather than inferring it. The page does not say whether API-key and account-login usage share one quota.
+
+Every headless call carries the runtime's own system prompt, agent and plugin listings, and tool definitions. In the checked run, a one-word reply used 102,466 input tokens, about 70 GLM-5.3 credits before any task work. Give each call one self-contained task instead of splitting work into many small calls, and measure a run from `input_tokens` and `output_tokens` in the `model_usage` table of `~/.zcode/cli/db/db.sqlite`, opened read-only.
+
+`[1302][Rate limit reached for requests]` is a request-rate limit, separate from credits. In one observed Desktop session, 69 model requests within ten minutes drew 28 such responses; the runtime retried 27 of them to completion. The documentation does not state the threshold. Do not run parallel Zcode tasks on one account to speed up work. When 1302 ends a run, wait before a single retry rather than adding concurrency.
+
 ## Failure interpretation
 
 A legacy session response can show `mode: build` while Plan is enabled: the runtime stores the planning flag separately, and the legacy settings view omits it. Inspect the authoritative V4 conversation snapshot's `config.planEnabled` before concluding that `--mode plan` was ignored.
@@ -237,6 +254,8 @@ A legacy session response can show `mode: build` while Plan is enabled: the runt
 | `Select a model before continuing` | Inspect provider/model admission before changing the default selection. This error alone does not test the API key. |
 | Requested reasoning level is unavailable | Use a supported value only with the caller's agreement to the changed choice. |
 | A required tool is denied or needs approval | Use the authorized approval interface or report the blocked operation. |
+| `1302` rate limit reached for requests | Too many requests in a short window. Wait, keep one run per account, and retry once. |
+| A 5-hour or weekly usage limit message | Credits are exhausted until the window resets. Report it; do not switch accounts or providers without the user's choice. |
 | Timeout, nonzero exit, or no final response | Preserve the owned run's evidence and report incomplete execution. |
 
 After a response, verify the requested artifact or answer independently. Record model and reasoning readback separately from response success. Neither one proves subscription billing; provider accounting needs its own evidence.
