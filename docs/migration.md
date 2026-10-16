@@ -127,4 +127,4 @@ Claude Code lists skills within about 1% of the model's context window and Codex
 
 ## Zcode CLI on 2026-10-14
 
-`zcode-cli` joins the additional install set. It owns official Zcode CLI discovery, model and reasoning selection, task execution, and session continuation. `read-agent-sessions` continues to own reading stored conversations for another agent. The new package uses the runtime catalog rather than fixing every task to one provider or model. Publication does not install the skill or change Zcode authentication.
+`zcode-cli` joins the additional install set. It owns official Zcode CLI discovery, authorized API-key setup, model and reasoning selection, task execution, and session continuation. API-key setup distinguishes Coding Plan from the standard API, includes a private provider profile, and checks the resolved session selection separately from a successful response. `read-agent-sessions` continues to own reading stored conversations for another agent. The package supports any model in the runtime catalog and defaults to GLM-5.3 at max effort when the user names no model. Publication does not install the skill or change Zcode authentication.

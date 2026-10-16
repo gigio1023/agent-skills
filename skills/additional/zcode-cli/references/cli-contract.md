@@ -2,12 +2,14 @@
 
 Checked on 2026-10-14 against CLI `0.16.9` bundled with ZCode Desktop `3.15.1`, using Node `24.20.0`, and the [official source at `aac4755`](https://github.com/zai-org/ZCode/tree/aac4755666d09fdcd70272fcf063c077a639015f). The installed CLI's help controls which flags to use; a newer public source file is not proof that its flags exist in a packaged binary.
 
-`--help`, `doctor --json`, and the model and effort help commands below were exercised successfully. Interactive login, model selection, a live model response, and provider billing were not verified for this package. The recipes describe the inspected interface, with authentication and a selectable model as prerequisites.
+`--help`, `doctor --json`, and the model and effort help commands below were exercised successfully. Headless requests with a private Coding Plan API-key profile returned model responses and exit 0; persisted session selections confirmed GLM-5.3 with `options.reasoningLevel: "max"`. This verifies the runtime selection and successful calls. Interactive login and the standard API template were source-inspected, not exercised with a live key. Server-side reasoning behavior and provider billing were not measured.
 
 ## Contents
 
 - [Runtime discovery](#runtime-discovery)
 - [Authentication](#authentication)
+- [Supplied API keys](#supplied-api-keys)
+- [First-call verification](#first-call-verification)
 - [Model selection](#model-selection)
 - [Task execution and permissions](#task-execution-and-permissions)
 - [Failure interpretation](#failure-interpretation)
@@ -44,7 +46,7 @@ zcode_cmd=(
 )
 ```
 
-Stop if a required file is absent; do not fabricate a provider file or overwrite an existing one. These variables select configuration files. They do not authenticate an account, make a model selectable, or grant a subscription entitlement. `doctor` reports runtime and packaging facts, not those capabilities. Do not publish raw provider files or diagnostic output containing local account data.
+For an existing setup, stop if a required file is absent. When API-key setup is requested, create a valid private profile through the recipe below and point the personal-file variable at it; preserve existing configuration. These variables select configuration files. They do not authenticate an account, make a model selectable, or grant a subscription entitlement. `doctor` reports runtime and packaging facts, not those capabilities. Do not publish raw provider files or diagnostic output containing local account data.
 
 ## Authentication
 
@@ -57,6 +59,102 @@ Use the existing authentication first. When the task includes login setup, the i
 ```
 
 The TUI also exposes `/login`. Let the user complete normal browser authorization, then refresh the model catalog. A Desktop connection and a standalone CLI's usable provider catalog must be checked separately. Do not log out, change providers, copy credentials from the app, or rewrite a shared default merely to retry an unavailable model.
+
+### Supplied API keys
+
+When the user supplies a key for setup, use the normal path for the intended service. For a Coding Plan key, open TUI `/login`, choose **Z.AI Coding Plan API Key**, and use the [masked input](https://github.com/zai-org/ZCode/blob/aac4755666d09fdcd70272fcf063c077a639015f/apps/zcode-cli/packages/cli/src/command-center/login-flow.ts#L39-L57). Keep the key out of process arguments, ordinary prompts, and logs. This route saves a credential and default provider/model; it does not set reasoning effort or validate model access. Select and read back the requested effort afterward.
+
+For a personal provider, establish which service the user intends, then choose the matching [built-in template](https://github.com/zai-org/ZCode/blob/aac4755666d09fdcd70272fcf063c077a639015f/config/provider/zcode-builtin.json#L6-L74). A key's format does not establish the service or its billing:
+
+| Service | Template | Access type |
+| --- | --- | --- |
+| Z.AI Coding Plan | `zai-api` | `zhipu-coding-plan-api-key` |
+| Standard Z.AI API | `zai-standard-api` | `api-key` |
+
+For an authorized Coding Plan API-key setup, create a private profile outside the repository with a directory mode of `0700` and file mode of `0600`, or merge the following fields into an existing profile while preserving unrelated rules. Create new private files under `umask 077`; do not first write a key into a publicly readable file. Replace the synthetic provider ID and key placeholder privately. The template supplies the API endpoint and built-in model membership, so this recipe needs no `personalModelIds` override.
+
+```json
+{
+  "schemaVersion": 1,
+  "config": {
+    "providerConfigRules": {
+      "providerRules": [
+        {
+          "providerId": "zai-coding-plan-example",
+          "templateId": "zai-api",
+          "enabled": true,
+          "config": {
+            "group": "standard-personal",
+            "access": {
+              "type": "zhipu-coding-plan-api-key",
+              "apiKey": "<SUPPLIED-KEY-PRIVATE-ONLY>"
+            }
+          }
+        }
+      ]
+    },
+    "modelConfigRules": { "providerModelRules": [], "manualProviderModelRules": [] },
+    "defaultModelSelection": {
+      "providerId": "zai-coding-plan-example",
+      "modelId": "GLM-5.3",
+      "options": { "reasoningLevel": "max" }
+    }
+  }
+}
+```
+
+For the standard Z.AI API, use the same profile structure with `templateId: "zai-standard-api"` and `access.type: "api-key"`. Keep `group: "standard-personal"`, use one matching provider ID in the rule and default selection, and choose the model and effort from that template's active catalog. Do not change only an endpoint or assume that a Coding Plan login configures standard API access. The standard template was source-checked; the live verification above used Coding Plan.
+
+Set `ZCODE_PERSONAL_PROVIDER_CONFIG_FILE` to the private file for each invocation, together with the verified built-in config path. The configured default can seed a new session after the provider is admitted; it does not change a resumed session's saved selection. Do not place the key itself in command arguments.
+
+`config.group: "standard-personal"` is required for this personal provider to become executable. The [partial rule schema](https://github.com/zai-org/ZCode/blob/aac4755666d09fdcd70272fcf063c077a639015f/packages/provider/src/config/rule-data-schema.ts#L103-L118) permits omission while editing, but the [complete provider schema](https://github.com/zai-org/ZCode/blob/aac4755666d09fdcd70272fcf063c077a639015f/packages/provider/src/config/provider-data-schema.ts#L90-L94) requires a group and the template does not supply one. Syntax acceptance therefore does not establish registry admission. In the checked run, adding this group changed the same headless request from `Select a model before continuing`, exit 1, to a response, exit 0.
+
+For other providers, follow the [versioned file codec](https://github.com/zai-org/ZCode/blob/aac4755666d09fdcd70272fcf063c077a639015f/packages/provider-node/src/provider-config-file-codec.ts), retain supported template/access types, and use model IDs and reasoning options from the catalog. The [access schema](https://github.com/zai-org/ZCode/blob/aac4755666d09fdcd70272fcf063c077a639015f/packages/provider/src/config/provider-data-schema.ts#L28-L37) accepts an `apiKey` string and exposes no environment-variable or secret-reference field; do not invent `apiKeyEnv`, `apiKeyRef`, or `${ENV_VAR}` interpolation. The file contains credential material and belongs outside Git. A stored key and default selection still need model/effort readback and an actual response before reporting a working setup.
+
+### First-call verification
+
+A request for a working connection includes a minimal response check. A request only to inspect this skill or prepare configuration does not authorize a model call. For the verified macOS bundle, rebuild the command array with the private profile path; an earlier array containing a different personal-file value would override an environment prefix:
+
+```bash
+zcode_profile=/absolute/private/path/provider_config.json
+test -f "$zcode_profile"
+zcode_cmd=(
+  env
+  ZCODE_BUILTIN_PROVIDER_CONFIG_FILE=/Applications/ZCode.app/Contents/Resources/config/provider/zcode-builtin.json
+  "ZCODE_PERSONAL_PROVIDER_CONFIG_FILE=$zcode_profile"
+  node /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs
+)
+"${zcode_cmd[@]}" \
+  --cwd /absolute/path/to/workspace \
+  --mode plan \
+  --workflow-mode disabled \
+  --disallowed-tools 'Bash,Edit,Write,ExitPlanMode' \
+  --json \
+  --prompt 'Reply with READY only. Do not use tools.'
+```
+
+Inspect configured plugin and MCP tools before using this example; its exclusions cover only the four named tools. For a standalone installation, keep the same supported environment variables and run the verified `zcode` executable instead of the macOS Node bundle. Retain the exit status, actual response, and returned `sessionId` in a private run record. No response or a nonzero exit leaves the connection unverified.
+
+Read back that exact session with the same profile, without sending another ordinary prompt:
+
+```bash
+"${zcode_cmd[@]}" tui \
+  --cwd /absolute/path/to/workspace \
+  --resume sess_REPLACE_WITH_RETURNED_ID \
+  --mode plan \
+  --workflow-mode disabled \
+  --disallowed-tools 'Bash,Edit,Write,ExitPlanMode'
+```
+
+In the TUI, explicitly load the exact saved session before inspecting it:
+
+```text
+/resume sess_REPLACE_WITH_RETURNED_ID
+/model list
+/effort list
+```
+
+In CLI `0.16.9`, startup `--resume` can defer loading persisted state until the next model turn. The TUI `/resume` handler explicitly loads it first; this prevents the readback from reporting a configured default instead of the saved selection. If the observed provider, model, or effort differs from the request, report the mismatch and select the intended values before a new authorized call. A new default in the profile does not prove the earlier call used it. For unattended readback, use the authoritative conversation snapshot through the version-matched app-server protocol described below. Prompt text, reasoning-token counts, and a provider label do not prove the runtime selection.
 
 ## Model selection
 
@@ -127,11 +225,13 @@ Use `--attach <path>` only for authorized files; it can be repeated. `--continue
 
 ## Failure interpretation
 
+A legacy session response can show `mode: build` while Plan is enabled: the runtime stores the planning flag separately, and the legacy settings view omits it. Inspect the authoritative V4 conversation snapshot's `config.planEnabled` before concluding that `--mode plan` was ignored.
+
 | Observation | Meaning and next action |
 | --- | --- |
 | Built-in provider file cannot be located | Check the bundle layout and supported path variables. |
-| No selectable models | Check normal authentication and the runtime catalog. |
-| `Select a model before continuing` | This session has no usable selection. Inspect its catalog and selection; the message alone does not establish the cause. |
+| No selectable models | Check configuration parsing and registry admission, including the personal provider group and template. |
+| `Select a model before continuing` | Inspect provider/model admission before changing the default selection. This error alone does not test the API key. |
 | Requested reasoning level is unavailable | Use a supported value only with the caller's agreement to the changed choice. |
 | A required tool is denied or needs approval | Use the authorized approval interface or report the blocked operation. |
 | Timeout, nonzero exit, or no final response | Preserve the owned run's evidence and report incomplete execution. |

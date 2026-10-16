@@ -175,7 +175,7 @@ Grouped by kind of work, in the same order as the figures above. Open a group to
 | [install-skill-pack](skills/minimal/install-skill-pack/) | minimal | Review and globally install skills from a chosen repository and revision |
 | [codex-delegate](skills/additional/codex-delegate/) | additional | Delegate a whole task from a non-Codex host to Codex with durable launch, resume, and handoff |
 | [cursor-cli-delegation](skills/additional/cursor-cli-delegation/) | additional | Delegate planning, implementation, or review through Cursor CLI |
-| [zcode-cli](skills/additional/zcode-cli/) | additional | Select an available Zcode model and reasoning options, run a task, and resume its session |
+| [zcode-cli](skills/additional/zcode-cli/) | additional | Configure API-key access, select a Zcode model and reasoning options, run a task, and resume its session |
 | [small-model-handoff](skills/additional/small-model-handoff/) | additional | Package a settled step for a less capable executor; invoked by name |
 | [read-agent-sessions](skills/additional/read-agent-sessions/) | additional | Find and read stored Codex, Claude Code, Zcode, or Hermes sessions for another agent |
 
