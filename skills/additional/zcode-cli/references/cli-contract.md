@@ -33,18 +33,21 @@ zcode_cmd=(node /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs)
 "${zcode_cmd[@]}" doctor --json
 ```
 
-This app layout can look for the built-in provider file under `Resources/glm/provider/` even though it ships under `Resources/config/provider/`. For that specific missing-file error, verify the following files and pass the supported paths to the process:
+This app layout can look for the built-in provider file under `Resources/glm/provider/` even though it ships under `Resources/config/provider/`. For that specific missing-file error, verify the following files and pass the supported paths to the process. When the user's environment already sets `ZCODE_PERSONAL_PROVIDER_CONFIG_FILE`, for example to a private API-key profile, use that file; otherwise fall back to the Desktop file:
 
 ```bash
 test -f /Applications/ZCode.app/Contents/Resources/config/provider/zcode-builtin.json
-test -f "$HOME/.zcode/v2/provider_config.json"
+zcode_profile="${ZCODE_PERSONAL_PROVIDER_CONFIG_FILE:-$HOME/.zcode/v2/provider_config.json}"
+test -f "$zcode_profile"
 zcode_cmd=(
   env
   ZCODE_BUILTIN_PROVIDER_CONFIG_FILE=/Applications/ZCode.app/Contents/Resources/config/provider/zcode-builtin.json
-  "ZCODE_PERSONAL_PROVIDER_CONFIG_FILE=$HOME/.zcode/v2/provider_config.json"
+  "ZCODE_PERSONAL_PROVIDER_CONFIG_FILE=$zcode_profile"
   node /Applications/ZCode.app/Contents/Resources/glm/zcode.cjs
 )
 ```
+
+The Desktop file selects the app's account login, which the app and the CLI share. A separate API-key profile set through the environment keeps CLI runs on their own credentials and leaves the app's login untouched.
 
 For an existing setup, stop if a required file is absent. When API-key setup is requested, create a valid private profile through the recipe below and point the personal-file variable at it; preserve existing configuration. These variables select configuration files. They do not authenticate an account, make a model selectable, or grant a subscription entitlement. `doctor` reports runtime and packaging facts, not those capabilities. Do not publish raw provider files or diagnostic output containing local account data.
 
