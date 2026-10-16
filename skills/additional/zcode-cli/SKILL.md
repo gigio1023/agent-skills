@@ -20,7 +20,7 @@ Set up the requested Zcode connection or run a task with an explicit model selec
 
 ## Model and session choices
 
-The scope is any model available through the user's Zcode runtime. The default is `GLM-5.3` at `max`, the level recommended for most tasks; use `high` when the user asks for it or the task is short and mechanical, and `low` only on request. These defaults hold only while the active catalog offers them, and another model uses its own catalog options. Use the catalog's exact provider and model IDs, and the session's native reasoning field. Do not invent `--model` or `--reasoning-effort` flags from another CLI.
+The scope is any model available through the user's Zcode runtime. The default is `GLM-5.3` at `max`, the level recommended for most tasks; use `high` when the user asks for it or the task is short and mechanical, and `low` for connection checks and smoke tests or on request. These defaults hold only while the active catalog offers them, and another model uses its own catalog options. Use the catalog's exact provider and model IDs, and the session's native reasoning field. Do not invent `--model` or `--reasoning-effort` flags from another CLI.
 
 Prefer the TUI for interactive selection and normal approvals. Use `app-server` when automation needs structured model discovery, session selection, and approval responses. A plain headless prompt can continue an already configured session, but its prompt text is not the TUI command dispatcher: passing `'/model'` as a prompt is not model selection.
 
